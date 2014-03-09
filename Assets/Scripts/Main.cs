@@ -8,12 +8,18 @@ public class Main : MonoBehaviour
 	List <Asteroid> asteroids = new List<Asteroid>();
 	List <Bullet> bullets = new List<Bullet>();
 
+	PowerUpsCreator powerUpsCreator;
+	List<PowerUp> powerUps = new List<PowerUp> ();
 
 	private float DestroyTreshold = 2.5f;
 
 	public Bullet bulletPrefab;
 
 	Rect bounds;
+
+
+	//powerup
+	private float slowTimeLeft = 0;
 
 	void Start()
 	{
@@ -30,24 +36,36 @@ public class Main : MonoBehaviour
 			asteroid.cacheTransform.position =  new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, 0);
 			asteroids.Add(asteroid);
 		}
+
+		powerUpsCreator = new PowerUpsCreator(5f, 10f);
+		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
+	}
+
+	private void CalculateBounds()
+	{
+		float height = 2*Camera.main.camera.orthographicSize;  
+		float width = height * Screen.width / Screen.height;
+		bounds = new Rect(-width/2f, -height/2f, width, height);
 	}
 
 	private void CreateSpaceShip()
 	{
 		GameObject spaceShipGo;
 		Polygon spaceshipPoly;
-		CreatePolygonByMassCenter(SpaceshipsData.fastSpaceshipVertices, Color.blue, out spaceshipPoly, out spaceShipGo);
+		PolygonCreator.CreatePolygonGOByMassCenter(SpaceshipsData.fastSpaceshipVertices, Color.blue, out spaceshipPoly, out spaceShipGo);
 		spaceship = spaceShipGo.AddComponent<SpaceShip>();
 		spaceship.Init(spaceshipPoly);
 		spaceship.FireEvent += OnFire;
 		spaceShipGo.name = "Spaceship";
 	}
 	
-	private void CalculateBounds()
+	void HandlePowerUpCreated (PowerUp powerUp)
 	{
-		float height = 2*Camera.main.camera.orthographicSize;  
-		float width = height * Screen.width / Screen.height;
-		bounds = new Rect(-width/2f, -height/2f, width, height);
+		float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
+		float len = UnityEngine.Random.Range(0f , bounds.height/2f);
+		float z = UnityEngine.Random.Range (0.1f, 1f);
+		powerUp.cacheTransform.position =  new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, z);
+		powerUps.Add(powerUp);
 	}
 
 	void OnFire ()
@@ -78,7 +96,7 @@ public class Main : MonoBehaviour
 		};
 		Polygon bulletPoly;
 		GameObject bulletObj;
-		CreatePolygonByMassCenter(bulletVertices, Color.red, out bulletPoly, out bulletObj);
+		PolygonCreator.CreatePolygonGOByMassCenter(bulletVertices, Color.red, out bulletPoly, out bulletObj);
 		Bullet bullet = bulletObj.AddComponent<Bullet>();
 		bullet.Init(bulletPoly, spaceship.cacheTransform.right);
 		bullet.cacheTransform.position = spaceship.cacheTransform.position + spaceship.cacheTransform.right;
@@ -87,14 +105,27 @@ public class Main : MonoBehaviour
 		return bullet;
 	}
 
+
+	float asteroidsDtime;
 	void Update()
 	{
+		//TODO: refactor Powerup
+		if (slowTimeLeft > 0) 
+		{
+			slowTimeLeft -=  Time.deltaTime;
+			asteroidsDtime = Time.deltaTime/2f;
+		}
+		else
+		{
+			asteroidsDtime = Time.deltaTime;
+		}
+
 		spaceship.Tick(Time.deltaTime);
 		CheckBounds(spaceship.cacheTransform, spaceship.polygon.R);
 
 		for (int i = 0; i < asteroids.Count ; i++)
 		{
-			asteroids[i].Tick(Time.deltaTime);
+			asteroids[i].Tick(asteroidsDtime);
 			CheckBounds(asteroids[i].cacheTransform, asteroids[i].polygon.R);
 		}
 
@@ -119,6 +150,7 @@ public class Main : MonoBehaviour
 				if(bullet == null)
 					continue;
 
+				//TODO: polygon gameobject
 				if((asteroid.cacheTransform.position - bullet.cacheTransform.position).magnitude < asteroid.polygon.R + bullet.polygon.R && 
 				   Math2d.IsCollides(asteroid.cacheTransform, asteroid.polygon, bullet.cacheTransform, bullet.polygon))
 				{
@@ -145,7 +177,37 @@ public class Main : MonoBehaviour
 				}
 			}
 		}
+
+		PowerUp powerUp;
+		for (int i = powerUps.Count - 1; i >= 0; i--) 
+		{
+			powerUp = powerUps[i];
+			//TODO: polygon gameobject
+			if((spaceship.cacheTransform.position - powerUp.cacheTransform.position).magnitude < spaceship.polygon.R + powerUp.polygon.R && 
+			   Math2d.IsCollides(spaceship.cacheTransform, spaceship.polygon, powerUp.cacheTransform, powerUp.polygon))
+			{
+				EffectType effect = powerUp.effect;
+
+				powerUps.RemoveAt(i);
+				Destroy(powerUp.gameObject);
+
+				if(effect == EffectType.SlowAsteroids)
+				{
+					slowTimeLeft = 10f;
+				}
+				else if(effect == EffectType.IncreasedShootingSpeed)
+				{
+					spaceship.ChangeFiringSpeed(3f, 10f);
+				}
+			}
+		}
+
+		powerUpsCreator.Tick(Time.deltaTime);
+
 	}
+
+
+
 
 	private void CheckBounds(Transform pTransform, float R)
 	{
@@ -185,7 +247,7 @@ public class Main : MonoBehaviour
 		{
 			Polygon polygonPart;
 			GameObject polygonGo;
-			CreatePolygonByMassCenter(vertices, Color.black, out polygonPart, out polygonGo);
+			PolygonCreator.CreatePolygonGOByMassCenter(vertices, Color.black, out polygonPart, out polygonGo);
 			polygonGo.transform.Translate(asteriod.cacheTransform.position);//TODO: optimise
 			polygonGo.transform.RotateAround(asteriod.cacheTransform.position, -Vector3.back, asteriod.cacheTransform.rotation.eulerAngles.z);
 			polygonGo.name = "asteroid part";
@@ -202,15 +264,6 @@ public class Main : MonoBehaviour
 		return parts;
 	}
 
-	private void CreatePolygonByMassCenter(Vector2[] vertices, Color color, out Polygon polygon, out GameObject polygonGo)
-	{
-		Vector2 pivot = Math2d.GetMassCenter(vertices);
-		Math2d.ShiftVertices(vertices, -pivot);
-		polygon = new Polygon(vertices);
-		polygonGo = new GameObject();
-		polygonGo.transform.Translate(new Vector3(pivot.x, pivot.y, 0)); //TODO: optimise
-		PolygonCreator.AddRenderComponents (polygon, polygonGo, color);
-	}
 
 	private Asteroid CreateAsteroid()
 	{
@@ -220,7 +273,7 @@ public class Main : MonoBehaviour
 		
 		Polygon polygon;
 		GameObject polygonGo;
-		CreatePolygonByMassCenter(vertices, Color.black, out polygon, out polygonGo);
+		PolygonCreator.CreatePolygonGOByMassCenter(vertices, Color.black, out polygon, out polygonGo);
 		polygonGo.name = "asteroid";
 
 		Asteroid asteroid = polygonGo.AddComponent<Asteroid>();

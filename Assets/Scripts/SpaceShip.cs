@@ -6,7 +6,6 @@ public class SpaceShip : MonoBehaviour {
 	public Polygon polygon;
 	public Transform cacheTransform;
 
-
 	public event System.Action FireEvent;
 
 	Vector3 speed;
@@ -88,7 +87,15 @@ public class SpaceShip : MonoBehaviour {
 
 		if (timeToNextShot > 0) 
 		{
-			timeToNextShot -= delta;
+			if(firingSpeedPUpTimeLeft > 0)
+			{
+				timeToNextShot -= delta * firingSpeedPUpKoeff;
+				firingSpeedPUpTimeLeft -= delta;
+			}
+			else
+			{
+				timeToNextShot -= delta;
+			}
 		}
 
 		if(Input.GetKey(KeyCode.Space) && (timeToNextShot <= 0))
@@ -99,6 +106,15 @@ public class SpaceShip : MonoBehaviour {
 
 
 		cacheTransform.position += speed*delta;
+	}
+
+
+	private float firingSpeedPUpKoeff = 1f;
+	private float firingSpeedPUpTimeLeft = 0f;
+	public void ChangeFiringSpeed(float koeff, float duration)
+	{
+		firingSpeedPUpKoeff = koeff;
+		firingSpeedPUpTimeLeft = duration;
 	}
 
 

@@ -96,6 +96,17 @@ public static class PolygonCreator
 
 		return msh;
 	}
+
+	public static void CreatePolygonGOByMassCenter(Vector2[] vertices, Color color, out Polygon polygon, out GameObject polygonGo)
+	{
+		Vector2 pivot = Math2d.GetMassCenter(vertices);
+		Math2d.ShiftVertices(vertices, -pivot);
+		polygon = new Polygon(vertices);
+		polygonGo = new GameObject();
+		polygonGo.transform.Translate(new Vector3(pivot.x, pivot.y, 0)); //TODO: optimise
+		AddRenderComponents (polygon, polygonGo, color);
+	}
+
 }
 
 

@@ -24,7 +24,7 @@ public class Asteroid : MonoBehaviour
 		health = polygon.R * Mathf.Sqrt(polygon.R) / 3f;
 
 		//z-fighting
-		cacheTransform.position = new Vector3(cacheTransform.position.x, cacheTransform.position.y, Random.Range(-1f, 0f));
+		cacheTransform.position = new Vector3(cacheTransform.position.x, cacheTransform.position.y, Random.Range(-1f, 0.1f));
 	}
 
 	public void Hit(float dmg)

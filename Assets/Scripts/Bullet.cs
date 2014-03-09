@@ -6,8 +6,8 @@ public class Bullet : MonoBehaviour {
 	public Transform cacheTransform;
 	public Polygon polygon;
 
-	private Vector3 direction; 
-	private float speed = 30f;
+	private Vector3 speed; 
+	private float startingSpeed = 30f;
 
 	private float distanceTraveledSqr;
 	private float maxDistance = 6f;
@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour {
 	public void Init(Polygon polygon, Vector3 direction)
 	{
 		this.polygon = polygon;
-		this.direction = direction.normalized * speed;
+		this.speed = direction.normalized * startingSpeed;
 		distanceTraveledSqr = 0;
 		maxDistanceSqr = maxDistance*maxDistance;
 
@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour {
 
 	public void Tick(float delta)
 	{
-		Vector3 deltaDistance = direction*delta;
+		Vector3 deltaDistance = speed*delta;
 		cacheTransform.position += deltaDistance;
 
 		distanceTraveledSqr += deltaDistance.sqrMagnitude;
