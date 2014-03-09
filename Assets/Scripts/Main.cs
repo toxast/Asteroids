@@ -41,9 +41,6 @@ public class Main : MonoBehaviour
 		spaceship.Init(spaceshipPoly);
 		spaceship.FireEvent += OnFire;
 		spaceShipGo.name = "Spaceship";
-		//TODO optimize
-		//MeshRenderer renderer = spaceship.GetComponent<MeshRenderer>();
-		//renderer.material.SetColor("_Color", Color.blue);
 	}
 	
 	private void CalculateBounds()
@@ -86,10 +83,6 @@ public class Main : MonoBehaviour
 		bullet.Init(bulletPoly, spaceship.cacheTransform.right);
 		bullet.cacheTransform.position = spaceship.cacheTransform.position + spaceship.cacheTransform.right;
 		bulletObj.name = "bullet";
-		//TODO optimize
-		//MeshRenderer renderer = bullet.GetComponent<MeshRenderer>();
-		//renderer.material.SetColor("_Color", Color.red);
-
 
 		return bullet;
 	}
@@ -129,24 +122,26 @@ public class Main : MonoBehaviour
 				if((asteroid.cacheTransform.position - bullet.cacheTransform.position).magnitude < asteroid.polygon.R + bullet.polygon.R && 
 				   Math2d.IsCollides(asteroid.cacheTransform, asteroid.polygon, bullet.cacheTransform, bullet.polygon))
 				{
-					if(asteroid.polygon.R > DestroyTreshold)
-					{
-						//split asteroid 
-						List<Asteroid> parts = SplitAsteroid(asteroid);
-						if(parts.Count < 2)
-						{
-							Debug.LogWarning("couldnt split asteroid");
-						}
-						asteroids.AddRange(parts);
-					}
-					 
 					Destroy(bullet.gameObject);
 					bullets[k] = null; 
 
-					Destroy(asteroid.gameObject);
-					asteroids.RemoveAt(i);
+					asteroid.Hit(bullet.damage);
+					if(asteroid.IsKilled())
+					{
+						if(asteroid.polygon.R > DestroyTreshold)
+						{
+							List<Asteroid> parts = SplitAsteroid(asteroid);
+							asteroids.AddRange(parts);
+						}
+						 
+						Destroy(asteroid.gameObject);
+						asteroids.RemoveAt(i);
+					}
 
-					break;
+					if(asteroid.IsKilled())
+					{
+						break;
+					}
 				}
 			}
 		}

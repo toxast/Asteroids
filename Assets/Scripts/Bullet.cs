@@ -13,6 +13,8 @@ public class Bullet : MonoBehaviour {
 	private float maxDistance = 6f;
 	private float maxDistanceSqr;
 
+	public float damage;
+
 	void Awake () 
 	{
 		cacheTransform = transform;
@@ -24,6 +26,8 @@ public class Bullet : MonoBehaviour {
 		this.direction = direction.normalized * speed;
 		distanceTraveledSqr = 0;
 		maxDistanceSqr = maxDistance*maxDistance;
+
+		damage = 1f;
 	}
 
 	public void Tick(float delta)
