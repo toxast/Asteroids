@@ -375,7 +375,7 @@ public class Polygon
 
 
 	//TODO: test
-	private  List<Vector2[]> SplitBy2Vertices(int index1, int index2)
+	public  List<Vector2[]> SplitBy2Vertices(int index1, int index2)
 	{
 		int min = Mathf.Min (index1, index2);
 		int max = Mathf.Max (index1, index2);

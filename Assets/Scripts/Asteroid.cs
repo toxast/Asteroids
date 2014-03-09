@@ -7,9 +7,9 @@ public class Asteroid : MonoBehaviour
 	public Transform cacheTransform;
 	public Polygon polygon;
 
-	public Vector3 velocity;
-	float rotation;
-	private float health;
+	[SerializeField] public Vector3 velocity;
+	[SerializeField] public float rotation;
+	[SerializeField] private float health;
 
 	public void Init(Polygon polygon)
 	{
@@ -24,7 +24,7 @@ public class Asteroid : MonoBehaviour
 		health = polygon.R * Mathf.Sqrt(polygon.R) / 3f;
 
 		//z-fighting
-		cacheTransform.position = new Vector3(cacheTransform.position.x, cacheTransform.position.y, Random.Range(-1f, 0.1f));
+		cacheTransform.position = new Vector3(cacheTransform.position.x, cacheTransform.position.y, Random.Range(-1f, -0.1f));
 	}
 
 	public void Hit(float dmg)

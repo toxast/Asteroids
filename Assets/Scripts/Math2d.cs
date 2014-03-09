@@ -138,20 +138,28 @@ public static class Math2d
 		}
 	}
 	
-	static private Vector2[] RotateVertices(Vector2[] vertices, float angle)
+	static public Vector2[] RotateVertices(Vector2[] vertices, float angle)
 	{
 		float cosA = Mathf.Cos(angle);
 		float sinA = Mathf.Sin(angle);
 		Vector2[] verticesRotated = new Vector2[vertices.Length];
 
-		Vector2 vi;
 		for (int i = 0; i < verticesRotated.Length; i++) 
 		{
-			vi = vertices[i];
-			verticesRotated[i] = new Vector2(vi.x*cosA - vi.y*sinA, vi.x*sinA + vi.y*cosA);
+			verticesRotated[i] = RotateVertex(vertices[i], cosA, sinA); 
 		}
 
 		return verticesRotated;
+	}
+
+	static public Vector2 RotateVertex(Vector2 v, float cosA, float sinA)
+	{
+		return new Vector2(v.x*cosA - v.y*sinA, v.x*sinA + v.y*cosA);
+	}
+
+	static public Edge RotateEdge(Edge e, float cosA, float sinA)
+	{
+		return new Edge (RotateVertex (e.p1, cosA, sinA), RotateVertex (e.p2, cosA, sinA));
 	}
 
 	/*

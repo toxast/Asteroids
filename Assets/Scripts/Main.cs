@@ -27,7 +27,10 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 		 
-		int asteroidsNum = 10;
+		CreateSpikyAsteroid();
+		CreateSpikyAsteroid();
+		CreateSpikyAsteroid();
+		/*int asteroidsNum = 10;
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -39,6 +42,41 @@ public class Main : MonoBehaviour
 
 		powerUpsCreator = new PowerUpsCreator(5f, 10f);
 		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
+		*/
+	}
+
+	private void CreateSpikyAsteroid()
+	{
+		float rInner = UnityEngine.Random.Range(2f, 5f);
+		float rOuter = UnityEngine.Random.Range(rInner + 2f, rInner + 5f);
+		int spikesCount = UnityEngine.Random.Range(2, 8);
+
+		int[] spikes;
+		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
+
+		Polygon polygon;
+		GameObject polygonGo;
+		PolygonCreator.CreatePolygonGOByMassCenter(vertices, Color.black, out polygon, out polygonGo);
+		polygonGo.name = "spiked asteroid";
+		
+		SpikyAsteroid asteroid = polygonGo.AddComponent<SpikyAsteroid>();
+		asteroid.Init(polygon, spaceship.cacheTransform, spikes);
+		asteroid.SpikeAttack += HandleSpikeAttack;
+		
+		float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
+		float len = UnityEngine.Random.Range(spaceship.polygon.R + 2 * asteroid.polygon.R, bounds.yMax);
+		asteroid.cacheTransform.position =  new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, 0);
+		asteroids.Add(asteroid);
+	}
+
+	public void HandleSpikeAttack(SpikyAsteroid mainAsteriod, SpikyAsteroid mainPart, Asteroid spikePart)
+	{
+		mainPart.SpikeAttack += HandleSpikeAttack;
+	
+		int indx = asteroids.IndexOf (mainAsteriod);
+		Destroy (mainAsteriod.gameObject);
+		asteroids [indx] = mainPart;
+		asteroids.Add (spikePart);
 	}
 
 	private void CalculateBounds()
@@ -178,10 +216,9 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		PowerUp powerUp;
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
 		{
-			powerUp = powerUps[i];
+			PowerUp powerUp = powerUps[i];
 			//TODO: polygon gameobject
 			if((spaceship.cacheTransform.position - powerUp.cacheTransform.position).magnitude < spaceship.polygon.R + powerUp.polygon.R && 
 			   Math2d.IsCollides(spaceship.cacheTransform, spaceship.polygon, powerUp.cacheTransform, powerUp.polygon))
@@ -202,7 +239,7 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		powerUpsCreator.Tick(Time.deltaTime);
+		//powerUpsCreator.Tick(Time.deltaTime);
 
 	}
 

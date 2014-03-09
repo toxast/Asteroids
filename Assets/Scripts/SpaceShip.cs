@@ -63,7 +63,7 @@ public class SpaceShip : MonoBehaviour {
 			speed = speed.normalized * maxSpeed;
 		}
 	}
-	
+
 	public void Tick(float delta)
 	{
 		if(Input.GetKey(KeyCode.D))

@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{70261382-45EB-0236-7EA2-855FCD841B8F}</ProjectGuid>
+	<ProjectGuid>{3253F1D3-4D7E-1C5E-1B12-EB47F6693601}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,21 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Asteroid.cs" />
-     <Compile Include="Assets\Scripts\Bullet.cs" />
-     <Compile Include="Assets\Scripts\Edge.cs" />
-     <Compile Include="Assets\Scripts\Intersection.cs" />
-     <Compile Include="Assets\Scripts\Main.cs" />
-     <Compile Include="Assets\Scripts\Math2d.cs" />
-     <Compile Include="Assets\Scripts\Polygon.cs" />
-     <Compile Include="Assets\Scripts\PolygonCreator.cs" />
-     <Compile Include="Assets\Scripts\PowerUp.cs" />
-     <Compile Include="Assets\Scripts\PowerUpsCreator.cs" />
-     <Compile Include="Assets\Scripts\SpaceShip.cs" />
-     <Compile Include="Assets\Scripts\SpaceshipsData.cs" />
-     <Compile Include="Assets\Scripts\SpikyAsteroid.cs" />
-     <Compile Include="Assets\Scripts\TestCoroutine.cs" />
-     <Compile Include="Assets\Scripts\Triangulator.cs" />
+     <Compile Include="Assets\Scripts\NewBehaviourScript.js" />
      <None Include="Assets\Shaders\Color.shader" />
      <None Include="Assets\Shaders\Diffuse.shader" />
   </ItemGroup>

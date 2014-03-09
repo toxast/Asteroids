@@ -66,6 +66,50 @@ public static class PolygonCreator
 		return vertices;
 	}
 
+	public static Vector2[] CreateSpikyPolygonVertices(float maxR, float minR, int spikesCount, out int[] spikes)
+	{
+		spikes = new int[spikesCount];
+		int vcount = spikesCount * 3;
+
+		if(spikesCount < 3)
+		{
+			throw new UnityException("cant create polygon from " + spikesCount + " vertices");
+		}
+		
+		if(maxR <= 0 || maxR < minR)
+		{
+			throw new UnityException("wrong size of polygon: " + minR + "-" + maxR);
+		}
+
+
+		Vector2[] vertices = new Vector2[vcount];
+		
+		float deltaAngle = -2f * Mathf.PI/vcount;
+		float angle = 0;
+		float x;
+		float y;
+		for(int i = 0; i < spikesCount; i++)
+		{
+			x = minR*Mathf.Cos(angle);
+			y = minR*Mathf.Sin(angle);
+			vertices[3 * i] = new Vector2(x,y);
+			angle += deltaAngle;
+
+			x = maxR*Mathf.Cos(angle);
+			y = maxR*Mathf.Sin(angle);
+			vertices[3*i + 1] = new Vector2(x,y);
+			spikes[i] = 3*i + 1; 
+			angle += deltaAngle;
+
+			x = minR*Mathf.Cos(angle);
+			y = minR*Mathf.Sin(angle);
+			vertices[3*i + 2] = new Vector2(x,y);
+			angle += deltaAngle;
+		}
+		
+		return vertices;
+	}
+
 	private static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color)
 	{
 		// Use the triangulator to get indices for creating triangles
