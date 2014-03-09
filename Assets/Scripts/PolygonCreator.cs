@@ -4,43 +4,6 @@ using System.Linq;
 
 public static class PolygonCreator 
 {
-	private static void CreateRandomPolygonGameObject()
-	{
-		GameObject go = new GameObject();
-		float size = Random.Range(3f, 6f);
-		int vcount = Random.Range(12, 18);
-		Vector2[] vertices = CreatePolygonVertices(size, size/2f, vcount);
-		Polygon polygon = new Polygon(vertices);
-		AddRenderComponents (polygon, go);
-		/*for (int i = 0; i < polygon.vertices.Count() - 1; i++) 
-		{
-			for (int k = 0; k < polygon.vertices.Count() - 1; k++) 
-			{
-				Debug.LogError(i + "-" + k + " adjacent: " + polygon.IsVerticesAdjacent(i, k) + " inside: " + polygon.IsEdgeLiesInsideOfPolygon(i,k));
-			}
-		}*/
-
-		/*for (int i = 2; i < polygon.vertices.Count() - 1; i++) 
-		{
-			Debug.LogError(i + "-" + (i-2) + " IsCanCutByVertices: " + polygon.IsCanCutByVertices(i, i-2));
-		}*/
-
-		/*int cuts = 20;
-		List<Polygon> polys = polygon.Split(cuts);
-		foreach(var p in polys)
-		{
-			GameObject go = new GameObject();
-			CreatePolygonObjectOnScene(p, go);
-		}*/ 
-
-		/*List<Polygon> polys = polygon.SplitByMassCenter();
-		foreach(var p in polys)
-		{
-			GameObject pgo = new GameObject();
-			AddRenderComponents(p, pgo);
-		}*/
-	}
-
 	public static List<Vector2> GetCompleteVertexes(Vector2[] halfVertices, float sizeModifier)
 	{
 		List<Vector2> vertices = new List<Vector2>();
@@ -57,10 +20,9 @@ public static class PolygonCreator
 		return vertices; 
 	}
 
-
-	public static void AddRenderComponents(Polygon polygon, GameObject gameObj)
+	public static void AddRenderComponents(Polygon polygon, GameObject gameObj, Color color)
 	{
-		Mesh msh = CreatePolygonMesh(polygon.vertices);
+		Mesh msh = CreatePolygonMesh(polygon.vertices, color);
 		
 		// Set up game object with mesh;
 		MeshRenderer renderer = gameObj.AddComponent<MeshRenderer>();
@@ -104,7 +66,7 @@ public static class PolygonCreator
 		return vertices;
 	}
 
-	private static Mesh CreatePolygonMesh(Vector2[] vertices2D)
+	private static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color)
 	{
 		// Use the triangulator to get indices for creating triangles
 		Triangulator tr = new Triangulator(vertices2D);
@@ -119,12 +81,13 @@ public static class PolygonCreator
 		Color[] colors = new Color[vertices.Length];
 		int k = 0;
 		while (k < vertices.Length) {
-			colors[k] = Color.white;//Color.Lerp(Color.red, Color.green, vertices[k].y);
+			colors[k] = color;
 			k++;
 		}
 		
 		// Create the mesh
 		Mesh msh = new Mesh();
+
 		msh.vertices = vertices;
 		msh.triangles = indices;
 		msh.colors = colors;

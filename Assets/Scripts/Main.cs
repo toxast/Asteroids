@@ -4,93 +4,12 @@ using System.Collections.Generic;
 
 public class Main : MonoBehaviour 
 {
-
-
-	Vector2[] spaceshipVertices = new Vector2[]
-	{
-		new Vector2(2f, 0f),
-		new Vector2(-1f, 1f),
-		new Vector2(-1f, -1f),
-	};
-
-	Vector2[] fastSpaceshipVertices = new Vector2[]
-	{
-		new Vector2(2f, 0f),
-		new Vector2(-0.5f, -1f),
-		new Vector2(-2f, -1f),
-		new Vector2(-1f, -0.5f),
-		new Vector2(-0.5f, 0f),
-		new Vector2(-1f, 0.5f),
-		new Vector2(-2f, 1f),
-		new Vector2(-0.5f, 1f),
-	};
-
-	Vector2[] tankSpaceshipVertices = new Vector2[]
-	{
-		new Vector2(1f, 0f),
-		new Vector2(1f, -0.5f),
-		new Vector2(0.5f, -0.5f),
-		new Vector2(1f, -1f),
-		new Vector2(2f, -1f),
-		new Vector2(2f, -1.5f),
-		new Vector2(0f, -1.5f),
-		new Vector2(-0.5f, -1f),
-		new Vector2(-1f, -1f),
-		new Vector2(-0.5f, -0.5f),
-		new Vector2(-1f, 0f),
-		new Vector2(-0.5f, 0.5f),
-		new Vector2(-1f, 1f),
-		new Vector2(-0.5f, 1f),
-		new Vector2(0f, 1.5f),
-		new Vector2(2f, 1.5f),
-		new Vector2(2f, 1f),
-		new Vector2(1f, 1f),
-		new Vector2(0.5f, 0.5f),
-		new Vector2(1f, 0.5f),
-	};
-
-	Vector2[] CornSpaceshipVertices = new Vector2[]
-	{
-		new Vector2(4f, 0f),
-		new Vector2(3f, -0.5f),
-		new Vector2(3f, -1.5f),
-		new Vector2(2.5f, -1.5f),
-		new Vector2(2.5f, -0.5f),
-		new Vector2(2f, -0.5f),
-		new Vector2(1f, -1f),
-		new Vector2(1f, -3.5f),
-		new Vector2(0f, -4f),
-		new Vector2(-1f, -3.5f),
-		new Vector2(-1f, -1f),
-		new Vector2(-3f, -0.5f),
-		new Vector2(-3f, -1f),
-		new Vector2(-3.5f, -1.5f),
-		new Vector2(-4f,  -1f),
-		new Vector2(-4, -0.5f),
-		new Vector2(-4.5f, -0.5f),
-		new Vector2(-5f, 0f),
-		new Vector2(-4.5f, 0.5f),
-		new Vector2(-4f, 0.5f),
-		new Vector2(-4f,  1f),
-		new Vector2(-3.5f, 1.5f),
-		new Vector2(-3f, 1f),
-		new Vector2(-3f, 0.5f),
-		new Vector2(-1f, 1f),
-		new Vector2(-1f, 3.5f),
-		new Vector2(0f, 4f),
-		new Vector2(1f, 3.5f),
-		new Vector2(1f, 1f),
-		new Vector2(2f, 0.5f),
-		new Vector2(2.5f, 0.5f),
-		new Vector2(2.5f, 1.5f),
-		new Vector2(3f, 1.5f),
-		new Vector2(3f, 0.5f), 
-	};
-
 	SpaceShip spaceship;
 	List <Asteroid> asteroids = new List<Asteroid>();
 	List <Bullet> bullets = new List<Bullet>();
 
+
+	private float DestroyTreshold = 2.5f;
 
 	public Bullet bulletPrefab;
 
@@ -108,7 +27,7 @@ public class Main : MonoBehaviour
 			Asteroid asteroid = CreateAsteroid();
 			float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
 			float len = UnityEngine.Random.Range(spaceship.polygon.R + 2 * asteroid.polygon.R, bounds.yMax);
-			asteroid.cacheTransform.position +=  new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, 0);
+			asteroid.cacheTransform.position =  new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, 0);
 			asteroids.Add(asteroid);
 		}
 	}
@@ -117,14 +36,14 @@ public class Main : MonoBehaviour
 	{
 		GameObject spaceShipGo;
 		Polygon spaceshipPoly;
-		CreatePolygonByMassCenter(tankSpaceshipVertices, out spaceshipPoly, out spaceShipGo);
+		CreatePolygonByMassCenter(SpaceshipsData.fastSpaceshipVertices, Color.blue, out spaceshipPoly, out spaceShipGo);
 		spaceship = spaceShipGo.AddComponent<SpaceShip>();
 		spaceship.Init(spaceshipPoly);
 		spaceship.FireEvent += OnFire;
 		spaceShipGo.name = "Spaceship";
 		//TODO optimize
-		MeshRenderer renderer = spaceship.GetComponent<MeshRenderer>();
-		renderer.material.SetColor("_Color", Color.blue);
+		//MeshRenderer renderer = spaceship.GetComponent<MeshRenderer>();
+		//renderer.material.SetColor("_Color", Color.blue);
 	}
 	
 	private void CalculateBounds()
@@ -162,14 +81,14 @@ public class Main : MonoBehaviour
 		};
 		Polygon bulletPoly;
 		GameObject bulletObj;
-		CreatePolygonByMassCenter(bulletVertices, out bulletPoly, out bulletObj);
+		CreatePolygonByMassCenter(bulletVertices, Color.red, out bulletPoly, out bulletObj);
 		Bullet bullet = bulletObj.AddComponent<Bullet>();
 		bullet.Init(bulletPoly, spaceship.cacheTransform.right);
 		bullet.cacheTransform.position = spaceship.cacheTransform.position + spaceship.cacheTransform.right;
 		bulletObj.name = "bullet";
 		//TODO optimize
-		MeshRenderer renderer = bullet.GetComponent<MeshRenderer>();
-		renderer.material.SetColor("_Color", Color.red);
+		//MeshRenderer renderer = bullet.GetComponent<MeshRenderer>();
+		//renderer.material.SetColor("_Color", Color.red);
 
 
 		return bullet;
@@ -179,7 +98,6 @@ public class Main : MonoBehaviour
 	{
 		spaceship.Tick(Time.deltaTime);
 		CheckBounds(spaceship.cacheTransform, spaceship.polygon.R);
-
 
 		for (int i = 0; i < asteroids.Count ; i++)
 		{
@@ -196,7 +114,7 @@ public class Main : MonoBehaviour
 			CheckBounds(bullets[i].cacheTransform, bullets[i].polygon.R);
 		}
 
-		//TODO: polygon collisions, refactor
+		//TODO: refactor
 		Asteroid asteroid;
 		Bullet bullet;
 		for (int i = 0; i < asteroids.Count ; i++)
@@ -211,9 +129,7 @@ public class Main : MonoBehaviour
 				if((asteroid.cacheTransform.position - bullet.cacheTransform.position).magnitude < asteroid.polygon.R + bullet.polygon.R && 
 				   Math2d.IsCollides(asteroid.cacheTransform, asteroid.polygon, bullet.cacheTransform, bullet.polygon))
 				{
-
-
-					if(asteroid.polygon.R*2f/3f > spaceship.polygon.R)
+					if(asteroid.polygon.R > DestroyTreshold)
 					{
 						//split asteroid 
 						List<Asteroid> parts = SplitAsteroid(asteroid);
@@ -258,33 +174,23 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	/*private void CreateRandomPolygonGameObject(out Polygon polygon, out GameObject polygonGo)
-	{
-		float size = Random.Range(3f, 6f);
-		int vcount = Random.Range(12, 18);
-		Vector2[] vertices = PolygonCreator.CreatePolygonVertices(size, size/2f, vcount);
-
-		CreatePolygonByMassCenter(vertices, out polygon, out polygonGo);
-		polygonGo.name = "main polygon";
-	}*/
-
 	private List<Asteroid> SplitAsteroid(Asteroid asteriod)
 	{
 		List<Vector2[]> polys = asteriod.Split();
-		List<Asteroid> asteroids = new List<Asteroid>();
+		List<Asteroid> parts = new List<Asteroid>();
 
 		if(polys.Count < 2)
 		{
 			Debug.LogError("couldnt split asteroid");
-			asteroids.Add(asteriod);
-			return asteroids;
+			parts.Add(asteriod);
+			return parts;
 		}
 
 		foreach(var vertices in polys)
 		{
 			Polygon polygonPart;
 			GameObject polygonGo;
-			CreatePolygonByMassCenter(vertices, out polygonPart, out polygonGo);
+			CreatePolygonByMassCenter(vertices, Color.black, out polygonPart, out polygonGo);
 			polygonGo.transform.Translate(asteriod.cacheTransform.position);//TODO: optimise
 			polygonGo.transform.RotateAround(asteriod.cacheTransform.position, -Vector3.back, asteriod.cacheTransform.rotation.eulerAngles.z);
 			polygonGo.name = "asteroid part";
@@ -292,33 +198,34 @@ public class Main : MonoBehaviour
 			Asteroid asteroidPart = polygonGo.AddComponent<Asteroid>();
 			asteroidPart.Init(polygonPart);
 
-			Vector2 diraction = asteroidPart.cacheTransform.position - asteriod.cacheTransform.position;
-			asteroidPart.velocity = diraction*2 + asteriod.velocity; 
+			Vector3 direction = asteroidPart.cacheTransform.position - asteriod.cacheTransform.position;
+			asteroidPart.velocity = direction*2 + asteriod.velocity; 
+			asteroidPart.velocity.z = 0;
 
-			asteroids.Add(asteroidPart);
+			parts.Add(asteroidPart);
 		}
-		return asteroids;
+		return parts;
 	}
 
-	private void CreatePolygonByMassCenter(Vector2[] vertices, out Polygon polygon, out GameObject polygonGo)
+	private void CreatePolygonByMassCenter(Vector2[] vertices, Color color, out Polygon polygon, out GameObject polygonGo)
 	{
 		Vector2 pivot = Math2d.GetMassCenter(vertices);
 		Math2d.ShiftVertices(vertices, -pivot);
 		polygon = new Polygon(vertices);
 		polygonGo = new GameObject();
 		polygonGo.transform.Translate(new Vector3(pivot.x, pivot.y, 0)); //TODO: optimise
-		PolygonCreator.AddRenderComponents (polygon, polygonGo);
+		PolygonCreator.AddRenderComponents (polygon, polygonGo, color);
 	}
 
 	private Asteroid CreateAsteroid()
 	{
 		float size = Random.Range(2f, 8f);
-		int vcount = Random.Range(3, (int)size*4);
+		int vcount = Random.Range(3, 3 + (int)size*2);
 		Vector2[] vertices = PolygonCreator.CreatePolygonVertices(size, size/2f, vcount);
 		
 		Polygon polygon;
 		GameObject polygonGo;
-		CreatePolygonByMassCenter(vertices, out polygon, out polygonGo);
+		CreatePolygonByMassCenter(vertices, Color.black, out polygon, out polygonGo);
 		polygonGo.name = "asteroid";
 
 		Asteroid asteroid = polygonGo.AddComponent<Asteroid>();

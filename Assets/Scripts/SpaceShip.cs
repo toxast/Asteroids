@@ -19,7 +19,7 @@ public class SpaceShip : MonoBehaviour {
 	float maxSpeedSqr;
 	//float drag = 0.5f;
 
-	float fireInterfal = 0.1f;
+	float fireInterfal = 0.3f;
 	float timeToNextShot = 0f;
 
 	void Awake()
