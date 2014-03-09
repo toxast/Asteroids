@@ -49,6 +49,44 @@ public class Main : MonoBehaviour
 		new Vector2(1f, 0.5f),
 	};
 
+	Vector2[] CornSpaceshipVertices = new Vector2[]
+	{
+		new Vector2(4f, 0f),
+		new Vector2(3f, -0.5f),
+		new Vector2(3f, -1.5f),
+		new Vector2(2.5f, -1.5f),
+		new Vector2(2.5f, -0.5f),
+		new Vector2(2f, -0.5f),
+		new Vector2(1f, -1f),
+		new Vector2(1f, -3.5f),
+		new Vector2(0f, -4f),
+		new Vector2(-1f, -3.5f),
+		new Vector2(-1f, -1f),
+		new Vector2(-3f, -0.5f),
+		new Vector2(-3f, -1f),
+		new Vector2(-3.5f, -1.5f),
+		new Vector2(-4f,  -1f),
+		new Vector2(-4, -0.5f),
+		new Vector2(-4.5f, -0.5f),
+		new Vector2(-5f, 0f),
+		new Vector2(-4.5f, 0.5f),
+		new Vector2(-4f, 0.5f),
+		new Vector2(-4f,  1f),
+		new Vector2(-3.5f, 1.5f),
+		new Vector2(-3f, 1f),
+		new Vector2(-3f, 0.5f),
+		new Vector2(-1f, 1f),
+		new Vector2(-1f, 3.5f),
+		new Vector2(0f, 4f),
+		new Vector2(1f, 3.5f),
+		new Vector2(1f, 1f),
+		new Vector2(2f, 0.5f),
+		new Vector2(2.5f, 0.5f),
+		new Vector2(2.5f, 1.5f),
+		new Vector2(3f, 1.5f),
+		new Vector2(3f, 0.5f), 
+	};
+
 	SpaceShip spaceship;
 	List <Asteroid> asteroids = new List<Asteroid>();
 	List <Bullet> bullets = new List<Bullet>();
@@ -64,17 +102,12 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 		 
-		SpawnAsteroids(3);
-	}
-
-	private void SpawnAsteroids(int count)
-	{
-		for (int i = 0; i < count; i++) 
+		int asteroidsNum = 10;
+		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
 			float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
-			float len = bounds.xMax;
-			//float len = UnityEngine.Random.Range(spaceship.polygon.R + 2 * asteroid.polygon.R, bounds.yMax);
+			float len = UnityEngine.Random.Range(spaceship.polygon.R + 2 * asteroid.polygon.R, bounds.yMax);
 			asteroid.cacheTransform.position +=  new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, 0);
 			asteroids.Add(asteroid);
 		}
@@ -88,7 +121,7 @@ public class Main : MonoBehaviour
 		spaceship = spaceShipGo.AddComponent<SpaceShip>();
 		spaceship.Init(spaceshipPoly);
 		spaceship.FireEvent += OnFire;
-
+		spaceShipGo.name = "Spaceship";
 		//TODO optimize
 		MeshRenderer renderer = spaceship.GetComponent<MeshRenderer>();
 		renderer.material.SetColor("_Color", Color.blue);
@@ -133,7 +166,7 @@ public class Main : MonoBehaviour
 		Bullet bullet = bulletObj.AddComponent<Bullet>();
 		bullet.Init(bulletPoly, spaceship.cacheTransform.right);
 		bullet.cacheTransform.position = spaceship.cacheTransform.position + spaceship.cacheTransform.right;
-
+		bulletObj.name = "bullet";
 		//TODO optimize
 		MeshRenderer renderer = bullet.GetComponent<MeshRenderer>();
 		renderer.material.SetColor("_Color", Color.red);
@@ -175,9 +208,12 @@ public class Main : MonoBehaviour
 				if(bullet == null)
 					continue;
 
-				if((asteroid.cacheTransform.position - bullet.cacheTransform.position).magnitude < asteroid.polygon.R*2f/3f + bullet.polygon.R)
+				if((asteroid.cacheTransform.position - bullet.cacheTransform.position).magnitude < asteroid.polygon.R + bullet.polygon.R && 
+				   Math2d.IsCollides(asteroid.cacheTransform, asteroid.polygon, bullet.cacheTransform, bullet.polygon))
 				{
-					if(asteroid.polygon.R > spaceship.polygon.R)
+
+
+					if(asteroid.polygon.R*2f/3f > spaceship.polygon.R)
 					{
 						//split asteroid 
 						List<Asteroid> parts = SplitAsteroid(asteroid);
@@ -197,11 +233,6 @@ public class Main : MonoBehaviour
 					break;
 				}
 			}
-		}
-
-		if (asteroids.Count == 0) 
-		{
-			SpawnAsteroids(3);
 		}
 	}
 

@@ -16,11 +16,11 @@ public class Asteroid : MonoBehaviour
 		this.polygon = polygon;
 		cacheTransform = transform;
 
-		float speed = 3f;
+		float speed = Random.Range(1f, 4f);
 		float a = (Random.Range(0f,359f) * Mathf.PI) / 180f;
 		velocity = new Vector2(Mathf.Cos(a)*speed, Mathf.Sin(a)*speed);
 
-		rotation = 1f;
+		rotation = Random.Range(0f,3f);
 
 		cacheTransform.position = new Vector3(cacheTransform.position.x, cacheTransform.position.y, Random.Range(-1f, 0f));
 	}
@@ -34,39 +34,39 @@ public class Asteroid : MonoBehaviour
 
 	public List<Vector2[]> Split()
 	{
-		bool byMassCenter;
-		List<Vector2[]> parts = SplitByInteriorVertexOrMassCenter (polygon, out byMassCenter);
-		if (!byMassCenter)
-		{
-			List<Vector2[]> deepestParts = new List<Vector2[]>();
-			foreach(var part in parts)
-			{
-				Polygon p = new Polygon(part);
-				Vector2 massCenter = Math2d.GetMassCenter(p.edges);
-				p.SetMassCenter(massCenter);
-				deepestParts.AddRange(p.SplitByInteriorVertex ());
-			}
-			return deepestParts;
-		}
-		else
-		{
-			return parts;
-		}
-	}
-
-	private List<Vector2[]> SplitByInteriorVertexOrMassCenter(Polygon p, out bool byMassCenter)
-	{
-		List<Vector2[]> parts = p.SplitByInteriorVertex ();
+		//Debug.LogWarning("Split");
+		List<Vector2[]> parts = polygon.SplitByInteriorVertex ();
 		if(parts.Count < 2)
 		{
-			byMassCenter = true;
-			return p.SplitByMassCenter();
+			if(polygon.vcount == 3 || Chance(0.5f))
+			{
+				parts = polygon.SplitByMassCenterAndEdgesCenters();
+			}
+			else
+			{
+				parts = polygon.SplitByMassCenterVertexAndEdgeCenter();
+			}
 		}
-		else
+
+		List<Vector2[]> deepestParts = new List<Vector2[]>();
+		foreach(var part in parts)
 		{
-			byMassCenter = false;
-			return parts;
+			if(Chance(0.4f))
+			{
+				deepestParts.Add(part);
+			}
+			else
+			{
+				Polygon p = new Polygon(part);
+				deepestParts.AddRange(p.SplitByInteriorVertex ());
+			}
 		}
+		return deepestParts;
+	}
+
+	private bool Chance(float chance)
+	{
+		return chance > UnityEngine.Random.Range(0f, 1f);
 	}
 
 }

@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Polygon.cs" />
      <Compile Include="Assets\Scripts\PolygonCreator.cs" />
      <Compile Include="Assets\Scripts\SpaceShip.cs" />
+     <Compile Include="Assets\Scripts\SpaceshipsData.cs" />
      <Compile Include="Assets\Scripts\Triangulator.cs" />
      <None Include="Assets\Shaders\Color.shader" />
      <None Include="Assets\Shaders\Diffuse.shader" />

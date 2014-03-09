@@ -10,7 +10,7 @@ public class Polygon
 	public Vector2[] circulatedVertices; //vertices.Length + 2 (last, 0, 1,...., last, 0) 
 	public Edge[] edges; 
 	private float xMin;
-	private int vcount;
+	public int vcount{private set; get;}
 
 	public float R; //radius of outer sphere 
 	public float Rsqr;
@@ -48,7 +48,7 @@ public class Polygon
 		m.transform.position = new Vector3(massCenter.x, massCenter.y, 0);
 		for (int i = 0; i < vcount; i++) 
 		{
-			Debug.Log(IsEdgeLiesInsideOfPolygon(masscenter, i));
+			//Debug.Log(IsEdgeLiesInsideOfPolygon(masscenter, i));
 		}*/
 	}
 
@@ -128,10 +128,10 @@ public class Polygon
 		{
 			return false;
 		}
-		/*Debug.LogWarning("IsCanCutByVertices " + i1 + "-" + i2);
+		/*//Debug.LogWarning("IsCanCutByVertices " + i1 + "-" + i2);
 		if(Distance(i1, i2) == 2)
 		{
-			Debug.LogWarning("distance 2");
+			//Debug.LogWarning("distance 2");
 			Vector2 center;
 			if(i1 < i2)
 			{
@@ -147,7 +147,7 @@ public class Polygon
 
 			float cos = Math2d.Cos(ref v1, ref v2);
 
-			Debug.LogWarning(v1 + "-" + v2 + " cos: " + cos + "  th: " +  CosCutTreshold);
+			//Debug.LogWarning(v1 + "-" + v2 + " cos: " + cos + "  th: " +  CosCutTreshold);
 
 			if(cos < CosCutTreshold)
 			{
@@ -171,7 +171,7 @@ public class Polygon
 		//Debug.LogWarning ("IsEdgeLiesInsideOfPolygon: " + a + "->" + b);
 		if (IsVerticesAdjacent(a, b))
 		{
-			Debug.Log("adjacent edges " + a + " " + b);
+			//Debug.Log("adjacent edges " + a + " " + b);
 			return true;
 		}
 		
@@ -268,16 +268,20 @@ public class Polygon
 	
 	public List<Vector2[]> SplitByInteriorVertex()
 	{
+		//Debug.Log("SplitByInteriorVertex, vcount:" + vcount);
 		List<Vector2[]> parts = new List<Vector2[]> ();
 		int interiorVertex = GetInteriorVertex();
 		if(interiorVertex >= 0)
 		{
+			//Debug.Log("SplitByInteriorVertex: got vertex");
 			parts = SplitByInteriorVertex(interiorVertex);
 		}
 		else
 		{
+			//Debug.Log("SplitByInteriorVertex: no vertex");
 			parts.Add(vertices);
 		}
+		//Debug.Log("SplitByInteriorVertex parts: " + parts.Count);
 		return parts;
 	}
 
@@ -287,17 +291,21 @@ public class Polygon
 
 		if(vcount <= 3)
 		{
+			//Debug.Log("no iterior vertex, it's triangle");
 			return -1;
 		}
+
+		//Debug.LogWarning("circulatedVertices: " + circulatedVertices.Length);
 
 		Vector2 a;
 		Vector2 b;
 		//find vertex
-		for (int i = 1; i < vcount; i++) 
+		for (int i = 1; i < circulatedVertices.Length-1; i++) 
 		{
 			a = circulatedVertices[i] - circulatedVertices[i-1];
 			b = circulatedVertices[i+1] - circulatedVertices[i];
 			float rotate = Math2d.Rotate(ref a, ref b);
+			//Debug.LogWarning("rotate: " + rotate);
 			if(rotate > 0)
 			{
 				interiorVertex = i-1;
@@ -308,13 +316,13 @@ public class Polygon
 		return interiorVertex;
 	}
 	 
-	private List<Vector2[]> SplitByInteriorVertex(int vIndx)
+	private List<Vector2[]> SplitByInteriorVertex(int interiorIndx)
 	{
 		List<Vector2[]> parts = new List<Vector2[]> ();
 
-		Vector2 interiorVertex = vertices[vIndx];
+		Vector2 interiorVertex = vertices[interiorIndx];
 
-		int cindex  = vIndx + 1;
+		int cindex  = interiorIndx + 1;
 		Vector2 a = (circulatedVertices[cindex] - circulatedVertices[cindex-1]).normalized;
 		Vector2 b = -(circulatedVertices[cindex+1] - circulatedVertices[cindex]).normalized;
 
@@ -347,39 +355,18 @@ public class Polygon
 
 		if(intersection.intersection == edges[edgeIndex].p1)
 		{
-			return SplitBy2Vertices(edgeIndex, vIndx);
+			return SplitBy2Vertices(edgeIndex, interiorIndx);
 		}
 		else if(intersection.intersection == edges[edgeIndex].p2)
 		{
-			return SplitBy2Vertices(Next(edgeIndex), vIndx);
+			return SplitBy2Vertices(Next(edgeIndex), interiorIndx);
 		}
 
-		List<Vector2> part1 = new List<Vector2>();
-		List<Vector2> part2 = new List<Vector2>();
-
+		List<Vector2> part1 = GetVertices(interiorIndx, edgeIndex);
 		part1.Add(intersection.intersection);
-		int n = vIndx;
-		while(true)
-		{
-			part1.Add(vertices[n]);
-			if(n == edgeIndex)
-			{
-				break;
-			}
-			n = Next(n);
-		}
 
+		List<Vector2> part2 = GetVertices(Next(edgeIndex), interiorIndx);
 		part2.Add(intersection.intersection);
-		n = Next(edgeIndex);
-		while(true)
-		{
-			part2.Add(vertices[n]);
-			if(n == vIndx)
-			{
-				break;
-			}
-			n = Next(n);
-		}
 
 		parts.Add(part1.ToArray());
 		parts.Add(part2.ToArray());
@@ -418,52 +405,87 @@ public class Polygon
 
 	//splits by center mass to center of the edge
 	//no check for edge inside
-	public List<Vector2[]> SplitByMassCenter()
+	public List<Vector2[]> SplitByMassCenterAndEdgesCenters()
 	{
 		List<Vector2[]> parts = new List<Vector2[]>();
-		List<Inx2Len> sortedEdges = new List<Inx2Len>();
-		for (int i = 0; i < vcount; i++) 
-		{
-			sortedEdges.Add(new Inx2Len(edges[i].getSqrLength(), i));
-		}
-		sortedEdges.Sort();//acsending order
 
-		//take last 3 longest edges
-		int taskeLast = 3;
-		List<int> edgeIndexes = new List<int>();
-		for (int i = sortedEdges.Count - 1; i >= sortedEdges.Count - taskeLast; i--)
-		{
-			edgeIndexes.Add(sortedEdges[i].indx);
-		}
-
+		List<int> edgeIndexes = GetLagestEdges(3);
 		edgeIndexes.Sort();
 		edgeIndexes.Add(edgeIndexes[0]);//circulated
 		for (int i = 0; i < edgeIndexes.Count-1; i++) 
 		{
 			int edge1 = edgeIndexes[i];
 			int edge2 = edgeIndexes[i+1];
-			List<Vector2> part = new List<Vector2>();
 
-			int vtx = Next(edge1);
-			while(true)
-			{
-				part.Add(vertices[vtx]);
-				if(vtx == edge2)
-				{
-					part.Add(edges[edge2].GetMiddle());
-					part.Add(massCenter);
-					part.Add(edges[edge1].GetMiddle());
-					break;
-				}
-				vtx = Next(vtx);
-			}
-
+			List<Vector2> part = GetVertices(Next(edge1), edge2);
+			part.Add(edges[edge2].GetMiddle());
+			part.Add(massCenter);
+			part.Add(edges[edge1].GetMiddle());
 			parts.Add(part.ToArray());
 		}
 
 		return parts;
 	}
 
+	private List<int> GetLagestEdges(int count)
+	{
+		List<Inx2Len> sortedEdges = new List<Inx2Len>();
+		for (int i = 0; i < vcount; i++) 
+		{
+			sortedEdges.Add(new Inx2Len(edges[i].getSqrLength(), i));
+		}
+		sortedEdges.Sort();//acsending order
+		
+		//take last longest edges
+		List<int> edgeIndexes = new List<int>();
+		for (int i = sortedEdges.Count - 1; i >= sortedEdges.Count - count; i--)
+		{
+			edgeIndexes.Add(sortedEdges[i].indx);
+		}
+		return edgeIndexes;
+	}
+
+	//splits by center mass to center of the edge
+	//no check for edge inside
+	public List<Vector2[]> SplitByMassCenterVertexAndEdgeCenter()
+	{
+		//Debug.LogWarning("SplitByMassCenterVertexAndEdgeCenter");
+		int edge = GetLagestEdges(1)[0];
+		int vertex = UnityEngine.Random.Range(0, vcount);
+		
+		List<Vector2[]> parts = new List<Vector2[]>();
+
+		{
+			List<Vector2> part = GetVertices(vertex, edge);
+			part.Add(edges[edge].GetMiddle());
+			part.Add(massCenter);
+			parts.Add(part.ToArray());
+		}
+
+		{
+			List<Vector2> part = GetVertices(Next(edge), vertex);
+			part.Add(massCenter);
+			part.Add(edges[edge].GetMiddle());
+			parts.Add(part.ToArray());
+		}
+
+		//Debug.LogWarning("SplitByMassCenterVertexAndEdgeCenter parts: " + parts.Count);
+		return parts;
+	}
+
+	private List<Vector2> GetVertices(int from, int to)
+	{
+		List<Vector2> part = new List<Vector2>();
+		int vtx = from;
+		while(true)
+		{
+			part.Add(vertices[vtx]);
+			if(vtx == to) break;
+			vtx = Next(vtx);
+		}
+		return part;
+	}
+	
 	private class Inx2Len : IComparable<Inx2Len>
 	{
 		float sqrLen;

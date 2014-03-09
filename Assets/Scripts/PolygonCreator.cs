@@ -41,6 +41,22 @@ public static class PolygonCreator
 		}*/
 	}
 
+	public static List<Vector2> GetCompleteVertexes(Vector2[] halfVertices, float sizeModifier)
+	{
+		List<Vector2> vertices = new List<Vector2>();
+		vertices.AddRange(halfVertices);
+		for (int i = halfVertices.Length - 1; i >= 0; i--) 
+		{
+			vertices[i] *= sizeModifier;
+			if(vertices[i].y != 0)
+			{
+				vertices.Add(new Vector2(vertices[i].x, -vertices[i].y));
+			}
+		}
+
+		return vertices; 
+	}
+
 
 	public static void AddRenderComponents(Polygon polygon, GameObject gameObj)
 	{
