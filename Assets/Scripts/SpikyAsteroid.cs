@@ -108,7 +108,7 @@ public class SpikyAsteroid : Asteroid
 							spikeAsteroid.Init();
 							spikeAsteroid.cacheTransform.position += cacheTransform.position;
 							spikeAsteroid.rotation = 0f;
-							spikeAsteroid.velocity = (e1.p2 - (e1.p1 + e2.p2)/2f).normalized *20f;
+							spikeAsteroid.velocity = (e1.p2 - (e1.p1 + e2.p2)/2f).normalized *15f;
 
 							SpikeAttack(this, mainAsteroid, spikeAsteroid);
 

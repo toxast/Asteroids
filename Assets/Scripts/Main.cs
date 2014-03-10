@@ -27,10 +27,13 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 		 
-		CreateSpikyAsteroid();
-		CreateSpikyAsteroid();
-		CreateSpikyAsteroid();
-		/*int asteroidsNum = 10;
+		int spikies = UnityEngine.Random.Range(1, 4);
+		for (int i = 0; i < spikies; i++) 
+		{
+			CreateSpikyAsteroid();
+		}
+
+		int asteroidsNum = UnityEngine.Random.Range(2, 5);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -42,14 +45,15 @@ public class Main : MonoBehaviour
 
 		powerUpsCreator = new PowerUpsCreator(5f, 10f);
 		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
-		*/
+
 	}
 
 	private void CreateSpikyAsteroid()
 	{
-		float rInner = UnityEngine.Random.Range(2f, 5f);
-		float rOuter = UnityEngine.Random.Range(rInner + 2f, rInner + 5f);
-		int spikesCount = UnityEngine.Random.Range(2, 8);
+		float rInner = UnityEngine.Random.Range(2f, 4f);
+		float spikeLength = UnityEngine.Random.Range (2f, 3f);
+		float rOuter = rInner + spikeLength;
+		int spikesCount = UnityEngine.Random.Range((int)(rInner+1), 9);
 
 		int[] spikes;
 		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
@@ -225,7 +229,8 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		//powerUpsCreator.Tick(Time.deltaTime);
+		if(powerUpsCreator != null)
+			powerUpsCreator.Tick(Time.deltaTime);
 
 	}
 

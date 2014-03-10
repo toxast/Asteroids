@@ -7,7 +7,7 @@ public class SpaceShip : PolygonGameObject
 
 	Vector3 speed;
 
-	float turnSpeed = 330f;
+	float turnSpeed = 200f;
 
 	float brake = 4f;
 	float thrust = 20f;
