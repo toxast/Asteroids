@@ -26,10 +26,9 @@ public class SpikyAsteroid : Asteroid
 	private Transform target;
 	private List<Spike> spikesLeft = new List<Spike>();
 
-	public void Init (Polygon polygon, Transform ptraget, int[] spikes)
+	public void Init (Transform ptraget, int[] spikes)
 	{
-		base.Init (polygon);
-
+		base.Init ();
 
 		foreach(int spikeVertex in spikes)
 		{
@@ -39,8 +38,6 @@ public class SpikyAsteroid : Asteroid
 		}
 
 		this.target = ptraget;
-
-
 	}
 
 	void Start()
@@ -51,7 +48,7 @@ public class SpikyAsteroid : Asteroid
 	IEnumerator CheckForTarget()
 	{
 		float thesholdDistance = 24f;
-		float checkInterval = 0.2f;
+		float checkInterval = 0.5f;
 		float thesholdDistanceSqr = thesholdDistance * thesholdDistance;
 		
 		while(true)
@@ -89,11 +86,8 @@ public class SpikyAsteroid : Asteroid
 							Vector2[] mainPart = Math2d.RotateVertices(parts[0], angle);
 							Vector2[] spikePart = Math2d.RotateVertices(parts[1], angle);
 
-							Polygon mainPolygon;
-							GameObject mainGo;
-							PolygonCreator.CreatePolygonGOByMassCenter( mainPart, Color.black, out mainPolygon, out mainGo);
-							mainGo.transform.position += cacheTransform.position;
-							SpikyAsteroid mainAsteroid = mainGo.AddComponent<SpikyAsteroid>();
+							SpikyAsteroid mainAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(mainPart, Color.black);
+							mainAsteroid.cacheTransform.position += cacheTransform.position;
 
 							int k = 0;
 							int[] spikes = new int[spikesLeft.Count - 1];
@@ -106,18 +100,15 @@ public class SpikyAsteroid : Asteroid
 								}
 							}
 
-							mainAsteroid.Init(mainPolygon, target, spikes);
+							mainAsteroid.Init(target, spikes);
 							mainAsteroid.velocity = this.velocity;
 							mainAsteroid.rotation = this.rotation;
 
-							Polygon spikePolygon;
-							GameObject spikeGo;
-							PolygonCreator.CreatePolygonGOByMassCenter(spikePart, Color.black, out spikePolygon, out spikeGo);
-							spikeGo.transform.position += cacheTransform.position;
-							Asteroid spikeAsteroid = spikeGo.AddComponent<Asteroid>();
-							spikeAsteroid.Init(spikePolygon);
+							Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, Color.black);
+							spikeAsteroid.Init();
+							spikeAsteroid.cacheTransform.position += cacheTransform.position;
 							spikeAsteroid.rotation = 0f;
-							spikeAsteroid.velocity = tragetPos.normalized*20f;
+							spikeAsteroid.velocity = (e1.p2 - (e1.p1 + e2.p2)/2f).normalized *20f;
 
 							SpikeAttack(this, mainAsteroid, spikeAsteroid);
 

@@ -20,13 +20,13 @@ public static class PolygonCreator
 		return vertices; 
 	}
 
-	public static void AddRenderComponents(Polygon polygon, GameObject gameObj, Color color)
+	public static void AddRenderComponents(PolygonGameObject gamePolygon, Color color)
 	{
-		Mesh msh = CreatePolygonMesh(polygon.vertices, color);
+		Mesh msh = CreatePolygonMesh(gamePolygon.polygon.vertices, color);
 		
 		// Set up game object with mesh;
-		MeshRenderer renderer = gameObj.AddComponent<MeshRenderer>();
-		MeshFilter filter = gameObj.AddComponent(typeof(MeshFilter)) as MeshFilter;
+		MeshRenderer renderer = gamePolygon.gameObject.AddComponent<MeshRenderer>();
+		MeshFilter filter = gamePolygon.gameObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
 		filter.mesh = msh;
 		Material mat = Resources.Load("Materials/asteroidMaterial", typeof(Material)) as Material;
 		renderer.sharedMaterial = mat;
@@ -71,7 +71,7 @@ public static class PolygonCreator
 		spikes = new int[spikesCount];
 		int vcount = spikesCount * 3;
 
-		if(spikesCount < 3)
+		if(spikesCount < 2)
 		{
 			throw new UnityException("cant create polygon from " + spikesCount + " vertices");
 		}
@@ -141,14 +141,22 @@ public static class PolygonCreator
 		return msh;
 	}
 
-	public static void CreatePolygonGOByMassCenter(Vector2[] vertices, Color color, out Polygon polygon, out GameObject polygonGo)
+	public static T CreatePolygonGOByMassCenter<T>(Vector2[] vertices, Color color)
+		where T: PolygonGameObject
 	{
 		Vector2 pivot = Math2d.GetMassCenter(vertices);
 		Math2d.ShiftVertices(vertices, -pivot);
-		polygon = new Polygon(vertices);
-		polygonGo = new GameObject();
-		polygonGo.transform.Translate(new Vector3(pivot.x, pivot.y, 0)); //TODO: optimise
-		AddRenderComponents (polygon, polygonGo, color);
+
+		Polygon polygon = new Polygon(vertices);
+
+		GameObject polygonGo = new GameObject();
+		T gamePolygon = polygonGo.AddComponent<T>();
+		gamePolygon.SetPolygon(polygon);
+		gamePolygon.cacheTransform.Translate(new Vector3(pivot.x, pivot.y, 0)); 
+
+		AddRenderComponents (gamePolygon, color);
+
+		return gamePolygon;
 	}
 
 }

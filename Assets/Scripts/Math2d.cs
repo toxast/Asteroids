@@ -76,19 +76,19 @@ public static class Math2d
 		}
 	}
 
-	static public bool IsCollides(Transform transformA, Polygon polygonA, Transform transformB, Polygon polygonB)
+	static public bool IsCollides(PolygonGameObject a, PolygonGameObject b)
 	{
-		float angle = transformA.rotation.eulerAngles.z*Mathf.PI/180f;
-		Vector2[] verticesA = RotateVertices(polygonA.vertices, angle);
-		ShiftVertices(verticesA, transformA.position);
-		Polygon a = new Polygon(verticesA);
+		float angle = a.cacheTransform.rotation.eulerAngles.z*Mathf.PI/180f;
+		Vector2[] verticesA = RotateVertices(a.polygon.vertices, angle);
+		ShiftVertices(verticesA, a.cacheTransform.position);
+		Polygon aRotated = new Polygon(verticesA);
 
-		angle = transformB.rotation.eulerAngles.z*Mathf.PI/180f;
-		Vector2[] verticesB = RotateVertices(polygonB.vertices, angle);
-		ShiftVertices(verticesB, transformB.position);
-		Polygon b = new Polygon(verticesB);
+		angle = b.cacheTransform.rotation.eulerAngles.z*Mathf.PI/180f;
+		Vector2[] verticesB = RotateVertices(b.polygon.vertices, angle);
+		ShiftVertices(verticesB, b.cacheTransform.position);
+		Polygon bRotated = new Polygon(verticesB);
 
-		return IsCollides(a, b);
+		return IsCollides(aRotated, bRotated);
 	}
 
 	static public bool IsCollides(Polygon polygonA,  Polygon polygonB)

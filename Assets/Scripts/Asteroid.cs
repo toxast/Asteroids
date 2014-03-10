@@ -2,28 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Asteroid : MonoBehaviour
+public class Asteroid : PolygonGameObject
 {
-	public Transform cacheTransform;
-	public Polygon polygon;
-
 	[SerializeField] public Vector3 velocity;
 	[SerializeField] public float rotation;
 	[SerializeField] private float health;
 
-	public void Init(Polygon polygon)
+	public void Init()
 	{
-		this.polygon = polygon;
-		cacheTransform = transform;
-
 		float speed = Random.Range(1f, 4f);
 		float a = (Random.Range(0f, 359f) * Mathf.PI) / 180f;
 		velocity = new Vector3(Mathf.Cos(a)*speed, Mathf.Sin(a)*speed, 0f);
 		rotation = Random.Range(30f, 90f);
-
+		
 		health = polygon.R * Mathf.Sqrt(polygon.R) / 3f;
 
-		//z-fighting
 		cacheTransform.position = new Vector3(cacheTransform.position.x, cacheTransform.position.y, Random.Range(-1f, -0.1f));
 	}
 

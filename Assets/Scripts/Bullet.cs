@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : MonoBehaviour {
-
-	public Transform cacheTransform;
-	public Polygon polygon;
-
+public class Bullet : PolygonGameObject
+{
 	private Vector3 speed; 
 	private float startingSpeed = 30f;
 
@@ -20,9 +17,8 @@ public class Bullet : MonoBehaviour {
 		cacheTransform = transform;
 	}
 
-	public void Init(Polygon polygon, Vector3 direction)
+	public void Init(Vector3 direction)
 	{
-		this.polygon = polygon;
 		this.speed = direction.normalized * startingSpeed;
 		distanceTraveledSqr = 0;
 		maxDistanceSqr = maxDistance*maxDistance;

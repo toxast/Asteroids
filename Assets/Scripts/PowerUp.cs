@@ -1,17 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PowerUp : MonoBehaviour 
+public class PowerUp : PolygonGameObject 
 {
-	public Transform cacheTransform;
-	public Polygon polygon;
-
 	public EffectType effect;
 
-	public void Init(Polygon polygon, EffectType effect)
+	public void Init(EffectType effect)
 	{
-		this.polygon = polygon;
-		cacheTransform = transform;
 		this.effect = effect;
 	}
 }

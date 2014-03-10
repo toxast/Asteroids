@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpaceShip : MonoBehaviour {
-
-	public Polygon polygon;
-	public Transform cacheTransform;
-
+public class SpaceShip : PolygonGameObject 
+{
 	public event System.Action FireEvent;
 
 	Vector3 speed;
@@ -24,12 +21,6 @@ public class SpaceShip : MonoBehaviour {
 	void Awake()
 	{
 		cacheTransform = transform;
-	}
-
-	public void Init(Polygon polygon)
-	{
-		this.polygon = polygon;
-
 		maxSpeedSqr = maxSpeed*maxSpeed;
 		speed = Vector3.zero;
 	}

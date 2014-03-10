@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Math2d.cs" />
      <Compile Include="Assets\Scripts\Polygon.cs" />
      <Compile Include="Assets\Scripts\PolygonCreator.cs" />
+     <Compile Include="Assets\Scripts\PolygonGameObject.cs" />
      <Compile Include="Assets\Scripts\PowerUp.cs" />
      <Compile Include="Assets\Scripts\PowerUpsCreator.cs" />
      <Compile Include="Assets\Scripts\SpaceShip.cs" />

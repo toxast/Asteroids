@@ -54,13 +54,10 @@ public class Main : MonoBehaviour
 		int[] spikes;
 		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
 
-		Polygon polygon;
-		GameObject polygonGo;
-		PolygonCreator.CreatePolygonGOByMassCenter(vertices, Color.black, out polygon, out polygonGo);
-		polygonGo.name = "spiked asteroid";
+		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, Color.black);
+		asteroid.gameObject.name = "spiked asteroid";
 		
-		SpikyAsteroid asteroid = polygonGo.AddComponent<SpikyAsteroid>();
-		asteroid.Init(polygon, spaceship.cacheTransform, spikes);
+		asteroid.Init(spaceship.cacheTransform, spikes);
 		asteroid.SpikeAttack += HandleSpikeAttack;
 		
 		float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
@@ -88,13 +85,9 @@ public class Main : MonoBehaviour
 
 	private void CreateSpaceShip()
 	{
-		GameObject spaceShipGo;
-		Polygon spaceshipPoly;
-		PolygonCreator.CreatePolygonGOByMassCenter(SpaceshipsData.fastSpaceshipVertices, Color.blue, out spaceshipPoly, out spaceShipGo);
-		spaceship = spaceShipGo.AddComponent<SpaceShip>();
-		spaceship.Init(spaceshipPoly);
+		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
 		spaceship.FireEvent += OnFire;
-		spaceShipGo.name = "Spaceship";
+		spaceship.gameObject.name = "Spaceship";
 	}
 	
 	void HandlePowerUpCreated (PowerUp powerUp)
@@ -132,13 +125,10 @@ public class Main : MonoBehaviour
 			new Vector2(-size,-size),
 			new Vector2(-size,size),
 		};
-		Polygon bulletPoly;
-		GameObject bulletObj;
-		PolygonCreator.CreatePolygonGOByMassCenter(bulletVertices, Color.red, out bulletPoly, out bulletObj);
-		Bullet bullet = bulletObj.AddComponent<Bullet>();
-		bullet.Init(bulletPoly, spaceship.cacheTransform.right);
+		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(bulletVertices, Color.red);
+		bullet.Init(spaceship.cacheTransform.right);
 		bullet.cacheTransform.position = spaceship.cacheTransform.position + spaceship.cacheTransform.right;
-		bulletObj.name = "bullet";
+		bullet.gameObject.name = "bullet";
 
 		return bullet;
 	}
@@ -188,9 +178,7 @@ public class Main : MonoBehaviour
 				if(bullet == null)
 					continue;
 
-				//TODO: polygon gameobject
-				if((asteroid.cacheTransform.position - bullet.cacheTransform.position).magnitude < asteroid.polygon.R + bullet.polygon.R && 
-				   Math2d.IsCollides(asteroid.cacheTransform, asteroid.polygon, bullet.cacheTransform, bullet.polygon))
+				if(IsCollides(asteroid, bullet))
 				{
 					Destroy(bullet.gameObject);
 					bullets[k] = null; 
@@ -219,9 +207,7 @@ public class Main : MonoBehaviour
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
 		{
 			PowerUp powerUp = powerUps[i];
-			//TODO: polygon gameobject
-			if((spaceship.cacheTransform.position - powerUp.cacheTransform.position).magnitude < spaceship.polygon.R + powerUp.polygon.R && 
-			   Math2d.IsCollides(spaceship.cacheTransform, spaceship.polygon, powerUp.cacheTransform, powerUp.polygon))
+			if(IsCollides(spaceship, powerUp))
 			{
 				EffectType effect = powerUp.effect;
 
@@ -243,7 +229,12 @@ public class Main : MonoBehaviour
 
 	}
 
-
+	private bool IsCollides(PolygonGameObject a, PolygonGameObject b)
+	{
+		Vector3 distance = a.cacheTransform.position - b.cacheTransform.position;
+		Vector2 distance2d = new Vector2(distance.x, distance.y);
+		return (distance2d.magnitude < a.polygon.R + b.polygon.R && Math2d.IsCollides (a, b));
+	}
 
 
 	private void CheckBounds(Transform pTransform, float R)
@@ -282,15 +273,11 @@ public class Main : MonoBehaviour
 
 		foreach(var vertices in polys)
 		{
-			Polygon polygonPart;
-			GameObject polygonGo;
-			PolygonCreator.CreatePolygonGOByMassCenter(vertices, Color.black, out polygonPart, out polygonGo);
-			polygonGo.transform.Translate(asteriod.cacheTransform.position);//TODO: optimise
-			polygonGo.transform.RotateAround(asteriod.cacheTransform.position, -Vector3.back, asteriod.cacheTransform.rotation.eulerAngles.z);
-			polygonGo.name = "asteroid part";
-
-			Asteroid asteroidPart = polygonGo.AddComponent<Asteroid>();
-			asteroidPart.Init(polygonPart);
+			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Color.black);
+			asteroidPart.Init();
+			asteroidPart.cacheTransform.Translate(asteriod.cacheTransform.position);
+			asteroidPart.cacheTransform.RotateAround(asteriod.cacheTransform.position, -Vector3.back, asteriod.cacheTransform.rotation.eulerAngles.z);
+			asteroidPart.gameObject.name = "asteroid part";
 
 			Vector3 direction = asteroidPart.cacheTransform.position - asteriod.cacheTransform.position;
 			asteroidPart.velocity = direction*2 + asteriod.velocity; 
@@ -308,13 +295,9 @@ public class Main : MonoBehaviour
 		int vcount = Random.Range(3, 3 + (int)size*2);
 		Vector2[] vertices = PolygonCreator.CreatePolygonVertices(size, size/2f, vcount);
 		
-		Polygon polygon;
-		GameObject polygonGo;
-		PolygonCreator.CreatePolygonGOByMassCenter(vertices, Color.black, out polygon, out polygonGo);
-		polygonGo.name = "asteroid";
-
-		Asteroid asteroid = polygonGo.AddComponent<Asteroid>();
-		asteroid.Init(polygon);
+		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Color.black);
+		asteroid.Init ();
+		asteroid.gameObject.name = "asteroid";
 
 		return asteroid;
 	}

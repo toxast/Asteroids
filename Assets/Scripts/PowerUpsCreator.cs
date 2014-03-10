@@ -56,13 +56,9 @@ public class PowerUpsCreator
 		//TODO: optimize
 		Vector2[] vertices = PolygonCreator.GetCompleteVertexes(halfvertices, 1.2f).ToArray();
 		
-		Polygon polygon;
-		GameObject polygonGo;
-		PolygonCreator.CreatePolygonGOByMassCenter(vertices, color, out polygon, out polygonGo);
-		polygonGo.name = "powerup";
-		
-		PowerUp powerup = polygonGo.AddComponent<PowerUp>();
-		powerup.Init(polygon, type);
+		PowerUp powerup = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, color);
+		powerup.gameObject.name = "powerup";
+		powerup.Init(type);
 		
 		return powerup;
 	}
