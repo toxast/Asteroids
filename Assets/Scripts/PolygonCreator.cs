@@ -32,6 +32,8 @@ public static class PolygonCreator
 		renderer.sharedMaterial = mat;
 		renderer.castShadows = false;
 		renderer.receiveShadows = false;
+
+		gamePolygon.mesh = filter.mesh;
 	}
 
 	/// <summary>

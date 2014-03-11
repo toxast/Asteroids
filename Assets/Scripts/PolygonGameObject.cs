@@ -5,6 +5,7 @@ public class PolygonGameObject : MonoBehaviour
 {
 	public Transform cacheTransform;
 	public Polygon polygon;
+	public Mesh mesh;
 
 	void Awake () 
 	{
@@ -15,4 +16,5 @@ public class PolygonGameObject : MonoBehaviour
 	{
 		this.polygon = polygon;
 	}
+
 }

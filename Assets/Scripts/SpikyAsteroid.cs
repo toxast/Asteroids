@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class SpikyAsteroid : Asteroid
 {
-	public event System.Action<SpikyAsteroid, SpikyAsteroid, Asteroid> SpikeAttack;
+	public event System.Action<Asteroid> SpikeAttack;
 
 	private class Spike
 	{
@@ -43,7 +43,9 @@ public class SpikyAsteroid : Asteroid
 	void Start()
 	{
 		StartCoroutine (CheckForTarget ());
+
 	}
+
 
 	IEnumerator CheckForTarget()
 	{
@@ -83,26 +85,10 @@ public class SpikyAsteroid : Asteroid
 						{
 							//split spike off
 							List<Vector2[]> parts = polygon.SplitBy2Vertices(polygon.Previous(spike.index), polygon.Next(spike.index));
-							Vector2[] mainPart = Math2d.RotateVertices(parts[0], angle);
 							Vector2[] spikePart = Math2d.RotateVertices(parts[1], angle);
 
-							SpikyAsteroid mainAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(mainPart, Color.black);
-							mainAsteroid.cacheTransform.position += cacheTransform.position;
-
-							int k = 0;
-							int[] spikes = new int[spikesLeft.Count - 1];
-							for (int n = 0; n < spikesLeft.Count; n++) 
-							{
-								if(n != i)
-								{
-									spikes[k] = (spike.index < spikesLeft[n].index) ? spikesLeft[n].index - 1 : spikesLeft[n].index;
-									k++;
-								}
-							}
-
-							mainAsteroid.Init(target, spikes);
-							mainAsteroid.velocity = this.velocity;
-							mainAsteroid.rotation = this.rotation;
+							spikesLeft.RemoveAt(i);
+ 							StartCoroutine(GrowSpike(spike.index, spike.a.p2));
 
 							Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, Color.black);
 							spikeAsteroid.Init();
@@ -110,16 +96,52 @@ public class SpikyAsteroid : Asteroid
 							spikeAsteroid.rotation = 0f;
 							spikeAsteroid.velocity = (e1.p2 - (e1.p1 + e2.p2)/2f).normalized *15f;
 
-							SpikeAttack(this, mainAsteroid, spikeAsteroid);
+							//change mesh and polygon
+							ChangeVertex(spike.index, (spike.a.p1 + spike.b.p2) / 2f);
 
-							spikesLeft.RemoveAt(i);
+							SpikeAttack(spikeAsteroid);
 						}
 					}
-					
 				}
 			}
 			yield return new WaitForSeconds(checkInterval);
 		}
 	}
 
+	//TODO: game obj
+	private void ChangeVertex(int indx, Vector2 v)
+	{
+		Vector3[] vertx3d = mesh.vertices;
+		vertx3d[indx] =  new Vector3(v.x, v.y, 0f);
+		mesh.vertices = vertx3d;
+
+		polygon.ChangeVertex(indx, v);
+	}
+
+	private IEnumerator GrowSpike(int indx, Vector2 tip)
+	{
+		float reqlen = tip.magnitude;
+		float deltaGrow = 0.02f;
+		bool growFinished = false;
+
+		yield return new WaitForSeconds(2f);
+
+		while(!growFinished)
+		{
+			Vector3 v = mesh.vertices[indx];
+			v =  v.normalized * (v.magnitude + deltaGrow);
+			ChangeVertex(indx, new Vector2(v.x, v.y));
+
+			if(v.magnitude > reqlen)
+			{
+				int previous = polygon.Previous(indx);
+				Spike spike = new Spike(polygon.edges[previous], polygon.edges[indx], indx);
+				spikesLeft.Add(spike);
+
+				growFinished = true;
+			}
+
+			yield return null;
+		}
+	}
 }

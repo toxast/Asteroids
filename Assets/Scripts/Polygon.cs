@@ -52,6 +52,16 @@ public class Polygon
 		}*/
 	}
 
+	public void ChangeVertex(int indx, Vector2 v)
+	{
+		vertices[indx] = v;
+		circulatedVertices[indx + 1] = v;
+		if(indx == 0) circulatedVertices[vcount] = v;
+		if(indx == vcount-1) circulatedVertices[0] = v;
+		edges[Previous(indx)].p2 = v;
+		edges[indx].p1 = v;
+	}
+
 	public void SetMassCenter(Vector2 center)
 	{
 		massCenter = center;

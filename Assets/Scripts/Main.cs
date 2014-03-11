@@ -27,13 +27,13 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 		 
-		int spikies = UnityEngine.Random.Range(1, 4);
+		int spikies = 1;//UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < spikies; i++) 
 		{
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = UnityEngine.Random.Range(2, 5);
+		int asteroidsNum = 0;//UnityEngine.Random.Range(2, 5);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -70,13 +70,8 @@ public class Main : MonoBehaviour
 		asteroids.Add(asteroid);
 	}
 
-	public void HandleSpikeAttack(SpikyAsteroid mainAsteriod, SpikyAsteroid mainPart, Asteroid spikePart)
+	public void HandleSpikeAttack(Asteroid spikePart)
 	{
-		mainPart.SpikeAttack += HandleSpikeAttack;
-	
-		int indx = asteroids.IndexOf (mainAsteriod);
-		Destroy (mainAsteriod.gameObject);
-		asteroids [indx] = mainPart;
 		asteroids.Add (spikePart);
 	}
 
