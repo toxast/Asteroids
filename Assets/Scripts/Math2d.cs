@@ -15,6 +15,11 @@ public static class Math2d
 		return DotProduct(ref v1, ref v2) / (v1.magnitude * v2.magnitude);
 	}
 
+	static public float Cos(Vector2 v1, Vector2 v2)
+	{
+		return DotProduct(ref v1, ref v2) / (v1.magnitude * v2.magnitude);
+	}
+
 	static public Vector2 GetMassCenter(Vector2[] vertices)
 	{
 		Edge[] egdes = GetEdges(vertices);

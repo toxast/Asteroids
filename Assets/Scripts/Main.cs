@@ -7,6 +7,7 @@ public class Main : MonoBehaviour
 	SpaceShip spaceship;
 	List <Asteroid> asteroids = new List<Asteroid>();
 	List <Bullet> bullets = new List<Bullet>();
+	List <EvadeEnemy> evades = new List<EvadeEnemy>(); 
 
 	PowerUpsCreator powerUpsCreator;
 	List<PowerUp> powerUps = new List<PowerUp> ();
@@ -26,7 +27,10 @@ public class Main : MonoBehaviour
 		CalculateBounds();
 
 		CreateSpaceShip();
-		 
+
+		evades.Add(CreateEvadeEnemy());
+
+		/*
 		int spikies = 1;//UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < spikies; i++) 
 		{
@@ -44,7 +48,7 @@ public class Main : MonoBehaviour
 		}
 
 		powerUpsCreator = new PowerUpsCreator(5f, 10f);
-		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
+		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;*/
 
 	}
 
@@ -286,6 +290,15 @@ public class Main : MonoBehaviour
 			parts.Add(asteroidPart);
 		}
 		return parts;
+	}
+
+	private EvadeEnemy CreateEvadeEnemy()
+	{
+		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Color.black);
+		enemy.SetBulletsList(bullets);
+		enemy.gameObject.name = "evade enemy";
+		
+		return enemy;
 	}
 
 

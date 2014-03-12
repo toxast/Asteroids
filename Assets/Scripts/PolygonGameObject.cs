@@ -17,4 +17,15 @@ public class PolygonGameObject : MonoBehaviour
 		this.polygon = polygon;
 	}
 
+	public void SetColor(Color col)
+	{
+		int len = mesh.colors.Length;
+		Color [] colors = new Color[len];
+		for (int i = 0; i < len; i++) 
+		{
+			colors[i] = col;
+		}
+		mesh.colors = colors;
+	}
+
 }

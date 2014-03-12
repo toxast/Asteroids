@@ -37,5 +37,10 @@ public class Bullet : PolygonGameObject
 			Destroy(gameObject);
 		}
 	}
+
+	public Vector3 GetSpeed()
+	{
+		return speed;
+	}
 }
  
