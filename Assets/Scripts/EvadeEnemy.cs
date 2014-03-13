@@ -1,13 +1,27 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public class EvadeEnemy : PolygonGameObject
 {
-	private class DangerBullet
+	private struct DangerBullet : IComparable<DangerBullet>
 	{
 		public Bullet bullet;
-		public Vector3 relativePos;
+		public Vector2 dist;
+		public float sqrMagnitude;
+
+		public DangerBullet(Bullet bullet, Vector2 dist)
+		{
+			this.bullet = bullet;
+			this.dist = dist;
+			sqrMagnitude = dist.sqrMagnitude;
+		}
+
+		public int CompareTo(DangerBullet other)
+		{
+			return sqrMagnitude.CompareTo(other.sqrMagnitude);
+		}
 	}
 
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
@@ -22,42 +36,72 @@ public class EvadeEnemy : PolygonGameObject
 		}
 		, 1f).ToArray();
 
-	private List<Bullet> bullets;
 
-	private float dangerAngle = Mathf.Sqrt(2)/2f; //30 degrees
+	private float dangerAngle = Mathf.Sqrt(2)/2f; //45 degrees
+	private float speed = 10f;
+	private int closestBulletsToAvoid = 3; 
+	private float minDistanceToTargetSqr = 600;
+	private float maxDistanceToTargetSqr = 800;
+
+
+	private List<Bullet> bullets;
+	private Transform target;
+
+	private bool avoiding = false;
+	private Vector3 safePoint;
 
 	public void SetBulletsList(List<Bullet> bullets)
 	{
 		this.bullets = bullets;
 	}
 
-	private Vector3 safePoint;
+	public void SetTarget(Transform targetTransform)
+	{
+		this.target = targetTransform;
+	}
 
 	void Start()
 	{
-		safePoint = cacheTransform.position;
 		StartCoroutine(Evade());
 	}
 
-	float speed = 10f;
 	void Update()
 	{
 		float delta = speed * Time.deltaTime;
-		if((cacheTransform.position - safePoint).sqrMagnitude < delta*delta)
+
+		if(avoiding)
 		{
-			cacheTransform.position = safePoint;
+			//TODO: vector2
+			if((cacheTransform.position - safePoint).sqrMagnitude < delta*delta)
+			{
+				cacheTransform.position = safePoint;
+				avoiding = false;
+			}
+			else
+			{
+				cacheTransform.position += (safePoint - cacheTransform.position).normalized*delta;
+			}
 		}
-		else
-		{
-			cacheTransform.position += (safePoint - cacheTransform.position).normalized*delta;
-		}
+		//else
+		//{
+			Vector2 dist = target.position - cacheTransform.position;
+			float sqrDist = dist.sqrMagnitude;
+			if(sqrDist < minDistanceToTargetSqr)
+			{
+				cacheTransform.position -= (Vector3) dist.normalized * delta;
+			}
+			else if (sqrDist > maxDistanceToTargetSqr)
+			{
+				cacheTransform.position += (Vector3) dist.normalized * delta;
+			}
+		//}
 	}
 
 	IEnumerator Evade()
 	{
 		while(true)
 		{
-			List<Bullet> dangerBullets = new List<Bullet>();
+			List<DangerBullet> dangerBullets = new List<DangerBullet>();
 			for (int i = 0; i < bullets.Count; i++) 
 			{
 				Bullet bullet = bullets[i];
@@ -66,46 +110,38 @@ public class EvadeEnemy : PolygonGameObject
 					continue;
 				}
 
-				//todo: cache, use in closest
 				Vector2 pos = bullet.cacheTransform.position - cacheTransform.position; 
 				float cos = Math2d.Cos(-pos, bullet.GetSpeed());
+				DangerBullet b = new DangerBullet(bullet, pos);
 
-				if(pos.sqrMagnitude > 1500f ||  cos < 0f || (pos.sqrMagnitude > 700f && cos < dangerAngle))
+				if(b.sqrMagnitude > 1500f ||  cos < 0f || (b.sqrMagnitude > 700f && cos < dangerAngle))
 				{
 					continue;
 				}
 				//bullet.SetColor(Color.blue);
-				dangerBullets.Add(bullet);
+
+				dangerBullets.Add(b);
 			}
 
-			//pick closest bullet
-			float minDist = float.MaxValue;
-			int minIndx = -1;
-			for (int i = 0; i < dangerBullets.Count; i++) 
-			{
-				Bullet bullet = dangerBullets[i];
-				Vector2 dist = bullet.cacheTransform.position - cacheTransform.position; 
-				if(dist.sqrMagnitude < minDist)
-				{
-					minDist = dist.sqrMagnitude;
-					minIndx = i;
-				}
-			}
+			avoiding = (dangerBullets.Count > 0);
 
-			if(minIndx >= 0)
+			if(dangerBullets.Count > 0)
 			{
-				Bullet bullet = dangerBullets[minIndx];
-				//rotate everything so perpendecular to bullet speed line will be y=0
-				float cosA = Math2d.Cos(new Vector2(0f, -1f), bullet.GetSpeed());
-				float sinA = Math2d.Cos(new Vector2(-1f, 0f), bullet.GetSpeed());
+				dangerBullets.Sort();
+				int range = Math.Min(closestBulletsToAvoid, dangerBullets.Count);
+				dangerBullets = dangerBullets.GetRange(0, range);
+
+				DangerBullet blt  = dangerBullets[0];
+				//Rotate everything. So perpendecular to bullet speed line will be y=0
+				float cosA = Math2d.Cos(new Vector2(0f, -1f), blt.bullet.GetSpeed());
+				float sinA = Math2d.Cos(new Vector2(-1f, 0f), blt.bullet.GetSpeed());
 
 				List<float> intersections = new List<float>();
 				for (int i = 0; i < dangerBullets.Count; i++) 
 				{
-					Bullet dbullet = dangerBullets[i];
-					Vector2 dist = dbullet.cacheTransform.position - cacheTransform.position; 
-					Vector2 posRotated = Math2d.RotateVertex(dist, cosA, sinA);
-					Vector2 speedRotated = Math2d.RotateVertex(dbullet.GetSpeed(), cosA, sinA);
+					DangerBullet dbullet = dangerBullets[i];
+					Vector2 posRotated = Math2d.RotateVertex(dbullet.dist, cosA, sinA);
+					Vector2 speedRotated = Math2d.RotateVertex(dbullet.bullet.GetSpeed(), cosA, sinA);
 
 					float x;
 					if(speedRotated.y == 0f)
@@ -120,9 +156,6 @@ public class EvadeEnemy : PolygonGameObject
 				}
 				intersections.Add(float.MaxValue/3f);
 				intersections.Add(float.MinValue/3f);
-
-
-
 				//find closest interval size of R
 				intersections.Sort();
 
@@ -147,8 +180,8 @@ public class EvadeEnemy : PolygonGameObject
 					}
 				}
 
-				float delta = 0.1f;
-				float requiredSpace = polygon.R*2 + bullet.polygon.R*2;
+				float delta = 0.1f; //to avoid calculation rounds
+				float requiredSpace = polygon.R*2 + blt.bullet.polygon.R*2;
 				float halfRequiredSpace = requiredSpace/2f;
 				float savePoint = 0;
 
@@ -194,10 +227,6 @@ public class EvadeEnemy : PolygonGameObject
 							//Debug.LogWarning("4 left - halfRequiredSpace");
 							savePoint = left + halfRequiredSpace + delta;
 						}
-						else
-						{
-							Debug.LogError("wtf");
-						}
 						break;
 					}
 					else
@@ -219,16 +248,11 @@ public class EvadeEnemy : PolygonGameObject
 				}
 
 				//turn save point
-
-				Vector2 safe2d = Math2d.RotateVertex(new Vector2(savePoint, 0), cosA, -sinA); //-a
+				Vector2 safe2d = Math2d.RotateVertex(new Vector2(savePoint, 0), cosA, -sinA);
 				safePoint = cacheTransform.position + (Vector3)safe2d;
-				//cacheTransform.position = cacheTransform.position + (Vector3)safe2d;
-				//Debug.DrawLine(cacheTransform.position, cacheTransform.position + (Vector3)safe2d);
 			}
-			 
 
-			float interval = UnityEngine.Random.Range(0.1f, 0.3f);
-			yield return new WaitForSeconds(interval); //WaitForSeconds(interval);
+			yield return new WaitForSeconds(0.1f); 
 		}
 	}
 

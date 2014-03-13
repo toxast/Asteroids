@@ -29,6 +29,7 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 		evades.Add(CreateEvadeEnemy());
+		evades.Add(CreateEvadeEnemy());
 
 
 		int spikies = 0;//UnityEngine.Random.Range(1, 4);
@@ -296,8 +297,8 @@ public class Main : MonoBehaviour
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Color.black);
 		enemy.SetBulletsList(bullets);
+		enemy.SetTarget(spaceship.transform);
 		enemy.gameObject.name = "evade enemy";
-		
 		return enemy;
 	}
 
