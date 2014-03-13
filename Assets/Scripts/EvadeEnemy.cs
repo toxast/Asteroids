@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 public class EvadeEnemy : PolygonGameObject
 {
+	private class DangerBullet
+	{
+		public Bullet bullet;
+		public Vector3 relativePos;
+	}
+
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]
 		{
@@ -33,7 +39,7 @@ public class EvadeEnemy : PolygonGameObject
 		StartCoroutine(Evade());
 	}
 
-	float speed = 5;
+	float speed = 10f;
 	void Update()
 	{
 		float delta = speed * Time.deltaTime;
@@ -62,11 +68,12 @@ public class EvadeEnemy : PolygonGameObject
 
 				//todo: cache, use in closest
 				Vector2 pos = bullet.cacheTransform.position - cacheTransform.position; 
-				if(pos.sqrMagnitude > 1500 ||  (pos.sqrMagnitude > 700 && Math2d.Cos(-pos, bullet.GetSpeed()) < dangerAngle))
+				float cos = Math2d.Cos(-pos, bullet.GetSpeed());
+
+				if(pos.sqrMagnitude > 1500f ||  cos < 0f || (pos.sqrMagnitude > 700f && cos < dangerAngle))
 				{
 					continue;
 				}
-
 				//bullet.SetColor(Color.blue);
 				dangerBullets.Add(bullet);
 			}
@@ -103,7 +110,7 @@ public class EvadeEnemy : PolygonGameObject
 					float x;
 					if(speedRotated.y == 0f)
 					{
-						x = posRotated.x;
+						x = float.MaxValue/3f;
 					}
 					else
 					{
@@ -115,8 +122,21 @@ public class EvadeEnemy : PolygonGameObject
 				intersections.Add(float.MinValue/3f);
 
 
+
 				//find closest interval size of R
 				intersections.Sort();
+
+				//TODO: delete
+				/*if(intersections.Count > 2)
+				{
+					string intersectionsSrt = string.Empty;
+					foreach(var isc in intersections)
+					{
+						intersectionsSrt += " " + isc;
+					}
+					Debug.Log(intersectionsSrt);
+				}*/
+
 				int indxZero = -1;
 				for (int i = 0; i < intersections.Count; i++) 
 				{
@@ -127,23 +147,18 @@ public class EvadeEnemy : PolygonGameObject
 					}
 				}
 
-
+				float delta = 0.1f;
 				float requiredSpace = polygon.R*2 + bullet.polygon.R*2;
-				float halfRequiredSpace = requiredSpace/2;
+				float halfRequiredSpace = requiredSpace/2f;
 				float savePoint = 0;
 
-				int curIndex = indxZero;
-				int min = 2;
-				int max = 1;
+				int curIndex = indxZero-1;
+				int min = curIndex;
+				int max = curIndex+1;
 				while(true)
 				{
-					if(curIndex-1 < 0)
-					{
-						curIndex ++;
-						break;
-					}
-					float left = intersections[curIndex-1];
-					float right = intersections[curIndex];
+					float left = intersections[curIndex];
+					float right = intersections[curIndex + 1];
 					if(right-left > requiredSpace)
 					{
 						if(left < 0 && right > 0)
@@ -155,24 +170,33 @@ public class EvadeEnemy : PolygonGameObject
 							}
 							else
 							{
-								if(right < -left)
+
+								if( -left > right)
 								{
-									savePoint = right - halfRequiredSpace;
+									//Debug.LogWarning("1 right - halfRequiredSpace");
+									savePoint = right - halfRequiredSpace - delta;
 								}
 								else
 								{
-									savePoint = left + halfRequiredSpace;
+									//Debug.LogWarning("2 left + halfRequiredSpace");
+									savePoint = left + halfRequiredSpace + delta;
 								}
 								break;
 							}
 						}
-						else if(right < 0)
+						else if(right <= 0)
 						{
-							savePoint = right - halfRequiredSpace;
+							//Debug.LogWarning("3 right - halfRequiredSpace");
+							savePoint = right - halfRequiredSpace - delta;
 						}
-						else //left > 0
+						else if(left >= 0)
 						{
-							savePoint = left + halfRequiredSpace;
+							//Debug.LogWarning("4 left - halfRequiredSpace");
+							savePoint = left + halfRequiredSpace + delta;
+						}
+						else
+						{
+							Debug.LogError("wtf");
 						}
 						break;
 					}
@@ -187,8 +211,9 @@ public class EvadeEnemy : PolygonGameObject
 						}
 						else
 						{
-							max++;
+
 							curIndex = max;
+							max++;
 						}
 					}
 				}
@@ -197,12 +222,13 @@ public class EvadeEnemy : PolygonGameObject
 
 				Vector2 safe2d = Math2d.RotateVertex(new Vector2(savePoint, 0), cosA, -sinA); //-a
 				safePoint = cacheTransform.position + (Vector3)safe2d;
+				//cacheTransform.position = cacheTransform.position + (Vector3)safe2d;
 				//Debug.DrawLine(cacheTransform.position, cacheTransform.position + (Vector3)safe2d);
 			}
 			 
 
-			float interval = UnityEngine.Random.Range(0.2f, 0.3f);
-			yield return new WaitForSeconds(interval);
+			float interval = UnityEngine.Random.Range(0.1f, 0.3f);
+			yield return new WaitForSeconds(interval); //WaitForSeconds(interval);
 		}
 	}
 

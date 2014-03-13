@@ -28,7 +28,7 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 
-		//evades.Add(CreateEvadeEnemy());
+		evades.Add(CreateEvadeEnemy());
 
 
 		int spikies = 0;//UnityEngine.Random.Range(1, 4);
@@ -37,7 +37,7 @@ public class Main : MonoBehaviour
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = 5;//UnityEngine.Random.Range(2, 5);
+		int asteroidsNum = 0;//UnityEngine.Random.Range(2, 5);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
