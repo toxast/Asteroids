@@ -18,16 +18,33 @@ public class EvadeEnemy : PolygonGameObject
 
 	private List<Bullet> bullets;
 
-	private float dangerAngle = Mathf.Sqrt(3)/2f; //30 degrees
+	private float dangerAngle = Mathf.Sqrt(2)/2f; //30 degrees
 
 	public void SetBulletsList(List<Bullet> bullets)
 	{
 		this.bullets = bullets;
 	}
 
+	private Vector3 safePoint;
+
 	void Start()
 	{
+		safePoint = cacheTransform.position;
 		StartCoroutine(Evade());
+	}
+
+	float speed = 5;
+	void Update()
+	{
+		float delta = speed * Time.deltaTime;
+		if((cacheTransform.position - safePoint).sqrMagnitude < delta*delta)
+		{
+			cacheTransform.position = safePoint;
+		}
+		else
+		{
+			cacheTransform.position += (safePoint - cacheTransform.position).normalized*delta;
+		}
 	}
 
 	IEnumerator Evade()
@@ -45,12 +62,12 @@ public class EvadeEnemy : PolygonGameObject
 
 				//todo: cache, use in closest
 				Vector2 pos = bullet.cacheTransform.position - cacheTransform.position; 
-				if(pos.sqrMagnitude > 800 || Math2d.Cos(-pos, bullet.GetSpeed()) < dangerAngle)
+				if(pos.sqrMagnitude > 1500 ||  (pos.sqrMagnitude > 700 && Math2d.Cos(-pos, bullet.GetSpeed()) < dangerAngle))
 				{
 					continue;
 				}
 
-				bullet.SetColor(Color.blue);
+				//bullet.SetColor(Color.blue);
 				dangerBullets.Add(bullet);
 			}
 
@@ -94,12 +111,93 @@ public class EvadeEnemy : PolygonGameObject
 					}
 					intersections.Add(x);
 				}
+				intersections.Add(float.MaxValue/3f);
+				intersections.Add(float.MinValue/3f);
 
 
 				//find closest interval size of R
 				intersections.Sort();
+				int indxZero = -1;
+				for (int i = 0; i < intersections.Count; i++) 
+				{
+					if(intersections[i] > 0)
+					{
+						indxZero = i;
+						break;
+					}
+				}
 
 
+				float requiredSpace = polygon.R*2 + bullet.polygon.R*2;
+				float halfRequiredSpace = requiredSpace/2;
+				float savePoint = 0;
+
+				int curIndex = indxZero;
+				int min = 2;
+				int max = 1;
+				while(true)
+				{
+					if(curIndex-1 < 0)
+					{
+						curIndex ++;
+						break;
+					}
+					float left = intersections[curIndex-1];
+					float right = intersections[curIndex];
+					if(right-left > requiredSpace)
+					{
+						if(left < 0 && right > 0)
+						{
+							if(left < -halfRequiredSpace && right > halfRequiredSpace)
+							{
+								//it is save here
+								break;
+							}
+							else
+							{
+								if(right < -left)
+								{
+									savePoint = right - halfRequiredSpace;
+								}
+								else
+								{
+									savePoint = left + halfRequiredSpace;
+								}
+								break;
+							}
+						}
+						else if(right < 0)
+						{
+							savePoint = right - halfRequiredSpace;
+						}
+						else //left > 0
+						{
+							savePoint = left + halfRequiredSpace;
+						}
+						break;
+					}
+					else
+					{
+						float absMin = Mathf.Abs(intersections[min]);
+						float absMax = Mathf.Abs(intersections[max]);
+						if(absMin < absMax)
+						{
+							min--;
+							curIndex = min;
+						}
+						else
+						{
+							max++;
+							curIndex = max;
+						}
+					}
+				}
+
+				//turn save point
+
+				Vector2 safe2d = Math2d.RotateVertex(new Vector2(savePoint, 0), cosA, -sinA); //-a
+				safePoint = cacheTransform.position + (Vector3)safe2d;
+				//Debug.DrawLine(cacheTransform.position, cacheTransform.position + (Vector3)safe2d);
 			}
 			 
 

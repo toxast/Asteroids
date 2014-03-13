@@ -28,16 +28,16 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 
-		evades.Add(CreateEvadeEnemy());
+		//evades.Add(CreateEvadeEnemy());
 
-		/*
-		int spikies = 1;//UnityEngine.Random.Range(1, 4);
+
+		int spikies = 0;//UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < spikies; i++) 
 		{
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = 0;//UnityEngine.Random.Range(2, 5);
+		int asteroidsNum = 5;//UnityEngine.Random.Range(2, 5);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -47,8 +47,8 @@ public class Main : MonoBehaviour
 			asteroids.Add(asteroid);
 		}
 
-		powerUpsCreator = new PowerUpsCreator(5f, 10f);
-		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;*/
+		//powerUpsCreator = new PowerUpsCreator(5f, 10f);
+		//powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
 
 	}
 
