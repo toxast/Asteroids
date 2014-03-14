@@ -7,7 +7,7 @@ public class Bullet : PolygonGameObject
 	private float startingSpeed = 30f;
 
 	private float distanceTraveledSqr;
-	private float maxDistance = 6f;
+	private float maxDistance = 600f;
 	private float maxDistanceSqr;
 
 	public float damage;

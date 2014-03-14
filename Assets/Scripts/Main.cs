@@ -28,7 +28,7 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 
-		evades.Add(CreateEvadeEnemy());
+		//evades.Add(CreateEvadeEnemy());
 		evades.Add(CreateEvadeEnemy());
 
 

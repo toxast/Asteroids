@@ -63,6 +63,8 @@ public class EvadeEnemy : PolygonGameObject
 	void Start()
 	{
 		StartCoroutine(Evade());
+
+		StartCoroutine(Aim());
 	}
 
 	void Update()
@@ -156,20 +158,9 @@ public class EvadeEnemy : PolygonGameObject
 				}
 				intersections.Add(float.MaxValue/3f);
 				intersections.Add(float.MinValue/3f);
+
 				//find closest interval size of R
 				intersections.Sort();
-
-				//TODO: delete
-				/*if(intersections.Count > 2)
-				{
-					string intersectionsSrt = string.Empty;
-					foreach(var isc in intersections)
-					{
-						intersectionsSrt += " " + isc;
-					}
-					Debug.Log(intersectionsSrt);
-				}*/
-
 				int indxZero = -1;
 				for (int i = 0; i < intersections.Count; i++) 
 				{
@@ -254,6 +245,58 @@ public class EvadeEnemy : PolygonGameObject
 
 			yield return new WaitForSeconds(0.1f); 
 		}
+	}
+
+	private IEnumerator Aim()
+	{
+
+		Vector2 fire = new Vector2();
+		float bulletSpeed = 10f;
+
+		while(true)
+		{
+			Vector2 targetPos = Vector2.zero;
+			Vector2 targetVelocity = Vector3.right;
+
+			Vector2 pos = cacheTransform.position;
+
+			Vector2 dist = targetPos - pos;
+
+			float A = targetVelocity.sqrMagnitude - bulletSpeed*bulletSpeed;
+			float B = targetVelocity.x * dist.x  +  targetVelocity.y * dist.y;
+			float C = dist.sqrMagnitude;
+
+			float D = B*B - 4*A*C;
+			if(D > 0)
+			{
+				float Dsqrt = Mathf.Sqrt(D);
+				float t1 = (-B + Dsqrt)/(2*A);
+				float t2 = (-B - Dsqrt)/(2*A);
+
+				float t = -1;
+				if(t1 > 0) t = t1;
+				else if(t2 > 0) t = t2;
+
+				if(t > 0)
+				{
+					fire.x = targetVelocity.x + dist.x/t1;
+					fire.y = targetVelocity.y + dist.y/t1;
+					Debug.LogWarning(fire);
+					transform.rotation = Quaternion.LookRotation(fire);
+				}
+				else
+				{
+					Debug.LogError("t1 = " + t1 + " t2 = " + t2 );
+				}
+			}
+			else
+			{
+				Debug.LogError("D < 0");
+			}
+
+			yield return new WaitForSeconds(0.1f);
+		}
+
 	}
 
 
