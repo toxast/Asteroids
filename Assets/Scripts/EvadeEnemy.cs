@@ -86,8 +86,8 @@ public class EvadeEnemy : PolygonGameObject
 				cacheTransform.position += (safePoint - cacheTransform.position).normalized*delta;
 			}
 		}
-		//else
-		//{
+		else
+		{
 			Vector2 dist = target.cacheTransform.position - cacheTransform.position;
 			float sqrDist = dist.sqrMagnitude;
 			if(sqrDist < minDistanceToTargetSqr)
@@ -98,7 +98,7 @@ public class EvadeEnemy : PolygonGameObject
 			{
 				cacheTransform.position += (Vector3) dist.normalized * delta;
 			}
-		//}
+		}
 	}
 
 	IEnumerator Evade()
@@ -247,58 +247,19 @@ public class EvadeEnemy : PolygonGameObject
 
 	private IEnumerator Aim()
 	{
-		Vector2 fire = new Vector2();
+		float shotInterval = 1.5f;
 		float bulletSpeed = 30f;
 
 		while(true)
 		{
-			Vector2 targetPos = target.cacheTransform.position;
-			Vector2 targetVelocity = target.speed;
-
-			Vector2 pos = cacheTransform.position;
-
-			Vector2 dist = targetPos - pos;
-
-			float A = targetVelocity.sqrMagnitude - bulletSpeed*bulletSpeed;
-			float B = 2*(targetVelocity.x * dist.x  +  targetVelocity.y * dist.y);
-			float C = dist.sqrMagnitude;
-
-			float D = B*B - 4*A*C;
-			if(D > 0)
+			AimSystem aim = new AimSystem(target.cacheTransform.position, target.speed, cacheTransform.position, bulletSpeed);
+			if(aim.canShoot)
 			{
-				float Dsqrt = Mathf.Sqrt(D);
-				float t1 = (-B + Dsqrt)/(2*A);
-				float t2 = (-B - Dsqrt)/(2*A);
-
-				float t = -1;
-				if(t1 > 0 && t2 > 0) t = Mathf.Min(t1, t2);
-				else if(t1 > 0) t = t1;
-				else if(t2 > 0) t = t2;
-
-				if(t > 0)
-				{
-					fire.x = targetVelocity.x + dist.x/t;
-					fire.y = targetVelocity.y + dist.y/t;
-
-					Vector2 right = new Vector2(1,0);
-					float angle = (float)(180f/Math.PI) * Mathf.Acos(Math2d.Cos(ref fire, ref right)) * Mathf.Sign(Math2d.Rotate(ref fire, ref right));
-
-					transform.rotation = Quaternion.Euler(new Vector3(0,0, -angle));
-
-					Fire();
-
-				}
-				else
-				{
-					Debug.LogError("t1 = " + t1 + " t2 = " + t2 );
-				}
+				float angle = aim.directionAngle * (180f/Mathf.PI);
+				transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+				Fire();
 			}
-			else
-			{
-				//out of range
-			}
-
-			yield return new WaitForSeconds(1.5f);
+			yield return new WaitForSeconds(shotInterval);
 		}
 
 	}
