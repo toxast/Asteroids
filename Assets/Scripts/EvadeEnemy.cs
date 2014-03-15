@@ -260,7 +260,7 @@ public class EvadeEnemy : PolygonGameObject
 			Vector2 dist = targetPos - pos;
 
 			float A = targetVelocity.sqrMagnitude - bulletSpeed*bulletSpeed;
-			float B = targetVelocity.x * dist.x  +  targetVelocity.y * dist.y;
+			float B = 2*(targetVelocity.x * dist.x  +  targetVelocity.y * dist.y);
 			float C = dist.sqrMagnitude;
 
 			float D = B*B - 4*A*C;
@@ -271,7 +271,8 @@ public class EvadeEnemy : PolygonGameObject
 				float t2 = (-B - Dsqrt)/(2*A);
 
 				float t = -1;
-				if(t1 > 0) t = t1;
+				if(t1 > 0 && t2 > 0) t = Mathf.Min(t1, t2);
+				else if(t1 > 0) t = t1;
 				else if(t2 > 0) t = t2;
 
 				if(t > 0)
@@ -285,6 +286,7 @@ public class EvadeEnemy : PolygonGameObject
 					transform.rotation = Quaternion.Euler(new Vector3(0,0, -angle));
 
 					Fire();
+
 				}
 				else
 				{
@@ -296,7 +298,7 @@ public class EvadeEnemy : PolygonGameObject
 				//out of range
 			}
 
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(1.5f);
 		}
 
 	}

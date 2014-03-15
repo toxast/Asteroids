@@ -215,3 +215,8 @@ pip-log.txt
 .mr.developer.cfg
 Temp
 Library
+/Asteroids.sln
+/Assembly-CSharp.csproj
+/Assembly-CSharp-vs.csproj
+/Asteroids.userprefs
+/Asteroids-csharp.sln
