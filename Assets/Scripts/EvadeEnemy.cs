@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class EvadeEnemy : PolygonGameObject
 {
+	public event System.Action<EvadeEnemy> FireEvent;
+
 	private struct DangerBullet : IComparable<DangerBullet>
 	{
 		public Bullet bullet;
@@ -45,7 +47,7 @@ public class EvadeEnemy : PolygonGameObject
 
 
 	private List<Bullet> bullets;
-	private Transform target;
+	private SpaceShip target;
 
 	private bool avoiding = false;
 	private Vector3 safePoint;
@@ -55,9 +57,9 @@ public class EvadeEnemy : PolygonGameObject
 		this.bullets = bullets;
 	}
 
-	public void SetTarget(Transform targetTransform)
+	public void SetTarget(SpaceShip ship)
 	{
-		this.target = targetTransform;
+		this.target = ship;
 	}
 
 	void Start()
@@ -86,7 +88,7 @@ public class EvadeEnemy : PolygonGameObject
 		}
 		//else
 		//{
-			Vector2 dist = target.position - cacheTransform.position;
+			Vector2 dist = target.cacheTransform.position - cacheTransform.position;
 			float sqrDist = dist.sqrMagnitude;
 			if(sqrDist < minDistanceToTargetSqr)
 			{
@@ -197,12 +199,10 @@ public class EvadeEnemy : PolygonGameObject
 
 								if( -left > right)
 								{
-									//Debug.LogWarning("1 right - halfRequiredSpace");
 									savePoint = right - halfRequiredSpace - delta;
 								}
 								else
 								{
-									//Debug.LogWarning("2 left + halfRequiredSpace");
 									savePoint = left + halfRequiredSpace + delta;
 								}
 								break;
@@ -210,12 +210,10 @@ public class EvadeEnemy : PolygonGameObject
 						}
 						else if(right <= 0)
 						{
-							//Debug.LogWarning("3 right - halfRequiredSpace");
 							savePoint = right - halfRequiredSpace - delta;
 						}
 						else if(left >= 0)
 						{
-							//Debug.LogWarning("4 left - halfRequiredSpace");
 							savePoint = left + halfRequiredSpace + delta;
 						}
 						break;
@@ -249,14 +247,13 @@ public class EvadeEnemy : PolygonGameObject
 
 	private IEnumerator Aim()
 	{
-
 		Vector2 fire = new Vector2();
-		float bulletSpeed = 10f;
+		float bulletSpeed = 30f;
 
 		while(true)
 		{
-			Vector2 targetPos = Vector2.zero;
-			Vector2 targetVelocity = Vector3.right;
+			Vector2 targetPos = target.cacheTransform.position;
+			Vector2 targetVelocity = target.speed;
 
 			Vector2 pos = cacheTransform.position;
 
@@ -279,10 +276,15 @@ public class EvadeEnemy : PolygonGameObject
 
 				if(t > 0)
 				{
-					fire.x = targetVelocity.x + dist.x/t1;
-					fire.y = targetVelocity.y + dist.y/t1;
-					Debug.LogWarning(fire);
-					transform.rotation = Quaternion.LookRotation(fire);
+					fire.x = targetVelocity.x + dist.x/t;
+					fire.y = targetVelocity.y + dist.y/t;
+
+					Vector2 right = new Vector2(1,0);
+					float angle = (float)(180f/Math.PI) * Mathf.Acos(Math2d.Cos(ref fire, ref right)) * Mathf.Sign(Math2d.Rotate(ref fire, ref right));
+
+					transform.rotation = Quaternion.Euler(new Vector3(0,0, -angle));
+
+					Fire();
 				}
 				else
 				{
@@ -291,12 +293,20 @@ public class EvadeEnemy : PolygonGameObject
 			}
 			else
 			{
-				Debug.LogError("D < 0");
+				//out of range
 			}
 
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.5f);
 		}
 
+	}
+
+	private void Fire()
+	{
+		if(FireEvent != null)
+		{
+			FireEvent(this);
+		}
 	}
 
 

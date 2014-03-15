@@ -7,6 +7,7 @@ public class Main : MonoBehaviour
 	SpaceShip spaceship;
 	List <Asteroid> asteroids = new List<Asteroid>();
 	List <Bullet> bullets = new List<Bullet>();
+	List <Bullet> enemyBullets = new List<Bullet>();
 	List <EvadeEnemy> evades = new List<EvadeEnemy>(); 
 
 	PowerUpsCreator powerUpsCreator;
@@ -105,7 +106,7 @@ public class Main : MonoBehaviour
 
 	void OnFire ()
 	{
-		Bullet bullet = CreateBullet();
+		Bullet bullet = CreateBullet(spaceship.cacheTransform.position + spaceship.cacheTransform.right, spaceship.cacheTransform.right, Color.red);
 
 		for (int i = 0; i < bullets.Count; i++) 
 		{
@@ -119,7 +120,24 @@ public class Main : MonoBehaviour
 		bullets.Add(bullet);
 	}
 
-	private Bullet CreateBullet()
+	//TODO: refactor
+	void OnEnemyFire (EvadeEnemy enemy)
+	{
+		Bullet bullet = CreateBullet(enemy.cacheTransform.position, enemy.cacheTransform.right, Color.magenta);
+		
+		for (int i = 0; i < enemyBullets.Count; i++) 
+		{
+			if(enemyBullets[i] == null)
+			{
+				enemyBullets[i] = bullet;
+				return;
+			}
+		}
+		
+		enemyBullets.Add(bullet);
+	}
+
+	private Bullet CreateBullet(Vector2 position, Vector2 direction, Color color)
 	{
 		float size = 0.3f;
 		Vector2[] bulletVertices = new Vector2[]
@@ -129,9 +147,9 @@ public class Main : MonoBehaviour
 			new Vector2(-size,-size),
 			new Vector2(-size,size),
 		};
-		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(bulletVertices, Color.red);
-		bullet.Init(spaceship.cacheTransform.right);
-		bullet.cacheTransform.position = spaceship.cacheTransform.position + spaceship.cacheTransform.right;
+		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(bulletVertices, color);
+		bullet.Init(direction);
+		bullet.cacheTransform.position = position;
 		bullet.gameObject.name = "bullet";
 
 		return bullet;
@@ -168,6 +186,16 @@ public class Main : MonoBehaviour
 
 			bullets[i].Tick(Time.deltaTime);
 			CheckBounds(bullets[i].cacheTransform, bullets[i].polygon.R);
+		}
+
+		//TODO: refactor
+		for (int i = 0; i < enemyBullets.Count; i++)
+		{
+			if(enemyBullets[i] == null)
+				continue;
+			
+			enemyBullets[i].Tick(Time.deltaTime);
+			CheckBounds(enemyBullets[i].cacheTransform, enemyBullets[i].polygon.R);
 		}
 
 		//TODO: refactor
@@ -297,11 +325,11 @@ public class Main : MonoBehaviour
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Color.black);
 		enemy.SetBulletsList(bullets);
-		enemy.SetTarget(spaceship.transform);
+		enemy.SetTarget(spaceship);
+		enemy.FireEvent += OnEnemyFire;
 		enemy.gameObject.name = "evade enemy";
 		return enemy;
 	}
-
 
 	private Asteroid CreateAsteroid()
 	{

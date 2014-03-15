@@ -5,7 +5,7 @@ public class SpaceShip : PolygonGameObject
 {
 	public event System.Action FireEvent;
 
-	Vector3 speed;
+	public Vector3 speed;
 
 	float turnSpeed = 200f;
 
