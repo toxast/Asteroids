@@ -30,16 +30,16 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 		//evades.Add(CreateEvadeEnemy());
-		evades.Add(CreateEvadeEnemy());
+		//evades.Add(CreateEvadeEnemy());
 
 
-		int spikies = 0;//UnityEngine.Random.Range(1, 4);
+		int spikies = 1;//UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < spikies; i++) 
 		{
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = 0;//UnityEngine.Random.Range(2, 5);
+		int asteroidsNum = 3;//UnityEngine.Random.Range(2, 5);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -210,7 +210,7 @@ public class Main : MonoBehaviour
 				if(bullet == null)
 					continue;
 
-				if(IsCollides(asteroid, bullet))
+				if(PolygonCollision.IsCollides(asteroid, bullet))
 				{
 					Destroy(bullet.gameObject);
 					bullets[k] = null; 
@@ -239,7 +239,7 @@ public class Main : MonoBehaviour
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
 		{
 			PowerUp powerUp = powerUps[i];
-			if(IsCollides(spaceship, powerUp))
+			if(PolygonCollision.IsCollides(spaceship, powerUp))
 			{
 				EffectType effect = powerUp.effect;
 
@@ -260,13 +260,6 @@ public class Main : MonoBehaviour
 		if(powerUpsCreator != null)
 			powerUpsCreator.Tick(Time.deltaTime);
 
-	}
-
-	private bool IsCollides(PolygonGameObject a, PolygonGameObject b)
-	{
-		Vector3 distance = a.cacheTransform.position - b.cacheTransform.position;
-		Vector2 distance2d = new Vector2(distance.x, distance.y);
-		return (distance2d.magnitude < a.polygon.R + b.polygon.R && Math2d.IsCollides (a, b));
 	}
 
 
