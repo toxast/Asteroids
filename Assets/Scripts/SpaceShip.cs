@@ -55,7 +55,7 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-	public void Tick(float delta)
+	public override void Tick(float delta)
 	{
 		if(Input.GetKey(KeyCode.D))
 		{

@@ -39,9 +39,7 @@ public class EvadeEnemy : PolygonGameObject
 		, 1f).ToArray();
 
 
-	//private float dangerAngle = Mathf.Sqrt(2)/2f; //45 degrees
 	private float speed = 10f;
-	//private int closestBulletsToAvoid = 3; 
 	private float minDistanceToTargetSqr = 600;
 	private float maxDistanceToTargetSqr = 800;
 

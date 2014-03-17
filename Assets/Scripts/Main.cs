@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Main : MonoBehaviour 
 {
 	SpaceShip spaceship;
-	List <Asteroid> asteroids = new List<Asteroid>();
+	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <Bullet> bullets = new List<Bullet>();
 	List <Bullet> enemyBullets = new List<Bullet>();
 	List <EvadeEnemy> evades = new List<EvadeEnemy>(); 
@@ -29,9 +29,14 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 
-		//evades.Add(CreateEvadeEnemy());
-		//evades.Add(CreateEvadeEnemy());
 
+		int evades = 4;//UnityEngine.Random.Range(1, 4);
+		for (int i = 0; i < evades; i++) 
+		{
+			EvadeEnemy enemy = CreateEvadeEnemy();
+			SetRandomPosition(enemy);
+			enemies.Add(enemy);
+		}
 
 		int spikies = 1;//UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < spikies; i++) 
@@ -39,19 +44,24 @@ public class Main : MonoBehaviour
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = 3;//UnityEngine.Random.Range(2, 5);
+		int asteroidsNum = 2;//UnityEngine.Random.Range(2, 5);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
-			float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
-			float len = UnityEngine.Random.Range(spaceship.polygon.R + 2 * asteroid.polygon.R, bounds.yMax);
-			asteroid.cacheTransform.position =  new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, 0);
-			asteroids.Add(asteroid);
+			SetRandomPosition(asteroid);
+			enemies.Add(asteroid);
 		}
 
-		//powerUpsCreator = new PowerUpsCreator(5f, 10f);
-		//powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
+		powerUpsCreator = new PowerUpsCreator(5f, 10f);
+		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
 
+	}
+
+	private void SetRandomPosition(PolygonGameObject p)
+	{
+		float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
+		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, bounds.yMax);
+		p.cacheTransform.position = new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, p.cacheTransform.position.z);
 	}
 
 	private void CreateSpikyAsteroid()
@@ -70,15 +80,13 @@ public class Main : MonoBehaviour
 		asteroid.Init(spaceship.cacheTransform, spikes);
 		asteroid.SpikeAttack += HandleSpikeAttack;
 		
-		float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
-		float len = UnityEngine.Random.Range(spaceship.polygon.R + 2 * asteroid.polygon.R, bounds.yMax);
-		asteroid.cacheTransform.position =  new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, 0);
-		asteroids.Add(asteroid);
+		SetRandomPosition(asteroid);
+		enemies.Add(asteroid);
 	}
 
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
-		asteroids.Add (spikePart);
+		enemies.Add (spikePart);
 	}
 
 	private void CalculateBounds()
@@ -97,10 +105,7 @@ public class Main : MonoBehaviour
 	
 	void HandlePowerUpCreated (PowerUp powerUp)
 	{
-		float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
-		float len = UnityEngine.Random.Range(0f , bounds.height/2f);
-		float z = UnityEngine.Random.Range (0.1f, 1f);
-		powerUp.cacheTransform.position =  new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, z);
+		SetRandomPosition(powerUp);
 		powerUps.Add(powerUp);
 	}
 
@@ -173,10 +178,10 @@ public class Main : MonoBehaviour
 		spaceship.Tick(Time.deltaTime);
 		CheckBounds(spaceship.cacheTransform, spaceship.polygon.R);
 
-		for (int i = 0; i < asteroids.Count ; i++)
+		for (int i = 0; i < enemies.Count ; i++)
 		{
-			asteroids[i].Tick(asteroidsDtime);
-			CheckBounds(asteroids[i].cacheTransform, asteroids[i].polygon.R);
+			enemies[i].Tick(asteroidsDtime);
+			CheckBounds(enemies[i].cacheTransform, enemies[i].polygon.R);
 		}
 
 		for (int i = 0; i < bullets.Count; i++)
@@ -199,11 +204,11 @@ public class Main : MonoBehaviour
 		}
 
 		//TODO: refactor
-		Asteroid asteroid;
+		PolygonGameObject asteroid;
 		Bullet bullet;
-		for (int i = 0; i < asteroids.Count ; i++)
+		for (int i = 0; i < enemies.Count ; i++)
 		{
-			asteroid = asteroids[i];
+			asteroid = enemies[i];
 			for (int k = 0; k < bullets.Count; k++)
 			{
 				bullet = bullets[k];
@@ -218,14 +223,14 @@ public class Main : MonoBehaviour
 					asteroid.Hit(bullet.damage);
 					if(asteroid.IsKilled())
 					{
-						if(asteroid.polygon.R > DestroyTreshold)
+						if(asteroid.polygon.R > DestroyTreshold || asteroid is EvadeEnemy)//TODO: refactor
 						{
-							List<Asteroid> parts = SplitAsteroid(asteroid);
-							asteroids.AddRange(parts);
+							List<PolygonGameObject> parts = SplitIntoAsteroids(asteroid);
+							enemies.AddRange(parts);
 						}
 						 
 						Destroy(asteroid.gameObject);
-						asteroids.RemoveAt(i);
+						enemies.RemoveAt(i);
 					}
 
 					if(asteroid.IsKilled())
@@ -285,15 +290,15 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private List<Asteroid> SplitAsteroid(Asteroid asteriod)
+	private List<PolygonGameObject> SplitIntoAsteroids(PolygonGameObject polygonGo)
 	{
-		List<Vector2[]> polys = asteriod.Split();
-		List<Asteroid> parts = new List<Asteroid>();
+		List<Vector2[]> polys = polygonGo.Split();
+		List<PolygonGameObject> parts = new List<PolygonGameObject>();
 
 		if(polys.Count < 2)
 		{
 			Debug.LogError("couldnt split asteroid");
-			parts.Add(asteriod);
+			parts.Add(polygonGo);
 			return parts;
 		}
 
@@ -301,13 +306,13 @@ public class Main : MonoBehaviour
 		{
 			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Color.black);
 			asteroidPart.Init();
-			asteroidPart.cacheTransform.Translate(asteriod.cacheTransform.position);
-			asteroidPart.cacheTransform.RotateAround(asteriod.cacheTransform.position, -Vector3.back, asteriod.cacheTransform.rotation.eulerAngles.z);
+			asteroidPart.cacheTransform.Translate(polygonGo.cacheTransform.position);
+			asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
 			asteroidPart.gameObject.name = "asteroid part";
 
-			Vector3 direction = asteroidPart.cacheTransform.position - asteriod.cacheTransform.position;
-			asteroidPart.velocity = direction*2 + asteriod.velocity; 
-			asteroidPart.velocity.z = 0;
+			Vector3 direction = asteroidPart.cacheTransform.position - polygonGo.cacheTransform.position;
+			//asteroidPart.velocity = direction*2 + polygonGo.velocity;  TODO
+			asteroidPart.velocity.z = 0; //TODO: z system
 
 			parts.Add(asteroidPart);
 		}

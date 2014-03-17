@@ -27,7 +27,7 @@ public class EvadeSystem
 
 	//settings
 	private float dangerAngle = Mathf.Sqrt(2f)/2f; //45
-	private int closestBulletsToAvoid = 3;
+	private int closestBulletsToAvoid = 30;
 	private float bulletDetectionRange = 40f;
 	private float bulletDetectionRangeSqr;
 	private float angleConsiderRange = 27f;
@@ -97,6 +97,8 @@ public class EvadeSystem
 		if(dangerBullets.Count > 0)
 		{
 			dangerBullets.Sort();
+
+
 			int range = Math.Min(closestBulletsToAvoid, dangerBullets.Count);
 			dangerBullets = dangerBullets.GetRange(0, range);
 		}	

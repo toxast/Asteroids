@@ -26,7 +26,7 @@ public class Bullet : PolygonGameObject
 		damage = 1f;
 	}
 
-	public void Tick(float delta)
+	public override void Tick(float delta)
 	{
 		Vector3 deltaDistance = speed*delta;
 		cacheTransform.position += deltaDistance;
