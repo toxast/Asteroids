@@ -30,7 +30,7 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 
-		int evades = 4;//UnityEngine.Random.Range(1, 4);
+		int evades = 1;//UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < evades; i++) 
 		{
 			EvadeEnemy enemy = CreateEvadeEnemy();
@@ -161,18 +161,18 @@ public class Main : MonoBehaviour
 	}
 
 
-	float asteroidsDtime;
+	float enemyDtime;
 	void Update()
 	{
 		//TODO: refactor Powerup
 		if (slowTimeLeft > 0) 
 		{
 			slowTimeLeft -=  Time.deltaTime;
-			asteroidsDtime = Time.deltaTime/2f;
+			enemyDtime = Time.deltaTime/2f;
 		}
 		else
 		{
-			asteroidsDtime = Time.deltaTime;
+			enemyDtime = Time.deltaTime;
 		}
 
 		spaceship.Tick(Time.deltaTime);
@@ -180,7 +180,7 @@ public class Main : MonoBehaviour
 
 		for (int i = 0; i < enemies.Count ; i++)
 		{
-			enemies[i].Tick(asteroidsDtime);
+			enemies[i].Tick(enemyDtime);
 			CheckBounds(enemies[i].cacheTransform, enemies[i].polygon.R);
 		}
 
@@ -199,7 +199,7 @@ public class Main : MonoBehaviour
 			if(enemyBullets[i] == null)
 				continue;
 			
-			enemyBullets[i].Tick(Time.deltaTime);
+			enemyBullets[i].Tick(enemyDtime);
 			CheckBounds(enemyBullets[i].cacheTransform, enemyBullets[i].polygon.R);
 		}
 
@@ -310,13 +310,23 @@ public class Main : MonoBehaviour
 			asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
 			asteroidPart.gameObject.name = "asteroid part";
 
-			Vector3 direction = asteroidPart.cacheTransform.position - polygonGo.cacheTransform.position;
-			//asteroidPart.velocity = direction*2 + polygonGo.velocity;  TODO
-			asteroidPart.velocity.z = 0; //TODO: z system
+			CalculateObjectPartVelocity(asteroidPart, polygonGo);
 
 			parts.Add(asteroidPart);
 		}
 		return parts;
+	}
+
+	private void CalculateObjectPartVelocity(Asteroid asteroidPart, PolygonGameObject mainPart)
+	{
+		Vector2 direction = asteroidPart.cacheTransform.position - mainPart.cacheTransform.position;
+		asteroidPart.velocity = direction*2;
+		IGotVelocity velocityObj = mainPart as IGotVelocity;
+		if(velocityObj != null)
+		{
+			asteroidPart.velocity += (Vector3)velocityObj.Velocity;
+		}
+		asteroidPart.velocity.z = 0; //TODO: z system
 	}
 
 	private EvadeEnemy CreateEvadeEnemy()

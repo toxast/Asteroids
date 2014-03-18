@@ -36,10 +36,11 @@ public class EvadeEnemy : PolygonGameObject
             new Vector2(-0.75f, -0.75f),
             new Vector2(-1f, 0f),
 		}
-		, 1f).ToArray();
+		, 2f).ToArray();
 
 
-	private float speed = 10f;
+	private float movingSpeed = 6f;
+	private float rotatingSpeed = 55f;
 	private float minDistanceToTargetSqr = 600;
 	private float maxDistanceToTargetSqr = 800;
 
@@ -48,7 +49,11 @@ public class EvadeEnemy : PolygonGameObject
 	private SpaceShip target;
 
 	private bool avoiding = false;
-	private Vector3 safePoint;
+	private Vector3 currentSafePoint;
+	private float currentAimAngle = 0;
+
+	//if angle to target bigger than this - dont even try to shoot
+	private float rangeAngle = 15f; 
 
 	public void SetBulletsList(List<Bullet> bullets)
 	{
@@ -65,39 +70,74 @@ public class EvadeEnemy : PolygonGameObject
 		StartCoroutine(Evade());
 
 		StartCoroutine(Aim());
+
+		StartCoroutine(FireCoroutine());
 	}
 
-	void Update()
+	public override void Tick(float delta)
 	{
-		float delta = speed * Time.deltaTime;
+		float deltaDist = movingSpeed * delta;
 
 		if(avoiding)
 		{
-			Vector2 dist = cacheTransform.position - safePoint;
-			if(dist.sqrMagnitude < delta*delta)
-			{
-				cacheTransform.position = safePoint;
-				avoiding = false;
-			}
-			else
-			{
-				cacheTransform.position += (safePoint - cacheTransform.position).normalized*delta;
-			}
+			MoveToSafePoint(deltaDist);
 		}
 		else
 		{
-			Vector2 dist = target.cacheTransform.position - cacheTransform.position;
-			float sqrDist = dist.sqrMagnitude;
-			if(sqrDist < minDistanceToTargetSqr)
-			{
-				cacheTransform.position -= (Vector3) dist.normalized * delta;
-			}
-			else if (sqrDist > maxDistanceToTargetSqr)
-			{
-				cacheTransform.position += (Vector3) dist.normalized * delta;
-			}
+			KeepTargetDistance(deltaDist);
+		}
+
+		RotateCannon(delta);
+	}
+
+	private void MoveToSafePoint(float deltaDist)
+	{
+		Vector2 dist = cacheTransform.position - currentSafePoint;
+		if(dist.sqrMagnitude < deltaDist*deltaDist)
+		{
+			cacheTransform.position = currentSafePoint;
+			avoiding = false;
+		}
+		else
+		{
+			cacheTransform.position += (currentSafePoint - cacheTransform.position).normalized*deltaDist;
 		}
 	}
+
+	private void KeepTargetDistance(float deltaDist)
+	{
+		Vector2 dist = target.cacheTransform.position - cacheTransform.position;
+		float sqrDist = dist.sqrMagnitude;
+		if(sqrDist < minDistanceToTargetSqr)
+		{
+			cacheTransform.position -= (Vector3) dist.normalized * deltaDist;
+		}
+		else if (sqrDist > maxDistanceToTargetSqr)
+		{
+			cacheTransform.position += (Vector3) dist.normalized * deltaDist;
+		}
+	}
+
+	private void RotateCannon(float deltaTime)
+	{
+		float deltaAngle = deltaTime*rotatingSpeed;
+
+		Vector3 currentAngles = cacheTransform.rotation.eulerAngles;
+
+		 
+		float diff = currentAimAngle - currentAngles.z;
+
+		if(Mathf.Abs(diff) <= deltaAngle)
+		{
+			cacheTransform.rotation = Quaternion.Euler(currentAngles.SetZ(currentAimAngle));
+		}
+		else
+		{
+			float sign = Mathf.Sign(diff)*Mathf.Sign(180f - Mathf.Abs(diff));
+			deltaAngle *= sign;
+			cacheTransform.rotation = Quaternion.Euler(currentAngles + new Vector3(0, 0, deltaAngle));
+		}
+ 	}
 
 	IEnumerator Evade()
 	{
@@ -105,26 +145,46 @@ public class EvadeEnemy : PolygonGameObject
 		{
 			EvadeSystem evade = new EvadeSystem(bullets, this);
 			avoiding = !evade.safeAtCurrentPosition;
-			safePoint = evade.safePosition;
+			currentSafePoint = evade.safePosition;
 			yield return new WaitForSeconds(0.1f); 
 		}
 	}
 
 	private IEnumerator Aim()
 	{
-		float shotInterval = 1.5f;
-		float bulletSpeed = 30f;
+		float aimInterval = 0.5f;
+		float bulletSpeed = 30f; //TODO bullets param
 
 		while(true)
 		{
 			AimSystem aim = new AimSystem(target.cacheTransform.position, target.speed, cacheTransform.position, bulletSpeed);
 			if(aim.canShoot)
 			{
-				float angle = aim.directionAngle * (180f/Mathf.PI);
-				transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-				Fire();
+				currentAimAngle = aim.directionAngle * (180f/Mathf.PI);
 			}
+			yield return new WaitForSeconds(aimInterval);
+		}
+	}
+
+	private IEnumerator FireCoroutine()
+	{
+		float defaultInterval = 1.5f;
+		float shortInterval = 0.5f;
+
+		float shotInterval = defaultInterval;
+		while(true)
+		{
 			yield return new WaitForSeconds(shotInterval);
+
+			if(Mathf.Abs(cacheTransform.rotation.eulerAngles.z - currentAimAngle) < rangeAngle)
+			{
+				Fire();
+				shotInterval = defaultInterval;
+			}
+			else
+			{
+				shotInterval = shortInterval;
+			}
 		}
 	}
 

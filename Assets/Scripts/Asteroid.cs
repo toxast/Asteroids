@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Asteroid : PolygonGameObject
+public class Asteroid : PolygonGameObject, IGotVelocity
 {
 	[SerializeField] public Vector3 velocity;
 	[SerializeField] public float rotation;
@@ -25,6 +25,12 @@ public class Asteroid : PolygonGameObject
 		cacheTransform.Rotate(Vector3.back, rotation*delta);
 	}
 
-
+	public Vector2 Velocity
+	{
+		get
+		{
+			return velocity;
+		}
+	}
 
 }

@@ -14,13 +14,21 @@ public class AimSystem
 	public Vector2 direction; 
 
 	Vector2 right = new Vector2(1,0);
-	//angle to rotate from Vector2(1,0) to direction vector
+	//angle [0, 2*Pi] to rotate from Vector2(1,0) to direction vector 
 	public float directionAngle
 	{
 		get
 		{
 			float sign = Mathf.Sign(Math2d.Rotate(ref right, ref direction));
-			return sign * Mathf.Acos(Math2d.Cos(ref direction, ref right));
+			float angle = Mathf.Acos(Math2d.Cos(ref right, ref direction));
+			if(sign > 0)
+			{
+				return angle;
+			}
+			else
+			{
+				return 2*Mathf.PI - angle;
+			}
 		}
 	}
 
