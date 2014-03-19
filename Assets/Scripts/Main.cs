@@ -326,7 +326,8 @@ public class Main : MonoBehaviour
 		enemy.SetBulletsList(bullets);
 		enemy.SetTarget(spaceship);
 		ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
-		place.fireInterval *= 2;
+		place.fireInterval *= 3;
+		Math2d.ScaleVertices(place.vertices, 2f);
 		enemy.SetShooter(place);
 		enemy.FireEvent += OnEnemyFire;
 		enemy.gameObject.name = "evade enemy";
