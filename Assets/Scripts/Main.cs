@@ -8,7 +8,7 @@ public class Main : MonoBehaviour
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <Bullet> bullets = new List<Bullet>();
 	List <Bullet> enemyBullets = new List<Bullet>();
-	List <EvadeEnemy> evades = new List<EvadeEnemy>(); 
+	//List <EvadeEnemy> evades = new List<EvadeEnemy>(); 
 
 	PowerUpsCreator powerUpsCreator;
 	List<PowerUp> powerUps = new List<PowerUp> ();
@@ -59,7 +59,7 @@ public class Main : MonoBehaviour
 
 	private void SetRandomPosition(PolygonGameObject p)
 	{
-		float angle = (Random.Range(0f,359f) * Mathf.PI) / 180f;
+		float angle = Random.Range(0f,359f) * Math2d.PIdiv180;
 		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, bounds.yMax);
 		p.cacheTransform.position = new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, p.cacheTransform.position.z);
 	}
@@ -101,6 +101,24 @@ public class Main : MonoBehaviour
 		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
 		spaceship.FireEvent += OnFire;
 		spaceship.gameObject.name = "Spaceship";
+		List<ShootPlace> shooters = new List<ShootPlace>();
+
+		ShootPlace place1 =  ShootPlace.GetSpaceshipShootPlace();
+		place1.color = Color.black;
+		place1.direction = new Vector2(0,1);
+
+		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
+		place2.color = Color.red;
+		place2.fireInterval = 0.2f;
+
+		ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
+		place3.color = Color.blue;
+		place3.position = new Vector2(0, -2);
+
+		shooters.Add(place1);
+		shooters.Add(place2);
+		shooters.Add(place3);
+		spaceship.SetShootPlaces(shooters );
 	}
 	
 	void HandlePowerUpCreated (PowerUp powerUp)
@@ -109,37 +127,32 @@ public class Main : MonoBehaviour
 		powerUps.Add(powerUp);
 	}
 
-	void OnFire ()
+	private void PutOnFirstNullPlace<T>(List<T> list, T obj)
 	{
-		Bullet bullet = CreateBullet(spaceship.cacheTransform.position + spaceship.cacheTransform.right, spaceship.cacheTransform.right, Color.red);
-
-		for (int i = 0; i < bullets.Count; i++) 
+		for (int i = 0; i < list.Count; i++) 
 		{
-			if(bullets[i] == null)
+			if(list[i] == null)
 			{
-				bullets[i] = bullet;
+				list[i] = obj;
 				return;
 			}
 		}
-
-		bullets.Add(bullet);
+		
+		list.Add(obj);
 	}
 
-	//TODO: refactor
+	void OnFire (ShootPlace shooter, Transform trfrm)
+	{
+		Bullet bullet = BulletCreator.CreateBullet(trfrm, shooter); 
+
+		PutOnFirstNullPlace<Bullet>(bullets, bullet);
+	}
+
 	void OnEnemyFire (EvadeEnemy enemy)
 	{
 		Bullet bullet = CreateBullet(enemy.cacheTransform.position, enemy.cacheTransform.right, Color.magenta);
 		
-		for (int i = 0; i < enemyBullets.Count; i++) 
-		{
-			if(enemyBullets[i] == null)
-			{
-				enemyBullets[i] = bullet;
-				return;
-			}
-		}
-		
-		enemyBullets.Add(bullet);
+		PutOnFirstNullPlace<Bullet>(enemyBullets, bullet);
 	}
 
 	private Bullet CreateBullet(Vector2 position, Vector2 direction, Color color)
@@ -352,5 +365,24 @@ public class Main : MonoBehaviour
 		return asteroid;
 	}
 
-	
+	/*
+	 * FUTURE UPDATES
+	 * bullets and shooters refactoring 
+	 * Z pos refactoring
+	 * enemy bulets hit asteroids?
+	 * penetration bullet power up
+	 * tank enemy
+	 * shields
+	 * rogue enemy, invisibility
+	 * magnet enemy
+	 * achievements and ship unlocks for them (luke - survive astroid field, reach 100% acc in more than x shots)
+	 * dissolve bullet and shader
+	 * rockets
+	 * bad effects on power-up destroy. Monster spawn, tough emeny, rocket launch, spawn of new very PoweR up! 
+	 * bosses (arcanoid?)
+	 * drops from enemies
+	 * 
+	 * 
+	 * 
+	 */
 }

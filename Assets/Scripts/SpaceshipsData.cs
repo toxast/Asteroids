@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public static class SpaceshipsData
 {
@@ -129,3 +130,11 @@ public static class SpaceshipsData
 	};
 
 }
+
+
+/*public class SpaceshipData
+{
+	Vector2[] vertices;
+
+}
+*/ 

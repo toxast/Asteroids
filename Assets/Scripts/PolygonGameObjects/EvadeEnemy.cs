@@ -160,7 +160,7 @@ public class EvadeEnemy : PolygonGameObject
 			AimSystem aim = new AimSystem(target.cacheTransform.position, target.speed, cacheTransform.position, bulletSpeed);
 			if(aim.canShoot)
 			{
-				currentAimAngle = aim.directionAngle * (180f/Mathf.PI);
+				currentAimAngle = aim.directionAngle / Math2d.PIdiv180;
 			}
 			yield return new WaitForSeconds(aimInterval);
 		}

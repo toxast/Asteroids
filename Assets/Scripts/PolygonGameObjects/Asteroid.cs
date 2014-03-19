@@ -11,7 +11,7 @@ public class Asteroid : PolygonGameObject, IGotVelocity
 	public void Init()
 	{
 		float speed = Random.Range(1f, 4f);
-		float a = (Random.Range(0f, 359f) * Mathf.PI) / 180f;
+		float a = Random.Range(0f, 359f) * Math2d.PIdiv180;
 		velocity = new Vector3(Mathf.Cos(a)*speed, Mathf.Sin(a)*speed, 0f);
 		rotation = Random.Range(30f, 90f);
 		

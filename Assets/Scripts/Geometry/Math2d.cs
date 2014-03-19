@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 public static class Math2d
 {
+	public static float PIdiv180 = Mathf.PI/180f;
+
+	static Vector2 right = new Vector2(1,0);
 
 	static public float DotProduct(ref Vector2 v1, ref Vector2 v2)
 	{
@@ -20,13 +23,43 @@ public static class Math2d
 		return DotProduct(ref v1, ref v2) / (v1.magnitude * v2.magnitude);
 	}
 
+	/// <summary>
+	/// returns angle [0, 2*Pi] to rotate from v1 to v2 counterclockwise;
+	/// </summary>
+	static public float Angle(ref Vector2 v1, ref Vector2 v2)
+	{
+		float sign = Mathf.Sign(Cross(ref v1, ref v2));
+		float angle = Mathf.Acos(Cos(ref v1, ref v2));
+		if(sign > 0)
+		{
+			return angle;
+		}
+		else
+		{
+			return 2*Mathf.PI - angle;
+		}
+	}
+
+	/// <summary>
+	/// returns angle [0, 2*Pi] to rotate from vector (1, 0) to v counterclockwise;
+	/// </summary>
+	static public float GetRotation(ref Vector2 v)
+	{
+		return Angle(ref right, ref v);  
+	}
+
+	static public float GetRotation(Vector2 v)
+	{
+		return Angle(ref right, ref v);  
+	}
+
 	static public Vector2 GetMassCenter(Vector2[] vertices)
 	{
 		Edge[] egdes = GetEdges(vertices);
 		return GetMassCenter(egdes);
 	}
 
-	static public float Rotate(ref Vector2 a, ref Vector2 b)
+	static public float Cross(ref Vector2 a, ref Vector2 b)
 	{
 		return a.x*b.y - a.y*b.x;
 	}

@@ -19,16 +19,7 @@ public class AimSystem
 	{
 		get
 		{
-			float sign = Mathf.Sign(Math2d.Rotate(ref right, ref direction));
-			float angle = Mathf.Acos(Math2d.Cos(ref right, ref direction));
-			if(sign > 0)
-			{
-				return angle;
-			}
-			else
-			{
-				return 2*Mathf.PI - angle;
-			}
+			return Math2d.Angle(ref right, ref direction);
 		}
 	}
 

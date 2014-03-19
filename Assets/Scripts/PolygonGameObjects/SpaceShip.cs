@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class SpaceShip : PolygonGameObject 
 {
-	public event System.Action FireEvent;
-
 	public Vector3 speed;
 
 	float turnSpeed = 200f;
@@ -15,14 +15,22 @@ public class SpaceShip : PolygonGameObject
 	float maxSpeedSqr;
 	//float drag = 0.5f;
 
-	float fireInterfal = 0.3f;
-	float timeToNextShot = 0f;
+
+	public event System.Action<ShootPlace, Transform> FireEvent;
+
+	private List<ShootPlace> shooters;
+
 
 	void Awake()
 	{
 		cacheTransform = transform;
 		maxSpeedSqr = maxSpeed*maxSpeed;
 		speed = Vector3.zero;
+	}
+
+	public void SetShootPlaces(List<ShootPlace> shooters)
+	{
+		this.shooters = shooters;
 	}
 
 	private void TurnRight(float delta)
@@ -75,28 +83,35 @@ public class SpaceShip : PolygonGameObject
 			MoveBack(delta);
 		}
 
-
-		if (timeToNextShot > 0) 
+		if(firingSpeedPUpTimeLeft > 0)
 		{
-			if(firingSpeedPUpTimeLeft > 0)
-			{
-				timeToNextShot -= delta * firingSpeedPUpKoeff;
-				firingSpeedPUpTimeLeft -= delta;
-			}
-			else
-			{
-				timeToNextShot -= delta;
-			}
+			firingSpeedPUpTimeLeft -= delta;
 		}
+		float kff = (firingSpeedPUpTimeLeft > 0) ? firingSpeedPUpKoeff : 1;
 
-		if(Input.GetKey(KeyCode.Space) && (timeToNextShot <= 0))
+		shooters.ForEach(shooter => shooter.Tick(delta*kff));
+
+		if(Input.GetKey(KeyCode.Space))
 		{
-			timeToNextShot = fireInterfal;
-			Fire();
+			Shoot();
 		}
-
 
 		cacheTransform.position += speed*delta;
+	}
+
+	private void Shoot()
+	{
+		for (int i = 0; i < shooters.Count; i++) 
+		{
+			if(shooters[i].ReadyToShoot())
+			{
+				shooters[i].ResetTime();
+				if(FireEvent != null)
+				{
+					FireEvent(shooters[i], cacheTransform);
+				}
+			}
+		}
 	}
 
 
@@ -107,13 +122,5 @@ public class SpaceShip : PolygonGameObject
 		firingSpeedPUpKoeff = koeff;
 		firingSpeedPUpTimeLeft = duration;
 	}
-
-
- 	private void Fire()
-	{
-		if(FireEvent != null)
-		{
-			FireEvent();
-		}
-	}
+ 	
 }

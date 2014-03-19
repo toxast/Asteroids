@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -314,7 +314,7 @@ public class Polygon
 		{
 			a = circulatedVertices[i] - circulatedVertices[i-1];
 			b = circulatedVertices[i+1] - circulatedVertices[i];
-			float rotate = Math2d.Rotate(ref a, ref b);
+			float rotate = Math2d.Cross(ref a, ref b);
 			//Debug.LogWarning("rotate: " + rotate);
 			if(rotate > 0)
 			{

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -58,7 +58,7 @@ public class SpikyAsteroid : Asteroid
 			Vector2 tragetPos = new Vector2(target.position.x - cacheTransform.position.x, target.position.y - cacheTransform.position.y);
 			if(tragetPos.sqrMagnitude < thesholdDistanceSqr)
 			{
-				float angle = cacheTransform.rotation.eulerAngles.z * Mathf.PI / 180f;
+				float angle = cacheTransform.rotation.eulerAngles.z * Math2d.PIdiv180;
 				float cosA = Mathf.Cos(angle);
 				float sinA = Mathf.Sin(angle);
 
@@ -70,14 +70,14 @@ public class SpikyAsteroid : Asteroid
 					Edge e2  = Math2d.RotateEdge(spike.b, cosA, sinA);
 					Vector2 spikeBase = e2.p2 - e1.p1;
 
-					float sign =  Mathf.Sign(Math2d.Rotate(ref spikeBase, ref tragetPos));
+					float sign =  Mathf.Sign(Math2d.Cross(ref spikeBase, ref tragetPos));
 					if(sign > 0)
 					{
 						Vector2 toTheTip1 = e1.p2 - e1.p1;
 						Vector2 toTheTip2 = e2.p1 - e2.p2;
 
-						float sign1 = Mathf.Sign(Math2d.Rotate(ref toTheTip1, ref tragetPos));
-						float sign2 = Mathf.Sign(Math2d.Rotate(ref toTheTip2, ref tragetPos));
+						float sign1 = Mathf.Sign(Math2d.Cross(ref toTheTip1, ref tragetPos));
+						float sign2 = Mathf.Sign(Math2d.Cross(ref toTheTip2, ref tragetPos));
 
 						bool inRange = (sign1 != sign2);
 
