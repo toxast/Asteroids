@@ -103,9 +103,8 @@ public class SpaceShip : PolygonGameObject
 	{
 		for (int i = 0; i < shooters.Count; i++) 
 		{
-			if(shooters[i].ReadyToShoot())
+			if(shooters[i].ShootIfReady())
 			{
-				shooters[i].ResetTime();
 				if(FireEvent != null)
 				{
 					FireEvent(shooters[i], cacheTransform);

@@ -114,7 +114,13 @@ public static class Math2d
 		}
 	}
 
-
+	public static void ScaleVertices(Vector2[] vertices, float scale)
+	{
+		for (int i = 0; i < vertices.Length; i++) 
+		{
+			vertices[i] *= scale;
+		}
+	}
 	
 	static public Vector2[] RotateVertices(Vector2[] vertices, float angle)
 	{

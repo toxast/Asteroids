@@ -43,9 +43,7 @@ public class SpikyAsteroid : Asteroid
 	void Start()
 	{
 		StartCoroutine (CheckForTarget ());
-
 	}
-
 
 	IEnumerator CheckForTarget()
 	{
@@ -124,7 +122,7 @@ public class SpikyAsteroid : Asteroid
 		float deltaGrow = 0.02f;
 		bool growFinished = false;
 
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(10f);
 
 		while(!growFinished)
 		{

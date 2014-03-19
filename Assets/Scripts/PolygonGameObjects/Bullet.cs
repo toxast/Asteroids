@@ -4,11 +4,10 @@ using System.Collections;
 public class Bullet : PolygonGameObject
 {
 	private Vector3 speed; 
-	private float startingSpeed = 30f;
+	private float startingSpeed;
 
-	private float distanceTraveledSqr;
-	private float maxDistance = 6f;
-	private float maxDistanceSqr;
+	private float distanceTraveled;
+	private float maxDistance;
 
 	public float damage;
 
@@ -17,13 +16,12 @@ public class Bullet : PolygonGameObject
 		cacheTransform = transform;
 	}
 
-	public void Init(Vector3 direction)
+	public void Init(Vector3 direction, ShootPlace place)
 	{
-		this.speed = direction.normalized * startingSpeed;
-		distanceTraveledSqr = 0;
-		maxDistanceSqr = maxDistance*maxDistance;
-
-		damage = 1f;
+		damage = place.damage;
+		maxDistance = place.travelDistance;
+		speed = direction.normalized * place.speed;
+		distanceTraveled = 0;
 	}
 
 	public override void Tick(float delta)
@@ -31,8 +29,8 @@ public class Bullet : PolygonGameObject
 		Vector3 deltaDistance = speed*delta;
 		cacheTransform.position += deltaDistance;
 
-		distanceTraveledSqr += deltaDistance.sqrMagnitude;
-		if(distanceTraveledSqr > maxDistanceSqr)
+		distanceTraveled += deltaDistance.magnitude; //TODO: lifetime?
+		if(distanceTraveled > maxDistance)
 		{
 			Destroy(gameObject);
 		}

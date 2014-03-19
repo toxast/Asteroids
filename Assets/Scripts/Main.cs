@@ -103,19 +103,16 @@ public class Main : MonoBehaviour
 		spaceship.gameObject.name = "Spaceship";
 		List<ShootPlace> shooters = new List<ShootPlace>();
 
-		ShootPlace place1 =  ShootPlace.GetSpaceshipShootPlace();
-		place1.color = Color.black;
-		place1.direction = new Vector2(0,1);
-
 		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
-		place2.color = Color.red;
-		place2.fireInterval = 0.2f;
+		place2.color = Color.green;
+		place2.fireInterval = 0.4f;
+		place2.position = new Vector2(0, 1);
 
 		ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
-		place3.color = Color.blue;
-		place3.position = new Vector2(0, -2);
+		place3.fireInterval = 0.4f;
+		place3.color = Color.green;
+		place3.position = new Vector2(0, -1);
 
-		shooters.Add(place1);
 		shooters.Add(place2);
 		shooters.Add(place3);
 		spaceship.SetShootPlaces(shooters );
@@ -148,31 +145,12 @@ public class Main : MonoBehaviour
 		PutOnFirstNullPlace<Bullet>(bullets, bullet);
 	}
 
-	void OnEnemyFire (EvadeEnemy enemy)
+	void OnEnemyFire (ShootPlace shooter, Transform trfrm)
 	{
-		Bullet bullet = CreateBullet(enemy.cacheTransform.position, enemy.cacheTransform.right, Color.magenta);
+		Bullet bullet = BulletCreator.CreateBullet(trfrm, shooter); 
 		
 		PutOnFirstNullPlace<Bullet>(enemyBullets, bullet);
 	}
-
-	private Bullet CreateBullet(Vector2 position, Vector2 direction, Color color)
-	{
-		float size = 0.3f;
-		Vector2[] bulletVertices = new Vector2[]
-		{
-			new Vector2(size,size),
-			new Vector2(size,-size),
-			new Vector2(-size,-size),
-			new Vector2(-size,size),
-		};
-		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(bulletVertices, color);
-		bullet.Init(direction);
-		bullet.cacheTransform.position = position;
-		bullet.gameObject.name = "bullet";
-
-		return bullet;
-	}
-
 
 	float enemyDtime;
 	void Update()
@@ -347,6 +325,9 @@ public class Main : MonoBehaviour
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Color.black);
 		enemy.SetBulletsList(bullets);
 		enemy.SetTarget(spaceship);
+		ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
+		place.fireInterval *= 2;
+		enemy.SetShooter(place);
 		enemy.FireEvent += OnEnemyFire;
 		enemy.gameObject.name = "evade enemy";
 		return enemy;

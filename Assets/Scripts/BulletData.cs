@@ -23,13 +23,13 @@ public class ShootPlace
 	{
 		ShootPlace shooter = new ShootPlace();
 
-		float size = 0.3f;
+		float size = 0.2f;
 		shooter.vertices = new Vector2[]
 		{
-			new Vector2(size,size),
-			new Vector2(size,-size),
-			new Vector2(-size,-size),
-			new Vector2(-size,size),
+			new Vector2(2*size,size),
+			new Vector2(2*size,-size),
+			new Vector2(-2*size,-size),
+			new Vector2(-2*size,size),
 		};
 		shooter.speed = 30f;
 		shooter.travelDistance = 40f;
@@ -59,6 +59,19 @@ public class ShootPlace
 	{
 		timeToNextShot = fireInterval;
 	}
+
+	public bool ShootIfReady()
+	{
+		if(ReadyToShoot())
+		{
+			ResetTime();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
 
@@ -76,7 +89,7 @@ public class BulletCreator
 		bullet.cacheTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180); //TODO: my rotation?
 
 		Vector2 rotatedDirection = Math2d.RotateVertex(shootPlace.direction, cosA, sinA);
-		bullet.Init(rotatedDirection); //TODO: data
+		bullet.Init(rotatedDirection, shootPlace); //TODO: data
 
 		bullet.cacheTransform.position += shooterTransform.position;
 		bullet.gameObject.name = "bullet";

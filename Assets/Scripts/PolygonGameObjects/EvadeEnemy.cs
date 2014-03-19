@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class EvadeEnemy : PolygonGameObject
 {
-	public event System.Action<EvadeEnemy> FireEvent;
+	public event System.Action<ShootPlace, Transform> FireEvent;
 
 	private struct DangerBullet : IComparable<DangerBullet>
 	{
@@ -55,6 +55,12 @@ public class EvadeEnemy : PolygonGameObject
 	//if angle to target bigger than this - dont even try to shoot
 	private float rangeAngle = 15f; 
 
+	ShootPlace shooter;
+	public void SetShooter(ShootPlace shooter)
+	{
+		this.shooter = shooter;
+	}
+
 	public void SetBulletsList(List<Bullet> bullets)
 	{
 		this.bullets = bullets;
@@ -88,6 +94,8 @@ public class EvadeEnemy : PolygonGameObject
 		}
 
 		RotateCannon(delta);
+
+	
 	}
 
 	private void MoveToSafePoint(float deltaDist)
@@ -168,8 +176,8 @@ public class EvadeEnemy : PolygonGameObject
 
 	private IEnumerator FireCoroutine()
 	{
-		float defaultInterval = 1.5f;
-		float shortInterval = 0.5f;
+		float defaultInterval = shooter.fireInterval;
+		float shortInterval = defaultInterval/2f;
 
 		float shotInterval = defaultInterval;
 		while(true)
@@ -192,7 +200,7 @@ public class EvadeEnemy : PolygonGameObject
 	{
 		if(FireEvent != null)
 		{
-			FireEvent(this);
+			FireEvent(shooter, cacheTransform);
 		}
 	}
 
