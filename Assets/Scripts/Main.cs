@@ -38,6 +38,14 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
+		int tanks = 1;//UnityEngine.Random.Range(1, 4);
+		for (int i = 0; i < tanks; i++) 
+		{
+			TankEnemy enemy = CreateTankEnemy();
+			SetRandomPosition(enemy);
+			enemies.Add(enemy);
+		}
+
 		int spikies = 1;//UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < spikies; i++) 
 		{
@@ -331,6 +339,29 @@ public class Main : MonoBehaviour
 		enemy.SetShooter(place);
 		enemy.FireEvent += OnEnemyFire;
 		enemy.gameObject.name = "evade enemy";
+		return enemy;
+	}
+
+	private TankEnemy CreateTankEnemy()
+	{
+		TankEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<TankEnemy>(TankEnemy.vertices, Color.black);
+		enemy.SetBulletsList(bullets);
+		enemy.SetTarget(spaceship);
+
+		float size = 2f;
+
+		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace();
+		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace();
+		Math2d.ScaleVertices(place1.vertices, size);
+		Math2d.ScaleVertices(place2.vertices, size);
+		place1.position = new Vector2(1.5f, 0.75f) * size;
+		place2.position = new Vector2(1.5f, -0.75f) * size;
+		List<ShootPlace> places = new List<ShootPlace>();
+		places.Add(place1);
+		places.Add(place2);
+		enemy.SetShooter(places);
+		enemy.FireEvent += OnEnemyFire;
+		enemy.gameObject.name = "tank enemy";
 		return enemy;
 	}
 

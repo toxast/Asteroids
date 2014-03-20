@@ -146,10 +146,12 @@ public static class PolygonCreator
 	public static T CreatePolygonGOByMassCenter<T>(Vector2[] vertices, Color color)
 		where T: PolygonGameObject
 	{
-		Vector2 pivot = Math2d.GetMassCenter(vertices);
+		float area;
+		Vector2 pivot = Math2d.GetMassCenter(vertices, out area);
 		Math2d.ShiftVertices(vertices, -pivot);
 
 		Polygon polygon = new Polygon(vertices);
+		polygon.SetArea(area);
 
 		GameObject polygonGo = new GameObject();
 		T gamePolygon = polygonGo.AddComponent<T>();

@@ -15,6 +15,7 @@ public class Polygon
 	public float R; //radius of outer sphere 
 	public float Rsqr;
 	Vector2 massCenter = new Vector2(0,0);
+	public float area;
 
 	//private static double CosCutTreshold = Math.Cos((130f * Math.PI) / 180f);
 
@@ -52,6 +53,11 @@ public class Polygon
 		}*/
 	}
 
+	public void SetArea(float area)
+	{
+		this.area = area;
+	}
+
 	public void ChangeVertex(int indx, Vector2 v)
 	{
 		vertices[indx] = v;
@@ -62,10 +68,10 @@ public class Polygon
 		edges[indx].p1 = v;
 	}
 
-	public void SetMassCenter(Vector2 center)
+	/*public void SetMassCenter(Vector2 center)
 	{
 		massCenter = center;
-	}
+	}*/
 
 	private float GetRadiusOfOuterSphere()
 	{

@@ -53,10 +53,10 @@ public static class Math2d
 		return Angle(ref right, ref v);  
 	}
 
-	static public Vector2 GetMassCenter(Vector2[] vertices)
+	static public Vector2 GetMassCenter(Vector2[] vertices, out float area)
 	{
 		Edge[] egdes = GetEdges(vertices);
-		return GetMassCenter(egdes);
+		return GetMassCenter(egdes, out area);
 	}
 
 	static public float Cross(ref Vector2 a, ref Vector2 b)
@@ -64,7 +64,7 @@ public static class Math2d
 		return a.x*b.y - a.y*b.x;
 	}
 
- 	static public Vector2 GetMassCenter(Edge[] edges)
+ 	static public Vector2 GetMassCenter(Edge[] edges, out float area)
 	{
 		float Cx = 0f;
 		float Cy = 0f;
@@ -82,6 +82,8 @@ public static class Math2d
 			Cx += (vi.x + vi_1.x) * xy;
 			Cy += (vi.y + vi_1.y) * xy;
 		}
+
+		area = Mathf.Abs(A)/2f;
 		
 		A *= 3f;
 		Cx /= A;
