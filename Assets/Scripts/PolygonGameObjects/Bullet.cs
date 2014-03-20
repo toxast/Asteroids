@@ -6,8 +6,7 @@ public class Bullet : PolygonGameObject
 	private Vector3 speed; 
 	private float startingSpeed;
 
-	private float distanceTraveled;
-	private float maxDistance;
+	private float lifeTime;
 
 	public float damage;
 
@@ -19,9 +18,8 @@ public class Bullet : PolygonGameObject
 	public void Init(Vector3 direction, ShootPlace place)
 	{
 		damage = place.damage;
-		maxDistance = place.travelDistance;
+		lifeTime = place.lifeTime;
 		speed = direction.normalized * place.speed;
-		distanceTraveled = 0;
 	}
 
 	public override void Tick(float delta)
@@ -29,8 +27,8 @@ public class Bullet : PolygonGameObject
 		Vector3 deltaDistance = speed*delta;
 		cacheTransform.position += deltaDistance;
 
-		distanceTraveled += deltaDistance.magnitude; //TODO: lifetime?
-		if(distanceTraveled > maxDistance)
+		lifeTime -= delta; 
+		if(lifeTime < 0)
 		{
 			Destroy(gameObject);
 		}

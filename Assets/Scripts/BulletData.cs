@@ -11,7 +11,7 @@ public class ShootPlace
 {
 	public Vector2[] vertices; //TODO: share mesh
 	public float speed;
-	public float travelDistance;
+	public float lifeTime;
 	public float damage;
 	public Vector2 position;
 	public Vector2 direction;
@@ -23,16 +23,9 @@ public class ShootPlace
 	{
 		ShootPlace shooter = new ShootPlace();
 
-		float size = 0.2f;
-		shooter.vertices = new Vector2[]
-		{
-			new Vector2(2*size,size),
-			new Vector2(2*size,-size),
-			new Vector2(-2*size,-size),
-			new Vector2(-2*size,size),
-		};
+		shooter.vertices = PolygonCreator.GetRectShape(0.4f, 0.2f);
 		shooter.speed = 30f;
-		shooter.travelDistance = 40f;
+		shooter.lifeTime = 4f;
 		shooter.damage = 1f;
 		shooter.position = new Vector2(2, 0); //TODO ship vertex
 		shooter.direction =  new Vector2(1, 0);

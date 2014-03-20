@@ -4,6 +4,17 @@ using System.Linq;
 
 public static class PolygonCreator 
 {
+	public static Vector2[] GetRectShape(float x, float y)
+	{
+		return new Vector2[]
+		{
+			new Vector2(x, y),
+			new Vector2(x, -y),
+			new Vector2(-x, -y),
+			new Vector2(-x, y),
+		};
+	}
+
 	public static List<Vector2> GetCompleteVertexes(Vector2[] halfVertices, float sizeModifier)
 	{
 		List<Vector2> vertices = new List<Vector2>();

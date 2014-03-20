@@ -15,10 +15,7 @@ public class Main : MonoBehaviour
 
 	private float DestroyTreshold = 2.5f;
 
-	public Bullet bulletPrefab;
-
 	Rect bounds;
-
 
 	//powerup
 	private float slowTimeLeft = 0;
@@ -98,20 +95,20 @@ public class Main : MonoBehaviour
 
 	private void CreateSpaceShip()
 	{
-		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
+		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.tankSpaceshipVertices, Color.blue);
 		spaceship.FireEvent += OnFire;
 		spaceship.gameObject.name = "Spaceship";
 		List<ShootPlace> shooters = new List<ShootPlace>();
 
 		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
-		place2.color = Color.green;
+		place2.color = Color.white;
 		place2.fireInterval = 0.4f;
-		place2.position = new Vector2(0, 1);
+		place2.position = new Vector2(1f, 1.3f);
 
 		ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
 		place3.fireInterval = 0.4f;
-		place3.color = Color.green;
-		place3.position = new Vector2(0, -1);
+		place3.color = Color.white;
+		place3.position = new Vector2(1f, -1.3f);
 
 		shooters.Add(place2);
 		shooters.Add(place3);
