@@ -19,7 +19,7 @@ public class PolygonGameObject : MonoBehaviour
 	public void SetPolygon(Polygon polygon)
 	{
 		this.polygon = polygon;
-		health = polygon.R * Mathf.Sqrt(polygon.R) / 3f;
+		health = Mathf.Sqrt(polygon.area);//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
 	}
 
 	public void SetColor(Color col)
