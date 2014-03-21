@@ -25,8 +25,8 @@ public class ShootPlace
 
 		shooter.vertices = PolygonCreator.GetRectShape(0.4f, 0.2f);
 		shooter.speed = 30f;
-		shooter.lifeTime = 4f;
-		shooter.damage = 1f;
+		shooter.lifeTime = 2f;
+		shooter.damage = 10f;
 		shooter.position = new Vector2(2, 0); //TODO ship vertex
 		shooter.direction =  new Vector2(1, 0);
 		shooter.fireInterval = 0.3f;

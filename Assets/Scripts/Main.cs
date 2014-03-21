@@ -27,7 +27,7 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 
-		int evades = 1;//UnityEngine.Random.Range(1, 4);
+		int evades = 0;//UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < evades; i++) 
 		{
 			EvadeEnemy enemy = CreateEvadeEnemy();
@@ -35,7 +35,7 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int tanks = 1;//UnityEngine.Random.Range(1, 4);
+		int tanks = 0;//UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < tanks; i++) 
 		{
 			TankEnemy enemy = CreateTankEnemy();
@@ -49,7 +49,7 @@ public class Main : MonoBehaviour
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = 2;//UnityEngine.Random.Range(2, 5);
+		int asteroidsNum = 4;//UnityEngine.Random.Range(2, 5);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -113,13 +113,13 @@ public class Main : MonoBehaviour
 		place2.fireInterval = 0.4f;
 		place2.position = new Vector2(1f, 1.3f);
 
-		ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
+		/*ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
 		place3.fireInterval = 0.4f;
 		place3.color = Color.white;
 		place3.position = new Vector2(1f, -1.3f);
-
+*/
 		shooters.Add(place2);
-		shooters.Add(place3);
+		//shooters.Add(place3);
 		spaceship.SetShootPlaces(shooters );
 	}
 	
@@ -172,32 +172,14 @@ public class Main : MonoBehaviour
 		}
 
 		spaceship.Tick(Time.deltaTime);
-		CheckBounds(spaceship.cacheTransform, spaceship.polygon.R);
+		CheckBounds(spaceship);
 
-		for (int i = 0; i < enemies.Count ; i++)
-		{
-			enemies[i].Tick(enemyDtime);
-			CheckBounds(enemies[i].cacheTransform, enemies[i].polygon.R);
-		}
+		TickAndCheckBoundsNullCheck (bullets, Time.deltaTime);
 
-		for (int i = 0; i < bullets.Count; i++)
-		{
-			if(bullets[i] == null)
-				continue;
+		TickAndCheckBounds (enemies, enemyDtime);
 
-			bullets[i].Tick(Time.deltaTime);
-			CheckBounds(bullets[i].cacheTransform, bullets[i].polygon.R);
-		}
+		TickAndCheckBoundsNullCheck (enemyBullets, enemyDtime);
 
-		//TODO: refactor
-		for (int i = 0; i < enemyBullets.Count; i++)
-		{
-			if(enemyBullets[i] == null)
-				continue;
-			
-			enemyBullets[i].Tick(enemyDtime);
-			CheckBounds(enemyBullets[i].cacheTransform, enemyBullets[i].polygon.R);
-		}
 
 		//TODO: refactor
 		PolygonGameObject asteroid;
@@ -221,8 +203,9 @@ public class Main : MonoBehaviour
 					{
 						if(asteroid.polygon.R > DestroyTreshold || asteroid is EvadeEnemy)//TODO: refactor
 						{
-							List<PolygonGameObject> parts = SplitIntoAsteroids(asteroid);
-							enemies.AddRange(parts);
+							List<Asteroid> parts = SplitIntoAsteroids(asteroid);
+							foreach(var part in parts)
+								enemies.Add(part);
 						}
 						 
 						Destroy(asteroid.gameObject);
@@ -263,39 +246,61 @@ public class Main : MonoBehaviour
 
 	}
 
-
-	private void CheckBounds(Transform pTransform, float R)
+	private void TickAndCheckBounds<T>(List<T> list, float dtime)
+		where T: PolygonGameObject
 	{
-		Vector3 pos = pTransform.position;
+		for (int i = 0; i < list.Count ; i++)
+		{
+			list[i].Tick(dtime);
+			CheckBounds(list[i]);
+		}
+	}
+
+	private void TickAndCheckBoundsNullCheck<T>(List<T> list, float dtime)
+		where T: PolygonGameObject
+	{
+		for (int i = 0; i < list.Count ; i++)
+		{
+			if(list[i] == null)
+				continue;
+			
+			list[i].Tick(dtime);
+			CheckBounds(list[i]);
+		}
+	}
+
+	private void CheckBounds(PolygonGameObject p)
+	{
+		Vector3 pos = p.cacheTransform.position;
+		float R = p.polygon.R;
+
 		if(pos.x - R > bounds.xMax)
 		{
-			pTransform.position = pTransform.position.SetX(bounds.xMin - R);
+			p.cacheTransform.position = p.cacheTransform.position.SetX(bounds.xMin - R);
 		}
 		else if(pos.x + R < bounds.xMin)
 		{
-			pTransform.position = pTransform.position.SetX(bounds.xMax + R);
+			p.cacheTransform.position = p.cacheTransform.position.SetX(bounds.xMax + R);
 		}
 
 		if(pos.y + R < bounds.yMin)
 		{
-			pTransform.position = pTransform.position.SetY(bounds.yMax + R);
+			p.cacheTransform.position = p.cacheTransform.position.SetY(bounds.yMax + R);
 		}
 		else if(pos.y - R > bounds.yMax)
 		{
-			pTransform.position = pTransform.position.SetY(bounds.yMin - R);
+			p.cacheTransform.position = p.cacheTransform.position.SetY(bounds.yMin - R);
 		}
 	}
 
-	private List<PolygonGameObject> SplitIntoAsteroids(PolygonGameObject polygonGo)
+	private List<Asteroid> SplitIntoAsteroids(PolygonGameObject polygonGo)
 	{
 		List<Vector2[]> polys = polygonGo.Split();
-		List<PolygonGameObject> parts = new List<PolygonGameObject>();
+		List<Asteroid> parts = new List<Asteroid>();
 
 		if(polys.Count < 2)
 		{
 			Debug.LogError("couldnt split asteroid");
-			parts.Add(polygonGo);
-			return parts;
 		}
 
 		foreach(var vertices in polys)
@@ -306,23 +311,91 @@ public class Main : MonoBehaviour
 			asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
 			asteroidPart.gameObject.name = "asteroid part";
 
-			CalculateObjectPartVelocity(asteroidPart, polygonGo);
-
 			parts.Add(asteroidPart);
 		}
+
+		CalculateObjectPartVelocity(parts, polygonGo);
+
 		return parts;
 	}
 
-	private void CalculateObjectPartVelocity(Asteroid asteroidPart, PolygonGameObject mainPart)
+	//TODO:refactor
+	private void CalculateObjectPartVelocity(List<Asteroid> parts, PolygonGameObject mainPart)
 	{
-		Vector2 direction = asteroidPart.cacheTransform.position - mainPart.cacheTransform.position;
-		asteroidPart.velocity = direction*2;
 		IGotVelocity velocityObj = mainPart as IGotVelocity;
+		Vector2 mainVelocity = Vector2.zero;
 		if(velocityObj != null)
 		{
-			asteroidPart.velocity += (Vector3)velocityObj.Velocity;
+			mainVelocity = velocityObj.Velocity;
 		}
-		asteroidPart.velocity.z = 0; //TODO: z system
+
+		float mainRotation = 0; 
+		IGotRotation rotationObj = mainPart as IGotRotation;
+		if(rotationObj != null)
+		{
+			mainRotation = rotationObj.Rotation * Math2d.PIdiv180;
+		}
+
+		float mainPartEnergy = 0.5f * mainPart.mass * mainVelocity.sqrMagnitude;
+		float mainPartRotationEnergy = 0.5f * mainPart.inertiaMoment * (mainRotation*mainRotation);
+
+		float kInertiaToBlow = 0.1f;
+		float kVelocityEnergyToRotation = 0.1f;
+		float kRotationEnergyToVelocity = 0.3f;
+
+		mainPartRotationEnergy += mainPartEnergy * kVelocityEnergyToRotation;
+		mainPartEnergy = mainPartEnergy * (1 - kVelocityEnergyToRotation);
+
+		float blowEnergy = Mathf.Sqrt(mainPart.mass) +  mainPartEnergy * kInertiaToBlow;
+		float inertiaEnergy = mainPartEnergy*(1 - kInertiaToBlow);
+
+		List<Vector2> distances = new List<Vector2> (parts.Count);
+		for (int i = 0; i < parts.Count; i++) 
+		{
+			distances.Add(parts[i].cacheTransform.position - mainPart.cacheTransform.position);
+		}
+
+		float sqrtSummMass = 0;
+		List<float> sqrtMasses = new List<float> (parts.Count);
+		for (int i = 0; i < parts.Count; i++) 
+		{
+			sqrtMasses.Add(Mathf.Sqrt(parts[i].mass));
+			sqrtSummMass += sqrtMasses[i];
+		}
+
+		float sumRotationWeights = 0;
+		List<float> rotationWeights = new List<float> (parts.Count);
+		for (int i = 0; i < parts.Count; i++) 
+		{
+			rotationWeights.Add(Mathf.Sqrt(distances[i].magnitude/parts[i].polygon.R));
+			sumRotationWeights += rotationWeights[i];
+		}
+
+		float rotationSign = Mathf.Sign (mainRotation);
+		for (int i = 0; i < parts.Count; i++) 
+		{
+			Asteroid part = parts[i];
+			float pieceBlowEnergy = blowEnergy * (sqrtMasses[i] / sqrtSummMass); 
+			float pieceInertiaEnergy = inertiaEnergy * (sqrtMasses[i] / sqrtSummMass); 
+
+			Vector2 direction = distances[i];
+			part.velocity = direction.normalized * Mathf.Sqrt(2f * pieceBlowEnergy / part.mass );
+			if(mainVelocity != Vector2.zero)
+			{
+				part.velocity += (Vector3)mainVelocity.normalized * Mathf.Sqrt( 2f * pieceInertiaEnergy / part.mass );
+			}
+
+			float pieceRotationEnergy = mainPartRotationEnergy * (rotationWeights[i]/ sumRotationWeights);
+			float velocityEnegryFromRotation = kRotationEnergyToVelocity * pieceRotationEnergy;
+			pieceRotationEnergy = pieceRotationEnergy * (1 - kRotationEnergyToVelocity);
+			
+			part.rotation = rotationSign * Mathf.Sqrt( 2f * pieceRotationEnergy / part.inertiaMoment ) / Math2d.PIdiv180;
+
+			Vector2 perpendecular = new Vector2(direction.y, -direction.x);
+			part.velocity += (Vector3)perpendecular.normalized * rotationSign * Mathf.Sqrt( 2f * velocityEnegryFromRotation / part.mass );
+
+			part.velocity.z = 0;//TODO: z system*/
+		}
 	}
 
 	private EvadeEnemy CreateEvadeEnemy()

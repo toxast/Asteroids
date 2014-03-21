@@ -10,6 +10,9 @@ public class PolygonGameObject : MonoBehaviour
 
 
 	[SerializeField] private float health;
+	public float density = 1;
+	public float mass;
+	public float inertiaMoment;
 
 	void Awake () 
 	{
@@ -19,7 +22,10 @@ public class PolygonGameObject : MonoBehaviour
 	public void SetPolygon(Polygon polygon)
 	{
 		this.polygon = polygon;
-		health = Mathf.Sqrt(polygon.area);//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
+		mass = polygon.area * density;
+		float approximationR = polygon.R * 4f / 5f;
+		inertiaMoment = mass * approximationR * approximationR / 2f;
+		health = Mathf.Sqrt(mass);//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
 	}
 
 	public void SetColor(Color col)
