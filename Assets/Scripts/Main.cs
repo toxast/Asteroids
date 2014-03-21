@@ -13,12 +13,13 @@ public class Main : MonoBehaviour
 	PowerUpsCreator powerUpsCreator;
 	List<PowerUp> powerUps = new List<PowerUp> ();
 
-	private float DestroyTreshold = 2.5f;
+	private float DestroyTreshold = 8f;
 
 	Rect bounds;
 
 	//powerup
 	private float slowTimeLeft = 0;
+	private float penetrationTimeLeft = 0;
 
 	void Start()
 	{
@@ -27,7 +28,7 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 
-		int evades = 0;//UnityEngine.Random.Range(1, 4);
+		int evades = UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < evades; i++) 
 		{
 			EvadeEnemy enemy = CreateEvadeEnemy();
@@ -35,7 +36,7 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int tanks = 0;//UnityEngine.Random.Range(1, 4);
+		int tanks = UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < tanks; i++) 
 		{
 			TankEnemy enemy = CreateTankEnemy();
@@ -43,13 +44,13 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int spikies = 1;//UnityEngine.Random.Range(1, 4);
+		int spikies = UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < spikies; i++) 
 		{
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = 4;//UnityEngine.Random.Range(2, 5);
+		int asteroidsNum = UnityEngine.Random.Range(2, 9);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -113,13 +114,13 @@ public class Main : MonoBehaviour
 		place2.fireInterval = 0.4f;
 		place2.position = new Vector2(1f, 1.3f);
 
-		/*ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
+		ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
 		place3.fireInterval = 0.4f;
 		place3.color = Color.white;
 		place3.position = new Vector2(1f, -1.3f);
-*/
+
 		shooters.Add(place2);
-		//shooters.Add(place3);
+		shooters.Add(place3);
 		spaceship.SetShootPlaces(shooters );
 	}
 	
@@ -171,6 +172,11 @@ public class Main : MonoBehaviour
 			enemyDtime = Time.deltaTime;
 		}
 
+		if(penetrationTimeLeft > 0)
+		{
+			penetrationTimeLeft -= Time.deltaTime;
+		}
+
 		spaceship.Tick(Time.deltaTime);
 		CheckBounds(spaceship);
 
@@ -195,17 +201,27 @@ public class Main : MonoBehaviour
 
 				if(PolygonCollision.IsCollides(asteroid, bullet))
 				{
-					Destroy(bullet.gameObject);
-					bullets[k] = null; 
+					if(penetrationTimeLeft <= 0f)
+					{
+						Destroy(bullet.gameObject);
+						bullets[k] = null; 
 
-					asteroid.Hit(bullet.damage);
+						asteroid.Hit(bullet.damage);
+					}
+					else
+					{
+						asteroid.Hit(bullet.damage*10*Time.deltaTime);
+					}
+					
 					if(asteroid.IsKilled())
 					{
-						if(asteroid.polygon.R > DestroyTreshold || asteroid is EvadeEnemy)//TODO: refactor
+						if(asteroid.polygon.area > DestroyTreshold || asteroid is EvadeEnemy)//TODO: refactor
 						{
 							List<Asteroid> parts = SplitIntoAsteroids(asteroid);
 							foreach(var part in parts)
+							{
 								enemies.Add(part);
+							}
 						}
 						 
 						Destroy(asteroid.gameObject);
@@ -230,14 +246,20 @@ public class Main : MonoBehaviour
 				powerUps.RemoveAt(i);
 				Destroy(powerUp.gameObject);
 
-				if(effect == EffectType.SlowAsteroids)
+				switch (effect) 
 				{
-					slowTimeLeft = 10f;
-				}
-				else if(effect == EffectType.IncreasedShootingSpeed)
-				{
+				case EffectType.IncreasedShootingSpeed:
 					spaceship.ChangeFiringSpeed(3f, 10f);
-				}
+				break;
+
+				case EffectType.PenetrationBullet:
+					penetrationTimeLeft = 10f;
+				break;
+
+				case EffectType.SlowAsteroids:
+					slowTimeLeft = 10f;
+				break;
+				}	
 			}
 		}
 
@@ -306,12 +328,20 @@ public class Main : MonoBehaviour
 		foreach(var vertices in polys)
 		{
 			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Color.black);
-			asteroidPart.Init();
-			asteroidPart.cacheTransform.Translate(polygonGo.cacheTransform.position);
-			asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
-			asteroidPart.gameObject.name = "asteroid part";
 
-			parts.Add(asteroidPart);
+			if(PolygonCreator.CheckIfVerySmallOrSpiky(asteroidPart.polygon))
+			{
+				Destroy(asteroidPart.gameObject);
+			}
+			else
+			{
+				asteroidPart.Init();
+				asteroidPart.cacheTransform.Translate(polygonGo.cacheTransform.position);
+				asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
+				asteroidPart.gameObject.name = "asteroid part";
+
+				parts.Add(asteroidPart);
+			}
 		}
 
 		CalculateObjectPartVelocity(parts, polygonGo);
@@ -405,7 +435,7 @@ public class Main : MonoBehaviour
 		enemy.SetTarget(spaceship);
 		ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
 		place.fireInterval *= 3;
-		Math2d.ScaleVertices(place.vertices, 2f);
+		Math2d.ScaleVertices(place.vertices, 1f);
 		enemy.SetShooter(place);
 		enemy.FireEvent += OnEnemyFire;
 		enemy.gameObject.name = "evade enemy";

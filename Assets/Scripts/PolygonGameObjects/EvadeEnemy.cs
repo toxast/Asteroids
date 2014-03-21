@@ -17,10 +17,10 @@ public class EvadeEnemy : PolygonGameObject
             new Vector2(-0.75f, -0.75f),
             new Vector2(-1f, 0f),
 		}
-		, 2f).ToArray();
+		, 1f).ToArray();
 
 
-	private float movingSpeed = 6f;
+	private float movingSpeed = 7f;
 	private float minDistanceToTargetSqr = 600;
 	private float maxDistanceToTargetSqr = 800;
 
@@ -86,7 +86,7 @@ public class EvadeEnemy : PolygonGameObject
 		if(dist.sqrMagnitude < deltaDist*deltaDist)
 		{
 			cacheTransform.position = currentSafePoint;
-			avoiding = false;
+			//avoiding = false;
 		}
 		else
 		{
@@ -133,7 +133,7 @@ public class EvadeEnemy : PolygonGameObject
 			AimSystem aim = new AimSystem(target.cacheTransform.position, target.speed, cacheTransform.position, shooter.speed);
 			if(aim.canShoot)
 			{
-				currentAimAngle = aim.directionAngle / Math2d.PIdiv180;
+				currentAimAngle = UnityEngine.Random.Range(-3f, 3f) + aim.directionAngle / Math2d.PIdiv180;
 			}
 			yield return new WaitForSeconds(aimInterval);
 		}

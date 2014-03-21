@@ -174,6 +174,11 @@ public static class PolygonCreator
 		return gamePolygon;
 	}
 
+	public static bool CheckIfVerySmallOrSpiky(Polygon polygon)
+	{
+		return (polygon.area < 0.5 || (polygon.area < 1.5 && polygon.area/polygon.Rsqr < 0.5));
+	}
+
 }
 
 

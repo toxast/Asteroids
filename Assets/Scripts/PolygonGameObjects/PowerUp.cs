@@ -16,5 +16,6 @@ public enum EffectType
 	Min,
 	SlowAsteroids,
 	IncreasedShootingSpeed,
+	PenetrationBullet,
 	Max,
 }

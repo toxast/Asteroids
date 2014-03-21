@@ -43,7 +43,7 @@ public class TankEnemy : PolygonGameObject
 	{
 		this.shooters = shooters;
 
-		float rotatingSpeed = 55f;
+		float rotatingSpeed = 45f;
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 	}
 	

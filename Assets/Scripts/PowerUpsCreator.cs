@@ -36,13 +36,19 @@ public class PowerUpsCreator
 		EffectType type = (EffectType)UnityEngine.Random.Range ((int)EffectType.Min + 1, (int)EffectType.Max);
 
 		Color color = Color.yellow;
-		if (type == EffectType.SlowAsteroids) 
+		switch (type) 
 		{
-			color = Color.cyan;
-		}
-		else if(type == EffectType.IncreasedShootingSpeed)
-		{
-			color = Color.magenta;
+			case EffectType.IncreasedShootingSpeed:
+				color = Color.magenta;
+			break;
+				
+			case EffectType.PenetrationBullet:
+				color = Color.white;
+			break;
+				
+			case EffectType.SlowAsteroids:
+				color = Color.cyan;
+			break;
 		}
 
 		Vector2[] halfvertices = new Vector2[]
