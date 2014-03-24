@@ -12,6 +12,14 @@ public struct Edge
 		p2 = b;
 	}
 
+	/// <summary>
+	/// k is relative distance from p1 to p2, k c (0,1);
+	/// </summary>
+	public Vector2 GetPointOnEdge(float k)
+	{
+		return p1*(1f-k) + p2*k;
+	}
+
 	public Vector2 GetMiddle()
 	{
 		return (p2 + p1)/2f;

@@ -28,7 +28,7 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 
-		int evades = UnityEngine.Random.Range(0, 2);
+		int evades = 5;//UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < evades; i++) 
 		{
 			EvadeEnemy enemy = CreateEvadeEnemy();
@@ -36,7 +36,7 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int tanks = UnityEngine.Random.Range(0, 2);
+		int tanks = 1;//UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < tanks; i++) 
 		{
 			TankEnemy enemy = CreateTankEnemy();
@@ -44,13 +44,13 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int spikies = UnityEngine.Random.Range(0, 3);
+		int spikies = 0;//UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < spikies; i++) 
 		{
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = UnityEngine.Random.Range(2, 9);
+		int asteroidsNum = 0;//UnityEngine.Random.Range(2, 9);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -188,54 +188,51 @@ public class Main : MonoBehaviour
 
 
 		//TODO: refactor
-		PolygonGameObject asteroid;
+		PolygonGameObject enemy;
 		Bullet bullet;
-		for (int i = 0; i < enemies.Count ; i++)
+		for (int i = enemies.Count - 1; i >= 0; i--) 
 		{
-			asteroid = enemies[i];
-			for (int k = 0; k < bullets.Count; k++)
+			enemy = enemies[i];
+			for (int k = bullets.Count - 1; k >= 0; k--)
 			{
 				bullet = bullets[k];
 				if(bullet == null)
 					continue;
 
-				if(PolygonCollision.IsCollides(asteroid, bullet))
+				if(PolygonCollision.IsCollides(enemy, bullet))
 				{
 					if(penetrationTimeLeft <= 0f)
 					{
 						Destroy(bullet.gameObject);
 						bullets[k] = null; 
 
-						asteroid.Hit(bullet.damage);
+						enemy.Hit(bullet.damage);
 					}
 					else
 					{
-						asteroid.Hit(bullet.damage*10*Time.deltaTime);
+						enemy.Hit(bullet.damage*10*Time.deltaTime);
 					}
 					
-					if(asteroid.IsKilled())
+					if(enemy.IsKilled())
 					{
-						if(asteroid.polygon.area > DestroyTreshold || asteroid is EvadeEnemy)//TODO: refactor
+						if(enemy.polygon.area > DestroyTreshold || enemy is EvadeEnemy)//TODO: refactor
 						{
-							List<Asteroid> parts = SplitIntoAsteroids(asteroid);
+							List<Asteroid> parts = SplitIntoAsteroids(enemy);
 							foreach(var part in parts)
 							{
 								enemies.Add(part);
 							}
 						}
 						 
-						Destroy(asteroid.gameObject);
 						enemies.RemoveAt(i);
-					}
-
-					if(asteroid.IsKilled())
-					{
+						Destroy(enemy.gameObject);
 						break;
 					}
 				}
 			}
 		}
 
+		//TODO: refactor
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
 		{
 			PowerUp powerUp = powerUps[i];

@@ -47,7 +47,7 @@ public class PolygonGameObject : MonoBehaviour
 		{
 			if(polygon.vcount == 3 || Chance(0.5f))
 			{
-				parts = polygon.SplitByMassCenterAndEdgesCenters();
+				parts = polygon.SplitByMassCenterAndEdgesPoints();
 			}
 			else
 			{

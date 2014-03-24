@@ -287,7 +287,7 @@ public class Polygon
 	{
 		//Debug.Log("SplitByInteriorVertex, vcount:" + vcount);
 		List<Vector2[]> parts = new List<Vector2[]> ();
-		int interiorVertex = GetInteriorVertex();
+		int interiorVertex = GetRandomInteriorVertex();
 		if(interiorVertex >= 0)
 		{
 			//Debug.Log("SplitByInteriorVertex: got vertex");
@@ -302,37 +302,42 @@ public class Polygon
 		return parts;
 	}
 
-	private int GetInteriorVertex()
+	private int GetRandomInteriorVertex()
 	{
-		int interiorVertex = -1;
-
-		if(vcount <= 3)
+		List<int> interiors = GetInteriorVertices();
+		if(!interiors.Any())
 		{
-			//Debug.Log("no iterior vertex, it's triangle");
 			return -1;
 		}
+		else
+		{
+			return interiors[UnityEngine.Random.Range(0, interiors.Count)];
+		}
+	}
 
-		//Debug.LogWarning("circulatedVertices: " + circulatedVertices.Length);
-
-		Vector2 a;
-		Vector2 b;
+	private List<int> GetInteriorVertices()
+	{
+		List<int> interiors = new List<int>();
+		
+		if(vcount <= 3)
+		{
+			return interiors;
+		}
+		
 		//find vertex
 		for (int i = 1; i < circulatedVertices.Length-1; i++) 
 		{
-			a = circulatedVertices[i] - circulatedVertices[i-1];
-			b = circulatedVertices[i+1] - circulatedVertices[i];
+			Vector2 a = circulatedVertices[i] - circulatedVertices[i-1];
+			Vector2 b = circulatedVertices[i+1] - circulatedVertices[i];
 			float rotate = Math2d.Cross(ref a, ref b);
-			//Debug.LogWarning("rotate: " + rotate);
 			if(rotate > 0)
 			{
-				interiorVertex = i-1;
-				//Debug.LogWarning("interiorVertex: " + interiorVertex);
-				break;
+				interiors.Add(i-1);
 			}
 		}
-		return interiorVertex;
+		return interiors;
 	}
-	 
+
 	private List<Vector2[]> SplitByInteriorVertex(int interiorIndx)
 	{
 		List<Vector2[]> parts = new List<Vector2[]> ();
@@ -422,22 +427,44 @@ public class Polygon
 
 	//splits by center mass to center of the edge
 	//no check for edge inside
-	public List<Vector2[]> SplitByMassCenterAndEdgesCenters()
+	public List<Vector2[]> SplitByMassCenterAndEdgesPoints()
 	{
 		List<Vector2[]> parts = new List<Vector2[]>();
 
-		List<int> edgeIndexes = GetLagestEdges(3);
+		int edgesToCutBy;
+		if(Math.PI*Rsqr / area > 4f)
+		{
+			edgesToCutBy = 2;
+		}
+		else
+		{
+			edgesToCutBy = UnityEngine.Random.Range(2,4);
+		}
+
+		List<int> edgeIndexes = GetLagestEdges(edgesToCutBy);
 		edgeIndexes.Sort();
 		edgeIndexes.Add(edgeIndexes[0]);//circulated
+
+		List<float> offsets = new List<float>();
+		for (int i = 0; i < edgeIndexes.Count-1; i++) 
+		{
+			float offset = UnityEngine.Random.Range(0.3f, 0.7f);
+			offsets.Add(offset);
+		}
+		offsets.Add(offsets[0]);
+
 		for (int i = 0; i < edgeIndexes.Count-1; i++) 
 		{
 			int edge1 = edgeIndexes[i];
 			int edge2 = edgeIndexes[i+1];
 
+			float offset1 = offsets[i];
+			float offset2 = offsets[i+1];
+
 			List<Vector2> part = GetVertices(Next(edge1), edge2);
-			part.Add(edges[edge2].GetMiddle());
+			part.Add(edges[edge2].GetPointOnEdge(offset2));
 			part.Add(massCenter);
-			part.Add(edges[edge1].GetMiddle());
+			part.Add(edges[edge1].GetPointOnEdge(offset1));
 			parts.Add(part.ToArray());
 		}
 

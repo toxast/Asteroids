@@ -35,6 +35,8 @@ public class EvadeEnemy : PolygonGameObject
 	//if angle to target bigger than this - dont even try to shoot
 	private float rangeAngle = 15f; 
 
+	private int goRoundTargetSign = 1;
+
 	Rotaitor cannonsRotaitor;
 	ShootPlace shooter;
 	public void SetShooter(ShootPlace shooter)
@@ -62,6 +64,8 @@ public class EvadeEnemy : PolygonGameObject
 		StartCoroutine(Aim());
 
 		StartCoroutine(FireCoroutine());
+
+		StartCoroutine(ChangeRotationSign());
 	}
 
 	public override void Tick(float delta)
@@ -106,6 +110,12 @@ public class EvadeEnemy : PolygonGameObject
 		{
 			cacheTransform.position += (Vector3) dist.normalized * deltaDist;
 		}
+
+		{
+			Vector2 rotateDirection = new Vector2(dist.y, -dist.x).normalized; //right
+			//rotate around
+			cacheTransform.position += (Vector3) rotateDirection * deltaDist * goRoundTargetSign;
+		}
 	}
 
 	private void RotateCannon(float deltaTime)
@@ -133,7 +143,7 @@ public class EvadeEnemy : PolygonGameObject
 			AimSystem aim = new AimSystem(target.cacheTransform.position, target.speed, cacheTransform.position, shooter.speed);
 			if(aim.canShoot)
 			{
-				currentAimAngle = UnityEngine.Random.Range(-3f, 3f) + aim.directionAngle / Math2d.PIdiv180;
+				currentAimAngle = aim.directionAngle / Math2d.PIdiv180;
 			}
 			yield return new WaitForSeconds(aimInterval);
 		}
@@ -158,6 +168,16 @@ public class EvadeEnemy : PolygonGameObject
 			{
 				shotInterval = shortInterval;
 			}
+		}
+	}
+
+	private IEnumerator ChangeRotationSign()
+	{
+		while(true)
+		{
+			float interval = UnityEngine.Random.Range(1f, 10f);
+			yield return new WaitForSeconds(interval);
+			goRoundTargetSign *= -1;
 		}
 	}
 
