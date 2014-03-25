@@ -27,8 +27,13 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 
+		int saws = 10;//UnityEngine.Random.Range(0, 3);
+		for (int i = 0; i < saws; i++) 
+		{
+			CreateSawEnemy();
+		}
 
-		int evades = 5;//UnityEngine.Random.Range(0, 2);
+		int evades = 0;//UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < evades; i++) 
 		{
 			EvadeEnemy enemy = CreateEvadeEnemy();
@@ -36,7 +41,7 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int tanks = 1;//UnityEngine.Random.Range(0, 2);
+		int tanks = 0;//UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < tanks; i++) 
 		{
 			TankEnemy enemy = CreateTankEnemy();
@@ -68,6 +73,25 @@ public class Main : MonoBehaviour
 		float angle = Random.Range(0f,359f) * Math2d.PIdiv180;
 		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, bounds.yMax);
 		p.cacheTransform.position = new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, p.cacheTransform.position.z);
+	}
+
+	private void CreateSawEnemy()
+	{
+		float rInner = UnityEngine.Random.Range(1.5f, 4f);
+		float spikeLength = UnityEngine.Random.Range (0.5f, 1f);
+		float rOuter = rInner + spikeLength;
+		int spikesCount = UnityEngine.Random.Range((int)(rInner+5), (int)(rInner+10));
+		
+		int[] spikes;
+		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
+		
+		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, Color.black);
+		asteroid.gameObject.name = "SawEnemy";
+		
+		asteroid.Init(spaceship);
+		
+		SetRandomPosition(asteroid);
+		enemies.Add(asteroid);
 	}
 
 	private void CreateSpikyAsteroid()
@@ -394,7 +418,7 @@ public class Main : MonoBehaviour
 		List<float> rotationWeights = new List<float> (parts.Count);
 		for (int i = 0; i < parts.Count; i++) 
 		{
-			rotationWeights.Add(Mathf.Sqrt(distances[i].magnitude/parts[i].polygon.R));
+			rotationWeights.Add(Mathf.Sqrt(1f/parts[i].polygon.R));
 			sumRotationWeights += rotationWeights[i];
 		}
 
