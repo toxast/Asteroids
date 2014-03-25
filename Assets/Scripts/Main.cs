@@ -34,13 +34,13 @@ public class Main : MonoBehaviour
 			CreateRogueEnemy();
 		}
 
-		int saws = 1;//UnityEngine.Random.Range(0, 3);
+		int saws = 8;//UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < saws; i++) 
 		{
 			CreateSawEnemy();
 		}
 
-		int evades = 1;//UnityEngine.Random.Range(0, 2);
+		int evades = 0;//UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < evades; i++) 
 		{
 			EvadeEnemy enemy = CreateEvadeEnemy();
@@ -56,13 +56,13 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int spikies = 0;//UnityEngine.Random.Range(0, 3);
+		int spikies = 1;//UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < spikies; i++) 
 		{
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = 0;//UnityEngine.Random.Range(2, 9);
+		int asteroidsNum = 3;//UnityEngine.Random.Range(2, 9);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -84,8 +84,8 @@ public class Main : MonoBehaviour
 
 	private void CreateSawEnemy()
 	{
-		float rInner = UnityEngine.Random.Range(1.5f, 4f);
-		float spikeLength = UnityEngine.Random.Range (0.5f, 1f);
+		float rInner = UnityEngine.Random.Range(2f, 3f);
+		float spikeLength = UnityEngine.Random.Range (0.8f, 1.5f);
 		float rOuter = rInner + spikeLength;
 		int spikesCount = UnityEngine.Random.Range((int)(rInner+5), (int)(rInner+10));
 		
@@ -104,7 +104,7 @@ public class Main : MonoBehaviour
 	private void CreateSpikyAsteroid()
 	{
 		float rInner = UnityEngine.Random.Range(2f, 4f);
-		float spikeLength = UnityEngine.Random.Range (2f, 3f);
+		float spikeLength = UnityEngine.Random.Range (3f, 4f);
 		float rOuter = rInner + spikeLength;
 		int spikesCount = UnityEngine.Random.Range((int)(rInner+1), 9);
 

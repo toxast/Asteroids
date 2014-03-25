@@ -39,7 +39,7 @@ public class PowerUpsCreator
 		switch (type) 
 		{
 			case EffectType.IncreasedShootingSpeed:
-				color = Color.magenta;
+				color = Color.red;
 			break;
 				
 			case EffectType.PenetrationBullet:

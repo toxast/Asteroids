@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bullet : PolygonGameObject
 {
-	private Vector3 speed; 
+	public Vector3 speed; 
 	private float startingSpeed;
 
 	private float lifeTime;

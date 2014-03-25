@@ -47,7 +47,7 @@ public class SpikyAsteroid : Asteroid
 
 	IEnumerator CheckForTarget()
 	{
-		float thesholdDistance = 24f;
+		float thesholdDistance = 32f;
 		float checkInterval = 0.5f;
 		float thesholdDistanceSqr = thesholdDistance * thesholdDistance;
 		
@@ -119,10 +119,10 @@ public class SpikyAsteroid : Asteroid
 	private IEnumerator GrowSpike(int indx, Vector2 tip)
 	{
 		float reqlen = tip.magnitude;
-		float deltaGrow = 0.02f;
+		float deltaGrow = 0.04f;
 		bool growFinished = false;
 
-		yield return new WaitForSeconds(10f);
+		yield return new WaitForSeconds(3f);
 
 		while(!growFinished)
 		{
@@ -139,7 +139,7 @@ public class SpikyAsteroid : Asteroid
 				growFinished = true;
 			}
 
-			yield return null;
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 }
