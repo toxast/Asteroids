@@ -8,7 +8,8 @@ public class Main : MonoBehaviour
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <Bullet> bullets = new List<Bullet>();
 	List <Bullet> enemyBullets = new List<Bullet>();
-	//List <EvadeEnemy> evades = new List<EvadeEnemy>(); 
+	//List <EvadeEnemy> evades = new List<EvadeEnemy>();
+
 
 	PowerUpsCreator powerUpsCreator;
 	List<PowerUp> powerUps = new List<PowerUp> ();
