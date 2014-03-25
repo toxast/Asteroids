@@ -10,6 +10,17 @@ public class EvadeEnemy : PolygonGameObject
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]
 		{
+		new Vector2(0.7f, 0f),
+		new Vector2(1f, -0.5f),
+		new Vector2(2f, -1f),
+		new Vector2(-1, -1),
+	}
+	, 2f).ToArray();
+
+	/*
+	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
+		new Vector2[]
+		{
 			new Vector2(2f, -0.25f),
 			new Vector2(1.25f, -0.25f),
 			new Vector2(1f, -1f),
@@ -18,7 +29,7 @@ public class EvadeEnemy : PolygonGameObject
             new Vector2(-1f, 0f),
 		}
 		, 1f).ToArray();
-
+*/
 
 	private float movingSpeed = 7f;
 	private float minDistanceToTargetSqr = 600;

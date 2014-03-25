@@ -39,6 +39,16 @@ public class PolygonGameObject : MonoBehaviour
 		mesh.colors = colors;
 	}
 
+	public void SetAlpha(float a)
+	{
+		Color [] colors = mesh.colors;
+		for (int i = 0; i < colors.Length; i++) 
+		{
+			colors[i].a = a;
+		}
+		mesh.colors = colors;
+	}
+
 	public List<Vector2[]> Split()
 	{
 		//Debug.LogWarning("Split");

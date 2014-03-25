@@ -28,13 +28,19 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 
-		int saws = 10;//UnityEngine.Random.Range(0, 3);
+		int rogues = 0;
+		for (int i = 0; i < rogues; i++) 
+		{
+			CreateRogueEnemy();
+		}
+
+		int saws = 1;//UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < saws; i++) 
 		{
 			CreateSawEnemy();
 		}
 
-		int evades = 0;//UnityEngine.Random.Range(0, 2);
+		int evades = 1;//UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < evades; i++) 
 		{
 			EvadeEnemy enemy = CreateEvadeEnemy();
@@ -461,6 +467,16 @@ public class Main : MonoBehaviour
 		enemy.SetShooter(place);
 		enemy.FireEvent += OnEnemyFire;
 		enemy.gameObject.name = "evade enemy";
+		return enemy;
+	}
+
+	private RogueEnemy CreateRogueEnemy()
+	{
+		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, Color.black);
+		enemy.gameObject.name = "RogueEnemy";
+		enemy.SetTarget(spaceship);
+		SetRandomPosition(enemy);
+		enemies.Add(enemy);
 		return enemy;
 	}
 
