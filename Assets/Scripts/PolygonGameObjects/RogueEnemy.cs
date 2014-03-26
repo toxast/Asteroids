@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class RogueEnemy : PolygonGameObject 
 {
@@ -11,8 +12,9 @@ public class RogueEnemy : PolygonGameObject
 		new Vector2(2f, -1f),
 		new Vector2(-1, -1),
 	}
-	, 2f).ToArray();
+	, 1f).ToArray();
 
+	public event System.Action<ShootPlace, Transform> FireEvent;
 
 	private float movingSpeed = 6f;
 	private float minDistanceToTargetSqr = 600;
@@ -25,7 +27,13 @@ public class RogueEnemy : PolygonGameObject
 	public void SetTarget(SpaceShip ship)
 	{
 		this.target = ship;
+	}
 
+	List<ShootPlace> shooters;
+	public void SetShooter(List<ShootPlace> shooters)
+	{
+		this.shooters = shooters;
+		
 		float rotatingSpeed = 45f;
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 	}
@@ -75,14 +83,18 @@ public class RogueEnemy : PolygonGameObject
 
 	IEnumerator FadeAndShoot()
 	{
-		float visibleAfterShoot = 3f;
+		float visibleAfterShoot = 1f;
+		float invisibleTime = 2f;
+		float fadeInTime = 0.5f;
+		float fadeOutTime = 1f;
 		float deltaTime = 0.2f;
 		while(true)
 		{
-			yield return StartCoroutine(FadeTo(1f, 1f));
-			//TODO: shot
+			yield return StartCoroutine(FadeTo(1f, fadeInTime));
+			Fire();
 			yield return new WaitForSeconds(visibleAfterShoot); 
-			yield return StartCoroutine(FadeTo(0f, 1f));
+			yield return StartCoroutine(FadeTo(0f, fadeOutTime));
+			yield return new WaitForSeconds(invisibleTime); 
 			yield return new WaitForSeconds(deltaTime); 
 		}
 	}
@@ -112,6 +124,19 @@ public class RogueEnemy : PolygonGameObject
 			}
 
 			yield return new WaitForSeconds(deltaTime); 
+		}
+	}
+
+	private void Fire()
+	{
+		if(FireEvent == null)
+		{
+			return;
+		}
+		
+		foreach(var shooter in shooters)
+		{
+			FireEvent(shooter, cacheTransform);
 		}
 	}
 

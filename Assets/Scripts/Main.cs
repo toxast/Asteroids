@@ -28,13 +28,13 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 
-		int rogues = 0;
+		int rogues = 2;
 		for (int i = 0; i < rogues; i++) 
 		{
 			CreateRogueEnemy();
 		}
 
-		int saws = 8;//UnityEngine.Random.Range(0, 3);
+		int saws = 0;//UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < saws; i++) 
 		{
 			CreateSawEnemy();
@@ -56,13 +56,13 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int spikies = 1;//UnityEngine.Random.Range(0, 3);
+		int spikies = 0;//UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < spikies; i++) 
 		{
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = 3;//UnityEngine.Random.Range(2, 9);
+		int asteroidsNum = 0;//UnityEngine.Random.Range(2, 9);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -246,7 +246,7 @@ public class Main : MonoBehaviour
 					
 					if(enemy.IsKilled())
 					{
-						if(enemy.polygon.area > DestroyTreshold || enemy is EvadeEnemy)//TODO: refactor
+						if(enemy.polygon.area > DestroyTreshold || !(enemy is Asteroid))//TODO: refactor
 						{
 							List<Asteroid> parts = SplitIntoAsteroids(enemy);
 							foreach(var part in parts)
@@ -475,6 +475,21 @@ public class Main : MonoBehaviour
 		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, Color.black);
 		enemy.gameObject.name = "RogueEnemy";
 		enemy.SetTarget(spaceship);
+
+		float size = 1f;
+		
+		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace();
+		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace();
+		Math2d.ScaleVertices(place1.vertices, size);
+		Math2d.ScaleVertices(place2.vertices, size);
+		place1.position = new Vector2(1.5f, 0.75f) * size;
+		place2.position = new Vector2(1.5f, -0.75f) * size;
+		List<ShootPlace> places = new List<ShootPlace>();
+		places.Add(place1);
+		places.Add(place2);
+		enemy.SetShooter(places);
+		enemy.FireEvent += OnEnemyFire;
+
 		SetRandomPosition(enemy);
 		enemies.Add(enemy);
 		return enemy;
@@ -499,6 +514,7 @@ public class Main : MonoBehaviour
 		places.Add(place2);
 		enemy.SetShooter(places);
 		enemy.FireEvent += OnEnemyFire;
+
 		enemy.gameObject.name = "tank enemy";
 		return enemy;
 	}

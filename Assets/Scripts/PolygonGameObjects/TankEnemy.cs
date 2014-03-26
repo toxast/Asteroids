@@ -7,7 +7,6 @@ public class TankEnemy : PolygonGameObject
 {
 	public event System.Action<ShootPlace, Transform> FireEvent;
 	
-
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]
 		{

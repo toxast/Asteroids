@@ -20,19 +20,31 @@ public class Intersection {
 		float d = (a1.x -a2.x)*(b1.y-b2.y) - (a1.y-a2.y)*(b1.x-b2.x);
 
 	    if (d == 0f) 
+		{
+			//Debug.Log(a1 + "-" + a2 + " " + b1 + "-" + b2 + ": return");
 			return;
+		}
 
 		float P1 = a1.x*a2.y - a1.y*a2.x;
 		float P2 = b1.x*b2.y - b1.y*b2.x;
 		float xi = ( (b1.x - b2.x)*P1 - (a1.x - a2.x)*P2 ) / d;
 		float yi = ( (b1.y - b2.y)*P1 - (a1.y - a2.y)*P2 ) / d;
 	    
+		float delta = 0.0001f;
+
 		intersection = new Vector2(xi, yi);
 		haveIntersection =  
-			(xi >= Mathf.Min(a1.x, a2.x) && xi <= Mathf.Max(a1.x, a2.x)) &&
-			(xi >= Mathf.Min(b1.x, b2.x) && xi <= Mathf.Max(b1.x, b2.x));
+			(xi >= Mathf.Min(a1.x, a2.x)-delta && xi <= Mathf.Max(a1.x, a2.x)+delta) &&
+			(xi >= Mathf.Min(b1.x, b2.x)-delta && xi <= Mathf.Max(b1.x, b2.x)+delta) &&
+			(yi >= Mathf.Min(a1.y, a2.y)-delta && yi <= Mathf.Max(a1.y, a2.y)+delta) &&
+			(yi >= Mathf.Min(b1.y, b2.y)-delta && yi <= Mathf.Max(b1.y, b2.y)+delta);
 
-		//Debug.Log(a1 + "-" + a2 + " " + b1 + "-" + b2 + ": " + haveIntersection);
+		//Debug.Log(VectorToStr(a1)  + "-" + VectorToStr(a2) + " " + VectorToStr(b1) + "-" + VectorToStr(b2) + ": " + haveIntersection + " " + VectorToStr(intersection));
+	}
+
+	static private string VectorToStr(Vector2 a)
+	{
+		return "[" + a.x + ", " + a.y + "]"; 
 	}
 
 	/// <summary>
@@ -73,5 +85,14 @@ public class Intersection {
 		//lines intersect, segments - not
 		Intersection i4 = new Intersection(new Vector2(0,1), new Vector2(3,2), new Vector2(2,1), new Vector2(3,0));
 		Debug.LogWarning(i4.haveIntersection + " " + i4.intersection);
+
+		//one segment is vertical
+		Intersection i5 = new Intersection(new Vector2(1,1), new Vector2(1,4), new Vector2(4,2), new Vector2(0,9));
+		Debug.LogWarning(i5.haveIntersection + " " + i5.intersection);
+
+		//one horisontal, other - vertical
+		Intersection i6 = new Intersection(new Vector2(-2.2f, -2.0f), new Vector2(-2.2f, 2.0f), new Vector2(1.2f, 0.0f), new Vector2(-11.6f, 0.0f));
+		Debug.LogWarning(i6.haveIntersection + " " + i6.intersection);
+
 	}
 }

@@ -51,7 +51,6 @@ public class PolygonGameObject : MonoBehaviour
 
 	public List<Vector2[]> Split()
 	{
-		//Debug.LogWarning("Split");
 		List<Vector2[]> parts = polygon.SplitByInteriorVertex ();
 		if(parts.Count < 2)
 		{
