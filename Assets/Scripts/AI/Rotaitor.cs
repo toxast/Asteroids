@@ -25,18 +25,32 @@ public class Rotaitor
 		float deltaAngle = dtime * rotatingSpeed;
 		Vector3 currentAngles = transform.eulerAngles;
 
-		float diff = aimAngle - currentAngles.z;
+		float dangle = DeltaAngle(aimAngle);
 		
-		if(Mathf.Abs(diff) <= deltaAngle)
+		if(Mathf.Abs(dangle) <= deltaAngle)
 		{
 			transform.rotation = Quaternion.Euler(currentAngles.SetZ(aimAngle));
 		}
 		else
 		{
-			float sign = Mathf.Sign(diff)*Mathf.Sign(180f - Mathf.Abs(diff));
-			deltaAngle *= sign;
+			deltaAngle *= Mathf.Sign(dangle);
 			transform.rotation = Quaternion.Euler(currentAngles + new Vector3(0, 0, deltaAngle));
 		}
 	}
 
+	public float DeltaAngle(float toAngle)
+	{
+		float diff = toAngle - transform.eulerAngles.z;
+
+		if(diff > 180)
+		{
+			diff = diff - 360;
+		}
+		else if(diff < -180)
+		{
+			diff = 360 + diff;
+		}
+
+		return diff;
+	}
 }

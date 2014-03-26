@@ -131,7 +131,7 @@ public class TankEnemy : PolygonGameObject
 		{
 			yield return new WaitForSeconds(shooters[0].fireInterval);
 			
-			if(Mathf.Abs(cacheTransform.rotation.eulerAngles.z - currentAimAngle) < rangeAngle)
+			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
 			{
 				Fire();
 			}

@@ -28,19 +28,23 @@ public class Main : MonoBehaviour
 
 		CreateSpaceShip();
 
-		int rogues = 2;
+		int rogues = UnityEngine.Random.Range(0, 3);
+		int saws = UnityEngine.Random.Range(0, 5);
+		int evades = UnityEngine.Random.Range(0, 2);
+		int tanks = UnityEngine.Random.Range(0, 2);
+		int spikies = UnityEngine.Random.Range(0, 3);
+		int asteroidsNum = UnityEngine.Random.Range(2, 9);
+
 		for (int i = 0; i < rogues; i++) 
 		{
 			CreateRogueEnemy();
 		}
 
-		int saws = 0;//UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < saws; i++) 
 		{
 			CreateSawEnemy();
 		}
 
-		int evades = 0;//UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < evades; i++) 
 		{
 			EvadeEnemy enemy = CreateEvadeEnemy();
@@ -48,7 +52,6 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int tanks = 0;//UnityEngine.Random.Range(0, 2);
 		for (int i = 0; i < tanks; i++) 
 		{
 			TankEnemy enemy = CreateTankEnemy();
@@ -56,13 +59,11 @@ public class Main : MonoBehaviour
 			enemies.Add(enemy);
 		}
 
-		int spikies = 0;//UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < spikies; i++) 
 		{
 			CreateSpikyAsteroid();
 		}
 
-		int asteroidsNum = 0;//UnityEngine.Random.Range(2, 9);
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
@@ -471,7 +472,7 @@ public class Main : MonoBehaviour
 	}
 
 	private RogueEnemy CreateRogueEnemy()
-	{
+	{ 
 		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, Color.black);
 		enemy.gameObject.name = "RogueEnemy";
 		enemy.SetTarget(spaceship);
@@ -537,10 +538,7 @@ public class Main : MonoBehaviour
 	 * bullets and shooters refactoring 
 	 * Z pos refactoring
 	 * enemy bulets hit asteroids?
-	 * penetration bullet power up
-	 * tank enemy
 	 * shields
-	 * rogue enemy, invisibility
 	 * magnet enemy
 	 * achievements and ship unlocks for them (luke - survive astroid field, reach 100% acc in more than x shots)
 	 * dissolve bullet and shader
