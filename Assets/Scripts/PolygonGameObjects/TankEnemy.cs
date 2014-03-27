@@ -34,23 +34,12 @@ public class TankEnemy : PolygonGameObject
 	private List<Bullet> bullets;
 	private List<ShootPlace> shooters;
 
-	public void SetShooter(List<ShootPlace> shooters)
-	{
-		this.shooters = shooters;
-	}
-	
-	public void SetBulletsList(List<Bullet> bullets)
-	{
-		this.bullets = bullets;
-	}
-	
-	public void SetTarget(PolygonGameObject target)
+	public void Init(PolygonGameObject target, List<Bullet> bullets, List<ShootPlace> shooters)
 	{
 		this.target = target;
-	}
-	
-	void Start()
-	{
+		this.bullets = bullets;
+		this.shooters = shooters;
+
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 
 		StartCoroutine(Evade());

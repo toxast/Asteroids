@@ -28,18 +28,11 @@ public class RogueEnemy : PolygonGameObject
 	Rotaitor cannonsRotaitor;
 	List<ShootPlace> shooters;
 
-	public void SetTarget(SpaceShip ship)
+	public void Init (SpaceShip ship, List<ShootPlace> shooters) 
 	{
 		this.target = ship;
-	}
-
-	public void SetShooter(List<ShootPlace> shooters)
-	{
 		this.shooters = shooters;
-	}
 
-	void Start () 
-	{
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 
 		SetAlpha(0f);

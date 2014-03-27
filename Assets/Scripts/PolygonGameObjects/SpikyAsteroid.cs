@@ -25,6 +25,8 @@ public class SpikyAsteroid : Asteroid
 
 	private float detectionDistance = 32f;
 	private float regrowPause = 3f;
+	private float spikeSpeed = 15f;
+	private float growSpeed = 0.1f;
 
 	private Transform target;
 	private List<Spike> spikesLeft = new List<Spike>();
@@ -94,7 +96,7 @@ public class SpikyAsteroid : Asteroid
 							spikeAsteroid.Init();
 							spikeAsteroid.cacheTransform.position += cacheTransform.position;
 							spikeAsteroid.rotation = 0f;
-							spikeAsteroid.velocity = (e1.p2 - (e1.p1 + e2.p2)/2f).normalized *15f;
+							spikeAsteroid.velocity = spikeSpeed * (e1.p2 - (e1.p1 + e2.p2)/2f).normalized;
 
 							//change mesh and polygon
 							ChangeVertex(spike.index, (spike.a.p1 + spike.b.p2) / 2f);
@@ -112,17 +114,16 @@ public class SpikyAsteroid : Asteroid
 	{
 		yield return new WaitForSeconds(regrowPause);
 
-		float reqlen = tip.magnitude;
-		float deltaGrow = 0.1f;
+		float length = tip.magnitude;
 
 		bool growFinished = false;
 		while(!growFinished)
 		{
 			Vector3 v = mesh.vertices[indx];
-			v =  v.normalized * (v.magnitude + deltaGrow);
+			v =  v.normalized * (v.magnitude + growSpeed);
 			ChangeVertex(indx, new Vector2(v.x, v.y));
 
-			if(v.magnitude > reqlen)
+			if(v.magnitude > length)
 			{
 				int previous = polygon.Previous(indx);
 				Spike spike = new Spike(polygon.edges[previous], polygon.edges[indx], indx);

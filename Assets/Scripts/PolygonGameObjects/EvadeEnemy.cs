@@ -35,23 +35,12 @@ public class EvadeEnemy : PolygonGameObject
 	Rotaitor cannonsRotaitor;
 	ShootPlace shooter;
 
-	public void SetShooter(ShootPlace shooter)
+	public void Init(SpaceShip ship, List<Bullet> bullets, ShootPlace shooter)
 	{
 		this.shooter = shooter;
-	}
-
-	public void SetBulletsList(List<Bullet> bullets)
-	{
 		this.bullets = bullets;
-	}
-
-	public void SetTarget(SpaceShip ship)
-	{
 		this.target = ship;
-	}
 
-	void Start()
-	{
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
 
 		StartCoroutine(Evade());

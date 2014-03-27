@@ -22,18 +22,68 @@ public class Main : MonoBehaviour
 	private float slowTimeLeft = 0;
 	private float penetrationTimeLeft = 0;
 
+	void OnGUI()
+	{
+		int width = 50;
+		int hieight = 20;
+		int margine = 3;
+		int y = 10;
+
+		if(GUI.Button(new Rect(10, y, width+20, hieight), "asteroid"))
+		{
+			CreateAsteroid();
+		}
+		y += hieight + margine;
+
+		if(GUI.Button(new Rect(10, y, width, hieight), "saw"))
+		{
+			CreateSawEnemy();
+		}
+		y += hieight + margine;
+
+		if(GUI.Button(new Rect(10, y, width, hieight), "spiky"))
+		{
+			CreateSpikyAsteroid();
+		}
+		y += hieight + margine;
+
+		if(GUI.Button(new Rect(10, y, width, hieight), "tank"))
+		{
+			CreateTankEnemy();
+		}
+		y += hieight + margine;
+
+		if(GUI.Button(new Rect(10, y, width, hieight), "scout"))
+		{
+			CreateEvadeEnemy();
+		}
+		y += hieight + margine;
+
+		if(GUI.Button(new Rect(10, y, width, hieight), "rogue"))
+		{
+			CreateRogueEnemy();
+		}
+		y += hieight + margine;
+
+
+		if(GUI.Button(new Rect(Screen.width-100, 10, width+20, hieight), "quit"))
+		{
+			Application.Quit();
+		}
+	}
+
 	void Start()
 	{
 		CalculateBounds();
 
 		CreateSpaceShip();
 
-		int rogues = UnityEngine.Random.Range(0, 3);
-		int saws = UnityEngine.Random.Range(0, 5);
-		int evades = UnityEngine.Random.Range(0, 2);
-		int tanks = UnityEngine.Random.Range(0, 2);
-		int spikies = UnityEngine.Random.Range(0, 3);
-		int asteroidsNum = UnityEngine.Random.Range(2, 9);
+		int rogues = UnityEngine.Random.Range(0, 1);
+		int saws = UnityEngine.Random.Range(0, 1);
+		int evades = UnityEngine.Random.Range(0, 1);
+		int tanks = UnityEngine.Random.Range(0, 1);
+		int spikies = UnityEngine.Random.Range(0, 1);
+		int asteroidsNum = UnityEngine.Random.Range(0, 1);
 
 		for (int i = 0; i < rogues; i++) 
 		{
@@ -48,15 +98,11 @@ public class Main : MonoBehaviour
 		for (int i = 0; i < evades; i++) 
 		{
 			EvadeEnemy enemy = CreateEvadeEnemy();
-			SetRandomPosition(enemy);
-			enemies.Add(enemy);
 		}
 
 		for (int i = 0; i < tanks; i++) 
 		{
 			TankEnemy enemy = CreateTankEnemy();
-			SetRandomPosition(enemy);
-			enemies.Add(enemy);
 		}
 
 		for (int i = 0; i < spikies; i++) 
@@ -67,8 +113,6 @@ public class Main : MonoBehaviour
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
 			Asteroid asteroid = CreateAsteroid();
-			SetRandomPosition(asteroid);
-			enemies.Add(asteroid);
 		}
 
 		powerUpsCreator = new PowerUpsCreator(5f, 10f);
@@ -460,14 +504,17 @@ public class Main : MonoBehaviour
 	private EvadeEnemy CreateEvadeEnemy()
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Color.black);
-		enemy.SetBulletsList(bullets);
-		enemy.SetTarget(spaceship);
+
 		ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
 		place.fireInterval *= 3;
 		Math2d.ScaleVertices(place.vertices, 1f);
-		enemy.SetShooter(place);
 		enemy.FireEvent += OnEnemyFire;
 		enemy.gameObject.name = "evade enemy";
+
+		enemy.Init(spaceship, bullets, place);
+		SetRandomPosition(enemy);
+		enemies.Add(enemy);
+
 		return enemy;
 	}
 
@@ -475,10 +522,8 @@ public class Main : MonoBehaviour
 	{ 
 		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, Color.black);
 		enemy.gameObject.name = "RogueEnemy";
-		enemy.SetTarget(spaceship);
 
 		float size = 1f;
-		
 		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace();
 		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace();
 		Math2d.ScaleVertices(place1.vertices, size);
@@ -488,8 +533,9 @@ public class Main : MonoBehaviour
 		List<ShootPlace> places = new List<ShootPlace>();
 		places.Add(place1);
 		places.Add(place2);
-		enemy.SetShooter(places);
 		enemy.FireEvent += OnEnemyFire;
+
+		enemy.Init(spaceship, places);
 
 		SetRandomPosition(enemy);
 		enemies.Add(enemy);
@@ -499,8 +545,6 @@ public class Main : MonoBehaviour
 	private TankEnemy CreateTankEnemy()
 	{
 		TankEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<TankEnemy>(TankEnemy.vertices, Color.black);
-		enemy.SetBulletsList(bullets);
-		enemy.SetTarget(spaceship);
 
 		float size = 2f;
 
@@ -513,10 +557,15 @@ public class Main : MonoBehaviour
 		List<ShootPlace> places = new List<ShootPlace>();
 		places.Add(place1);
 		places.Add(place2);
-		enemy.SetShooter(places);
 		enemy.FireEvent += OnEnemyFire;
 
+		enemy.Init(spaceship, bullets, places);
+
 		enemy.gameObject.name = "tank enemy";
+
+		SetRandomPosition(enemy);
+		enemies.Add(enemy);
+
 		return enemy;
 	}
 
@@ -529,6 +578,9 @@ public class Main : MonoBehaviour
 		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Color.black);
 		asteroid.Init ();
 		asteroid.gameObject.name = "asteroid";
+
+		SetRandomPosition(asteroid);
+		enemies.Add(asteroid);
 
 		return asteroid;
 	}

@@ -6,7 +6,7 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 	private Vector3 velocity;
 	private float rotation;
 
-	private PolygonGameObject target;
+	private SpaceShip target;
 
 	private float initialRotation;
 	private float initialVelocity;
@@ -37,7 +37,7 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 		}
 	}
 
-	public void Init(PolygonGameObject target)
+	public void Init(SpaceShip target)
 	{
 		initialRotation = Random.Range(40,100);
 		initialVelocity = Random.Range(2f, 7f);
@@ -106,8 +106,16 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 
 	IEnumerator Charge()
 	{
-		Vector2 dist = target.cacheTransform.position - cacheTransform.position;
-		velocity = chargeSpeed * dist.normalized;
+		AimSystem aim = new AimSystem(target.cacheTransform.position, target.speed, cacheTransform.position, chargeSpeed);
+		if(aim.canShoot)
+		{
+			velocity = chargeSpeed * aim.direction.normalized;
+		}
+		else
+		{
+			Vector2 direction = target.cacheTransform.position - cacheTransform.position;
+			velocity = chargeSpeed * direction.normalized;
+		}
 		yield return new WaitForSeconds(chargeDuration); 
 	}
 	
