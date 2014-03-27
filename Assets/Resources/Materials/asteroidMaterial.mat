@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: asteroidMaterial
-  m_Shader: {fileID: 4800000, guid: 6694da1a3d69e1c438b809db825b4289, type: 3}
+  m_Shader: {fileID: 4800000, guid: 011edec10a6934041b9873aba0af74ab, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
