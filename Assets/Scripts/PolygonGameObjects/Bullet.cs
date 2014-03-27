@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : PolygonGameObject
+public class Bullet : PolygonGameObject, IGotVelocity
 {
 	public Vector3 speed; 
 	private float startingSpeed;
@@ -34,9 +34,12 @@ public class Bullet : PolygonGameObject
 		}
 	}
 
-	public Vector3 GetSpeed()
+	public Vector2 Velocity
 	{
-		return speed;
+		get
+		{
+			return speed;
+		}
 	}
 }
  

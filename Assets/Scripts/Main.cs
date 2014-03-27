@@ -414,12 +414,12 @@ public class Main : MonoBehaviour
 			distances.Add(parts[i].cacheTransform.position - mainPart.cacheTransform.position);
 		}
 
-		float sqrtSummMass = 0;
-		List<float> sqrtMasses = new List<float> (parts.Count);
+		float sumVelocityWeights = 0;
+		List<float> velocityWeights = new List<float> (parts.Count);
 		for (int i = 0; i < parts.Count; i++) 
 		{
-			sqrtMasses.Add(Mathf.Sqrt(parts[i].mass));
-			sqrtSummMass += sqrtMasses[i];
+			velocityWeights.Add(Mathf.Sqrt(parts[i].mass));
+			sumVelocityWeights += velocityWeights[i];
 		}
 
 		float sumRotationWeights = 0;
@@ -434,8 +434,8 @@ public class Main : MonoBehaviour
 		for (int i = 0; i < parts.Count; i++) 
 		{
 			Asteroid part = parts[i];
-			float pieceBlowEnergy = blowEnergy * (sqrtMasses[i] / sqrtSummMass); 
-			float pieceInertiaEnergy = inertiaEnergy * (sqrtMasses[i] / sqrtSummMass); 
+			float pieceBlowEnergy = blowEnergy * (velocityWeights[i] / sumVelocityWeights); 
+			float pieceInertiaEnergy = inertiaEnergy * (velocityWeights[i] / sumVelocityWeights); 
 
 			Vector2 direction = distances[i];
 			part.velocity = direction.normalized * Mathf.Sqrt(2f * pieceBlowEnergy / part.mass );

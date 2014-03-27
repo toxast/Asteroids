@@ -11,13 +11,12 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 	private float initialRotation;
 	private float initialVelocity;
 
-	private float rotationChargeSpeed = 80f;
-
+	private float rotationChargingSpeed = 80f;
 	private float chargeRotation = 300f;
 	private float detectionDistance = 40f;
 	private float chargeSpeed;
 	private float brakes = 5f;
-
+	private float chargeDuration = 3f;
 
 	private float initialVelocitySqr;
 	private float detectionDistanceSqr;
@@ -54,10 +53,9 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 		initialVelocitySqr = initialVelocity * initialVelocity;
 	}
 
-	// Use this for initialization
 	void Start () 
 	{
-		StartCoroutine(CheckDistance());
+		StartCoroutine(CheckDistanceAndCharge());
 	}
 
 	//TODO: asteroid?
@@ -67,41 +65,7 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 		cacheTransform.Rotate(Vector3.back, rotation*delta);
 	}
 
-	IEnumerator Charge()
-	{
-		Vector2 dist = target.cacheTransform.position - cacheTransform.position;
-		velocity = chargeSpeed * dist.normalized;
-		float chargeDuration = 3f;
-		yield return new WaitForSeconds(chargeDuration); 
-	}
-
-	IEnumerator Slow()
-	{
-		float deltaTime = 0.3f;
-
-		bool slowing = true;
-		while(slowing)
-		{
-			bool slowingRotation = rotation > initialRotation;
-			if(slowingRotation)
-			{
-				rotation -= rotationChargeSpeed * deltaTime;
-			}
-			
-			bool slowingVelocity = velocity.sqrMagnitude > initialVelocitySqr;
-			if(slowingVelocity)
-			{
-				velocity -= velocity.normalized * deltaTime * brakes;
-			}
-
-			slowing = slowingVelocity || slowingRotation;
-			
-			yield return new WaitForSeconds(deltaTime); 
-		}
-	}
-
-
-	IEnumerator CheckDistance()
+	IEnumerator CheckDistanceAndCharge()
 	{
 		float deltaTime = 0.3f;
 
@@ -120,7 +84,7 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 				}
 				else
 				{
-					rotation += rotationChargeSpeed * deltaTime;
+					rotation += rotationChargingSpeed * deltaTime;
 				}
 			}
 			else
@@ -128,7 +92,7 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 				bool slowingRotation = rotation > initialRotation;
 				if(slowingRotation)
 				{
-					rotation -= rotationChargeSpeed * deltaTime;
+					rotation -= rotationChargingSpeed * deltaTime;
 				}
 				
 				bool slowingVelocity = velocity.sqrMagnitude > initialVelocitySqr;
@@ -137,6 +101,38 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 					velocity -= velocity.normalized * deltaTime * brakes;
 				}
 			}
+		}
+	}
+
+	IEnumerator Charge()
+	{
+		Vector2 dist = target.cacheTransform.position - cacheTransform.position;
+		velocity = chargeSpeed * dist.normalized;
+		yield return new WaitForSeconds(chargeDuration); 
+	}
+	
+	IEnumerator Slow()
+	{
+		float deltaTime = 0.3f;
+		
+		bool slowing = true;
+		while(slowing)
+		{
+			bool slowingRotation = rotation > initialRotation;
+			if(slowingRotation)
+			{
+				rotation -= rotationChargingSpeed * deltaTime;
+			}
+			
+			bool slowingVelocity = velocity.sqrMagnitude > initialVelocitySqr;
+			if(slowingVelocity)
+			{
+				velocity -= velocity.normalized * deltaTime * brakes;
+			}
+			
+			slowing = slowingVelocity || slowingRotation;
+			
+			yield return new WaitForSeconds(deltaTime); 
 		}
 	}
 }

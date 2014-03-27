@@ -18,32 +18,25 @@ public class TankEnemy : PolygonGameObject
 	}
 	, 2f).ToArray();
 	
-	
 	private float movingSpeed = 6f;
 	private float minDistanceToTargetSqr = 600;
 	private float maxDistanceToTargetSqr = 800;
-	
-	
-	private List<Bullet> bullets;
-	private SpaceShip target;
-	
-	private bool avoiding = false;
-	private Vector3 currentSafePoint;
+	private float rotatingSpeed = 45f;
+	private float rangeAngle = 15f; //if angle to target bigger than this - dont even try to shoot
+
 	private float currentAimAngle = 0;
-	
-	//if angle to target bigger than this - dont even try to shoot
-	private float rangeAngle = 15f; 
-
+	private bool avoiding = false;
 	private Vector2 distToTraget;
+	private Vector3 currentSafePoint;
 
-	Rotaitor cannonsRotaitor;
-	List<ShootPlace> shooters;
+	private PolygonGameObject target;
+	private Rotaitor cannonsRotaitor;
+	private List<Bullet> bullets;
+	private List<ShootPlace> shooters;
+
 	public void SetShooter(List<ShootPlace> shooters)
 	{
 		this.shooters = shooters;
-
-		float rotatingSpeed = 45f;
-		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 	}
 	
 	public void SetBulletsList(List<Bullet> bullets)
@@ -51,13 +44,15 @@ public class TankEnemy : PolygonGameObject
 		this.bullets = bullets;
 	}
 	
-	public void SetTarget(SpaceShip ship)
+	public void SetTarget(PolygonGameObject target)
 	{
-		this.target = ship;
+		this.target = target;
 	}
 	
 	void Start()
 	{
+		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
+
 		StartCoroutine(Evade());
 		
 		StartCoroutine(FireCoroutine());

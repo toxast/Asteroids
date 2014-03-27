@@ -19,31 +19,30 @@ public class RogueEnemy : PolygonGameObject
 	private float movingSpeed = 6f;
 	private float minDistanceToTargetSqr = 600;
 	private float maxDistanceToTargetSqr = 800;
+	private float rotatingSpeed = 45f;
+	private float rangeAngle = 15f;
+
+	float currentAimAngle;
 
 	private SpaceShip target;
-
 	Rotaitor cannonsRotaitor;
+	List<ShootPlace> shooters;
 
 	public void SetTarget(SpaceShip ship)
 	{
 		this.target = ship;
 	}
 
-	List<ShootPlace> shooters;
 	public void SetShooter(List<ShootPlace> shooters)
 	{
 		this.shooters = shooters;
-		
-		float rotatingSpeed = 45f;
-		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 	}
 
-	// Use this for initialization
 	void Start () 
 	{
-		Color col = Color.black;
-		col.a = 0.2f;
-		SetColor(col);
+		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
+
+		SetAlpha(0f);
 
 		StartCoroutine(FadeAndShoot());
 	}
@@ -77,24 +76,39 @@ public class RogueEnemy : PolygonGameObject
 	//TODO: refactor from tank enemy and evades
 	private void RotateCannon(float deltaTime)
 	{
-		float currentAimAngle = Math2d.GetRotation(ref distToTraget) / Math2d.PIdiv180 ;
+		currentAimAngle = Math2d.GetRotation(ref distToTraget) / Math2d.PIdiv180 ;
 		cannonsRotaitor.Rotate(deltaTime, currentAimAngle);
 	}
 
 	IEnumerator FadeAndShoot()
 	{
-		float visibleAfterShoot = 1f;
+		//time to calculate aimAngle in RotateCannon
+		yield return new WaitForSeconds(0.3f); 
+
 		float invisibleTime = 2f;
 		float fadeInTime = 0.5f;
+		float visibleAfterShoot = 1f;
 		float fadeOutTime = 1f;
 		float deltaTime = 0.2f;
+
+		float ALPHA_1 = 1f;
+		float ALPHA_0 = 0f;
+
 		while(true)
 		{
-			yield return StartCoroutine(FadeTo(1f, fadeInTime));
-			Fire();
-			yield return new WaitForSeconds(visibleAfterShoot); 
-			yield return StartCoroutine(FadeTo(0f, fadeOutTime));
-			yield return new WaitForSeconds(invisibleTime); 
+			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+			{
+				yield return StartCoroutine(FadeTo(ALPHA_1, fadeInTime));
+
+				Fire();
+
+				yield return new WaitForSeconds(visibleAfterShoot); 
+				
+				yield return StartCoroutine(FadeTo(ALPHA_0, fadeOutTime));
+				
+				yield return new WaitForSeconds(invisibleTime); 
+			}
+
 			yield return new WaitForSeconds(deltaTime); 
 		}
 	}

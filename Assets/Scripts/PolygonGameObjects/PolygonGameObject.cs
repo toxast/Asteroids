@@ -100,4 +100,13 @@ public class PolygonGameObject : MonoBehaviour
 
 	}
 
+	protected void ChangeVertex(int indx, Vector2 v)
+	{
+		Vector3[] vertx3d = mesh.vertices;
+		vertx3d[indx] =  new Vector3(v.x, v.y, 0f);
+		mesh.vertices = vertx3d;
+		
+		polygon.ChangeVertex(indx, v);
+	}
+
 }

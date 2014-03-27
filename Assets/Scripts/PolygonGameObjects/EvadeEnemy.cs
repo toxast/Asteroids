@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class EvadeEnemy : PolygonGameObject
 {
-	public event System.Action<ShootPlace, Transform> FireEvent;
-
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]
 		{
@@ -19,32 +17,27 @@ public class EvadeEnemy : PolygonGameObject
 		}
 		, 1f).ToArray();
 
+	public event System.Action<ShootPlace, Transform> FireEvent;
 
 	private float movingSpeed = 7f;
 	private float minDistanceToTargetSqr = 600;
 	private float maxDistanceToTargetSqr = 800;
-
-
-	private List<Bullet> bullets;
-	private SpaceShip target;
+	private float rangeAngle = 15f; //if angle to target bigger than this - dont even try to shoot
+	private float cannonsRotatingSpeed = 55f;
 
 	private bool avoiding = false;
 	private Vector3 currentSafePoint;
 	private float currentAimAngle = 0;
-
-	//if angle to target bigger than this - dont even try to shoot
-	private float rangeAngle = 15f; 
-
 	private int goRoundTargetSign = 1;
 
+	private List<Bullet> bullets;
+	private SpaceShip target;
 	Rotaitor cannonsRotaitor;
 	ShootPlace shooter;
+
 	public void SetShooter(ShootPlace shooter)
 	{
 		this.shooter = shooter;
-
-		float rotatingSpeed = 55f;
-		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 	}
 
 	public void SetBulletsList(List<Bullet> bullets)
@@ -59,6 +52,8 @@ public class EvadeEnemy : PolygonGameObject
 
 	void Start()
 	{
+		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
+
 		StartCoroutine(Evade());
 
 		StartCoroutine(Aim());
@@ -79,6 +74,7 @@ public class EvadeEnemy : PolygonGameObject
 		else
 		{
 			KeepTargetDistance(deltaDist);
+			RotateAroundTarget(deltaDist);
 		}
 
 		RotateCannon(delta);
@@ -110,12 +106,13 @@ public class EvadeEnemy : PolygonGameObject
 		{
 			cacheTransform.position += (Vector3) dist.normalized * deltaDist;
 		}
+	}
 
-		{
-			Vector2 rotateDirection = new Vector2(dist.y, -dist.x).normalized; //right
-			//rotate around
-			cacheTransform.position += (Vector3) rotateDirection * deltaDist * goRoundTargetSign;
-		}
+	private void RotateAroundTarget(float deltaDist)
+	{
+		Vector2 dist = target.cacheTransform.position - cacheTransform.position;
+		Vector2 rotateDirection = new Vector2(dist.y, -dist.x).normalized; //right
+		cacheTransform.position += (Vector3) rotateDirection * deltaDist * goRoundTargetSign;
 	}
 
 	private void RotateCannon(float deltaTime)
@@ -154,19 +151,19 @@ public class EvadeEnemy : PolygonGameObject
 		float defaultInterval = shooter.fireInterval;
 		float shortInterval = defaultInterval/2f;
 
-		float shotInterval = defaultInterval;
+		float deltaTime = defaultInterval;
 		while(true)
 		{
-			yield return new WaitForSeconds(shotInterval);
+			yield return new WaitForSeconds(deltaTime);
 
-			if(Mathf.Abs(cacheTransform.rotation.eulerAngles.z - currentAimAngle) < rangeAngle)
+			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
 			{
 				Fire();
-				shotInterval = defaultInterval;
+				deltaTime = defaultInterval;
 			}
 			else
 			{
-				shotInterval = shortInterval;
+				deltaTime = shortInterval;
 			}
 		}
 	}
