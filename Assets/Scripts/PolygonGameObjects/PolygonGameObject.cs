@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PolygonGameObject : MonoBehaviour 
+public class PolygonGameObject : MonoBehaviour
 {
 	public Transform cacheTransform;
 	public Polygon polygon;
@@ -15,6 +15,8 @@ public class PolygonGameObject : MonoBehaviour
 	public float inertiaMoment;
 	public Vector3 velocity;
 	public float rotation;
+
+	public bool markedForDeath = false;
 
 	void Awake () 
 	{

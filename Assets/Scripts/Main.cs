@@ -7,14 +7,14 @@ public class Main : MonoBehaviour
 	SpaceShip spaceship;
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <Bullet> bullets = new List<Bullet>();
-	List <Bullet> enemyBullets = new List<Bullet>();
-	//List <EvadeEnemy> evades = new List<EvadeEnemy>();
-
+	List <PolygonGameObject> enemyBullets = new List<PolygonGameObject>();
+	List <TimeDestuctor> parts2kill = new List<TimeDestuctor>();
 
 	PowerUpsCreator powerUpsCreator;
 	List<PowerUp> powerUps = new List<PowerUp> ();
 
 	private float DestroyTreshold = 8f;
+	private float DestroyAfterSplitTreshold = 5f;
 
 	Rect bounds;
 
@@ -180,7 +180,7 @@ public class Main : MonoBehaviour
 
 	private void CreateSpaceShip()
 	{
-		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.spaceshipVertices, Color.blue);
+		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
 		spaceship.FireEvent += OnFire;
 		spaceship.gameObject.name = "Spaceship";
 		List<ShootPlace> shooters = new List<ShootPlace>();
@@ -235,9 +235,11 @@ public class Main : MonoBehaviour
 
 	void OnEnemyFire (ShootPlace shooter, Transform trfrm)
 	{
-		Bullet bullet = BulletCreator.CreateBullet(trfrm, shooter); 
+		//Bullet bullet = BulletCreator.CreateBullet(trfrm, shooter); 
+
+		Missile missile = BulletCreator.CreateMissile(spaceship.gameObject, trfrm, shooter); 
 		
-		PutOnFirstNullPlace<Bullet>(enemyBullets, bullet);
+		PutOnFirstNullPlace<PolygonGameObject>(enemyBullets, missile);
 	}
 
 	float enemyDtime;
@@ -269,10 +271,35 @@ public class Main : MonoBehaviour
 		TickAndCheckBoundsNullCheck (enemyBullets, enemyDtime);
 
 
+		for (int i = parts2kill.Count - 1; i >= 0; i--) 
+		{
+			var part = parts2kill[i];
+			part.Tick(enemyDtime);
+			if(part.a == null || part.a.gameObject == null)  
+			{
+				parts2kill.RemoveAt(i);
+				continue;
+			}
+			else if(part.IsTimeExpired())
+			{
+				bool removed = enemies.Remove(part.a);
+				Destroy(part.a.gameObject);
+				parts2kill.RemoveAt(i);
+				if(!removed)
+				{
+					Debug.LogError("part not removed, count:" + parts2kill.Count);
+				}
+			}
+		}
+
 		//TODO: refactor
 		for (int i = enemies.Count - 1; i >= 0; i--) 
 		{
 			var enemy = enemies[i];
+
+			if(enemy.markedForDeath)
+				continue;
+
 			for (int k = bullets.Count - 1; k >= 0; k--)
 			{
 				var bullet = bullets[k];
@@ -295,14 +322,20 @@ public class Main : MonoBehaviour
 					
 					if(enemy.IsKilled())
 					{
-						if(enemy.polygon.area > DestroyTreshold || !(enemy is Asteroid))//TODO: refactor
-						{
+//						if(enemy.polygon.area > DestroyTreshold || !(enemy is Asteroid))//TODO: refactor
+//						{
 							List<Asteroid> parts = SplitIntoAsteroids(enemy);
 							foreach(var part in parts)
 							{
 								enemies.Add(part);
+
+								if(part.polygon.area < DestroyAfterSplitTreshold)
+								{
+									TimeDestuctor d = new TimeDestuctor(part, 0.7f + UnityEngine.Random.Range(0f, 1f));
+									parts2kill.Add(d);
+								}
 							}
-						}
+						//}
 						 
 						enemies.RemoveAt(i);
 						Destroy(enemy.gameObject);
@@ -334,6 +367,9 @@ public class Main : MonoBehaviour
 		for (int i = 0; i < enemies.Count; i++) 
 		{
 			var enemy = enemies[i];
+
+			if(enemy.markedForDeath)
+				continue;
 
 			int indxa, indxb;
 			if(PolygonCollision.IsCollides(spaceship, enemy, out indxa, out indxb))
@@ -465,19 +501,8 @@ public class Main : MonoBehaviour
 	//TODO:refactor
 	private void CalculateObjectPartVelocity(List<Asteroid> parts, PolygonGameObject mainPart)
 	{
-		IGotVelocity velocityObj = mainPart as IGotVelocity;
-		Vector2 mainVelocity = Vector2.zero;
-		if(velocityObj != null)
-		{
-			mainVelocity = velocityObj.Velocity;
-		}
-
-		float mainRotation = 0; 
-		IGotRotation rotationObj = mainPart as IGotRotation;
-		if(rotationObj != null)
-		{
-			mainRotation = rotationObj.Rotation * Math2d.PIdiv180;
-		}
+		Vector2 mainVelocity = mainPart.velocity;
+		float mainRotation = mainPart.rotation* Math2d.PIdiv180; 
 
 		float mainPartEnergy = 0.5f * mainPart.mass * mainVelocity.sqrMagnitude;
 		float mainPartRotationEnergy = 0.5f * mainPart.inertiaMoment * (mainRotation*mainRotation);
@@ -546,7 +571,7 @@ public class Main : MonoBehaviour
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Color.black);
 
 		ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
-		place.fireInterval *= 3;
+		place.fireInterval = 5;
 		Math2d.ScaleVertices(place.vertices, 1f);
 		enemy.FireEvent += OnEnemyFire;
 		enemy.gameObject.name = "evade enemy";
@@ -611,8 +636,8 @@ public class Main : MonoBehaviour
 
 	private Asteroid CreateAsteroid()
 	{
-		float size = Random.Range(2f, 8f);
-		int vcount = Random.Range(3, 3 + (int)size*2);
+		float size = Random.Range(3f, 8f);
+		int vcount = Random.Range(5, 5 + (int)size*3);
 		Vector2[] vertices = PolygonCreator.CreatePolygonVertices(size, size/2f, vcount);
 		
 		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Color.black);

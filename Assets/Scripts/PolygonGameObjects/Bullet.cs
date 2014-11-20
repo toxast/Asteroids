@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : PolygonGameObject, IGotVelocity
+public class Bullet : PolygonGameObject
 {
 	private float startingSpeed;
 
@@ -30,14 +30,6 @@ public class Bullet : PolygonGameObject, IGotVelocity
 		if(lifeTime < 0)
 		{
 			Destroy(gameObject);
-		}
-	}
-
-	public Vector2 Velocity
-	{
-		get
-		{
-			return velocity;
 		}
 	}
 }

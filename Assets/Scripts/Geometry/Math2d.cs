@@ -138,6 +138,13 @@ public static class Math2d
 		return verticesRotated;
 	}
 
+	static public Vector2 RotateVertex(Vector2 v, float alpha)
+	{
+		var cosA = Mathf.Cos (alpha);
+		var sinA = Mathf.Sin (alpha);
+		return new Vector2(v.x*cosA - v.y*sinA, v.x*sinA + v.y*cosA);
+	}
+
 	static public Vector2 RotateVertex(Vector2 v, float cosA, float sinA)
 	{
 		return new Vector2(v.x*cosA - v.y*sinA, v.x*sinA + v.y*cosA);

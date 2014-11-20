@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
+public class SawEnemy : PolygonGameObject
 {
 	private SpaceShip target;
 
@@ -17,22 +17,6 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 
 	private float initialVelocitySqr;
 	private float detectionDistanceSqr;
-
-	public Vector2 Velocity
-	{
-		get
-		{
-			return velocity;
-		}
-	}
-	
-	public float Rotation
-	{
-		get
-		{
-			return rotation;
-		}
-	}
 
 	public void Init(SpaceShip target)
 	{

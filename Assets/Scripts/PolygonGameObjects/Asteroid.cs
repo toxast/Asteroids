@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Asteroid : PolygonGameObject, IGotVelocity, IGotRotation
+public class Asteroid : PolygonGameObject
 {
 	public void Init()
 	{
@@ -14,27 +14,9 @@ public class Asteroid : PolygonGameObject, IGotVelocity, IGotRotation
 		cacheTransform.position = new Vector3(cacheTransform.position.x, cacheTransform.position.y, Random.Range(-1f, -0.1f));
 	}
 
-
 	public override void Tick(float delta)
 	{
 		cacheTransform.position += velocity * delta;
 		cacheTransform.Rotate(Vector3.back, rotation*delta);
 	}
-
-	public Vector2 Velocity
-	{
-		get
-		{
-			return velocity;
-		}
-	}
-
-	public float Rotation
-	{
-		get
-		{
-			return rotation;
-		}
-	}
-
 }

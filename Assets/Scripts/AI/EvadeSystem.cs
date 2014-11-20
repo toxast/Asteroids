@@ -52,8 +52,8 @@ public class EvadeSystem
 		{
 			DangerBullet blt  = dangerBullets[0];
 			//Rotate everything. So perpendecular to bullet speed line will be y=0
-			float cosA = Math2d.Cos(new Vector2(0f, -1f), blt.bullet.Velocity);
-			float sinA = Math2d.Cos(new Vector2(-1f, 0f), blt.bullet.Velocity);
+			float cosA = Math2d.Cos(new Vector2(0f, -1f), blt.bullet.velocity);
+			float sinA = Math2d.Cos(new Vector2(-1f, 0f), blt.bullet.velocity);
 
 			intersections = RotateAndGetIntersections (dangerBullets, cosA, sinA);
 
@@ -79,7 +79,7 @@ public class EvadeSystem
 			if(bullet == null) continue;
 			
 			Vector2 pos = (Vector2)bullet.cacheTransform.position - victimPos; 
-			float cos = Math2d.Cos(-pos, bullet.Velocity);
+			float cos = Math2d.Cos(-pos, bullet.velocity);
 			DangerBullet b = new DangerBullet(bullet, pos);
 
 			bool bulletOutOfRange = b.sqrMagnitude > bulletDetectionRangeSqr;
@@ -116,7 +116,7 @@ public class EvadeSystem
 		{
 			DangerBullet dbullet = dangerBullets[i];
 			Vector2 posRotated = Math2d.RotateVertex(dbullet.dist, cosA, sinA);
-			Vector2 speedRotated = Math2d.RotateVertex(dbullet.bullet.Velocity, cosA, sinA);
+			Vector2 speedRotated = Math2d.RotateVertex(dbullet.bullet.velocity, cosA, sinA);
 			
 			float x;
 			if(speedRotated.y == 0f)

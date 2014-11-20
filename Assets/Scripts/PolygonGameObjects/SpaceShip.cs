@@ -12,8 +12,6 @@ public class SpaceShip : PolygonGameObject
 	float maxSpeed = 40f;
 	float maxSpeedSqr;
 
-	float rotationBreak = 800f;
-	float rotationThrust = 500f;
 	float maxRotation = 250f;
 	//float drag = 0.5f;
 
@@ -35,16 +33,46 @@ public class SpaceShip : PolygonGameObject
 		this.shooters = shooters;
 	}
 
-//	private void TurnRight(float delta)
-//	{	
-//		rotation += 
-//		cacheTransform.Rotate(Vector3.back, turnSpeed*delta);
-//	}
-//
-//	private void TurnLeft(float delta)
-//	{
-//		cacheTransform.Rotate(Vector3.back, -turnSpeed*delta);
-//	}
+	private void TurnRight(float delta)
+	{	
+		float dRotation = turnSpeed * delta;
+		Turn (dRotation);
+	}
+
+	private void TurnLeft(float delta)
+	{
+		float dRotation = -turnSpeed * delta;
+		Turn (dRotation);
+	}
+
+	private void Turn(float dRotation)
+	{
+		if(Mathf.Abs(rotation) > 0)
+		{
+			var dsign = Mathf.Sign (dRotation);
+			if(dsign != Mathf.Sign(rotation))
+			{
+				rotation += dRotation;
+				if(dsign == Mathf.Sign(rotation))
+				{
+					rotation = 0;
+				}
+			}
+			else
+			{
+				rotation -= dRotation;
+				if(dsign != Mathf.Sign(rotation))
+				{
+					rotation = 0;
+				}
+				cacheTransform.Rotate(Vector3.back, dRotation);
+			}
+		}
+		else
+		{
+			cacheTransform.Rotate(Vector3.back, dRotation);
+		}
+	}
 
 	private void Accelerate(float delta)
 	{
@@ -52,9 +80,19 @@ public class SpaceShip : PolygonGameObject
 		//RestictSpeed();
 	}
 
-	private void MoveBack(float delta)
+	private void Brake(float delta)
 	{
-		velocity = velocity - cacheTransform.right * delta * brake;
+		var newMagnitude = velocity.magnitude - delta * brake; 
+		if (newMagnitude < 0)
+			newMagnitude = 0;
+
+		velocity = velocity.normalized * newMagnitude;
+
+		if(rotation != 0)
+		{
+			if(rotation > 0)  TurnLeft(delta);
+			else TurnRight(delta);
+		}
 		//RestictSpeed();
 	}
 
@@ -70,15 +108,11 @@ public class SpaceShip : PolygonGameObject
 	{
 		if(Input.GetKey(KeyCode.D))
 		{
-			rotation += delta * rotationThrust;
-			rotation = Mathf.Clamp(rotation, -maxRotation, maxRotation);
-			//TurnRight(delta);
+			TurnRight(delta);
 		}
 		else if(Input.GetKey(KeyCode.A))
 		{
-			rotation -= delta * rotationThrust;
-			rotation = Mathf.Clamp(rotation, -maxRotation, maxRotation);
-			//TurnLeft(delta);
+			TurnLeft(delta);
 		}
 		else
 		{
@@ -102,7 +136,7 @@ public class SpaceShip : PolygonGameObject
 		}
 		else if(Input.GetKey(KeyCode.S))
 		{
-			MoveBack(delta);
+			Brake(delta);
 		}
 
 		if(firingSpeedPUpTimeLeft > 0)
@@ -119,7 +153,9 @@ public class SpaceShip : PolygonGameObject
 		}
 
 		cacheTransform.position += velocity*delta;
-		cacheTransform.Rotate(Vector3.back, rotation*delta);
+
+		if(rotation != 0)
+			cacheTransform.Rotate(Vector3.back, rotation*delta);
 	}
 
 	private void Shoot()
