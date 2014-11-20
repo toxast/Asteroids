@@ -3,9 +3,6 @@ using System.Collections;
 
 public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 {
-	private Vector3 velocity;
-	private float rotation;
-
 	private SpaceShip target;
 
 	private float initialRotation;
@@ -106,7 +103,7 @@ public class SawEnemy : PolygonGameObject, IGotRotation, IGotVelocity
 
 	IEnumerator Charge()
 	{
-		AimSystem aim = new AimSystem(target.cacheTransform.position, target.speed, cacheTransform.position, chargeSpeed);
+		AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, chargeSpeed);
 		if(aim.canShoot)
 		{
 			velocity = chargeSpeed * aim.direction.normalized;

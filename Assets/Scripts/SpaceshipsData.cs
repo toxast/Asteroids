@@ -51,8 +51,8 @@ public static class SpaceshipsData
 	public static Vector2[] spaceshipVertices = new Vector2[]
 	{
 		new Vector2(2f, 0f),
-		new Vector2(-1f, 1f),
 		new Vector2(-1f, -1f),
+		new Vector2(-1f, 1f),
 	};
 
 	public static Vector2[] fastSpaceshipVertices = new Vector2[]

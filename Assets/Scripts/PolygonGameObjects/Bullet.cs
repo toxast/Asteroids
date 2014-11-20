@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Bullet : PolygonGameObject, IGotVelocity
 {
-	public Vector3 speed; 
 	private float startingSpeed;
 
 	private float lifeTime;
@@ -19,12 +18,12 @@ public class Bullet : PolygonGameObject, IGotVelocity
 	{
 		damage = place.damage;
 		lifeTime = place.lifeTime;
-		speed = direction.normalized * place.speed;
+		velocity = direction.normalized * place.speed;
 	}
 
 	public override void Tick(float delta)
 	{
-		Vector3 deltaDistance = speed*delta;
+		Vector3 deltaDistance = velocity*delta;
 		cacheTransform.position += deltaDistance;
 
 		lifeTime -= delta; 
@@ -38,7 +37,7 @@ public class Bullet : PolygonGameObject, IGotVelocity
 	{
 		get
 		{
-			return speed;
+			return velocity;
 		}
 	}
 }

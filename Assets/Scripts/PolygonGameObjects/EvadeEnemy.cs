@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -126,7 +126,7 @@ public class EvadeEnemy : PolygonGameObject
 
 		while(true)
 		{
-			AimSystem aim = new AimSystem(target.cacheTransform.position, target.speed, cacheTransform.position, shooter.speed);
+			AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, shooter.speed);
 			if(aim.canShoot)
 			{
 				currentAimAngle = aim.directionAngle / Math2d.PIdiv180;

@@ -13,6 +13,8 @@ public class PolygonGameObject : MonoBehaviour
 	public float density = 1;
 	public float mass;
 	public float inertiaMoment;
+	public Vector3 velocity;
+	public float rotation;
 
 	void Awake () 
 	{

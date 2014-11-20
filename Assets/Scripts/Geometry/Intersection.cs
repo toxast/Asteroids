@@ -52,17 +52,28 @@ public class Intersection {
 	/// If edges have common points - this edges should be consuquental in the array
 	/// Otherwise the result may contain duplicate intersection instances.
 	/// </summary>
-	public static List<Vector2> GetIntersections(Edge e, Edge[] edges)
+	public static List<Vector2> GetDifferentIntersections(Edge e, Edge[] edges)
 	{
 		List<Vector2> intersections = new List<Vector2> ();
 		foreach(Edge edge in edges)
 		{
 			Intersection insc = new Intersection(e.p1, e.p2, edge.p1, edge.p2); 
-			bool sameAsPrevious = intersections.Any() && intersections.Last() == insc.intersection;
+			bool sameAsPrevious = intersections.Any() && Math2d.ApproximatelySame(intersections.Last(), insc.intersection);
 			if(insc.haveIntersection && !sameAsPrevious)
 			{
 				intersections.Add(insc.intersection);
 			}
+		}
+		return intersections;
+	}
+
+
+	public static List<Intersection> GetIntersections(Edge e, Edge[] edges)
+	{
+		List<Intersection> intersections = new List<Intersection> ();
+		foreach(Edge edge in edges)
+		{
+			intersections.Add(new Intersection(e.p1, e.p2, edge.p1, edge.p2));
 		}
 		return intersections;
 	}

@@ -4,10 +4,17 @@ using System.Collections;
 public class PowerUp : PolygonGameObject 
 {
 	public EffectType effect;
+	public float lived = 0;
 
 	public void Init(EffectType effect)
 	{
 		this.effect = effect;
+	}
+
+	public override void Tick (float delta)
+	{
+		base.Tick (delta);
+		lived += delta;
 	}
 }
 

@@ -180,23 +180,29 @@ public class Main : MonoBehaviour
 
 	private void CreateSpaceShip()
 	{
-		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.tankSpaceshipVertices, Color.blue);
+		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.spaceshipVertices, Color.blue);
 		spaceship.FireEvent += OnFire;
 		spaceship.gameObject.name = "Spaceship";
 		List<ShootPlace> shooters = new List<ShootPlace>();
 
+
 		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
-		place2.color = Color.white;
-		place2.fireInterval = 0.4f;
-		place2.position = new Vector2(1f, 1.3f);
+				place2.color = Color.red;
+				place2.fireInterval = 0.25f;
+				place2.position = new Vector2(1f, 0f);
 
-		ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
-		place3.fireInterval = 0.4f;
-		place3.color = Color.white;
-		place3.position = new Vector2(1f, -1.3f);
-
+//		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
+//		place2.color = Color.white;
+//		place2.fireInterval = 0.4f;
+//		place2.position = new Vector2(1f, 1.3f);
+//
+//		ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
+//		place3.fireInterval = 0.4f;
+//		place3.color = Color.white;
+//		place3.position = new Vector2(1f, -1.3f);
+//
 		shooters.Add(place2);
-		shooters.Add(place3);
+//		shooters.Add(place3);
 		spaceship.SetShootPlaces(shooters );
 	}
 	
@@ -264,14 +270,12 @@ public class Main : MonoBehaviour
 
 
 		//TODO: refactor
-		PolygonGameObject enemy;
-		Bullet bullet;
 		for (int i = enemies.Count - 1; i >= 0; i--) 
 		{
-			enemy = enemies[i];
+			var enemy = enemies[i];
 			for (int k = bullets.Count - 1; k >= 0; k--)
 			{
-				bullet = bullets[k];
+				var bullet = bullets[k];
 				if(bullet == null)
 					continue;
 
@@ -308,11 +312,47 @@ public class Main : MonoBehaviour
 			}
 		}
 
+
+		for (int i = 0; i < enemyBullets.Count; i++) 
+		{
+			var bullet = enemyBullets[i];
+			if(bullet == null)
+				continue;
+
+			int indxa, indxb;
+			if(PolygonCollision.IsCollides(spaceship, bullet, out indxa, out indxb))
+			{
+				PolygonCollision.ApplyCollision(spaceship, bullet, indxa, indxb);
+
+				Destroy(bullet.gameObject);
+				enemyBullets[i] = null; 
+				Debug.Log("bam");
+			}
+		}
+
+
+		for (int i = 0; i < enemies.Count; i++) 
+		{
+			var enemy = enemies[i];
+
+			int indxa, indxb;
+			if(PolygonCollision.IsCollides(spaceship, enemy, out indxa, out indxb))
+			{
+				PolygonCollision.ApplyCollision(spaceship, enemy, indxa, indxb);
+			}
+		}
+
 		//TODO: refactor
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
 		{
 			PowerUp powerUp = powerUps[i];
-			if(PolygonCollision.IsCollides(spaceship, powerUp))
+			powerUp.Tick(Time.deltaTime);
+			if(powerUp.lived > 10f)
+			{
+				powerUps.RemoveAt(i);
+				Destroy(powerUp.gameObject);
+			}
+			else if(PolygonCollision.IsCollides(spaceship, powerUp))
 			{
 				EffectType effect = powerUp.effect;
 

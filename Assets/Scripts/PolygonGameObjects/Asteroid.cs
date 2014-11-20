@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class Asteroid : PolygonGameObject, IGotVelocity, IGotRotation
 {
-	[SerializeField] public Vector3 velocity;
-	[SerializeField] public float rotation;
-
-
 	public void Init()
 	{
 		float speed = Random.Range(2f, 10f);

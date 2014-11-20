@@ -143,6 +143,11 @@ public static class Math2d
 		return new Vector2(v.x*cosA - v.y*sinA, v.x*sinA + v.y*cosA);
 	}
 
+	static public bool ApproximatelySame(Vector2 a, Vector2 b)
+	{
+		return Mathf.Approximately (a.x, b.x) && Mathf.Approximately (a.y, b.y);
+	}
+
 	static public Edge RotateEdge(Edge e, float cosA, float sinA)
 	{
 		return new Edge (RotateVertex (e.p1, cosA, sinA), RotateVertex (e.p2, cosA, sinA));

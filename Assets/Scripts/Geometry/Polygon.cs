@@ -15,13 +15,14 @@ public class Polygon
 
 	public float R; //radius of outer sphere 
 	public float Rsqr;
-	Vector2 massCenter = new Vector2(0,0);
+	public Vector2 massCenter {get; private set;}
 	public float area;
 
 	//private static double CosCutTreshold = Math.Cos((130f * Math.PI) / 180f);
 
 	public Polygon(Vector2[] vertices)
 	{
+		this.massCenter = new Vector2(0,0);
 		this.vertices = vertices;
 		this.vcount = vertices.Length;
 
@@ -69,10 +70,10 @@ public class Polygon
 		edges[indx].p1 = v;
 	}
 
-	/*public void SetMassCenter(Vector2 center)
+	public void SetMassCenter(Vector2 center)
 	{
 		massCenter = center;
-	}*/
+	}
 
 	private float GetRadiusOfOuterSphere()
 	{
@@ -276,7 +277,7 @@ public class Polygon
 		bool inside = false;
 
 		Vector2 bound = new Vector2(xMin-1, point.y); //let e = 1
-		int intersectionsCount = Intersection.GetIntersections (new Edge(bound, point), edges).Count();
+		int intersectionsCount = Intersection.GetDifferentIntersections (new Edge(bound, point), edges).Count();
 		//Debug.LogWarning("intersections: " + intersectionsCount);
 		inside = intersectionsCount%2 == 1;
 		//Debug.LogWarning ("inside: " + inside);
