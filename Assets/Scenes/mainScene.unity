@@ -98,7 +98,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1045239088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f297716b75cd19d4fa5b39b7de9db774, type: 3}
+  m_Script: {fileID: 11500000, guid: 92b0b2e1f9b6cc945b50b9d81b312b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1045239090
@@ -112,6 +112,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!1 &1955669209
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,8 +180,11 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
   m_HDR: 0
   m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: .0219999999
 --- !u!4 &1955669214
 Transform:
   m_ObjectHideFlags: 0
@@ -192,3 +196,4 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 1
