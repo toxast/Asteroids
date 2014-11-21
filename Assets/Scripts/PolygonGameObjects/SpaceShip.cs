@@ -5,11 +5,11 @@ using System.Linq;
 
 public class SpaceShip : PolygonGameObject 
 {
-	float turnSpeed = 200f;
+	float turnSpeed = 120f;
 
-	float brake = 10f;
-	float thrust = 20f;
-	float maxSpeed = 40f;
+	float brake = 15f;
+	float thrust = 15f;
+	float maxSpeed = 30f;
 	float maxSpeedSqr;
 
 	float maxRotation = 250f;
@@ -26,6 +26,12 @@ public class SpaceShip : PolygonGameObject
 		cacheTransform = transform;
 		maxSpeedSqr = maxSpeed*maxSpeed;
 		velocity = Vector3.zero;
+	}
+
+	protected override float healthModifier {
+		get {
+			return base.healthModifier;
+		}
 	}
 
 	public void SetShootPlaces(List<ShootPlace> shooters)

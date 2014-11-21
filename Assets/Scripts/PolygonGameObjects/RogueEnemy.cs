@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class RogueEnemy : PolygonGameObject 
+public class RogueEnemy : PolygonGameObject, IGotTarget
 {
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]
@@ -24,13 +24,13 @@ public class RogueEnemy : PolygonGameObject
 
 	float currentAimAngle;
 
-	private SpaceShip target;
+	private PolygonGameObject target;
 	Rotaitor cannonsRotaitor;
 	List<ShootPlace> shooters;
 
-	public void Init (SpaceShip ship, List<ShootPlace> shooters) 
+	public void Init (PolygonGameObject ship, List<ShootPlace> shooters) 
 	{
-		this.target = ship;
+		SetTarget(ship);
 		this.shooters = shooters;
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
@@ -40,9 +40,18 @@ public class RogueEnemy : PolygonGameObject
 		StartCoroutine(FadeAndShoot());
 	}
 
+	public void SetTarget(PolygonGameObject target)
+	{
+		this.target = target;
+	}
+
 	private Vector2 distToTraget;
 	public override void Tick(float delta)
 	{
+
+		if (target == null)
+			return;
+
 		distToTraget = target.cacheTransform.position - cacheTransform.position;
 		
 		float deltaDist = movingSpeed * delta;
@@ -93,13 +102,16 @@ public class RogueEnemy : PolygonGameObject
 			{
 				yield return StartCoroutine(FadeTo(ALPHA_1, fadeInTime));
 
-				Fire();
-
-				yield return new WaitForSeconds(visibleAfterShoot); 
+				if(target != null)
+				{
+					Fire();
 				
-				yield return StartCoroutine(FadeTo(ALPHA_0, fadeOutTime));
-				
-				yield return new WaitForSeconds(invisibleTime); 
+					yield return new WaitForSeconds(visibleAfterShoot); 
+					
+					yield return StartCoroutine(FadeTo(ALPHA_0, fadeOutTime));
+					
+					yield return new WaitForSeconds(invisibleTime); 
+				}
 			}
 
 			yield return new WaitForSeconds(deltaTime); 

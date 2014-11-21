@@ -57,51 +57,54 @@ public class SpikyAsteroid : Asteroid
 		
 		while(true)
 		{
-			Vector2 dist = target.position - cacheTransform.position;
-			if(dist.sqrMagnitude < detectionDistanceSqr)
+			if(target != null)
 			{
-				float angle = cacheTransform.rotation.eulerAngles.z * Math2d.PIdiv180;
-				float cosA = Mathf.Cos(angle);
-				float sinA = Mathf.Sin(angle);
-
-				for (int i = spikesLeft.Count - 1; i >= 0; i--) 
+				Vector2 dist = target.position - cacheTransform.position;
+				if(dist.sqrMagnitude < detectionDistanceSqr)
 				{
-					Spike spike = spikesLeft[i];
+					float angle = cacheTransform.rotation.eulerAngles.z * Math2d.PIdiv180;
+					float cosA = Mathf.Cos(angle);
+					float sinA = Mathf.Sin(angle);
 
-					Edge e1  = Math2d.RotateEdge(spike.a, cosA, sinA); 
-					Edge e2  = Math2d.RotateEdge(spike.b, cosA, sinA);
-					Vector2 spikeBase = e2.p2 - e1.p1;
-
-					bool onLeftSide = Mathf.Sign(Math2d.Cross(ref spikeBase, ref dist)) > 0;
-					if(onLeftSide)
+					for (int i = spikesLeft.Count - 1; i >= 0; i--) 
 					{
-						Vector2 toTheTip1 = e1.p2 - e1.p1;
-						Vector2 toTheTip2 = e2.p1 - e2.p2;
+						Spike spike = spikesLeft[i];
 
-						float sign1 = Mathf.Sign(Math2d.Cross(ref toTheTip1, ref dist));
-						float sign2 = Mathf.Sign(Math2d.Cross(ref toTheTip2, ref dist));
+						Edge e1  = Math2d.RotateEdge(spike.a, cosA, sinA); 
+						Edge e2  = Math2d.RotateEdge(spike.b, cosA, sinA);
+						Vector2 spikeBase = e2.p2 - e1.p1;
 
-						bool inFrontOfSpike = (sign1 != sign2);
-
-						if(inFrontOfSpike)
+						bool onLeftSide = Mathf.Sign(Math2d.Cross(ref spikeBase, ref dist)) > 0;
+						if(onLeftSide)
 						{
-							//split spike off
-							List<Vector2[]> parts = polygon.SplitBy2Vertices(polygon.Previous(spike.index), polygon.Next(spike.index));
-							Vector2[] spikePart = Math2d.RotateVertices(parts[1], angle);
+							Vector2 toTheTip1 = e1.p2 - e1.p1;
+							Vector2 toTheTip2 = e2.p1 - e2.p2;
 
-							spikesLeft.RemoveAt(i);
- 							StartCoroutine(GrowSpike(spike.index, spike.a.p2));
+							float sign1 = Mathf.Sign(Math2d.Cross(ref toTheTip1, ref dist));
+							float sign2 = Mathf.Sign(Math2d.Cross(ref toTheTip2, ref dist));
 
-							Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, Color.black);
-							spikeAsteroid.Init();
-							spikeAsteroid.cacheTransform.position += cacheTransform.position;
-							spikeAsteroid.rotation = 0f;
-							spikeAsteroid.velocity = spikeSpeed * (e1.p2 - (e1.p1 + e2.p2)/2f).normalized;
+							bool inFrontOfSpike = (sign1 != sign2);
 
-							//change mesh and polygon
-							ChangeVertex(spike.index, (spike.a.p1 + spike.b.p2) / 2f);
+							if(inFrontOfSpike)
+							{
+								//split spike off
+								List<Vector2[]> parts = polygon.SplitBy2Vertices(polygon.Previous(spike.index), polygon.Next(spike.index));
+								Vector2[] spikePart = Math2d.RotateVertices(parts[1], angle);
 
-							SpikeAttack(spikeAsteroid);
+								spikesLeft.RemoveAt(i);
+	 							StartCoroutine(GrowSpike(spike.index, spike.a.p2));
+
+								Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, Color.black);
+								spikeAsteroid.Init();
+								spikeAsteroid.cacheTransform.position += cacheTransform.position;
+								spikeAsteroid.rotation = 0f;
+								spikeAsteroid.velocity = spikeSpeed * (e1.p2 - (e1.p1 + e2.p2)/2f).normalized;
+
+								//change mesh and polygon
+								ChangeVertex(spike.index, (spike.a.p1 + spike.b.p2) / 2f);
+
+								SpikeAttack(spikeAsteroid);
+							}
 						}
 					}
 				}

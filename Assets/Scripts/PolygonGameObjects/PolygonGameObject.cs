@@ -29,7 +29,12 @@ public class PolygonGameObject : MonoBehaviour
 		mass = polygon.area * density;
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;
-		health = Mathf.Sqrt(mass);//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
+		health = Mathf.Sqrt(mass) * healthModifier;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
+	}
+
+	protected virtual float healthModifier
+	{
+		get{return 1f;}
 	}
 
 	public void SetColor(Color col)

@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TankEnemy : PolygonGameObject
+public class TankEnemy : PolygonGameObject, IGotTarget
 {
 	public event System.Action<ShootPlace, Transform> FireEvent;
 	
@@ -34,9 +34,9 @@ public class TankEnemy : PolygonGameObject
 	private List<Bullet> bullets;
 	private List<ShootPlace> shooters;
 
-	public void Init(PolygonGameObject target, List<Bullet> bullets, List<ShootPlace> shooters)
+	public void Init(PolygonGameObject ptarget, List<Bullet> bullets, List<ShootPlace> shooters)
 	{
-		this.target = target;
+		SetTarget(ptarget);
 		this.bullets = bullets;
 		this.shooters = shooters;
 
@@ -46,9 +46,17 @@ public class TankEnemy : PolygonGameObject
 		
 		StartCoroutine(FireCoroutine());
 	}
+
+	public void SetTarget(PolygonGameObject target)
+	{
+		this.target = target;
+	}
 	
 	public override void Tick(float delta)
 	{
+		if (target == null)
+			return;
+
 		distToTraget = target.cacheTransform.position - cacheTransform.position;
 
 		float deltaDist = movingSpeed * delta;
@@ -114,10 +122,13 @@ public class TankEnemy : PolygonGameObject
 		while(true)
 		{
 			yield return new WaitForSeconds(shooters[0].fireInterval);
-			
-			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+
+			if(target != null)
 			{
-				Fire();
+				if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+				{
+					Fire();
+				}
 			}
 		}
 	}

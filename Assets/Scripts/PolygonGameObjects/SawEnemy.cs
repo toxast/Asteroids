@@ -54,48 +54,55 @@ public class SawEnemy : PolygonGameObject
 		{
 			yield return new WaitForSeconds(deltaTime); 
 
-			Vector2 dist = target.cacheTransform.position - cacheTransform.position;
-			bool targetInRange = dist.sqrMagnitude < detectionDistanceSqr;
-			if(targetInRange)
+			if(target != null)
 			{
-				if(rotation > chargeRotation)
+				Vector2 dist = target.cacheTransform.position - cacheTransform.position;
+				bool targetInRange = dist.sqrMagnitude < detectionDistanceSqr;
+				if(targetInRange)
 				{
-					yield return StartCoroutine( Charge() ); 
-					yield return StartCoroutine( Slow() ); 
+					if(rotation > chargeRotation)
+					{
+						yield return StartCoroutine( Charge() ); 
+						yield return StartCoroutine( Slow() ); 
+					}
+					else
+					{
+						rotation += rotationChargingSpeed * deltaTime;
+					}
 				}
 				else
 				{
-					rotation += rotationChargingSpeed * deltaTime;
+					bool slowingRotation = rotation > initialRotation;
+					if(slowingRotation)
+					{
+						rotation -= rotationChargingSpeed * deltaTime;
+					}
+					
+					bool slowingVelocity = velocity.sqrMagnitude > initialVelocitySqr;
+					if(slowingVelocity)
+					{
+						velocity -= velocity.normalized * deltaTime * brakes;
+					}
 				}
-			}
-			else
-			{
-				bool slowingRotation = rotation > initialRotation;
-				if(slowingRotation)
-				{
-					rotation -= rotationChargingSpeed * deltaTime;
-				}
-				
-				bool slowingVelocity = velocity.sqrMagnitude > initialVelocitySqr;
-				if(slowingVelocity)
-				{
-					velocity -= velocity.normalized * deltaTime * brakes;
-				}
+
 			}
 		}
 	}
 
 	IEnumerator Charge()
 	{
-		AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, chargeSpeed);
-		if(aim.canShoot)
+		if(target != null)
 		{
-			velocity = chargeSpeed * aim.direction.normalized;
-		}
-		else
-		{
-			Vector2 direction = target.cacheTransform.position - cacheTransform.position;
-			velocity = chargeSpeed * direction.normalized;
+			AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, chargeSpeed);
+			if(aim.canShoot)
+			{
+				velocity = chargeSpeed * aim.direction.normalized;
+			}
+			else
+			{
+				Vector2 direction = target.cacheTransform.position - cacheTransform.position;
+				velocity = chargeSpeed * direction.normalized;
+			}
 		}
 		yield return new WaitForSeconds(chargeDuration); 
 	}

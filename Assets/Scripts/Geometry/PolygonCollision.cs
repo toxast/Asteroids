@@ -66,22 +66,25 @@ public static class PolygonCollision
 	}
 
 
-	static public void ApplyCollision(PolygonGameObject aobj, PolygonGameObject bobj, int aVertex, int bVertex)
+	//returns impulse of collision
+	static public float ApplyCollision(PolygonGameObject aobj, PolygonGameObject bobj, int aVertex, int bVertex)
 	{
 		Polygon a = GetPolygonInGlobalCoordinates(aobj);
 		Polygon b = GetPolygonInGlobalCoordinates(bobj);
 		//find edge
 		if(aVertex >= 0)
 		{ 
-			ApplyCollision(aobj, a, aVertex, bobj, b);
+			return ApplyCollision(aobj, a, aVertex, bobj, b);
 		}
 		else if(bVertex >= 0)
 		{
-			ApplyCollision(bobj, b, bVertex, aobj, a);
+			return ApplyCollision(bobj, b, bVertex, aobj, a);
 		}
+
+		return 0;
 	}
 
-	static private void ApplyCollision(PolygonGameObject aobj, Polygon a, int aVertex,
+	static private float ApplyCollision(PolygonGameObject aobj, Polygon a, int aVertex,
 	                                   PolygonGameObject bobj, Polygon b)
 	{
 		var v0 = a.vertices[a.Previous(aVertex)];
@@ -93,7 +96,7 @@ public static class PolygonCollision
 		if(intersections.Count == 0)
 		{	
 			Debug.LogError("intersections.Count == 0");
-			return;
+			return 0f;
 		}
 		
 		int closest = -1;
@@ -114,7 +117,7 @@ public static class PolygonCollision
 		if(closest < 0)
 		{
 			Debug.LogError("closest < 0");
-			return;
+			return 0f;
 		}
 		
 		//got closest edge
@@ -130,7 +133,7 @@ public static class PolygonCollision
 		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
 		{
 			Debug.LogWarning("not approaching");
-			return;
+			return 0f;
 		}
 		float ekff = 0.7f;
 		float wa = Vector3.Cross(Ra, Nb).sqrMagnitude / aobj.inertiaMoment;
@@ -142,6 +145,8 @@ public static class PolygonCollision
 
 		aobj.rotation -= Vector3.Cross (Ra, j * Nb).z / (aobj.inertiaMoment * Math2d.PIdiv180);
 		bobj.rotation += Vector3.Cross (Rb, j * Nb).z / (bobj.inertiaMoment * Math2d.PIdiv180);
+
+		return j;
 	}
 
 	static private Vector2 makeRight(Vector2 v)

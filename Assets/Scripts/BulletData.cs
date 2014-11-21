@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BulletData
@@ -70,6 +70,17 @@ public class ShootPlace
 
 public class BulletCreator
 {
+
+	public static Vector2[] missileVertices = PolygonCreator.GetCompleteVertexes(
+		new Vector2[]
+		{
+		new Vector2(2f, 0f),
+		new Vector2(1.5f, -0.2f),
+		new Vector2(0.3f, -0.15f),
+		new Vector2(0f, -0.35f),
+	}
+	, 1f).ToArray();
+
 	public static Bullet CreateBullet(Transform shooterTransform, ShootPlace shootPlace)
 	{
 		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(shootPlace.vertices, shootPlace.color);
@@ -87,7 +98,7 @@ public class BulletCreator
 
 	public static Missile CreateMissile(GameObject target, Transform shooterTransform, ShootPlace shootPlace)
 	{
-		Missile missile = PolygonCreator.CreatePolygonGOByMassCenter<Missile>(shootPlace.vertices, shootPlace.color);
+		Missile missile = PolygonCreator.CreatePolygonGOByMassCenter<Missile>(missileVertices, shootPlace.color);
 		
 		PositionOnShooterPlace (missile, shooterTransform, shootPlace);
 		

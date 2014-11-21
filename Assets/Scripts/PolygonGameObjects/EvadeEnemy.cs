@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EvadeEnemy : PolygonGameObject
+public class EvadeEnemy : PolygonGameObject, IGotTarget
 {
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]
@@ -31,15 +31,15 @@ public class EvadeEnemy : PolygonGameObject
 	private int goRoundTargetSign = 1;
 
 	private List<Bullet> bullets;
-	private SpaceShip target;
+	private PolygonGameObject target;
 	Rotaitor cannonsRotaitor;
 	ShootPlace shooter;
 
-	public void Init(SpaceShip ship, List<Bullet> bullets, ShootPlace shooter)
+	public void Init(PolygonGameObject ship, List<Bullet> bullets, ShootPlace shooter)
 	{
 		this.shooter = shooter;
 		this.bullets = bullets;
-		this.target = ship;
+		SetTarget (ship);
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
 
@@ -52,8 +52,16 @@ public class EvadeEnemy : PolygonGameObject
 		StartCoroutine(ChangeRotationSign());
 	}
 
+	public void SetTarget(PolygonGameObject target)
+	{
+		this.target = target;
+	}
+
 	public override void Tick(float delta)
 	{
+		if (target == null)
+			return;
+
 		float deltaDist = movingSpeed * delta;
 
 		if(avoiding)
@@ -126,10 +134,13 @@ public class EvadeEnemy : PolygonGameObject
 
 		while(true)
 		{
-			AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, shooter.speed);
-			if(aim.canShoot)
+			if(target != null)
 			{
-				currentAimAngle = aim.directionAngle / Math2d.PIdiv180;
+				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, shooter.speed);
+				if(aim.canShoot)
+				{
+					currentAimAngle = aim.directionAngle / Math2d.PIdiv180;
+				}
 			}
 			yield return new WaitForSeconds(aimInterval);
 		}
@@ -145,14 +156,17 @@ public class EvadeEnemy : PolygonGameObject
 		{
 			yield return new WaitForSeconds(deltaTime);
 
-			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+			if(target != null)
 			{
-				Fire();
-				deltaTime = defaultInterval;
-			}
-			else
-			{
-				deltaTime = shortInterval;
+				if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+				{
+					Fire();
+					deltaTime = defaultInterval;
+				}
+				else
+				{
+					deltaTime = shortInterval;
+				}
 			}
 		}
 	}

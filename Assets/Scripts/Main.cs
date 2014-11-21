@@ -65,10 +65,36 @@ public class Main : MonoBehaviour
 		}
 		y += hieight + margine;
 
+		if(GUI.Button(new Rect(10, y, width, hieight), "respawn"))
+		{
+			StartCoroutine(Respawn());
+		}
+		y += hieight + margine;
+
 
 		if(GUI.Button(new Rect(Screen.width-100, 10, width+20, hieight), "quit"))
 		{
 			Application.Quit();
+		}
+	}
+
+	private IEnumerator Respawn()
+	{
+		if (spaceship == null)
+		{
+			CreateSpaceShip();
+
+			yield return new WaitForSeconds (1f);
+
+			if (spaceship != null)
+			{
+				foreach (var e in enemies) 
+				{
+					var te = e as IGotTarget;
+					if(te != null)
+						te.SetTarget(spaceship);
+				}
+			}
 		}
 	}
 
@@ -235,11 +261,11 @@ public class Main : MonoBehaviour
 
 	void OnEnemyFire (ShootPlace shooter, Transform trfrm)
 	{
-		//Bullet bullet = BulletCreator.CreateBullet(trfrm, shooter); 
+		Bullet bullet = BulletCreator.CreateBullet(trfrm, shooter); 
 
-		Missile missile = BulletCreator.CreateMissile(spaceship.gameObject, trfrm, shooter); 
+		///Missile missile = BulletCreator.CreateMissile(spaceship.gameObject, trfrm, shooter); 
 		
-		PutOnFirstNullPlace<PolygonGameObject>(enemyBullets, missile);
+		PutOnFirstNullPlace<PolygonGameObject>(enemyBullets, bullet);
 	}
 
 	float enemyDtime;
@@ -261,8 +287,11 @@ public class Main : MonoBehaviour
 			penetrationTimeLeft -= Time.deltaTime;
 		}
 
-		spaceship.Tick(Time.deltaTime);
-		CheckBounds(spaceship);
+		if(spaceship != null)
+		{
+			spaceship.Tick(Time.deltaTime);
+			CheckBounds(spaceship);
+		}
 
 		TickAndCheckBoundsNullCheck (bullets, Time.deltaTime);
 
@@ -270,6 +299,7 @@ public class Main : MonoBehaviour
 
 		TickAndCheckBoundsNullCheck (enemyBullets, enemyDtime);
 
+		TickAndCheckBounds (powerUps, enemyDtime);
 
 		for (int i = parts2kill.Count - 1; i >= 0; i--) 
 		{
@@ -324,17 +354,7 @@ public class Main : MonoBehaviour
 					{
 //						if(enemy.polygon.area > DestroyTreshold || !(enemy is Asteroid))//TODO: refactor
 //						{
-							List<Asteroid> parts = SplitIntoAsteroids(enemy);
-							foreach(var part in parts)
-							{
-								enemies.Add(part);
-
-								if(part.polygon.area < DestroyAfterSplitTreshold)
-								{
-									TimeDestuctor d = new TimeDestuctor(part, 0.7f + UnityEngine.Random.Range(0f, 1f));
-									parts2kill.Add(d);
-								}
-							}
+						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(enemy);
 						//}
 						 
 						enemies.RemoveAt(i);
@@ -346,35 +366,45 @@ public class Main : MonoBehaviour
 		}
 
 
-		for (int i = 0; i < enemyBullets.Count; i++) 
+		if(spaceship != null)
 		{
-			var bullet = enemyBullets[i];
-			if(bullet == null)
-				continue;
-
-			int indxa, indxb;
-			if(PolygonCollision.IsCollides(spaceship, bullet, out indxa, out indxb))
+			for (int i = 0; i < enemyBullets.Count; i++) 
 			{
-				PolygonCollision.ApplyCollision(spaceship, bullet, indxa, indxb);
+				var bullet = enemyBullets[i];
+				if(bullet == null)
+					continue;
 
-				Destroy(bullet.gameObject);
-				enemyBullets[i] = null; 
-				Debug.Log("bam");
+				int indxa, indxb;
+				if(PolygonCollision.IsCollides(spaceship, bullet, out indxa, out indxb))
+				{
+					var impulse = PolygonCollision.ApplyCollision(spaceship, bullet, indxa, indxb);
+
+					SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
+
+					//TODO: bullet damage
+					spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
+
+					Destroy(bullet.gameObject);
+					enemyBullets[i] = null; 
+					Debug.Log("bam");
+				}
 			}
-		}
 
 
-		for (int i = 0; i < enemies.Count; i++) 
-		{
-			var enemy = enemies[i];
-
-			if(enemy.markedForDeath)
-				continue;
-
-			int indxa, indxb;
-			if(PolygonCollision.IsCollides(spaceship, enemy, out indxa, out indxb))
+			for (int i = 0; i < enemies.Count; i++) 
 			{
-				PolygonCollision.ApplyCollision(spaceship, enemy, indxa, indxb);
+				var enemy = enemies[i];
+
+				if(enemy.markedForDeath)
+					continue;
+
+				int indxa, indxb;
+				if(PolygonCollision.IsCollides(spaceship, enemy, out indxa, out indxb))
+				{
+					var impulse = PolygonCollision.ApplyCollision(spaceship, enemy, indxa, indxb);
+
+					spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
+				}
 			}
 		}
 
@@ -382,13 +412,12 @@ public class Main : MonoBehaviour
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
 		{
 			PowerUp powerUp = powerUps[i];
-			powerUp.Tick(Time.deltaTime);
 			if(powerUp.lived > 10f)
 			{
 				powerUps.RemoveAt(i);
 				Destroy(powerUp.gameObject);
 			}
-			else if(PolygonCollision.IsCollides(spaceship, powerUp))
+			else if(spaceship != null && PolygonCollision.IsCollides(spaceship, powerUp))
 			{
 				EffectType effect = powerUp.effect;
 
@@ -412,9 +441,31 @@ public class Main : MonoBehaviour
 			}
 		}
 
+		if(spaceship != null && spaceship.IsKilled())
+		{
+			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(spaceship);
+			Destroy(spaceship.gameObject);
+			spaceship = null;
+		}
+
 		if(powerUpsCreator != null)
 			powerUpsCreator.Tick(Time.deltaTime);
 
+	}
+
+	private void SplitIntoAsteroidsAndMarkForDestuctionSmallParts(PolygonGameObject obj)
+	{
+		List<Asteroid> parts = SplitIntoAsteroids(obj);
+		foreach(var part in parts)
+		{
+			enemies.Add(part);
+			
+			if(part.polygon.area < DestroyAfterSplitTreshold)
+			{
+				TimeDestuctor d = new TimeDestuctor(part, 0.7f + UnityEngine.Random.Range(0f, 1f));
+				parts2kill.Add(d);
+			}
+		}
 	}
 
 	private void TickAndCheckBounds<T>(List<T> list, float dtime)
@@ -476,21 +527,21 @@ public class Main : MonoBehaviour
 
 		foreach(var vertices in polys)
 		{
-			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Color.black);
+			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.mesh.colors[0]);
 
-			if(PolygonCreator.CheckIfVerySmallOrSpiky(asteroidPart.polygon))
-			{
-				Destroy(asteroidPart.gameObject);
-			}
-			else
-			{
+//			if(PolygonCreator.CheckIfVerySmallOrSpiky(asteroidPart.polygon))
+//			{
+//				Destroy(asteroidPart.gameObject);
+//			}
+//			else
+//			{
 				asteroidPart.Init();
 				asteroidPart.cacheTransform.Translate(polygonGo.cacheTransform.position);
 				asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
 				asteroidPart.gameObject.name = "asteroid part";
 
 				parts.Add(asteroidPart);
-			}
+			//}
 		}
 
 		CalculateObjectPartVelocity(parts, polygonGo);
@@ -571,7 +622,7 @@ public class Main : MonoBehaviour
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Color.black);
 
 		ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
-		place.fireInterval = 5;
+		place.fireInterval *= 3;
 		Math2d.ScaleVertices(place.vertices, 1f);
 		enemy.FireEvent += OnEnemyFire;
 		enemy.gameObject.name = "evade enemy";
