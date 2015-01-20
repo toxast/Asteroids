@@ -8,6 +8,7 @@ public class Main : MonoBehaviour
 	[SerializeField] Image joystick;
 	[SerializeField] FireButton fireButton;
 	[SerializeField] FireButton accelerateButton;
+	[SerializeField] ParticleSystem thrustPrefab;
 
 	SpaceShip spaceship;
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
@@ -84,32 +85,13 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private IEnumerator Respawn()
+	void Awkae()
 	{
-		if (spaceship == null)
-		{
-			CreateSpaceShip();
-
-			yield return new WaitForSeconds (1f);
-
-			if (spaceship != null)
-			{
-				foreach (var e in enemies) 
-				{
-					var te = e as IGotTarget;
-					if(te != null)
-						te.SetTarget(spaceship);
-				}
-			}
-		}
+#if !UNITY_STANDALONE
+		fireButton.gameObject.SetActive(true);
+		accelerateButton.gameObject.SetActive(true);
+#endif
 	}
-
-//	bool pressingFireButton = false;
-//	void Awake()
-//	{
-//		fireButton.pre += (e) => pressingFireButton = true;
-//		fireButton.OnPointerUp += (e) => pressingFireButton = false;
-//	}
 
 	void Start()
 	{
@@ -156,7 +138,27 @@ public class Main : MonoBehaviour
 
 		powerUpsCreator = new PowerUpsCreator(5f, 10f);
 		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
+	}
 
+
+	private IEnumerator Respawn()
+	{
+		if (spaceship == null)
+		{
+			CreateSpaceShip();
+			
+			yield return new WaitForSeconds (1f);
+			
+			if (spaceship != null)
+			{
+				foreach (var e in enemies) 
+				{
+					var te = e as IGotTarget;
+					if(te != null)
+						te.SetTarget(spaceship);
+				}
+			}
+		}
 	}
 
 	private void SetRandomPosition(PolygonGameObject p)
@@ -223,6 +225,11 @@ public class Main : MonoBehaviour
 		spaceship.FireEvent += OnFire;
 		spaceship.gameObject.name = "Spaceship";
 		spaceship.SetJoystick (joystick);
+
+		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+		spaceship.SetThruster (gT);
+
+		spaceship.SetTabletControls (fireButton, accelerateButton);
 		List<ShootPlace> shooters = new List<ShootPlace>();
 
 
@@ -304,13 +311,6 @@ public class Main : MonoBehaviour
 		if(spaceship != null)
 		{
 			spaceship.Tick(Time.deltaTime);
-
-			if(fireButton.pressed)
-				spaceship.Shoot ();
-
-			if(accelerateButton.pressed)
-				spaceship.Accelerate (Time.deltaTime);
-
 
 			CheckBounds(spaceship);
 		}
@@ -729,6 +729,8 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * joystick position fixed
+	 * trust animation
 	 * bullets and shooters refactoring 
 	 * Z pos refactoring
 	 * enemy bulets hit asteroids?

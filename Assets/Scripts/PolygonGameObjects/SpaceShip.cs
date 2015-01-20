@@ -24,20 +24,40 @@ public class SpaceShip : PolygonGameObject
 
 	private List<ShootPlace> shooters;
 
+	ParticleSystem thrustPSystem;
+	float defaultThrustLifetime;
+
 	Joystick joystickControl;
-	//Image joystick;
-	public void SetJoystick(Image pJoystick)
-	{
-	//	joystick = pJoystick;
-		joystickControl = gameObject.AddComponent<Joystick> ();
-		joystickControl.Set (pJoystick, maxOffset);
-	}
+	FireButton fireButton;
+	FireButton accelerateButton;
+    
+	bool acceleratedThisTick = false;
 
 	void Awake()
 	{
 		cacheTransform = transform;
 		maxSpeedSqr = maxSpeed*maxSpeed;
 		velocity = Vector3.zero;
+	}
+	
+	public void SetJoystick(Image pJoystick)
+	{
+		joystickControl = gameObject.AddComponent<Joystick> ();
+		joystickControl.Set (pJoystick, maxOffset);
+	}
+	
+	public void SetThruster(ParticleSystem p)
+	{
+		thrustPSystem = p;
+		thrustPSystem.gameObject.transform.parent = cacheTransform;
+		defaultThrustLifetime = thrustPSystem.startLifetime;
+		thrustPSystem.startLifetime = defaultThrustLifetime / 3f;
+	}
+
+	public void SetTabletControls(FireButton fireButton, FireButton accelerateButton)
+	{
+		this.fireButton = fireButton;
+		this.accelerateButton = accelerateButton;
 	}
 
 	protected override float healthModifier {
@@ -94,13 +114,8 @@ public class SpaceShip : PolygonGameObject
 
 	public void Accelerate(float delta)
 	{
-		Accelerate (delta, thrust);
-	}
-
-	private void Accelerate(float delta, float pThrust)
-	{
-		velocity += cacheTransform.right * delta * pThrust;
-		//RestictSpeed();
+		velocity += cacheTransform.right * delta * thrust;
+		acceleratedThisTick = true;
 	}
 
 	private void Brake(float delta, float pBrake)
@@ -129,86 +144,54 @@ public class SpaceShip : PolygonGameObject
 
 	public override void Tick(float delta)
 	{
-		Joystick3 (delta);
+		acceleratedThisTick = false;
 
+#if UNITY_STANDALONE
 		KeyboardControlTick (delta);
-
-		if(firingSpeedPUpTimeLeft > 0)
-		{
-			firingSpeedPUpTimeLeft -= delta;
-		}
-		float kff = (firingSpeedPUpTimeLeft > 0) ? firingSpeedPUpKoeff : 1;
-
-		shooters.ForEach(shooter => shooter.Tick(delta*kff));
 
 		if(Input.GetKey(KeyCode.Space))
 		{
 			Shoot();
 		}
+#else
+		if(fireButton.pressed)
+			Shoot ();
+		
+		if(accelerateButton.pressed)
+			Accelerate (delta);
+
+        Joystick3 (delta);
+#endif
+
+		TickShooters (delta);
 
 		cacheTransform.position += velocity*delta;
 
 		if(rotation != 0)
 			cacheTransform.Rotate(Vector3.back, rotation*delta);
+
+
+		if(thrustPSystem != null)
+		{
+			//Or speed and rate by 3;
+			//Or another trust
+			//And change colr a bit??
+			float dthrust = defaultThrustLifetime * delta * 0.5f;
+			dthrust = (acceleratedThisTick)? dthrust : -dthrust;
+			thrustPSystem.startLifetime = Mathf.Clamp(thrustPSystem.startLifetime + dthrust, defaultThrustLifetime/2f, defaultThrustLifetime);
+		}
 	}
 
-
-
-	private void Joystick1(float delta)
+	private void TickShooters(float delta)
 	{
-		var len = joystickControl.lastDisr.magnitude;
-		if(len > minOffset)
+		if(firingSpeedPUpTimeLeft > 0)
 		{
-			//turn
-			bool turnLeft = Mathf.Sign(Math2d.Cross2(joystickControl.lastDisr, cacheTransform.right)) < 0;
-			if(turnLeft)
-				TurnLeft(delta);
-			else
-				TurnRight(delta);
-
-			//accelerate
-			float pThrust = thrust * (Mathf.Clamp(len, minOffset, maxOffset) - minOffset) / (maxOffset - minOffset);
-			Accelerate(delta, pThrust);
+			firingSpeedPUpTimeLeft -= delta;
 		}
-		else if(joystickControl.IsPressing)
-		{
-			Brake(delta, brake);
-		}
+		float kff = (firingSpeedPUpTimeLeft > 0) ? firingSpeedPUpKoeff : 1;
+		
+		shooters.ForEach(shooter => shooter.Tick(delta*kff));
 	}
-
-
-	private void Joystick2(float delta)
-	{
-		var dir = joystickControl.lastDisr;
-		var len = dir.magnitude;
-		if(Mathf.Abs(dir.x) > minOffset)
-		{
-			//turn
-			float turn = Mathf.Sign(dir.x) * ((Mathf.Clamp(Mathf.Abs(dir.x), minOffset, maxOffset) - minOffset) / (maxOffset - minOffset));
-			TurnRight(delta * turn);
-		}
-
-		if(Mathf.Abs(dir.y) > minOffset)
-		{
-			if(dir.y > 0)
-			{
-				//accelerate
-				float pThrust = thrust * (Mathf.Clamp(dir.y , minOffset, maxOffset) - minOffset) / (maxOffset - minOffset);
-				Accelerate(delta, pThrust);
-			}
-			else
-			{
-				//brake
-				float pBrake = brake * (Mathf.Clamp(-dir.y , minOffset, maxOffset) - minOffset) / (maxOffset - minOffset);
-				Brake(delta, pBrake);
-			}
-		}
-		else if(joystickControl.IsPressing)
-		{
-			Brake(delta, brake);
-		}
-	}
-
 
 	private void Joystick3(float delta)
 	{
@@ -242,7 +225,7 @@ public class SpaceShip : PolygonGameObject
 		
 		if(Input.GetKey(KeyCode.W))
 		{
-			Accelerate(delta, thrust);
+			Accelerate(delta);
 		}
 		else if(Input.GetKey(KeyCode.S))
 		{
