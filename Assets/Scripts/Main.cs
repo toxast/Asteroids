@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Main : MonoBehaviour 
 {
+	[SerializeField] Image joystick;
+	[SerializeField] FireButton fireButton;
+	[SerializeField] FireButton accelerateButton;
+
 	SpaceShip spaceship;
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <Bullet> bullets = new List<Bullet>();
@@ -22,12 +27,13 @@ public class Main : MonoBehaviour
 	private float slowTimeLeft = 0;
 	private float penetrationTimeLeft = 0;
 
+	//TODO: new GUI
 	void OnGUI()
 	{
-		int width = 50;
-		int hieight = 20;
-		int margine = 3;
-		int y = 10;
+		int width = 100;
+		int hieight = 40;
+		int margine = 20;
+		int y = 20;
 
 		if(GUI.Button(new Rect(10, y, width+20, hieight), "asteroid"))
 		{
@@ -97,6 +103,13 @@ public class Main : MonoBehaviour
 			}
 		}
 	}
+
+//	bool pressingFireButton = false;
+//	void Awake()
+//	{
+//		fireButton.pre += (e) => pressingFireButton = true;
+//		fireButton.OnPointerUp += (e) => pressingFireButton = false;
+//	}
 
 	void Start()
 	{
@@ -209,6 +222,7 @@ public class Main : MonoBehaviour
 		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
 		spaceship.FireEvent += OnFire;
 		spaceship.gameObject.name = "Spaceship";
+		spaceship.SetJoystick (joystick);
 		List<ShootPlace> shooters = new List<ShootPlace>();
 
 
@@ -290,6 +304,14 @@ public class Main : MonoBehaviour
 		if(spaceship != null)
 		{
 			spaceship.Tick(Time.deltaTime);
+
+			if(fireButton.pressed)
+				spaceship.Shoot ();
+
+			if(accelerateButton.pressed)
+				spaceship.Accelerate (Time.deltaTime);
+
+
 			CheckBounds(spaceship);
 		}
 
@@ -336,10 +358,14 @@ public class Main : MonoBehaviour
 				if(bullet == null)
 					continue;
 
-				if(PolygonCollision.IsCollides(enemy, bullet))
+				int indxa, indxb;
+				if(PolygonCollision.IsCollides(enemy, bullet, out indxa, out indxb))
 				{
 					if(penetrationTimeLeft <= 0f)
 					{
+						var impulse = PolygonCollision.ApplyCollision(enemy, bullet, indxa, indxb);
+
+						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
 						Destroy(bullet.gameObject);
 						bullets[k] = null; 
 
@@ -382,7 +408,7 @@ public class Main : MonoBehaviour
 					SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
 
 					//TODO: bullet damage
-					spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
+					//spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
 
 					Destroy(bullet.gameObject);
 					enemyBullets[i] = null; 
@@ -403,7 +429,7 @@ public class Main : MonoBehaviour
 				{
 					var impulse = PolygonCollision.ApplyCollision(spaceship, enemy, indxa, indxb);
 
-					spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
+					//spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
 				}
 			}
 		}
