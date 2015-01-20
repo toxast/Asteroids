@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,22 @@ public class SpaceShip : PolygonGameObject
 	float maxRotation = 250f;
 	//float drag = 0.5f;
 
+	float minOffset = 15f;
+	float maxOffset = 80f;
+	Vector2 joystickPos = Vector2.zero;
 
 	public event System.Action<ShootPlace, Transform> FireEvent;
 
 	private List<ShootPlace> shooters;
 
+	Joystick joystickControl;
+	//Image joystick;
+	public void SetJoystick(Image pJoystick)
+	{
+	//	joystick = pJoystick;
+		joystickControl = gameObject.AddComponent<Joystick> ();
+		joystickControl.Set (pJoystick, maxOffset);
+	}
 
 	void Awake()
 	{
@@ -80,15 +92,20 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-	private void Accelerate(float delta)
+	public void Accelerate(float delta)
 	{
-		velocity += cacheTransform.right * delta * thrust;
+		Accelerate (delta, thrust);
+	}
+
+	private void Accelerate(float delta, float pThrust)
+	{
+		velocity += cacheTransform.right * delta * pThrust;
 		//RestictSpeed();
 	}
 
-	private void Brake(float delta)
+	private void Brake(float delta, float pBrake)
 	{
-		var newMagnitude = velocity.magnitude - delta * brake; 
+		var newMagnitude = velocity.magnitude - delta * pBrake; 
 		if (newMagnitude < 0)
 			newMagnitude = 0;
 
@@ -112,38 +129,9 @@ public class SpaceShip : PolygonGameObject
 
 	public override void Tick(float delta)
 	{
-		if(Input.GetKey(KeyCode.D))
-		{
-			TurnRight(delta);
-		}
-		else if(Input.GetKey(KeyCode.A))
-		{
-			TurnLeft(delta);
-		}
-		else
-		{
-//			var d = delta * rotationBreak;
-//			var r_abs = Mathf.Abs(rotation);
-//			var r_sign = Mathf.Sign(rotation);
-//			if(r_abs < d)
-//			{
-//				r_abs = 0;
-//			}
-//			else
-//			{
-//				rotation = (r_abs - d) * r_sign;
-//			}
-		}
+		Joystick3 (delta);
 
-
-		if(Input.GetKey(KeyCode.W))
-		{
-			Accelerate(delta);
-		}
-		else if(Input.GetKey(KeyCode.S))
-		{
-			Brake(delta);
-		}
+		KeyboardControlTick (delta);
 
 		if(firingSpeedPUpTimeLeft > 0)
 		{
@@ -164,7 +152,106 @@ public class SpaceShip : PolygonGameObject
 			cacheTransform.Rotate(Vector3.back, rotation*delta);
 	}
 
-	private void Shoot()
+
+
+	private void Joystick1(float delta)
+	{
+		var len = joystickControl.lastDisr.magnitude;
+		if(len > minOffset)
+		{
+			//turn
+			bool turnLeft = Mathf.Sign(Math2d.Cross2(joystickControl.lastDisr, cacheTransform.right)) < 0;
+			if(turnLeft)
+				TurnLeft(delta);
+			else
+				TurnRight(delta);
+
+			//accelerate
+			float pThrust = thrust * (Mathf.Clamp(len, minOffset, maxOffset) - minOffset) / (maxOffset - minOffset);
+			Accelerate(delta, pThrust);
+		}
+		else if(joystickControl.IsPressing)
+		{
+			Brake(delta, brake);
+		}
+	}
+
+
+	private void Joystick2(float delta)
+	{
+		var dir = joystickControl.lastDisr;
+		var len = dir.magnitude;
+		if(Mathf.Abs(dir.x) > minOffset)
+		{
+			//turn
+			float turn = Mathf.Sign(dir.x) * ((Mathf.Clamp(Mathf.Abs(dir.x), minOffset, maxOffset) - minOffset) / (maxOffset - minOffset));
+			TurnRight(delta * turn);
+		}
+
+		if(Mathf.Abs(dir.y) > minOffset)
+		{
+			if(dir.y > 0)
+			{
+				//accelerate
+				float pThrust = thrust * (Mathf.Clamp(dir.y , minOffset, maxOffset) - minOffset) / (maxOffset - minOffset);
+				Accelerate(delta, pThrust);
+			}
+			else
+			{
+				//brake
+				float pBrake = brake * (Mathf.Clamp(-dir.y , minOffset, maxOffset) - minOffset) / (maxOffset - minOffset);
+				Brake(delta, pBrake);
+			}
+		}
+		else if(joystickControl.IsPressing)
+		{
+			Brake(delta, brake);
+		}
+	}
+
+
+	private void Joystick3(float delta)
+	{
+		var len = joystickControl.lastDisr.magnitude;
+		if(len > minOffset)
+		{
+			//turn
+			bool turnLeft = Mathf.Sign(Math2d.Cross2(joystickControl.lastDisr, cacheTransform.right)) < 0;
+			if(turnLeft)
+				TurnLeft(delta);
+			else
+				TurnRight(delta);
+		}
+		//else if(joystickControl.IsPressing)
+		//{
+		//	Brake(delta, brake);
+		//}
+	}
+
+
+	void KeyboardControlTick(float delta)
+	{
+		if(Input.GetKey(KeyCode.D))
+		{
+			TurnRight(delta);
+		}
+		else if(Input.GetKey(KeyCode.A))
+		{
+			TurnLeft(delta);
+		}
+		
+		if(Input.GetKey(KeyCode.W))
+		{
+			Accelerate(delta, thrust);
+		}
+		else if(Input.GetKey(KeyCode.S))
+		{
+			Brake(delta, brake);
+		}
+	}
+
+
+	public void Shoot()
 	{
 		for (int i = 0; i < shooters.Count; i++) 
 		{
