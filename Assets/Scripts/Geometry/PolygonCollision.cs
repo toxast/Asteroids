@@ -135,7 +135,7 @@ public static class PolygonCollision
 			Debug.LogWarning("not approaching");
 			return 0f;
 		}
-		float ekff = 0.7f;
+		float ekff = 0.4f; //0 < k < 1
 		float wa = Vector3.Cross(Ra, Nb).sqrMagnitude / aobj.inertiaMoment;
 		float wb = Vector3.Cross(Rb, Nb).sqrMagnitude / bobj.inertiaMoment;
 		float j =  -(1 + ekff) * Math2d.DotProduct(ref Vab, ref Nb) / (1f/aobj.mass + 1f/bobj.mass + wa + wb);

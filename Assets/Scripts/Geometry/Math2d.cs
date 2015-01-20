@@ -64,6 +64,11 @@ public static class Math2d
 		return a.x*b.y - a.y*b.x;
 	}
 
+	static public float Cross2(Vector2 a, Vector2 b)
+	{
+		return a.x*b.y - a.y*b.x;
+	}
+
  	static public Vector2 GetMassCenter(Edge[] edges, out float area)
 	{
 		float Cx = 0f;
