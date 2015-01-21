@@ -90,7 +90,7 @@ public class SpaceShip : PolygonGameObject
 
 	private void Turn(float dRotation)
 	{
-		if(Mathf.Abs(rotation) > 0)
+		if(rotation != 0)
 		{
 			var dsign = Mathf.Sign (dRotation);
 			if(dsign != Mathf.Sign(rotation))
@@ -225,10 +225,20 @@ public class SpaceShip : PolygonGameObject
 	private void TurnByDirection(Vector3 dir, float delta)
 	{
 		bool turnLeft = Mathf.Sign(Math2d.Cross2(dir, cacheTransform.right)) < 0;
-		if(turnLeft)
-			TurnLeft(delta);
+
+		if(rotation != 0)
+		{
+			if(turnLeft)
+				TurnLeft(delta);
+			else
+				TurnRight(delta);
+		}
 		else
-			TurnRight(delta);
+		{
+			Rotaitor rotaitor = new Rotaitor(cacheTransform, turnSpeed);
+			var currentAimAngle = Math2d.GetRotation(dir) / Math2d.PIdiv180 ;
+			rotaitor.Rotate(delta, currentAimAngle);
+		}
 	}
 
 //

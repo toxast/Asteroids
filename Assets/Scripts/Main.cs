@@ -781,6 +781,7 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * speed restrictions seconds after collision
 	 * more efficeient stars render
 	 * Cut inside angles on asteroid destroy
 	 * joystick position fixed

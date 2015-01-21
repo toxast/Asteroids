@@ -425,6 +425,45 @@ public class Polygon
 		return parts;
 	}
 
+	//searches for spiky vertex, partially cuts it off
+	public List<Vector2[]> SplitSpike()
+	{
+		List<Vector2[]> parts = new List<Vector2[]>();
+
+		int spikyVetexIndx = -1;
+		float maxCos = -1;
+		for (int i = 0; i < vertices.Count(); i++) 
+		{
+			float cos =  Math2d.Cos(circulatedVertices[i] - circulatedVertices[i+1], 
+			                        circulatedVertices[i+2] - circulatedVertices[i+1]);
+			if(cos > maxCos)
+			{
+				spikyVetexIndx = i;
+				maxCos = cos;
+			}
+		}
+
+
+		if(maxCos < 0.7f)
+		{
+			parts.Add(vertices);
+			return parts;
+		}
+
+		Edge e1 = edges [Previous(spikyVetexIndx)];
+		Edge e2 = edges [spikyVetexIndx];
+
+		List<Vector2> part1 = GetVertices (Next (spikyVetexIndx), Previous(spikyVetexIndx));
+		part1.Add (e1.GetMiddle ());
+		part1.Add (e2.GetMiddle ());
+
+		List<Vector2> part2 = new List<Vector2>(){e1.GetMiddle(), vertices[spikyVetexIndx], e2.GetMiddle()};
+
+		parts.Add(part1.ToArray());
+		parts.Add(part2.ToArray());
+
+		return parts;
+	}
 
 	//splits by center mass to center of the edge
 	//no check for edge inside

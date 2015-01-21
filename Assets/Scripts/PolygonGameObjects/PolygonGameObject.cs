@@ -61,7 +61,8 @@ public class PolygonGameObject : MonoBehaviour
 	public List<Vector2[]> Split()
 	{
 		List<Vector2[]> parts = polygon.SplitByInteriorVertex ();
-		if(parts.Count < 2)
+		bool success = parts.Count >= 2;
+		if(!success)
 		{
 			if(polygon.vcount == 3 || Chance(0.5f))
 			{
@@ -86,7 +87,15 @@ public class PolygonGameObject : MonoBehaviour
 				deepestParts.AddRange(p.SplitByInteriorVertex ());
 			}
 		}
-		return deepestParts;
+
+		List<Vector2[]> deepestParts2 = new List<Vector2[]> ();
+		foreach(var part in deepestParts)
+		{
+			Polygon p = new Polygon(part);
+			deepestParts2.AddRange(p.SplitSpike());
+		}
+
+		return deepestParts2;
 	}
 	
 	private bool Chance(float chance)

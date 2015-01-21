@@ -429,8 +429,8 @@ MonoBehaviour:
   thrustPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
   starsGenerator: {fileID: 1445927427}
   borderWidth: 40
-  starsDensity: 5
-  sceneSizeInCameras: {x: 30, y: 30}
+  starsDensity: 4
+  sceneSizeInCameras: {x: 2, y: 2}
 --- !u!4 &1045239090
 Transform:
   m_ObjectHideFlags: 0
