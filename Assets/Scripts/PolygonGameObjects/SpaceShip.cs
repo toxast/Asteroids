@@ -6,10 +6,10 @@ using System.Linq;
 
 public class SpaceShip : PolygonGameObject 
 {
-	float turnSpeed = 120f;
+	float turnSpeed = 220f;
 
 	float brake = 15f;
-	float thrust = 15f;
+	float thrust = 45f;
 	float maxSpeed = 30f;
 	float maxSpeedSqr;
 
@@ -32,6 +32,12 @@ public class SpaceShip : PolygonGameObject
 	FireButton accelerateButton;
     
 	bool acceleratedThisTick = false;
+
+	protected override float healthModifier {
+		get {
+			return base.healthModifier;
+		}
+	}
 
 	void Awake()
 	{
@@ -58,12 +64,6 @@ public class SpaceShip : PolygonGameObject
 	{
 		this.fireButton = fireButton;
 		this.accelerateButton = accelerateButton;
-	}
-
-	protected override float healthModifier {
-		get {
-			return base.healthModifier;
-		}
 	}
 
 	public void SetShootPlaces(List<ShootPlace> shooters)
@@ -131,7 +131,6 @@ public class SpaceShip : PolygonGameObject
 			if(rotation > 0)  TurnLeft(delta);
 			else TurnRight(delta);
 		}
-		//RestictSpeed();
 	}
 
 	private void RestictSpeed()
@@ -147,12 +146,10 @@ public class SpaceShip : PolygonGameObject
 		acceleratedThisTick = false;
 
 #if UNITY_STANDALONE
-		KeyboardControlTick (delta);
+		MouseControlTick(delta);
+//		KeyboardControlTick (delta);
+//
 
-		if(Input.GetKey(KeyCode.Space))
-		{
-			Shoot();
-		}
 #else
 		if(fireButton.pressed)
 			Shoot ();
@@ -162,6 +159,8 @@ public class SpaceShip : PolygonGameObject
 
         Joystick3 (delta);
 #endif
+
+		RestictSpeed ();
 
 		TickShooters (delta);
 
@@ -193,22 +192,50 @@ public class SpaceShip : PolygonGameObject
 		shooters.ForEach(shooter => shooter.Tick(delta*kff));
 	}
 
+	public void TODO_Force_Controller_Direction()
+	{
+	}
+
 	private void Joystick3(float delta)
 	{
-		var len = joystickControl.lastDisr.magnitude;
+		var dir = joystickControl.lastDisr;
+		var len = dir.magnitude;
 		if(len > minOffset)
 		{
-			//turn
-			bool turnLeft = Mathf.Sign(Math2d.Cross2(joystickControl.lastDisr, cacheTransform.right)) < 0;
-			if(turnLeft)
-				TurnLeft(delta);
-			else
-				TurnRight(delta);
+			TurnByDirection(dir, delta);
 		}
 		//else if(joystickControl.IsPressing)
 		//{
 		//	Brake(delta, brake);
 		//}
+	}
+
+
+	void MouseControlTick(float delta)
+	{
+		var dir = (Vector2)(Camera.main.ScreenToWorldPoint(Input.mousePosition) - cacheTransform.position);
+
+		TurnByDirection (dir, delta);
+
+		if(Input.GetMouseButton(0))
+		{
+			Shoot();
+		}
+
+		if(Input.GetKey(KeyCode.W))
+		{
+			Accelerate(delta);
+		}
+	}
+
+
+	private void TurnByDirection(Vector3 dir, float delta)
+	{
+		bool turnLeft = Mathf.Sign(Math2d.Cross2(dir, cacheTransform.right)) < 0;
+		if(turnLeft)
+			TurnLeft(delta);
+		else
+			TurnRight(delta);
 	}
 
 
@@ -231,8 +258,12 @@ public class SpaceShip : PolygonGameObject
 		{
 			Brake(delta, brake);
 		}
-	}
 
+		if(Input.GetKey(KeyCode.Space))
+		{
+			Shoot();
+		}
+	}
 
 	public void Shoot()
 	{
@@ -247,7 +278,6 @@ public class SpaceShip : PolygonGameObject
 			}
 		}
 	}
-
 
 	private float firingSpeedPUpKoeff = 1f;
 	private float firingSpeedPUpTimeLeft = 0f;

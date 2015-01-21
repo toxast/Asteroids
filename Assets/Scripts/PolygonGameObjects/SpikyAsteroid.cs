@@ -94,7 +94,7 @@ public class SpikyAsteroid : Asteroid
 								spikesLeft.RemoveAt(i);
 	 							StartCoroutine(GrowSpike(spike.index, spike.a.p2));
 
-								Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, Color.black);
+								Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, Main.defaultEnemyColor);
 								spikeAsteroid.Init();
 								spikeAsteroid.cacheTransform.position += cacheTransform.position;
 								spikeAsteroid.rotation = 0f;

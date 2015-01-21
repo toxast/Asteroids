@@ -116,6 +116,7 @@ public static class PolygonCollision
 
 		if(closest < 0)
 		{
+			//TODO: its happening, fix!
 			Debug.LogError("closest < 0");
 			return 0f;
 		}

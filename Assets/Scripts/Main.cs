@@ -21,6 +21,7 @@ public class Main : MonoBehaviour
 
 	private float DestroyTreshold = 8f;
 	private float DestroyAfterSplitTreshold = 5f;
+	public static Color defaultEnemyColor = new Color (0.5f, 0.5f, 0.5f);
 
 	Rect bounds;
 
@@ -95,7 +96,7 @@ public class Main : MonoBehaviour
 
 	void Start()
 	{
-		CalculateBounds();
+		CalculateBounds(2,2);
 
 		CreateSpaceShip();
 
@@ -178,7 +179,7 @@ public class Main : MonoBehaviour
 		int[] spikes;
 		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
 		
-		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, Color.black);
+		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, defaultEnemyColor);
 		asteroid.gameObject.name = "SawEnemy";
 		
 		asteroid.Init(spaceship);
@@ -197,7 +198,7 @@ public class Main : MonoBehaviour
 		int[] spikes;
 		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
 
-		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, Color.black);
+		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, defaultEnemyColor);
 		asteroid.gameObject.name = "spiked asteroid";
 		
 		asteroid.Init(spaceship.cacheTransform, spikes);
@@ -212,11 +213,29 @@ public class Main : MonoBehaviour
 		enemies.Add (spikePart);
 	}
 
-	private void CalculateBounds()
+	float maxX;
+	float maxY;
+	private void CalculateBounds(float screensNumHeight, float screensNumWidth)
 	{
-		float height = 2*Camera.main.camera.orthographicSize;  
-		float width = height * Screen.width / Screen.height;
+		float camHeight = 2f * Camera.main.camera.orthographicSize;
+		float camWidth = camHeight * (Screen.width / (float)Screen.height);
+		float height = screensNumHeight * camHeight;  
+		float width = screensNumWidth * camWidth;
 		bounds = new Rect(-width/2f, -height/2f, width, height);
+
+		maxX = (bounds.width - camWidth) / 2f;
+		maxY = (bounds.height - camHeight) / 2f;
+	}
+
+	private void MoveCamera()
+	{
+		if(spaceship != null)
+		{
+			Vector3 pos = spaceship.cacheTransform.position;
+			float x = Mathf.Clamp(pos.x, -maxX, maxX);
+			float y = Mathf.Clamp(pos.y, -maxY, maxY);
+			Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
+		}
 	}
 
 	private void CreateSpaceShip()
@@ -477,6 +496,7 @@ public class Main : MonoBehaviour
 		if(powerUpsCreator != null)
 			powerUpsCreator.Tick(Time.deltaTime);
 
+		MoveCamera ();
 	}
 
 	private void SplitIntoAsteroidsAndMarkForDestuctionSmallParts(PolygonGameObject obj)
@@ -645,7 +665,7 @@ public class Main : MonoBehaviour
 
 	private EvadeEnemy CreateEvadeEnemy()
 	{
-		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Color.black);
+		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, defaultEnemyColor);
 
 		ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
 		place.fireInterval *= 3;
@@ -662,7 +682,7 @@ public class Main : MonoBehaviour
 
 	private RogueEnemy CreateRogueEnemy()
 	{ 
-		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, Color.black);
+		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, defaultEnemyColor);
 		enemy.gameObject.name = "RogueEnemy";
 
 		float size = 1f;
@@ -686,7 +706,7 @@ public class Main : MonoBehaviour
 
 	private TankEnemy CreateTankEnemy()
 	{
-		TankEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<TankEnemy>(TankEnemy.vertices, Color.black);
+		TankEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<TankEnemy>(TankEnemy.vertices, defaultEnemyColor);
 
 		float size = 2f;
 
@@ -717,7 +737,7 @@ public class Main : MonoBehaviour
 		int vcount = Random.Range(5, 5 + (int)size*3);
 		Vector2[] vertices = PolygonCreator.CreatePolygonVertices(size, size/2f, vcount);
 		
-		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Color.black);
+		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, defaultEnemyColor);
 		asteroid.Init ();
 		asteroid.gameObject.name = "asteroid";
 
