@@ -16,9 +16,7 @@ public class SpaceShip : PolygonGameObject
 	float maxRotation = 250f;
 	//float drag = 0.5f;
 
-	float minOffset = 15f;
-	float maxOffset = 80f;
-	Vector2 joystickPos = Vector2.zero;
+	//float minOffset = 15f;
 
 	public event System.Action<ShootPlace, Transform> FireEvent;
 
@@ -27,9 +25,11 @@ public class SpaceShip : PolygonGameObject
 	ParticleSystem thrustPSystem;
 	float defaultThrustLifetime;
 
-	Joystick joystickControl;
-	FireButton fireButton;
-	FireButton accelerateButton;
+	InputController inputController;
+
+//	Joystick joystickControl;
+//	FireButton fireButton;
+//	FireButton accelerateButton;
     
 	bool acceleratedThisTick = false;
 
@@ -45,12 +45,17 @@ public class SpaceShip : PolygonGameObject
 		maxSpeedSqr = maxSpeed*maxSpeed;
 		velocity = Vector3.zero;
 	}
-	
-	public void SetJoystick(Image pJoystick)
+
+	public void SetController(InputController iController)
 	{
-		joystickControl = gameObject.AddComponent<Joystick> ();
-		joystickControl.Set (pJoystick, maxOffset);
+		inputController = iController;
 	}
+
+//	public void SetJoystick(Image pJoystick)
+//	{
+//		joystickControl = gameObject.AddComponent<Joystick> ();
+//		joystickControl.Set (pJoystick, maxOffset);
+//	}
 	
 	public void SetThruster(ParticleSystem p)
 	{
@@ -60,11 +65,11 @@ public class SpaceShip : PolygonGameObject
 		thrustPSystem.startLifetime = defaultThrustLifetime / 3f;
 	}
 
-	public void SetTabletControls(FireButton fireButton, FireButton accelerateButton)
-	{
-		this.fireButton = fireButton;
-		this.accelerateButton = accelerateButton;
-	}
+//	public void SetTabletControls(FireButton fireButton, FireButton accelerateButton)
+//	{
+//		this.fireButton = fireButton;
+//		this.accelerateButton = accelerateButton;
+//	}
 
 	public void SetShootPlaces(List<ShootPlace> shooters)
 	{
@@ -145,20 +150,7 @@ public class SpaceShip : PolygonGameObject
 	{
 		acceleratedThisTick = false;
 
-#if UNITY_STANDALONE
-		MouseControlTick(delta);
-//		KeyboardControlTick (delta);
-//
-
-#else
-		if(fireButton.pressed)
-			Shoot ();
-		
-		if(accelerateButton.pressed)
-			Accelerate (delta);
-
-        Joystick3 (delta);
-#endif
+		InputTick (delta);
 
 		RestictSpeed ();
 
@@ -192,42 +184,43 @@ public class SpaceShip : PolygonGameObject
 		shooters.ForEach(shooter => shooter.Tick(delta*kff));
 	}
 
-	public void TODO_Force_Controller_Direction()
-	{
-	}
+//
+//	private void Joystick3(float delta)
+//	{
+//		var dir = joystickControl.lastDisr;
+//		var len = dir.magnitude;
+//		if(len > minOffset)
+//		{
+//			TurnByDirection(dir, delta);
+//		}
+//		//else if(joystickControl.IsPressing)
+//		//{
+//		//	Brake(delta, brake);
+//		//}
+//	}
+//
 
-	private void Joystick3(float delta)
+	void InputTick(float delta)
 	{
-		var dir = joystickControl.lastDisr;
-		var len = dir.magnitude;
-		if(len > minOffset)
+		inputController.Update (this);
+
+		var dir = inputController.TurnDirection();
+
+		if(dir != Vector2.zero)
 		{
-			TurnByDirection(dir, delta);
+			TurnByDirection (dir, delta);
 		}
-		//else if(joystickControl.IsPressing)
-		//{
-		//	Brake(delta, brake);
-		//}
-	}
 
-
-	void MouseControlTick(float delta)
-	{
-		var dir = (Vector2)(Camera.main.ScreenToWorldPoint(Input.mousePosition) - cacheTransform.position);
-
-		TurnByDirection (dir, delta);
-
-		if(Input.GetMouseButton(0))
+		if(inputController.IsShooting())
 		{
 			Shoot();
 		}
 
-		if(Input.GetKey(KeyCode.W))
+		if(inputController.IsAccelerating())
 		{
 			Accelerate(delta);
 		}
 	}
-
 
 	private void TurnByDirection(Vector3 dir, float delta)
 	{
@@ -238,32 +231,32 @@ public class SpaceShip : PolygonGameObject
 			TurnRight(delta);
 	}
 
-
-	void KeyboardControlTick(float delta)
-	{
-		if(Input.GetKey(KeyCode.D))
-		{
-			TurnRight(delta);
-		}
-		else if(Input.GetKey(KeyCode.A))
-		{
-			TurnLeft(delta);
-		}
-		
-		if(Input.GetKey(KeyCode.W))
-		{
-			Accelerate(delta);
-		}
-		else if(Input.GetKey(KeyCode.S))
-		{
-			Brake(delta, brake);
-		}
-
-		if(Input.GetKey(KeyCode.Space))
-		{
-			Shoot();
-		}
-	}
+//
+//	void KeyboardControlTick(float delta)
+//	{
+//		if(Input.GetKey(KeyCode.D))
+//		{
+//			TurnRight(delta);
+//		}
+//		else if(Input.GetKey(KeyCode.A))
+//		{
+//			TurnLeft(delta);
+//		}
+//		
+//		if(Input.GetKey(KeyCode.W))
+//		{
+//			Accelerate(delta);
+//		}
+//		else if(Input.GetKey(KeyCode.S))
+//		{
+//			Brake(delta, brake);
+//		}
+//
+//		if(Input.GetKey(KeyCode.Space))
+//		{
+//			Shoot();
+//		}
+//	}
 
 	public void Shoot()
 	{

@@ -4,14 +4,14 @@ using System.Linq;
 
 public static class PolygonCreator 
 {
-	public static Vector2[] GetRectShape(float x, float y)
+	public static Vector2[] GetRectShape(float halfWidth, float halfHeight)
 	{
 		return new Vector2[]
 		{
-			new Vector2(x, y),
-			new Vector2(x, -y),
-			new Vector2(-x, -y),
-			new Vector2(-x, y),
+			new Vector2(halfWidth, halfHeight),
+			new Vector2(halfWidth, -halfHeight),
+			new Vector2(-halfWidth, -halfHeight),
+			new Vector2(-halfWidth, halfHeight),
 		};
 	}
 

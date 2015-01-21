@@ -9,7 +9,7 @@ public class Main : MonoBehaviour
 	[SerializeField] FireButton fireButton;
 	[SerializeField] FireButton accelerateButton;
 	[SerializeField] ParticleSystem thrustPrefab;
-
+	[SerializeField] StarsGenerator starsGenerator;
 	SpaceShip spaceship;
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <Bullet> bullets = new List<Bullet>();
@@ -23,7 +23,13 @@ public class Main : MonoBehaviour
 	private float DestroyAfterSplitTreshold = 5f;
 	public static Color defaultEnemyColor = new Color (0.5f, 0.5f, 0.5f);
 
-	Rect bounds;
+	[SerializeField] float borderWidth = 40f;
+	Rect screenBounds;
+	Rect flyZoneBounds;
+
+	[SerializeField] private float starsDensity = 5f;
+
+	[SerializeField] Vector2 sceneSizeInCameras = new Vector2 (3, 3);
 
 	//powerup
 	private float slowTimeLeft = 0;
@@ -96,7 +102,9 @@ public class Main : MonoBehaviour
 
 	void Start()
 	{
-		CalculateBounds(2,2);
+		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
+
+		starsGenerator.Generate ((int)(starsDensity*(screenBounds.width * screenBounds.height)/2000f) , screenBounds, 30f);
 
 		CreateSpaceShip();
 
@@ -119,12 +127,12 @@ public class Main : MonoBehaviour
 
 		for (int i = 0; i < evades; i++) 
 		{
-			EvadeEnemy enemy = CreateEvadeEnemy();
+			CreateEvadeEnemy();
 		}
 
 		for (int i = 0; i < tanks; i++) 
 		{
-			TankEnemy enemy = CreateTankEnemy();
+			CreateTankEnemy();
 		}
 
 		for (int i = 0; i < spikies; i++) 
@@ -165,7 +173,7 @@ public class Main : MonoBehaviour
 	private void SetRandomPosition(PolygonGameObject p)
 	{
 		float angle = Random.Range(0f,359f) * Math2d.PIdiv180;
-		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, bounds.yMax);
+		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, screenBounds.yMax);
 		p.cacheTransform.position = new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, p.cacheTransform.position.z);
 	}
 
@@ -213,18 +221,38 @@ public class Main : MonoBehaviour
 		enemies.Add (spikePart);
 	}
 
-	float maxX;
-	float maxY;
+	float maxCameraX;
+	float maxCameraY;
 	private void CalculateBounds(float screensNumHeight, float screensNumWidth)
 	{
 		float camHeight = 2f * Camera.main.camera.orthographicSize;
 		float camWidth = camHeight * (Screen.width / (float)Screen.height);
 		float height = screensNumHeight * camHeight;  
 		float width = screensNumWidth * camWidth;
-		bounds = new Rect(-width/2f, -height/2f, width, height);
+		screenBounds = new Rect(-width/2f, -height/2f, width, height);
+		flyZoneBounds = screenBounds;
+		flyZoneBounds.width -= 2f * borderWidth;
+		flyZoneBounds.height -= 2f * borderWidth;
+		flyZoneBounds.center = Vector2.zero;
 
-		maxX = (bounds.width - camWidth) / 2f;
-		maxY = (bounds.height - camHeight) / 2f;
+		maxCameraX = (screenBounds.width - camWidth) / 2f;
+		maxCameraY = (screenBounds.height - camHeight) / 2f;
+
+		var borderObj = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(
+			PolygonCreator.GetRectShape(20,20), Color.gray);
+
+		var m = borderObj.mesh;
+		var indx = new int[]{0,1,2,3,0};
+		m.vertices = new Vector3[]
+		{
+			new Vector3(flyZoneBounds.xMin, flyZoneBounds.yMin),
+			new Vector3(flyZoneBounds.xMax, flyZoneBounds.yMin),
+			new Vector3(flyZoneBounds.xMax, flyZoneBounds.yMax),
+			new Vector3(flyZoneBounds.xMin, flyZoneBounds.yMax),
+		};
+		m.SetIndices(indx, MeshTopology.LineStrip, 0);
+		m.RecalculateBounds();
+
 	}
 
 	private void MoveCamera()
@@ -232,8 +260,8 @@ public class Main : MonoBehaviour
 		if(spaceship != null)
 		{
 			Vector3 pos = spaceship.cacheTransform.position;
-			float x = Mathf.Clamp(pos.x, -maxX, maxX);
-			float y = Mathf.Clamp(pos.y, -maxY, maxY);
+			float x = Mathf.Clamp(pos.x, -maxCameraX, maxCameraX);
+			float y = Mathf.Clamp(pos.y, -maxCameraY, maxCameraY);
 			Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
 		}
 	}
@@ -243,12 +271,16 @@ public class Main : MonoBehaviour
 		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
 		spaceship.FireEvent += OnFire;
 		spaceship.gameObject.name = "Spaceship";
-		spaceship.SetJoystick (joystick);
+#if UNITY_STANDALONE
+		spaceship.SetController (new StandaloneInputController(flyZoneBounds));
+#else
+		TODO
+		spaceship.SetTabletControls (fireButton, accelerateButton);
+#endif
 
 		var gT = Instantiate (thrustPrefab) as ParticleSystem;
 		spaceship.SetThruster (gT);
 
-		spaceship.SetTabletControls (fireButton, accelerateButton);
 		List<ShootPlace> shooters = new List<ShootPlace>();
 
 
@@ -331,7 +363,7 @@ public class Main : MonoBehaviour
 		{
 			spaceship.Tick(Time.deltaTime);
 
-			CheckBounds(spaceship);
+			//CheckBounds(spaceship);
 		}
 
 		TickAndCheckBoundsNullCheck (bullets, Time.deltaTime);
@@ -542,22 +574,22 @@ public class Main : MonoBehaviour
 		Vector3 pos = p.cacheTransform.position;
 		float R = p.polygon.R;
 
-		if(pos.x - R > bounds.xMax)
+		if(pos.x - R > screenBounds.xMax)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetX(bounds.xMin - R);
+			p.cacheTransform.position = p.cacheTransform.position.SetX(screenBounds.xMin - R);
 		}
-		else if(pos.x + R < bounds.xMin)
+		else if(pos.x + R < screenBounds.xMin)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetX(bounds.xMax + R);
+			p.cacheTransform.position = p.cacheTransform.position.SetX(screenBounds.xMax + R);
 		}
 
-		if(pos.y + R < bounds.yMin)
+		if(pos.y + R < screenBounds.yMin)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetY(bounds.yMax + R);
+			p.cacheTransform.position = p.cacheTransform.position.SetY(screenBounds.yMax + R);
 		}
-		else if(pos.y - R > bounds.yMax)
+		else if(pos.y - R > screenBounds.yMax)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetY(bounds.yMin - R);
+			p.cacheTransform.position = p.cacheTransform.position.SetY(screenBounds.yMin - R);
 		}
 	}
 
@@ -749,6 +781,8 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * more efficeient stars render
+	 * Cut inside angles on asteroid destroy
 	 * joystick position fixed
 	 * trust animation
 	 * bullets and shooters refactoring 
