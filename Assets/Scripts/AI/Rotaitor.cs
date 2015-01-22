@@ -40,17 +40,6 @@ public class Rotaitor
 
 	public float DeltaAngle(float toAngle)
 	{
-		float diff = toAngle - transform.eulerAngles.z;
-
-		if(diff > 180)
-		{
-			diff = diff - 360;
-		}
-		else if(diff < -180)
-		{
-			diff = 360 + diff;
-		}
-
-		return diff;
+		return Math2d.DeltaAngleGRAD (transform.eulerAngles.z, toAngle);
 	}
 }

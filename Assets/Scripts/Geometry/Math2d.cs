@@ -23,10 +23,15 @@ public static class Math2d
 		return DotProduct(ref v1, ref v2) / (v1.magnitude * v2.magnitude);
 	}
 
+
+	static public float AngleRAD2(Vector2 v1, Vector2 v2)
+	{
+		return AngleRAD (ref v1, ref v2);
+	}
 	/// <summary>
 	/// returns angle [0, 2*Pi] to rotate from v1 to v2 counterclockwise;
 	/// </summary>
-	static public float Angle(ref Vector2 v1, ref Vector2 v2)
+	static public float AngleRAD(ref Vector2 v1, ref Vector2 v2)
 	{
 		float sign = Mathf.Sign(Cross(ref v1, ref v2));
 		float angle = Mathf.Acos(Cos(ref v1, ref v2));
@@ -40,17 +45,33 @@ public static class Math2d
 		}
 	}
 
+	static public float DeltaAngleGRAD(float fromAngle, float toAngle)
+	{
+		float diff = toAngle - fromAngle;
+		
+		if(diff > 180)
+		{
+			diff = diff - 360;
+		}
+		else if(diff < -180)
+		{
+			diff = 360 + diff;
+		}
+		
+		return diff;
+	}
+
 	/// <summary>
 	/// returns angle [0, 2*Pi] to rotate from vector (1, 0) to v counterclockwise;
 	/// </summary>
 	static public float GetRotation(ref Vector2 v)
 	{
-		return Angle(ref right, ref v);  
+		return AngleRAD(ref right, ref v);  
 	}
 
 	static public float GetRotation(Vector2 v)
 	{
-		return Angle(ref right, ref v);  
+		return AngleRAD(ref right, ref v);  
 	}
 
 	static public Vector2 GetMassCenter(Vector2[] vertices, out float area)
@@ -129,7 +150,7 @@ public static class Math2d
 		}
 	}
 	
-	static public Vector2[] RotateVertices(Vector2[] vertices, float angle)
+	static public Vector2[] RotateVerticesRAD(Vector2[] vertices, float angle)
 	{
 		float cosA = Mathf.Cos(angle);
 		float sinA = Mathf.Sin(angle);

@@ -30,15 +30,15 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 	private float currentAimAngle = 0;
 	private int goRoundTargetSign = 1;
 
-	private List<Bullet> bullets;
+	private List<Bullet> incomingBullets;
 	private PolygonGameObject target;
 	Rotaitor cannonsRotaitor;
 	ShootPlace shooter;
 
-	public void Init(PolygonGameObject ship, List<Bullet> bullets, ShootPlace shooter)
+	public void Init(PolygonGameObject ship, List<Bullet> incomingBullets, ShootPlace shooter)
 	{
 		this.shooter = shooter;
-		this.bullets = bullets;
+		this.incomingBullets = incomingBullets;
 		SetTarget (ship);
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
@@ -121,7 +121,7 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 	{
 		while(true)
 		{
-			EvadeSystem evade = new EvadeSystem(bullets, this);
+			EvadeSystem evade = new EvadeSystem(incomingBullets, this);
 			avoiding = !evade.safeAtCurrentPosition;
 			currentSafePoint = evade.safePosition;
 			yield return new WaitForSeconds(0.1f); 
@@ -139,7 +139,7 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, shooter.speed);
 				if(aim.canShoot)
 				{
-					currentAimAngle = aim.directionAngle / Math2d.PIdiv180;
+					currentAimAngle = aim.directionAngleRAD / Math2d.PIdiv180;
 				}
 			}
 			yield return new WaitForSeconds(aimInterval);

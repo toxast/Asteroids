@@ -77,11 +77,20 @@ public class Main : MonoBehaviour
 		}
 		y += hieight + margine;
 
+		if(GUI.Button(new Rect(10, y, width, hieight), "tower"))
+		{
+			CreateTower();
+		}
+		y += hieight + margine;
+
 		if(GUI.Button(new Rect(10, y, width, hieight), "respawn"))
 		{
 			StartCoroutine(Respawn());
 		}
 		y += hieight + margine;
+
+
+	
 
 
 		if(GUI.Button(new Rect(Screen.width-100, 10, width+20, hieight), "quit"))
@@ -201,6 +210,36 @@ public class Main : MonoBehaviour
 		
 		asteroid.Init(spaceship.cacheTransform, spikes);
 		asteroid.SpikeAttack += HandleSpikeAttack;
+		
+		SetRandomPosition(asteroid);
+		enemies.Add(asteroid);
+	}
+
+	private void CreateTower()
+	{
+		float r = UnityEngine.Random.Range(3f, 4f);
+		int sides = UnityEngine.Random.Range(3, 6);
+
+		int[] cannons;
+		Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/5f, sides, out cannons);
+		
+		var asteroid = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, defaultEnemyColor);
+		asteroid.gameObject.name = "tower";
+
+		List<ShootPlace> shooters = new List<ShootPlace> ();
+		for (int i = 0; i < cannons.Length; i++) 
+		{
+			ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
+			place.fireInterval *= 3;
+			place.position = vertices[cannons[i]];
+			place.direction = place.position.normalized;
+			float angle = Math2d.AngleRAD2 (new Vector2 (1, 0), place.position);
+			place.vertices = Math2d.RotateVerticesRAD(place.vertices, angle);
+			shooters.Add(place);
+		}
+
+		asteroid.Init(spaceship, shooters);
+		asteroid.FireEvent += OnEnemyFire;
 		
 		SetRandomPosition(asteroid);
 		enemies.Add(asteroid);

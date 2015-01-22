@@ -30,7 +30,7 @@ public static class PolygonCollision
 	static private Polygon GetPolygonInGlobalCoordinates(PolygonGameObject a)
 	{
 		float angle = a.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
-		Vector2[] verticesA = Math2d.RotateVertices(a.polygon.vertices, angle);
+		Vector2[] verticesA = Math2d.RotateVerticesRAD(a.polygon.vertices, angle);
 		Math2d.ShiftVertices(verticesA, a.cacheTransform.position);
 		Polygon aRotated = new Polygon(verticesA);
 		aRotated.SetMassCenter (a.cacheTransform.position);

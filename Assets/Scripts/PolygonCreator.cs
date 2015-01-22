@@ -70,9 +70,7 @@ public static class PolygonCreator
 		for(int i = 0; i < vertexCount; i++)
 		{
 			float r = Random.Range(minR, maxR);
-			float x = r*Mathf.Cos(angle);
-			float y = r*Mathf.Sin(angle);
-			vertices[i] = new Vector2(x,y);
+			vertices[i] = GetVertex(r, angle);
 			angle += deltaAngle;
 		}
 
@@ -99,28 +97,53 @@ public static class PolygonCreator
 		
 		float deltaAngle = -2f * Mathf.PI/vcount;
 		float angle = 0;
-		float x;
-		float y;
 		for(int i = 0; i < spikesCount; i++)
 		{
-			x = minR*Mathf.Cos(angle);
-			y = minR*Mathf.Sin(angle);
-			vertices[3 * i] = new Vector2(x,y);
+			vertices[3 * i] = GetVertex(minR, angle);
 			angle += deltaAngle;
 
-			x = maxR*Mathf.Cos(angle);
-			y = maxR*Mathf.Sin(angle);
-			vertices[3*i + 1] = new Vector2(x,y);
+			vertices[3*i + 1] = GetVertex(maxR, angle);
 			spikes[i] = 3*i + 1; 
 			angle += deltaAngle;
 
-			x = minR*Mathf.Cos(angle);
-			y = minR*Mathf.Sin(angle);
-			vertices[3*i + 2] = new Vector2(x,y);
+			vertices[3*i + 2] = GetVertex(minR, angle);
 			angle += deltaAngle;
 		}
 		
 		return vertices;
+	}
+
+	public static Vector2[] CreateTowerPolygonVertices(float R, float canonsSize, int sides, out int[] cannons)
+	{
+		float Rcannon = R - canonsSize;
+		int vcount = sides * 4;
+		Vector2[] vertices = new Vector2[vcount];
+		cannons = new int[sides];
+		float sideAngle = - 2f * Mathf.PI / sides;
+		float angle = 0;
+		for(int i = 0; i < sides; i++)
+		{
+			vertices[4 * i] = GetVertex(R, angle);
+
+			angle += sideAngle * (2f/5f);
+			vertices[4 * i + 1] = GetVertex(R, angle);
+
+			angle += sideAngle / 10f;
+			vertices[4 * i + 2] = GetVertex(Rcannon, angle);
+			cannons[i] = 4 * i + 2;
+
+			angle += sideAngle / 10f;
+			vertices[4 * i + 3] = GetVertex(R, angle);
+
+			angle += sideAngle* (2f/5f);
+		}
+		
+		return vertices;
+	}
+
+	private static Vector2 GetVertex(float r, float angle)
+	{
+		return new Vector2(r*Mathf.Cos(angle), r*Mathf.Sin(angle));
 	}
 
 	private static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color)

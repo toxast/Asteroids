@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Missile : PolygonGameObject
@@ -69,7 +69,7 @@ public class Missile : PolygonGameObject
 		}
 		else
 		{
-			var currentAimAngle = aim.directionAngle / Math2d.PIdiv180;
+			var currentAimAngle = aim.directionAngleRAD / Math2d.PIdiv180;
 			rotaitor.Rotate(deltaTime, currentAimAngle);
 		}
 	}

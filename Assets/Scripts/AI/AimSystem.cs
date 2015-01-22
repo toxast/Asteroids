@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System;
 
@@ -15,11 +15,11 @@ public class AimSystem
 
 	Vector2 right = new Vector2(1,0);
 	//angle [0, 2*Pi] to rotate from Vector2(1,0) to direction vector 
-	public float directionAngle
+	public float directionAngleRAD
 	{
 		get
 		{
-			return Math2d.Angle(ref right, ref direction);
+			return Math2d.AngleRAD(ref right, ref direction);
 		}
 	}
 
