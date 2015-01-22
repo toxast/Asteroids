@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -119,7 +119,14 @@ public class SpaceShip : PolygonGameObject
 
 	public void Accelerate(float delta)
 	{
-		velocity += cacheTransform.right * delta * thrust;
+		float deltaV = delta * thrust;
+		velocity += cacheTransform.right * deltaV;
+
+		if(velocity.sqrMagnitude > maxSpeedSqr)
+		{
+			velocity = velocity.normalized*(Mathf.Clamp(velocity.magnitude - deltaV, maxSpeed, Mathf.Infinity));
+		}
+
 		acceleratedThisTick = true;
 	}
 
@@ -152,7 +159,7 @@ public class SpaceShip : PolygonGameObject
 
 		InputTick (delta);
 
-		RestictSpeed ();
+		//RestictSpeed ();
 
 		TickShooters (delta);
 
@@ -202,7 +209,7 @@ public class SpaceShip : PolygonGameObject
 
 	void InputTick(float delta)
 	{
-		inputController.Update (this);
+		inputController.Tick (this);
 
 		var dir = inputController.TurnDirection();
 

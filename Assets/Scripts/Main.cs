@@ -5,11 +5,9 @@ using System.Collections.Generic;
 
 public class Main : MonoBehaviour 
 {
-	[SerializeField] Image joystick;
-	[SerializeField] FireButton fireButton;
-	[SerializeField] FireButton accelerateButton;
 	[SerializeField] ParticleSystem thrustPrefab;
 	[SerializeField] StarsGenerator starsGenerator;
+	[SerializeField] TabletInputController tabletController;
 	SpaceShip spaceship;
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <Bullet> bullets = new List<Bullet>();
@@ -90,14 +88,6 @@ public class Main : MonoBehaviour
 		{
 			Application.Quit();
 		}
-	}
-
-	void Awkae()
-	{
-#if !UNITY_STANDALONE
-		fireButton.gameObject.SetActive(true);
-		accelerateButton.gameObject.SetActive(true);
-#endif
 	}
 
 	void Start()
@@ -273,6 +263,9 @@ public class Main : MonoBehaviour
 		spaceship.gameObject.name = "Spaceship";
 #if UNITY_STANDALONE
 		spaceship.SetController (new StandaloneInputController(flyZoneBounds));
+
+//		tabletController.Init(flyZoneBounds);
+//		spaceship.SetController(tabletController);
 #else
 		TODO
 		spaceship.SetTabletControls (fireButton, accelerateButton);

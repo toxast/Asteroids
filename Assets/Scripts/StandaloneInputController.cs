@@ -13,7 +13,7 @@ public class StandaloneInputController : InputController
 		this.flyZoneBounds = flyZoneBounds;
 	}
 
-	public void Update(PolygonGameObject p)
+	public void Tick(PolygonGameObject p)
 	{
 		shooting = Input.GetMouseButton (0);
 		accelerating = Input.GetKey (KeyCode.W);
@@ -24,23 +24,31 @@ public class StandaloneInputController : InputController
 		//CheckIfShipOutOfBounds()
 		if(curPos.x < flyZoneBounds.xMin)
 		{
-			moveTo.x = flyZoneBounds.xMin;
+			if(moveTo.x < flyZoneBounds.xMin)
+				moveTo.x = flyZoneBounds.xMin;
+
 			accelerating = true;
 		}
 		else if(curPos.x > flyZoneBounds.xMax)
 		{
-			moveTo.x = flyZoneBounds.xMax;
+			if(moveTo.x > flyZoneBounds.xMax)
+				moveTo.x = flyZoneBounds.xMax;
+
 			accelerating = true;
 		}
 
 		if(curPos.y < flyZoneBounds.yMin)
 		{
-			moveTo.y = flyZoneBounds.yMin;
+			if(moveTo.y < flyZoneBounds.yMin)
+				moveTo.y = flyZoneBounds.yMin;
+
 			accelerating = true;
 		}
 		else if(curPos.y > flyZoneBounds.yMax)
 		{
-			moveTo.y = flyZoneBounds.yMax;
+			if(moveTo.y > flyZoneBounds.yMax)
+				moveTo.y = flyZoneBounds.yMax;
+
 			accelerating = true;
 		}
 
