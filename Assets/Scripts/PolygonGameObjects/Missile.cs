@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Missile : PolygonGameObject
+public class Missile : BulletBase
 {
 	private float lifeTime = 20f;
 
@@ -9,7 +9,6 @@ public class Missile : PolygonGameObject
 	private float maxVelocity = 40f;
 	private float maxVelocitySqr;
 	private float rotationSpeed = 200f;
-	public float damage;
 
 	private Transform targetTransform;
 

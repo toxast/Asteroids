@@ -9,10 +9,10 @@ public class Main : MonoBehaviour
 	[SerializeField] ParticleSystem thrustPrefab;
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
-	SpaceShip spaceship;
+	UserSpaceShip spaceship;
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <Bullet> bullets = new List<Bullet>();
-	List <PolygonGameObject> enemyBullets = new List<PolygonGameObject>();
+	List <BulletBase> enemyBullets = new List<BulletBase>();
 	List <TimeDestuctor> parts2kill = new List<TimeDestuctor>();
 
 	PowerUpsCreator powerUpsCreator;
@@ -339,7 +339,7 @@ public class Main : MonoBehaviour
 
 	private void CreateSpaceShip()
 	{
-		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
+		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
 		spaceship.FireEvent += OnFire;
 		spaceship.gameObject.name = "Spaceship";
 #if UNITY_STANDALONE
@@ -411,7 +411,7 @@ public class Main : MonoBehaviour
 
 		///Missile missile = BulletCreator.CreateMissile(spaceship.gameObject, trfrm, shooter); 
 		
-		PutOnFirstNullPlace<PolygonGameObject>(enemyBullets, bullet);
+		PutOnFirstNullPlace<BulletBase>(enemyBullets, bullet);
 	}
 
 	float enemyDtime;
@@ -532,8 +532,7 @@ public class Main : MonoBehaviour
 
 					SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
 
-					//TODO: bullet damage
-					spaceship.Hit(GetCollisionDamage(impulse));
+					spaceship.Hit(bullet.damage);
 
 					Destroy(bullet.gameObject);
 					enemyBullets[i] = null; 

@@ -10,7 +10,7 @@ public class SpaceShip : PolygonGameObject
 
 	float brake = 15f;
 	float thrust = 45f;
-	float maxSpeed = 30f;
+	float maxSpeed = 20f;
 	float maxSpeedSqr;
 
 	float maxRotation = 250f;
@@ -25,7 +25,7 @@ public class SpaceShip : PolygonGameObject
 	ParticleSystem thrustPSystem;
 	float defaultThrustLifetime;
 
-	InputController inputController;
+	protected InputController inputController;
 
 //	Joystick joystickControl;
 //	FireButton fireButton;
@@ -44,17 +44,6 @@ public class SpaceShip : PolygonGameObject
 		cacheTransform = transform;
 		maxSpeedSqr = maxSpeed*maxSpeed;
 		velocity = Vector3.zero;
-	}
-
-	void Start()
-	{
-		GameResources.SetHealth (health/fullHealth);
-	}
-
-	public override void Hit (float dmg)
-	{
-		base.Hit (dmg);
-		GameResources.SetHealth (health/fullHealth);
 	}
 
 	public void SetController(InputController iController)

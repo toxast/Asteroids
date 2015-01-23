@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemySpaceShipController : InputController 
+public class EnemySpaceShipController : InputController, IGotTarget
 {
 	PolygonGameObject thisShip;
 	PolygonGameObject target;
@@ -15,6 +15,11 @@ public class EnemySpaceShipController : InputController
 		this.target = target;
 	}
 
+	public void SetTarget(PolygonGameObject target)
+	{
+		this.target = target;
+	}
+
 	public void Tick(PolygonGameObject p)
 	{
 		accelerating = false;
@@ -24,6 +29,10 @@ public class EnemySpaceShipController : InputController
 			accelerating = true;
 			shooting = true;
 			turnDirection = target.cacheTransform.position - thisShip.cacheTransform.position;
+			if(turnDirection.sqrMagnitude < 400f)
+			{
+				turnDirection = -turnDirection;
+			}
 		}
 	}
 

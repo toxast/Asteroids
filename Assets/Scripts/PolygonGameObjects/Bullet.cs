@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bullet : PolygonGameObject
+public class Bullet : BulletBase
 {
 	private float startingSpeed;
 
 	private float lifeTime;
-
-	public float damage;
 
 	void Awake () 
 	{
