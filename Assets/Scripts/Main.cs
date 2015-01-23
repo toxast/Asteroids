@@ -5,13 +5,14 @@ using System.Collections.Generic;
 
 public class Main : MonoBehaviour 
 {
+	[SerializeField] HealthBar healthbar;
 	[SerializeField] ParticleSystem thrustPrefab;
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
-	SpaceShip spaceship;
+	UserSpaceShip spaceship;
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <Bullet> bullets = new List<Bullet>();
-	List <PolygonGameObject> enemyBullets = new List<PolygonGameObject>();
+	List <BulletBase> enemyBullets = new List<BulletBase>();
 	List <TimeDestuctor> parts2kill = new List<TimeDestuctor>();
 
 	PowerUpsCreator powerUpsCreator;
@@ -82,6 +83,13 @@ public class Main : MonoBehaviour
 			CreateTower();
 		}
 		y += hieight + margine;
+
+		if(GUI.Button(new Rect(10, y, width, hieight), "enemy spaceship"))
+		{
+			CreateEnemySpaceShip();
+		}
+		y += hieight + margine;
+
 
 		if(GUI.Button(new Rect(10, y, width, hieight), "respawn"))
 		{
@@ -295,9 +303,43 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	private void CreateEnemySpaceShip()
+	{
+		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.white);
+		enemySpaceship.FireEvent += OnEnemyFire;
+		enemySpaceship.gameObject.name = "enemy spaceship";
+		enemySpaceship.SetController (new EnemySpaceShipController(enemySpaceship, spaceship, bullets));
+		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+		enemySpaceship.SetThruster (gT);
+		
+		List<ShootPlace> shooters = new List<ShootPlace>();
+		
+		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
+		place2.color = Color.yellow;
+		place2.fireInterval = 0.45f;
+		place2.position = new Vector2(1f, 0f);
+		
+		//		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
+		//		place2.color = Color.white;
+		//		place2.fireInterval = 0.4f;
+		//		place2.position = new Vector2(1f, 1.3f);
+		//
+		//		ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
+		//		place3.fireInterval = 0.4f;
+		//		place3.color = Color.white;
+		//		place3.position = new Vector2(1f, -1.3f);
+		//
+		shooters.Add(place2);
+		//		shooters.Add(place3);
+		enemySpaceship.SetShootPlaces(shooters );
+
+		SetRandomPosition(enemySpaceship);
+		enemies.Add(enemySpaceship);
+	}
+
 	private void CreateSpaceShip()
 	{
-		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
+		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
 		spaceship.FireEvent += OnFire;
 		spaceship.gameObject.name = "Spaceship";
 #if UNITY_STANDALONE
@@ -369,7 +411,7 @@ public class Main : MonoBehaviour
 
 		///Missile missile = BulletCreator.CreateMissile(spaceship.gameObject, trfrm, shooter); 
 		
-		PutOnFirstNullPlace<PolygonGameObject>(enemyBullets, bullet);
+		PutOnFirstNullPlace<BulletBase>(enemyBullets, bullet);
 	}
 
 	float enemyDtime;
@@ -490,8 +532,7 @@ public class Main : MonoBehaviour
 
 					SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
 
-					//TODO: bullet damage
-					//spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
+					spaceship.Hit(bullet.damage);
 
 					Destroy(bullet.gameObject);
 					enemyBullets[i] = null; 
@@ -500,7 +541,7 @@ public class Main : MonoBehaviour
 			}
 
 
-			for (int i = 0; i < enemies.Count; i++) 
+			for (int i = enemies.Count - 1; i >= 0; i--) 
 			{
 				var enemy = enemies[i];
 
@@ -511,8 +552,18 @@ public class Main : MonoBehaviour
 				if(PolygonCollision.IsCollides(spaceship, enemy, out indxa, out indxb))
 				{
 					var impulse = PolygonCollision.ApplyCollision(spaceship, enemy, indxa, indxb);
+					var dmg = GetCollisionDamage(impulse);
 
-					//spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
+					spaceship.Hit(dmg);
+					enemy.Hit(dmg);
+
+					if(enemy.IsKilled())
+					{
+						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(enemy);
+						enemies.RemoveAt(i);
+						Destroy(enemy.gameObject);
+						break;
+					}
 				}
 			}
 		}
@@ -576,6 +627,13 @@ public class Main : MonoBehaviour
 				parts2kill.Add(d);
 			}
 		}
+	}
+
+	private float GetCollisionDamage(float impulse)
+	{
+		var dmg = Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier;
+		//Debug.LogWarning (dmg);
+		return dmg;
 	}
 
 	private void TickAndCheckBounds<T>(List<T> list, float dtime)
@@ -799,7 +857,7 @@ public class Main : MonoBehaviour
 	{
 		float size = Random.Range(3f, 8f);
 		int vcount = Random.Range(5, 5 + (int)size*3);
-		Vector2[] vertices = PolygonCreator.CreatePolygonVertices(size, size/2f, vcount);
+		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 		
 		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, defaultEnemyColor);
 		asteroid.Init ();

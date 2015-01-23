@@ -425,6 +425,48 @@ public class Polygon
 		return parts;
 	}
 
+
+	public List<Vector2[]> CutOffAllSpikes()
+	{
+		Vector2[] spikeless;
+		List<Vector2[]> spikes;
+		CutOffAllSpikes (out spikes, out spikeless);
+		List<Vector2[]> testParts = new List<Vector2[]> ();
+		testParts.AddRange (spikes);
+		testParts.Add (spikeless);
+		return testParts;
+	}
+
+	public void CutOffAllSpikes(out List<Vector2[]> spikes, out Vector2[] spikeless)
+	{
+		spikes = new List<Vector2[]>();
+		var parts2Check = SplitSpike ();
+
+		while(true)
+		{
+			if(parts2Check.Count == 1)
+				break;
+
+			List<Vector2[]> next2check = null;
+			for (int i = parts2Check.Count - 1; i >= 0; i--) 
+			{
+				var part = parts2Check[i];
+				if(part.Length == 3)
+				{
+					spikes.Add(part);
+				}
+				else
+				{
+					var p = new Polygon(part);
+					next2check = p.SplitSpike();
+				}
+			}
+			parts2Check = next2check;
+		}
+
+		spikeless = parts2Check [0];
+	}
+
 	//searches for spiky vertex, partially cuts it off
 	public List<Vector2[]> SplitSpike()
 	{
@@ -444,7 +486,7 @@ public class Polygon
 		}
 
 
-		if(maxCos < 0.7f)
+		if(maxCos < 0f)
 		{
 			parts.Add(vertices);
 			return parts;

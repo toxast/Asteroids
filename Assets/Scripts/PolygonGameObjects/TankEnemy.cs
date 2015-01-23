@@ -47,6 +47,12 @@ public class TankEnemy : PolygonGameObject, IGotTarget
 		StartCoroutine(FireCoroutine());
 	}
 
+	protected override float healthModifier {
+		get {
+			return base.healthModifier * Singleton<GlobalConfig>.inst.TankEnemyHealthModifier;
+		}
+	}
+
 	public void SetTarget(PolygonGameObject target)
 	{
 		this.target = target;

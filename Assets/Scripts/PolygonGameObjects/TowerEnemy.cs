@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TowerEnemy : PolygonGameObject
+public class TowerEnemy : PolygonGameObject, IGotTarget
 {
-	private SpaceShip target;
+	private PolygonGameObject target;
 
 	private float detectionDistanceSqr;
 
@@ -16,9 +16,15 @@ public class TowerEnemy : PolygonGameObject
 	Rotaitor cannonsRotaitor;
 	public event System.Action<ShootPlace, Transform> FireEvent;
 
-	public void Init(SpaceShip target, List<ShootPlace> shooters)
+	protected override float healthModifier {
+		get {
+			return base.healthModifier * Singleton<GlobalConfig>.inst.TowerEnemyHealthModifier;
+		}
+	}
+
+	public void Init(PolygonGameObject target, List<ShootPlace> shooters)
 	{
-		this.target = target;
+		SetTarget(target);
 		this.shooters = shooters;
 
 		cannonsRotaitor = new Rotaitor (cacheTransform, rotationSpeed);
@@ -28,6 +34,11 @@ public class TowerEnemy : PolygonGameObject
 		StartCoroutine(FireCoroutine());
 	}
 
+	public void SetTarget(PolygonGameObject target)
+	{
+		this.target = target;
+	}
+
 
 	public override void Tick(float delta)
 	{
@@ -35,6 +46,11 @@ public class TowerEnemy : PolygonGameObject
 			return;
 		
 		RotateCannon(delta);
+
+		cacheTransform.position += velocity*delta;
+
+		if(rotation != 0)
+			cacheTransform.Rotate(Vector3.back, rotation*delta);
 	}
 
 	private IEnumerator Aim()

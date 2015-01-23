@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SawEnemy : PolygonGameObject
+public class SawEnemy : PolygonGameObject, IGotTarget
 {
-	private SpaceShip target;
+	private PolygonGameObject target;
 
 	private float initialRotation;
 	private float initialVelocity;
@@ -18,7 +18,7 @@ public class SawEnemy : PolygonGameObject
 	private float initialVelocitySqr;
 	private float detectionDistanceSqr;
 
-	public void Init(SpaceShip target)
+	public void Init(PolygonGameObject ptarget)
 	{
 		initialRotation = Random.Range(40,100);
 		initialVelocity = Random.Range(2f, 7f);
@@ -29,9 +29,20 @@ public class SawEnemy : PolygonGameObject
 		velocity = new Vector3(Mathf.Cos(a)*initialVelocity, Mathf.Sin(a)*initialVelocity, 0f);
 		rotation = initialRotation;
 
-		this.target = target;
+		SetTarget(ptarget);
 		detectionDistanceSqr = detectionDistance*detectionDistance;
 		initialVelocitySqr = initialVelocity * initialVelocity;
+	}
+
+	protected override float healthModifier {
+		get {
+			return base.healthModifier * 3;
+		}
+	}
+
+	public void SetTarget(PolygonGameObject target)
+	{
+		this.target = target;
 	}
 
 	void Start () 

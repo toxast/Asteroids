@@ -10,7 +10,7 @@ public class SpaceShip : PolygonGameObject
 
 	float brake = 15f;
 	float thrust = 45f;
-	float maxSpeed = 30f;
+	float maxSpeed = 20f;
 	float maxSpeedSqr;
 
 	float maxRotation = 250f;
@@ -25,7 +25,7 @@ public class SpaceShip : PolygonGameObject
 	ParticleSystem thrustPSystem;
 	float defaultThrustLifetime;
 
-	InputController inputController;
+	protected InputController inputController;
 
 //	Joystick joystickControl;
 //	FireButton fireButton;
@@ -35,7 +35,7 @@ public class SpaceShip : PolygonGameObject
 
 	protected override float healthModifier {
 		get {
-			return base.healthModifier;
+			return base.healthModifier * Singleton<GlobalConfig>.inst.SpaceshipHealthModifier;
 		}
 	}
 

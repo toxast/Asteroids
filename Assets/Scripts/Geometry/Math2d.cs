@@ -45,6 +45,11 @@ public static class Math2d
 		}
 	}
 
+	static public bool Chance(float chance)
+	{
+		return chance > UnityEngine.Random.Range(0f, 1f);
+	}
+
 	static public float DeltaAngleGRAD(float fromAngle, float toAngle)
 	{
 		float diff = toAngle - fromAngle;

@@ -40,6 +40,12 @@ public class RogueEnemy : PolygonGameObject, IGotTarget
 		StartCoroutine(FadeAndShoot());
 	}
 
+	protected override float healthModifier {
+		get {
+			return base.healthModifier * Singleton<GlobalConfig>.inst.RogueEnemyHealthModifier;
+		}
+	}
+
 	public void SetTarget(PolygonGameObject target)
 	{
 		this.target = target;
