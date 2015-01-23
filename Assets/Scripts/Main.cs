@@ -84,6 +84,13 @@ public class Main : MonoBehaviour
 		}
 		y += hieight + margine;
 
+		if(GUI.Button(new Rect(10, y, width, hieight), "enemy spaceship"))
+		{
+			CreateEnemySpaceShip();
+		}
+		y += hieight + margine;
+
+
 		if(GUI.Button(new Rect(10, y, width, hieight), "respawn"))
 		{
 			StartCoroutine(Respawn());
@@ -294,6 +301,40 @@ public class Main : MonoBehaviour
 			float y = Mathf.Clamp(pos.y, -maxCameraY, maxCameraY);
 			Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
 		}
+	}
+
+	private void CreateEnemySpaceShip()
+	{
+		SpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.white);
+		enemySpaceship.FireEvent += OnEnemyFire;
+		enemySpaceship.gameObject.name = "enemy spaceship";
+		enemySpaceship.SetController (new EnemySpaceShipController(enemySpaceship, spaceship));
+		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+		enemySpaceship.SetThruster (gT);
+		
+		List<ShootPlace> shooters = new List<ShootPlace>();
+		
+		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
+		place2.color = Color.yellow;
+		place2.fireInterval = 0.45f;
+		place2.position = new Vector2(1f, 0f);
+		
+		//		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
+		//		place2.color = Color.white;
+		//		place2.fireInterval = 0.4f;
+		//		place2.position = new Vector2(1f, 1.3f);
+		//
+		//		ShootPlace place3 =  ShootPlace.GetSpaceshipShootPlace();
+		//		place3.fireInterval = 0.4f;
+		//		place3.color = Color.white;
+		//		place3.position = new Vector2(1f, -1.3f);
+		//
+		shooters.Add(place2);
+		//		shooters.Add(place3);
+		enemySpaceship.SetShootPlaces(shooters );
+
+		SetRandomPosition(enemySpaceship);
+		enemies.Add(enemySpaceship);
 	}
 
 	private void CreateSpaceShip()
@@ -592,7 +633,7 @@ public class Main : MonoBehaviour
 	private float GetCollisionDamage(float impulse)
 	{
 		var dmg = Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier;
-		Debug.LogWarning (dmg);
+		//Debug.LogWarning (dmg);
 		return dmg;
 	}
 
@@ -817,7 +858,7 @@ public class Main : MonoBehaviour
 	{
 		float size = Random.Range(3f, 8f);
 		int vcount = Random.Range(5, 5 + (int)size*3);
-		Vector2[] vertices = PolygonCreator.CreatePolygonVertices(size, size/2f, vcount);
+		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 		
 		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, defaultEnemyColor);
 		asteroid.Init ();

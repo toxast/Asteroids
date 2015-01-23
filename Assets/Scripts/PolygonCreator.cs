@@ -51,7 +51,7 @@ public static class PolygonCreator
 	/// Creates the polygon inside of bagel (inside circle radius minR, outer - maxR)
 	/// with given count of vertices to generate 
 	/// </summary>
-	public static Vector2[] CreatePolygonVertices(float maxR, float minR, int vertexCount)
+	public static Vector2[] CreateAsteroidVertices(float maxR, float minR, int vertexCount)
 	{
 		if(vertexCount < 3)
 		{
@@ -74,7 +74,11 @@ public static class PolygonCreator
 			angle += deltaAngle;
 		}
 
-		return vertices;
+		Polygon p = new Polygon (vertices);
+		List<Vector2[]> spikes;
+		Vector2[] spikeless;
+		p.CutOffAllSpikes (out spikes, out spikeless);
+		return spikeless;
 	}
 
 	public static Vector2[] CreateSpikyPolygonVertices(float maxR, float minR, int spikesCount, out int[] spikes)
