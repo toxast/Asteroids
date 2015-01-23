@@ -35,7 +35,7 @@ public class SpaceShip : PolygonGameObject
 
 	protected override float healthModifier {
 		get {
-			return base.healthModifier;
+			return base.healthModifier * Singleton<GlobalConfig>.inst.SpaceshipHealthModifier;
 		}
 	}
 
@@ -44,6 +44,17 @@ public class SpaceShip : PolygonGameObject
 		cacheTransform = transform;
 		maxSpeedSqr = maxSpeed*maxSpeed;
 		velocity = Vector3.zero;
+	}
+
+	void Start()
+	{
+		GameResources.SetHealth (health/fullHealth);
+	}
+
+	public override void Hit (float dmg)
+	{
+		base.Hit (dmg);
+		GameResources.SetHealth (health/fullHealth);
 	}
 
 	public void SetController(InputController iController)

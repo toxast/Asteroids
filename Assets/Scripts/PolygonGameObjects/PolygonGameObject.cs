@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,7 +10,8 @@ public class PolygonGameObject : MonoBehaviour
 	public Mesh mesh;
 
 
-	[SerializeField] private float health;
+	protected float fullHealth;
+	[SerializeField] protected float health;
 	public float density = 1;
 	public float mass;
 	public float inertiaMoment;
@@ -17,6 +19,8 @@ public class PolygonGameObject : MonoBehaviour
 	public float rotation;
 
 	public bool markedForDeath = false;
+	public event Action<float> healthChanged;
+
 
 	void Awake () 
 	{
@@ -29,12 +33,13 @@ public class PolygonGameObject : MonoBehaviour
 		mass = polygon.area * density;
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;
-		health = Mathf.Sqrt(mass) * healthModifier;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
+		fullHealth = Mathf.Sqrt(mass) * healthModifier;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
+		health = fullHealth;
 	}
 
 	protected virtual float healthModifier
 	{
-		get{return 1f;}
+		get{return Singleton<GlobalConfig>.inst.GlobalHealthModifier;}
 	}
 
 	public void SetColor(Color col)
@@ -103,7 +108,7 @@ public class PolygonGameObject : MonoBehaviour
 		return chance > UnityEngine.Random.Range(0f, 1f);
 	}
 
-	public void Hit(float dmg)
+	public virtual void Hit(float dmg)
 	{
 		health -= dmg;
 	}

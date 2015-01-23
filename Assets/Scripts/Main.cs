@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class Main : MonoBehaviour 
 {
+	[SerializeField] HealthBar healthbar;
 	[SerializeField] ParticleSystem thrustPrefab;
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
@@ -491,7 +492,7 @@ public class Main : MonoBehaviour
 					SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
 
 					//TODO: bullet damage
-					//spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
+					spaceship.Hit(GetCollisionDamage(impulse));
 
 					Destroy(bullet.gameObject);
 					enemyBullets[i] = null; 
@@ -500,7 +501,7 @@ public class Main : MonoBehaviour
 			}
 
 
-			for (int i = 0; i < enemies.Count; i++) 
+			for (int i = enemies.Count - 1; i >= 0; i--) 
 			{
 				var enemy = enemies[i];
 
@@ -511,8 +512,18 @@ public class Main : MonoBehaviour
 				if(PolygonCollision.IsCollides(spaceship, enemy, out indxa, out indxb))
 				{
 					var impulse = PolygonCollision.ApplyCollision(spaceship, enemy, indxa, indxb);
+					var dmg = GetCollisionDamage(impulse);
 
-					//spaceship.Hit(Mathf.Abs(impulse) / spaceship.mass);
+					spaceship.Hit(dmg);
+					enemy.Hit(dmg);
+
+					if(enemy.IsKilled())
+					{
+						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(enemy);
+						enemies.RemoveAt(i);
+						Destroy(enemy.gameObject);
+						break;
+					}
 				}
 			}
 		}
@@ -576,6 +587,13 @@ public class Main : MonoBehaviour
 				parts2kill.Add(d);
 			}
 		}
+	}
+
+	private float GetCollisionDamage(float impulse)
+	{
+		var dmg = Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier;
+		Debug.LogWarning (dmg);
+		return dmg;
 	}
 
 	private void TickAndCheckBounds<T>(List<T> list, float dtime)
