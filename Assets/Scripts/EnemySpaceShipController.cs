@@ -44,12 +44,14 @@ public class EnemySpaceShipController : InputController, IGotTarget
 
 	private IEnumerator Logic()
 	{
+		float checkForBulletTime = 1f;
+		float leftUntilCheck = -1;
 		while(true)
 		{
 			if(target != null)
 			{
 				Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
-				if(dir.sqrMagnitude < 300f)
+				if(dir.sqrMagnitude < 500f)
 				{
 					if(Math2d.Chance(0.8f))
 					{
@@ -61,15 +63,25 @@ public class EnemySpaceShipController : InputController, IGotTarget
 						yield return thisShip.StartCoroutine(TurnBack(2f));
 					}
 				}
-
-				//TODO: t !+ null
-				dir = target.cacheTransform.position - thisShip.cacheTransform.position;
-				if(bullets.Exists(b => b != null && CheckForBulletCollision(b, dir)))
+				else if(leftUntilCheck < 0)
 				{
-					yield return thisShip.StartCoroutine(Siderun(dir, 0.5f));
+
+					dir = target.cacheTransform.position - thisShip.cacheTransform.position;
+					if(bullets.Exists(b => b != null && CheckForBulletCollision(b, dir)))
+					{
+						leftUntilCheck = checkForBulletTime/2f;
+						yield return thisShip.StartCoroutine(Siderun(dir, 1f));
+						yield return thisShip.StartCoroutine(Attack (false, 1f));
+					}
+					else
+					{
+						leftUntilCheck = checkForBulletTime;
+					}
 				}
-				
-				yield return thisShip.StartCoroutine(Attack(true, 0));
+				else
+				{
+					yield return thisShip.StartCoroutine(Attack(true, 0));
+				}
 			}
 			else
 			{
@@ -78,16 +90,18 @@ public class EnemySpaceShipController : InputController, IGotTarget
 				//TODO: break
 			}
 			yield return new WaitForSeconds(0f);
+			leftUntilCheck -= Time.deltaTime;
 		}
 	}
 
 	private bool CheckForBulletCollision(Bullet b, Vector2 dir)
 	{
-		float angle = Math2d.AngleRAD2 (b.velocity, thisShip.velocity);
-		if(angle > 4f*Mathf.PI/5f && angle < 6f*Mathf.PI/5f)
+		float angleVS = Math2d.AngleRAD2 (b.velocity, thisShip.velocity);
+		float cosVS = Mathf.Cos (angleVS);
+		if(cosVS < -0.9f)
 		{
 			var cos = Mathf.Cos(Math2d.AngleRAD2 (b.velocity, dir));
-			return cos  < -0.8f;
+			return cos  < -0.9f;
 		}
 
 		return false;
@@ -121,7 +135,8 @@ public class EnemySpaceShipController : InputController, IGotTarget
 
 	private IEnumerator Siderun(Vector2 dir, float duration)
 	{
-		turnDirection = Math2d.RotateVertex(dir, 1f);
+		float angle = UnityEngine.Random.Range (0.5f, 1.3f) * Mathf.Sign (UnityEngine.Random.Range (-1f, 1f));
+		turnDirection = Math2d.RotateVertex(dir, angle);
 		accelerating = true;
 		shooting = false;
 		yield return new WaitForSeconds(duration);

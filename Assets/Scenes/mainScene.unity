@@ -533,6 +533,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthbar: {fileID: 1790176323}
   thrustPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
+  thrustPrefab2: {fileID: 19800000, guid: 15cc01f7effee1b4dab18bfa9791b06f, type: 2}
+  explosion: {fileID: 19876198, guid: dd39baf1d2acff7409adaefde542adbd, type: 2}
   starsGenerator: {fileID: 1445927427}
   tabletController: {fileID: 1381619135}
   borderWidth: 40

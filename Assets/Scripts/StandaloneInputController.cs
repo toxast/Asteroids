@@ -8,9 +8,17 @@ public class StandaloneInputController : InputController
 	bool accelerating = false;
 	Vector2 turnDirection;
 
+	private float pushingForce = 4f;
+
 	public StandaloneInputController(Rect flyZoneBounds)
 	{
 		this.flyZoneBounds = flyZoneBounds;
+	}
+
+	private void ApplyForce(PolygonGameObject p, Vector2 dir)
+	{
+		Vector3 f = dir.normalized * pushingForce * dir.sqrMagnitude;
+		p.velocity += (Time.deltaTime * f) / p.mass ;
 	}
 
 	public void Tick(PolygonGameObject p)
@@ -24,32 +32,25 @@ public class StandaloneInputController : InputController
 		//CheckIfShipOutOfBounds()
 		if(curPos.x < flyZoneBounds.xMin)
 		{
-			if(moveTo.x < flyZoneBounds.xMin)
-				moveTo.x = flyZoneBounds.xMin;
-
-			accelerating = true;
+			//TODO: delta
+			float dir = (flyZoneBounds.xMin - curPos.x);
+			ApplyForce(p, new Vector2(dir,0));
 		}
 		else if(curPos.x > flyZoneBounds.xMax)
 		{
-			if(moveTo.x > flyZoneBounds.xMax)
-				moveTo.x = flyZoneBounds.xMax;
-
-			accelerating = true;
+			float dir = (flyZoneBounds.xMax - curPos.x);
+			ApplyForce(p, new Vector2(dir,0));
 		}
 
 		if(curPos.y < flyZoneBounds.yMin)
 		{
-			if(moveTo.y < flyZoneBounds.yMin)
-				moveTo.y = flyZoneBounds.yMin;
-
-			accelerating = true;
+			float dir = (flyZoneBounds.yMin - curPos.y);
+			ApplyForce(p, new Vector2(0,dir));
 		}
 		else if(curPos.y > flyZoneBounds.yMax)
 		{
-			if(moveTo.y > flyZoneBounds.yMax)
-				moveTo.y = flyZoneBounds.yMax;
-
-			accelerating = true;
+			float dir = (flyZoneBounds.yMax - curPos.y);
+			ApplyForce(p, new Vector2(0,dir));
 		}
 
 		turnDirection = moveTo - curPos;

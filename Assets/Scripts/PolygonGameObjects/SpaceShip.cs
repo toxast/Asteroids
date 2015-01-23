@@ -8,6 +8,7 @@ public class SpaceShip : PolygonGameObject
 {
 	float turnSpeed = 220f;
 
+	float passiveBrake = 2f;
 	float brake = 15f;
 	float thrust = 45f;
 	float maxSpeed = 20f;
@@ -119,8 +120,11 @@ public class SpaceShip : PolygonGameObject
 
 	public void Accelerate(float delta)
 	{
+		float k = 0.5f; 
+
 		float deltaV = delta * thrust;
-		velocity += cacheTransform.right * deltaV;
+		velocity -= k * velocity.normalized * deltaV;
+		velocity += (1 + k)*cacheTransform.right * deltaV;
 
 		if(velocity.sqrMagnitude > maxSpeedSqr)
 		{
@@ -158,6 +162,11 @@ public class SpaceShip : PolygonGameObject
 		acceleratedThisTick = false;
 
 		InputTick (delta);
+
+		if(!acceleratedThisTick)
+		{
+			Brake(delta, passiveBrake);
+		}
 
 		//RestictSpeed ();
 

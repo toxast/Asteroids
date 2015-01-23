@@ -7,6 +7,8 @@ public class Main : MonoBehaviour
 {
 	[SerializeField] HealthBar healthbar;
 	[SerializeField] ParticleSystem thrustPrefab;
+	[SerializeField] ParticleSystem thrustPrefab2;
+	[SerializeField] ParticleSystem explosion;
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
 	UserSpaceShip spaceship;
@@ -352,7 +354,7 @@ public class Main : MonoBehaviour
 		spaceship.SetTabletControls (fireButton, accelerateButton);
 #endif
 
-		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
 		spaceship.SetThruster (gT);
 
 		List<ShootPlace> shooters = new List<ShootPlace>();
@@ -508,6 +510,13 @@ public class Main : MonoBehaviour
 						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(enemy);
 						//}
 						 
+						if(enemy is EnemySpaceShip)
+						{
+							var e = Instantiate(explosion) as ParticleSystem;
+							e.transform.position = enemy.cacheTransform.position - new Vector3(0,0,1);
+							//TODO: remove exp. prefab
+						}
+
 						enemies.RemoveAt(i);
 						Destroy(enemy.gameObject);
 						break;
@@ -560,6 +569,7 @@ public class Main : MonoBehaviour
 					if(enemy.IsKilled())
 					{
 						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(enemy);
+
 						enemies.RemoveAt(i);
 						Destroy(enemy.gameObject);
 						break;
