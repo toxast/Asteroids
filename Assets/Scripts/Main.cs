@@ -305,10 +305,10 @@ public class Main : MonoBehaviour
 
 	private void CreateEnemySpaceShip()
 	{
-		SpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.white);
+		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.white);
 		enemySpaceship.FireEvent += OnEnemyFire;
 		enemySpaceship.gameObject.name = "enemy spaceship";
-		enemySpaceship.SetController (new EnemySpaceShipController(enemySpaceship, spaceship));
+		enemySpaceship.SetController (new EnemySpaceShipController(enemySpaceship, spaceship, bullets));
 		var gT = Instantiate (thrustPrefab) as ParticleSystem;
 		enemySpaceship.SetThruster (gT);
 		
