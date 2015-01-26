@@ -8,6 +8,7 @@ public class Main : MonoBehaviour
 	[SerializeField] ParticleSystem thrustPrefab;
 	[SerializeField] ParticleSystem thrustPrefab2;
 	[SerializeField] ParticleSystem explosion;
+	[SerializeField] ParticleSystem gasteroidExplosion;
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
 	UserSpaceShip spaceship;
@@ -15,6 +16,7 @@ public class Main : MonoBehaviour
 	List <BulletBase> bullets = new List<BulletBase>();
 	List <BulletBase> enemyBullets = new List<BulletBase>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
+	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
 
 	PowerUpsCreator powerUpsCreator;
 	List<PowerUp> powerUps = new List<PowerUp> ();
@@ -338,6 +340,20 @@ public class Main : MonoBehaviour
 			}
 		}
 
+		for (int i = goDestructors.Count - 1; i >= 0; i--) 
+		{
+			var destructor = goDestructors[i];
+			if(destructor != null)
+			{
+				destructor.Tick(Time.deltaTime);
+				if(destructor.IsTimeExpired())
+				{
+					goDestructors[i] = null;
+					Destroy(destructor.g);
+				}
+			}
+		}
+
 		//TODO: refactor
 		for (int i = enemies.Count - 1; i >= 0; i--) 
 		{
@@ -473,12 +489,19 @@ public class Main : MonoBehaviour
 
 	private void EnemyDeath(PolygonGameObject enemy, int i)
 	{
+		//TODO: refactor
 		if(enemy is Gasteroid)
 		{
+			//TODO: refactor
 			SplitAsteroidAndMarkForDestructionAllParts(enemy);
 			List<PolygonGameObject> affected = new List<PolygonGameObject>();
 			affected.Add(spaceship);
 			new PhExplosion(enemy.cacheTransform.position, 6*enemy.mass, affected);
+			var e = Instantiate(gasteroidExplosion) as ParticleSystem;
+			e.transform.position = enemy.cacheTransform.position - new Vector3(0,0,1);
+			e.transform.localScale = new Vector3(enemy.polygon.R, enemy.polygon.R, 1);
+			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
+			PutOnFirstNullPlace(goDestructors, d); 
 		}
 		else
 		{
@@ -490,7 +513,8 @@ public class Main : MonoBehaviour
 		{
 			var e = Instantiate(explosion) as ParticleSystem;
 			e.transform.position = enemy.cacheTransform.position - new Vector3(0,0,1);
-			//TODO: remove exp. prefab
+			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
+			PutOnFirstNullPlace(goDestructors, d); 
 		}
 		
 		enemies.RemoveAt(i);
