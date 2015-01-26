@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
 
-public class HealthBar : ProgressBar
+public class ShieldsBar : ProgressBar
 {
 	protected override void Awake()
 	{
 		base.Awake ();
-		GameResources.healthChanged += Display;
+		GameResources.shieldsChanged += Display;
 	}
 }

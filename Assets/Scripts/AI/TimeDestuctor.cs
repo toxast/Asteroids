@@ -9,7 +9,6 @@ public class TimeDestuctor
 
 	public TimeDestuctor(Asteroid a, float timeLeft)
 	{
-		a.markedForDeath = true;
 		this.a = a;
 		this.initialTime = timeLeft;
 		this.timeLeft = initialTime;

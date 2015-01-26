@@ -8,23 +8,42 @@ public class PolygonGameObject : MonoBehaviour
 	public Transform cacheTransform;
 	public Polygon polygon;
 	public Mesh mesh;
-
+	public PolygonGameObject shieldGO;
 
 	protected float fullHealth;
-	[SerializeField] protected float health;
+	[SerializeField] protected float currentHealth;
+
+	protected ShieldData shieldData = null;
+	protected float currentShields = 0;
+	private float time2startShieldRecharge = 0;
+
 	public float density = 1;
 	public float mass;
 	public float inertiaMoment;
 	public Vector3 velocity;
 	public float rotation;
 
-	public bool markedForDeath = false;
 	public event Action<float> healthChanged;
-
 
 	void Awake () 
 	{
 		cacheTransform = transform;
+	}
+
+	public void SetShield(ShieldData shieldData)
+	{
+		this.shieldData = shieldData;
+		if(shieldData != null)
+		{
+			currentShields = shieldData.capacity;
+		}
+
+//		Color shCol = Color.green;
+//		shCol.a = 0.5f;
+//		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.vertices, 0.4f);
+//		shieldGO = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(v, shCol);
+//		shieldGO.cacheTransform.parent = cacheTransform;
+//		shieldGO.cacheTransform.localPosition = new Vector3 (0, 0, 1);
 	}
 
 	public void SetPolygon(Polygon polygon)
@@ -34,7 +53,7 @@ public class PolygonGameObject : MonoBehaviour
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;
 		fullHealth = Mathf.Sqrt(mass) * healthModifier;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
-		health = fullHealth;
+		currentHealth = fullHealth;
 	}
 
 	protected virtual float healthModifier
@@ -110,18 +129,58 @@ public class PolygonGameObject : MonoBehaviour
 
 	public virtual void Hit(float dmg)
 	{
-		health -= dmg;
+		if(shieldData != null)
+		{
+			time2startShieldRecharge = shieldData.rechargeDelay;
+			if(currentShields > 0)
+			{
+				float deflected = 0;
+				deflected = Mathf.Min(dmg, currentShields);
+				currentShields -= deflected;
+				if(currentShields <= 0)
+				{
+					currentShields = 0;
+				}
+
+				dmg -= deflected;
+			}
+		}
+
+		currentHealth -= dmg;
 	}
 	
 	public bool IsKilled()
 	{
-		return health <= 0;
+		return currentHealth <= 0;
 	}
 
 	public virtual void Tick(float delta)
 	{
 		cacheTransform.position += velocity * delta;
 		cacheTransform.Rotate(Vector3.back, rotation*delta);
+
+		ShieldsTick (delta);
+	}
+
+	private void ShieldsTick(float delta)
+	{
+		if(shieldData != null)
+		{
+			if(time2startShieldRecharge > 0)
+			{
+				time2startShieldRecharge -= delta;
+			}
+			
+			if(time2startShieldRecharge <= 0)
+			{
+				currentShields += delta * shieldData.rechargeRate;
+				if(currentShields >= shieldData.capacity)
+				{
+					currentShields = shieldData.capacity;
+					time2startShieldRecharge = shieldData.rechargeDelay;
+				}
+			}
+		}
 	}
 
 	protected void ChangeVertex(int indx, Vector2 v)

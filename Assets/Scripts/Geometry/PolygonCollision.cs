@@ -133,7 +133,7 @@ public static class PolygonCollision
 		var Nb = -makeRight(collisionEdge.p2-collisionEdge.p1).normalized;
 		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
 		{
-			Debug.LogWarning("not approaching");
+			//Debug.LogWarning("not approaching");
 			return 0f;
 		}
 		float ekff = 0.4f; //0 < k < 1

@@ -14,14 +14,9 @@ public class SpaceShip : PolygonGameObject
 	float maxSpeed = 20f;
 	float maxSpeedSqr;
 
-	float maxRotation = 250f;
-	//float drag = 0.5f;
-
-	//float minOffset = 15f;
-
 	public event System.Action<ShootPlace, Transform> FireEvent;
 
-	private List<ShootPlace> shooters;
+	public List<ShootPlace> shooters;
 
 	ParticleSystem thrustPSystem;
 	float defaultThrustLifetime;

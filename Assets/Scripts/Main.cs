@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class Main : MonoBehaviour 
 {
-	[SerializeField] HealthBar healthbar;
 	[SerializeField] ParticleSystem thrustPrefab;
 	[SerializeField] ParticleSystem thrustPrefab2;
 	[SerializeField] ParticleSystem explosion;
@@ -20,7 +19,6 @@ public class Main : MonoBehaviour
 	PowerUpsCreator powerUpsCreator;
 	List<PowerUp> powerUps = new List<PowerUp> ();
 
-	private float DestroyTreshold = 8f;
 	private float DestroyAfterSplitTreshold = 5f;
 
 
@@ -78,14 +76,12 @@ public class Main : MonoBehaviour
 
 		for (int i = 0; i < asteroidsNum; i++) 
 		{
-			Asteroid asteroid = CreateAsteroid();
+			CreateAsteroid();
 		}
 
 		powerUpsCreator = new PowerUpsCreator(5f, 10f);
 		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
 	}
-
-
 
 	public IEnumerator Respawn()
 	{
@@ -107,31 +103,26 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void SetRandomPosition(PolygonGameObject p)
+
+	public void CreateSpaceShip()
 	{
-		float angle = Random.Range(0f,359f) * Math2d.PIdiv180;
-		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, screenBounds.yMax);
-		p.cacheTransform.position = new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, p.cacheTransform.position.z);
+		spaceship = ObjectsCreator.CreateSpaceShip (flyZoneBounds);
+		spaceship.SetShield(new ShieldData(10f,2f,2f));
+		spaceship.FireEvent += OnFire;
+		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
+		spaceship.SetThruster (gT);
 	}
 
 	public void CreateEnemySpaceShip()
 	{
 		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
 		var gT = Instantiate (thrustPrefab) as ParticleSystem;
-		enemy.SetController (new EnemySpaceShipController (enemy, bullets));
+		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.shooters[0].speed));
 		enemy.SetThruster (gT);
 		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 	}
 	
-	public void CreateSpaceShip()
-	{
-		spaceship = ObjectsCreator.CreateSpaceShip (flyZoneBounds);
-		spaceship.FireEvent += OnFire;
-		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
-		spaceship.SetThruster (gT);
-	}
-
 	public void CreateRogueEnemy()
 	{
 		var enemy = ObjectsCreator.CreateRogueEnemy();
@@ -200,6 +191,14 @@ public class Main : MonoBehaviour
 		Add2Enemies(enemy);
 	}
 
+	private void SetRandomPosition(PolygonGameObject p)
+	{
+		float angle = Random.Range(0f,359f) * Math2d.PIdiv180;
+		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, screenBounds.yMax);
+		p.cacheTransform.position = new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, p.cacheTransform.position.z);
+	}
+
+
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
 		Add2Enemies (spikePart);
@@ -249,7 +248,6 @@ public class Main : MonoBehaviour
 			Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
 		}
 	}
-
 
 	void HandlePowerUpCreated (PowerUp powerUp)
 	{
@@ -401,7 +399,6 @@ public class Main : MonoBehaviour
 
 					Destroy(bullet.gameObject);
 					enemyBullets[i] = null; 
-					Debug.Log("bam");
 				}
 			}
 
@@ -527,6 +524,11 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	private void Add2Enemies(PolygonGameObject p)
+	{
+		enemies.Add (p);
+	}
+
 	private float GetCollisionDamage(float impulse)
 	{
 		var dmg = Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier;
@@ -542,11 +544,6 @@ public class Main : MonoBehaviour
 			list[i].Tick(dtime);
 			CheckBounds(list[i]);
 		}
-	}
-
-	private void Add2Enemies(PolygonGameObject p)
-	{
-		enemies.Add (p);
 	}
 
 	private void TickBullets<T>(List<T> list, float dtime)
@@ -602,15 +599,15 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
-	 * speed restrictions seconds after collision
 	 * more efficeient stars render
-	 * Cut inside angles on asteroid destroy
+	 * shield animation
+	 * cool ships explosion
+	 * drops
+	 * texture on asteroids?
 	 * joystick position fixed
-	 * trust animation
 	 * bullets and shooters refactoring 
 	 * Z pos refactoring
 	 * enemy bulets hit asteroids?
-	 * shields
 	 * magnet enemy
 	 * achievements and ship unlocks for them (luke - survive astroid field, reach 100% acc in more than x shots)
 	 * dissolve bullet and shader

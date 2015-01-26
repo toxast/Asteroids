@@ -154,6 +154,16 @@ public static class Math2d
 			vertices[i] *= scale;
 		}
 	}
+
+	public static Vector2[] OffsetVerticesFromCenter(Vector2[] vertices, float offset)
+	{
+		Vector2[] fvertices = new Vector2[vertices.Length];
+		for (int i = 0; i < fvertices.Length; i++) 
+		{
+			fvertices[i] = vertices[i].normalized * ( vertices[i].magnitude + offset);
+		}
+		return fvertices;
+	}
 	
 	static public Vector2[] RotateVerticesRAD(Vector2[] vertices, float angle)
 	{

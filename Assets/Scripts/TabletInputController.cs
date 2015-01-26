@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class TabletInputController : MonoBehaviour, InputController
 {
-	Rect flyZoneBounds;
 	bool shooting = false;
 	bool accelerating = false;
 	Vector2 turnDirection;
@@ -17,13 +16,12 @@ public class TabletInputController : MonoBehaviour, InputController
 	[SerializeField] float controlRadius = 40f;
 	float controlRadiusSqr;
 
-	int fingerId = -1;
+	//int fingerId = -1;
 	//todo: getset;
 	[System.NonSerialized] public Vector2 lastDisr = Vector2.zero;
 
-	public void Init(Rect flyZoneBounds)
+	public void Init()
 	{
-		this.flyZoneBounds = flyZoneBounds;
 		controlRadiusSqr = controlRadius*controlRadius;
 
 		fireButton.gameObject.SetActive (true);
