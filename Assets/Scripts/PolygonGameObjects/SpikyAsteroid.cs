@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SpikyAsteroid : Asteroid
+public class SpikyAsteroid : Asteroid, IGotTarget
 {
 	public event System.Action<Asteroid> SpikeAttack;
 
@@ -25,13 +25,13 @@ public class SpikyAsteroid : Asteroid
 
 	private float detectionDistance = 32f;
 	private float regrowPause = 3f;
-	private float spikeSpeed = 15f;
+	private float spikeSpeed = 23f;
 	private float growSpeed = 0.1f;
 
 	private Transform target;
 	private List<Spike> spikesLeft = new List<Spike>();
 
-	public void Init (Transform traget, int[] spikes)
+	public void Init (int[] spikes)
 	{
 		base.Init ();
 
@@ -41,8 +41,11 @@ public class SpikyAsteroid : Asteroid
 			Spike spike = new Spike(polygon.edges[previous], polygon.edges[spikeVertex], spikeVertex);
 			spikesLeft.Add(spike);
 		}
+	}
 
-		this.target = traget;
+	public void SetTarget(PolygonGameObject target)
+	{
+		this.target = target.cacheTransform;
 	}
 
 	void Start()
@@ -94,7 +97,7 @@ public class SpikyAsteroid : Asteroid
 								spikesLeft.RemoveAt(i);
 	 							StartCoroutine(GrowSpike(spike.index, spike.a.p2));
 
-								Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, Main.defaultEnemyColor);
+								Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, ObjectsCreator.defaultEnemyColor);
 								spikeAsteroid.Init();
 								spikeAsteroid.cacheTransform.position += cacheTransform.position;
 								spikeAsteroid.rotation = 0f;

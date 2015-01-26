@@ -16,7 +16,6 @@ public class Asteroid : PolygonGameObject
 
 	public override void Tick(float delta)
 	{
-		cacheTransform.position += velocity * delta;
-		cacheTransform.Rotate(Vector3.back, rotation*delta);
+		base.Tick (delta);
 	}
 }

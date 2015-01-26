@@ -12,4 +12,7 @@ public class GlobalConfig : MonoBehaviour{
 
 
 	[SerializeField] public float DamageFromCollisionsModifier = 0.3f;
+
+
+	[SerializeField] public Color GasteroidColor = Color.white;
 }

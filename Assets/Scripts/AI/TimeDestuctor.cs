@@ -19,6 +19,7 @@ public class TimeDestuctor
 	{
 		timeLeft -= dtime;
 		a.SetAlpha (Mathf.Clamp01 (timeLeft / initialTime));
+		a.Tick (dtime);
 	}
 
 	public bool IsTimeExpired()

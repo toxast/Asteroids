@@ -159,6 +159,8 @@ public class SpaceShip : PolygonGameObject
 
 	public override void Tick(float delta)
 	{
+		base.Tick (delta);
+
 		acceleratedThisTick = false;
 
 		InputTick (delta);
@@ -171,12 +173,6 @@ public class SpaceShip : PolygonGameObject
 		//RestictSpeed ();
 
 		TickShooters (delta);
-
-		cacheTransform.position += velocity*delta;
-
-		if(rotation != 0)
-			cacheTransform.Rotate(Vector3.back, rotation*delta);
-
 
 		if(thrustPSystem != null)
 		{

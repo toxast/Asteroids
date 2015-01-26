@@ -120,7 +120,8 @@ public class PolygonGameObject : MonoBehaviour
 
 	public virtual void Tick(float delta)
 	{
-
+		cacheTransform.position += velocity * delta;
+		cacheTransform.Rotate(Vector3.back, rotation*delta);
 	}
 
 	protected void ChangeVertex(int indx, Vector2 v)

@@ -30,16 +30,15 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 	private float currentAimAngle = 0;
 	private int goRoundTargetSign = 1;
 
-	private List<Bullet> incomingBullets;
+	private List<BulletBase> incomingBullets;
 	private PolygonGameObject target;
 	Rotaitor cannonsRotaitor;
 	ShootPlace shooter;
 
-	public void Init(PolygonGameObject ship, List<Bullet> incomingBullets, ShootPlace shooter)
+	public void Init(List<BulletBase> incomingBullets, ShootPlace shooter)
 	{
 		this.shooter = shooter;
 		this.incomingBullets = incomingBullets;
-		SetTarget (ship);
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
 
@@ -59,6 +58,8 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 
 	public override void Tick(float delta)
 	{
+		base.Tick (delta);
+
 		if (target == null)
 			return;
 

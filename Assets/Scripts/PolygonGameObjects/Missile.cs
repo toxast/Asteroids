@@ -3,8 +3,6 @@ using System.Collections;
 
 public class Missile : BulletBase
 {
-	private float lifeTime = 20f;
-
 	private float thrust = 25f;
 	private float maxVelocity = 40f;
 	private float maxVelocitySqr;
@@ -21,29 +19,18 @@ public class Missile : BulletBase
 	
 	public void Init(GameObject target, ShootPlace place)
 	{
+		base.Init (place);
 		this.targetTransform = target.transform;
-		this.damage = place.damage;
-		//this.lifeTime = place.lifeTime;
-
 		maxVelocitySqr = maxVelocity * maxVelocity;
-
 		rotaitor = new Rotaitor (cacheTransform, rotationSpeed);
 	}
 	
 	public override void Tick(float delta)
 	{
+		base.Tick (delta);
+
 		RotateOnTarget (delta);
 		ApplyThrust (delta);
-
-		Vector3 deltaDistance = velocity*delta;
-		cacheTransform.position += deltaDistance;
-
-
-		lifeTime -= delta; 
-		if(lifeTime < 0)
-		{
-			Destroy(gameObject);
-		}
 	}
 
 	private void ApplyThrust(float deltaTime)

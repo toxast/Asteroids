@@ -6,7 +6,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 {
 	PolygonGameObject thisShip;
 	PolygonGameObject target;
-	List<Bullet> bullets;
+	List<BulletBase> bullets;
 	bool shooting = false;
 	bool accelerating = false;
 	Vector2 turnDirection;
@@ -23,11 +23,10 @@ public class EnemySpaceShipController : InputController, IGotTarget
 	private float siderunDuration = 1f;
 	private float siderunAttackDuration = 1.5f;
 
-	public EnemySpaceShipController(PolygonGameObject thisShip, PolygonGameObject target, List<Bullet> bullets)
+	public EnemySpaceShipController(PolygonGameObject thisShip, List<BulletBase> bullets)
 	{
 		this.bullets = bullets;
 		this.thisShip = thisShip;
-		this.target = target;
 		state = State.ATTACK;
 		thisShip.StartCoroutine (Logic ());
 	}
@@ -94,7 +93,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		}
 	}
 
-	private bool CheckForBulletCollision(Bullet b, Vector2 dir)
+	private bool CheckForBulletCollision(BulletBase b, Vector2 dir)
 	{
 		float angleVS = Math2d.AngleRAD2 (b.velocity, thisShip.velocity);
 		float cosVS = Mathf.Cos (angleVS);

@@ -81,7 +81,7 @@ public class BulletCreator
 	}
 	, 1f).ToArray();
 
-	public static Bullet CreateBullet(Transform shooterTransform, ShootPlace shootPlace)
+	public static BulletBase CreateBullet(Transform shooterTransform, ShootPlace shootPlace)
 	{
 		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(shootPlace.vertices, shootPlace.color);
 
@@ -96,7 +96,7 @@ public class BulletCreator
 	}
 
 
-	public static Missile CreateMissile(GameObject target, Transform shooterTransform, ShootPlace shootPlace)
+	public static BulletBase CreateMissile(GameObject target, Transform shooterTransform, ShootPlace shootPlace)
 	{
 		Missile missile = PolygonCreator.CreatePolygonGOByMassCenter<Missile>(missileVertices, shootPlace.color);
 		

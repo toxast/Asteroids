@@ -140,12 +140,13 @@ public static class PolygonCollision
 		float wa = Vector3.Cross(Ra, Nb).sqrMagnitude / aobj.inertiaMoment;
 		float wb = Vector3.Cross(Rb, Nb).sqrMagnitude / bobj.inertiaMoment;
 		float j =  -(1 + ekff) * Math2d.DotProduct(ref Vab, ref Nb) / (1f/aobj.mass + 1f/bobj.mass + wa + wb);
-		
-		aobj.velocity = (Vector2)aobj.velocity + (j * Nb / aobj.mass);
-		bobj.velocity = (Vector2)bobj.velocity - (j * Nb / bobj.mass);
+		var jNb = j * Nb;
 
-		aobj.rotation -= Vector3.Cross (Ra, j * Nb).z / (aobj.inertiaMoment * Math2d.PIdiv180);
-		bobj.rotation += Vector3.Cross (Rb, j * Nb).z / (bobj.inertiaMoment * Math2d.PIdiv180);
+		aobj.velocity = (Vector2)aobj.velocity + (jNb / aobj.mass);
+		bobj.velocity = (Vector2)bobj.velocity - (jNb / bobj.mass);
+
+		aobj.rotation -= Vector3.Cross (Ra, jNb).z / (aobj.inertiaMoment * Math2d.PIdiv180);
+		bobj.rotation += Vector3.Cross (Rb, jNb).z / (bobj.inertiaMoment * Math2d.PIdiv180);
 
 		return j;
 	}

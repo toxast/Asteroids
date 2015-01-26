@@ -22,9 +22,8 @@ public class TowerEnemy : PolygonGameObject, IGotTarget
 		}
 	}
 
-	public void Init(PolygonGameObject target, List<ShootPlace> shooters)
+	public void Init(List<ShootPlace> shooters)
 	{
-		SetTarget(target);
 		this.shooters = shooters;
 
 		cannonsRotaitor = new Rotaitor (cacheTransform, rotationSpeed);
@@ -42,6 +41,8 @@ public class TowerEnemy : PolygonGameObject, IGotTarget
 
 	public override void Tick(float delta)
 	{
+		base.Tick (delta);
+
 		if (target == null)
 			return;
 		

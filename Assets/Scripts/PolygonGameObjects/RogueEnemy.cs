@@ -28,15 +28,11 @@ public class RogueEnemy : PolygonGameObject, IGotTarget
 	Rotaitor cannonsRotaitor;
 	List<ShootPlace> shooters;
 
-	public void Init (PolygonGameObject ship, List<ShootPlace> shooters) 
+	public void Init (List<ShootPlace> shooters) 
 	{
-		SetTarget(ship);
 		this.shooters = shooters;
-
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
-
 		SetAlpha(0f);
-
 		StartCoroutine(FadeAndShoot());
 	}
 
@@ -54,7 +50,8 @@ public class RogueEnemy : PolygonGameObject, IGotTarget
 	private Vector2 distToTraget;
 	public override void Tick(float delta)
 	{
-
+		base.Tick (delta);
+		
 		if (target == null)
 			return;
 

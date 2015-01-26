@@ -18,7 +18,7 @@ public class SawEnemy : PolygonGameObject, IGotTarget
 	private float initialVelocitySqr;
 	private float detectionDistanceSqr;
 
-	public void Init(PolygonGameObject ptarget)
+	public void Init()
 	{
 		initialRotation = Random.Range(40,100);
 		initialVelocity = Random.Range(2f, 7f);
@@ -29,7 +29,6 @@ public class SawEnemy : PolygonGameObject, IGotTarget
 		velocity = new Vector3(Mathf.Cos(a)*initialVelocity, Mathf.Sin(a)*initialVelocity, 0f);
 		rotation = initialRotation;
 
-		SetTarget(ptarget);
 		detectionDistanceSqr = detectionDistance*detectionDistance;
 		initialVelocitySqr = initialVelocity * initialVelocity;
 	}
@@ -48,13 +47,6 @@ public class SawEnemy : PolygonGameObject, IGotTarget
 	void Start () 
 	{
 		StartCoroutine(CheckDistanceAndCharge());
-	}
-
-	//TODO: asteroid?
-	public override void Tick(float delta)
-	{
-		cacheTransform.position += velocity * delta;
-		cacheTransform.Rotate(Vector3.back, rotation*delta);
 	}
 
 	IEnumerator CheckDistanceAndCharge()

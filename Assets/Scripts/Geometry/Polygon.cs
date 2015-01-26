@@ -578,7 +578,7 @@ public class Polygon
 		//Debug.LogWarning("SplitByMassCenterVertexAndEdgeCenter");
 		int edge = GetLagestEdges(1)[0];
 		int vertex = UnityEngine.Random.Range(0, vcount);
-		
+
 		List<Vector2[]> parts = new List<Vector2[]>();
 
 		{

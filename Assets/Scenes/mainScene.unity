@@ -421,11 +421,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalHealthModifier: 1
   SpaceshipHealthModifier: 10
-  TankEnemyHealthModifier: 1
-  SawEnemyHealthModifier: 1
-  TowerEnemyHealthModifier: 1
+  TankEnemyHealthModifier: 6
+  SawEnemyHealthModifier: 2
+  TowerEnemyHealthModifier: 10
   RogueEnemyHealthModifier: 1
   DamageFromCollisionsModifier: .0299999993
+  GasteroidColor: {r: .95588237, g: .909833252, b: .288170397, a: 1}
 --- !u!4 &898100672
 Transform:
   m_ObjectHideFlags: 0
@@ -1165,3 +1166,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!1 &2053336189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2053336191}
+  - 114: {fileID: 2053336190}
+  m_Layer: 0
+  m_Name: OLD GUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2053336190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2053336189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d726c886ce113bb4e9c3e88ac29a5ff3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  main: {fileID: 1045239089}
+--- !u!4 &2053336191
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2053336189}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6

@@ -8,11 +8,11 @@ public class EvadeSystem
 {
 	private struct DangerBullet : IComparable<DangerBullet>
 	{
-		public Bullet bullet;
+		public BulletBase bullet;
 		public Vector2 dist;
 		public float sqrMagnitude;
 		
-		public DangerBullet(Bullet bullet, Vector2 dist)
+		public DangerBullet(BulletBase bullet, Vector2 dist)
 		{
 			this.bullet = bullet;
 			this.dist = dist;
@@ -38,7 +38,7 @@ public class EvadeSystem
 	public bool safeAtCurrentPosition;
 	public Vector3 safePosition;
 
-	public EvadeSystem(List<Bullet> bullets, PolygonGameObject victim)
+	public EvadeSystem(List<BulletBase> bullets, PolygonGameObject victim)
 	{
 		bulletDetectionRangeSqr = bulletDetectionRange*bulletDetectionRange;
 		angleConsiderRangeSqr = angleConsiderRange*angleConsiderRange;
@@ -70,12 +70,12 @@ public class EvadeSystem
 	}
 
 	//returns selected bullets sorted by distance in acending order
-	private List<DangerBullet> SelectBulletsToEvade(List<Bullet> bullets, Vector2 victimPos)
+	private List<DangerBullet> SelectBulletsToEvade(List<BulletBase> bullets, Vector2 victimPos)
 	{
 		List<DangerBullet> dangerBullets = new List<DangerBullet>();
 		for (int i = 0; i < bullets.Count; i++) 
 		{
-			Bullet bullet = bullets[i];
+			BulletBase bullet = bullets[i];
 			if(bullet == null) continue;
 			
 			Vector2 pos = (Vector2)bullet.cacheTransform.position - victimPos; 

@@ -31,12 +31,11 @@ public class TankEnemy : PolygonGameObject, IGotTarget
 
 	private PolygonGameObject target;
 	private Rotaitor cannonsRotaitor;
-	private List<Bullet> bullets;
+	private List<BulletBase> bullets;
 	private List<ShootPlace> shooters;
 
-	public void Init(PolygonGameObject ptarget, List<Bullet> bullets, List<ShootPlace> shooters)
+	public void Init(List<BulletBase> bullets, List<ShootPlace> shooters)
 	{
-		SetTarget(ptarget);
 		this.bullets = bullets;
 		this.shooters = shooters;
 
@@ -60,6 +59,8 @@ public class TankEnemy : PolygonGameObject, IGotTarget
 	
 	public override void Tick(float delta)
 	{
+		base.Tick (delta);
+
 		if (target == null)
 			return;
 
