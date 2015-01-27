@@ -129,6 +129,19 @@ public static class SpaceshipsData
 		new Vector2(3f, 0.5f), 
 	};
 
+
+	public static Vector2[] halfBossVertices = new Vector2[]
+	{
+		new Vector2(1.3f, -1f),
+		new Vector2(1f, -1f),
+		new Vector2(1f, -1.3f),
+		new Vector2(2.2f, -1.3f),
+		new Vector2(2.2f, -2.7f),
+		new Vector2(0f, -2.7f),
+		new Vector2(-1f, -2.5f), //back
+		new Vector2(-2f, -1.2f), //back
+	};
+
 }
 
 
