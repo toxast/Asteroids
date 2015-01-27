@@ -133,21 +133,21 @@ public static class PolygonCreator
 
 	public static Vector2[] CreateTowerVertices2(float R, int sidesNum)
 	{
-		Vector2[] vertices = new Vector2[sidesNum + 1];
-		float dAngle = 2f * Mathf.PI / sidesNum;
+		Vector2[] vertices = new Vector2[sidesNum + 2];
+		float dAngle = -2f * Mathf.PI / sidesNum;
 
 		float cannonLength = R*1.3f;
-		float angle = -dAngle/5;
+		float angle = -dAngle/5f;
 		vertices[0] = GetVertex(cannonLength, angle);
 
 		angle = -angle;
 		vertices[1] = GetVertex(cannonLength, angle);
 
-		angle = -dAngle / 2;
-		for(int i = 2; i < sidesNum + 1; i++)
+		angle = dAngle/2f;
+		for(int i = 2; i < sidesNum + 2; i++)
 		{
 			vertices[i] = GetVertex(R, angle);
-			angle -= dAngle;
+			angle += dAngle;
 		}
 		
 		return vertices;

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// AI that follows and shooting at the target while it is in "fireRange"
 /// If gets too close ("closeRange") - stops acceleration
 /// </summary>
-public class Boss1 : InputController 
+public class SimpleAI1 : InputController, IGotTarget
 {
 	PolygonGameObject thisShip;
 	PolygonGameObject target;
@@ -17,7 +17,7 @@ public class Boss1 : InputController
 	float fireRangeSqr;
 	float closeRange = 30f;
 	float closeRangeSqr;
-	public Boss1(PolygonGameObject thisShip)
+	public SimpleAI1(PolygonGameObject thisShip)
 	{
 		this.thisShip = thisShip;
 		closeRangeSqr = closeRange * closeRange;
@@ -40,10 +40,10 @@ public class Boss1 : InputController
 			{
 				Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
 				turnDirection = dir;
-				if(dir.SqrMagnitude < fireRangeSqr)
+				if(dir.sqrMagnitude < fireRangeSqr)
 				{
-					bool acc = (dir.SqrMagnitude > closeRangeSqr);
-					Attack(acc, 0);
+					accelerating = (dir.sqrMagnitude > closeRangeSqr);
+					shooting = true;
 				}
 				else
 				{
@@ -58,22 +58,6 @@ public class Boss1 : InputController
 				//TODO: break
 			}
 			yield return new WaitForSeconds(0f);
-		}
-	}
-	
-	
-	private IEnumerator Attack(bool acceleration, float duration)
-	{
-		accelerating = acceleration;
-		shooting = true;
-		
-		while(duration >= 0)
-		{
-			if(target == null)
-				yield break;
-			
-			yield return new WaitForSeconds(0);
-			duration -= Time.deltaTime;
 		}
 	}
 	

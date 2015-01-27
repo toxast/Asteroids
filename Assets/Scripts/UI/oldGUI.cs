@@ -7,78 +7,95 @@ public class oldGUI : MonoBehaviour {
 	void OnGUI()
 	{
 		int starty = 20;
-		int width = 100;
-		int hieight = 40;
-		int margine = 20;
+		int width = 120;
+		int height = 20;
+		int margine = 10;
 		int y = starty;
 		int x = 10;
+
+#if !UNITY_STANDALONE
+		height*=2;
+		margine*=2;
+#endif
 		
-		if(GUI.Button(new Rect(x, y, width+20, hieight), "asteroid"))
+		if(GUI.Button(new Rect(x, y, width+20, height), "asteroid"))
 		{
 			main.CreateAsteroid();
 		}
-		y += hieight + margine;
+		y += height + margine;
 		
-		if(GUI.Button(new Rect(x, y, width, hieight), "saw"))
+		if(GUI.Button(new Rect(x, y, width, height), "saw"))
 		{
 			main.CreateSawEnemy();
 		}
-		y += hieight + margine;
+		y += height + margine;
 		
-		if(GUI.Button(new Rect(x, y, width, hieight), "spiky"))
+		if(GUI.Button(new Rect(x, y, width, height), "spiky"))
 		{
 			main.CreateSpikyAsteroid();
 		}
-		y += hieight + margine;
+		y += height + margine;
 		
-		if(GUI.Button(new Rect(x, y, width, hieight), "tank"))
+		if(GUI.Button(new Rect(x, y, width, height), "tank"))
 		{
 			main.CreateTankEnemy();
 		}
-		y += hieight + margine;
+		y += height + margine;
 		
-		if(GUI.Button(new Rect(x, y, width, hieight), "scout"))
+		if(GUI.Button(new Rect(x, y, width, height), "scout"))
 		{
 			main.CreateEvadeEnemy();
 		}
-		y += hieight + margine;
+		y += height + margine;
 		
-		if(GUI.Button(new Rect(x, y, width, hieight), "rogue"))
+		if(GUI.Button(new Rect(x, y, width, height), "rogue"))
 		{
 			main.CreateRogueEnemy();
 		}
-		y += hieight + margine;
+		y += height + margine;
 		
 		//second row 
 		x += 2*width;
 		y = starty;
-		
-		if(GUI.Button(new Rect(x, y, width, hieight), "tower"))
+
+		if(GUI.Button(new Rect(x, y, width, height), "simple tower"))
+		{
+			main.CreateSimpleTower();
+		}
+		y += height + margine;
+
+		if(GUI.Button(new Rect(x, y, width, height), "block post"))
 		{
 			main.CreateTower();
 		}
-		y += hieight + margine;
+		y += height + margine;
 		
-		if(GUI.Button(new Rect(x, y, width, hieight), "enemy spaceship"))
+		if(GUI.Button(new Rect(x, y, width+30, height), "enemy spaceship"))
 		{
 			main.CreateEnemySpaceShip();
 		}
-		y += hieight + margine;
+		y += height + margine;
+
+		if(GUI.Button(new Rect(x, y, width+30, height), "enemy spaceship 2"))
+		{
+			main.CreateEnemySpaceShipBoss();
+		}
+		y += height + margine;
 		
-		if(GUI.Button(new Rect(x, y, width+20, hieight), "gasteroid"))
+		if(GUI.Button(new Rect(x, y, width+20, height), "gasteroid"))
 		{
 			main.CreateGasteroid();
 		}
-		y += hieight + margine;
+		y += height + margine;
 		
-		if(GUI.Button(new Rect(x, y, width, hieight), "respawn"))
+		if(GUI.Button(new Rect(x, y, width, height), "respawn"))
 		{
 			StartCoroutine(main.Respawn());
 		}
-		y += hieight + margine;
+		y += height + margine;
 		
 		
-		if(GUI.Button(new Rect(Screen.width-100, 10, width+20, hieight), "quit"))
+		if(GUI.Button(new Rect(Screen.width-100, 10, width+20, height), "quit"))
 		{
 			Application.Quit();
 		}

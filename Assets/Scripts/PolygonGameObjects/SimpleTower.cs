@@ -8,17 +8,19 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 	
 	public event System.Action<ShootPlace, Transform> FireEvent;
 	
-	private float rangeAngle = 0.5f; //if angle to target bigger than this - dont even try to shoot
-	private float cannonsRotatingSpeed = 55f;
+	private float rangeAngle = 2f; //if angle to target bigger than this - dont even try to shoot
+	private float cannonsRotatingSpeed = 150f;
 	
 	private float currentAimAngle = 0;
 	
 	private PolygonGameObject target;
 	Rotaitor cannonsRotaitor;
 	ShootPlace shooter;
-	
-	public void Init(ShootPlace shooter)
+	private bool smartAim = false;
+
+	public void Init(ShootPlace shooter, bool smartAim)
 	{
+		this.smartAim = smartAim;
 		this.shooter = shooter;
 		
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
@@ -51,16 +53,25 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 	
 	private IEnumerator Aim()
 	{
-		float aimInterval = 0.5f;
+		float aimInterval = (smartAim) ? 0.5f : 0f;
 		
 		while(true)
 		{
 			if(target != null)
 			{
-				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, shooter.speed);
-				if(aim.canShoot)
+				if(smartAim)
 				{
-					currentAimAngle = aim.directionAngleRAD / Math2d.PIdiv180;
+					AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, shooter.speed);
+					if(aim.canShoot)
+					{
+						currentAimAngle = aim.directionAngleRAD;
+						currentAimAngle /= Math2d.PIdiv180;
+					}
+				}
+				else
+				{
+					currentAimAngle = Math2d.AngleRAD2(new Vector2(1, 0), target.cacheTransform.position - cacheTransform.position);
+					currentAimAngle /= Math2d.PIdiv180;
 				}
 			}
 			yield return new WaitForSeconds(aimInterval);

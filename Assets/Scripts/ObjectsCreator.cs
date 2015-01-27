@@ -69,6 +69,34 @@ public class ObjectsCreator
 		return enemySpaceship;
 	}
 
+	public static EnemySpaceShip CreateBossEnemySpaceShip()
+	{
+		var vertices = PolygonCreator.GetCompleteVertexes (SpaceshipsData.halfBossVertices, 3).ToArray();
+		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Color.white);
+		
+		enemySpaceship.gameObject.name = "boss";
+		
+		List<ShootPlace> shooters = new List<ShootPlace> ();
+		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
+		place2.color = Color.yellow;
+		place2.fireInterval = 0.5f;
+		place2.position = new Vector2 (2f, 0f);
+		shooters.Add (place2);
+		enemySpaceship.SetShootPlaces (shooters);
+		
+		SpaceshipData data = new SpaceshipData{
+			thrust = 20f,
+			maxSpeed = 5f,
+			turnSpeed = 40f,
+			brake = 8f,
+			passiveBrake = 4f,
+		}; 
+		enemySpaceship.Init(data);
+		
+		return enemySpaceship;
+	}
+
+
 	public static RogueEnemy CreateRogueEnemy()
 	{ 
 		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, defaultEnemyColor);
@@ -131,8 +159,8 @@ public class ObjectsCreator
 		int[] cannons;
 		Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/5f, sides, out cannons);
 		
-		var asteroid = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, defaultEnemyColor);
-		asteroid.gameObject.name = "tower";
+		var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, defaultEnemyColor);
+		tower.gameObject.name = "tower";
 		
 		List<ShootPlace> shooters = new List<ShootPlace> ();
 		for (int i = 0; i < cannons.Length; i++) 
@@ -146,11 +174,28 @@ public class ObjectsCreator
 			shooters.Add(place);
 		}
 		
-		asteroid.Init(shooters);
+		tower.Init(shooters);
 
+		return tower;
+	}
 
-
-		return asteroid;
+	public static SimpleTower CreateSimpleTower()
+	{
+		float r = 1.5f;//UnityEngine.Random.Range(1.0f, 1.2f);
+		int sides = 6;
+		
+		Vector2[] vertices = PolygonCreator.CreateTowerVertices2 (r, sides);
+		
+		var tower = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(vertices, defaultEnemyColor);
+		tower.gameObject.name = "tower1";
+		
+		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
+		place2.color = Color.yellow;
+		place2.fireInterval = 0.5f;
+		place2.position = new Vector2 (2f, 0f);
+		tower.Init(place2, false);
+		
+		return tower;
 	}
 
 	public static EvadeEnemy CreateEvadeEnemy(List<BulletBase> bullets)

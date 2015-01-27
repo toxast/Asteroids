@@ -124,6 +124,32 @@ public class Main : MonoBehaviour
 		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 	}
+
+	public void CreateEnemySpaceShipBoss()
+	{
+		var enemy = ObjectsCreator.CreateBossEnemySpaceShip ();
+		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+		enemy.SetController (new SimpleAI1(enemy));
+		enemy.SetThruster (gT);
+		enemy.FireEvent += OnEnemyFire;
+
+		var towerpos1 = (enemy.polygon.vertices [2] + enemy.polygon.vertices [4])/2f;
+		var towerpos2 = towerpos1;
+		towerpos2.y = -towerpos2.y;
+
+		{
+			var tenemy = ObjectsCreator.CreateSimpleTower();
+			tenemy.FireEvent += OnEnemyFire;
+			enemy.AddTurret (towerpos1, tenemy);
+		}
+		{
+			var tenemy = ObjectsCreator.CreateSimpleTower();
+			tenemy.FireEvent += OnEnemyFire;
+			enemy.AddTurret (towerpos2, tenemy);
+		}
+
+		InitNewEnemy(enemy);
+	}
 	
 	public void CreateRogueEnemy()
 	{
@@ -142,6 +168,13 @@ public class Main : MonoBehaviour
 	{
 		var enemy = ObjectsCreator.CreateSpikyAsteroid();
 		enemy.SpikeAttack += HandleSpikeAttack;
+		InitNewEnemy(enemy);
+	}
+
+	public void CreateSimpleTower()
+	{
+		var enemy = ObjectsCreator.CreateSimpleTower();
+		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 	}
 
@@ -509,12 +542,33 @@ public class Main : MonoBehaviour
 		}
 		
 		//TODO: refactor
-		if(enemy is EnemySpaceShip)
 		{
-			var e = Instantiate(explosion) as ParticleSystem;
-			e.transform.position = enemy.cacheTransform.position - new Vector3(0,0,1);
-			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
-			PutOnFirstNullPlace(goDestructors, d); 
+			EnemySpaceShip esp = enemy as EnemySpaceShip;
+			if(esp != null)
+			{
+				foreach(var t in esp.turrets)
+				{
+					t.cacheTransform.parent = null;
+					t.velocity += esp.velocity;
+					t.rotation += UnityEngine.Random.Range(-150f, 150f);
+					bool destroy = false;
+					if(destroy)
+					{
+						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(t);
+						Destroy(t.gameObject);
+					}
+					else
+					{
+						(t as IGotTarget).SetTarget(null);
+						Add2Enemies(t);
+					}
+				}
+
+				var e = Instantiate(explosion) as ParticleSystem;
+				e.transform.position = enemy.cacheTransform.position - new Vector3(0,0,1);
+				ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
+				PutOnFirstNullPlace(goDestructors, d); 
+			}
 		}
 		
 		enemies.RemoveAt(i);
