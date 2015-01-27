@@ -13,8 +13,8 @@ public class ShootPlace
 	public float speed;
 	public float lifeTime;
 	public float damage;
-	public Vector2 position;
-	public Vector2 direction;
+	public Vector2 position; //TODO belongs 2 ship
+	public Vector2 direction;  //TODO belongs 2 ship
 	public float fireInterval;
 	public Color color;
 	public float timeToNextShot = 0f;
@@ -27,8 +27,8 @@ public class ShootPlace
 		shooter.speed = 35f;
 		shooter.lifeTime = 2f;
 		shooter.damage = 3f;
-		shooter.position = new Vector2(2, 0); //TODO ship vertex
-		shooter.direction =  new Vector2(1, 0);
+		shooter.position = new Vector2(2, 0); //TODO belongs 2 ship
+		shooter.direction =  new Vector2(1, 0); //TODO belongs 2 ship
 		shooter.fireInterval = 0.3f;
 		shooter.color = Color.red;
 

@@ -7,6 +7,68 @@ public class ObjectsCreator
 
 	public static Color defaultEnemyColor = new Color (0.5f, 0.5f, 0.5f);
 
+	public static UserSpaceShip CreateSpaceShip(Rect flyZoneBounds)
+	{
+		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
+		
+		spaceship.gameObject.name = "Spaceship";
+		#if UNITY_STANDALONE
+		spaceship.SetController (new StandaloneInputController(flyZoneBounds));
+		
+		//		tabletController.Init(flyZoneBounds);
+		//		spaceship.SetController(tabletController);
+		#else
+		TODO
+			spaceship.SetTabletControls (fireButton, accelerateButton);
+		#endif
+		
+		List<ShootPlace> shooters = new List<ShootPlace>();
+		
+		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
+		place2.color = Color.red;
+		place2.fireInterval = 0.25f;
+		place2.position = new Vector2(2f, 0f);
+		shooters.Add(place2);
+		spaceship.SetShootPlaces(shooters);
+		
+		SpaceshipData data = new SpaceshipData{
+			thrust = 45f,
+			maxSpeed = 20f,
+			turnSpeed = 220f,
+			brake = 15f,
+			passiveBrake = 2f,
+		}; 
+		spaceship.Init(data);
+		
+		return spaceship;
+	}
+	
+	public static EnemySpaceShip CreateEnemySpaceShip()
+	{
+		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (SpaceshipsData.fastSpaceshipVertices, Color.white);
+		
+		enemySpaceship.gameObject.name = "enemy spaceship";
+		
+		List<ShootPlace> shooters = new List<ShootPlace> ();
+		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
+		place2.color = Color.yellow;
+		place2.fireInterval = 0.5f;
+		place2.position = new Vector2 (2f, 0f);
+		shooters.Add (place2);
+		enemySpaceship.SetShootPlaces (shooters);
+
+		SpaceshipData data = new SpaceshipData{
+			thrust = 20f,
+			maxSpeed = 15f,
+			turnSpeed = 150f,
+			brake = 8f,
+			passiveBrake = 4f,
+		}; 
+		enemySpaceship.Init(data);
+
+		return enemySpaceship;
+	}
+
 	public static RogueEnemy CreateRogueEnemy()
 	{ 
 		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, defaultEnemyColor);
@@ -27,7 +89,6 @@ public class ObjectsCreator
 		return enemy;
 	}
 
-
 	public static SawEnemy CreateSawEnemy()
 	{
 		float rInner = UnityEngine.Random.Range(2f, 3f);
@@ -44,7 +105,6 @@ public class ObjectsCreator
 
 		return asteroid;
 	}
-
 
 	public static SpikyAsteroid CreateSpikyAsteroid()
 	{
@@ -92,52 +152,6 @@ public class ObjectsCreator
 
 		return asteroid;
 	}
-
-	public static EnemySpaceShip CreateEnemySpaceShip()
-	{
-		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (SpaceshipsData.fastSpaceshipVertices, Color.white);
-
-		enemySpaceship.gameObject.name = "enemy spaceship";
-
-
-		List<ShootPlace> shooters = new List<ShootPlace> ();
-		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
-		place2.color = Color.yellow;
-		place2.fireInterval = 0.45f;
-		place2.position = new Vector2 (1f, 0f);
-		shooters.Add (place2);
-		enemySpaceship.SetShootPlaces (shooters);
-
-		return enemySpaceship;
-	}
-
-	public static UserSpaceShip CreateSpaceShip(Rect flyZoneBounds)
-	{
-		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
-
-		spaceship.gameObject.name = "Spaceship";
-		#if UNITY_STANDALONE
-		spaceship.SetController (new StandaloneInputController(flyZoneBounds));
-		
-		//		tabletController.Init(flyZoneBounds);
-		//		spaceship.SetController(tabletController);
-		#else
-		TODO
-			spaceship.SetTabletControls (fireButton, accelerateButton);
-		#endif
-		
-		List<ShootPlace> shooters = new List<ShootPlace>();
-		
-		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
-		place2.color = Color.red;
-		place2.fireInterval = 0.25f;
-		place2.position = new Vector2(1f, 0f);
-		shooters.Add(place2);
-		spaceship.SetShootPlaces(shooters);
-
-		return spaceship;
-	}
-
 
 	public static EvadeEnemy CreateEvadeEnemy(List<BulletBase> bullets)
 	{

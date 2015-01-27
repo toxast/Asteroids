@@ -42,6 +42,15 @@ public class SpaceShip : PolygonGameObject
 		velocity = Vector3.zero;
 	}
 
+	public void Init(SpaceshipData data)
+	{
+		turnSpeed = data.turnSpeed;
+		passiveBrake = data.passiveBrake;
+		thrust = data.thrust;
+		maxSpeed = data.maxSpeed;
+		maxSpeedSqr = maxSpeed*maxSpeed;
+	}
+
 	public void SetController(InputController iController)
 	{
 		inputController = iController;
