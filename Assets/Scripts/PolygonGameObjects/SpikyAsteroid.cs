@@ -28,7 +28,7 @@ public class SpikyAsteroid : Asteroid, IGotTarget
 	private float spikeSpeed = 23f;
 	private float growSpeed = 0.1f;
 
-	private Transform target;
+	private PolygonGameObject target;
 	private List<Spike> spikesLeft = new List<Spike>();
 
 	public void Init (int[] spikes)
@@ -45,7 +45,7 @@ public class SpikyAsteroid : Asteroid, IGotTarget
 
 	public void SetTarget(PolygonGameObject target)
 	{
-		this.target = target.cacheTransform;
+		this.target = target;
 	}
 
 	void Start()
@@ -62,7 +62,7 @@ public class SpikyAsteroid : Asteroid, IGotTarget
 		{
 			if(target != null)
 			{
-				Vector2 dist = target.position - cacheTransform.position;
+				Vector2 dist = target.cacheTransform.position - cacheTransform.position;
 				if(dist.sqrMagnitude < detectionDistanceSqr)
 				{
 					float angle = cacheTransform.rotation.eulerAngles.z * Math2d.PIdiv180;

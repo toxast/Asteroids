@@ -188,7 +188,11 @@ public class SpaceShip : PolygonGameObject
 		}
 		float kff = (firingSpeedPUpTimeLeft > 0) ? firingSpeedPUpKoeff : 1;
 		
-		shooters.ForEach(shooter => shooter.Tick(delta*kff));
+		var d = delta * kff;
+		for (int i = 0; i < shooters.Count; i++) 
+		{
+			shooters[i].Tick(d);
+		}
 	}
 
 //
