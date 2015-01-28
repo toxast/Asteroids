@@ -38,6 +38,23 @@ public class Main : MonoBehaviour
 	private float slowTimeLeft = 0;
 	private float penetrationTimeLeft = 0;
 
+	private event Action moveCameraAction;
+	[SerializeField] bool boundsMode = true; 
+	//TODO: reposition ship of faraway
+	//TODO: stars Clusters for faster check
+
+	void Awake()
+	{
+		if(boundsMode)
+		{
+			moveCameraAction += MoveCameraBoundsMode;
+		}
+		else
+		{
+			moveCameraAction += MoveCameraWarpMode;
+		}
+	}
+
 	void Start()
 	{
 		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
@@ -302,14 +319,26 @@ public class Main : MonoBehaviour
 
 	}
 
+	private void MoveCameraWarpMode()
+	{
+		Vector3 pos = spaceship.cacheTransform.position;
+		Camera.main.transform.position = pos.SetZ(Camera.main.transform.position.z);
+	}
+
+	private void MoveCameraBoundsMode()
+	{
+		Vector3 pos = spaceship.cacheTransform.position;
+		float x = Mathf.Clamp(pos.x, -maxCameraX, maxCameraX);
+		float y = Mathf.Clamp(pos.y, -maxCameraY, maxCameraY);
+		Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
+	}
+
+
 	private void MoveCamera()
 	{
 		if(spaceship != null)
 		{
-			Vector3 pos = spaceship.cacheTransform.position;
-			float x = Mathf.Clamp(pos.x, -maxCameraX, maxCameraX);
-			float y = Mathf.Clamp(pos.y, -maxCameraY, maxCameraY);
-			Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
+			moveCameraAction();
 		}
 	}
 
@@ -370,52 +399,37 @@ public class Main : MonoBehaviour
 
 		if(spaceship != null)
 		{
-			ApplyBoundsForce(spaceship);
-
+			if(boundsMode)
+			{
+				ApplyBoundsForce(spaceship);
+			}
 			spaceship.Tick(Time.deltaTime);
-			//CheckBounds(spaceship);
 		}
 
 		TickBullets (bullets, Time.deltaTime);
-
-		TickAndCheckBounds (enemies, enemyDtime);
-
 		TickBullets (enemyBullets, enemyDtime);
 
-		TickAndCheckBounds (powerUps, enemyDtime);
+		TickObjects (enemies, enemyDtime);
+		TickObjects (powerUps, enemyDtime);
 
-		for (int i = destructors.Count - 1; i >= 0; i--) 
+		if(boundsMode)
 		{
-			var destructor = destructors[i];
-			if(destructor != null)
-			{
-				destructor.Tick(enemyDtime);
-				if(destructor.a == null || destructor.a.gameObject == null)  
-				{
-					destructors[i] = null;
-					continue;
-				}
-				else if(destructor.IsTimeExpired())
-				{
-					destructors[i] = null;
-					Destroy(destructor.a.gameObject);
-				}
-			}
+			CheckBounds(bullets, true);
+			CheckBounds(enemyBullets, true);
+			CheckBounds(enemies, false);
+			CheckBounds(powerUps, false);
+		}
+		else
+		{
+			Wrap(bullets, true);
+			Wrap(enemyBullets, true);
+			Wrap(enemies, false);
+			Wrap(powerUps, false);
 		}
 
-		for (int i = goDestructors.Count - 1; i >= 0; i--) 
-		{
-			var destructor = goDestructors[i];
-			if(destructor != null)
-			{
-				destructor.Tick(Time.deltaTime);
-				if(destructor.IsTimeExpired())
-				{
-					goDestructors[i] = null;
-					Destroy(destructor.g);
-				}
-			}
-		}
+		TickAlphaDestructors (enemyDtime);
+
+		Tick_GO_Destructors (Time.deltaTime);
 
 		//TODO: refactor
 		for (int i = enemies.Count - 1; i >= 0; i--) 
@@ -679,13 +693,53 @@ public class Main : MonoBehaviour
 		return dmg;
 	}
 
-	private void TickAndCheckBounds<T>(List<T> list, float dtime)
+
+	private void TickObjects<T>(List<T> list, float dtime)
 		where T: PolygonGameObject
 	{
 		for (int i = 0; i < list.Count ; i++)
 		{
 			list[i].Tick(dtime);
-			CheckBounds(list[i]);
+		}
+	}
+
+	private void CheckBounds<T>(List<T> list, bool nullCheck)
+		where T: PolygonGameObject
+	{
+		if(!nullCheck)
+		{
+			for (int i = 0; i < list.Count ; i++)
+			{
+				CheckBounds(list[i]);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < list.Count ; i++)
+			{
+				if(list[i] != null)
+					CheckBounds(list[i]);
+			}
+		}
+	}
+
+	private void Wrap<T>(List<T> list, bool nullCheck)
+		where T: PolygonGameObject
+	{
+		if(!nullCheck)
+		{
+			for (int i = 0; i < list.Count ; i++)
+			{
+				Wrap(list[i]);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < list.Count ; i++)
+			{
+				if(list[i] != null)
+					Wrap(list[i]);
+			}
 		}
 	}
 
@@ -703,10 +757,6 @@ public class Main : MonoBehaviour
 			{
 				Destroy(b.gameObject);
 				list[i] = null;
-			}
-			else
-			{
-				CheckBounds(b);
 			}
 		}
 	}
@@ -735,10 +785,71 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	private void Wrap(PolygonGameObject p)
+	{
+		Vector2 center = Camera.main.transform.position;
+		Vector2 pos = p.cacheTransform.position;
+		float rHorisontal = screenBounds.width/2;
+		float rVertical = screenBounds.height/2;
+		
+		if(pos.x > center.x + rHorisontal)
+		{
+			p.cacheTransform.position = p.cacheTransform.position.SetX(center.x - rHorisontal);
+		}
+		else if(pos.x < center.x - rHorisontal)
+		{
+			p.cacheTransform.position = p.cacheTransform.position.SetX(center.x + rHorisontal);
+		}
+		
+		if(pos.y > center.y + rVertical)
+		{
+			p.cacheTransform.position = p.cacheTransform.position.SetY(center.y  - rVertical);
+		}
+		else if(pos.y < center.y - rVertical)
+		{
+			p.cacheTransform.position = p.cacheTransform.position.SetY(center.y  + rVertical);
+		}
+	}
 
+	
+	private void Tick_GO_Destructors(float dtime)
+	{
+		for (int i = goDestructors.Count - 1; i >= 0; i--) 
+		{
+			var destructor = goDestructors[i];
+			if(destructor != null)
+			{
+				destructor.Tick(dtime);
+				if(destructor.IsTimeExpired())
+				{
+					goDestructors[i] = null;
+					Destroy(destructor.g);
+				}
+			}
+		}
+	}
 
-
-
+	private void TickAlphaDestructors(float dtime)
+	{
+		for (int i = destructors.Count - 1; i >= 0; i--) 
+		{
+			var destructor = destructors[i];
+			if(destructor != null)
+			{
+				destructor.Tick(dtime);
+				if(destructor.a == null || destructor.a.gameObject == null)  
+				{
+					destructors[i] = null;
+					continue;
+				}
+				else if(destructor.IsTimeExpired())
+				{
+					destructors[i] = null;
+					Destroy(destructor.a.gameObject);
+				}
+			}
+		}
+	}
 
 	/*
 	 * FUTURE UPDATES

@@ -692,6 +692,7 @@ MonoBehaviour:
   borderWidth: 40
   starsDensity: 4
   sceneSizeInCameras: {x: 2, y: 2}
+  boundsMode: 0
 --- !u!4 &1045239090
 Transform:
   m_ObjectHideFlags: 0
