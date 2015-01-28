@@ -956,6 +956,7 @@ MonoBehaviour:
   - {r: 1, g: .393103421, b: 0, a: 0}
   - {r: .323529422, g: 1, b: .916024387, a: 0}
   - {r: 1, g: 0, b: .765517235, a: 0}
+  stars: []
 --- !u!4 &1445927428
 Transform:
   m_ObjectHideFlags: 0

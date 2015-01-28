@@ -40,7 +40,7 @@ public class Main : MonoBehaviour
 
 	private event Action moveCameraAction;
 	[SerializeField] bool boundsMode = true; 
-	//TODO: reposition ship of faraway
+	//TODO: reposition ship if faraway
 	//TODO: stars Clusters for faster check
 
 	void Awake()
@@ -52,6 +52,31 @@ public class Main : MonoBehaviour
 		else
 		{
 			moveCameraAction += MoveCameraWarpMode;
+			StartCoroutine(RepositionAll());
+		}
+	}
+
+	IEnumerator RepositionAll()
+	{
+		while(true)
+		{
+			if(spaceship != null)
+			{
+				Vector2 pos = spaceship.position;
+				Debug.LogWarning(pos.magnitude);
+				if(pos.magnitude > 300)
+				{
+					spaceship.position -= pos;
+
+					Reposition(enemies, pos, false);
+					Reposition(powerUps, pos, false);
+					Reposition(bullets, pos, true);
+					Reposition(enemyBullets, pos, true);
+
+					MoveCamera();
+				}
+			}
+			yield return new WaitForSeconds(1f);
 		}
 	}
 
@@ -123,162 +148,6 @@ public class Main : MonoBehaviour
 			}
 		}
 	}
-
-
-	public void CreateSpaceShip()
-	{
-		spaceship = ObjectsCreator.CreateSpaceShip ();
-		spaceship.SetShield(new ShieldData(10f,2f,2f));
-		spaceship.FireEvent += OnFire;
-		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
-		spaceship.SetThruster (gT, Vector2.zero);
-	}
-
-	public void CreateEnemySpaceShip()
-	{
-		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
-		var gT = Instantiate (thrustPrefab) as ParticleSystem;
-		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.shooters[0].speed));
-		enemy.SetThruster (gT, Vector2.zero);
-		enemy.FireEvent += OnEnemyFire;
-		InitNewEnemy(enemy);
-	}
-
-	public void CreateEnemySpaceShipBoss()
-	{
-		var enemy = ObjectsCreator.CreateBossEnemySpaceShip ();
-		var gT = Instantiate (thrustBig) as ParticleSystem;
-		enemy.SetController (new SimpleAI1(enemy));
-		var tpos = enemy.polygon.vertices [6];
-		var tpos2 = tpos;
-		tpos2.y = -tpos2.y;
-		enemy.SetThruster (gT, (tpos + tpos2)*0.5f );
-		enemy.FireEvent += OnEnemyFire;
-		bool smartAim = true;
-
-//		var towerpos1 = (enemy.polygon.vertices [2] + enemy.polygon.vertices [4])/2f;
-		var towerpos1 = enemy.polygon.vertices [6] * 0.6f;
-		var dir1 = enemy.polygon.vertices [6];
-		{
-			Func<Vector3> anglesRestriction1 = () =>
-			{
-				float angle = enemy.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
-				Vector2 dir = Math2d.RotateVertex(dir1, angle);
-				Vector3 result = dir;
-				result.z = 90f;
-				return result;
-			}; 
-			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
-			tenemy.SetAngleRestrictions(anglesRestriction1);
-			tenemy.FireEvent += OnEnemyFire;
-			enemy.AddTurret (towerpos1, dir1, tenemy);
-		}
-
-		{
-			var towerpos2 = towerpos1;
-			towerpos2.y = -towerpos2.y;
-			var dir2 = dir1;
-			dir2.y = -dir2.y;
-			Func<Vector3> anglesRestriction2 = () =>
-			{
-				float angle = enemy.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
-				Vector2 dir = Math2d.RotateVertex(dir2, angle);
-				Vector3 result = dir;
-				result.z = 90f;
-				return result;
-			}; 
-			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
-			tenemy.SetAngleRestrictions(anglesRestriction2);
-			tenemy.FireEvent += OnEnemyFire;
-			enemy.AddTurret (towerpos2, dir2, tenemy);
-		}
-
-		InitNewEnemy(enemy);
-	}
-	
-	public void CreateRogueEnemy()
-	{
-		var enemy = ObjectsCreator.CreateRogueEnemy();
-		enemy.FireEvent += OnEnemyFire;
-		InitNewEnemy(enemy);
-	}
-
-	public void CreateSawEnemy()
-	{
-		var enemy = ObjectsCreator.CreateSawEnemy();
-		InitNewEnemy(enemy);
-	}
-
-	public void CreateSpikyAsteroid()
-	{
-		var enemy = ObjectsCreator.CreateSpikyAsteroid();
-		enemy.SpikeAttack += HandleSpikeAttack;
-		InitNewEnemy(enemy);
-	}
-
-	public void CreateSimpleTower()
-	{
-		bool smartAim = false;
-		var enemy = ObjectsCreator.CreateSimpleTower(smartAim);
-		enemy.FireEvent += OnEnemyFire;
-		InitNewEnemy(enemy);
-	}
-
-	public void CreateTower()
-	{
-		var enemy = ObjectsCreator.CreateTower();
-		enemy.FireEvent += OnEnemyFire;
-		InitNewEnemy(enemy);
-	}
-
-	public EvadeEnemy CreateEvadeEnemy()
-	{
-		EvadeEnemy enemy = ObjectsCreator.CreateEvadeEnemy (bullets);
-		enemy.FireEvent += OnEnemyFire;
-		InitNewEnemy(enemy);
-		return enemy;
-	}
-	
-	public TankEnemy CreateTankEnemy()
-	{
-		TankEnemy enemy = ObjectsCreator.CreateTankEnemy(bullets);
-		enemy.FireEvent += OnEnemyFire;
-		InitNewEnemy(enemy);
-		return enemy;
-	}
-	
-	public Asteroid CreateGasteroid()
-	{
-		var asteroid = ObjectsCreator.CreateGasteroid ();
-		InitNewEnemy(asteroid);
-		return asteroid;
-	}
-	
-	public Asteroid CreateAsteroid()
-	{
-		var asteroid = ObjectsCreator.CreateAsteroid ();
-		InitNewEnemy (asteroid);
-		return asteroid;
-	}
-
-
-	private void InitNewEnemy(PolygonGameObject enemy)
-	{
-		var t = enemy as IGotTarget;
-		if(t != null)
-			t.SetTarget (spaceship);
-
-		SetRandomPosition(enemy);
-		Add2Enemies(enemy);
-	}
-
-	private void SetRandomPosition(PolygonGameObject p)
-	{
-		float angle = UnityEngine.Random.Range(0f, 359f) * Math2d.PIdiv180;
-		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, screenBounds.yMax);
-		p.cacheTransform.position = new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, p.cacheTransform.position.z);
-	}
-
 
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
@@ -723,6 +592,27 @@ public class Main : MonoBehaviour
 		}
 	}
 
+
+	private void Reposition<T>(List<T> list, Vector2 delta, bool nullCheck)
+		where T: PolygonGameObject
+	{
+		if(!nullCheck)
+		{
+			for (int i = 0; i < list.Count ; i++)
+			{
+				list[i].position -= delta;
+			}
+		}
+		else
+		{
+			for (int i = 0; i < list.Count ; i++)
+			{
+				if(list[i] != null)
+					list[i].position -= delta;
+			}
+		}
+	}
+
 	private void Wrap<T>(List<T> list, bool nullCheck)
 		where T: PolygonGameObject
 	{
@@ -811,7 +701,162 @@ public class Main : MonoBehaviour
 		}
 	}
 
+
+	public void CreateSpaceShip()
+	{
+		spaceship = ObjectsCreator.CreateSpaceShip ();
+		spaceship.SetShield(new ShieldData(10f,2f,2f));
+		spaceship.FireEvent += OnFire;
+		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
+		spaceship.SetThruster (gT, Vector2.zero);
+	}
 	
+	public void CreateEnemySpaceShip()
+	{
+		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
+		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.shooters[0].speed));
+		enemy.SetThruster (gT, Vector2.zero);
+		enemy.FireEvent += OnEnemyFire;
+		InitNewEnemy(enemy);
+	}
+	
+	public void CreateEnemySpaceShipBoss()
+	{
+		var enemy = ObjectsCreator.CreateBossEnemySpaceShip ();
+		var gT = Instantiate (thrustBig) as ParticleSystem;
+		enemy.SetController (new SimpleAI1(enemy));
+		var tpos = enemy.polygon.vertices [6];
+		var tpos2 = tpos;
+		tpos2.y = -tpos2.y;
+		enemy.SetThruster (gT, (tpos + tpos2)*0.5f );
+		enemy.FireEvent += OnEnemyFire;
+		bool smartAim = true;
+		
+		//		var towerpos1 = (enemy.polygon.vertices [2] + enemy.polygon.vertices [4])/2f;
+		var towerpos1 = enemy.polygon.vertices [6] * 0.6f;
+		var dir1 = enemy.polygon.vertices [6];
+		{
+			Func<Vector3> anglesRestriction1 = () =>
+			{
+				float angle = enemy.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
+				Vector2 dir = Math2d.RotateVertex(dir1, angle);
+				Vector3 result = dir;
+				result.z = 90f;
+				return result;
+			}; 
+			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
+			tenemy.SetAngleRestrictions(anglesRestriction1);
+			tenemy.FireEvent += OnEnemyFire;
+			enemy.AddTurret (towerpos1, dir1, tenemy);
+		}
+		
+		{
+			var towerpos2 = towerpos1;
+			towerpos2.y = -towerpos2.y;
+			var dir2 = dir1;
+			dir2.y = -dir2.y;
+			Func<Vector3> anglesRestriction2 = () =>
+			{
+				float angle = enemy.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
+				Vector2 dir = Math2d.RotateVertex(dir2, angle);
+				Vector3 result = dir;
+				result.z = 90f;
+				return result;
+			}; 
+			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
+			tenemy.SetAngleRestrictions(anglesRestriction2);
+			tenemy.FireEvent += OnEnemyFire;
+			enemy.AddTurret (towerpos2, dir2, tenemy);
+		}
+		
+		InitNewEnemy(enemy);
+	}
+	
+	public void CreateRogueEnemy()
+	{
+		var enemy = ObjectsCreator.CreateRogueEnemy();
+		enemy.FireEvent += OnEnemyFire;
+		InitNewEnemy(enemy);
+	}
+	
+	public void CreateSawEnemy()
+	{
+		var enemy = ObjectsCreator.CreateSawEnemy();
+		InitNewEnemy(enemy);
+	}
+	
+	public void CreateSpikyAsteroid()
+	{
+		var enemy = ObjectsCreator.CreateSpikyAsteroid();
+		enemy.SpikeAttack += HandleSpikeAttack;
+		InitNewEnemy(enemy);
+	}
+	
+	public void CreateSimpleTower()
+	{
+		bool smartAim = false;
+		var enemy = ObjectsCreator.CreateSimpleTower(smartAim);
+		enemy.FireEvent += OnEnemyFire;
+		InitNewEnemy(enemy);
+	}
+	
+	public void CreateTower()
+	{
+		var enemy = ObjectsCreator.CreateTower();
+		enemy.FireEvent += OnEnemyFire;
+		InitNewEnemy(enemy);
+	}
+	
+	public EvadeEnemy CreateEvadeEnemy()
+	{
+		EvadeEnemy enemy = ObjectsCreator.CreateEvadeEnemy (bullets);
+		enemy.FireEvent += OnEnemyFire;
+		InitNewEnemy(enemy);
+		return enemy;
+	}
+	
+	public TankEnemy CreateTankEnemy()
+	{
+		TankEnemy enemy = ObjectsCreator.CreateTankEnemy(bullets);
+		enemy.FireEvent += OnEnemyFire;
+		InitNewEnemy(enemy);
+		return enemy;
+	}
+	
+	public Asteroid CreateGasteroid()
+	{
+		var asteroid = ObjectsCreator.CreateGasteroid ();
+		InitNewEnemy(asteroid);
+		return asteroid;
+	}
+	
+	public Asteroid CreateAsteroid()
+	{
+		var asteroid = ObjectsCreator.CreateAsteroid ();
+		InitNewEnemy (asteroid);
+		return asteroid;
+	}
+	
+	
+	private void InitNewEnemy(PolygonGameObject enemy)
+	{
+		var t = enemy as IGotTarget;
+		if(t != null)
+			t.SetTarget (spaceship);
+		
+		SetRandomPosition(enemy);
+		Add2Enemies(enemy);
+	}
+	
+	private void SetRandomPosition(PolygonGameObject p)
+	{
+		float angle = UnityEngine.Random.Range(0f, 359f) * Math2d.PIdiv180;
+		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, screenBounds.yMax);
+		p.cacheTransform.position = new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, p.cacheTransform.position.z);
+	}
+
+
 	private void Tick_GO_Destructors(float dtime)
 	{
 		for (int i = goDestructors.Count - 1; i >= 0; i--) 

@@ -30,6 +30,12 @@ public class PolygonGameObject : MonoBehaviour
 		cacheTransform = transform;
 	}
 
+	public Vector2 position
+	{
+		get{return cacheTransform.position;}
+		set{cacheTransform.position = cacheTransform.position + (Vector3)value;}
+	}
+
 	public void SetShield(ShieldData shieldData)
 	{
 		this.shieldData = shieldData;

@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class StarsGenerator : MonoBehaviour 
 {
 	public Sprite[] textures;
 	public Color[] colors;
 
+	public GameObject[] stars;
+
 	public void Generate(int count, Rect rect, float z)
 	{
+		stars = new GameObject[count];
 		for (int i = 0; i < count; i++) 
 		{
 			var tex = textures[Random.Range(0, textures.Length)];
@@ -22,10 +26,11 @@ public class StarsGenerator : MonoBehaviour
 			}
 
 			GameObject g = new GameObject();
+			stars[i] = g;
 			g.transform.position = new Vector3(
 				Random.Range(rect.xMin, rect.xMax), 
 			    Random.Range(rect.yMin, rect.yMax),
-				z + Random.Range(-0.1f, 01f));
+				z + Random.Range(19f, 20f));
 
 			var renderer = g.AddComponent<SpriteRenderer>();
 			renderer.sprite = tex;
