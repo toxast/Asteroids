@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -137,13 +138,22 @@ public class Main : MonoBehaviour
 		var towerpos2 = towerpos1;
 		towerpos2.y = -towerpos2.y;
 
+		Func<Vector3> anglesRestriction = () =>
+		{
+			Vector3 result = -enemy.cacheTransform.right;
+			result.z = 30f;
+			return result;
+		}; 
+
 		{
 			var tenemy = ObjectsCreator.CreateSimpleTower();
+			tenemy.SetAngleRestrictions(anglesRestriction);
 			tenemy.FireEvent += OnEnemyFire;
 			enemy.AddTurret (towerpos1, tenemy);
 		}
 		{
 			var tenemy = ObjectsCreator.CreateSimpleTower();
+			tenemy.SetAngleRestrictions(anglesRestriction);
 			tenemy.FireEvent += OnEnemyFire;
 			enemy.AddTurret (towerpos2, tenemy);
 		}
@@ -228,7 +238,7 @@ public class Main : MonoBehaviour
 
 	private void SetRandomPosition(PolygonGameObject p)
 	{
-		float angle = Random.Range(0f,359f) * Math2d.PIdiv180;
+		float angle = UnityEngine.Random.Range(0f, 359f) * Math2d.PIdiv180;
 		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, screenBounds.yMax);
 		p.cacheTransform.position = new Vector3(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len, p.cacheTransform.position.z);
 	}
@@ -551,17 +561,17 @@ public class Main : MonoBehaviour
 					t.cacheTransform.parent = null;
 					t.velocity += esp.velocity;
 					t.rotation += UnityEngine.Random.Range(-150f, 150f);
-					bool destroy = false;
-					if(destroy)
-					{
+//					bool destroy = false;
+//					if(destroy)
+//					{
 						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(t);
 						Destroy(t.gameObject);
-					}
-					else
-					{
-						(t as IGotTarget).SetTarget(null);
-						Add2Enemies(t);
-					}
+//					}
+//					else
+//					{
+//						(t as IGotTarget).SetTarget(null);
+//						Add2Enemies(t);
+//					}
 				}
 
 				var e = Instantiate(explosion) as ParticleSystem;

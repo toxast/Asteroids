@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class SimpleTower : PolygonGameObject, IGotTarget
@@ -18,6 +19,9 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 	ShootPlace shooter;
 	private bool smartAim = false;
 
+	private bool restrictAngle = false;
+	private Func<Vector3> anglesRestriction;
+
 	public void Init(ShootPlace shooter, bool smartAim)
 	{
 		this.smartAim = smartAim;
@@ -28,6 +32,12 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 		StartCoroutine(Aim());
 		
 		StartCoroutine(FireCoroutine());
+	}
+
+	public void SetAngleRestrictions(Func<Vector3> angelsRestriction)
+	{
+		restrictAngle = true;
+		this.anglesRestriction = angelsRestriction;
 	}
 	
 	public void SetTarget(PolygonGameObject target)
@@ -47,7 +57,15 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 	
 	private void RotateCannon(float deltaTime)
 	{
-		cannonsRotaitor.Rotate(deltaTime, currentAimAngle);
+		float angle = currentAimAngle;
+		if(restrictAngle)
+		{
+			Vector3 restrict = anglesRestriction();
+			Vector2 dir = restrict;
+			float dangle = restrict.z;
+
+		}
+		cannonsRotaitor.Rotate(deltaTime, angle);
 	}
 	
 	
@@ -73,6 +91,7 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 					currentAimAngle = Math2d.AngleRAD2(new Vector2(1, 0), target.cacheTransform.position - cacheTransform.position);
 					currentAimAngle /= Math2d.PIdiv180;
 				}
+
 			}
 			yield return new WaitForSeconds(aimInterval);
 		}

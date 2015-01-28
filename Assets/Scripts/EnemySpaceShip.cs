@@ -34,10 +34,4 @@ public class EnemySpaceShip : SpaceShip, IGotTarget
 			t.Tick(delta);
 		}
 	}
-
-	protected override float healthModifier {
-		get {
-			return 0.002f;
-		}
-	}
 }

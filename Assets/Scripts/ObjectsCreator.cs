@@ -71,7 +71,7 @@ public class ObjectsCreator
 
 	public static EnemySpaceShip CreateBossEnemySpaceShip()
 	{
-		var vertices = PolygonCreator.GetCompleteVertexes (SpaceshipsData.halfBossVertices, 3).ToArray();
+		var vertices = PolygonCreator.GetCompleteVertexes (SpaceshipsData.halfBossVertices, 2).ToArray();
 		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Color.white);
 		
 		enemySpaceship.gameObject.name = "boss";
@@ -181,7 +181,7 @@ public class ObjectsCreator
 
 	public static SimpleTower CreateSimpleTower()
 	{
-		float r = 1.5f;//UnityEngine.Random.Range(1.0f, 1.2f);
+		float r = 1f;//UnityEngine.Random.Range(1.0f, 1.2f);
 		int sides = 6;
 		
 		Vector2[] vertices = PolygonCreator.CreateTowerVertices2 (r, sides);
