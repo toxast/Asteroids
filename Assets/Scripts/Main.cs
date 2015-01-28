@@ -53,18 +53,34 @@ public class Main : MonoBehaviour
 		{
 			moveCameraAction += MoveCameraWarpMode;
 			StartCoroutine(RepositionAll());
+			StartCoroutine(WrapStars());
+		}
+	}
+
+
+	IEnumerator WrapStars()
+	{
+		yield return new WaitForSeconds(1f);
+		while(true)
+		{
+			var stars = starsGenerator.stars;
+			for (int i = 0; i < stars.Length ; i++)
+			{
+				Wrap(stars[i]);
+			}
+			yield return new WaitForSeconds(1f);
 		}
 	}
 
 	IEnumerator RepositionAll()
 	{
+		yield return new WaitForSeconds(1f);
 		while(true)
 		{
 			if(spaceship != null)
 			{
 				Vector2 pos = spaceship.position;
-				Debug.LogWarning(pos.magnitude);
-				if(pos.magnitude > 300)
+				if(pos.magnitude > screenBounds.width*3)
 				{
 					spaceship.position -= pos;
 
@@ -73,10 +89,16 @@ public class Main : MonoBehaviour
 					Reposition(bullets, pos, true);
 					Reposition(enemyBullets, pos, true);
 
+					var stars = starsGenerator.stars;
+					for (int i = 0; i < stars.Length ; i++)
+					{
+						stars[i].position -= (Vector3)pos;
+					}
+
 					MoveCamera();
 				}
 			}
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(5f);
 		}
 	}
 
@@ -171,20 +193,23 @@ public class Main : MonoBehaviour
 		maxCameraX = (screenBounds.width - camWidth) / 2f;
 		maxCameraY = (screenBounds.height - camHeight) / 2f;
 
-		var borderObj = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(
-			PolygonCreator.GetRectShape(20,20), Color.gray);
-
-		var m = borderObj.mesh;
-		var indx = new int[]{0,1,2,3,0};
-		m.vertices = new Vector3[]
+		if(boundsMode)
 		{
-			new Vector3(flyZoneBounds.xMin, flyZoneBounds.yMin),
-			new Vector3(flyZoneBounds.xMax, flyZoneBounds.yMin),
-			new Vector3(flyZoneBounds.xMax, flyZoneBounds.yMax),
-			new Vector3(flyZoneBounds.xMin, flyZoneBounds.yMax),
-		};
-		m.SetIndices(indx, MeshTopology.LineStrip, 0);
-		m.RecalculateBounds();
+			var borderObj = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(
+				PolygonCreator.GetRectShape(20,20), Color.gray);
+
+			var m = borderObj.mesh;
+			var indx = new int[]{0,1,2,3,0};
+			m.vertices = new Vector3[]
+			{
+				new Vector3(flyZoneBounds.xMin, flyZoneBounds.yMin),
+				new Vector3(flyZoneBounds.xMax, flyZoneBounds.yMin),
+				new Vector3(flyZoneBounds.xMax, flyZoneBounds.yMax),
+				new Vector3(flyZoneBounds.xMin, flyZoneBounds.yMax),
+			};
+			m.SetIndices(indx, MeshTopology.LineStrip, 0);
+			m.RecalculateBounds();
+		}
 
 	}
 
@@ -620,7 +645,7 @@ public class Main : MonoBehaviour
 		{
 			for (int i = 0; i < list.Count ; i++)
 			{
-				Wrap(list[i]);
+				Wrap(list[i].cacheTransform);
 			}
 		}
 		else
@@ -628,7 +653,7 @@ public class Main : MonoBehaviour
 			for (int i = 0; i < list.Count ; i++)
 			{
 				if(list[i] != null)
-					Wrap(list[i]);
+					Wrap(list[i].cacheTransform);
 			}
 		}
 	}
@@ -675,29 +700,29 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void Wrap(PolygonGameObject p)
+	private void Wrap(Transform t)
 	{
 		Vector2 center = Camera.main.transform.position;
-		Vector2 pos = p.cacheTransform.position;
+		Vector2 pos = t.position;
 		float rHorisontal = screenBounds.width/2;
 		float rVertical = screenBounds.height/2;
 		
 		if(pos.x > center.x + rHorisontal)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetX(center.x - rHorisontal);
+			t.position = t.position.SetX(pos.x - 2*rHorisontal);
 		}
 		else if(pos.x < center.x - rHorisontal)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetX(center.x + rHorisontal);
+			t.position = t.position.SetX(pos.x + 2*rHorisontal);
 		}
 		
 		if(pos.y > center.y + rVertical)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetY(center.y  - rVertical);
+			t.position = t.position.SetY(pos.y - 2*rVertical);
 		}
 		else if(pos.y < center.y - rVertical)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetY(center.y  + rVertical);
+			t.position = t.position.SetY(pos.y + 2*rVertical);
 		}
 	}
 
@@ -709,6 +734,7 @@ public class Main : MonoBehaviour
 		spaceship.FireEvent += OnFire;
 		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
 		spaceship.SetThruster (gT, Vector2.zero);
+		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
 	}
 	
 	public void CreateEnemySpaceShip()

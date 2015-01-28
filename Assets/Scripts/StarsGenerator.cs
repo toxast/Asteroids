@@ -7,11 +7,11 @@ public class StarsGenerator : MonoBehaviour
 	public Sprite[] textures;
 	public Color[] colors;
 
-	public GameObject[] stars;
+	public Transform[] stars;
 
 	public void Generate(int count, Rect rect, float z)
 	{
-		stars = new GameObject[count];
+		stars = new Transform[count];
 		for (int i = 0; i < count; i++) 
 		{
 			var tex = textures[Random.Range(0, textures.Length)];
@@ -26,8 +26,9 @@ public class StarsGenerator : MonoBehaviour
 			}
 
 			GameObject g = new GameObject();
-			stars[i] = g;
-			g.transform.position = new Vector3(
+			Transform t = g.transform;
+			stars[i] = t;
+			t.position = new Vector3(
 				Random.Range(rect.xMin, rect.xMax), 
 			    Random.Range(rect.yMin, rect.yMax),
 				z + Random.Range(19f, 20f));
@@ -37,9 +38,9 @@ public class StarsGenerator : MonoBehaviour
 			renderer.color = col;
 
 			var size = Random.Range(7, 11);
-			g.transform.localScale = new Vector3(size, size, 1);
+			t.localScale = new Vector3(size, size, 1);
 
-			g.transform.parent = transform;
+			t.parent = transform;
 		}
 	}
 }

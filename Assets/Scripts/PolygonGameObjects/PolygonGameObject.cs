@@ -33,7 +33,7 @@ public class PolygonGameObject : MonoBehaviour
 	public Vector2 position
 	{
 		get{return cacheTransform.position;}
-		set{cacheTransform.position = cacheTransform.position + (Vector3)value;}
+		set{cacheTransform.position = ((Vector3)value).SetZ(cacheTransform.position.z);}
 	}
 
 	public void SetShield(ShieldData shieldData)
