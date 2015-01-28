@@ -18,8 +18,10 @@ public class EnemySpaceShip : SpaceShip, IGotTarget
 		}
 	}
 
-	public void AddTurret(Vector2 pos, PolygonGameObject turret)
+	public void AddTurret(Vector2 pos, Vector2 dir, PolygonGameObject turret)
 	{
+		float angle = Math2d.GetRotationG (dir);
+		turret.cacheTransform.rotation = Quaternion.Euler(new Vector3(0,0,angle));
 		turret.cacheTransform.parent = cacheTransform;
 		turret.cacheTransform.localPosition += (Vector3)pos - new Vector3 (0, 0, 1);
 		turrets.Add (turret);

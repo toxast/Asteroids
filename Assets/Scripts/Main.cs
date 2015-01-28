@@ -8,6 +8,7 @@ public class Main : MonoBehaviour
 {
 	[SerializeField] ParticleSystem thrustPrefab;
 	[SerializeField] ParticleSystem thrustPrefab2;
+	[SerializeField] ParticleSystem thrustBig;
 	[SerializeField] ParticleSystem explosion;
 	[SerializeField] ParticleSystem gasteroidExplosion;
 	[SerializeField] StarsGenerator starsGenerator;
@@ -109,11 +110,11 @@ public class Main : MonoBehaviour
 
 	public void CreateSpaceShip()
 	{
-		spaceship = ObjectsCreator.CreateSpaceShip (flyZoneBounds);
+		spaceship = ObjectsCreator.CreateSpaceShip ();
 		spaceship.SetShield(new ShieldData(10f,2f,2f));
 		spaceship.FireEvent += OnFire;
 		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
-		spaceship.SetThruster (gT);
+		spaceship.SetThruster (gT, Vector2.zero);
 	}
 
 	public void CreateEnemySpaceShip()
@@ -121,7 +122,7 @@ public class Main : MonoBehaviour
 		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
 		var gT = Instantiate (thrustPrefab) as ParticleSystem;
 		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.shooters[0].speed));
-		enemy.SetThruster (gT);
+		enemy.SetThruster (gT, Vector2.zero);
 		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 	}
@@ -129,33 +130,50 @@ public class Main : MonoBehaviour
 	public void CreateEnemySpaceShipBoss()
 	{
 		var enemy = ObjectsCreator.CreateBossEnemySpaceShip ();
-		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+		var gT = Instantiate (thrustBig) as ParticleSystem;
 		enemy.SetController (new SimpleAI1(enemy));
-		enemy.SetThruster (gT);
+		var tpos = enemy.polygon.vertices [6];
+		var tpos2 = tpos;
+		tpos2.y = -tpos2.y;
+		enemy.SetThruster (gT, (tpos + tpos2)*0.5f );
 		enemy.FireEvent += OnEnemyFire;
+		bool smartAim = true;
 
-		var towerpos1 = (enemy.polygon.vertices [2] + enemy.polygon.vertices [4])/2f;
-		var towerpos2 = towerpos1;
-		towerpos2.y = -towerpos2.y;
-
-		Func<Vector3> anglesRestriction = () =>
+//		var towerpos1 = (enemy.polygon.vertices [2] + enemy.polygon.vertices [4])/2f;
+		var towerpos1 = enemy.polygon.vertices [6] * 0.6f;
+		var dir1 = enemy.polygon.vertices [6];
 		{
-			Vector3 result = -enemy.cacheTransform.right;
-			result.z = 30f;
-			return result;
-		}; 
-
-		{
-			var tenemy = ObjectsCreator.CreateSimpleTower();
-			tenemy.SetAngleRestrictions(anglesRestriction);
+			Func<Vector3> anglesRestriction1 = () =>
+			{
+				float angle = enemy.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
+				Vector2 dir = Math2d.RotateVertex(dir1, angle);
+				Vector3 result = dir;
+				result.z = 90f;
+				return result;
+			}; 
+			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
+			tenemy.SetAngleRestrictions(anglesRestriction1);
 			tenemy.FireEvent += OnEnemyFire;
-			enemy.AddTurret (towerpos1, tenemy);
+			enemy.AddTurret (towerpos1, dir1, tenemy);
 		}
+
 		{
-			var tenemy = ObjectsCreator.CreateSimpleTower();
-			tenemy.SetAngleRestrictions(anglesRestriction);
+			var towerpos2 = towerpos1;
+			towerpos2.y = -towerpos2.y;
+			var dir2 = dir1;
+			dir2.y = -dir2.y;
+			Func<Vector3> anglesRestriction2 = () =>
+			{
+				float angle = enemy.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
+				Vector2 dir = Math2d.RotateVertex(dir2, angle);
+				Vector3 result = dir;
+				result.z = 90f;
+				return result;
+			}; 
+			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
+			tenemy.SetAngleRestrictions(anglesRestriction2);
 			tenemy.FireEvent += OnEnemyFire;
-			enemy.AddTurret (towerpos2, tenemy);
+			enemy.AddTurret (towerpos2, dir2, tenemy);
 		}
 
 		InitNewEnemy(enemy);
@@ -183,7 +201,8 @@ public class Main : MonoBehaviour
 
 	public void CreateSimpleTower()
 	{
-		var enemy = ObjectsCreator.CreateSimpleTower();
+		bool smartAim = false;
+		var enemy = ObjectsCreator.CreateSimpleTower(smartAim);
 		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 	}
@@ -351,8 +370,9 @@ public class Main : MonoBehaviour
 
 		if(spaceship != null)
 		{
-			spaceship.Tick(Time.deltaTime);
+			ApplyBoundsForce(spaceship);
 
+			spaceship.Tick(Time.deltaTime);
 			//CheckBounds(spaceship);
 		}
 
@@ -583,6 +603,41 @@ public class Main : MonoBehaviour
 		
 		enemies.RemoveAt(i);
 		Destroy(enemy.gameObject);
+	}
+
+	private void ApplyBoundsForce(PolygonGameObject p)
+	{
+		Vector2 curPos = p.cacheTransform.position;
+		//CheckIfShipOutOfBounds()
+		if(curPos.x < flyZoneBounds.xMin)
+		{
+			//TODO: delta
+			float dir = (flyZoneBounds.xMin - curPos.x);
+			ApplyForce(p, new Vector2(dir,0));
+		}
+		else if(curPos.x > flyZoneBounds.xMax)
+		{
+			float dir = (flyZoneBounds.xMax - curPos.x);
+			ApplyForce(p, new Vector2(dir,0));
+		}
+		
+		if(curPos.y < flyZoneBounds.yMin)
+		{
+			float dir = (flyZoneBounds.yMin - curPos.y);
+			ApplyForce(p, new Vector2(0,dir));
+		}
+		else if(curPos.y > flyZoneBounds.yMax)
+		{
+			float dir = (flyZoneBounds.yMax - curPos.y);
+			ApplyForce(p, new Vector2(0,dir));
+		}
+	}
+
+	private void ApplyForce(PolygonGameObject p, Vector2 dir)
+	{
+		float pushingForce = 4f;
+		Vector3 f = dir.normalized * pushingForce * dir.sqrMagnitude;
+		p.velocity += (Time.deltaTime * f) / p.mass ;
 	}
 
 	private void SplitIntoAsteroidsAndMarkForDestuctionSmallParts(PolygonGameObject obj)

@@ -9,8 +9,8 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 	
 	public event System.Action<ShootPlace, Transform> FireEvent;
 	
-	private float rangeAngle = 2f; //if angle to target bigger than this - dont even try to shoot
-	private float cannonsRotatingSpeed = 150f;
+	private float rangeAngle = 20f; //if angle to target bigger than this - dont even try to shoot
+	private float cannonsRotatingSpeed = 50f;
 	
 	private float currentAimAngle = 0;
 	
@@ -62,10 +62,17 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 		{
 			Vector3 restrict = anglesRestriction();
 			Vector2 dir = restrict;
-			float dangle = restrict.z;
-
+			float allowed = restrict.z;
+			float dangle = Math2d.DeltaAngleGRAD(Math2d.GetRotation(dir)/Math2d.PIdiv180, currentAimAngle);
+			if(Mathf.Abs(dangle) < allowed)
+			{
+				cannonsRotaitor.Rotate(deltaTime, angle);
+			}
 		}
-		cannonsRotaitor.Rotate(deltaTime, angle);
+		else
+		{
+			cannonsRotaitor.Rotate(deltaTime, angle);
+		}
 	}
 	
 	

@@ -7,13 +7,13 @@ public class ObjectsCreator
 
 	public static Color defaultEnemyColor = new Color (0.5f, 0.5f, 0.5f);
 
-	public static UserSpaceShip CreateSpaceShip(Rect flyZoneBounds)
+	public static UserSpaceShip CreateSpaceShip()
 	{
 		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
 		
 		spaceship.gameObject.name = "Spaceship";
 		#if UNITY_STANDALONE
-		spaceship.SetController (new StandaloneInputController(flyZoneBounds));
+		spaceship.SetController (new StandaloneInputController());
 		
 		//		tabletController.Init(flyZoneBounds);
 		//		spaceship.SetController(tabletController);
@@ -77,17 +77,31 @@ public class ObjectsCreator
 		enemySpaceship.gameObject.name = "boss";
 		
 		List<ShootPlace> shooters = new List<ShootPlace> ();
+
+		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace ();
+		place1.color = Color.yellow;
+		place1.fireInterval = 0.5f;
+		place1.position = new Vector2 (2f, 0.8f);
+		shooters.Add (place1);
+
 		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
 		place2.color = Color.yellow;
 		place2.fireInterval = 0.5f;
 		place2.position = new Vector2 (2f, 0f);
 		shooters.Add (place2);
+
+		ShootPlace place3 = ShootPlace.GetSpaceshipShootPlace ();
+		place3.color = Color.yellow;
+		place3.fireInterval = 0.5f;
+		place3.position = new Vector2 (2f, -0.8f);
+		shooters.Add (place3);
+
 		enemySpaceship.SetShootPlaces (shooters);
 		
 		SpaceshipData data = new SpaceshipData{
-			thrust = 20f,
+			thrust = 15f,
 			maxSpeed = 5f,
-			turnSpeed = 40f,
+			turnSpeed = 30f,
 			brake = 8f,
 			passiveBrake = 4f,
 		}; 
@@ -179,7 +193,7 @@ public class ObjectsCreator
 		return tower;
 	}
 
-	public static SimpleTower CreateSimpleTower()
+	public static SimpleTower CreateSimpleTower(bool smartAim)
 	{
 		float r = 1f;//UnityEngine.Random.Range(1.0f, 1.2f);
 		int sides = 6;
@@ -193,7 +207,7 @@ public class ObjectsCreator
 		place2.color = Color.yellow;
 		place2.fireInterval = 0.5f;
 		place2.position = new Vector2 (2f, 0f);
-		tower.Init(place2, false);
+		tower.Init(place2, smartAim);
 		
 		return tower;
 	}

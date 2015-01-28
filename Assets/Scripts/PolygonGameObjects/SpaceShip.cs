@@ -62,10 +62,13 @@ public class SpaceShip : PolygonGameObject
 //		joystickControl.Set (pJoystick, maxOffset);
 //	}
 	
-	public void SetThruster(ParticleSystem p)
+	public void SetThruster(ParticleSystem p, Vector2 pos)
 	{
 		thrustPSystem = p;
 		thrustPSystem.gameObject.transform.parent = cacheTransform;
+		Vector3 pos3 = pos;
+		pos3.z = 1;
+		thrustPSystem.gameObject.transform.localPosition = pos3;
 		defaultThrustLifetime = thrustPSystem.startLifetime;
 		thrustPSystem.startLifetime = defaultThrustLifetime / 3f;
 	}

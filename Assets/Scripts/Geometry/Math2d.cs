@@ -79,6 +79,11 @@ public static class Math2d
 		return AngleRAD(ref right, ref v);  
 	}
 
+	static public float GetRotationG(Vector2 v)
+	{
+		return GetRotation(ref v) / PIdiv180;  
+	}
+
 	static public Vector2 GetMassCenter(Vector2[] vertices, out float area)
 	{
 		Edge[] egdes = GetEdges(vertices);

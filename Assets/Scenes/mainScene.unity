@@ -684,6 +684,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrustPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
   thrustPrefab2: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+  thrustBig: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
   explosion: {fileID: 19876198, guid: 263f06c579e87134eba3348db5cfc8b3, type: 2}
   gasteroidExplosion: {fileID: 19813558, guid: e436eec92287d144ca55f9ddf5450191, type: 2}
   starsGenerator: {fileID: 1445927427}
