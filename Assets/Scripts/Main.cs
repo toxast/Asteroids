@@ -210,7 +210,6 @@ public class Main : MonoBehaviour
 			m.SetIndices(indx, MeshTopology.LineStrip, 0);
 			m.RecalculateBounds();
 		}
-
 	}
 
 	private void MoveCameraWarpMode()
@@ -924,6 +923,14 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * shoot place refactors
+	 * shoot place levels
+	 * gravity enemies
+	 * fire enimies
+	 * deflect shields
+	 * cold enemies
+	 * Lazers!
+	 * missiles!
 	 * more efficeient stars render
 	 * shield animation
 	 * cool ships explosion

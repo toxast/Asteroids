@@ -9,7 +9,7 @@ public class ObjectsCreator
 
 	public static UserSpaceShip CreateSpaceShip()
 	{
-		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(SpaceshipsData.fastSpaceshipVertices, Color.blue);
+		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(SpaceshipsData.alien5, Color.blue);
 		
 		spaceship.gameObject.name = "Spaceship";
 		#if UNITY_STANDALONE
@@ -45,7 +45,8 @@ public class ObjectsCreator
 	
 	public static EnemySpaceShip CreateEnemySpaceShip()
 	{
-		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (SpaceshipsData.fastSpaceshipVertices, Color.white);
+		var vr = Math2d.ScaleVertices2 (SpaceshipsData.alien9, 1.5f);
+		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Color.white);
 		
 		enemySpaceship.gameObject.name = "enemy spaceship";
 		

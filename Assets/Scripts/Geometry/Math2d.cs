@@ -160,6 +160,17 @@ public static class Math2d
 		}
 	}
 
+	//TODO: refactor
+	public static Vector2[] ScaleVertices2(Vector2[] vertices, float scale)
+	{
+		Vector2[] vertices2 = new Vector2[vertices.Length];
+		for (int i = 0; i < vertices.Length; i++) 
+		{
+			vertices2[i] = vertices[i]*scale;
+		}
+		return vertices2;
+	}
+
 	public static Vector2[] OffsetVerticesFromCenter(Vector2[] vertices, float offset)
 	{
 		Vector2[] fvertices = new Vector2[vertices.Length];
