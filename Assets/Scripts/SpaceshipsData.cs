@@ -364,6 +364,30 @@ public static class SpaceshipsData
 	new Vector2 (0.52f, 0.84f),
 	new Vector2 (0.74f, 0.32f),
 	};
+
+    public static Vector2[] alien10 = new Vector2[]
+    {   
+    new Vector2 (1.39f, -1.72f),
+    new Vector2 (1.39f, -2.59f),
+    new Vector2 (0.78f, -3.38f),
+    new Vector2 (-0.17f, -4.11f),
+    new Vector2 (-2.17f, -4.74f),
+    new Vector2 (-2.84f, -4.45f),
+    new Vector2 (-1.35f, -3.03f),
+    new Vector2 (-0.75f, -1.61f),
+    new Vector2 (-1.54f, -0.89f),
+    new Vector2 (-1.54f, 0.89f),
+    new Vector2 (-0.75f, 1.61f),
+    new Vector2 (-1.35f, 3.03f),
+    new Vector2 (-2.84f, 4.45f),
+    new Vector2 (-2.17f, 4.74f),
+    new Vector2 (-0.17f, 4.11f),
+    new Vector2 (0.78f, 3.38f),
+    new Vector2 (1.39f, 2.59f),
+    new Vector2 (1.39f, 1.72f),
+    new Vector2 (1.13f, 1.23f),
+    new Vector2 (0.86f, 0.55f),
+    };
 }
 
 
