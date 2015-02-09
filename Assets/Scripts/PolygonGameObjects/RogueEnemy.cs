@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class RogueEnemy : PolygonGameObject, IGotTarget
+public class RogueEnemy : PolygonGameObject
 {
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]
@@ -14,8 +14,6 @@ public class RogueEnemy : PolygonGameObject, IGotTarget
 	}
 	, 1f).ToArray();
 
-	public event System.Action<ShootPlace, Transform> FireEvent;
-
 	private float movingSpeed = 6f;
 	private float minDistanceToTargetSqr = 600;
 	private float maxDistanceToTargetSqr = 800;
@@ -24,13 +22,10 @@ public class RogueEnemy : PolygonGameObject, IGotTarget
 
 	float currentAimAngle;
 
-	private PolygonGameObject target;
 	Rotaitor cannonsRotaitor;
-	List<ShootPlace> shooters;
 
-	public void Init (List<ShootPlace> shooters) 
+	public void Init () 
 	{
-		this.shooters = shooters;
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 		SetAlpha(0f);
 		StartCoroutine(FadeAndShoot());
@@ -40,11 +35,6 @@ public class RogueEnemy : PolygonGameObject, IGotTarget
 		get {
 			return base.healthModifier * Singleton<GlobalConfig>.inst.RogueEnemyHealthModifier;
 		}
-	}
-
-	public void SetTarget(PolygonGameObject target)
-	{
-		this.target = target;
 	}
 
 	private Vector2 distToTraget;
@@ -107,7 +97,7 @@ public class RogueEnemy : PolygonGameObject, IGotTarget
 
 				if(target != null)
 				{
-					Fire();
+					//Fire();
 				
 					yield return new WaitForSeconds(visibleAfterShoot); 
 					
@@ -148,21 +138,4 @@ public class RogueEnemy : PolygonGameObject, IGotTarget
 			yield return new WaitForSeconds(deltaTime); 
 		}
 	}
-
-	private void Fire()
-	{
-		if(FireEvent == null)
-		{
-			return;
-		}
-		
-		foreach(var shooter in shooters)
-		{
-			FireEvent(shooter, cacheTransform);
-		}
-	}
-
-
-	
-
 }

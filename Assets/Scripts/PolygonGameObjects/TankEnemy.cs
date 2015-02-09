@@ -3,10 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TankEnemy : PolygonGameObject, IGotTarget
+/// <summary>
+/// Tank enemy. DEPRECATED See evade enemy
+/// </summary>
+public class TankEnemy : PolygonGameObject
 {
-	public event System.Action<ShootPlace, Transform> FireEvent;
-	
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]
 		{
@@ -29,21 +30,15 @@ public class TankEnemy : PolygonGameObject, IGotTarget
 	private Vector2 distToTraget;
 	private Vector3 currentSafePoint;
 
-	private PolygonGameObject target;
 	private Rotaitor cannonsRotaitor;
 	private List<BulletBase> bullets;
-	private List<ShootPlace> shooters;
 
-	public void Init(List<BulletBase> bullets, List<ShootPlace> shooters)
+	public void Init(List<BulletBase> bullets)
 	{
 		this.bullets = bullets;
-		this.shooters = shooters;
-
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 
 		StartCoroutine(Evade());
-		
-		StartCoroutine(FireCoroutine());
 	}
 
 	protected override float healthModifier {
@@ -52,10 +47,6 @@ public class TankEnemy : PolygonGameObject, IGotTarget
 		}
 	}
 
-	public void SetTarget(PolygonGameObject target)
-	{
-		this.target = target;
-	}
 	
 	public override void Tick(float delta)
 	{
@@ -78,6 +69,8 @@ public class TankEnemy : PolygonGameObject, IGotTarget
 		}
 		
 		RotateCannon(delta);
+
+		TickGuns (delta);
 	}
 	
 	private void MoveToSafePoint(float deltaDist)
@@ -123,35 +116,23 @@ public class TankEnemy : PolygonGameObject, IGotTarget
 			yield return new WaitForSeconds(0.1f); 
 		}
 	}
-	
-	private IEnumerator FireCoroutine()
-	{
-		while(true)
-		{
-			yield return new WaitForSeconds(shooters[0].fireInterval);
 
-			if(target != null)
+	private void TickGuns(float delta)
+	{
+		for (int i = 0; i < guns.Count; i++) 
+		{
+			guns[i].Tick(delta);
+		}
+		
+		if(target != null)
+		{
+			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
 			{
-				if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+				for (int i = 0; i < guns.Count; i++) 
 				{
-					Fire();
+					guns[i].ShootIfReady();
 				}
 			}
 		}
 	}
-	
-	private void Fire()
-	{
-		if(FireEvent == null)
-		{
-			return;
-		}
-
-		foreach(var shooter in shooters)
-		{
-			FireEvent(shooter, cacheTransform);
-		}
-	}
-	
-	
 }

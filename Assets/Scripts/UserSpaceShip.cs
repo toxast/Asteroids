@@ -5,25 +5,32 @@ public class UserSpaceShip : SpaceShip {
 
 	void Start()
 	{
-		GameResources.SetHealth (currentHealth/fullHealth);
-		GameResources.SetShields (currentShields / shieldData.capacity);
+		UpdateHealth ();
+		UpdateShields ();
 	}
 
 	public override void Hit (float dmg)
 	{
 		base.Hit (dmg);
 
-		GameResources.SetHealth (currentHealth/fullHealth);
-
-		if(shieldData != null)
-			GameResources.SetShields (currentShields / shieldData.capacity);
+		UpdateHealth ();
+		UpdateShields ();
 	}
 
 	public override void Tick (float delta)
 	{
 		base.Tick (delta);
+		UpdateShields ();
+	}
 
-		if(shieldData != null)
-			GameResources.SetShields (currentShields / shieldData.capacity);
+	private void UpdateShields()
+	{
+		if (shield != null)
+			GameResources.SetShields (shield.currentShields / shield.capacity);
+	}
+
+	private void UpdateHealth()
+	{
+		GameResources.SetHealth (currentHealth/fullHealth);
 	}
 }

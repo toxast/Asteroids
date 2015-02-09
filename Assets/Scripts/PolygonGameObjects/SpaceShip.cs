@@ -14,19 +14,11 @@ public class SpaceShip : PolygonGameObject
 	float maxSpeed = 20f;
 	float maxSpeedSqr;
 
-	public event System.Action<ShootPlace, Transform> FireEvent;
-
-	public List<ShootPlace> shooters;
-
 	ParticleSystem thrustPSystem;
 	float defaultThrustLifetime;
 
 	protected InputController inputController;
 
-//	Joystick joystickControl;
-//	FireButton fireButton;
-//	FireButton accelerateButton;
-    
 	bool acceleratedThisTick = false;
 
 	protected override float healthModifier {
@@ -56,12 +48,6 @@ public class SpaceShip : PolygonGameObject
 		inputController = iController;
 	}
 
-//	public void SetJoystick(Image pJoystick)
-//	{
-//		joystickControl = gameObject.AddComponent<Joystick> ();
-//		joystickControl.Set (pJoystick, maxOffset);
-//	}
-	
 	public void SetThruster(ParticleSystem p, Vector2 pos)
 	{
 		thrustPSystem = p;
@@ -71,17 +57,6 @@ public class SpaceShip : PolygonGameObject
 		thrustPSystem.gameObject.transform.localPosition = pos3;
 		defaultThrustLifetime = thrustPSystem.startLifetime;
 		thrustPSystem.startLifetime = defaultThrustLifetime / 3f;
-	}
-
-//	public void SetTabletControls(FireButton fireButton, FireButton accelerateButton)
-//	{
-//		this.fireButton = fireButton;
-//		this.accelerateButton = accelerateButton;
-//	}
-
-	public void SetShootPlaces(List<ShootPlace> shooters)
-	{
-		this.shooters = shooters;
 	}
 
 	private void TurnRight(float delta)
@@ -179,7 +154,7 @@ public class SpaceShip : PolygonGameObject
 
 		//RestictSpeed ();
 
-		TickShooters (delta);
+		TickGuns (delta);
 
 		if(thrustPSystem != null)
 		{
@@ -192,7 +167,7 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-	private void TickShooters(float delta)
+	private void TickGuns(float delta)
 	{
 		if(firingSpeedPUpTimeLeft > 0)
 		{
@@ -201,27 +176,11 @@ public class SpaceShip : PolygonGameObject
 		float kff = (firingSpeedPUpTimeLeft > 0) ? firingSpeedPUpKoeff : 1;
 		
 		var d = delta * kff;
-		for (int i = 0; i < shooters.Count; i++) 
+		for (int i = 0; i < guns.Count; i++) 
 		{
-			shooters[i].Tick(d);
+			guns[i].Tick(d);
 		}
 	}
-
-//
-//	private void Joystick3(float delta)
-//	{
-//		var dir = joystickControl.lastDisr;
-//		var len = dir.magnitude;
-//		if(len > minOffset)
-//		{
-//			TurnByDirection(dir, delta);
-//		}
-//		//else if(joystickControl.IsPressing)
-//		//{
-//		//	Brake(delta, brake);
-//		//}
-//	}
-//
 
 	void InputTick(float delta)
 	{
@@ -264,44 +223,11 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-//
-//	void KeyboardControlTick(float delta)
-//	{
-//		if(Input.GetKey(KeyCode.D))
-//		{
-//			TurnRight(delta);
-//		}
-//		else if(Input.GetKey(KeyCode.A))
-//		{
-//			TurnLeft(delta);
-//		}
-//		
-//		if(Input.GetKey(KeyCode.W))
-//		{
-//			Accelerate(delta);
-//		}
-//		else if(Input.GetKey(KeyCode.S))
-//		{
-//			Brake(delta, brake);
-//		}
-//
-//		if(Input.GetKey(KeyCode.Space))
-//		{
-//			Shoot();
-//		}
-//	}
-
 	public void Shoot()
 	{
-		for (int i = 0; i < shooters.Count; i++) 
+		for (int i = 0; i < guns.Count; i++) 
 		{
-			if(shooters[i].ShootIfReady())
-			{
-				if(FireEvent != null)
-				{
-					FireEvent(shooters[i], cacheTransform);
-				}
-			}
+			guns[i].ShootIfReady();
 		}
 	}
 

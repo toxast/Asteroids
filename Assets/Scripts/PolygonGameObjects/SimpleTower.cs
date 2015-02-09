@@ -2,47 +2,34 @@
 using System;
 using System.Collections;
 
-public class SimpleTower : PolygonGameObject, IGotTarget
+public class SimpleTower : PolygonGameObject
 {
-
 	public static Vector2[] vertices = PolygonCreator.CreateTowerVertices2(1, 6);
-	
-	public event System.Action<ShootPlace, Transform> FireEvent;
 	
 	private float rangeAngle = 20f; //if angle to target bigger than this - dont even try to shoot
 	private float cannonsRotatingSpeed = 50f;
 	
 	private float currentAimAngle = 0;
 	
-	private PolygonGameObject target;
 	Rotaitor cannonsRotaitor;
-	ShootPlace shooter;
 	private bool smartAim = false;
 
 	private bool restrictAngle = false;
 	private Func<Vector3> anglesRestriction;
 
-	public void Init(ShootPlace shooter, bool smartAim)
+	public void Init(bool smartAim)
 	{
 		this.smartAim = smartAim;
-		this.shooter = shooter;
 		
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
 		
 		StartCoroutine(Aim());
-		
-		StartCoroutine(FireCoroutine());
 	}
 
 	public void SetAngleRestrictions(Func<Vector3> angelsRestriction)
 	{
 		restrictAngle = true;
 		this.anglesRestriction = angelsRestriction;
-	}
-	
-	public void SetTarget(PolygonGameObject target)
-	{
-		this.target = target;
 	}
 	
 	public override void Tick(float delta)
@@ -52,10 +39,12 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 		if (target == null)
 			return;
 		
-		RotateCannon(delta);
+		RotateCannonWithRestrictions(delta);
+
+		TickGuns (delta);
 	}
 	
-	private void RotateCannon(float deltaTime)
+	private void RotateCannonWithRestrictions(float deltaTime)
 	{
 		float angle = currentAimAngle;
 		if(restrictAngle)
@@ -86,7 +75,7 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 			{
 				if(smartAim)
 				{
-					AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, shooter.speed);
+					AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, guns[0].bulletSpeed);
 					if(aim.canShoot)
 					{
 						currentAimAngle = aim.directionAngleRAD;
@@ -104,36 +93,22 @@ public class SimpleTower : PolygonGameObject, IGotTarget
 		}
 	}
 	
-	private IEnumerator FireCoroutine()
+	private void TickGuns(float delta)
 	{
-		float defaultInterval = shooter.fireInterval;
-		float shortInterval = defaultInterval/2f;
-		
-		float deltaTime = defaultInterval;
-		while(true)
+		for (int i = 0; i < guns.Count; i++) 
 		{
-			yield return new WaitForSeconds(deltaTime);
-			
-			if(target != null)
+			guns[i].Tick(delta);
+		}
+		
+		if(target != null)
+		{
+			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
 			{
-				if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+				for (int i = 0; i < guns.Count; i++) 
 				{
-					Fire();
-					deltaTime = defaultInterval;
-				}
-				else
-				{
-					deltaTime = shortInterval;
+					guns[i].ShootIfReady();
 				}
 			}
-		}
-	}
-	
-	private void Fire()
-	{
-		if(FireEvent != null)
-		{
-			FireEvent(shooter, cacheTransform);
 		}
 	}
 }

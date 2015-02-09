@@ -2,19 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TowerEnemy : PolygonGameObject, IGotTarget
+public class TowerEnemy : PolygonGameObject
 {
-	private PolygonGameObject target;
-
 	private float detectionDistanceSqr;
 
 	private float rotationSpeed = 30f;
 
-	private List<ShootPlace> shooters;
-	ShootPlace closestShooter = null;
+	Gun closestGun = null;
 	float currentAimAngle;
 	Rotaitor cannonsRotaitor;
-	public event System.Action<ShootPlace, Transform> FireEvent;
 
 	protected override float healthModifier {
 		get {
@@ -22,36 +18,20 @@ public class TowerEnemy : PolygonGameObject, IGotTarget
 		}
 	}
 
-	public void Init(List<ShootPlace> shooters)
+	public void Init()
 	{
-		this.shooters = shooters;
-
 		cannonsRotaitor = new Rotaitor (cacheTransform, rotationSpeed);
 
 		StartCoroutine(Aim());
-		
-		StartCoroutine(FireCoroutine());
 	}
-
-	public void SetTarget(PolygonGameObject target)
-	{
-		this.target = target;
-	}
-
 
 	public override void Tick(float delta)
 	{
 		base.Tick (delta);
 
-		if (target == null)
-			return;
-		
 		RotateCannon(delta);
 
-		cacheTransform.position += velocity*delta;
-
-		if(rotation != 0)
-			cacheTransform.Rotate(Vector3.back, rotation*delta);
+		TickGuns (delta);
 	}
 
 	private IEnumerator Aim()
@@ -62,34 +42,34 @@ public class TowerEnemy : PolygonGameObject, IGotTarget
 		{
 			if(target != null)
 			{
-				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, shooters[0].speed);
+				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, guns[0].bulletSpeed);
 				if(aim.canShoot)
 				{
 					currentAimAngle = aim.directionAngleRAD / Math2d.PIdiv180;
 					float minAngle = 360;
 
-					foreach (var shooter in shooters) 
+					foreach (var gun in guns) 
 					{
-						float shooterAngle = ShooterAngle(shooter) + transform.eulerAngles.z;
+						float shooterAngle = GunAngle(gun) + transform.eulerAngles.z;
 						float dangle = Math2d.DeltaAngleGRAD(currentAimAngle, shooterAngle);
 
 						float absAngle = Mathf.Abs(dangle);
 						if(absAngle < minAngle)
 						{
 							minAngle = absAngle;
-							closestShooter = shooter;
+							closestGun = gun;
 						}
 					}
-					currentAimAngle -= ShooterAngle(closestShooter);
+					currentAimAngle -= GunAngle(closestGun);
 				}
 			}
 			yield return new WaitForSeconds(aimInterval);
 		}
 	}
 
-	private float ShooterAngle(ShootPlace p)
+	private float GunAngle(Gun p)
 	{
-		return Math2d.AngleRAD2 (new Vector2 (1, 0), p.position) / Math2d.PIdiv180;
+		return Math2d.AngleRAD2 (new Vector2 (1, 0), p.place.pos) / Math2d.PIdiv180;
 	}
 
 	private void RotateCannon(float deltaTime)
@@ -97,26 +77,17 @@ public class TowerEnemy : PolygonGameObject, IGotTarget
 		cannonsRotaitor.Rotate(deltaTime, currentAimAngle);
 	}
 
-	private IEnumerator FireCoroutine()
+	private void TickGuns(float delta)
 	{
-		float defaultInterval = shooters[0].fireInterval;
-		while(true)
+		for (int i = 0; i < guns.Count; i++) 
 		{
-			yield return new WaitForSeconds(defaultInterval);
-			
-			if(target != null && closestShooter != null)
-			{
-				Fire(closestShooter);
-			}
+			guns[i].Tick(delta);
+		}
+		
+		if(target != null && closestGun != null)
+		{
+			closestGun.ShootIfReady();
 		}
 	}
 
-
-	private void Fire(ShootPlace place)
-	{
-		if(FireEvent != null)
-		{
-			FireEvent(place, cacheTransform);
-		}
-	}
 }

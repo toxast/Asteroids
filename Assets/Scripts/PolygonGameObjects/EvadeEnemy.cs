@@ -3,8 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EvadeEnemy : PolygonGameObject, IGotTarget
+public class EvadeEnemy : PolygonGameObject
 {
+	public static List<GunPlace> gunplaces = new List<GunPlace>
+	{
+		new GunPlace(new Vector2(2f, 0.0f), new Vector2(1.0f, 0f)),
+	};
+
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]
 		{
@@ -16,8 +21,6 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
             new Vector2(-1f, 0f),
 		}
 		, 1f).ToArray();
-
-	public event System.Action<ShootPlace, Transform> FireEvent;
 
 	private float movingSpeed = 7f;
 	private float minDistanceToTargetSqr = 600;
@@ -31,13 +34,10 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 	private int goRoundTargetSign = 1;
 
 	private List<BulletBase> incomingBullets;
-	private PolygonGameObject target;
 	Rotaitor cannonsRotaitor;
-	ShootPlace shooter;
 
-	public void Init(List<BulletBase> incomingBullets, ShootPlace shooter)
+	public void Init(List<BulletBase> incomingBullets)
 	{
-		this.shooter = shooter;
 		this.incomingBullets = incomingBullets;
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
@@ -46,14 +46,7 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 
 		StartCoroutine(Aim());
 
-		StartCoroutine(FireCoroutine());
-
 		StartCoroutine(ChangeRotationSign());
-	}
-
-	public void SetTarget(PolygonGameObject target)
-	{
-		this.target = target;
 	}
 
 	public override void Tick(float delta)
@@ -76,6 +69,27 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 		}
 
 		RotateCannon(delta);
+
+		TickGuns (delta);
+	}
+
+	private void TickGuns(float delta)
+	{
+		for (int i = 0; i < guns.Count; i++) 
+		{
+			guns[i].Tick(delta);
+		}
+
+		if(target != null)
+		{
+			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+			{
+				for (int i = 0; i < guns.Count; i++) 
+				{
+					guns[i].ShootIfReady();
+				}
+			}
+		}
 	}
 
 	private void MoveToSafePoint(float deltaDist)
@@ -137,38 +151,13 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 		{
 			if(target != null)
 			{
-				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, shooter.speed);
+				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, guns[0].bulletSpeed);
 				if(aim.canShoot)
 				{
 					currentAimAngle = aim.directionAngleRAD / Math2d.PIdiv180;
 				}
 			}
 			yield return new WaitForSeconds(aimInterval);
-		}
-	}
-
-	private IEnumerator FireCoroutine()
-	{
-		float defaultInterval = shooter.fireInterval;
-		float shortInterval = defaultInterval/2f;
-
-		float deltaTime = defaultInterval;
-		while(true)
-		{
-			yield return new WaitForSeconds(deltaTime);
-
-			if(target != null)
-			{
-				if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
-				{
-					Fire();
-					deltaTime = defaultInterval;
-				}
-				else
-				{
-					deltaTime = shortInterval;
-				}
-			}
 		}
 	}
 
@@ -181,14 +170,4 @@ public class EvadeEnemy : PolygonGameObject, IGotTarget
 			goRoundTargetSign *= -1;
 		}
 	}
-
-	private void Fire()
-	{
-		if(FireEvent != null)
-		{
-			FireEvent(shooter, cacheTransform);
-		}
-	}
-
-
 }

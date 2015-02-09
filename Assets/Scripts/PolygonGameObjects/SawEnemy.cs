@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SawEnemy : PolygonGameObject, IGotTarget
+public class SawEnemy : PolygonGameObject
 {
-	private PolygonGameObject target;
-
 	private float initialRotation;
 	private float initialVelocity;
 
@@ -37,11 +35,6 @@ public class SawEnemy : PolygonGameObject, IGotTarget
 		get {
 			return base.healthModifier * 3;
 		}
-	}
-
-	public void SetTarget(PolygonGameObject target)
-	{
-		this.target = target;
 	}
 
 	void Start () 

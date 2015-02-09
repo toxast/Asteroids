@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SpikyAsteroid : Asteroid, IGotTarget
+public class SpikyAsteroid : Asteroid
 {
 	public event System.Action<Asteroid> SpikeAttack;
 
@@ -28,7 +28,6 @@ public class SpikyAsteroid : Asteroid, IGotTarget
 	private float spikeSpeed = 23f;
 	private float growSpeed = 0.1f;
 
-	private PolygonGameObject target;
 	private List<Spike> spikesLeft = new List<Spike>();
 
 	public void Init (int[] spikes)
@@ -41,11 +40,6 @@ public class SpikyAsteroid : Asteroid, IGotTarget
 			Spike spike = new Spike(polygon.edges[previous], polygon.edges[spikeVertex], spikeVertex);
 			spikesLeft.Add(spike);
 		}
-	}
-
-	public void SetTarget(PolygonGameObject target)
-	{
-		this.target = target;
 	}
 
 	void Start()

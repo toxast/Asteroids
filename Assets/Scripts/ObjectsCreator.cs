@@ -9,7 +9,7 @@ public class ObjectsCreator
 
 	public static UserSpaceShip CreateSpaceShip()
 	{
-		var vr = Math2d.ScaleVertices2 (SpaceshipsData.guardianSpaceship, 1.3f);
+		var vr = Math2d.ScaleVertices2 (SpaceshipsData.alien5, 1f);
 		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(vr, Color.blue);
 		
 		spaceship.gameObject.name = "Spaceship";
@@ -22,16 +22,9 @@ public class ObjectsCreator
 		TODO
 			spaceship.SetTabletControls (fireButton, accelerateButton);
 		#endif
-		
-		List<ShootPlace> shooters = new List<ShootPlace>();
-		
-		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
-		place2.color = Color.red;
-		place2.fireInterval = 0.25f;
-		place2.position = new Vector2(2f, 0f);
-		shooters.Add(place2);
-		spaceship.SetShootPlaces(shooters);
-		
+
+		InitGuns (spaceship, SpaceshipsData.alien5gunplaces, GunsData.SimpleGun);
+
 		SpaceshipData data = new SpaceshipData{
 			thrust = 45f,
 			maxSpeed = 20f,
@@ -49,17 +42,11 @@ public class ObjectsCreator
 		//var vr = Math2d.Chance (0.5f) ? Math2d.ScaleVertices2 (SpaceshipsData.alien6, 1.5f) : SpaceshipsData.alien3;
 		var vr = Math2d.ScaleVertices2 (SpaceshipsData.butterflySpaceship, 1.1f);
 		//var vr = Math2d.ScaleVertices2 (vrt, 1.5f);
-		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Color.white);
+		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Color.white);
 		
-		enemySpaceship.gameObject.name = "enemy spaceship";
-		
-		List<ShootPlace> shooters = new List<ShootPlace> ();
-		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
-		place2.color = Color.yellow;
-		place2.fireInterval = 0.5f;
-		place2.position = new Vector2 (2f, 0f);
-		shooters.Add (place2);
-		enemySpaceship.SetShootPlaces (shooters);
+		spaceship.gameObject.name = "enemy spaceship";
+
+		InitGuns (spaceship, SpaceshipsData.alien9gunplaces, GunsData.SimpleGun2);
 
 		SpaceshipData data = new SpaceshipData{
 			thrust = 20f,
@@ -68,40 +55,20 @@ public class ObjectsCreator
 			brake = 8f,
 			passiveBrake = 4f,
 		}; 
-		enemySpaceship.Init(data);
+		spaceship.Init(data);
 
-		return enemySpaceship;
+		return spaceship;
 	}
 
 	public static EnemySpaceShip CreateBossEnemySpaceShip()
 	{
 		var vertices = PolygonCreator.GetCompleteVertexes (SpaceshipsData.halfBossVertices, 2).ToArray();
-		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Color.white);
+		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Color.white);
 		
-		enemySpaceship.gameObject.name = "boss";
+		spaceship.gameObject.name = "boss";
 		
-		List<ShootPlace> shooters = new List<ShootPlace> ();
+		InitGuns (spaceship, SpaceshipsData.bossGunplaces, GunsData.SimpleGun2);
 
-		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace ();
-		place1.color = Color.yellow;
-		place1.fireInterval = 0.5f;
-		place1.position = new Vector2 (2f, 0.8f);
-		shooters.Add (place1);
-
-		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
-		place2.color = Color.yellow;
-		place2.fireInterval = 0.5f;
-		place2.position = new Vector2 (2f, 0f);
-		shooters.Add (place2);
-
-		ShootPlace place3 = ShootPlace.GetSpaceshipShootPlace ();
-		place3.color = Color.yellow;
-		place3.fireInterval = 0.5f;
-		place3.position = new Vector2 (2f, -0.8f);
-		shooters.Add (place3);
-
-		enemySpaceship.SetShootPlaces (shooters);
-		
 		SpaceshipData data = new SpaceshipData{
 			thrust = 15f,
 			maxSpeed = 5f,
@@ -109,9 +76,9 @@ public class ObjectsCreator
 			brake = 8f,
 			passiveBrake = 4f,
 		}; 
-		enemySpaceship.Init(data);
+		spaceship.Init(data);
 		
-		return enemySpaceship;
+		return spaceship;
 	}
 
 
@@ -120,17 +87,17 @@ public class ObjectsCreator
 		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, defaultEnemyColor);
 		enemy.gameObject.name = "RogueEnemy";
 		
-		float size = 1f;
-		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace();
-		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace();
-		Math2d.ScaleVertices(place1.vertices, size);
-		Math2d.ScaleVertices(place2.vertices, size);
-		place1.position = new Vector2(1.5f, 0.75f) * size;
-		place2.position = new Vector2(1.5f, -0.75f) * size;
-		List<ShootPlace> places = new List<ShootPlace>();
-		places.Add(place1);
-		places.Add(place2);
-		enemy.Init (places);
+//		float size = 1f;
+//		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace();
+//		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace();
+//		Math2d.ScaleVertices(place1.vertices, size);
+//		Math2d.ScaleVertices(place2.vertices, size);
+//		place1.position = new Vector2(1.5f, 0.75f) * size;
+//		place2.position = new Vector2(1.5f, -0.75f) * size;
+//		List<ShootPlace> places = new List<ShootPlace>();
+//		places.Add(place1);
+//		places.Add(place2);
+		enemy.Init ();
 
 		return enemy;
 	}
@@ -180,19 +147,20 @@ public class ObjectsCreator
 		var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, defaultEnemyColor);
 		tower.gameObject.name = "tower";
 		
-		List<ShootPlace> shooters = new List<ShootPlace> ();
+		List<GunPlace> gunplaces = new List<GunPlace> ();
 		for (int i = 0; i < cannons.Length; i++) 
 		{
-			ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
-			place.fireInterval *= 3;
-			place.position = vertices[cannons[i]];
-			place.direction = place.position.normalized;
-			float angle = Math2d.AngleRAD2 (new Vector2 (1, 0), place.position);
-			place.vertices = Math2d.RotateVerticesRAD(place.vertices, angle);
-			shooters.Add(place);
+			GunPlace place = new GunPlace();
+			place.pos = vertices[cannons[i]];
+			place.dir = place.pos.normalized;
+			//float angle = Math2d.AngleRAD2 (new Vector2 (1, 0), place.pos);
+			//place.vertices = Math2d.RotateVerticesRAD(place.vertices, angle);
+			gunplaces.Add(place);
 		}
+
+		InitGuns (tower, gunplaces, GunsData.RocketLauncher);
 		
-		tower.Init(shooters);
+		tower.Init();
 
 		return tower;
 	}
@@ -204,50 +172,51 @@ public class ObjectsCreator
 		
 		Vector2[] vertices = PolygonCreator.CreateTowerVertices2 (r, sides);
 		
-		var tower = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(vertices, defaultEnemyColor);
-		tower.gameObject.name = "tower1";
+		var enemy = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(vertices, defaultEnemyColor);
+		enemy.gameObject.name = "tower1";
+
+		List<GunPlace> gunplaces = new List<GunPlace>
+		{
+			new GunPlace(new Vector2(2f, 0.0f), new Vector2(1.0f, 0f)),
+		};
+
+		InitGuns (enemy, gunplaces, GunsData.SimpleGun2);
+
+		enemy.Init(smartAim);
 		
-		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
-		place2.color = Color.yellow;
-		place2.fireInterval = 0.5f;
-		place2.position = new Vector2 (2f, 0f);
-		tower.Init(place2, smartAim);
-		
-		return tower;
+		return enemy;
 	}
 
 	public static EvadeEnemy CreateEvadeEnemy(List<BulletBase> bullets)
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, defaultEnemyColor);
 		
-		ShootPlace place = ShootPlace.GetSpaceshipShootPlace();
-		place.fireInterval *= 3;
-		Math2d.ScaleVertices(place.vertices, 1f);
 		enemy.gameObject.name = "evade enemy";
-		
-		enemy.Init(bullets, place);
+
+		InitGuns (enemy, EvadeEnemy.gunplaces, GunsData.SimpleGun2);
+
+		enemy.Init (bullets);
 
 		return enemy;
 	}
 
-	public static TankEnemy CreateTankEnemy(List<BulletBase> bullets)
+
+
+	public static EvadeEnemy CreateTankEnemy(List<BulletBase> bullets)
 	{
-		TankEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<TankEnemy>(TankEnemy.vertices, defaultEnemyColor);
+		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(TankEnemy.vertices, defaultEnemyColor);
 		
-		float size = 2f;
-		
-		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace();
-		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace();
-		Math2d.ScaleVertices(place1.vertices, size);
-		Math2d.ScaleVertices(place2.vertices, size);
-		place1.position = new Vector2(1.5f, 0.75f) * size;
-		place2.position = new Vector2(1.5f, -0.75f) * size;
-		List<ShootPlace> places = new List<ShootPlace>();
-		places.Add(place1);
-		places.Add(place2);
+		List<GunPlace> gunplaces = new List<GunPlace>
+		{
+			new GunPlace(new Vector2(1.5f, 0.75f), new Vector2(1.0f, 0f)),
+			new GunPlace(new Vector2(1.5f, -0.75f), new Vector2(1.0f, 0f)),
+		};
+
+		InitGuns (enemy, gunplaces, GunsData.TankGun);
+
 		enemy.gameObject.name = "tank enemy";
 		
-		enemy.Init(bullets, places);
+		enemy.Init(bullets);
 		
 		return enemy;
 	}
@@ -276,6 +245,16 @@ public class ObjectsCreator
 		asteroid.gameObject.name = "asteroid";
 		
 		return asteroid;
+	}
+
+
+	private static void InitGuns(PolygonGameObject enemy, List<GunPlace> gunplaces, System.Func<GunPlace, Transform, Gun> gunsGetter)
+	{
+		foreach (var gunplace in gunplaces) 
+		{
+			var gun = gunsGetter(gunplace, enemy.cacheTransform);
+			enemy.guns.Add (gun);
+		}
 	}
 
 }

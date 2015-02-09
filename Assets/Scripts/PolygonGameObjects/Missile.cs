@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Missile : BulletBase
 {
-	private float thrust = 25f;
-	private float maxVelocity = 40f;
+	private float thrust = 35f;
+	private float maxVelocity;
 	private float maxVelocitySqr;
 	private float rotationSpeed = 200f;
 
@@ -17,10 +17,11 @@ public class Missile : BulletBase
 		cacheTransform = transform;
 	}
 	
-	public void Init(GameObject target, ShootPlace place)
+	public void Init(Transform target, float maxVelocity, float dmg, float lifetime)
 	{
-		base.Init (place);
-		this.targetTransform = target.transform;
+		base.Init (dmg, lifetime);
+		this.maxVelocity = maxVelocity;
+		this.targetTransform = target;
 		maxVelocitySqr = maxVelocity * maxVelocity;
 		rotaitor = new Rotaitor (cacheTransform, rotationSpeed);
 	}
@@ -35,8 +36,11 @@ public class Missile : BulletBase
 
 	private void ApplyThrust(float deltaTime)
 	{
-		var delta = deltaTime * thrust;
-		velocity += delta * cacheTransform.right;
+		float k = 0.7f; 
+		
+		float deltaV = deltaTime * thrust;
+		velocity -= k * velocity.normalized * deltaV;
+		velocity += (1 + k)*cacheTransform.right * deltaV;
 
 		if(velocity.sqrMagnitude > maxVelocitySqr)
 		{

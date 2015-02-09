@@ -7,10 +7,10 @@ public class BulletBase : PolygonGameObject
 	protected float lifeTime;
 
 
-	public virtual void Init(ShootPlace place)
+	public virtual void Init(float damage, float lifeTime)
 	{
-		damage = place.damage;
-		lifeTime = place.lifeTime;
+		this.damage = damage;
+		this.lifeTime = lifeTime;
 	}
 
 	public override void Tick (float delta)

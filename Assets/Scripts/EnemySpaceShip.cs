@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnemySpaceShip : SpaceShip, IGotTarget
+public class EnemySpaceShip : SpaceShip
 {
 	public List<PolygonGameObject> turrets = new List<PolygonGameObject>();
 
-	public void SetTarget(PolygonGameObject target)
+	public override void SetTarget(PolygonGameObject target)
 	{
+		base.SetTarget (target);
+
 		(inputController as IGotTarget).SetTarget (target);
 
 		foreach (var t in turrets)

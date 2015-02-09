@@ -163,9 +163,7 @@ public class Main : MonoBehaviour
 			{
 				foreach (var e in enemies) 
 				{
-					var te = e as IGotTarget;
-					if(te != null)
-						te.SetTarget(spaceship);
+					e.SetTarget(spaceship);
 				}
 			}
 		}
@@ -255,22 +253,6 @@ public class Main : MonoBehaviour
 		list.Add(obj);
 	}
 
-	void OnFire (ShootPlace shooter, Transform trfrm)
-	{
-		BulletBase bullet = BulletCreator.CreateBullet(trfrm, shooter); 
-
-		PutOnFirstNullPlace<BulletBase>(bullets, bullet);
-	}
-
-	void OnEnemyFire (ShootPlace shooter, Transform trfrm)
-	{
-		BulletBase bullet = BulletCreator.CreateBullet(trfrm, shooter); 
-
-		///Missile missile = BulletCreator.CreateMissile(spaceship.gameObject, trfrm, shooter); 
-		
-		PutOnFirstNullPlace<BulletBase>(enemyBullets, bullet);
-	}
-
 	float enemyDtime;
 	void Update()
 	{
@@ -340,7 +322,8 @@ public class Main : MonoBehaviour
 				{
 					if(penetrationTimeLeft <= 0f)
 					{
-						var impulse = PolygonCollision.ApplyCollision(enemy, bullet, indxa, indxb);
+						//var impulse = 
+							PolygonCollision.ApplyCollision(enemy, bullet, indxa, indxb);
 
 						//PhExplosion e = new PhExplosion(bullet.cacheTransform.position, 200, enemies);
 
@@ -377,7 +360,8 @@ public class Main : MonoBehaviour
 				int indxa, indxb;
 				if(PolygonCollision.IsCollides(spaceship, bullet, out indxa, out indxb))
 				{
-					var impulse = PolygonCollision.ApplyCollision(spaceship, bullet, indxa, indxb);
+					//var impulse = 
+						PolygonCollision.ApplyCollision(spaceship, bullet, indxa, indxb);
 
 					SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
 
@@ -730,19 +714,28 @@ public class Main : MonoBehaviour
 	{
 		spaceship = ObjectsCreator.CreateSpaceShip ();
 		spaceship.SetShield(new ShieldData(10f,2f,2f));
-		spaceship.FireEvent += OnFire;
+		spaceship.guns.ForEach( g => g.onFire += HandleGunFire);
 		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
 		spaceship.SetThruster (gT, Vector2.zero);
 		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
+	}
+
+	void HandleEnemyGunFire (BulletBase bullet)
+	{
+		PutOnFirstNullPlace<BulletBase>(enemyBullets, bullet);
+	}
+
+	void HandleGunFire (BulletBase bullet)
+	{
+		PutOnFirstNullPlace<BulletBase>(bullets, bullet);
 	}
 	
 	public void CreateEnemySpaceShip()
 	{
 		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
 		var gT = Instantiate (thrustPrefab) as ParticleSystem;
-		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.shooters[0].speed));
+		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
 		enemy.SetThruster (gT, Vector2.zero);
-		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 	}
 	
@@ -755,7 +748,6 @@ public class Main : MonoBehaviour
 		var tpos2 = tpos;
 		tpos2.y = -tpos2.y;
 		enemy.SetThruster (gT, (tpos + tpos2)*0.5f );
-		enemy.FireEvent += OnEnemyFire;
 		bool smartAim = true;
 		
 		//		var towerpos1 = (enemy.polygon.vertices [2] + enemy.polygon.vertices [4])/2f;
@@ -772,7 +764,7 @@ public class Main : MonoBehaviour
 			}; 
 			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
 			tenemy.SetAngleRestrictions(anglesRestriction1);
-			tenemy.FireEvent += OnEnemyFire;
+			tenemy.guns.ForEach( g => g.onFire += HandleEnemyGunFire);
 			enemy.AddTurret (towerpos1, dir1, tenemy);
 		}
 		
@@ -791,7 +783,7 @@ public class Main : MonoBehaviour
 			}; 
 			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
 			tenemy.SetAngleRestrictions(anglesRestriction2);
-			tenemy.FireEvent += OnEnemyFire;
+			tenemy.guns.ForEach( g => g.onFire += HandleEnemyGunFire);
 			enemy.AddTurret (towerpos2, dir2, tenemy);
 		}
 		
@@ -801,7 +793,6 @@ public class Main : MonoBehaviour
 	public void CreateRogueEnemy()
 	{
 		var enemy = ObjectsCreator.CreateRogueEnemy();
-		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 	}
 	
@@ -822,29 +813,25 @@ public class Main : MonoBehaviour
 	{
 		bool smartAim = false;
 		var enemy = ObjectsCreator.CreateSimpleTower(smartAim);
-		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 	}
 	
 	public void CreateTower()
 	{
 		var enemy = ObjectsCreator.CreateTower();
-		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 	}
 	
 	public EvadeEnemy CreateEvadeEnemy()
 	{
 		EvadeEnemy enemy = ObjectsCreator.CreateEvadeEnemy (bullets);
-		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
 		return enemy;
 	}
 	
-	public TankEnemy CreateTankEnemy()
+	public EvadeEnemy CreateTankEnemy()
 	{
-		TankEnemy enemy = ObjectsCreator.CreateTankEnemy(bullets);
-		enemy.FireEvent += OnEnemyFire;
+		var enemy = ObjectsCreator.CreateTankEnemy(bullets);
 		InitNewEnemy(enemy);
 		return enemy;
 	}
@@ -866,10 +853,8 @@ public class Main : MonoBehaviour
 	
 	private void InitNewEnemy(PolygonGameObject enemy)
 	{
-		var t = enemy as IGotTarget;
-		if(t != null)
-			t.SetTarget (spaceship);
-		
+		enemy.guns.ForEach( g => g.onFire += HandleEnemyGunFire);
+		enemy.SetTarget (spaceship);
 		SetRandomPosition(enemy);
 		Add2Enemies(enemy);
 	}
