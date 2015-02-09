@@ -90,7 +90,7 @@ public class BulletCreator
 		bullet.gameObject.name = "bullet";
 
 		Vector2 rotatedDirection = Math2d.RotateVertex(shootPlace.direction, angle);
-		bullet.Init(rotatedDirection, shootPlace); //TODO: data
+		//bullet.Init(rotatedDirection, shootPlace); //TODO: data
 
 		return bullet;
 	}

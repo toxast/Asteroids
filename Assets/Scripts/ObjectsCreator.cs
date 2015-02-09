@@ -21,15 +21,13 @@ public class ObjectsCreator
 		TODO
 			spaceship.SetTabletControls (fireButton, accelerateButton);
 		#endif
-		
-		List<ShootPlace> shooters = new List<ShootPlace>();
-		
-		ShootPlace place2 =  ShootPlace.GetSpaceshipShootPlace();
-		place2.color = Color.red;
-		place2.fireInterval = 0.25f;
-		place2.position = new Vector2(2f, 0f);
-		shooters.Add(place2);
-		spaceship.SetShootPlaces(shooters);
+
+		foreach (var gunplace in SpaceshipsData.alien5gunplaces) 
+		{
+			BulletGun gun = GunsData.SimpleGun(gunplace, spaceship.cacheTransform);
+			spaceship.guns.Add (gun);
+		}
+
 		
 		SpaceshipData data = new SpaceshipData{
 			thrust = 45f,
@@ -46,17 +44,15 @@ public class ObjectsCreator
 	public static EnemySpaceShip CreateEnemySpaceShip()
 	{
 		var vr = Math2d.ScaleVertices2 (SpaceshipsData.alien9, 1.5f);
-		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Color.white);
+		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Color.white);
 		
-		enemySpaceship.gameObject.name = "enemy spaceship";
-		
-		List<ShootPlace> shooters = new List<ShootPlace> ();
-		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
-		place2.color = Color.yellow;
-		place2.fireInterval = 0.5f;
-		place2.position = new Vector2 (2f, 0f);
-		shooters.Add (place2);
-		enemySpaceship.SetShootPlaces (shooters);
+		spaceship.gameObject.name = "enemy spaceship";
+
+		foreach (var gunplace in SpaceshipsData.alien9gunplaces) 
+		{
+			BulletGun gun = GunsData.SimpleGun2(gunplace, spaceship.cacheTransform);
+			spaceship.guns.Add (gun);
+		}
 
 		SpaceshipData data = new SpaceshipData{
 			thrust = 20f,
@@ -65,40 +61,26 @@ public class ObjectsCreator
 			brake = 8f,
 			passiveBrake = 4f,
 		}; 
-		enemySpaceship.Init(data);
+		spaceship.Init(data);
 
-		return enemySpaceship;
+		return spaceship;
 	}
 
 	public static EnemySpaceShip CreateBossEnemySpaceShip()
 	{
 		var vertices = PolygonCreator.GetCompleteVertexes (SpaceshipsData.halfBossVertices, 2).ToArray();
-		EnemySpaceShip enemySpaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Color.white);
+		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Color.white);
 		
-		enemySpaceship.gameObject.name = "boss";
+		spaceship.gameObject.name = "boss";
 		
 		List<ShootPlace> shooters = new List<ShootPlace> ();
 
-		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace ();
-		place1.color = Color.yellow;
-		place1.fireInterval = 0.5f;
-		place1.position = new Vector2 (2f, 0.8f);
-		shooters.Add (place1);
+		foreach (var gunplace in SpaceshipsData.bossGunplaces) 
+		{
+			BulletGun gun = GunsData.SimpleGun2(gunplace, spaceship.cacheTransform);
+			spaceship.guns.Add (gun);
+		}
 
-		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace ();
-		place2.color = Color.yellow;
-		place2.fireInterval = 0.5f;
-		place2.position = new Vector2 (2f, 0f);
-		shooters.Add (place2);
-
-		ShootPlace place3 = ShootPlace.GetSpaceshipShootPlace ();
-		place3.color = Color.yellow;
-		place3.fireInterval = 0.5f;
-		place3.position = new Vector2 (2f, -0.8f);
-		shooters.Add (place3);
-
-		enemySpaceship.SetShootPlaces (shooters);
-		
 		SpaceshipData data = new SpaceshipData{
 			thrust = 15f,
 			maxSpeed = 5f,
@@ -106,9 +88,9 @@ public class ObjectsCreator
 			brake = 8f,
 			passiveBrake = 4f,
 		}; 
-		enemySpaceship.Init(data);
+		spaceship.Init(data);
 		
-		return enemySpaceship;
+		return spaceship;
 	}
 
 

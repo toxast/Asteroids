@@ -16,8 +16,6 @@ public class SpaceShip : PolygonGameObject
 
 	public event System.Action<ShootPlace, Transform> FireEvent;
 
-	public List<ShootPlace> shooters;
-
 	ParticleSystem thrustPSystem;
 	float defaultThrustLifetime;
 
@@ -78,11 +76,6 @@ public class SpaceShip : PolygonGameObject
 //		this.fireButton = fireButton;
 //		this.accelerateButton = accelerateButton;
 //	}
-
-	public void SetShootPlaces(List<ShootPlace> shooters)
-	{
-		this.shooters = shooters;
-	}
 
 	private void TurnRight(float delta)
 	{	
@@ -179,7 +172,7 @@ public class SpaceShip : PolygonGameObject
 
 		//RestictSpeed ();
 
-		TickShooters (delta);
+		TickGuns (delta);
 
 		if(thrustPSystem != null)
 		{
@@ -192,7 +185,7 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-	private void TickShooters(float delta)
+	private void TickGuns(float delta)
 	{
 		if(firingSpeedPUpTimeLeft > 0)
 		{
@@ -201,9 +194,9 @@ public class SpaceShip : PolygonGameObject
 		float kff = (firingSpeedPUpTimeLeft > 0) ? firingSpeedPUpKoeff : 1;
 		
 		var d = delta * kff;
-		for (int i = 0; i < shooters.Count; i++) 
+		for (int i = 0; i < guns.Count; i++) 
 		{
-			shooters[i].Tick(d);
+			guns[i].Tick(d);
 		}
 	}
 
@@ -293,15 +286,9 @@ public class SpaceShip : PolygonGameObject
 
 	public void Shoot()
 	{
-		for (int i = 0; i < shooters.Count; i++) 
+		for (int i = 0; i < guns.Count; i++) 
 		{
-			if(shooters[i].ShootIfReady())
-			{
-				if(FireEvent != null)
-				{
-					FireEvent(shooters[i], cacheTransform);
-				}
-			}
+			guns[i].ShootIfReady();
 		}
 	}
 

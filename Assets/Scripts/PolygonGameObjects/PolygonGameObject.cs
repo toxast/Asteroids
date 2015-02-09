@@ -13,6 +13,8 @@ public class PolygonGameObject : MonoBehaviour
 	protected float fullHealth;
 	[SerializeField] protected float currentHealth;
 
+	protected Shield shield = null;
+	//TODO: refactor shield
 	protected ShieldData shieldData = null;
 	protected float currentShields = 0;
 	private float time2startShieldRecharge = 0;
@@ -22,6 +24,8 @@ public class PolygonGameObject : MonoBehaviour
 	public float inertiaMoment;
 	public Vector3 velocity;
 	public float rotation;
+
+	public List<Gun> guns = new List<Gun>();
 
 	public event Action<float> healthChanged;
 
@@ -38,11 +42,7 @@ public class PolygonGameObject : MonoBehaviour
 
 	public void SetShield(ShieldData shieldData)
 	{
-		this.shieldData = shieldData;
-		if(shieldData != null)
-		{
-			currentShields = shieldData.capacity;
-		}
+		shield = new Shield (shieldData);
 
 //		Color shCol = Color.green;
 //		shCol.a = 0.5f;
@@ -135,21 +135,9 @@ public class PolygonGameObject : MonoBehaviour
 
 	public virtual void Hit(float dmg)
 	{
-		if(shieldData != null)
+		if(shield != null)
 		{
-			time2startShieldRecharge = shieldData.rechargeDelay;
-			if(currentShields > 0)
-			{
-				float deflected = 0;
-				deflected = Mathf.Min(dmg, currentShields);
-				currentShields -= deflected;
-				if(currentShields <= 0)
-				{
-					currentShields = 0;
-				}
-
-				dmg -= deflected;
-			}
+			dmg = shield.Deflect(dmg);
 		}
 
 		currentHealth -= dmg;
@@ -170,22 +158,9 @@ public class PolygonGameObject : MonoBehaviour
 
 	private void ShieldsTick(float delta)
 	{
-		if(shieldData != null)
+		if(shield != null)
 		{
-			if(time2startShieldRecharge > 0)
-			{
-				time2startShieldRecharge -= delta;
-			}
-			
-			if(time2startShieldRecharge <= 0)
-			{
-				currentShields += delta * shieldData.rechargeRate;
-				if(currentShields >= shieldData.capacity)
-				{
-					currentShields = shieldData.capacity;
-					time2startShieldRecharge = shieldData.rechargeDelay;
-				}
-			}
+			shield.Tick(delta);
 		}
 	}
 

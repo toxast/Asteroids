@@ -10,10 +10,10 @@ public class Bullet : BulletBase
 		cacheTransform = transform;
 	}
 
-	public void Init(Vector3 direction, ShootPlace place)
+	public void Init(float speed, float dmg, float lifetime)
 	{
-		base.Init (place);
-		velocity = direction.normalized * place.speed;
+		base.Init (dmg, lifetime);
+		velocity = cacheTransform.right * speed;
 	}
 
 	public override void Tick(float delta)

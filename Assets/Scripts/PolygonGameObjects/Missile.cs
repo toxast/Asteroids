@@ -19,7 +19,7 @@ public class Missile : BulletBase
 	
 	public void Init(GameObject target, ShootPlace place)
 	{
-		base.Init (place);
+		//base.Init (place);
 		this.targetTransform = target.transform;
 		maxVelocitySqr = maxVelocity * maxVelocity;
 		rotaitor = new Rotaitor (cacheTransform, rotationSpeed);

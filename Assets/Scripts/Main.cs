@@ -730,17 +730,23 @@ public class Main : MonoBehaviour
 	{
 		spaceship = ObjectsCreator.CreateSpaceShip ();
 		spaceship.SetShield(new ShieldData(10f,2f,2f));
+		spaceship.guns.ForEach( g => g.onFire += HandleGunFire);
 		spaceship.FireEvent += OnFire;
 		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
 		spaceship.SetThruster (gT, Vector2.zero);
 		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
+	}
+
+	void HandleGunFire (BulletBase bullet)
+	{
+		PutOnFirstNullPlace<BulletBase>(bullets, bullet);
 	}
 	
 	public void CreateEnemySpaceShip()
 	{
 		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
 		var gT = Instantiate (thrustPrefab) as ParticleSystem;
-		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.shooters[0].speed));
+		//enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.shooters[0].speed));
 		enemy.SetThruster (gT, Vector2.zero);
 		enemy.FireEvent += OnEnemyFire;
 		InitNewEnemy(enemy);
