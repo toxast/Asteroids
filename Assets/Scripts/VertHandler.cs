@@ -14,6 +14,7 @@ public class VertHandler : MonoBehaviour
 
 	[SerializeField] int duplicateIndx = 0;
 	[SerializeField] bool duplicate = false;
+	[SerializeField] bool reverse = false;
 
 	[ContextMenu ("Reset")]
 	void Reset () {
@@ -106,7 +107,16 @@ public class VertHandler : MonoBehaviour
 		if(doPrint)
 		{
 			doPrint = false;
-			PrintIt(full.ToArray());
+			if(reverse)
+			{
+				List<Vector2> rv = new List<Vector2>(full);
+				rv.Reverse();
+				PrintIt(rv.ToArray());
+			}
+			else
+			{
+				PrintIt(full.ToArray());
+			}
 		}
 
 		Vector3[] v3 = new Vector3[full.Count];    

@@ -924,17 +924,17 @@ public class Main : MonoBehaviour
 	/*
 	 * FUTURE UPDATES
 	 * shoot place refactors
-	 * shoot place levels
-	 * gravity enemies
-	 * fire enimies
-	 * deflect shields
-	 * cold enemies
-	 * Lazers!
-	 * missiles!
-	 * more efficeient stars render
-	 * shield animation
-	 * cool ships explosion
 	 * drops
+	 * shoot place levels
+	 * missiles!
+	 * Lazers!
+	 * shield animation
+	 * deflect shields
+	 * more efficeient stars render
+	 * fire enimies
+	 * cold enemies
+	 * cool ships explosion
+	 * gravity enemies
 	 * texture on asteroids?
 	 * joystick position fixed
 	 * bullets and shooters refactoring 
