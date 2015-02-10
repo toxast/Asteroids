@@ -50,7 +50,7 @@ public class RocketLauncher : Gun
 		
 		missile.gameObject.name = "missile";
 		
-		missile.Init(target.cacheTransform, bulletSpeed, damage, lifeTime); 
+		missile.Init(target, bulletSpeed, damage, lifeTime); 
 		
 		return missile;
 	}

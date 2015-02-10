@@ -17,11 +17,11 @@ public class Missile : BulletBase
 		cacheTransform = transform;
 	}
 	
-	public void Init(Transform target, float maxVelocity, float dmg, float lifetime)
+	public void Init(PolygonGameObject target, float maxVelocity, float dmg, float lifetime)
 	{
 		base.Init (dmg, lifetime);
 		this.maxVelocity = maxVelocity;
-		this.targetTransform = target;
+		this.target = target;
 		maxVelocitySqr = maxVelocity * maxVelocity;
 		rotaitor = new Rotaitor (cacheTransform, rotationSpeed);
 	}
@@ -53,7 +53,7 @@ public class Missile : BulletBase
 
 	private void RotateOnTarget(float deltaTime)
 	{
-		AimSystem aim = new AimSystem (targetTransform.position, -velocity/2f, cacheTransform.position, maxVelocity);  
+		AimSystem aim = new AimSystem (target.cacheTransform.position, -velocity/2f, cacheTransform.position, maxVelocity);  
 		if (!aim.canShoot) 
 		{
 			Vector2 distToTraget = targetTransform.position - cacheTransform.position;
