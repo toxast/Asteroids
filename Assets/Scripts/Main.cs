@@ -939,6 +939,8 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * shooting effect
+	 * multiple thrusters
 	 * shoot place refactors
 	 * drops
 	 * shoot place levels

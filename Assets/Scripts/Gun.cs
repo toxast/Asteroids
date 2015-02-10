@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System;
 
@@ -12,6 +12,7 @@ public class Gun : IGotTarget
 	public float damage;
 	public float fireInterval;
 	public float timeToNextShot = 0f;
+	public ParticleSystem fireEffect;
 
 	public event Action<BulletBase> onFire;
 
@@ -42,9 +43,12 @@ public class Gun : IGotTarget
 	{
 		if(onFire != null)
 			onFire(b);
+
+		if (fireEffect != null)
+			fireEffect.Emit (1);
 	}
 
-	protected float PositionOnShooterPlace(PolygonGameObject bullet, Transform shooterTransform)
+	protected void PositionOnShooterPlace(PolygonGameObject bullet, Transform shooterTransform)
 	{
 		float angle = Math2d.GetRotation(place.dir);
 		bullet.cacheTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
@@ -53,6 +57,5 @@ public class Gun : IGotTarget
 		angle = Math2d.GetRotation(shooterTransform.right);
 		bullet.cacheTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
 		bullet.cacheTransform.position += shooterTransform.position;
-		return angle;
 	}
 }

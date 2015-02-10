@@ -15,4 +15,8 @@ public class GlobalConfig : MonoBehaviour{
 
 
 	[SerializeField] public Color GasteroidColor = Color.white;
+
+
+	[SerializeField] public ParticleSystem fireEffect;
+	[SerializeField] public ParticleSystem fireEffect2;
 }
