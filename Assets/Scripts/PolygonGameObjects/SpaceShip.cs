@@ -73,8 +73,12 @@ public class SpaceShip : PolygonGameObject
 
 	private void Turn(float dRotation)
 	{
+
 		if(rotation != 0)
 		{
+			float stability = 0.5f;
+			dRotation*= stability;
+
 			var dsign = Mathf.Sign (dRotation);
 			if(dsign != Mathf.Sign(rotation))
 			{

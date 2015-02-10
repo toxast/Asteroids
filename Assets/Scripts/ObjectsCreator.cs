@@ -9,7 +9,7 @@ public class ObjectsCreator
 
 	public static UserSpaceShip CreateSpaceShip()
 	{
-		var vr = Math2d.ScaleVertices2 (SpaceshipsData.alien5, 1f);
+		var vr = Math2d.ScaleVertices2 (SpaceshipsData.fastSpaceshipVertices, 1f);
 		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(vr, Color.blue);
 		
 		spaceship.gameObject.name = "Spaceship";

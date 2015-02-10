@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 public class Main : MonoBehaviour 
 {
+	[SerializeField] Texture2D cursorTexture;
+
 	[SerializeField] ParticleSystem thrustPrefab;
 	[SerializeField] ParticleSystem thrustPrefab2;
 	[SerializeField] ParticleSystem thrustBig;
@@ -15,6 +17,7 @@ public class Main : MonoBehaviour
 	[SerializeField] TabletInputController tabletController;
 	UserSpaceShip spaceship;
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
+	List <PolygonGameObject> asteroids = new List<PolygonGameObject>();
 	List <BulletBase> bullets = new List<BulletBase>();
 	List <BulletBase> enemyBullets = new List<BulletBase>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
@@ -45,6 +48,11 @@ public class Main : MonoBehaviour
 
 	void Awake()
 	{
+		if (cursorTexture != null)
+		{
+			Cursor.SetCursor (cursorTexture, new Vector2(cursorTexture.width/2f, cursorTexture.height/2f), CursorMode.Auto);
+		}
+
 		if(boundsMode)
 		{
 			moveCameraAction += MoveCameraBoundsMode;
@@ -284,6 +292,7 @@ public class Main : MonoBehaviour
 		TickBullets (bullets, Time.deltaTime);
 		TickBullets (enemyBullets, enemyDtime);
 
+		TickObjects (asteroids, enemyDtime);
 		TickObjects (enemies, enemyDtime);
 		TickObjects (powerUps, enemyDtime);
 
@@ -292,6 +301,7 @@ public class Main : MonoBehaviour
 			CheckBounds(bullets, true);
 			CheckBounds(enemyBullets, true);
 			CheckBounds(enemies, false);
+			CheckBounds(asteroids, false);
 			CheckBounds(powerUps, false);
 		}
 		else
@@ -299,6 +309,7 @@ public class Main : MonoBehaviour
 			Wrap(bullets, true);
 			Wrap(enemyBullets, true);
 			Wrap(enemies, false);
+			Wrap(asteroids, false);
 			Wrap(powerUps, false);
 		}
 
@@ -306,92 +317,37 @@ public class Main : MonoBehaviour
 
 		Tick_GO_Destructors (Time.deltaTime);
 
-		//TODO: refactor
-		for (int i = enemies.Count - 1; i >= 0; i--) 
-		{
-			var enemy = enemies[i];
-
-			for (int k = bullets.Count - 1; k >= 0; k--)
-			{
-				var bullet = bullets[k];
-				if(bullet == null)
-					continue;
-
-				int indxa, indxb;
-				if(PolygonCollision.IsCollides(enemy, bullet, out indxa, out indxb))
-				{
-					if(penetrationTimeLeft <= 0f)
-					{
-						//var impulse = 
-							PolygonCollision.ApplyCollision(enemy, bullet, indxa, indxb);
-
-						//PhExplosion e = new PhExplosion(bullet.cacheTransform.position, 200, enemies);
-
-						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
-						Destroy(bullet.gameObject);
-						bullets[k] = null; 
-
-						enemy.Hit(bullet.damage);
-
-					}
-					else
-					{
-						enemy.Hit(bullet.damage*10*Time.deltaTime);
-					}
-					
-					if(enemy.IsKilled())
-					{
-						EnemyDeath(enemy, i);
-						break;
-					}
-				}
-			}
-		}
-
+		BulletsHitObjects (enemies, bullets);
+		BulletsHitObjects (asteroids, bullets);
+		BulletsHitObjects (asteroids, enemyBullets);
 
 		if(spaceship != null)
 		{
-			for (int i = 0; i < enemyBullets.Count; i++) 
-			{
-				var bullet = enemyBullets[i];
-				if(bullet == null)
-					continue;
+			BulletsHitObject(spaceship, enemyBullets);
+		}
 
-				int indxa, indxb;
-				if(PolygonCollision.IsCollides(spaceship, bullet, out indxa, out indxb))
-				{
-					//var impulse = 
-						PolygonCollision.ApplyCollision(spaceship, bullet, indxa, indxb);
-
-					SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
-
-					spaceship.Hit(bullet.damage);
-
-					Destroy(bullet.gameObject);
-					enemyBullets[i] = null; 
-				}
-			}
-
-
+		if(spaceship != null)
+		{
 			for (int i = enemies.Count - 1; i >= 0; i--) 
 			{
-				var enemy = enemies[i];
+				ObjectsCollide(spaceship, enemies[i]);
+			}
+		}
 
-				int indxa, indxb;
-				if(PolygonCollision.IsCollides(spaceship, enemy, out indxa, out indxb))
-				{
-					var impulse = PolygonCollision.ApplyCollision(spaceship, enemy, indxa, indxb);
-					var dmg = GetCollisionDamage(impulse);
+		//experimental
+		for (int i = enemies.Count - 1; i >= 0; i--) 
+		{
+			for (int k = asteroids.Count - 1; k >= 0; k--) 
+			{
+				ObjectsCollide(enemies[i], asteroids[k]);
+			}
+		}
 
-					spaceship.Hit(dmg);
-					enemy.Hit(dmg);
-
-					if(enemy.IsKilled())
-					{
-						EnemyDeath(enemy, i);
-						break;
-					}
-				}
+		if(spaceship != null)
+		{
+			for (int i = asteroids.Count - 1; i >= 0; i--) 
+			{
+				ObjectsCollide(spaceship, asteroids[i]);
 			}
 		}
 
@@ -428,20 +384,77 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		if(spaceship != null && spaceship.IsKilled())
-		{
-			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(spaceship);
-			Destroy(spaceship.gameObject);
-			spaceship = null;
-		}
-
 		if(powerUpsCreator != null)
 			powerUpsCreator.Tick(Time.deltaTime);
 
 		MoveCamera ();
+
+		if(spaceship != null && spaceship.IsKilled())
+		{
+			ObjectDeath(spaceship);
+			spaceship = null;
+		}
+		CheckDeadObjects (enemies);
+		CheckDeadObjects (asteroids);
 	}
 
-	private void EnemyDeath(PolygonGameObject enemy, int i)
+	private void CheckDeadObjects(List<PolygonGameObject> objs)
+	{
+		for (int k = objs.Count - 1; k >= 0; k--)
+		{
+			if(objs[k].IsKilled())
+			{
+				ObjectDeath(objs[k]);
+				objs.RemoveAt(k);
+			}
+		}
+	}
+
+	private void ObjectsCollide(PolygonGameObject a, PolygonGameObject b)
+	{
+		int indxa, indxb;
+		if(PolygonCollision.IsCollides(a, b, out indxa, out indxb))
+		{
+			var impulse = PolygonCollision.ApplyCollision(a, b, indxa, indxb);
+			var dmg = GetCollisionDamage(impulse);
+
+			a.Hit(dmg);
+			b.Hit(dmg);
+		}
+	}
+
+	//TODO: ckecks
+	private void BulletsHitObjects(List<PolygonGameObject> objs, List<BulletBase> pbullets)
+	{
+		for (int i = objs.Count - 1; i >= 0; i--) 
+		{
+			BulletsHitObject(objs[i], pbullets);
+		}
+	}
+
+	private void BulletsHitObject(PolygonGameObject obj,  List<BulletBase> pbullets)
+	{
+		for (int k = pbullets.Count - 1; k >= 0; k--)
+		{
+			var bullet = pbullets[k];
+			if(bullet == null)
+				continue;
+			
+			int indxa, indxb;
+			if(PolygonCollision.IsCollides(obj, bullet, out indxa, out indxb))
+			{
+				PolygonCollision.ApplyCollision(obj, bullet, indxa, indxb);
+				
+				SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
+				Destroy(bullet.gameObject);
+				pbullets[k] = null; 
+				
+				obj.Hit(bullet.damage);
+			}
+		}
+	}
+
+	private void ObjectDeath(PolygonGameObject enemy)
 	{
 		//TODO: refactor
 		if(enemy is Gasteroid)
@@ -450,7 +463,9 @@ public class Main : MonoBehaviour
 			SplitAsteroidAndMarkForDestructionAllParts(enemy);
 			List<PolygonGameObject> affected = new List<PolygonGameObject>();
 			affected.Add(spaceship);
-			new PhExplosion(enemy.cacheTransform.position, 6*enemy.mass, affected);
+			affected.AddRange(asteroids);
+			affected.AddRange(enemies);
+			new PhExplosion(enemy.cacheTransform.position, 8*enemy.mass, affected);
 			var e = Instantiate(gasteroidExplosion) as ParticleSystem;
 			e.transform.position = enemy.cacheTransform.position - new Vector3(0,0,1);
 			e.transform.localScale = new Vector3(enemy.polygon.R, enemy.polygon.R, 1);
@@ -491,9 +506,8 @@ public class Main : MonoBehaviour
 				PutOnFirstNullPlace(goDestructors, d); 
 			}
 		}
-		
-		enemies.RemoveAt(i);
 		Destroy(enemy.gameObject);
+		enemy = null;
 	}
 
 	private void ApplyBoundsForce(PolygonGameObject p)
@@ -560,7 +574,14 @@ public class Main : MonoBehaviour
 
 	private void Add2Enemies(PolygonGameObject p)
 	{
-		enemies.Add (p);
+		if(p is Asteroid)
+		{
+			asteroids.Add(p);
+		}
+		else
+		{
+			enemies.Add (p);
+		}
 	}
 
 	private float GetCollisionDamage(float impulse)
@@ -912,6 +933,10 @@ public class Main : MonoBehaviour
 	 * enemy bullets hit asteroid
 	 * gravity misiles
 	 * mine missiles
+	 * drops
+	 * shooting effect
+	 * multiple thrusters
+	 * shoot place refactors
 	 * drops
 	 * textured asteroids
 	 * bullets shoot missiles?

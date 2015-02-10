@@ -577,6 +577,9 @@ MonoBehaviour:
   RogueEnemyHealthModifier: 1
   DamageFromCollisionsModifier: .0299999993
   GasteroidColor: {r: .95588237, g: .909833252, b: .288170397, a: 1}
+  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  fireEffect2: {fileID: 19882694, guid: 2715f74d18b622a44b9ace92a69b4e4b, type: 2}
+  thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
 --- !u!4 &898100672
 Transform:
   m_ObjectHideFlags: 0
@@ -682,6 +685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b0b2e1f9b6cc945b50b9d81b312b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursorTexture: {fileID: 2800000, guid: 5908af5c643d1bb48b3d62bbc19cd114, type: 3}
   thrustPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
   thrustPrefab2: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
   thrustBig: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}

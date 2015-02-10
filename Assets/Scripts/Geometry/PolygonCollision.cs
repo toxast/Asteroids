@@ -27,7 +27,7 @@ public static class PolygonCollision
 		return IsCollides(aGlobal, bGlobal, out indxa, out indxb);
 	}
 
-	static private Polygon GetPolygonInGlobalCoordinates(PolygonGameObject a)
+	static public Polygon GetPolygonInGlobalCoordinates(PolygonGameObject a)
 	{
 		float angle = a.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
 		Vector2[] verticesA = Math2d.RotateVerticesRAD(a.polygon.vertices, angle);
@@ -149,6 +149,18 @@ public static class PolygonCollision
 		bobj.rotation += Vector3.Cross (Rb, jNb).z / (bobj.inertiaMoment * Math2d.PIdiv180);
 
 		return j;
+	}
+
+	static public void ApplyImpulse(PolygonGameObject p, Vector2 Ppos, Vector2 P)
+	{
+		Polygon a = GetPolygonInGlobalCoordinates(p);
+		Vector2 dir2p = a.massCenter - Ppos;
+		dir2p.Normalize ();
+		float Pvelocity = Math2d.DotProduct (ref dir2p, ref P);
+		Vector3 up = Vector3.Cross (P, dir2p);
+		Vector2 PRotation = Vector3.Cross (dir2p, up);
+		p.velocity += (Vector3)dir2p * (Pvelocity / p.mass); 
+		p.rotation -= PRotation.magnitude / p.inertiaMoment;
 	}
 
 	static private Vector2 makeRight(Vector2 v)

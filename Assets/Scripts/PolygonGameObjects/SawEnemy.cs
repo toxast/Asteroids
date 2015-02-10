@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SawEnemy : PolygonGameObject
+public class SawEnemy : Asteroid
 {
 	private float initialRotation;
 	private float initialVelocity;
@@ -16,8 +16,9 @@ public class SawEnemy : PolygonGameObject
 	private float initialVelocitySqr;
 	private float detectionDistanceSqr;
 
-	public void Init()
+	public override void Init()
 	{
+		base.Init ();
 		initialRotation = Random.Range(40,100);
 		initialVelocity = Random.Range(2f, 7f);
 		chargeSpeed = 90f/Mathf.Sqrt(mass);
