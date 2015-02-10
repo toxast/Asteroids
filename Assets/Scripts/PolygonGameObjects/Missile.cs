@@ -30,6 +30,9 @@ public class Missile : BulletBase
 	{
 		base.Tick (delta);
 
+		if (target == null)
+			return;
+
 		RotateOnTarget (delta);
 		ApplyThrust (delta);
 	}
