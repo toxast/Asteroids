@@ -4,7 +4,6 @@ using System.Collections;
 
 public class BulletGun : Gun
 {
-	public Transform transform;
 	public Vector2[] vertices; 
 	public Color color;
 

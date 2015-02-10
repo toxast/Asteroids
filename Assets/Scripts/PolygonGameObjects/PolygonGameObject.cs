@@ -47,12 +47,13 @@ public class PolygonGameObject : MonoBehaviour , IGotTarget
 	{
 		shield = new Shield (shieldData);
 
-//		Color shCol = Color.green;
-//		shCol.a = 0.5f;
-//		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.vertices, 0.4f);
-//		shieldGO = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(v, shCol);
-//		shieldGO.cacheTransform.parent = cacheTransform;
-//		shieldGO.cacheTransform.localPosition = new Vector3 (0, 0, 1);
+		Color shCol = Color.green;
+		shCol.a = 0.3f;
+		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.vertices, 0.4f);
+		shieldGO = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(v, shCol);
+		shieldGO.cacheTransform.parent = cacheTransform;
+		shieldGO.cacheTransform.localPosition = new Vector3 (0, 0, 1);
+		shield.SetShieldGO (shieldGO);
 	}
 
 	public void SetPolygon(Polygon polygon)

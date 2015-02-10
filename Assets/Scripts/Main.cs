@@ -908,12 +908,17 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
-	 * shoot place refactors
+	 * explision by vertex
+	 * enemy bullets hit asteroid
+	 * gravity misiles
+	 * mine missiles
 	 * drops
+	 * textured asteroids
+	 * bullets shoot missiles?
 	 * shoot place levels
 	 * missiles!
 	 * Lazers!
-	 * shield animation
+	 * shield hit animation
 	 * deflect shields
 	 * more efficeient stars render
 	 * fire enimies
