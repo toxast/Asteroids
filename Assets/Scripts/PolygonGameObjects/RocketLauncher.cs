@@ -4,6 +4,7 @@ using System.Collections;
 
 public class RocketLauncher : Gun
 {
+	public ParticleSystem thrusterEffect;
 	public Color color;
 	public RocketLauncher(GunPlace place):base(place){}
 
@@ -37,7 +38,14 @@ public class RocketLauncher : Gun
 	private BulletBase CreateMissile()
 	{
 		Missile missile = PolygonCreator.CreatePolygonGOByMassCenter<Missile>(missileVertices, color);
-		
+
+		if(thrusterEffect != null)
+		{
+			ParticleSystem e = GameObject.Instantiate(thrusterEffect) as ParticleSystem;
+			e.transform.parent = missile.cacheTransform;
+			e.transform.localPosition = new Vector3(0,0,-1);
+		}
+
 		PositionOnShooterPlace (missile, transform);
 		
 		missile.gameObject.name = "missile";

@@ -38,6 +38,7 @@ public class GunsData
 	public static RocketLauncher RocketLauncher(GunPlace gp, Transform t)
 	{
 		RocketLauncher gun = new RocketLauncher(gp);
+		gun.thrusterEffect = Singleton<GlobalConfig>.inst.thrusterEffect;
 		gun.transform = t;
 		//gun.vertices = PolygonCreator.GetRectShape(0.4f, 0.2f);
 		gun.bulletSpeed = 40f;

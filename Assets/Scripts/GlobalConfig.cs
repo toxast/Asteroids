@@ -19,4 +19,6 @@ public class GlobalConfig : MonoBehaviour{
 
 	[SerializeField] public ParticleSystem fireEffect;
 	[SerializeField] public ParticleSystem fireEffect2;
+	[SerializeField] public ParticleSystem thrusterEffect;
+
 }
