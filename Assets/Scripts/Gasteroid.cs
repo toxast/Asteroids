@@ -5,7 +5,7 @@ public class Gasteroid : Asteroid
 {
 	protected override float healthModifier {
 		get {
-			return 0.00001f;
+			return 0.3f;
 		}
 	}
 

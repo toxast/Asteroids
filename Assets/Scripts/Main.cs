@@ -572,6 +572,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	//TODO: refactor (collision masks?)
 	private void Add2Enemies(PolygonGameObject p)
 	{
 		if(p is Asteroid)
@@ -929,15 +930,14 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * drops
+	 * collision mask
+	 * death refactor && missiles explosion on death
 	 * explision by vertex
-	 * enemy bullets hit asteroid
 	 * gravity misiles
 	 * mine missiles
-	 * drops
-	 * shooting effect
+	 * make enemies fight with each other!
 	 * multiple thrusters
-	 * shoot place refactors
-	 * drops
 	 * textured asteroids
 	 * bullets shoot missiles?
 	 * shoot place levels
