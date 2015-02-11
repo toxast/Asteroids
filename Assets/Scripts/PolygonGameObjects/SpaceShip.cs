@@ -14,8 +14,10 @@ public class SpaceShip : PolygonGameObject
 	float maxSpeed = 20f;
 	float maxSpeedSqr;
 
-	ParticleSystem thrustPSystem;
+	ParticleSystem thrustPSystem; //TODO refactor
 	float defaultThrustLifetime;
+
+	public DropCollector collector;
 
 	protected InputController inputController;
 

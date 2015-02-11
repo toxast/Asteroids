@@ -25,7 +25,7 @@ public class Spliter
 			//			else
 			//			{
 			asteroidPart.Init();
-			asteroidPart.cacheTransform.Translate(polygonGo.cacheTransform.position);
+			asteroidPart.cacheTransform.Translate(polygonGo.position);
 			asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
 			asteroidPart.gameObject.name = "asteroid part";
 			

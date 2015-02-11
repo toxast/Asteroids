@@ -6,11 +6,11 @@ public class SawEnemy : Asteroid
 	private float initialRotation;
 	private float initialVelocity;
 
-	private float rotationChargingSpeed = 80f;
+	private float rotationChargingSpeed = 120f;
 	private float chargeRotation = 300f;
-	private float detectionDistance = 40f;
+	private float detectionDistance = 50f;
 	private float chargeSpeed;
-	private float brakes = 5f;
+	private float brakes = 7f;
 	private float chargeDuration = 3f;
 
 	private float initialVelocitySqr;
@@ -21,7 +21,7 @@ public class SawEnemy : Asteroid
 		base.Init ();
 		initialRotation = Random.Range(40,100);
 		initialVelocity = Random.Range(2f, 7f);
-		chargeSpeed = 90f/Mathf.Sqrt(mass);
+		chargeSpeed = 130f/Mathf.Sqrt(mass);
 
 		//TODO: asteroid?
 		float a = Random.Range(0f, 359f) * Math2d.PIdiv180;

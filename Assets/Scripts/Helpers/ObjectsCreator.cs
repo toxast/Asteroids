@@ -11,7 +11,9 @@ public class ObjectsCreator
 	{
 		var vr = Math2d.ScaleVertices2 (SpaceshipsData.fastSpaceshipVertices, 1f);
 		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(vr, Color.blue);
-		
+
+		spaceship.collector = new DropCollector (0.15f, 20f);
+
 		spaceship.gameObject.name = "Spaceship";
 		#if UNITY_STANDALONE
 		spaceship.SetController (new StandaloneInputController());
@@ -245,6 +247,19 @@ public class ObjectsCreator
 		asteroid.gameObject.name = "asteroid";
 		
 		return asteroid;
+	}
+
+	public static polygonGO.Drop CreateDrop()
+	{
+		float size = 0.7f;//Random.Range(1f, 2f);
+		int vcount = 5;//Random.Range(5, 5 + (int)size*3);
+		Vector2[] vertices = PolygonCreator.CreatePrefectPolygonVertices(size, vcount);
+		
+		var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, Color.cyan);
+		drop.gameObject.name = "drop";
+		drop.lifetime = 10f;
+		
+		return drop;
 	}
 
 

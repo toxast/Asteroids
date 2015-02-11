@@ -13,7 +13,7 @@ public class SimpleAI1 : InputController, IGotTarget
 	bool shooting = false;
 	bool accelerating = false;
 	Vector2 turnDirection;
-	float fireRange = 200f;
+	float fireRange = 60f;
 	float fireRangeSqr;
 	float closeRange = 30f;
 	float closeRangeSqr;

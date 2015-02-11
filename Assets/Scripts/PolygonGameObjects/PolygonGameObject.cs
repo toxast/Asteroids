@@ -10,6 +10,8 @@ public class PolygonGameObject : MonoBehaviour , IGotTarget
 	public Mesh mesh;
 	public PolygonGameObject shieldGO;
 
+	public DropID dropID;
+
 	protected float fullHealth;
 	[SerializeField] protected float currentHealth;
 
