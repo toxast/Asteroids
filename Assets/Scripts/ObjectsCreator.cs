@@ -247,6 +247,18 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
+	public static Asteroid CreateDrop()
+	{
+		float size = 0.7f;//Random.Range(1f, 2f);
+		int vcount = 5;//Random.Range(5, 5 + (int)size*3);
+		Vector2[] vertices = PolygonCreator.CreatePrefectPolygonVertices(size, vcount);
+		
+		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Color.cyan);
+		asteroid.gameObject.name = "drop";
+		
+		return asteroid;
+	}
+
 
 	private static void InitGuns(PolygonGameObject enemy, List<GunPlace> gunplaces, System.Func<GunPlace, Transform, Gun> gunsGetter)
 	{

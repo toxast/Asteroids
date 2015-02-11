@@ -18,10 +18,12 @@ public class Main : MonoBehaviour
 	UserSpaceShip spaceship;
 	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	List <PolygonGameObject> asteroids = new List<PolygonGameObject>();
+	List <PolygonGameObject> drops = new List<PolygonGameObject>();
 	List <BulletBase> bullets = new List<BulletBase>();
 	List <BulletBase> enemyBullets = new List<BulletBase>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
+	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
 
 	PowerUpsCreator powerUpsCreator;
 	List<PowerUp> powerUps = new List<PowerUp> ();
@@ -295,6 +297,7 @@ public class Main : MonoBehaviour
 		TickObjects (asteroids, enemyDtime);
 		TickObjects (enemies, enemyDtime);
 		TickObjects (powerUps, enemyDtime);
+		TickObjects (drops, enemyDtime);
 
 		if(boundsMode)
 		{
@@ -303,6 +306,7 @@ public class Main : MonoBehaviour
 			CheckBounds(enemies, false);
 			CheckBounds(asteroids, false);
 			CheckBounds(powerUps, false);
+			CheckBounds(drops, false);
 		}
 		else
 		{
@@ -311,6 +315,7 @@ public class Main : MonoBehaviour
 			Wrap(enemies, false);
 			Wrap(asteroids, false);
 			Wrap(powerUps, false);
+			Wrap(drops, false);
 		}
 
 		TickAlphaDestructors (enemyDtime);
@@ -324,13 +329,25 @@ public class Main : MonoBehaviour
 		if(spaceship != null)
 		{
 			BulletsHitObject(spaceship, enemyBullets);
-		}
 
-		if(spaceship != null)
-		{
 			for (int i = enemies.Count - 1; i >= 0; i--) 
 			{
 				ObjectsCollide(spaceship, enemies[i]);
+			}
+
+			for (int i = asteroids.Count - 1; i >= 0; i--) 
+			{
+				ObjectsCollide(spaceship, asteroids[i]);
+			}
+
+			for (int i = drops.Count - 1; i >= 0; i--) 
+			{
+				int indxa, indxb;
+				if(PolygonCollision.IsCollides(spaceship, drops[i], out indxa, out indxb))
+				{
+					Destroy(drops[i].gameObject);
+					drops.RemoveAt(i);
+				}
 			}
 		}
 
@@ -340,14 +357,6 @@ public class Main : MonoBehaviour
 			for (int k = asteroids.Count - 1; k >= 0; k--) 
 			{
 				ObjectsCollide(enemies[i], asteroids[k]);
-			}
-		}
-
-		if(spaceship != null)
-		{
-			for (int i = asteroids.Count - 1; i >= 0; i--) 
-			{
-				ObjectsCollide(spaceship, asteroids[i]);
 			}
 		}
 
@@ -557,17 +566,54 @@ public class Main : MonoBehaviour
 
 	private void SplitAndDestroyThresholdParts(PolygonGameObject obj, float threshold)
 	{
+		DropData drop = null;
+		if(obj.dropID != null)
+		{
+			id2drops.TryGetValue(obj.dropID, out drop);
+		}
+
+
 		List<Asteroid> parts = Spliter.SplitIntoAsteroids(obj);
 		foreach(var part in parts)
 		{
 			if(part.polygon.area < threshold)
 			{
+				//refactor
+				if(drop != null)
+				{
+					CheckDrop(drop, part);
+				}
+
 				TimeDestuctor d = new TimeDestuctor(part, 0.7f + UnityEngine.Random.Range(0f, 1f));
 				PutOnFirstNullPlace(destructors, d); 
 			}
 			else
 			{
+				if(obj.dropID != null)
+				{
+					part.dropID = obj.dropID;
+				}
 				Add2Enemies(part);
+			}
+		}
+	}
+
+	private void CheckDrop(DropData drop, PolygonGameObject destroyingPart)
+	{
+		int lastDrops = (int)((drop.areaLeft/drop.startingArea) * drop.dropsCount);
+		drop.areaLeft -= destroyingPart.polygon.area;
+		int newDrops = (int)((drop.areaLeft/drop.startingArea) * drop.dropsCount);
+		int diff = lastDrops - newDrops;
+		if(diff > 0)
+		{
+			for (int i = 0; i < diff; i++) 
+			{
+				Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
+				var dropObj = ObjectsCreator.CreateDrop();
+				dropObj.cacheTransform.position =
+					destroyingPart.cacheTransform.position + randomOffset - new Vector3(0,0,1);
+				dropObj.rotation = UnityEngine.Random.Range(-60f, 60f);
+				drops.Add(dropObj);
 			}
 		}
 	}
@@ -867,8 +913,23 @@ public class Main : MonoBehaviour
 	public Asteroid CreateAsteroid()
 	{
 		var asteroid = ObjectsCreator.CreateAsteroid ();
+
+		CreateDropForObject (asteroid);
+
 		InitNewEnemy (asteroid);
 		return asteroid;
+	}
+
+	private void CreateDropForObject(PolygonGameObject obj)
+	{
+		obj.dropID = new DropID ();
+		DropData dropData = new DropData
+		{
+			startingArea = obj.polygon.area,
+			areaLeft = obj.polygon.area,
+			dropsCount = obj.polygon.area/10f,
+		};
+		id2drops [obj.dropID] = dropData;
 	}
 	
 	
