@@ -137,6 +137,24 @@ public class PolygonGameObject : MonoBehaviour , IGotTarget
 	public List<Vector2[]> Split()
 	{
 		List<Vector2[]> parts = polygon.SplitByInteriorVertex ();
+
+		{
+			List<Vector2[]> parts2 = new List<Vector2[]>();
+			foreach (var part in parts) 
+			{
+				Polygon p = new Polygon(part);
+				if(p.GetInteriorVerticesCount() > 3)
+				{
+					parts2.AddRange(p.SplitByInteriorVertex ());
+				}
+				else
+				{
+					parts2.Add(p.vertices);
+				}
+			}
+			parts = parts2;
+		}
+
 		bool success = parts.Count >= 2;
 		if(!success)
 		{

@@ -476,6 +476,7 @@ public class Main : MonoBehaviour
 				PolygonCollision.ApplyCollision(obj, bullet, indxa, indxb);
 				
 				SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
+				//ObjectDeath(bullet);
 				Destroy(bullet.gameObject);
 				pbullets[k] = null; 
 				

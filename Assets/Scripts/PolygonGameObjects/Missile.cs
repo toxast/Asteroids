@@ -17,6 +17,7 @@ public class Missile : BulletBase
 	
 	public void Init(PolygonGameObject target, float maxVelocity, float dmg, float lifetime)
 	{
+		//deathDuration = 0.1f;
 		base.Init (dmg, lifetime);
 		this.maxVelocity = maxVelocity;
 		this.target = target;

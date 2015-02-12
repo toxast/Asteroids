@@ -316,6 +316,16 @@ public class Polygon
 		}
 	}
 
+	int interiorVerticesCount = -1;
+	public int GetInteriorVerticesCount()
+	{
+		if(interiorVerticesCount < 0)
+		{
+			interiorVerticesCount = GetInteriorVertices().Count;
+		}
+		return interiorVerticesCount;
+	}
+
 	private List<int> GetInteriorVertices()
 	{
 		List<int> interiors = new List<int>();
@@ -336,6 +346,10 @@ public class Polygon
 				interiors.Add(i-1);
 			}
 		}
+
+		//caching
+		interiorVerticesCount = interiors.Count;
+
 		return interiors;
 	}
 
