@@ -45,7 +45,7 @@ public class ObjectsCreator
 		var vr = Math2d.ScaleVertices2 (SpaceshipsData.butterflySpaceship, 1.1f);
 		//var vr = Math2d.ScaleVertices2 (vrt, 1.5f);
 		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Color.white);
-		
+		spaceship.deathDuration = 2f;
 		spaceship.gameObject.name = "enemy spaceship";
 
 		InitGuns (spaceship, SpaceshipsData.alien9gunplaces, GunsData.SimpleGun2);
@@ -68,7 +68,7 @@ public class ObjectsCreator
 		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Color.white);
 		
 		spaceship.gameObject.name = "boss";
-		
+		spaceship.deathDuration = 4f;
 		InitGuns (spaceship, SpaceshipsData.bossGunplaces, GunsData.SimpleGun2);
 
 		SpaceshipData data = new SpaceshipData{

@@ -13,6 +13,8 @@ public class Main : MonoBehaviour
 	[SerializeField] ParticleSystem thrustBig;
 	[SerializeField] ParticleSystem explosion;
 	[SerializeField] ParticleSystem gasteroidExplosion;
+	[SerializeField] List<ParticleSystem> deathExplosions;
+	[SerializeField] List<ParticleSystem> finishExplosions;
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
 	UserSpaceShip spaceship;
@@ -422,10 +424,18 @@ public class Main : MonoBehaviour
 	{
 		for (int k = objs.Count - 1; k >= 0; k--)
 		{
-			if(objs[k].IsKilled())
+			var obj = objs[k];
+			if(obj.IsKilled())
 			{
-				ObjectDeath(objs[k]);
-				objs.RemoveAt(k);
+				if(obj.deathDuration > 0 && !obj.animatingDeath)
+				{
+					obj.AnimateDeath(deathExplosions, finishExplosions);
+				}
+				else if(objs[k].deathDuration == 0)
+				{
+					ObjectDeath(objs[k]);
+					objs.RemoveAt(k);
+				}
 			}
 		}
 	}

@@ -689,8 +689,15 @@ MonoBehaviour:
   thrustPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
   thrustPrefab2: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
   thrustBig: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
-  explosion: {fileID: 19876198, guid: 263f06c579e87134eba3348db5cfc8b3, type: 2}
+  explosion: {fileID: 19896466, guid: bcd1212cdc374c94cae9de1ebb78d71e, type: 2}
   gasteroidExplosion: {fileID: 19813558, guid: e436eec92287d144ca55f9ddf5450191, type: 2}
+  deathExplosions:
+  - {fileID: 19853616, guid: 02f6e7a70bb5a4041af8478ea461aef5, type: 2}
+  - {fileID: 19812002, guid: cbf87247eb7e94540801135abeb604bf, type: 2}
+  - {fileID: 19896466, guid: bcd1212cdc374c94cae9de1ebb78d71e, type: 2}
+  finishExplosions:
+  - {fileID: 19865362, guid: 8212f4a15f36ecd46ae30e180aaa881a, type: 2}
+  - {fileID: 19837224, guid: a5362f0bf20321e43a49d5ebcdc0f1e2, type: 2}
   starsGenerator: {fileID: 1445927427}
   tabletController: {fileID: 1381619135}
   borderWidth: 40

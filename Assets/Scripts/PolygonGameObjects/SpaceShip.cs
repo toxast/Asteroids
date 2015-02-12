@@ -175,6 +175,9 @@ public class SpaceShip : PolygonGameObject
 
 	private void TickGuns(float delta)
 	{
+		if (animatingDeath)
+			return;
+
 		if(firingSpeedPUpTimeLeft > 0)
 		{
 			firingSpeedPUpTimeLeft -= delta;
