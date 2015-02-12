@@ -23,6 +23,46 @@ public class PolygonGameObject : MonoBehaviour , IGotTarget
 	public Vector3 velocity;
 	public float rotation;
 
+
+	public bool animatingDeath = false;
+	public float deathDuration = 0f;
+	List<ParticleSystem> explosions;
+	public void AnimateDeath(List<ParticleSystem> explosionPrefabs, List<ParticleSystem> finishExplosions)
+	{
+		animatingDeath = true;
+		explosions = new List<ParticleSystem> ();
+		for (int i = 0; i < explosionPrefabs.Count; i++) {
+			var e = Instantiate(explosionPrefabs[i]) as ParticleSystem;
+			e.startDelay = ((float)(i)/explosionPrefabs.Count) * deathDuration;
+			e.transform.position = cacheTransform.position - new Vector3(0,0,1);
+			var r = polygon.R/2f;
+			e.transform.position += new Vector3(UnityEngine.Random.Range(-r, r),
+			                                    UnityEngine.Random.Range(-r, r), 0);
+			e.transform.parent = cacheTransform;
+			e.Play();
+			explosions.Add(e);
+		}
+
+		for (int i = 0; i < finishExplosions.Count; i++) {
+			var e = Instantiate(finishExplosions[i]) as ParticleSystem;
+			e.startDelay = deathDuration;
+			e.transform.position = cacheTransform.position - new Vector3(0,0,1);
+			e.transform.parent = cacheTransform;
+			e.Play();
+			explosions.Add(e);
+		}
+
+		StartCoroutine (WaitUntilDeath ());
+	}
+
+	private IEnumerator WaitUntilDeath()
+	{
+		yield return new WaitForSeconds (deathDuration);
+		if(explosions != null)
+			explosions.ForEach (e => e.transform.parent = null);
+		deathDuration = 0;
+	}
+
 	protected PolygonGameObject target;
 	public List<Gun> guns = new List<Gun>();
 
