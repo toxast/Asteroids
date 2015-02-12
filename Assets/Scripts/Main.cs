@@ -375,7 +375,7 @@ public class Main : MonoBehaviour
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
 		{
 			PowerUp powerUp = powerUps[i];
-			if(powerUp.lived > 10f)
+			if(powerUp.lived > 20f)
 			{
 				powerUps.RemoveAt(i);
 				Destroy(powerUp.gameObject);
@@ -417,27 +417,83 @@ public class Main : MonoBehaviour
 		CheckDeadObjects (enemies);
 		CheckDeadObjects (asteroids);
 		CheckDeadObjects (drops);
+		CheckDeadObjects (bullets);
+		CheckDeadObjects (enemyBullets);
 	}
 
-	private void CheckDeadObjects<T> (List<T> objs)
+	private void CheckDeadObjects<T> (List<T> objs, bool nullCheck = false)
 		where T: PolygonGameObject
 	{
 		for (int k = objs.Count - 1; k >= 0; k--)
 		{
 			var obj = objs[k];
-			if(obj.IsKilled())
+			if(obj != null && obj.IsKilled())
 			{
-				if(obj.deathDuration > 0 && !obj.animatingDeath)
+				if(obj.deathAnimation != null)
 				{
-					obj.AnimateDeath(deathExplosions, finishExplosions);
+					if(!obj.deathAnimation.started)
+					{
+						obj.deathAnimation.AnimateDeath(obj);
+					}
 				}
-				else if(objs[k].deathDuration == 0)
+
+				if(obj.deathAnimation == null || obj.deathAnimation.finished)
 				{
 					ObjectDeath(objs[k]);
-					objs.RemoveAt(k);
+					if(nullCheck)
+					{
+						objs[k] = null;
+					}
+					else
+					{
+						objs.RemoveAt(k);
+					}
 				}
 			}
 		}
+	}
+
+	private void ObjectDeath(PolygonGameObject gobject)
+	{
+		//TODO: refactor
+		if(gobject is Gasteroid)
+		{
+			SplitAsteroidAndMarkForDestructionAllParts(gobject);
+			
+			//TODO: refactor
+			List<PolygonGameObject> affected = new List<PolygonGameObject>();
+			affected.Add(spaceship);
+			affected.AddRange(asteroids);
+			affected.AddRange(enemies);
+			new PhExplosion(gobject.cacheTransform.position, 8*gobject.mass, affected);
+			var e = Instantiate(gasteroidExplosion) as ParticleSystem;
+			e.transform.position = gobject.cacheTransform.position - new Vector3(0,0,1);
+			e.transform.localScale = new Vector3(gobject.polygon.R, gobject.polygon.R, 1);
+			
+			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
+			PutOnFirstNullPlace(goDestructors, d); 
+		}
+		else
+		{
+			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
+		}
+		
+		//TODO: refactor
+		{
+			EnemySpaceShip esp = gobject as EnemySpaceShip;
+			if(esp != null)
+			{
+				foreach(var t in esp.turrets)
+				{
+					t.cacheTransform.parent = null;
+					t.velocity += esp.velocity;
+					t.rotation += UnityEngine.Random.Range(-150f, 150f);
+					ObjectDeath(t);
+				}
+			}
+		}
+		Destroy(gobject.gameObject);
+		gobject = null;
 	}
 
 	private void ObjectsCollide(PolygonGameObject a, PolygonGameObject b)
@@ -474,72 +530,16 @@ public class Main : MonoBehaviour
 			if(PolygonCollision.IsCollides(obj, bullet, out indxa, out indxb))
 			{
 				PolygonCollision.ApplyCollision(obj, bullet, indxa, indxb);
-				
-				SplitIntoAsteroidsAndMarkForDestuctionSmallParts(bullet);
-				//ObjectDeath(bullet);
-				Destroy(bullet.gameObject);
-				pbullets[k] = null; 
-				
-				obj.Hit(bullet.damage);
+
+				if(!bullet.IsKilled())
+					obj.Hit(bullet.damage);
+
+				bullet.Kill();
 			}
 		}
 	}
 
-	private void ObjectDeath(PolygonGameObject enemy)
-	{
-		//TODO: refactor
-		if(enemy is Gasteroid)
-		{
-			//TODO: refactor
-			SplitAsteroidAndMarkForDestructionAllParts(enemy);
-			List<PolygonGameObject> affected = new List<PolygonGameObject>();
-			affected.Add(spaceship);
-			affected.AddRange(asteroids);
-			affected.AddRange(enemies);
-			new PhExplosion(enemy.cacheTransform.position, 8*enemy.mass, affected);
-			var e = Instantiate(gasteroidExplosion) as ParticleSystem;
-			e.transform.position = enemy.cacheTransform.position - new Vector3(0,0,1);
-			e.transform.localScale = new Vector3(enemy.polygon.R, enemy.polygon.R, 1);
-			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
-			PutOnFirstNullPlace(goDestructors, d); 
-		}
-		else
-		{
-			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(enemy);
-		}
-		
-		//TODO: refactor
-		{
-			EnemySpaceShip esp = enemy as EnemySpaceShip;
-			if(esp != null)
-			{
-				foreach(var t in esp.turrets)
-				{
-					t.cacheTransform.parent = null;
-					t.velocity += esp.velocity;
-					t.rotation += UnityEngine.Random.Range(-150f, 150f);
-//					bool destroy = false;
-//					if(destroy)
-//					{
-						SplitIntoAsteroidsAndMarkForDestuctionSmallParts(t);
-						Destroy(t.gameObject);
-//					}
-//					else
-//					{
-//						(t as IGotTarget).SetTarget(null);
-//						Add2Enemies(t);
-//					}
-				}
 
-				var e = Instantiate(explosion) as ParticleSystem;
-				e.transform.position = enemy.cacheTransform.position - new Vector3(0,0,1);
-				ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
-				PutOnFirstNullPlace(goDestructors, d); 
-			}
-		}
-		Destroy(enemy.gameObject);
-		enemy = null;
-	}
 
 	private void ApplyBoundsForce(PolygonGameObject p)
 	{
@@ -744,8 +744,7 @@ public class Main : MonoBehaviour
 			b.Tick(dtime);
 			if(b.Expired())
 			{
-				Destroy(b.gameObject);
-				list[i] = null;
+				b.Kill();
 			}
 		}
 	}
@@ -1015,7 +1014,7 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
-	 * drops
+	 * missile is IBullet && IploygonGO => missile can be Spaceship!
 	 * collision mask
 	 * death refactor && missiles explosion on death
 	 * explision by vertex
@@ -1026,7 +1025,6 @@ public class Main : MonoBehaviour
 	 * textured asteroids
 	 * bullets shoot missiles?
 	 * shoot place levels
-	 * missiles!
 	 * Lazers!
 	 * shield hit animation
 	 * deflect shields

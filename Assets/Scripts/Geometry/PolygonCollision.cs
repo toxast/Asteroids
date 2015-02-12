@@ -15,16 +15,29 @@ public static class PolygonCollision
 		indxa = -1;
 		indxb = -1;
 
+		//--------------------
+//		var aPos = a.cacheTransform.position;
+//		a.cacheTransform.position += a.velocity.normalized * 0.2f;
+//		var bPos = b.cacheTransform.position;
+//		b.cacheTransform.position += b.velocity.normalized * 0.2f;
+		//--------------------
+
 		Vector2 distance2d = a.cacheTransform.position - b.cacheTransform.position;
-		if (distance2d.magnitude > a.polygon.R + b.polygon.R)
+		bool collides = false;
+		if (distance2d.magnitude <= a.polygon.R + b.polygon.R) 
 		{
-			return false;
+			Polygon aGlobal = GetPolygonInGlobalCoordinates (a);
+			Polygon bGlobal = GetPolygonInGlobalCoordinates (b);
+
+			collides = IsCollides (aGlobal, bGlobal, out indxa, out indxb);
 		}
 
-		Polygon aGlobal = GetPolygonInGlobalCoordinates(a);
-		Polygon bGlobal = GetPolygonInGlobalCoordinates(b);
+		//--------------------
+//		a.cacheTransform.position = aPos;
+//		b.cacheTransform.position = bPos;
+		//--------------------
 
-		return IsCollides(aGlobal, bGlobal, out indxa, out indxb);
+		return collides;
 	}
 
 	static public Polygon GetPolygonInGlobalCoordinates(PolygonGameObject a)
@@ -131,11 +144,11 @@ public static class PolygonCollision
 		Vector2 Vb = (Vector2)bobj.velocity + cross(Rb,  bobj.rotation * Math2d.PIdiv180);
 		var Vab =  Va - Vb;
 		var Nb = -makeRight(collisionEdge.p2-collisionEdge.p1).normalized;
-		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
-		{
-			Debug.LogWarning("not approaching");
-			return 0f;
-		}
+//		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
+//		{
+//			Debug.LogWarning("not approaching");
+//			return 0f;
+//		}
 		float ekff = 0.4f; //0 < k < 1
 		float wa = Vector3.Cross(Ra, Nb).sqrMagnitude / aobj.inertiaMoment;
 		float wb = Vector3.Cross(Rb, Nb).sqrMagnitude / bobj.inertiaMoment;

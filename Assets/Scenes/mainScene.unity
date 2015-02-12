@@ -580,6 +580,33 @@ MonoBehaviour:
   fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   fireEffect2: {fileID: 19882694, guid: 2715f74d18b622a44b9ace92a69b4e4b, type: 2}
   thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
+  smallDeathExplosionEffects:
+  - {fileID: 19853616, guid: 02f6e7a70bb5a4041af8478ea461aef5, type: 2}
+  - {fileID: 19887412, guid: c4f1f42f079b0ce4e8b9542f40b85f3e, type: 2}
+  - {fileID: 19855224, guid: 6d951bfafcb6d9845a24ed6f6c5e49c6, type: 2}
+  - {fileID: 19822802, guid: e0a4f59c0b420894db4eb767b294a384, type: 2}
+  - {fileID: 19831234, guid: a0a0084c1bcc44e41b5999bb8def93a7, type: 2}
+  - {fileID: 19875412, guid: 7adcecf0aae85fe45bfc36314b992397, type: 2}
+  - {fileID: 19853616, guid: 02f6e7a70bb5a4041af8478ea461aef5, type: 2}
+  mediumDeathExplosionEffects:
+  - {fileID: 19865852, guid: 92a055a485e38a0478a67bd7821336c5, type: 2}
+  - {fileID: 19882404, guid: 6df207e227546e649a71ac941734e536, type: 2}
+  - {fileID: 19816042, guid: ff735d21e9875b242960dab33837ddd3, type: 2}
+  - {fileID: 19812002, guid: cbf87247eb7e94540801135abeb604bf, type: 2}
+  - {fileID: 19896466, guid: bcd1212cdc374c94cae9de1ebb78d71e, type: 2}
+  largeDeathExplosionEffects:
+  - {fileID: 19870496, guid: ef1cfc7d1353b0944821b1b6a3e63ee4, type: 2}
+  - {fileID: 19865136, guid: 32a56795e0ea01c49833667061fcfb66, type: 2}
+  - {fileID: 19813558, guid: e436eec92287d144ca55f9ddf5450191, type: 2}
+  smallFinalDeathExplosionEffects:
+  - {fileID: 19863466, guid: c4cb0741f24a58741b6e10071e2e8ae1, type: 2}
+  - {fileID: 19842648, guid: f213e3a2e64ec354fb873ab263836f4f, type: 2}
+  mediumFinalDeathExplosionEffects:
+  - {fileID: 19891830, guid: 9c82c17017334ea4ab7a25fac5742fbd, type: 2}
+  - {fileID: 19870768, guid: 4b556c64ed812f04b929733cc17d4da4, type: 2}
+  largeFinalDeathExplosionEffects:
+  - {fileID: 19855540, guid: f9054a1ae825a6348ab7dccd7d1c9731, type: 2}
+  - {fileID: 19833408, guid: 32e2b9ed35848c84fbd974b65d2a504c, type: 2}
 --- !u!4 &898100672
 Transform:
   m_ObjectHideFlags: 0

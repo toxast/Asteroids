@@ -17,7 +17,7 @@ public class Missile : BulletBase
 	
 	public void Init(PolygonGameObject target, float maxVelocity, float dmg, float lifetime)
 	{
-		//deathDuration = 0.1f;
+		DeathAnimation.MakeDeathForThatFellaYo (this, true);
 		base.Init (dmg, lifetime);
 		this.maxVelocity = maxVelocity;
 		this.target = target;
@@ -52,7 +52,9 @@ public class Missile : BulletBase
 
 	private void RotateOnTarget(float deltaTime)
 	{
-		AimSystem aim = new AimSystem (target.cacheTransform.position, -velocity/2f, cacheTransform.position, maxVelocity);  
+		var aimVelocity = (target.velocity - velocity) * 0.5f;
+		//var aimVelocity = target.velocity * 1.5f - velocity; imba
+		AimSystem aim = new AimSystem (target.cacheTransform.position, aimVelocity, cacheTransform.position, maxVelocity);  
 		if (!aim.canShoot) 
 		{
 			Vector2 distToTraget = target.cacheTransform.position - cacheTransform.position;

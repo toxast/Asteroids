@@ -45,7 +45,7 @@ public class ObjectsCreator
 		var vr = Math2d.ScaleVertices2 (SpaceshipsData.butterflySpaceship, 1.1f);
 		//var vr = Math2d.ScaleVertices2 (vrt, 1.5f);
 		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Color.white);
-		spaceship.deathDuration = 2f;
+		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
 		spaceship.gameObject.name = "enemy spaceship";
 
 		InitGuns (spaceship, SpaceshipsData.alien9gunplaces, GunsData.SimpleGun2);
@@ -68,7 +68,7 @@ public class ObjectsCreator
 		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Color.white);
 		
 		spaceship.gameObject.name = "boss";
-		spaceship.deathDuration = 4f;
+		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
 		InitGuns (spaceship, SpaceshipsData.bossGunplaces, GunsData.SimpleGun2);
 
 		SpaceshipData data = new SpaceshipData{
@@ -88,7 +88,7 @@ public class ObjectsCreator
 	{ 
 		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, defaultEnemyColor);
 		enemy.gameObject.name = "RogueEnemy";
-		
+		DeathAnimation.MakeDeathForThatFellaYo (enemy);
 //		float size = 1f;
 //		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace();
 //		ShootPlace place2 = ShootPlace.GetSpaceshipShootPlace();
@@ -148,7 +148,7 @@ public class ObjectsCreator
 		
 		var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, defaultEnemyColor);
 		tower.gameObject.name = "tower";
-		
+		DeathAnimation.MakeDeathForThatFellaYo (tower);
 		List<GunPlace> gunplaces = new List<GunPlace> ();
 		for (int i = 0; i < cannons.Length; i++) 
 		{
@@ -171,12 +171,12 @@ public class ObjectsCreator
 	{
 		float r = 1f;//UnityEngine.Random.Range(1.0f, 1.2f);
 		int sides = 6;
-		
+
 		Vector2[] vertices = PolygonCreator.CreateTowerVertices2 (r, sides);
 		
 		var enemy = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(vertices, defaultEnemyColor);
 		enemy.gameObject.name = "tower1";
-
+		DeathAnimation.MakeDeathForThatFellaYo (enemy);
 		List<GunPlace> gunplaces = new List<GunPlace>
 		{
 			new GunPlace(new Vector2(2f, 0.0f), new Vector2(1.0f, 0f)),
@@ -194,7 +194,7 @@ public class ObjectsCreator
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, defaultEnemyColor);
 		
 		enemy.gameObject.name = "evade enemy";
-
+		DeathAnimation.MakeDeathForThatFellaYo (enemy);
 		InitGuns (enemy, EvadeEnemy.gunplaces, GunsData.SimpleGun2);
 
 		enemy.Init (bullets);
@@ -215,7 +215,7 @@ public class ObjectsCreator
 		};
 
 		InitGuns (enemy, gunplaces, GunsData.TankGun);
-
+		DeathAnimation.MakeDeathForThatFellaYo (enemy);
 		enemy.gameObject.name = "tank enemy";
 		
 		enemy.Init(bullets);

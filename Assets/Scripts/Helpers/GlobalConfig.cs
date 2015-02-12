@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GlobalConfig : MonoBehaviour{
 
@@ -21,4 +22,10 @@ public class GlobalConfig : MonoBehaviour{
 	[SerializeField] public ParticleSystem fireEffect2;
 	[SerializeField] public ParticleSystem thrusterEffect;
 
+	[SerializeField] public List<ParticleSystem> smallDeathExplosionEffects;
+	[SerializeField] public List<ParticleSystem> mediumDeathExplosionEffects;
+	[SerializeField] public List<ParticleSystem> largeDeathExplosionEffects;
+	[SerializeField] public List<ParticleSystem> smallFinalDeathExplosionEffects;
+	[SerializeField] public List<ParticleSystem> mediumFinalDeathExplosionEffects;
+	[SerializeField] public List<ParticleSystem> largeFinalDeathExplosionEffects;
 }
