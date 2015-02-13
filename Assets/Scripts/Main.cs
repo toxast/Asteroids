@@ -497,6 +497,16 @@ public class Main : MonoBehaviour
 				}
 			}
 		}
+
+		if(gobject.deathAnimation != null)
+		{
+			foreach (var e in gobject.deathAnimation.instantiatedExplosions) 
+			{
+				ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
+				PutOnFirstNullPlace(goDestructors, d); 
+			}
+		}
+
 		Destroy(gobject.gameObject);
 		gobject = null;
 	}

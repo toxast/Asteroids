@@ -12,9 +12,8 @@ public class DeathAnimation
 	public bool finished = false;
 	List<ParticleSystem> explosionPrefabs;
 	List<ParticleSystem> finishExplosions;
-
-	List<ParticleSystem> explosions;
-
+	public List<ParticleSystem> instantiatedExplosions;
+	PolygonGameObject obj;
 
 	public static void MakeDeathForThatFellaYo(PolygonGameObject g, bool instant = false)
 	{
@@ -52,12 +51,12 @@ public class DeathAnimation
 		this.explosionPrefabs = explosionPrefabs;
 		this.finishExplosions = finishExplosion;
 	}
-	PolygonGameObject obj;
+
 	public void AnimateDeath(PolygonGameObject obj)
 	{
 		this.obj = obj;
 		started = true;
-		explosions = new List<ParticleSystem> ();
+		instantiatedExplosions = new List<ParticleSystem> ();
 		if(duration > 0)
 		{
 			for (int k = 0; k < explosionsCount; k++) {
@@ -70,7 +69,7 @@ public class DeathAnimation
 				                                    UnityEngine.Random.Range(-r, r), 0);
 				e.transform.parent = obj.cacheTransform;
 				e.Play();
-				explosions.Add(e);
+				instantiatedExplosions.Add(e);
 			}
 		}
 	}
@@ -89,13 +88,14 @@ public class DeathAnimation
 						var e = GameObject.Instantiate(finishExplosions[k]) as ParticleSystem;
 						e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
 						e.Play();
+						instantiatedExplosions.Add(e);
 					}
 				}
 
 				finished = true;
-				if(explosions != null)
+				if(instantiatedExplosions != null)
 				{
-					explosions.ForEach (e => 
+					instantiatedExplosions.ForEach (e => 
 					{
 						e.transform.parent = null;
 					});

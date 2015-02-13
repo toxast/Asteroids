@@ -127,6 +127,17 @@ public class PolygonGameObject : MonoBehaviour , IGotTarget
 			else
 			{
 				parts = polygon.SplitByMassCenterVertexAndEdgeCenter();
+				
+				{
+					List<Vector2[]> parts2 = new List<Vector2[]>();
+					foreach (var part in parts) 
+					{
+						Polygon p = new Polygon(part);
+						parts2.AddRange(p.SplitByInteriorVertex ());
+					}
+					parts = parts2;
+				}
+
 			}
 		}
 		
