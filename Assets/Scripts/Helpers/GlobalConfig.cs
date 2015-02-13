@@ -28,4 +28,94 @@ public class GlobalConfig : MonoBehaviour{
 	[SerializeField] public List<ParticleSystem> smallFinalDeathExplosionEffects;
 	[SerializeField] public List<ParticleSystem> mediumFinalDeathExplosionEffects;
 	[SerializeField] public List<ParticleSystem> largeFinalDeathExplosionEffects;
+
+
+	//TODO: separate file
+	public const int ilayerUser = 0;
+	public const int ilayerTeamUser = 1;
+	public const int ilayerTeamEnemies = 2;
+	public const int ilayerBulletsUser = 3;
+	public const int ilayerBulletsEnemies = 4;
+	public const int ilayerAsteroids = 5;
+	public const int ilayerMisc = 6;
+
+	private const int layerUser = 1 << ilayerUser;
+	private const int layerTeamUser = 1 << ilayerTeamUser;
+	private const int layerTeamEnemies = 1 << ilayerTeamEnemies;
+	private const int layerBulletsUser = 1 << ilayerBulletsUser;
+	private const int layerBulletsEnemies = 1 << ilayerBulletsEnemies;
+	private const int layerAsteroids = 1 << ilayerAsteroids;
+	private const int layerMisc = 1 << ilayerMisc;
+
+	public static List<int> fullCollisions;
+	public static List<int> halfMatrixCollisions = new List<int>
+	{
+		//layerUser
+		layerTeamEnemies + layerBulletsEnemies + layerAsteroids + layerMisc, 
+		//layerTeamUser
+		layerTeamEnemies + layerBulletsEnemies + layerAsteroids, 	
+		//layerTeamEnemies
+		layerBulletsUser + layerAsteroids, 
+		//layerBulletsUser
+		layerAsteroids,
+		//layerBulletsEnemies
+		layerAsteroids,
+		//layerAsteroids
+		//layerMisc
+	};
+
+	public int GetLayerCollisions(int layerNum)
+	{
+		if(fullCollisions == null)
+		{
+			fullCollisions = new List<int>();
+			for (int i = 0; i < halfMatrixCollisions.Count; i++) 
+			{
+				int collisionMask = 0;
+				int layer = 1 << i;
+
+				for (int k = 0; k < halfMatrixCollisions.Count; k++)
+				{
+					if(k != layerNum)
+					{
+						if((halfMatrixCollisions[i] & layer) != 0)
+						{
+							collisionMask += 1 << k;
+						}
+					}
+					else
+					{
+						collisionMask += halfMatrixCollisions [layerNum];
+					}
+				}
+				fullCollisions.Add(collisionMask);
+				Debug.LogWarning(GetIntBinaryString(collisionMask));
+			}
+		}
+
+		return fullCollisions[layerNum];
+	}
+
+
+	static string GetIntBinaryString(int n)
+	{
+		char[] b = new char[32];
+		int pos = 31;
+		int i = 0;
+		
+		while (i < 32)
+		{
+			if ((n & (1 << i)) != 0)
+			{
+				b[pos] = '1';
+			}
+			else
+			{
+				b[pos] = '0';
+			}
+			pos--;
+			i++;
+		}
+		return new string(b);
+	}
 }
