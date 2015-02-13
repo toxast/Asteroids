@@ -473,6 +473,11 @@ public class Main : MonoBehaviour
 			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
 			PutOnFirstNullPlace(goDestructors, d); 
 		}
+		else if(gobject is BulletBase)
+		{
+			gobject.velocity /= 2f;
+			SplitAsteroidAndMarkForDestructionAllParts(gobject);
+		}
 		else
 		{
 			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);

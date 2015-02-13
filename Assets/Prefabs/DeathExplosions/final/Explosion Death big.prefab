@@ -46,7 +46,7 @@ ParticleSystem:
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: 1.60000002
+      scalar: 1.29999995
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -206,7 +206,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: 40
+      scalar: 30
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -276,14 +276,14 @@ ParticleSystem:
     maxNumParticles: 1000
   ShapeModule:
     serializedVersion: 2
-    enabled: 0
+    enabled: 1
     type: 5
     radius: .5
     angle: 25
     length: 5
-    boxX: 1
-    boxY: 1
-    boxZ: 1
+    boxX: 5
+    boxY: 5
+    boxZ: 0
     placementMode: 0
     m_Mesh: {fileID: 0}
     randomDirection: 0
@@ -323,15 +323,15 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
       minMaxState: 0
-    cnt0: 3
+    cnt0: 6
     cnt1: 2
     cnt2: 1
     cnt3: 30
     time0: 0
-    time1: .5
+    time1: .300000012
     time2: 1
     time3: 0
-    m_BurstCount: 1
+    m_BurstCount: 2
   SizeModule:
     enabled: 1
     curve:

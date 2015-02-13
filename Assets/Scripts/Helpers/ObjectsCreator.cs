@@ -44,7 +44,7 @@ public class ObjectsCreator
 		//var vr = Math2d.Chance (0.5f) ? Math2d.ScaleVertices2 (SpaceshipsData.alien6, 1.5f) : SpaceshipsData.alien3;
 		var vr = Math2d.ScaleVertices2 (SpaceshipsData.butterflySpaceship, 1.1f);
 		//var vr = Math2d.ScaleVertices2 (vrt, 1.5f);
-		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Color.white);
+		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
 		spaceship.gameObject.name = "enemy spaceship";
 
@@ -65,7 +65,7 @@ public class ObjectsCreator
 	public static EnemySpaceShip CreateBossEnemySpaceShip()
 	{
 		var vertices = PolygonCreator.GetCompleteVertexes (SpaceshipsData.halfBossVertices, 2).ToArray();
-		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Color.white);
+		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		
 		spaceship.gameObject.name = "boss";
 		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
@@ -86,7 +86,7 @@ public class ObjectsCreator
 
 	public static RogueEnemy CreateRogueEnemy()
 	{ 
-		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, defaultEnemyColor);
+		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		enemy.gameObject.name = "RogueEnemy";
 		DeathAnimation.MakeDeathForThatFellaYo (enemy);
 //		float size = 1f;
@@ -191,7 +191,7 @@ public class ObjectsCreator
 
 	public static EvadeEnemy CreateEvadeEnemy(List<BulletBase> bullets)
 	{
-		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, defaultEnemyColor);
+		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		
 		enemy.gameObject.name = "evade enemy";
 		DeathAnimation.MakeDeathForThatFellaYo (enemy);
@@ -206,7 +206,7 @@ public class ObjectsCreator
 
 	public static EvadeEnemy CreateTankEnemy(List<BulletBase> bullets)
 	{
-		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(TankEnemy.vertices, defaultEnemyColor);
+		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(TankEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		
 		List<GunPlace> gunplaces = new List<GunPlace>
 		{

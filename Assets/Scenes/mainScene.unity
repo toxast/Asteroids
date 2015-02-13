@@ -577,6 +577,7 @@ MonoBehaviour:
   RogueEnemyHealthModifier: 1
   DamageFromCollisionsModifier: .0299999993
   GasteroidColor: {r: .95588237, g: .909833252, b: .288170397, a: 1}
+  spaceshipEnemiesColor: {r: .183068037, g: .633886814, b: .752941191, a: 1}
   fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   fireEffect2: {fileID: 19882694, guid: 2715f74d18b622a44b9ace92a69b4e4b, type: 2}
   thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
