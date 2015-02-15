@@ -12,6 +12,7 @@ public class ObjectsCreator
 		var vr = Math2d.ScaleVertices2 (SpaceshipsData.fastSpaceshipVertices, 1f);
 		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(vr, Color.blue);
 
+		spaceship.SetCollisionLayer (GlobalConfig.ilayerUser);
 		spaceship.collector = new DropCollector (0.15f, 20f);
 
 		spaceship.gameObject.name = "Spaceship";
@@ -45,6 +46,7 @@ public class ObjectsCreator
 		var vr = Math2d.ScaleVertices2 (SpaceshipsData.butterflySpaceship, 1.1f);
 		//var vr = Math2d.ScaleVertices2 (vrt, 1.5f);
 		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
+		spaceship.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
 		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
 		spaceship.gameObject.name = "enemy spaceship";
 
@@ -66,7 +68,7 @@ public class ObjectsCreator
 	{
 		var vertices = PolygonCreator.GetCompleteVertexes (SpaceshipsData.halfBossVertices, 2).ToArray();
 		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-		
+		spaceship.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
 		spaceship.gameObject.name = "boss";
 		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
 		InitGuns (spaceship, SpaceshipsData.bossGunplaces, GunsData.SimpleGun2);
@@ -88,6 +90,7 @@ public class ObjectsCreator
 	{ 
 		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		enemy.gameObject.name = "RogueEnemy";
+		enemy.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
 		DeathAnimation.MakeDeathForThatFellaYo (enemy);
 //		float size = 1f;
 //		ShootPlace place1 = ShootPlace.GetSpaceshipShootPlace();
@@ -115,6 +118,7 @@ public class ObjectsCreator
 		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
 		
 		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, defaultEnemyColor);
+		asteroid.SetCollisionLayer (GlobalConfig.ilayerAsteroids);
 		asteroid.gameObject.name = "SawEnemy";
 		asteroid.Init();
 
@@ -132,6 +136,7 @@ public class ObjectsCreator
 		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
 		
 		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, defaultEnemyColor);
+		asteroid.SetCollisionLayer (GlobalConfig.ilayerAsteroids);
 		asteroid.gameObject.name = "spiked asteroid";
 		asteroid.Init(spikes);
 
@@ -147,6 +152,7 @@ public class ObjectsCreator
 		Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/5f, sides, out cannons);
 		
 		var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, defaultEnemyColor);
+		tower.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
 		tower.gameObject.name = "tower";
 		DeathAnimation.MakeDeathForThatFellaYo (tower);
 		List<GunPlace> gunplaces = new List<GunPlace> ();
@@ -176,6 +182,7 @@ public class ObjectsCreator
 		
 		var enemy = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(vertices, defaultEnemyColor);
 		enemy.gameObject.name = "tower1";
+		enemy.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
 		DeathAnimation.MakeDeathForThatFellaYo (enemy);
 		List<GunPlace> gunplaces = new List<GunPlace>
 		{
@@ -192,7 +199,7 @@ public class ObjectsCreator
 	public static EvadeEnemy CreateEvadeEnemy(List<BulletBase> bullets)
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-		
+		enemy.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
 		enemy.gameObject.name = "evade enemy";
 		DeathAnimation.MakeDeathForThatFellaYo (enemy);
 		InitGuns (enemy, EvadeEnemy.gunplaces, GunsData.SimpleGun2);
@@ -207,7 +214,7 @@ public class ObjectsCreator
 	public static EvadeEnemy CreateTankEnemy(List<BulletBase> bullets)
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(TankEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-		
+		enemy.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
 		List<GunPlace> gunplaces = new List<GunPlace>
 		{
 			new GunPlace(new Vector2(1.5f, 0.75f), new Vector2(1.0f, 0f)),
@@ -230,6 +237,7 @@ public class ObjectsCreator
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 		
 		Gasteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Gasteroid>(vertices, Singleton<GlobalConfig>.inst.GasteroidColor);
+		asteroid.SetCollisionLayer (GlobalConfig.ilayerAsteroids);
 		asteroid.Init ();
 		asteroid.gameObject.name = "gasteroid";
 
@@ -241,8 +249,8 @@ public class ObjectsCreator
 		float size = Random.Range(3f, 8f);
 		int vcount = Random.Range(5, 5 + (int)size*3);
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
-		
 		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, defaultEnemyColor);
+		asteroid.SetCollisionLayer (GlobalConfig.ilayerAsteroids);
 		asteroid.Init ();
 		asteroid.gameObject.name = "asteroid";
 		
@@ -256,6 +264,7 @@ public class ObjectsCreator
 		Vector2[] vertices = PolygonCreator.CreatePrefectPolygonVertices(size, vcount);
 		
 		var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, Color.cyan);
+		drop.SetCollisionLayer (GlobalConfig.ilayerMisc);
 		drop.gameObject.name = "drop";
 		drop.lifetime = 10f;
 		

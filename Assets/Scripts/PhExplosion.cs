@@ -10,6 +10,9 @@ public class PhExplosion
 		float rsqr = radius * radius;
 		foreach(var obj in objs)
 		{
+			if(obj == null)
+				Debug.LogError("null");
+
 			Vector2 dist = (Vector2)obj.cacheTransform.position - pos;
 			float sqrMagnitude = dist.sqrMagnitude;
 			if(sqrMagnitude < rsqr) 

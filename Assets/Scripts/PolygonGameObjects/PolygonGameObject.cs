@@ -8,6 +8,11 @@ public class PolygonGameObject : MonoBehaviour , IGotTarget
 	public Transform cacheTransform;
 	public Polygon polygon;
 	public Mesh mesh;
+
+	public int layer;
+	public int collision;
+
+
 	public PolygonGameObject shieldGO;
 
 	public DropID dropID;

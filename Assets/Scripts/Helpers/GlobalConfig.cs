@@ -61,10 +61,12 @@ public class GlobalConfig : MonoBehaviour{
 		//layerBulletsEnemies
 		layerAsteroids,
 		//layerAsteroids
+		0,
 		//layerMisc
+		0,
 	};
 
-	public int GetLayerCollisions(int layerNum)
+	public static int GetLayerCollisions(int layerNum)
 	{
 		if(fullCollisions == null)
 		{
@@ -76,16 +78,16 @@ public class GlobalConfig : MonoBehaviour{
 
 				for (int k = 0; k < halfMatrixCollisions.Count; k++)
 				{
-					if(k != layerNum)
+					if(k != i)
 					{
-						if((halfMatrixCollisions[i] & layer) != 0)
+						if((halfMatrixCollisions[k] & layer) != 0)
 						{
 							collisionMask += 1 << k;
 						}
 					}
 					else
 					{
-						collisionMask += halfMatrixCollisions [layerNum];
+						collisionMask += halfMatrixCollisions [k];
 					}
 				}
 				fullCollisions.Add(collisionMask);
@@ -95,7 +97,6 @@ public class GlobalConfig : MonoBehaviour{
 
 		return fullCollisions[layerNum];
 	}
-
 
 	static string GetIntBinaryString(int n)
 	{

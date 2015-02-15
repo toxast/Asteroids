@@ -18,11 +18,12 @@ public class Main : MonoBehaviour
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
 	UserSpaceShip spaceship;
-	List <PolygonGameObject> enemies = new List<PolygonGameObject>();
-	List <PolygonGameObject> asteroids = new List<PolygonGameObject>();
+	List <PolygonGameObject> gobjects = new List<PolygonGameObject>();
+	//List <PolygonGameObject> enemies = new List<PolygonGameObject>();
+	//List <PolygonGameObject> asteroids = new List<PolygonGameObject>();
 	List <polygonGO.Drop> drops = new List<polygonGO.Drop>();
 	List <BulletBase> bullets = new List<BulletBase>();
-	List <BulletBase> enemyBullets = new List<BulletBase>();
+	//List <BulletBase> enemyBullets = new List<BulletBase>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
 	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
@@ -84,6 +85,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	//TODO: partial objects reposition?
 	IEnumerator RepositionAll()
 	{
 		yield return new WaitForSeconds(1f);
@@ -96,10 +98,11 @@ public class Main : MonoBehaviour
 				{
 					spaceship.position -= pos;
 
-					Reposition(enemies, pos, false);
+					Reposition(gobjects, pos, false);
+					//Reposition(enemies, pos, false);
 					Reposition(powerUps, pos, false);
 					Reposition(bullets, pos, true);
-					Reposition(enemyBullets, pos, true);
+					//Reposition(enemyBullets, pos, true);
 
 					var stars = starsGenerator.stars;
 					for (int i = 0; i < stars.Length ; i++)
@@ -173,14 +176,18 @@ public class Main : MonoBehaviour
 			
 			if (spaceship != null)
 			{
-				foreach (var e in enemies) 
+				foreach (var e in gobjects) 
 				{
 					e.SetTarget(spaceship);
 				}
-				foreach (var e in asteroids) 
-				{
-					e.SetTarget(spaceship);
-				}
+//				foreach (var e in enemies) 
+//				{
+//					e.SetTarget(spaceship);
+//				}
+//				foreach (var e in asteroids) 
+//				{
+//					e.SetTarget(spaceship);
+//				}
 			}
 		}
 	}
@@ -298,28 +305,31 @@ public class Main : MonoBehaviour
 		}
 
 		TickBullets (bullets, Time.deltaTime);
-		TickBullets (enemyBullets, enemyDtime);
+		//TickBullets (enemyBullets, enemyDtime);
 
-		TickObjects (asteroids, enemyDtime);
-		TickObjects (enemies, enemyDtime);
+		TickObjects (gobjects, enemyDtime);
+//		TickObjects (asteroids, enemyDtime);
+//		TickObjects (enemies, enemyDtime);
 		TickObjects (powerUps, enemyDtime);
 		TickObjects (drops, enemyDtime);
 
 		if(boundsMode)
 		{
 			CheckBounds(bullets, true);
-			CheckBounds(enemyBullets, true);
-			CheckBounds(enemies, false);
-			CheckBounds(asteroids, false);
+			CheckBounds (gobjects, false);
+			//CheckBounds(enemyBullets, true);
+			//CheckBounds(enemies, false);
+			//CheckBounds(asteroids, false);
 			CheckBounds(powerUps, false);
 			CheckBounds(drops, false);
 		}
 		else
 		{
 			Wrap(bullets, true);
-			Wrap(enemyBullets, true);
-			Wrap(enemies, false);
-			Wrap(asteroids, false);
+			Wrap(gobjects, true);
+//			Wrap(enemyBullets, true);
+//			Wrap(enemies, false);
+//			Wrap(asteroids, false);
 			Wrap(powerUps, false);
 			Wrap(drops, false);
 		}
@@ -328,9 +338,10 @@ public class Main : MonoBehaviour
 
 		Tick_GO_Destructors (Time.deltaTime);
 
-		BulletsHitObjects (enemies, bullets);
-		BulletsHitObjects (asteroids, bullets);
-		BulletsHitObjects (asteroids, enemyBullets);
+		BulletsHitObjects (gobjects, bullets);
+//		BulletsHitObjects (enemies, bullets);
+//		BulletsHitObjects (asteroids, bullets);
+//		BulletsHitObjects (asteroids, enemyBullets);
 
 		if(spaceship != null)
 		{
@@ -339,17 +350,24 @@ public class Main : MonoBehaviour
 				spaceship.collector.Pull(spaceship.position, drops, Time.deltaTime);
 			}
 
-			BulletsHitObject(spaceship, enemyBullets);
+			BulletsHitObject(spaceship, bullets);
 
-			for (int i = enemies.Count - 1; i >= 0; i--) 
+			//BulletsHitObject(spaceship, enemyBullets);
+
+			for (int i = gobjects.Count - 1; i >= 0; i--) 
 			{
-				ObjectsCollide(spaceship, enemies[i]);
+				ObjectsCollide(spaceship, gobjects[i]);
 			}
 
-			for (int i = asteroids.Count - 1; i >= 0; i--) 
-			{
-				ObjectsCollide(spaceship, asteroids[i]);
-			}
+//			for (int i = enemies.Count - 1; i >= 0; i--) 
+//			{
+//				ObjectsCollide(spaceship, enemies[i]);
+//			}
+//
+//			for (int i = asteroids.Count - 1; i >= 0; i--) 
+//			{
+//				ObjectsCollide(spaceship, asteroids[i]);
+//			}
 
 			for (int i = drops.Count - 1; i >= 0; i--) 
 			{
@@ -362,14 +380,23 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		//experimental
-		for (int i = enemies.Count - 1; i >= 0; i--) 
+		for (int i = gobjects.Count - 1; i >= 0; i--) 
 		{
-			for (int k = asteroids.Count - 1; k >= 0; k--) 
+			for (int k = gobjects.Count - 1; k >= 0; k--) 
 			{
-				ObjectsCollide(enemies[i], asteroids[k]);
+				if(i != k)
+					ObjectsCollide(gobjects[i], gobjects[k]);
 			}
 		}
+
+		//experimental
+//		for (int i = enemies.Count - 1; i >= 0; i--) 
+//		{
+//			for (int k = asteroids.Count - 1; k >= 0; k--) 
+//			{
+//				ObjectsCollide(enemies[i], asteroids[k]);
+//			}
+//		}
 
 		//TODO: refactor
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
@@ -414,11 +441,13 @@ public class Main : MonoBehaviour
 			ObjectDeath(spaceship);
 			spaceship = null;
 		}
-		CheckDeadObjects (enemies);
-		CheckDeadObjects (asteroids);
+
+		CheckDeadObjects (gobjects);
+		//CheckDeadObjects (enemies);
+		//CheckDeadObjects (asteroids);
 		CheckDeadObjects (drops);
 		CheckDeadObjects (bullets);
-		CheckDeadObjects (enemyBullets);
+		//CheckDeadObjects (enemyBullets);
 	}
 
 	private void CheckDeadObjects<T> (List<T> objs, bool nullCheck = false)
@@ -460,16 +489,16 @@ public class Main : MonoBehaviour
 		{
 			SplitAsteroidAndMarkForDestructionAllParts(gobject);
 			
-			//TODO: refactor
-			List<PolygonGameObject> affected = new List<PolygonGameObject>();
-			affected.Add(spaceship);
-			affected.AddRange(asteroids);
-			affected.AddRange(enemies);
-			new PhExplosion(gobject.cacheTransform.position, 8*gobject.mass, affected);
+			//TODO: refactor, do not make explosions on object death?
+//			List<PolygonGameObject> affected = new List<PolygonGameObject>();
+//			affected.Add(spaceship);
+//			affected.AddRange(gobjects);
+////			affected.AddRange(asteroids);
+////			affected.AddRange(enemies);
+//			new PhExplosion(gobject.cacheTransform.position, 8*gobject.mass, affected);
 			var e = Instantiate(gasteroidExplosion) as ParticleSystem;
 			e.transform.position = gobject.cacheTransform.position - new Vector3(0,0,1);
 			e.transform.localScale = new Vector3(gobject.polygon.R, gobject.polygon.R, 1);
-			
 			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
 			PutOnFirstNullPlace(goDestructors, d); 
 		}
@@ -498,7 +527,7 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		if(gobject.deathAnimation != null)
+		if(gobject.deathAnimation != null && gobject.deathAnimation.instantiatedExplosions != null)
 		{
 			foreach (var e in gobject.deathAnimation.instantiatedExplosions) 
 			{
@@ -513,6 +542,9 @@ public class Main : MonoBehaviour
 
 	private void ObjectsCollide(PolygonGameObject a, PolygonGameObject b)
 	{
+		if((a.collision & b.layer) == 0)
+			return;
+
 		int indxa, indxb;
 		if(PolygonCollision.IsCollides(a, b, out indxa, out indxb))
 		{
@@ -540,7 +572,10 @@ public class Main : MonoBehaviour
 			var bullet = pbullets[k];
 			if(bullet == null)
 				continue;
-			
+
+			if((obj.collision & bullet.layer) == 0)
+				continue;
+
 			int indxa, indxb;
 			if(PolygonCollision.IsCollides(obj, bullet, out indxa, out indxb))
 			{
@@ -661,12 +696,15 @@ public class Main : MonoBehaviour
 	{
 		if(p is Asteroid)
 		{
-			asteroids.Add(p);
+			p.SetCollisionLayer(GlobalConfig.ilayerAsteroids);
+			//asteroids.Add(p);
 		}
 		else
 		{
-			enemies.Add (p);
+			p.SetCollisionLayer(GlobalConfig.ilayerTeamEnemies);
+			//enemies.Add (p);
 		}
+		gobjects.Add (p);
 	}
 
 	private float GetCollisionDamage(float impulse)
@@ -827,11 +865,13 @@ public class Main : MonoBehaviour
 
 	void HandleEnemyGunFire (BulletBase bullet)
 	{
-		PutOnFirstNullPlace<BulletBase>(enemyBullets, bullet);
+		bullet.SetCollisionLayer (GlobalConfig.ilayerBulletsEnemies);
+		PutOnFirstNullPlace<BulletBase>(bullets, bullet);
 	}
 
 	void HandleGunFire (BulletBase bullet)
 	{
+		bullet.SetCollisionLayer (GlobalConfig.ilayerBulletsUser);
 		PutOnFirstNullPlace<BulletBase>(bullets, bullet);
 	}
 	
@@ -1034,6 +1074,7 @@ public class Main : MonoBehaviour
 	 * death refactor && missiles explosion on death
 	 * explision by vertex
 	 * gravity misiles
+	 * change rotation (thruster attach) missiles?
 	 * mine missiles
 	 * make enemies fight with each other!
 	 * multiple thrusters
