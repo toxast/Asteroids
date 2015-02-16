@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class Gun : IGotTarget
+public class Gun : IGotTarget, ITickable
 {
 	protected PolygonGameObject target;
 	public GunPlace place;
@@ -11,8 +11,14 @@ public class Gun : IGotTarget
 	public float lifeTime;
 	public float damage;
 	public float fireInterval;
-	public float timeToNextShot = 0f;
+
 	public ParticleSystem fireEffect;
+
+	public int repeatCount = 0;
+	public float repeatInterval = 0;
+	private int currentRepeat = 0;
+
+	public float timeToNextShot = 0f;
 
 	public event Action<IBullet> onFire;
 
@@ -26,17 +32,59 @@ public class Gun : IGotTarget
 		this.target = target;
 	}
 
-	public virtual void Tick(float delta)
+	public void Tick(float delta)
 	{
+		if(timeToNextShot > 0)
+		{
+			timeToNextShot -= delta;
+		}
+	}
+	
+	public bool ReadyToShoot()
+	{
+		return timeToNextShot <= 0;
+	}
+	
+	public void ResetTime()
+	{
+		if(repeatCount > 0)
+		{
+			SetNextRepeatTime();
+		}
+		else
+		{
+			timeToNextShot = fireInterval;
+		}
 	}
 
-	public virtual void ShootIfReady()
+	private void SetNextRepeatTime()
 	{
+		currentRepeat ++;
+		if(currentRepeat >= repeatCount)
+			currentRepeat = 0;
+		
+		if(currentRepeat == 0)
+		{
+			timeToNextShot = fireInterval;
+		}
+		else
+		{
+			timeToNextShot = repeatInterval;
+		}
+	}
+	
+	public void ShootIfReady()
+	{
+		if(ReadyToShoot())
+		{
+			ResetTime();
+			Fire(CreateBullet());
+		}
 	}
 
-	public virtual bool ReadyToShoot()
+	protected virtual IBullet CreateBullet()
 	{
-		return false;
+		throw new System.NotImplementedException ();
 	}
 
 	protected void Fire(IBullet b)

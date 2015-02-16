@@ -8,34 +8,7 @@ public class RocketLauncher : Gun
 	public Color color;
 	public RocketLauncher(GunPlace place):base(place){}
 
-	public override void Tick(float delta)
-	{
-		if(timeToNextShot > 0)
-		{
-			timeToNextShot -= delta;
-		}
-	}
-	
-	public override bool ReadyToShoot()
-	{
-		return timeToNextShot <= 0 && target != null;
-	}
-	
-	public void ResetTime()
-	{
-		timeToNextShot = fireInterval;
-	}
-	
-	public override void ShootIfReady()
-	{
-		if(ReadyToShoot())
-		{
-			ResetTime();
-			Fire(CreateMissile());
-		}
-	}
-	
-	private IBullet CreateMissile()
+	protected override IBullet CreateBullet()
 	{
 		Missile missile = PolygonCreator.CreatePolygonGOByMassCenter<Missile>(missileVertices, color);
 
