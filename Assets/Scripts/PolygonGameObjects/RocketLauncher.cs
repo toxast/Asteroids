@@ -49,8 +49,11 @@ public class RocketLauncher : Gun
 		PositionOnShooterPlace (missile, transform);
 		
 		missile.gameObject.name = "missile";
-		
-		missile.Init(target, bulletSpeed, damage, lifeTime); 
+		var controller = new MissileController (missile);
+		missile.Init ();
+		missile.SetController (controller);
+		missile.SetTarget (target);
+		//missile.Init(target, bulletSpeed, damage, lifeTime); 
 		
 		return missile;
 	}

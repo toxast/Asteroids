@@ -36,6 +36,15 @@ public class SpaceShip : PolygonGameObject
 		velocity = Vector3.zero;
 	}
 
+	public override void SetTarget (PolygonGameObject target)
+	{
+		base.SetTarget (target);
+
+		var cnt = inputController as IGotTarget;
+		if (cnt != null)
+			cnt.SetTarget (target);
+	}
+
 	public void Init(SpaceshipData data)
 	{
 		turnSpeed = data.turnSpeed;

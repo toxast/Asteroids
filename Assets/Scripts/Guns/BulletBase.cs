@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BulletBase : PolygonGameObject, IBullet
+public class BulletBase
 {
 	public float damage{ get; set;}
 	protected float lifeTime;
@@ -13,10 +13,8 @@ public class BulletBase : PolygonGameObject, IBullet
 		this.lifeTime = lifeTime;
 	}
 
-	public override void Tick (float delta)
+	public void Tick (float delta)
 	{
-		base.Tick (delta);
-
 		lifeTime -= delta; 
 	}
 
