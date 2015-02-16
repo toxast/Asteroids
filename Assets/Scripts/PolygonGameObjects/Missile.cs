@@ -4,7 +4,7 @@ using System.Collections;
 public class Missile : SpaceShip, IBullet
 {
 	public float damage{ get; set;}
-	protected float lifeTime = 5f;
+	protected float lifeTime;
 
 	protected override void Awake ()
 	{
@@ -25,6 +25,8 @@ public class Missile : SpaceShip, IBullet
 	public void Init()
 	{
 		DeathAnimation.MakeDeathForThatFellaYo (this, true);
+		damage = 3f; //TODO
+		lifeTime = 5f; //TODO;
 	}
 
 //	public void Init(PolygonGameObject target, float maxVelocity, float dmg, float lifetime)

@@ -7,6 +7,11 @@ public class BulletGun : Gun
 	public Vector2[] vertices; 
 	public Color color;
 
+	public int repeatCount = 0;
+	public float repeatInterval = 0;
+	private int currentRepeat = 0;
+
+
 	public BulletGun(GunPlace place):base(place)
 	{
 	}
@@ -26,7 +31,26 @@ public class BulletGun : Gun
 	
 	public void ResetTime()
 	{
-		timeToNextShot = fireInterval;
+
+		if(repeatCount > 0)
+		{
+			currentRepeat ++;
+			if(currentRepeat >= repeatCount)
+				currentRepeat = 0;
+
+			if(currentRepeat == 0)
+			{
+				timeToNextShot = fireInterval;
+			}
+			else
+			{
+				timeToNextShot = repeatInterval;
+			}
+		}
+		else
+		{
+			timeToNextShot = fireInterval;
+		}
 	}
 	
 	public override void ShootIfReady()
