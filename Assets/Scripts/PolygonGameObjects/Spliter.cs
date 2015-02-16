@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Spliter 
 {
-	public static List<Asteroid> SplitIntoAsteroids(PolygonGameObject polygonGo)
+	public static List<Asteroid> SplitIntoAsteroids(IPolygonGameObject polygonGo)
 	{
 		List<Vector2[]> polys = polygonGo.Split();
 		List<Asteroid> parts = new List<Asteroid>();
@@ -16,7 +16,7 @@ public class Spliter
 		
 		foreach(var vertices in polys)
 		{
-			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.mesh.colors[0]);
+			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.GetColor());
 			
 			//			if(PolygonCreator.CheckIfVerySmallOrSpiky(asteroidPart.polygon))
 			//			{
@@ -38,7 +38,7 @@ public class Spliter
 		return parts;
 	}
 
-	private static void CalculateObjectPartVelocity(List<Asteroid> parts, PolygonGameObject mainPart)
+	private static void CalculateObjectPartVelocity(List<Asteroid> parts, IPolygonGameObject mainPart)
 	{
 		Vector2 mainVelocity = mainPart.velocity;
 		float mainRotation = mainPart.rotation* Math2d.PIdiv180; 
@@ -101,7 +101,7 @@ public class Spliter
 			Vector2 perpendecular = new Vector2(direction.y, -direction.x);
 			part.velocity += (Vector3)perpendecular.normalized * rotationSign * Mathf.Sqrt( 2f * velocityEnegryFromRotation / part.mass );
 			
-			part.velocity.z = 0;//TODO: z system*/
+			part.velocity = part.velocity.SetZ(0);//TODO: z system*/
 		}
 	}
 }

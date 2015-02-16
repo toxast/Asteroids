@@ -14,7 +14,7 @@ public class Gun : IGotTarget
 	public float timeToNextShot = 0f;
 	public ParticleSystem fireEffect;
 
-	public event Action<BulletBase> onFire;
+	public event Action<IBullet> onFire;
 
 	public Gun(GunPlace place)
 	{
@@ -39,7 +39,7 @@ public class Gun : IGotTarget
 		return false;
 	}
 
-	protected void Fire(BulletBase b)
+	protected void Fire(IBullet b)
 	{
 		if(onFire != null)
 			onFire(b);

@@ -38,7 +38,7 @@ public class BulletGun : Gun
 		}
 	}
 
-	public BulletBase CreateBullet()
+	public IBullet CreateBullet()
 	{
 		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(vertices, color);
 		

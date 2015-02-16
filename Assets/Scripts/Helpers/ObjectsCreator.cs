@@ -196,7 +196,7 @@ public class ObjectsCreator
 		return enemy;
 	}
 
-	public static EvadeEnemy CreateEvadeEnemy(List<BulletBase> bullets)
+	public static EvadeEnemy CreateEvadeEnemy(List<IBullet> bullets)
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		enemy.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
@@ -211,7 +211,7 @@ public class ObjectsCreator
 
 
 
-	public static EvadeEnemy CreateTankEnemy(List<BulletBase> bullets)
+	public static EvadeEnemy CreateTankEnemy(List<IBullet> bullets)
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(TankEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		enemy.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);

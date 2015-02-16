@@ -33,10 +33,10 @@ public class EvadeEnemy : PolygonGameObject
 	private float currentAimAngle = 0;
 	private int goRoundTargetSign = 1;
 
-	private List<BulletBase> incomingBullets;
+	private List<IBullet> incomingBullets;
 	Rotaitor cannonsRotaitor;
 
-	public void Init(List<BulletBase> incomingBullets)
+	public void Init(List<IBullet> incomingBullets)
 	{
 		this.incomingBullets = incomingBullets;
 

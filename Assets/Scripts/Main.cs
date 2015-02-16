@@ -18,11 +18,11 @@ public class Main : MonoBehaviour
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
 	UserSpaceShip spaceship;
-	List <PolygonGameObject> gobjects = new List<PolygonGameObject>();
+	List <IPolygonGameObject> gobjects = new List<IPolygonGameObject>();
 	//List <PolygonGameObject> enemies = new List<PolygonGameObject>();
 	//List <PolygonGameObject> asteroids = new List<PolygonGameObject>();
 	List <polygonGO.Drop> drops = new List<polygonGO.Drop>();
-	List <BulletBase> bullets = new List<BulletBase>();
+	List <IBullet> bullets = new List<IBullet>();
 	//List <BulletBase> enemyBullets = new List<BulletBase>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
@@ -451,7 +451,7 @@ public class Main : MonoBehaviour
 	}
 
 	private void CheckDeadObjects<T> (List<T> objs, bool nullCheck = false)
-		where T: PolygonGameObject
+		where T: IPolygonGameObject
 	{
 		for (int k = objs.Count - 1; k >= 0; k--)
 		{
@@ -471,7 +471,7 @@ public class Main : MonoBehaviour
 					ObjectDeath(objs[k]);
 					if(nullCheck)
 					{
-						objs[k] = null;
+						objs[k] = default(T);
 					}
 					else
 					{
@@ -482,7 +482,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void ObjectDeath(PolygonGameObject gobject)
+	private void ObjectDeath(IPolygonGameObject gobject)
 	{
 		//TODO: refactor
 		if(gobject is Gasteroid)
@@ -502,7 +502,7 @@ public class Main : MonoBehaviour
 			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
 			PutOnFirstNullPlace(goDestructors, d); 
 		}
-		else if(gobject is BulletBase)
+		else if(gobject is IBullet)
 		{
 			gobject.velocity /= 2f;
 			SplitAsteroidAndMarkForDestructionAllParts(gobject);
@@ -536,11 +536,11 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		Destroy(gobject.gameObject);
+		Destroy(gobject.gameObj);
 		gobject = null;
 	}
 
-	private void ObjectsCollide(PolygonGameObject a, PolygonGameObject b)
+	private void ObjectsCollide(IPolygonGameObject a, IPolygonGameObject b)
 	{
 		if((a.collision & b.layer) == 0)
 			return;
@@ -557,7 +557,7 @@ public class Main : MonoBehaviour
 	}
 
 	//TODO: ckecks
-	private void BulletsHitObjects(List<PolygonGameObject> objs, List<BulletBase> pbullets)
+	private void BulletsHitObjects(List<IPolygonGameObject> objs, List<IBullet> pbullets)
 	{
 		for (int i = objs.Count - 1; i >= 0; i--) 
 		{
@@ -565,7 +565,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void BulletsHitObject(PolygonGameObject obj,  List<BulletBase> pbullets)
+	private void BulletsHitObject(IPolygonGameObject obj,  List<IBullet> pbullets)
 	{
 		for (int k = pbullets.Count - 1; k >= 0; k--)
 		{
@@ -626,17 +626,17 @@ public class Main : MonoBehaviour
 		p.velocity += (Time.deltaTime * f) / p.mass ;
 	}
 
-	private void SplitIntoAsteroidsAndMarkForDestuctionSmallParts(PolygonGameObject obj)
+	private void SplitIntoAsteroidsAndMarkForDestuctionSmallParts(IPolygonGameObject obj)
 	{
 		SplitAndDestroyThresholdParts (obj, DestroyAfterSplitTreshold);
 	}
 
-	private void SplitAsteroidAndMarkForDestructionAllParts(PolygonGameObject obj)
+	private void SplitAsteroidAndMarkForDestructionAllParts(IPolygonGameObject obj)
 	{
 		SplitAndDestroyThresholdParts (obj, Mathf.Infinity);
 	}
 
-	private void SplitAndDestroyThresholdParts(PolygonGameObject obj, float threshold)
+	private void SplitAndDestroyThresholdParts(IPolygonGameObject obj, float threshold)
 	{
 		DropData drop = null;
 		if(obj.dropID != null)
@@ -669,7 +669,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void CheckDrop(DropData drop, PolygonGameObject destroyingPart)
+	private void CheckDrop(DropData drop, IPolygonGameObject destroyingPart)
 	{
 		int lastDrops = (int)((drop.areaLeft/drop.startingArea) * drop.dropsCount);
 		drop.areaLeft -= destroyingPart.polygon.area;
@@ -716,7 +716,7 @@ public class Main : MonoBehaviour
 
 
 	private void TickObjects<T>(List<T> list, float dtime)
-		where T: PolygonGameObject
+		where T: IPolygonGameObject
 	{
 		for (int i = 0; i < list.Count ; i++)
 		{
@@ -725,7 +725,7 @@ public class Main : MonoBehaviour
 	}
 
 	private void CheckBounds<T>(List<T> list, bool nullCheck)
-		where T: PolygonGameObject
+		where T: IPolygonGameObject
 	{
 		if(!nullCheck)
 		{
@@ -746,7 +746,7 @@ public class Main : MonoBehaviour
 
 
 	private void Reposition<T>(List<T> list, Vector2 delta, bool nullCheck)
-		where T: PolygonGameObject
+		where T: IPolygonGameObject
 	{
 		if(!nullCheck)
 		{
@@ -766,7 +766,7 @@ public class Main : MonoBehaviour
 	}
 
 	private void Wrap<T>(List<T> list, bool nullCheck)
-		where T: PolygonGameObject
+		where T: IPolygonGameObject
 	{
 		if(!nullCheck)
 		{
@@ -786,7 +786,7 @@ public class Main : MonoBehaviour
 	}
 
 	private void TickBullets<T>(List<T> list, float dtime)
-		where T: BulletBase
+		where T: IBullet
 	{
 		for (int i = 0; i < list.Count ; i++)
 		{
@@ -802,7 +802,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void CheckBounds(PolygonGameObject p)
+	private void CheckBounds(IPolygonGameObject p)
 	{
 		Vector3 pos = p.cacheTransform.position;
 		float R = p.polygon.R;
@@ -863,16 +863,16 @@ public class Main : MonoBehaviour
 		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
 	}
 
-	void HandleEnemyGunFire (BulletBase bullet)
+	void HandleEnemyGunFire (IBullet bullet)
 	{
 		bullet.SetCollisionLayer (GlobalConfig.ilayerBulletsEnemies);
-		PutOnFirstNullPlace<BulletBase>(bullets, bullet);
+		PutOnFirstNullPlace<IBullet>(bullets, bullet);
 	}
 
-	void HandleGunFire (BulletBase bullet)
+	void HandleGunFire (IBullet bullet)
 	{
 		bullet.SetCollisionLayer (GlobalConfig.ilayerBulletsUser);
-		PutOnFirstNullPlace<BulletBase>(bullets, bullet);
+		PutOnFirstNullPlace<IBullet>(bullets, bullet);
 	}
 	
 	public void CreateEnemySpaceShip()
@@ -998,7 +998,7 @@ public class Main : MonoBehaviour
 		return asteroid;
 	}
 
-	private void CreateDropForObject(PolygonGameObject obj)
+	private void CreateDropForObject(IPolygonGameObject obj)
 	{
 		obj.dropID = new DropID ();
 		DropData dropData = new DropData
@@ -1020,7 +1020,7 @@ public class Main : MonoBehaviour
 		Add2Enemies(enemy);
 	}
 	
-	private void SetRandomPosition(PolygonGameObject p)
+	private void SetRandomPosition(IPolygonGameObject p)
 	{
 		float angle = UnityEngine.Random.Range(0f, 359f) * Math2d.PIdiv180;
 		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, screenBounds.yMax);

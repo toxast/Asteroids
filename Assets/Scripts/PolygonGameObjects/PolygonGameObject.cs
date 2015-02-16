@@ -3,41 +3,55 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PolygonGameObject : MonoBehaviour , IGotTarget
+public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 {
-	public Transform cacheTransform;
-	public Polygon polygon;
+	//basic
+	public GameObject gameObj{get{return gameObject;}}
+	public Polygon polygon{ get; private set;}
+	public Transform cacheTransform{ get; private set;}
 	public Mesh mesh;
 
-	public int layer;
-	public int collision;
+	//collision
+	public int layer{ get; set;}
+	public int collision{ get; set;}
 
-
-	public PolygonGameObject shieldGO;
-
-	public DropID dropID;
+	//physical
+	public float density{ get; set;}
+	public float mass{ get; private set;}
+	public float inertiaMoment{ get; private set;}
+	public Vector3 velocity{ get; set;}
+	public float rotation{ get; set;}
 
 	protected float fullHealth;
 	[SerializeField] protected float currentHealth;
-
-	protected Shield shield = null;
-
-	public float density = 1;
-	public float mass;
-	public float inertiaMoment;
-	public Vector3 velocity;
-	public float rotation;
-
-	public DeathAnimation deathAnimation;
-
-	protected PolygonGameObject target;
-	public List<Gun> guns = new List<Gun>();
-
 	public event Action<float> healthChanged;
 
-	void Awake () 
+	public List<Gun> guns { get; set;}
+
+	protected PolygonGameObject target;
+
+	protected Shield shield = null;
+	[SerializeField] private PolygonGameObject shieldGO;
+
+	public DropID dropID{get; set;}
+
+	public DeathAnimation deathAnimation{get; set;}
+
+	protected virtual void Awake () 
 	{
 		cacheTransform = transform;
+		guns = new List<Gun>();
+	}
+
+	public void SetPolygon(Polygon polygon)
+	{
+		this.polygon = polygon;
+		density = 1;
+		mass = polygon.area * density;
+		float approximationR = polygon.R * 4f / 5f;
+		inertiaMoment = mass * approximationR * approximationR / 2f;
+		fullHealth = Mathf.Sqrt(mass) * healthModifier;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
+		currentHealth = fullHealth;
 	}
 
 	public virtual void SetTarget(PolygonGameObject target)
@@ -52,32 +66,14 @@ public class PolygonGameObject : MonoBehaviour , IGotTarget
 		set{cacheTransform.position = ((Vector3)value).SetZ(cacheTransform.position.z);}
 	}
 
-	public void SetShield(ShieldData shieldData)
-	{
-		shield = new Shield (shieldData);
-
-		Color shCol = Color.green;
-		shCol.a = 0.3f;
-		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.vertices, 0.4f);
-		shieldGO = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(v, shCol);
-		shieldGO.cacheTransform.parent = cacheTransform;
-		shieldGO.cacheTransform.localPosition = new Vector3 (0, 0, 1);
-		shield.SetShieldGO (shieldGO);
-	}
-
-	public void SetPolygon(Polygon polygon)
-	{
-		this.polygon = polygon;
-		mass = polygon.area * density;
-		float approximationR = polygon.R * 4f / 5f;
-		inertiaMoment = mass * approximationR * approximationR / 2f;
-		fullHealth = Mathf.Sqrt(mass) * healthModifier;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
-		currentHealth = fullHealth;
-	}
-
 	protected virtual float healthModifier
 	{
 		get{return Singleton<GlobalConfig>.inst.GlobalHealthModifier;}
+	}
+
+	public Color GetColor()
+	{
+		return mesh.colors [0];
 	}
 
 	public void SetColor(Color col)
@@ -193,6 +189,19 @@ public class PolygonGameObject : MonoBehaviour , IGotTarget
 	public bool IsKilled()
 	{
 		return currentHealth <= 0;
+	}
+
+	public void SetShield(ShieldData shieldData)
+	{
+		shield = new Shield (shieldData);
+		
+		Color shCol = Color.green;
+		shCol.a = 0.3f;
+		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.vertices, 0.4f);
+		shieldGO = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(v, shCol);
+		shieldGO.cacheTransform.parent = cacheTransform;
+		shieldGO.cacheTransform.localPosition = new Vector3 (0, 0, 1);
+		shield.SetShieldGO (shieldGO);
 	}
 
 	public virtual void Tick(float delta)

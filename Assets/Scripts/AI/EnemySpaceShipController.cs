@@ -6,7 +6,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 {
 	PolygonGameObject thisShip;
 	PolygonGameObject target;
-	List<BulletBase> bullets;
+	List<IBullet> bullets;
 	bool shooting = false;
 	bool accelerating = false;
 	Vector2 turnDirection;
@@ -21,7 +21,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 //		NO_ACCELERATION_ATTACK,
 //	}
 
-	public EnemySpaceShipController(PolygonGameObject thisShip, List<BulletBase> bullets, float bulletsSpeed)
+	public EnemySpaceShipController(PolygonGameObject thisShip, List<IBullet> bullets, float bulletsSpeed)
 	{
 		this.bulletsSpeed = bulletsSpeed;
 		this.bullets = bullets;
@@ -70,7 +70,11 @@ public class EnemySpaceShipController : InputController, IGotTarget
 				{
 
 					dir = target.cacheTransform.position - thisShip.cacheTransform.position;
-					if(bullets.Exists(b => b != null && CheckForBulletCollision(b, dir)))
+					if(bullets.Exists(b =>
+					                  b != null && 
+					                  (b.collision & thisShip.layer) != 0 && 
+					                  CheckForBulletCollision(b, dir)
+					                  ))
 					{
 						leftUntilCheck = checkForBulletTime/2f;
 						Vector2 newDir = RotateDiraction(dir, 45f, 90f);
@@ -116,7 +120,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		}
 	}
 
-	private bool CheckForBulletCollision(BulletBase b, Vector2 dir)
+	private bool CheckForBulletCollision(IBullet b, Vector2 dir)
 	{
 		float angleVS = Math2d.AngleRAD2 (b.velocity, thisShip.velocity);
 		float cosVS = Mathf.Cos (angleVS);

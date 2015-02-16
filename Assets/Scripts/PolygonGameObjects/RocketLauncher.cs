@@ -35,7 +35,7 @@ public class RocketLauncher : Gun
 		}
 	}
 	
-	private BulletBase CreateMissile()
+	private IBullet CreateMissile()
 	{
 		Missile missile = PolygonCreator.CreatePolygonGOByMassCenter<Missile>(missileVertices, color);
 

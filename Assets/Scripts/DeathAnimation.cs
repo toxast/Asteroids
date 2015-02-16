@@ -13,7 +13,7 @@ public class DeathAnimation
 	List<ParticleSystem> explosionPrefabs;
 	List<ParticleSystem> finishExplosions;
 	public List<ParticleSystem> instantiatedExplosions;
-	PolygonGameObject obj;
+	IPolygonGameObject obj;
 
 	public static void MakeDeathForThatFellaYo(PolygonGameObject g, bool instant = false)
 	{
@@ -52,7 +52,7 @@ public class DeathAnimation
 		this.finishExplosions = finishExplosion;
 	}
 
-	public void AnimateDeath(PolygonGameObject obj)
+	public void AnimateDeath(IPolygonGameObject obj)
 	{
 		this.obj = obj;
 		started = true;

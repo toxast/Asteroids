@@ -29,9 +29,9 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-	void Awake()
+	protected override void Awake()
 	{
-		cacheTransform = transform;
+		base.Awake ();
 		maxSpeedSqr = maxSpeed*maxSpeed;
 		velocity = Vector3.zero;
 	}

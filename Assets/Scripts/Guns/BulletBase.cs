@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BulletBase : PolygonGameObject
+public class BulletBase : PolygonGameObject, IBullet
 {
-	public float damage;
+	public float damage{ get; set;}
 	protected float lifeTime;
 
 

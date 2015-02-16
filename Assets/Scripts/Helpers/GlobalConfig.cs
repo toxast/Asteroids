@@ -55,7 +55,7 @@ public class GlobalConfig : MonoBehaviour{
 		//layerTeamUser
 		layerTeamEnemies + layerBulletsEnemies + layerAsteroids, 	
 		//layerTeamEnemies
-		layerBulletsUser + layerAsteroids, 
+		layerBulletsUser, //+ layerAsteroids, 
 		//layerBulletsUser
 		layerAsteroids,
 		//layerBulletsEnemies
@@ -91,7 +91,7 @@ public class GlobalConfig : MonoBehaviour{
 					}
 				}
 				fullCollisions.Add(collisionMask);
-				Debug.LogWarning(GetIntBinaryString(collisionMask));
+				//Debug.LogWarning(GetIntBinaryString(collisionMask));
 			}
 		}
 

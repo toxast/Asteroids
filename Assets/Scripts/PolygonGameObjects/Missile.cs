@@ -10,11 +10,6 @@ public class Missile : BulletBase
 
 	Rotaitor rotaitor;
 
-	void Awake () 
-	{
-		cacheTransform = transform;
-	}
-	
 	public void Init(PolygonGameObject target, float maxVelocity, float dmg, float lifetime)
 	{
 		DeathAnimation.MakeDeathForThatFellaYo (this, true);

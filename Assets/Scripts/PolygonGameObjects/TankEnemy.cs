@@ -31,9 +31,9 @@ public class TankEnemy : PolygonGameObject
 	private Vector3 currentSafePoint;
 
 	private Rotaitor cannonsRotaitor;
-	private List<BulletBase> bullets;
+	private List<IBullet> bullets;
 
-	public void Init(List<BulletBase> bullets)
+	public void Init(List<IBullet> bullets)
 	{
 		this.bullets = bullets;
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
