@@ -52,7 +52,7 @@ public class TankEnemy : PolygonGameObject
 	{
 		base.Tick (delta);
 
-		if (target == null)
+		if(Main.IsNull(target))
 			return;
 
 		distToTraget = target.cacheTransform.position - cacheTransform.position;
@@ -124,7 +124,7 @@ public class TankEnemy : PolygonGameObject
 			guns[i].Tick(delta);
 		}
 		
-		if(target != null)
+		if(!Main.IsNull(target))
 		{
 			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
 			{

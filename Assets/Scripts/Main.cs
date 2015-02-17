@@ -194,7 +194,7 @@ public class Main : MonoBehaviour
 
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
-		Add2Enemies (spikePart);
+		Add2Objects (spikePart);
 	}
 
 	float maxCameraX;
@@ -664,7 +664,7 @@ public class Main : MonoBehaviour
 				{
 					part.dropID = obj.dropID;
 				}
-				Add2Enemies(part);
+				Add2Objects(part);
 			}
 		}
 	}
@@ -692,17 +692,20 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void Add2Enemies(PolygonGameObject p)
+	private void Add2Objects(PolygonGameObject p)
 	{
-		if(p is Asteroid)
+		if(p.layer == 0)
 		{
-			p.SetCollisionLayer(GlobalConfig.ilayerAsteroids);
-			//asteroids.Add(p);
-		}
-		else
-		{
-			p.SetCollisionLayer(GlobalConfig.ilayerTeamEnemies);
-			//enemies.Add (p);
+			if(p is Asteroid)
+			{
+				p.SetCollisionLayer(GlobalConfig.ilayerAsteroids);
+				//asteroids.Add(p);
+			}
+			else
+			{
+				p.SetCollisionLayer(GlobalConfig.ilayerTeamEnemies);
+				//enemies.Add (p);
+			}
 		}
 		gobjects.Add (p);
 	}
@@ -884,7 +887,7 @@ public class Main : MonoBehaviour
 		InitNewEnemy(enemy);
 	}
 	
-	public void CreateEnemySpaceShipBoss()
+	public EnemySpaceShip CreateEnemySpaceShipBoss()
 	{
 		var enemy = ObjectsCreator.CreateBossEnemySpaceShip ();
 		var gT = Instantiate (thrustBig) as ParticleSystem;
@@ -933,6 +936,7 @@ public class Main : MonoBehaviour
 		}
 		
 		InitNewEnemy(enemy);
+		return enemy;
 	}
 	
 	public void CreateRogueEnemy()
@@ -987,6 +991,63 @@ public class Main : MonoBehaviour
 		InitNewEnemy(asteroid);
 		return asteroid;
 	}
+
+	public void CreateFight()
+	{
+//		var tower = ObjectsCreator.CreateTower();
+//		{
+//			tower.SetCollisionLayer(GlobalConfig.ilayerTeamUser);
+//			tower.guns.ForEach( g => g.onFire += HandleGunFire);
+//			SetRandomPosition(tower);
+//			Add2Objects(tower);
+//		}
+//
+//		var evade = ObjectsCreator.CreateEvadeEnemy (bullets);
+//		{
+//			evade.guns.ForEach( g => g.onFire += HandleGunFire);
+//			evade.SetCollisionLayer (GlobalConfig.ilayerTeamUser);
+//			SetRandomPosition(evade);
+//			Add2Objects(evade);
+//		}
+
+		var boss = CreateEnemySpaceShipBoss ();
+
+//		var evade = ObjectsCreator.CreateBossEnemySpaceShip (bullets);
+//		{
+//			evade.guns.ForEach( g => g.onFire += HandleGunFire);
+//			evade.SetCollisionLayer (GlobalConfig.ilayerTeamUser);
+//			SetRandomPosition(evade);
+//			Add2Objects(evade);
+//		}
+
+//		var enemy1 = ObjectsCreator.CreateEnemySpaceShip ();
+//		{
+//			var gT = Instantiate (thrustPrefab) as ParticleSystem;
+//			enemy1.SetController (new EnemySpaceShipController (enemy1, bullets, enemy1.guns[0].bulletSpeed));
+//			enemy1.SetThruster (gT, Vector2.zero);
+//			enemy1.guns.ForEach( g => g.onFire += HandleGunFire);
+//			enemy1.SetCollisionLayer (GlobalConfig.ilayerTeamUser);
+//			SetRandomPosition(enemy1);
+//			Add2Objects(enemy1);
+//		}
+
+		for (int i = 0; i < 2; i++) {
+			var enemy = ObjectsCreator.CreateEnemySpaceShip ();
+			{
+				var gT = Instantiate (thrustPrefab) as ParticleSystem;
+				enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
+				enemy.SetThruster (gT, Vector2.zero);
+				enemy.guns.ForEach( g => g.onFire += HandleGunFire);
+				enemy.SetCollisionLayer (GlobalConfig.ilayerTeamUser);
+				SetRandomPosition(enemy);
+				Add2Objects(enemy);
+			}
+			
+			enemy.SetTarget (boss);
+			boss.SetTarget (enemy);
+				}
+
+	}
 	
 	public Asteroid CreateAsteroid()
 	{
@@ -1017,7 +1078,7 @@ public class Main : MonoBehaviour
 		enemy.guns.ForEach( g => g.onFire += HandleEnemyGunFire);
 		enemy.SetTarget (spaceship);
 		SetRandomPosition(enemy);
-		Add2Enemies(enemy);
+		Add2Objects(enemy);
 	}
 	
 	private void SetRandomPosition(IPolygonGameObject p)
@@ -1064,6 +1125,45 @@ public class Main : MonoBehaviour
 					Destroy(destructor.a.gameObject);
 				}
 			}
+		}
+	}
+
+	public static bool IsNull(IPolygonGameObject target)
+	{
+		return target == null || target.Equals (null);
+	}
+
+	public IPolygonGameObject GetNewTarget(IPolygonGameObject g)
+	{
+		var pos = g.position;
+		float minDist = float.MaxValue;
+		int indx = -1;
+		for (int i = 0; i < gobjects.Count; i++)
+		{
+			var obj = gobjects[i];
+			if(((g.collision & obj.layer) != 0))
+			{
+				var distSqr = (obj.position - pos).sqrMagnitude;
+				if(distSqr < minDist)
+				{
+					minDist = distSqr;
+					indx = i;
+				}
+			}
+		}
+
+		if(indx >= 0)
+		{
+			return gobjects[indx];
+		}
+		else
+		{
+			if(!IsNull(spaceship) && (g.collision & spaceship.layer) != 0)
+			{
+				return spaceship;
+			}
+			Debug.LogWarning("no target");
+			return null;
 		}
 	}
 

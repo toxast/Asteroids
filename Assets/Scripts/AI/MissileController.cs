@@ -10,21 +10,26 @@ public class MissileController : InputController, IGotTarget
 	bool accelerating = false;
 	Vector2 turnDirection;
 
-	public MissileController(IPolygonGameObject thisShip)
+	float maxVelocity;
+
+	public MissileController(IPolygonGameObject thisShip, float maxVelocity)
 	{
+		this.maxVelocity = maxVelocity;
 		this.thisShip = thisShip;
 	}
 
 	public void Tick(PolygonGameObject p)
 	{
+		if(Main.IsNull(target))
+			return;
+
 		shooting = false;
 		accelerating = true;
 
-		Vector2 dir = target.position - thisShip.position;
-		turnDirection = dir;
+		RotateOnTarget ();
 	}
 
-	public void SetTarget(PolygonGameObject target)
+	public void SetTarget(IPolygonGameObject target)
 	{
 		this.target = target;
 	}
@@ -42,5 +47,14 @@ public class MissileController : InputController, IGotTarget
 	public bool IsAccelerating()
 	{
 		return accelerating;
+	}
+
+
+	private void RotateOnTarget()
+	{
+		var aimVelocity = (target.velocity - thisShip.velocity) * 0.5f;
+		//var aimVelocity = target.velocity * 1.5f - velocity; imba
+		AimSystem aim = new AimSystem (target.cacheTransform.position, aimVelocity, thisShip.cacheTransform.position, maxVelocity);  
+		turnDirection = aim.direction;
 	}
 }

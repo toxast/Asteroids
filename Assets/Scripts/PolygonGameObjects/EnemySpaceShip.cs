@@ -6,7 +6,7 @@ public class EnemySpaceShip : SpaceShip
 {
 	public List<PolygonGameObject> turrets = new List<PolygonGameObject>();
 
-	public override void SetTarget(PolygonGameObject target)
+	public override void SetTarget(IPolygonGameObject target)
 	{
 		base.SetTarget (target);
 
@@ -33,9 +33,12 @@ public class EnemySpaceShip : SpaceShip
 	{
 		base.Tick (delta);
 
-		foreach (var t in turrets)
+		if(!Main.IsNull(target))
 		{
-			t.Tick(delta);
+			foreach (var t in turrets)
+			{
+				t.Tick(delta);
+			}
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class EvadeEnemy : PolygonGameObject
 	{
 		base.Tick (delta);
 
-		if (target == null)
+		if(Main.IsNull(target))
 			return;
 
 		float deltaDist = movingSpeed * delta;
@@ -80,7 +80,7 @@ public class EvadeEnemy : PolygonGameObject
 			guns[i].Tick(delta);
 		}
 
-		if(target != null)
+		if(!Main.IsNull(target))
 		{
 			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
 			{
@@ -149,7 +149,7 @@ public class EvadeEnemy : PolygonGameObject
 
 		while(true)
 		{
-			if(target != null)
+			if(!Main.IsNull(target))
 			{
 				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, guns[0].bulletSpeed);
 				if(aim.canShoot)

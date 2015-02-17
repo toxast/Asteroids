@@ -51,7 +51,7 @@ public class SawEnemy : Asteroid
 		{
 			yield return new WaitForSeconds(deltaTime); 
 
-			if(target != null)
+			if(!Main.IsNull(target))
 			{
 				Vector2 dist = target.cacheTransform.position - cacheTransform.position;
 				bool targetInRange = dist.sqrMagnitude < detectionDistanceSqr;
@@ -88,7 +88,7 @@ public class SawEnemy : Asteroid
 
 	IEnumerator Charge()
 	{
-		if(target != null)
+		if(!Main.IsNull(target))
 		{
 			AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, chargeSpeed);
 			if(aim.canShoot)

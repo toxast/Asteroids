@@ -42,7 +42,7 @@ public class RogueEnemy : PolygonGameObject
 	{
 		base.Tick (delta);
 		
-		if (target == null)
+		if(Main.IsNull(target))
 			return;
 
 		distToTraget = target.cacheTransform.position - cacheTransform.position;
@@ -95,7 +95,7 @@ public class RogueEnemy : PolygonGameObject
 			{
 				yield return StartCoroutine(FadeTo(ALPHA_1, fadeInTime));
 
-				if(target != null)
+				if(!Main.IsNull(target))
 				{
 					//Fire();
 				

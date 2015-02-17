@@ -36,7 +36,7 @@ public class SpaceShip : PolygonGameObject
 		velocity = Vector3.zero;
 	}
 
-	public override void SetTarget (PolygonGameObject target)
+	public override void SetTarget(IPolygonGameObject target)
 	{
 		base.SetTarget (target);
 
@@ -154,7 +154,7 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-	public override void Tick(float delta)
+	 public override void Tick(float delta)
 	{
 		base.Tick (delta);
 

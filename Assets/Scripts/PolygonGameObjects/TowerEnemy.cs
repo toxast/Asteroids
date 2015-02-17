@@ -40,7 +40,7 @@ public class TowerEnemy : PolygonGameObject
 
 		while(true)
 		{
-			if(target != null)
+			if(target != null && !target.Equals(null))
 			{
 				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, guns[0].bulletSpeed);
 				if(aim.canShoot)

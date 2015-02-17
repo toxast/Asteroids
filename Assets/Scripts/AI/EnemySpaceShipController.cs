@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class EnemySpaceShipController : InputController, IGotTarget
 {
 	PolygonGameObject thisShip;
-	PolygonGameObject target;
+	IPolygonGameObject target;
 	List<IBullet> bullets;
 	bool shooting = false;
 	bool accelerating = false;
@@ -29,7 +29,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		thisShip.StartCoroutine (Logic ());
 	}
 
-	public void SetTarget(PolygonGameObject target)
+	public void SetTarget(IPolygonGameObject target)
 	{
 		this.target = target;
 	}
@@ -41,19 +41,23 @@ public class EnemySpaceShipController : InputController, IGotTarget
 
 	private IEnumerator Logic()
 	{
-		float checkForBulletTime = 1f;
+		float checkForBulletTime = UnityEngine.Random.Range(0.5f, 1f);
 		float leftUntilRandomBeh = UnityEngine.Random.Range(2f, 3f);
 		float leftUntilCheck = -1;
 		while(true)
 		{
-			if(target != null)
+			if(!Main.IsNull(target))
 			{
 				Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
-				if(dir.sqrMagnitude < 500f)
+				if(dir.sqrMagnitude < 700f)
 				{
-					if(Math2d.Chance(0.4f))
+					if(dir.sqrMagnitude < 400f)
 					{
-						Vector2 newDir = RotateDiraction(dir, 20f, 45f);
+						yield return thisShip.StartCoroutine(TurnBack(3f));
+					}
+					else if(Math2d.Chance(0.4f))
+					{
+						Vector2 newDir = RotateDiraction(dir, 20f, 50f);
 						yield return thisShip.StartCoroutine(SetState(newDir, true, true, 0.5f));
 						yield return thisShip.StartCoroutine(Attack (false, 2f));
 					}
@@ -140,7 +144,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 
 		while(duration >= 0)
 		{
-			if(target == null)
+			if(Main.IsNull(target))
 				yield break;
 
 			Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
@@ -158,7 +162,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		
 		while(duration >= 0)
 		{
-			if(target == null)
+			if(Main.IsNull(target))
 				yield break;
 
 			AimSystem a = new AimSystem(target.cacheTransform.position, target.velocity, thisShip.cacheTransform.position, bulletsSpeed);

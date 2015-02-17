@@ -54,7 +54,7 @@ public class SpikyAsteroid : Asteroid
 		
 		while(true)
 		{
-			if(target != null)
+			if(!Main.IsNull(target))
 			{
 				Vector2 dist = target.cacheTransform.position - cacheTransform.position;
 				if(dist.sqrMagnitude < detectionDistanceSqr)

@@ -87,6 +87,12 @@ public class oldGUI : MonoBehaviour {
 			main.CreateGasteroid();
 		}
 		y += height + margine;
+
+		if(GUI.Button(new Rect(x, y, width+20, height), "Fighters"))
+		{
+			main.CreateFight();
+		}
+		y += height + margine;
 		
 		if(GUI.Button(new Rect(x, y, width, height), "respawn"))
 		{

@@ -36,7 +36,7 @@ public class SimpleTower : PolygonGameObject
 	{
 		base.Tick (delta);
 		
-		if (target == null)
+		if(Main.IsNull(target))
 			return;
 		
 		RotateCannonWithRestrictions(delta);
@@ -71,7 +71,7 @@ public class SimpleTower : PolygonGameObject
 		
 		while(true)
 		{
-			if(target != null)
+			if(!Main.IsNull(target))
 			{
 				if(smartAim)
 				{
@@ -100,7 +100,7 @@ public class SimpleTower : PolygonGameObject
 			guns[i].Tick(delta);
 		}
 		
-		if(target != null)
+		if(!Main.IsNull(target))
 		{
 			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
 			{

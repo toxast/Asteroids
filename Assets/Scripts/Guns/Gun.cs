@@ -4,7 +4,7 @@ using System;
 
 public class Gun : IGotTarget, ITickable
 {
-	protected PolygonGameObject target;
+	protected IPolygonGameObject target;
 	public GunPlace place;
 	public float bulletSpeed;
 	public Transform transform;
@@ -27,7 +27,7 @@ public class Gun : IGotTarget, ITickable
 		this.place = place;
 	}
 
-	public void SetTarget(PolygonGameObject target)
+	public void SetTarget(IPolygonGameObject target)
 	{
 		this.target = target;
 	}

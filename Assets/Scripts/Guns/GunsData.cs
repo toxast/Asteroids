@@ -14,6 +14,8 @@ public class GunsData
 		gun.damage = 3f;
 		gun.fireInterval = 0.3f;
 		gun.color = Color.red;
+//		gun.repeatCount = 3;
+//		gun.repeatInterval = 0.2f;
 		gun.fireEffect = PositionFireEffect (gp, t, Singleton<GlobalConfig>.inst.fireEffect);
 
 		return gun;
