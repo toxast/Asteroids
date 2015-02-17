@@ -39,11 +39,11 @@ public class GunsData
 //			fireInterval = 3f,
 //		};
 		RocketLauncher gun = new RocketLauncher(gp, d, t);
-		gun.thrusterEffect = Singleton<GlobalConfig>.inst.thrusterEffect;
+		//gun.thrusterEffect = Singleton<GlobalConfig>.inst.thrusterEffect;
 		//gun.vertices = PolygonCreator.GetRectShape(0.4f, 0.2f);
 
-		gun.color = Color.yellow;
-		gun.fireEffect = PositionFireEffect (gp, t, Singleton<GlobalConfig>.inst.fireEffect2);
+		//gun.color = Color.yellow;
+		//gun.fireEffect = PositionFireEffect (gp, t, Singleton<GlobalConfig>.inst.fireEffect2);
 		return gun;
 	}
 

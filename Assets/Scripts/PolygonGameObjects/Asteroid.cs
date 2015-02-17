@@ -10,7 +10,7 @@ public class Asteroid : PolygonGameObject
 		float a = Random.Range(0f, 359f) * Math2d.PIdiv180;
 		velocity = new Vector3(Mathf.Cos(a)*speed, Mathf.Sin(a)*speed, 0f);
 		rotation = -Random.Range(30f, 90f);
-		
+
 		cacheTransform.position = new Vector3(cacheTransform.position.x, cacheTransform.position.y, Random.Range(-1f, -0.1f));
 	}
 

@@ -46,7 +46,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public void SetPolygon(Polygon polygon)
 	{
 		this.polygon = polygon;
-		density = 1;
+		density = 1; //TODO
 		mass = polygon.area * density;
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;

@@ -10,7 +10,9 @@ public class RocketLauncher : Gun
 	public RocketLauncher(GunPlace place, RocketLauncherData data, Transform parentTransform):base(place, data, parentTransform)
 	{
 		missleParameters = data.missleParameters;
+		thrusterEffect = data.thrusterEffect;
 		thrusterPos = data.thrusterPos;
+		bulletSpeed = data.missleParameters.maxSpeed;
 	}
 
 	protected override IBullet CreateBullet()

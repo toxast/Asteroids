@@ -20,11 +20,11 @@ public class MissileController : InputController, IGotTarget
 
 	public void Tick(PolygonGameObject p)
 	{
-		if(Main.IsNull(target))
-			return;
-
 		shooting = false;
 		accelerating = true;
+
+		if(Main.IsNull(target))
+			return;
 
 		RotateOnTarget ();
 	}

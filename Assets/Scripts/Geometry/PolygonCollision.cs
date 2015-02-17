@@ -144,12 +144,12 @@ public static class PolygonCollision
 		Vector2 Vb = (Vector2)bobj.velocity + cross(Rb,  bobj.rotation * Math2d.PIdiv180);
 		var Vab =  Va - Vb;
 		var Nb = -makeRight(collisionEdge.p2-collisionEdge.p1).normalized;
-//		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
-//		{
-//			Debug.LogWarning("not approaching");
-//			return 0f;
-//		}
-		float ekff = 0.4f; //0 < k < 1
+		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
+		{
+			Debug.LogWarning("not approaching");
+			return 0f;
+		}
+		float ekff = 0.7f; //0 < k < 1
 		float wa = Vector3.Cross(Ra, Nb).sqrMagnitude / aobj.inertiaMoment;
 		float wb = Vector3.Cross(Rb, Nb).sqrMagnitude / bobj.inertiaMoment;
 		float j =  -(1 + ekff) * Math2d.DotProduct(ref Vab, ref Nb) / (1f/aobj.mass + 1f/bobj.mass + wa + wb);
