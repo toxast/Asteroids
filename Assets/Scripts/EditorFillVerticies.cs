@@ -20,11 +20,14 @@ public class EditorFillVerticies : MonoBehaviour
 	{
 		Debug.LogWarning ("Fill");
 
-		var verticies = PolygonCreator.GetRectShape(0.4f, 0.2f);
+		var vertices = RocketLauncher.missileVertices;
 
-		Polygon p = new Polygon (verticies);
+		float area;
+		Vector2 pivot = Math2d.GetMassCenter(vertices, out area);
+		Math2d.ShiftVertices(vertices, -pivot);
 
-		GunsResources.Instance.guns [0].vertices = p.vertices;
+
+		GunsResources.Instance.rocketLaunchers [0].vertices = vertices;
 		EditorUtility.SetDirty (GunsResources.Instance);
 	}
 }

@@ -30,13 +30,14 @@ public class GunsData
 	//TODO: missle data
 	public static RocketLauncher RocketLauncher(GunPlace gp, Transform t)
 	{
-		GunData d = new GunData
-		{
-			bulletSpeed = 40f,
-			lifeTime = 5f,
-			damage = 3f,
-			fireInterval = 3f,
-		};
+		var d = GunsResources.Instance.rocketLaunchers [0];
+//		GunData d = new GunData
+//		{
+//			bulletSpeed = 40f,
+//			lifeTime = 5f,
+//			damage = 3f,
+//			fireInterval = 3f,
+//		};
 		RocketLauncher gun = new RocketLauncher(gp, d, t);
 		gun.thrusterEffect = Singleton<GlobalConfig>.inst.thrusterEffect;
 		//gun.vertices = PolygonCreator.GetRectShape(0.4f, 0.2f);

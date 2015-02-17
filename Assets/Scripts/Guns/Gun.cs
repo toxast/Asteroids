@@ -123,22 +123,4 @@ public class Gun : IGotTarget, ITickable
 		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
 		objTransform.position += parentTransform.position;
 	}
-
-
-//	protected void PositionFireEffect(Transform trf, ParticleSystem fireEffect)
-//	{
-//		var effect = GameObject.Instantiate(fireEffect) as ParticleSystem;
-//		
-//		float angle = Math2d.GetRotation(place.dir);
-//		effect.transform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
-//		effect.transform.position = place.pos;
-//		
-//		angle = Math2d.GetRotation(trf.right);
-//		effect.transform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
-//		effect.transform.position += trf.position;
-//		
-//		effect.transform.parent = trf;
-//		effect.transform.position -=  new Vector3(0,0,1);
-//		
-//	}
 }

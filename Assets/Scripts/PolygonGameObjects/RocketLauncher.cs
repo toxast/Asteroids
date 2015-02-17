@@ -5,8 +5,13 @@ using System.Collections;
 public class RocketLauncher : Gun
 {
 	public ParticleSystem thrusterEffect;
-
-	public RocketLauncher(GunPlace place, GunData data, Transform parentTransform):base(place, data, parentTransform){}
+	private SpaceshipData missleParameters;
+	private Vector2 thrusterPos;
+	public RocketLauncher(GunPlace place, RocketLauncherData data, Transform parentTransform):base(place, data, parentTransform)
+	{
+		missleParameters = data.missleParameters;
+		thrusterPos = data.thrusterPos;
+	}
 
 	protected override IBullet CreateBullet()
 	{
@@ -16,21 +21,22 @@ public class RocketLauncher : Gun
 		{
 			ParticleSystem e = GameObject.Instantiate(thrusterEffect) as ParticleSystem;
 			e.transform.parent = missile.cacheTransform;
-			e.transform.localPosition = new Vector3(-1,0,-1);
+			e.transform.localPosition = thrusterPos;//new Vector3(-1,0,-1);
 		}
 
 		PositionOnShooterPlace (missile.cacheTransform);
 		
 		missile.gameObject.name = "missile";
-		var controller = new MissileController (missile, bulletSpeed);
+		var controller = new MissileController (missile, missleParameters.maxSpeed);
 		missile.Init (damage, lifeTime);
-		missile.Init (new SpaceshipData
-		{ 	brake = 8f,
-			maxSpeed = bulletSpeed,
-			passiveBrake = 3f,
-			thrust = 35,
-			turnSpeed = 200f,
-		});
+		missile.Init (missleParameters);
+//			new SpaceshipData
+//		{ 	brake = 8f,
+//			maxSpeed = bulletSpeed,
+//			passiveBrake = 3f,
+//			thrust = 35,
+//			turnSpeed = 200f,
+//		});
 		missile.SetController (controller);
 		missile.SetTarget (target);
 		
