@@ -6,12 +6,14 @@ public class Gun : IGotTarget, ITickable
 {
 	protected IPolygonGameObject target;
 	public GunPlace place;
-	public float bulletSpeed;
-	public Transform transform;
-	public float lifeTime;
-	public float damage;
-	public float fireInterval;
+	public Transform parentTransform;
 
+	public float damage;
+	public float lifeTime;
+	public float bulletSpeed;
+	public float fireInterval;
+	public Vector2[] vertices; 
+	public Color color;
 	public ParticleSystem fireEffect;
 
 	public int repeatCount = 0;
@@ -22,9 +24,24 @@ public class Gun : IGotTarget, ITickable
 
 	public event Action<IBullet> onFire;
 
-	public Gun(GunPlace place)
+	public Gun(GunPlace place, GunData data, Transform parentTransform)
 	{
 		this.place = place;
+		this.damage = data.damage;
+		this.lifeTime = data.lifeTime;
+		this.bulletSpeed = data.bulletSpeed;
+		this.fireInterval = data.fireInterval;
+		this.vertices = data.vertices;
+		this.color = data.color;
+		this.parentTransform = parentTransform;
+
+		if(data.fireEffect != null)
+		{
+			fireEffect = GameObject.Instantiate(data.fireEffect) as ParticleSystem;
+			PositionOnShooterPlace(fireEffect.transform);
+			fireEffect.transform.parent = parentTransform;
+			fireEffect.transform.position -=  new Vector3(0,0,1);
+		}
 	}
 
 	public void SetTarget(IPolygonGameObject target)
@@ -96,14 +113,32 @@ public class Gun : IGotTarget, ITickable
 			fireEffect.Emit (1);
 	}
 
-	protected void PositionOnShooterPlace(PolygonGameObject bullet, Transform shooterTransform)
+	protected void PositionOnShooterPlace(Transform objTransform)
 	{
 		float angle = Math2d.GetRotation(place.dir);
-		bullet.cacheTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
-		bullet.cacheTransform.position = place.pos;
+		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+		objTransform.position = place.pos;
 
-		angle = Math2d.GetRotation(shooterTransform.right);
-		bullet.cacheTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
-		bullet.cacheTransform.position += shooterTransform.position;
+		angle = Math2d.GetRotation(parentTransform.right);
+		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+		objTransform.position += parentTransform.position;
 	}
+
+
+//	protected void PositionFireEffect(Transform trf, ParticleSystem fireEffect)
+//	{
+//		var effect = GameObject.Instantiate(fireEffect) as ParticleSystem;
+//		
+//		float angle = Math2d.GetRotation(place.dir);
+//		effect.transform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+//		effect.transform.position = place.pos;
+//		
+//		angle = Math2d.GetRotation(trf.right);
+//		effect.transform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+//		effect.transform.position += trf.position;
+//		
+//		effect.transform.parent = trf;
+//		effect.transform.position -=  new Vector3(0,0,1);
+//		
+//	}
 }

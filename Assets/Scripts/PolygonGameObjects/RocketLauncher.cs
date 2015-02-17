@@ -5,12 +5,12 @@ using System.Collections;
 public class RocketLauncher : Gun
 {
 	public ParticleSystem thrusterEffect;
-	public Color color;
-	public RocketLauncher(GunPlace place):base(place){}
+
+	public RocketLauncher(GunPlace place, GunData data, Transform parentTransform):base(place, data, parentTransform){}
 
 	protected override IBullet CreateBullet()
 	{
-		Missile missile = PolygonCreator.CreatePolygonGOByMassCenter<Missile>(missileVertices, color);
+		Missile missile = PolygonCreator.CreatePolygonGOByMassCenter<Missile>(vertices, color);
 
 		if(thrusterEffect != null)
 		{
@@ -19,7 +19,7 @@ public class RocketLauncher : Gun
 			e.transform.localPosition = new Vector3(-1,0,-1);
 		}
 
-		PositionOnShooterPlace (missile, transform);
+		PositionOnShooterPlace (missile.cacheTransform);
 		
 		missile.gameObject.name = "missile";
 		var controller = new MissileController (missile, bulletSpeed);

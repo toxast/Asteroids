@@ -4,16 +4,13 @@ using System.Collections;
 
 public class BulletGun : Gun
 {
-	public Vector2[] vertices; 
-	public Color color;
-
-	public BulletGun(GunPlace place):base(place){}
+	public BulletGun(GunPlace place, GunData data, Transform parentTransform):base(place, data, parentTransform){}
 
 	protected override IBullet CreateBullet()
 	{
 		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(vertices, color);
 		
-		PositionOnShooterPlace (bullet, transform);
+		PositionOnShooterPlace (bullet.cacheTransform);
 		
 		bullet.gameObject.name = "bullet";
 		
