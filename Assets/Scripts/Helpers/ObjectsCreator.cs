@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -56,6 +56,30 @@ public class ObjectsCreator
 
 		return spaceship;
 	}
+
+
+	public static T CreateSpaceShip<T>(FullSpaceShipSetupData sdata)
+		where T:SpaceShip
+	{
+		//var vr = Math2d.Chance (0.5f) ? Math2d.ScaleVertices2 (SpaceshipsData.alien6, 1.5f) : SpaceshipsData.alien3;
+		//var vr = Math2d.ScaleVertices2 (SpaceshipsData.butterflySpaceship, 1.1f);
+		//var vr = Math2d.ScaleVertices2 (vrt, 1.5f);
+		T spaceship = PolygonCreator.CreatePolygonGOByMassCenter<T> (sdata.verts, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor); //TODO
+		spaceship.Init(sdata.physicalParameters);
+		spaceship.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies); //TODO
+		DeathAnimation.MakeDeathForThatFellaYo (spaceship); //TODO
+		spaceship.gameObject.name = "sp"; //TODO
+
+		spaceship.guns = new List<Gun> ();
+		foreach (var gunplace in sdata.guns) 
+		{
+			var gun = GunsData.GetGun(gunplace, spaceship.cacheTransform);
+			spaceship.guns.Add (gun);
+		}
+		
+		return spaceship;
+	}
+
 
 	public static EnemySpaceShip CreateFriendShip2()
 	{
@@ -172,10 +196,10 @@ public class ObjectsCreator
 		tower.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
 		tower.gameObject.name = "tower";
 		DeathAnimation.MakeDeathForThatFellaYo (tower);
-		List<GunPlace> gunplaces = new List<GunPlace> ();
+		List<Place> gunplaces = new List<Place> ();
 		for (int i = 0; i < cannons.Length; i++) 
 		{
-			GunPlace place = new GunPlace();
+			Place place = new Place();
 			place.pos = vertices[cannons[i]];
 			place.dir = place.pos.normalized;
 			//float angle = Math2d.AngleRAD2 (new Vector2 (1, 0), place.pos);
@@ -201,9 +225,9 @@ public class ObjectsCreator
 		enemy.gameObject.name = "tower1";
 		enemy.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
 		DeathAnimation.MakeDeathForThatFellaYo (enemy);
-		List<GunPlace> gunplaces = new List<GunPlace>
+		List<Place> gunplaces = new List<Place>
 		{
-			new GunPlace(new Vector2(2f, 0.0f), new Vector2(1.0f, 0f)),
+			new Place(new Vector2(2f, 0.0f), new Vector2(1.0f, 0f)),
 		};
 
 		InitGuns (enemy, gunplaces, GunsData.SimpleGun2);
@@ -232,10 +256,10 @@ public class ObjectsCreator
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(TankEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		enemy.SetCollisionLayer (GlobalConfig.ilayerTeamEnemies);
-		List<GunPlace> gunplaces = new List<GunPlace>
+		List<Place> gunplaces = new List<Place>
 		{
-			new GunPlace(new Vector2(1.5f, 0.75f), new Vector2(1.0f, 0f)),
-			new GunPlace(new Vector2(1.5f, -0.75f), new Vector2(1.0f, 0f)),
+			new Place(new Vector2(1.5f, 0.75f), new Vector2(1.0f, 0f)),
+			new Place(new Vector2(1.5f, -0.75f), new Vector2(1.0f, 0f)),
 		};
 
 		InitGuns (enemy, gunplaces, GunsData.TankGun);
@@ -289,7 +313,7 @@ public class ObjectsCreator
 	}
 
 
-	private static void InitGuns(PolygonGameObject enemy, List<GunPlace> gunplaces, System.Func<GunPlace, Transform, Gun> gunsGetter)
+	private static void InitGuns(PolygonGameObject enemy, List<Place> gunplaces, System.Func<Place, Transform, Gun> gunsGetter)
 	{
 		foreach (var gunplace in gunplaces) 
 		{

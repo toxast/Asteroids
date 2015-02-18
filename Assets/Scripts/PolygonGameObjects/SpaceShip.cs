@@ -61,11 +61,19 @@ public class SpaceShip : PolygonGameObject
 
 	public void SetThruster(ParticleSystem p, Vector2 pos)
 	{
+		Place place = new Place
+		{
+			dir = new Vector2(1,0),
+			pos = pos,
+		};
 		thrustPSystem = p;
-		thrustPSystem.gameObject.transform.parent = cacheTransform;
-		Vector3 pos3 = pos;
-		pos3.z = 1;
-		thrustPSystem.gameObject.transform.localPosition = pos3;
+
+		Math2d.PositionOnShooterPlace (p.transform, place, cacheTransform, true, 1);
+//		thrustPSystem.gameObject.transform.parent = cacheTransform;
+//		Vector3 pos3 = pos;
+//		pos3.z = 1;
+//		thrustPSystem.gameObject.transform.localPosition = pos3;
+
 		defaultThrustLifetime = thrustPSystem.startLifetime;
 		thrustPSystem.startLifetime = defaultThrustLifetime / 3f;
 	}

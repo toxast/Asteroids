@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &101516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 401516}
+  - 114: {fileID: 11401516}
+  m_Layer: 0
+  m_Name: SpaceshipsResources
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &401516
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.72999954, y: 7.52000046, z: 9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11401516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f82fa8de924d764794d90a59fc3e783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spaceships:
+  - verts:
+    - {x: 3.2351768, y: -1.54999995}
+    - {x: 2.57517695, y: -3.20000005}
+    - {x: 3.9851768, y: -4.01999998}
+    - {x: 4.29517651, y: -4.86000013}
+    - {x: .885176599, y: -4.88000011}
+    - {x: -2.32482314, y: -6.5}
+    - {x: -3.74482322, y: -3.53999996}
+    - {x: -2.39482331, y: -2.88000011}
+    - {x: -3.11482334, y: .0500000156}
+    - {x: -3.11482334, y: -.0499999858}
+    - {x: -2.39482331, y: 2.88000011}
+    - {x: -3.74482322, y: 3.53999996}
+    - {x: -2.32482314, y: 6.5}
+    - {x: .885176599, y: 4.88000011}
+    - {x: 4.29517651, y: 4.86000013}
+    - {x: 3.9851768, y: 4.01999998}
+    - {x: 2.57517695, y: 3.20000005}
+    - {x: 3.2351768, y: 1.54999995}
+    physicalParameters:
+      thrust: 45
+      maxSpeed: 10
+      turnSpeed: 50
+      brake: 15
+      passiveBrake: 2
+    guns:
+    - place:
+        pos: {x: 3.24517632, y: -5.93935923e-08}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 1
+    - place:
+        pos: {x: 4.14517546, y: 4.40999985}
+        dir: {x: .993622065, y: -.112761818}
+      type: 0
+      index: 1
+    - place:
+        pos: {x: 4.14517546, y: -4.40999985}
+        dir: {x: .993621945, y: .112762883}
+      type: 0
+      index: 1
+    thrusters:
+    - place:
+        pos: {x: -3.06482363, y: 4.9000001}
+        dir: {x: .917338371, y: -.398108453}
+      thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    - place:
+        pos: {x: -3.06482363, y: -5.05999994}
+        dir: {x: .912503123, y: .409069836}
+      thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 101516}
+  m_IsPrefabParent: 1
+  m_IsExploded: 1

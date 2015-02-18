@@ -52,32 +52,55 @@ MonoBehaviour:
     - {x: -.400000006, y: .200000003}
     color: {r: 1, g: 0, b: 0, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
-  - damage: 3
+  - damage: 1
     lifeTime: 2
-    bulletSpeed: 35
-    fireInterval: .300000012
+    bulletSpeed: 20
+    fireInterval: .5
     vertices:
-    - {x: .400000006, y: .200000003}
-    - {x: .400000006, y: -.200000003}
-    - {x: -.400000006, y: -.200000003}
-    - {x: -.400000006, y: .200000003}
-    color: {r: 1, g: 0, b: 0, a: 1}
+    - {x: .300000012, y: .150000006}
+    - {x: .300000012, y: -.150000006}
+    - {x: -.300000012, y: -.150000006}
+    - {x: -.300000012, y: .150000006}
+    color: {r: .827450991, g: .812238812, b: .33098039, a: 1}
+    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  - damage: 1.5
+    lifeTime: 2
+    bulletSpeed: 25
+    fireInterval: .5
+    vertices:
+    - {x: .300000012, y: .150000006}
+    - {x: .300000012, y: -.150000006}
+    - {x: -.300000012, y: -.150000006}
+    - {x: -.300000012, y: .150000006}
+    color: {r: .858823538, g: .843034625, b: .343529403, a: 1}
+    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  - damage: 2
+    lifeTime: 2
+    bulletSpeed: 40
+    fireInterval: .5
+    vertices:
+    - {x: .5, y: .150000006}
+    - {x: .5, y: -.150000006}
+    - {x: -.5, y: -.150000006}
+    - {x: -.5, y: .150000006}
+    color: {r: .858823538, g: .843034625, b: .343529403, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   rocketLaunchers:
-  - damage: 3
-    lifeTime: 5
-    bulletSpeed: 0
-    fireInterval: 3
-    vertices:
-    - {x: 1.1400497, y: -1.03789188e-09}
-    - {x: .640049756, y: -.200000003}
-    - {x: -.559950233, y: -.150000006}
-    - {x: -.859950244, y: -.349999994}
-    - {x: -.859950244, y: .349999994}
-    - {x: -.559950233, y: .150000006}
-    - {x: .640049756, y: .200000003}
-    color: {r: .751586914, g: .779411793, b: .275086492, a: 1}
-    fireEffect: {fileID: 0}
+  - baseData:
+      damage: 3
+      lifeTime: 5
+      bulletSpeed: 0
+      fireInterval: 4
+      vertices:
+      - {x: 1.1400497, y: 3.34643424e-10}
+      - {x: .640049756, y: -.200000003}
+      - {x: -.559950233, y: -.150000006}
+      - {x: -.859950244, y: -.349999994}
+      - {x: -.859950244, y: .349999994}
+      - {x: -.559950233, y: .150000006}
+      - {x: .640049756, y: .200000003}
+      color: {r: .91911763, g: .799054384, b: .297361583, a: 1}
+      fireEffect: {fileID: 0}
     missleParameters:
       thrust: 35
       maxSpeed: 40
@@ -86,28 +109,29 @@ MonoBehaviour:
       passiveBrake: 2
     thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
     thrusterPos: {x: -.859950185, y: 0, z: 1}
-  - damage: 3
-    lifeTime: 5
-    bulletSpeed: 0
-    fireInterval: 3
-    vertices:
-    - {x: 1.1400497, y: -1.03789188e-09}
-    - {x: .640049756, y: -.200000003}
-    - {x: -.559950233, y: -.150000006}
-    - {x: -.859950244, y: -.349999994}
-    - {x: -.859950244, y: .349999994}
-    - {x: -.559950233, y: .150000006}
-    - {x: .640049756, y: .200000003}
-    color: {r: .751586914, g: .779411793, b: .275086492, a: 1}
-    fireEffect: {fileID: 0}
+  - baseData:
+      damage: 6
+      lifeTime: 6
+      bulletSpeed: 0
+      fireInterval: 5
+      vertices:
+      - {x: 1.4820646, y: -9.81215886e-10}
+      - {x: .832064629, y: -.25999999}
+      - {x: -.727935314, y: -.195000008}
+      - {x: -1.1179353, y: -.454999983}
+      - {x: -1.1179353, y: .454999983}
+      - {x: -.727935314, y: .195000008}
+      - {x: .832064629, y: .25999999}
+      color: {r: .742647052, g: .650908291, b: .26757136, a: 1}
+      fireEffect: {fileID: 0}
     missleParameters:
       thrust: 35
-      maxSpeed: 40
-      turnSpeed: 200
+      maxSpeed: 35
+      turnSpeed: 180
       brake: 8
       passiveBrake: 2
     thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
-    thrusterPos: {x: -.859950185, y: 0, z: 1}
+    thrusterPos: {x: -1.11793494, y: 0, z: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

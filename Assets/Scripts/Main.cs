@@ -860,7 +860,7 @@ public class Main : MonoBehaviour
 	{
 		InputController controller = null; 
 		#if UNITY_STANDALONE
-		controller = new StandaloneInputController());
+		controller = new StandaloneInputController();
 		#else
 		tabletController.Init();
 		controller = tabletController;
@@ -887,7 +887,13 @@ public class Main : MonoBehaviour
 	
 	public void CreateEnemySpaceShip()
 	{
-		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
+//		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
+//		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+//		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
+//		enemy.SetThruster (gT, Vector2.zero);
+//		InitNewEnemy(enemy);
+
+		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(SpaceshipsResources.Instance.spaceships[0]);
 		var gT = Instantiate (thrustPrefab) as ParticleSystem;
 		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
 		enemy.SetThruster (gT, Vector2.zero);

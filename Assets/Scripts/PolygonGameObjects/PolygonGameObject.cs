@@ -45,6 +45,9 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 
 	public void SetPolygon(Polygon polygon)
 	{
+		if(cacheTransform == null)
+			cacheTransform = transform;
+
 		this.polygon = polygon;
 		density = 1; //TODO
 		mass = polygon.area * density;

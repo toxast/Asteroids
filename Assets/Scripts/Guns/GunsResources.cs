@@ -6,20 +6,22 @@ using System.Collections.Generic;
 public class GunsResources : ResourceSingleton<GunsResources> 
 {
 	[SerializeField] int clone;
+	[SerializeField] public List<GunData> guns;
+	[SerializeField] public List<RocketLauncherData> rocketLaunchers;
+
 
 	[ContextMenu ("clone rocketLauncher")]
 	void CloneRocketLauncher () 
 	{
-		rocketLaunchers.Add (rocketLaunchers [clone]);
+		rocketLaunchers.Add (rocketLaunchers [clone].Clone());
 	}
 
 	[ContextMenu ("clone gun")]
 	void CloneGun () 
 	{
-		guns.Add (guns [clone]);
+		guns.Add (guns [clone].Clone());
 	}
 
 
-	[SerializeField] public List<GunData> guns;
-	[SerializeField] public List<RocketLauncherData> rocketLaunchers;
+
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 
@@ -7,7 +7,7 @@ public class RocketLauncher : Gun
 	public ParticleSystem thrusterEffect;
 	private SpaceshipData missleParameters;
 	private Vector2 thrusterPos;
-	public RocketLauncher(GunPlace place, RocketLauncherData data, Transform parentTransform):base(place, data, parentTransform)
+	public RocketLauncher(Place place, RocketLauncherData data, Transform parentTransform):base(place, data.baseData, parentTransform)
 	{
 		missleParameters = data.missleParameters;
 		thrusterEffect = data.thrusterEffect;
@@ -26,19 +26,12 @@ public class RocketLauncher : Gun
 			e.transform.localPosition = thrusterPos;//new Vector3(-1,0,-1);
 		}
 
-		PositionOnShooterPlace (missile.cacheTransform);
+		Math2d.PositionOnShooterPlace (missile.cacheTransform, place, parentTransform);
 		
 		missile.gameObject.name = "missile";
 		var controller = new MissileController (missile, missleParameters.maxSpeed);
 		missile.Init (damage, lifeTime);
 		missile.Init (missleParameters);
-//			new SpaceshipData
-//		{ 	brake = 8f,
-//			maxSpeed = bulletSpeed,
-//			passiveBrake = 3f,
-//			thrust = 35,
-//			turnSpeed = 200f,
-//		});
 		missile.SetController (controller);
 		missile.SetTarget (target);
 		

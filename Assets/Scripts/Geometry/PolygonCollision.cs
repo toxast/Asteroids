@@ -103,7 +103,7 @@ public static class PolygonCollision
 		var v0 = a.vertices[a.Previous(aVertex)];
 		var v1 = a.vertices[aVertex];
 		var v2 = a.vertices[a.Next(aVertex)];
-		var vInside = (v0 - v1).normalized + (v2 - v1).normalized;
+		var vInside = (v0 - v1).normalized + (v2 - v1).normalized; //TODO: if inside vertex - misatke
 		Edge e = new Edge(v1, v1 + vInside.normalized*200); //TODO ray
 		var intersections = Intersection.GetIntersections(e, b.edges);
 		if(intersections.Count == 0)
@@ -146,7 +146,9 @@ public static class PolygonCollision
 		var Nb = -makeRight(collisionEdge.p2-collisionEdge.p1).normalized;
 		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
 		{
+#if UNITY_EDITOR
 			Debug.LogWarning("not approaching");
+#endif
 			return 0f;
 		}
 		float ekff = 0.7f; //0 < k < 1
