@@ -75,7 +75,7 @@ public class TabletInputController : MonoBehaviour, InputController
 		foreach (var tch in touches) 
 		{
 			Vector2 dir = tch.position - (Vector2)joystick.rectTransform.position;
-			if(dir.sqrMagnitude < controlRadiusSqr)
+			if(dir.sqrMagnitude < 8*controlRadiusSqr)
 			{
 				turnDirection = dir;
 				break;

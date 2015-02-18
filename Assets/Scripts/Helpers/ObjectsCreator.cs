@@ -7,7 +7,7 @@ public class ObjectsCreator
 
 	public static Color defaultEnemyColor = new Color (0.5f, 0.5f, 0.5f);
 
-	public static UserSpaceShip CreateSpaceShip()
+	public static UserSpaceShip CreateSpaceShip(InputController contorller)
 	{
 		var vr = Math2d.ScaleVertices2 (SpaceshipsData.fastSpaceshipVertices, 1f);
 		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(vr, Color.blue);
@@ -16,15 +16,8 @@ public class ObjectsCreator
 		spaceship.collector = new DropCollector (0.15f, 20f);
 
 		spaceship.gameObject.name = "Spaceship";
-		#if UNITY_STANDALONE
-		spaceship.SetController (new StandaloneInputController());
-		
-		//		tabletController.Init(flyZoneBounds);
-		//		spaceship.SetController(tabletController);
-		#else
-		TODO
-			spaceship.SetTabletControls (fireButton, accelerateButton);
-		#endif
+	
+		spaceship.SetController (contorller);
 
 		InitGuns (spaceship, SpaceshipsData.alien5gunplaces, GunsData.SimpleGun);
 

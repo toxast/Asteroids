@@ -858,7 +858,14 @@ public class Main : MonoBehaviour
 
 	public void CreateSpaceShip()
 	{
-		spaceship = ObjectsCreator.CreateSpaceShip ();
+		InputController controller = null; 
+		#if UNITY_STANDALONE
+		controller = new StandaloneInputController());
+		#else
+		tabletController.Init();
+		controller = tabletController;
+		#endif
+		spaceship = ObjectsCreator.CreateSpaceShip (controller);
 		spaceship.SetShield(new ShieldData(10f,2f,2f));
 		spaceship.guns.ForEach( g => g.onFire += HandleGunFire);
 		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
