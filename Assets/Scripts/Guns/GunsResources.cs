@@ -10,13 +10,13 @@ public class GunsResources : ResourceSingleton<GunsResources>
 	[ContextMenu ("clone rocketLauncher")]
 	void CloneRocketLauncher () 
 	{
-		rocketLaunchers.Add (rocketLaunchers [clone]);
+		rocketLaunchers.Add (rocketLaunchers [clone].Clone());
 	}
 
 	[ContextMenu ("clone gun")]
 	void CloneGun () 
 	{
-		guns.Add (guns [clone]);
+		guns.Add (guns [clone].Clone());
 	}
 
 

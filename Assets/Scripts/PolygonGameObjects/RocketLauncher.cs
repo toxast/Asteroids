@@ -7,7 +7,7 @@ public class RocketLauncher : Gun
 	public ParticleSystem thrusterEffect;
 	private SpaceshipData missleParameters;
 	private Vector2 thrusterPos;
-	public RocketLauncher(GunPlace place, RocketLauncherData data, Transform parentTransform):base(place, data, parentTransform)
+	public RocketLauncher(GunPlace place, RocketLauncherData data, Transform parentTransform):base(place, data.baseData, parentTransform)
 	{
 		missleParameters = data.missleParameters;
 		thrusterEffect = data.thrusterEffect;

@@ -23,11 +23,11 @@ public class EditorFillVerticies : MonoBehaviour
 		var vertices = RocketLauncher.missileVertices;
 
 		float area;
+		Math2d.ScaleVertices (vertices, 1.3f);
 		Vector2 pivot = Math2d.GetMassCenter(vertices, out area);
 		Math2d.ShiftVertices(vertices, -pivot);
 
-
-		GunsResources.Instance.rocketLaunchers [0].vertices = vertices;
+		GunsResources.Instance.rocketLaunchers [1].baseData.vertices = vertices;
 		EditorUtility.SetDirty (GunsResources.Instance);
 	}
 }
