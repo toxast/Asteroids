@@ -7,6 +7,8 @@ public class EditorFillVerticies : MonoBehaviour
 {
 	[SerializeField] bool run = false;
 
+	[SerializeField] float scale = 1f;
+
 	void Update()
 	{
 		if(run)
@@ -20,12 +22,15 @@ public class EditorFillVerticies : MonoBehaviour
 	{
 		Debug.LogWarning ("Fill");
 
+
 		var vertices = RocketLauncher.missileVertices;
 
+
 		float area;
-		Math2d.ScaleVertices (vertices, 1.3f);
+		Math2d.ScaleVertices (vertices, scale);
 		Vector2 pivot = Math2d.GetMassCenter(vertices, out area);
 		Math2d.ShiftVertices(vertices, -pivot);
+
 
 		GunsResources.Instance.rocketLaunchers [1].baseData.vertices = vertices;
 		EditorUtility.SetDirty (GunsResources.Instance);

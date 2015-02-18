@@ -5,7 +5,7 @@ using System;
 public class Gun : IGotTarget, ITickable
 {
 	protected IPolygonGameObject target;
-	public GunPlace place;
+	public Place place;
 	public Transform parentTransform;
 
 	public float damage;
@@ -24,7 +24,7 @@ public class Gun : IGotTarget, ITickable
 
 	public event Action<IBullet> onFire;
 
-	public Gun(GunPlace place, GunData data, Transform parentTransform)
+	public Gun(Place place, GunData data, Transform parentTransform)
 	{
 		this.place = place;
 		this.damage = data.damage;
@@ -38,9 +38,10 @@ public class Gun : IGotTarget, ITickable
 		if(data.fireEffect != null)
 		{
 			fireEffect = GameObject.Instantiate(data.fireEffect) as ParticleSystem;
-			PositionOnShooterPlace(fireEffect.transform);
-			fireEffect.transform.parent = parentTransform;
-			fireEffect.transform.position -=  new Vector3(0,0,1);
+			Math2d.PositionOnShooterPlace(fireEffect.transform, place, parentTransform, true, -1);
+//			PositionOnShooterPlace(fireEffect.transform);
+//			fireEffect.transform.parent = parentTransform;
+//			fireEffect.transform.position -=  new Vector3(0,0,1);
 		}
 	}
 
@@ -113,14 +114,14 @@ public class Gun : IGotTarget, ITickable
 			fireEffect.Emit (1);
 	}
 
-	protected void PositionOnShooterPlace(Transform objTransform)
-	{
-		float angle = Math2d.GetRotation(place.dir);
-		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
-		objTransform.position = place.pos;
-
-		angle = Math2d.GetRotation(parentTransform.right);
-		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
-		objTransform.position += parentTransform.position;
-	}
+//	protected void PositionOnShooterPlace(Transform objTransform)
+//	{
+//		float angle = Math2d.GetRotation(place.dir);
+//		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+//		objTransform.position = place.pos;
+//
+//		angle = Math2d.GetRotation(parentTransform.right);
+//		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+//		objTransform.position += parentTransform.position;
+//	}
 }

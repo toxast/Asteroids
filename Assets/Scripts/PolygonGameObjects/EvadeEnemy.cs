@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 public class EvadeEnemy : PolygonGameObject
 {
-	public static List<GunPlace> gunplaces = new List<GunPlace>
+	public static List<Place> gunplaces = new List<Place>
 	{
-		new GunPlace(new Vector2(2f, 0.0f), new Vector2(1.0f, 0f)),
+		new Place(new Vector2(2f, 0.0f), new Vector2(1.0f, 0f)),
 	};
 
 	public static Vector2[] vertices = PolygonCreator.GetCompleteVertexes(

@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class GunsData 
 {
 
-	public static BulletGun SimpleGun(GunPlace gp, Transform t)
+	public static BulletGun SimpleGun(Place gp, Transform t)
 	{
 		GunData d = GunsResources.Instance.guns [0];
 		BulletGun gun = new BulletGun(gp, d, t);
@@ -13,7 +13,7 @@ public class GunsData
 	}
 
 
-	public static BulletGun SimpleGun2(GunPlace gp, Transform t)
+	public static BulletGun SimpleGun2(Place gp, Transform t)
 	{
 //		BulletGun gun = new BulletGun(gp);
 //		gun.transform = t;
@@ -28,7 +28,7 @@ public class GunsData
 	}
 
 	//TODO: missle data
-	public static RocketLauncher RocketLauncher(GunPlace gp, Transform t)
+	public static RocketLauncher RocketLauncher(Place gp, Transform t)
 	{
 		var d = GunsResources.Instance.rocketLaunchers [0];
 //		GunData d = new GunData
@@ -47,7 +47,7 @@ public class GunsData
 		return gun;
 	}
 
-	public static BulletGun TankGun(GunPlace gp, Transform t)
+	public static BulletGun TankGun(Place gp, Transform t)
 	{
 //		BulletGun gun = new BulletGun(gp);
 //		gun.transform = t;
@@ -62,7 +62,7 @@ public class GunsData
 		return SimpleGun(gp, t);
 	}
 
-	private static ParticleSystem PositionFireEffect(GunPlace gp, Transform trf, ParticleSystem fireEffect)
+	private static ParticleSystem PositionFireEffect(Place gp, Transform trf, ParticleSystem fireEffect)
 	{
 		var e = GameObject.Instantiate(fireEffect) as ParticleSystem;
 		

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -256,11 +256,11 @@ public static class SpaceshipsData
 		new Vector2(3f, 0.5f), 
 	};
 
-	public static List<GunPlace> bossGunplaces = new List<GunPlace>
+	public static List<Place> bossGunplaces = new List<Place>
 	{
-		new GunPlace(new Vector2(2.2f, 0.8f), new Vector2(1.0f, 0f)),
-		new GunPlace(new Vector2(2.2f, 0.0f), new Vector2(1.0f, 0f)),
-		new GunPlace(new Vector2(2.2f, -0.8f), new Vector2(1.0f, 0f)),
+		new Place(new Vector2(2.2f, 0.8f), new Vector2(1.0f, 0f)),
+		new Place(new Vector2(2.2f, 0.0f), new Vector2(1.0f, 0f)),
+		new Place(new Vector2(2.2f, -0.8f), new Vector2(1.0f, 0f)),
 	};
 
 	public static Vector2[] halfBossVertices = new Vector2[]
@@ -383,10 +383,10 @@ public static class SpaceshipsData
 	new Vector2 (1.31f, 0.23f),
 	};
 
-	public static List<GunPlace> alien5gunplaces = new List<GunPlace>
+	public static List<Place> alien5gunplaces = new List<Place>
 	{
-		new GunPlace(new Vector2(1.2f, 1.1f), new Vector2(1.0f, 0f)),
-		new GunPlace(new Vector2(1.2f, -1.1f), new Vector2(1.0f, 0f)),
+		new Place(new Vector2(1.2f, 1.1f), new Vector2(1.0f, 0f)),
+		new Place(new Vector2(1.2f, -1.1f), new Vector2(1.0f, 0f)),
 	};
 
 	public static Vector2[] alien5 = new Vector2[]
@@ -491,9 +491,9 @@ public static class SpaceshipsData
 	};
 
 
-	public static List<GunPlace> alien9gunplaces = new List<GunPlace>
+	public static List<Place> alien9gunplaces = new List<Place>
 	{
-		new GunPlace(new Vector2(0.8f, 0f), new Vector2(1.0f, 0f)),
+		new Place(new Vector2(0.8f, 0f), new Vector2(1.0f, 0f)),
 	};
 
 	public static Vector2[] alien9 = new Vector2[]

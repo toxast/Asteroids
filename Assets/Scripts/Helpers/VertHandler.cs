@@ -86,6 +86,12 @@ public class VertHandler : MonoBehaviour
 
 	void Update()
 	{
+//		if(Input.GetKeyDown(KeyCode.LeftShift))
+//		{
+//			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//			Debug.LogWarning(ray.origin);
+		//}
+
 		if(duplicate)
 		{
 			duplicate = false;

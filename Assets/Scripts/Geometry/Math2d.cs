@@ -212,6 +212,24 @@ public static class Math2d
 		return Mathf.Approximately (a.x, b.x) && Mathf.Approximately (a.y, b.y);
 	}
 
+
+	static public void PositionOnShooterPlace(Transform objTransform, Place place, Transform parentTransform, bool makeParent = false, float zOffset = 0)
+	{
+		float angle = Math2d.GetRotation(place.dir);
+		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+		objTransform.position = place.pos;
+		
+		angle = Math2d.GetRotation(parentTransform.right);
+		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+		objTransform.position += parentTransform.position;
+
+		if(makeParent)
+		{
+			objTransform.parent = parentTransform;
+			objTransform.position +=  new Vector3(0,0,zOffset);
+		}
+	}
+
 	static public Edge RotateEdge(Edge e, float cosA, float sinA)
 	{
 		return new Edge (RotateVertex (e.p1, cosA, sinA), RotateVertex (e.p2, cosA, sinA));

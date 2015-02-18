@@ -87,6 +87,7 @@ public class DeathAnimation
 					for (int k = 0; k < finishExplosions.Count; k++) {
 						var e = GameObject.Instantiate(finishExplosions[k]) as ParticleSystem;
 						e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
+						//e.startSize = obj.polygon.area;
 						e.Play();
 						instantiatedExplosions.Add(e);
 					}
