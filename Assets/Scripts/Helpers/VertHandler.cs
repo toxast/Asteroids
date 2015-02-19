@@ -28,7 +28,7 @@ public class VertHandler : MonoBehaviour
 				);
 	}
 
-	[ContextMenu ("Print It")]
+	[ContextMenu ("Save")]
 	private void PrintIt()
 	{
 		Vector2[] v2 = new Vector2[handles.Count];    
@@ -108,7 +108,7 @@ public class VertHandler : MonoBehaviour
 
 		mesh = GetComponent<MeshFilter>().sharedMesh;
 		//var verts = mesh.vertices;
-		var verts = SpaceshipsData.alien1;
+		var verts = SpaceshipsData.alien11;
 		foreach(Vector3 vert in verts)
 		{
 			if(vert.y <= 0)

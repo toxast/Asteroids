@@ -338,6 +338,7 @@ public class Main : MonoBehaviour
 
 		Tick_GO_Destructors (Time.deltaTime);
 
+		CleanBulletsList (bullets);
 		BulletsHitObjects (gobjects, bullets);
 //		BulletsHitObjects (enemies, bullets);
 //		BulletsHitObjects (asteroids, bullets);
@@ -569,17 +570,33 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	private void CleanBulletsList(List<IBullet> pbullets)
+	{
+		int lastK_NUlls = 0;
+		for (int k = pbullets.Count - 1; k >= 0; k--)
+		{
+			if(pbullets[k] != null)
+			{
+				lastK_NUlls = k;
+				break;
+			}
+		}
+
+		if(lastK_NUlls >= 0 && lastK_NUlls < pbullets.Count-1)
+		{
+			Debug.LogWarning("clear: "  + (pbullets.Count - (lastK_NUlls + 1)));
+			pbullets.RemoveRange (lastK_NUlls + 1, pbullets.Count - (lastK_NUlls + 1));
+		}
+	}
+
 	private void BulletsHitObject(IPolygonGameObject obj,  List<IBullet> pbullets)
 	{
-		int lastK_NUlls = -1;
+
 		for (int k = pbullets.Count - 1; k >= 0; k--)
 		{
 			var bullet = pbullets[k];
 			if(bullet == null)
 				continue;
-
-			if(lastK_NUlls < 0)
-				lastK_NUlls = k;
 
 			if((obj.collision & bullet.layer) == 0)
 				continue;
@@ -596,12 +613,6 @@ public class Main : MonoBehaviour
 				bullet.Kill();
 			}
 		}
-
-		if(lastK_NUlls >= 0 && lastK_NUlls < pbullets.Count-1)
-		{
-			pbullets.RemoveRange (lastK_NUlls + 1, pbullets.Count - (lastK_NUlls + 1));
-		}
-		Profiler.EndSample();
 	}
 
 
@@ -908,7 +919,7 @@ public class Main : MonoBehaviour
 //		enemy.SetThruster (thrustPrefab, Vector2.zero);
 //		InitNewEnemy(enemy);
 
-		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(2);
+		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(3);
 		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
 
 		InitNewEnemy(enemy);
