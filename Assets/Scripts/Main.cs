@@ -504,8 +504,12 @@ public class Main : MonoBehaviour
 		}
 		else if(gobject is IBullet)
 		{
-//			gobject.velocity /= 2f;
-//			SplitAsteroidAndMarkForDestructionAllParts(gobject);
+			var b = (gobject as IBullet);
+			if(b.breakOnDeath)
+			{
+				gobject.velocity /= 2f;
+				SplitAsteroidAndMarkForDestructionAllParts(gobject);
+			}
 		}
 		else
 		{
@@ -588,6 +592,7 @@ public class Main : MonoBehaviour
 				if(!bullet.IsKilled())
 					obj.Hit(bullet.damage);
 
+				bullet.breakOnDeath = true;
 				bullet.Kill();
 			}
 		}
@@ -708,12 +713,12 @@ public class Main : MonoBehaviour
 		{
 			if(p is Asteroid)
 			{
-				p.SetCollisionLayer(GlobalConfig.ilayerAsteroids);
+				p.SetCollisionLayerNum(GlobalConfig.ilayerAsteroids);
 				//asteroids.Add(p);
 			}
 			else
 			{
-				p.SetCollisionLayer(GlobalConfig.ilayerTeamEnemies);
+				p.SetCollisionLayerNum(GlobalConfig.ilayerTeamEnemies);
 				//enemies.Add (p);
 			}
 		}
@@ -878,47 +883,46 @@ public class Main : MonoBehaviour
 		spaceship = ObjectsCreator.CreateSpaceShip (controller);
 		spaceship.SetShield(new ShieldData(10f,2f,2f));
 		spaceship.guns.ForEach( g => g.onFire += HandleGunFire);
-		var gT = Instantiate (thrustPrefab2) as ParticleSystem;
-		spaceship.SetThruster (gT, Vector2.zero);
+		//var gT = Instantiate (thrustPrefab2) as ParticleSystem;
+		spaceship.SetThruster (thrustPrefab2, Vector2.zero);
 		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
 	}
 
 	void HandleEnemyGunFire (IBullet bullet)
 	{
-		bullet.SetCollisionLayer (GlobalConfig.ilayerBulletsEnemies);
+		bullet.SetCollisionLayerNum (GlobalConfig.ilayerBulletsEnemies);
 		PutOnFirstNullPlace<IBullet>(bullets, bullet);
 	}
 
 	void HandleGunFire (IBullet bullet)
 	{
-		bullet.SetCollisionLayer (GlobalConfig.ilayerBulletsUser);
+		bullet.SetCollisionLayerNum (GlobalConfig.ilayerBulletsUser);
 		PutOnFirstNullPlace<IBullet>(bullets, bullet);
 	}
 	
 	public void CreateEnemySpaceShip()
 	{
-		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
-		var gT = Instantiate (thrustPrefab) as ParticleSystem;
-		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
-		enemy.SetThruster (gT, Vector2.zero);
-		InitNewEnemy(enemy);
-
-//		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(SpaceshipsResources.Instance.spaceships[0]);
-//		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+//		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
+//		//var gT = Instantiate (thrustPrefab) as ParticleSystem;
 //		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
-//		enemy.SetThruster (gT, Vector2.zero);
+//		enemy.SetThruster (thrustPrefab, Vector2.zero);
 //		InitNewEnemy(enemy);
+
+		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(2);
+		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
+
+		InitNewEnemy(enemy);
 	}
 	
 	public EnemySpaceShip CreateEnemySpaceShipBoss()
 	{
 		var enemy = ObjectsCreator.CreateBossEnemySpaceShip ();
-		var gT = Instantiate (thrustBig) as ParticleSystem;
+		//var gT = Instantiate (thrustBig) as ParticleSystem;
 		enemy.SetController (new SimpleAI1(enemy));
 		var tpos = enemy.polygon.vertices [6];
 		var tpos2 = tpos;
 		tpos2.y = -tpos2.y;
-		enemy.SetThruster (gT, (tpos + tpos2)*0.5f );
+		enemy.SetThruster (thrustBig, (tpos + tpos2)*0.5f );
 		bool smartAim = true;
 		
 		//		var towerpos1 = (enemy.polygon.vertices [2] + enemy.polygon.vertices [4])/2f;
@@ -1057,11 +1061,11 @@ public class Main : MonoBehaviour
 		for (int i = 0; i < 2; i++) {
 			var enemy = ObjectsCreator.CreateEnemySpaceShip ();
 			{
-				var gT = Instantiate (thrustPrefab) as ParticleSystem;
+				//var gT = Instantiate (thrustPrefab) as ParticleSystem;
 				enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
-				enemy.SetThruster (gT, Vector2.zero);
+				enemy.SetThruster (thrustPrefab, Vector2.zero);
 				enemy.guns.ForEach( g => g.onFire += HandleGunFire);
-				enemy.SetCollisionLayer (GlobalConfig.ilayerTeamUser);
+				enemy.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
 				SetRandomPosition(enemy);
 				Add2Objects(enemy);
 			}

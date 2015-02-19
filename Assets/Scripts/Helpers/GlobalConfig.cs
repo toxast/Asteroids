@@ -39,27 +39,41 @@ public class GlobalConfig : MonoBehaviour{
 	public const int ilayerAsteroids = 5;
 	public const int ilayerMisc = 6;
 
-	private const int layerUser = 1 << ilayerUser;
-	private const int layerTeamUser = 1 << ilayerTeamUser;
-	private const int layerTeamEnemies = 1 << ilayerTeamEnemies;
-	private const int layerBulletsUser = 1 << ilayerBulletsUser;
-	private const int layerBulletsEnemies = 1 << ilayerBulletsEnemies;
-	private const int layerAsteroids = 1 << ilayerAsteroids;
-	private const int layerMisc = 1 << ilayerMisc;
+
+	[System.Flags]
+	public enum eLayer : int
+	{
+		USER = 1 << ilayerUser,
+		TEAM_USER = 1 << ilayerTeamUser,
+		TEAM_ENEMIES = 1 << ilayerTeamEnemies,
+		BULLETS_USER = 1 << ilayerBulletsUser,
+		BULLETS_ENEMIES = 1 << ilayerBulletsEnemies,
+		ASTEROIDS = 1 << ilayerAsteroids,
+		MISC = 1 << ilayerMisc,
+	}
+
+
+//	private const int layerUser = 1 << ilayerUser;
+//	private const int layerTeamUser = 1 << ilayerTeamUser;
+//	private const int layerTeamEnemies = 1 << ilayerTeamEnemies;
+//	private const int layerBulletsUser = 1 << ilayerBulletsUser;
+//	private const int layerBulletsEnemies = 1 << ilayerBulletsEnemies;
+//	private const int layerAsteroids = 1 << ilayerAsteroids;
+//	private const int layerMisc = 1 << ilayerMisc;
 
 	public static List<int> fullCollisions;
 	public static List<int> halfMatrixCollisions = new List<int>
 	{
 		//layerUser
-		layerTeamEnemies + layerBulletsEnemies + layerAsteroids + layerMisc, 
+		(int)(eLayer.TEAM_ENEMIES | eLayer.BULLETS_ENEMIES | eLayer.ASTEROIDS | eLayer.MISC), 
 		//layerTeamUser
-		layerTeamEnemies + layerBulletsEnemies + layerAsteroids, 	
+		(int)(eLayer.TEAM_ENEMIES | eLayer.BULLETS_ENEMIES | eLayer.ASTEROIDS), 	
 		//layerTeamEnemies
-		layerBulletsUser, //+ layerAsteroids, 
+		(int)eLayer.BULLETS_USER, //+ layerAsteroids, 
 		//layerBulletsUser
-		layerAsteroids,
+		(int)eLayer.ASTEROIDS,
 		//layerBulletsEnemies
-		layerAsteroids,
+		(int)eLayer.ASTEROIDS,
 		//layerAsteroids
 		0,
 		//layerMisc
@@ -82,12 +96,12 @@ public class GlobalConfig : MonoBehaviour{
 					{
 						if((halfMatrixCollisions[k] & layer) != 0)
 						{
-							collisionMask += 1 << k;
+							collisionMask |= 1 << k;
 						}
 					}
 					else
 					{
-						collisionMask += halfMatrixCollisions [k];
+						collisionMask |= halfMatrixCollisions [k];
 					}
 				}
 				fullCollisions.Add(collisionMask);

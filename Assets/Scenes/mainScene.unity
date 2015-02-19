@@ -2396,6 +2396,8 @@ MonoBehaviour:
   duplicateIndx: 0
   duplicate: 0
   reverse: 0
+  doScale: 0
+  scaleBy: {x: 1.10000002, y: 1.10000002}
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0
@@ -2403,7 +2405,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.44999981, y: 8.03999996, z: 9}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

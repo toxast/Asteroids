@@ -5,6 +5,7 @@ public class Missile : SpaceShip, IBullet
 {
 	public float damage{ get; set;}
 	protected float lifeTime;
+	public bool breakOnDeath { get; set;}
 
 	public void Init(float damage, float lifeTime)
 	{

@@ -14,8 +14,16 @@ public class SpaceShip : PolygonGameObject
 	float maxSpeed = 20f;
 	float maxSpeedSqr;
 
-	ParticleSystem thrustPSystem; //TODO refactor
-	float defaultThrustLifetime;
+
+	private class Thruster
+	{
+		public ParticleSystem thrust; 
+		public float defaultLifetime;
+	}
+	List<Thruster> thrusters = new List<Thruster> ();
+
+//	ParticleSystem thrustPSystem; //TODO refactor
+//	float defaultThrustLifetime;
 
 	public DropCollector collector;
 
@@ -59,6 +67,21 @@ public class SpaceShip : PolygonGameObject
 		inputController = iController;
 	}
 
+	public void SetThrusters(List<ThrusterSetupData> tdatas)
+	{
+		foreach (var t in tdatas) 
+		{
+			var thrusterInstance  = Instantiate(t.thrusterPrefab) as ParticleSystem;
+			Math2d.PositionOnShooterPlace (thrusterInstance.transform, t.place, cacheTransform, true, 1);
+
+			Thruster newThruster = new Thruster();
+			newThruster.defaultLifetime = thrusterInstance.startLifetime;
+			newThruster.thrust = thrusterInstance;
+			thrusterInstance.startLifetime = newThruster.defaultLifetime / 3f;
+			thrusters.Add(newThruster);
+		}
+	}
+
 	public void SetThruster(ParticleSystem p, Vector2 pos)
 	{
 		Place place = new Place
@@ -66,17 +89,32 @@ public class SpaceShip : PolygonGameObject
 			dir = new Vector2(1,0),
 			pos = pos,
 		};
-		thrustPSystem = p;
-
-		Math2d.PositionOnShooterPlace (p.transform, place, cacheTransform, true, 1);
-//		thrustPSystem.gameObject.transform.parent = cacheTransform;
-//		Vector3 pos3 = pos;
-//		pos3.z = 1;
-//		thrustPSystem.gameObject.transform.localPosition = pos3;
-
-		defaultThrustLifetime = thrustPSystem.startLifetime;
-		thrustPSystem.startLifetime = defaultThrustLifetime / 3f;
+		ThrusterSetupData d = new ThrusterSetupData ();
+		d.place = place;
+		d.thrusterPrefab = p;
+		List<ThrusterSetupData> tdatas = new List<ThrusterSetupData> ();
+		tdatas.Add (d);
+		SetThrusters (tdatas);
 	}
+
+//	public void SetThruster(ParticleSystem p, Vector2 pos)
+//	{
+//		Place place = new Place
+//		{
+//			dir = new Vector2(1,0),
+//			pos = pos,
+//		};
+//		thrustPSystem = p;
+//
+//		Math2d.PositionOnShooterPlace (p.transform, place, cacheTransform, true, 1);
+////		thrustPSystem.gameObject.transform.parent = cacheTransform;
+////		Vector3 pos3 = pos;
+////		pos3.z = 1;
+////		thrustPSystem.gameObject.transform.localPosition = pos3;
+//
+//		defaultThrustLifetime = thrustPSystem.startLifetime;
+//		thrustPSystem.startLifetime = defaultThrustLifetime / 3f;
+//	}
 
 	private void TurnRight(float delta)
 	{	
@@ -179,14 +217,14 @@ public class SpaceShip : PolygonGameObject
 
 		TickGuns (delta);
 
-		if(thrustPSystem != null)
+		foreach(var th in thrusters)
 		{
 			//Or speed and rate by 3;
 			//Or another trust
 			//And change colr a bit??
-			float dthrust = defaultThrustLifetime * delta * 0.5f;
+			float dthrust = th.defaultLifetime * delta * 0.5f;
 			dthrust = (acceleratedThisTick)? dthrust : -dthrust;
-			thrustPSystem.startLifetime = Mathf.Clamp(thrustPSystem.startLifetime + dthrust, defaultThrustLifetime/2f, defaultThrustLifetime);
+			th.thrust.startLifetime = Mathf.Clamp(th.thrust.startLifetime + dthrust, th.defaultLifetime/2f,  th.defaultLifetime);
 		}
 	}
 

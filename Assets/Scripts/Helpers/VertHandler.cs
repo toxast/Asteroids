@@ -17,6 +17,10 @@ public class VertHandler : MonoBehaviour
 	[SerializeField] bool duplicate = false;
 	[SerializeField] bool reverse = false;
 
+	[SerializeField] bool doScale = false;
+	[SerializeField] Vector2 scaleBy = Vector2.one;
+
+
 	[ContextMenu ("Reset")]
 	void Reset () {
 		handles.ForEach (h =>
@@ -103,7 +107,8 @@ public class VertHandler : MonoBehaviour
 		duplicate = false;
 
 		mesh = GetComponent<MeshFilter>().sharedMesh;
-		var verts = mesh.vertices;
+		//var verts = mesh.vertices;
+		var verts = SpaceshipsData.alien1;
 		foreach(Vector3 vert in verts)
 		{
 			if(vert.y <= 0)
@@ -182,6 +187,8 @@ public class VertHandler : MonoBehaviour
 //			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 //			Debug.LogWarning(ray.origin);
 		//}
+		if(handles == null || handles.Count < 2)
+			return;
 
 		if(duplicate)
 		{
@@ -189,8 +196,15 @@ public class VertHandler : MonoBehaviour
 			DuplicateHandler(duplicateIndx);
 		}
 
-		if(handles == null || handles.Count < 2)
-			return;
+		if(doScale)
+		{
+			doScale = false;
+			foreach (var h in handles) 
+			{
+				h.transform.localPosition = new Vector3(h.transform.localPosition.x * scaleBy.x, h.transform.localPosition.y * scaleBy.y, 0);
+			}
+		}
+
 
 		Vector2[] v2 = new Vector2[handles.Count];    
 		handles = handles.Where (h => h != null).ToList ();

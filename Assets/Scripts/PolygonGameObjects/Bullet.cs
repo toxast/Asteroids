@@ -6,7 +6,8 @@ public class Bullet : PolygonGameObject, IBullet
 	private float startingSpeed;
 	public float damage{ get; set;}
 	protected float lifeTime;
-	
+	public bool breakOnDeath { get; set;}
+
 	public override void Tick (float delta)
 	{
 		base.Tick (delta);
