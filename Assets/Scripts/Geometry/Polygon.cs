@@ -20,9 +20,13 @@ public class Polygon
 
 	//private static double CosCutTreshold = Math.Cos((130f * Math.PI) / 180f);
 
-	public Polygon(Vector2[] vertices)
+	public Polygon (Vector2[] vertices):this(vertices, Vector2.zero)
 	{
-		this.massCenter = new Vector2(0,0);
+	}
+
+	public Polygon(Vector2[] vertices, Vector2 massCenter)
+	{
+		this.massCenter = massCenter;
 		this.vertices = vertices;
 		this.vcount = vertices.Length;
 
@@ -70,10 +74,10 @@ public class Polygon
 		edges[indx].p1 = v;
 	}
 
-	public void SetMassCenter(Vector2 center)
-	{
-		massCenter = center;
-	}
+//	public void SetMassCenter(Vector2 center)
+//	{
+//		massCenter = center;
+//	}
 
 	private float GetRadiusOfOuterSphere()
 	{
@@ -271,6 +275,11 @@ public class Polygon
 	//TODO: count vertexes
 	public bool IsPointInside(Vector2 point)
 	{
+		if((point - massCenter).sqrMagnitude > Rsqr)
+		{
+			//Debug.LogWarning("saved");
+			return false;
+		}
 		//Debug.LogWarning ("IsPointInsideOfPolygon " + point);
 		//cast a ray from polygon bounding box to point: (Xmin - e, point.y) to (point.x, point.y)
 		//if it gives even numbers of intersections - the point is inside of a polygon

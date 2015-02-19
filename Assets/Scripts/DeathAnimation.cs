@@ -20,7 +20,7 @@ public class DeathAnimation
 		var config = Singleton<GlobalConfig>.inst;
 		float duration = (instant)? 0 : Mathf.Sqrt (g.polygon.area) / 4f;
 		DeathAnimation anim;
-		Debug.LogWarning (g.polygon.area);
+		//Debug.LogWarning (g.polygon.area);
 		if(g.polygon.area < 5f)
 		{
 			int explosionsCount = UnityEngine.Random.Range(1,4);

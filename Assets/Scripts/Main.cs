@@ -446,7 +446,7 @@ public class Main : MonoBehaviour
 		//CheckDeadObjects (enemies);
 		//CheckDeadObjects (asteroids);
 		CheckDeadObjects (drops);
-		CheckDeadObjects (bullets);
+		CheckDeadObjects (bullets, true);
 		//CheckDeadObjects (enemyBullets);
 	}
 
@@ -504,8 +504,8 @@ public class Main : MonoBehaviour
 		}
 		else if(gobject is IBullet)
 		{
-			gobject.velocity /= 2f;
-			SplitAsteroidAndMarkForDestructionAllParts(gobject);
+//			gobject.velocity /= 2f;
+//			SplitAsteroidAndMarkForDestructionAllParts(gobject);
 		}
 		else
 		{
@@ -567,11 +567,15 @@ public class Main : MonoBehaviour
 
 	private void BulletsHitObject(IPolygonGameObject obj,  List<IBullet> pbullets)
 	{
+		int lastK_NUlls = -1;
 		for (int k = pbullets.Count - 1; k >= 0; k--)
 		{
 			var bullet = pbullets[k];
 			if(bullet == null)
 				continue;
+
+			if(lastK_NUlls < 0)
+				lastK_NUlls = k;
 
 			if((obj.collision & bullet.layer) == 0)
 				continue;
@@ -587,6 +591,12 @@ public class Main : MonoBehaviour
 				bullet.Kill();
 			}
 		}
+
+		if(lastK_NUlls >= 0 && lastK_NUlls < pbullets.Count-1)
+		{
+			pbullets.RemoveRange (lastK_NUlls + 1, pbullets.Count - (lastK_NUlls + 1));
+		}
+		Profiler.EndSample();
 	}
 
 
@@ -887,17 +897,17 @@ public class Main : MonoBehaviour
 	
 	public void CreateEnemySpaceShip()
 	{
-//		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
-//		var gT = Instantiate (thrustPrefab) as ParticleSystem;
-//		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
-//		enemy.SetThruster (gT, Vector2.zero);
-//		InitNewEnemy(enemy);
-
-		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(SpaceshipsResources.Instance.spaceships[0]);
+		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
 		var gT = Instantiate (thrustPrefab) as ParticleSystem;
 		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
 		enemy.SetThruster (gT, Vector2.zero);
 		InitNewEnemy(enemy);
+
+//		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(SpaceshipsResources.Instance.spaceships[0]);
+//		var gT = Instantiate (thrustPrefab) as ParticleSystem;
+//		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
+//		enemy.SetThruster (gT, Vector2.zero);
+//		InitNewEnemy(enemy);
 	}
 	
 	public EnemySpaceShip CreateEnemySpaceShipBoss()

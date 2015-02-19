@@ -24,7 +24,8 @@ public static class PolygonCollision
 
 		Vector2 distance2d = a.cacheTransform.position - b.cacheTransform.position;
 		bool collides = false;
-		if (distance2d.magnitude <= a.polygon.R + b.polygon.R) 
+		float r = a.polygon.R + b.polygon.R;
+		if (distance2d.sqrMagnitude <= r*r) 
 		{
 			Polygon aGlobal = GetPolygonInGlobalCoordinates (a);
 			Polygon bGlobal = GetPolygonInGlobalCoordinates (b);
@@ -45,8 +46,8 @@ public static class PolygonCollision
 		float angle = a.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
 		Vector2[] verticesA = Math2d.RotateVerticesRAD(a.polygon.vertices, angle);
 		Math2d.ShiftVertices(verticesA, a.cacheTransform.position);
-		Polygon aRotated = new Polygon(verticesA);
-		aRotated.SetMassCenter (a.cacheTransform.position);
+		Polygon aRotated = new Polygon(verticesA, a.cacheTransform.position);
+		//aRotated.SetMassCenter (a.cacheTransform.position);
 		return aRotated;
 	}
 
@@ -130,7 +131,7 @@ public static class PolygonCollision
 		if(closest < 0)
 		{
 			//TODO: its happening, fix!
-			Debug.LogError("closest < 0");
+			//Debug.LogError("closest < 0");
 			return 0f;
 		}
 		
@@ -147,7 +148,7 @@ public static class PolygonCollision
 		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
 		{
 #if UNITY_EDITOR
-			Debug.LogWarning("not approaching");
+			//Debug.LogWarning("not approaching");
 #endif
 			return 0f;
 		}
