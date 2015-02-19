@@ -4,7 +4,7 @@ using System.Collections;
 public class GunsData 
 {
 
-	public static Gun GetGun(GunSetupData gdata, Transform t)
+	public static Gun GetGun(GunSetupData gdata, IPolygonGameObject t)
 	{
 		switch (gdata.type) 
 		{
@@ -20,7 +20,7 @@ public class GunsData
 		return null;
 	}
 
-	public static BulletGun SimpleGun(Place gp, Transform t)
+	public static BulletGun SimpleGun(Place gp, IPolygonGameObject t)
 	{
 		GunData d = GunsResources.Instance.guns [0];
 		BulletGun gun = new BulletGun(gp, d, t);
@@ -29,7 +29,7 @@ public class GunsData
 	}
 
 
-	public static BulletGun SimpleGun2(Place gp, Transform t)
+	public static BulletGun SimpleGun2(Place gp, IPolygonGameObject t)
 	{
 //		BulletGun gun = new BulletGun(gp);
 //		gun.transform = t;
@@ -44,7 +44,7 @@ public class GunsData
 	}
 
 	//TODO: missle data
-	public static RocketLauncher RocketLauncher(Place gp, Transform t)
+	public static RocketLauncher RocketLauncher(Place gp, IPolygonGameObject t)
 	{
 		var d = GunsResources.Instance.rocketLaunchers [0];
 //		GunData d = new GunData
@@ -63,7 +63,7 @@ public class GunsData
 		return gun;
 	}
 
-	public static BulletGun TankGun(Place gp, Transform t)
+	public static BulletGun TankGun(Place gp, IPolygonGameObject t)
 	{
 //		BulletGun gun = new BulletGun(gp);
 //		gun.transform = t;

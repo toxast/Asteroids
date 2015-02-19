@@ -200,7 +200,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		
 		Color shCol = Color.green;
 		shCol.a = 0.3f;
-		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.vertices, 0.4f);
+		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.vertices, 0.6f);
 		shieldGO = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(v, shCol);
 		shieldGO.cacheTransform.parent = cacheTransform;
 		shieldGO.cacheTransform.localPosition = new Vector3 (0, 0, 1);

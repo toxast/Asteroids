@@ -15,13 +15,17 @@ public class ObjectsCreator
 		spaceship.Init(sdata.physicalParameters);
 		spaceship.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies); //TODO
 		spaceship.SetThrusters (sdata.thrusters);
+
+		if (sdata.shield != null && sdata.shield.capacity > 0)
+			spaceship.SetShield (sdata.shield);
+
 		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
 		spaceship.gameObject.name = sdata.name; 
 		
 		spaceship.guns = new List<Gun> ();
 		foreach (var gunplace in sdata.guns) 
 		{
-			var gun = GunsData.GetGun(gunplace, spaceship.cacheTransform);
+			var gun = GunsData.GetGun(gunplace, spaceship);
 			spaceship.guns.Add (gun);
 		}
 		
@@ -78,30 +82,6 @@ public class ObjectsCreator
 		return spaceship;
 	}
 
-
-	public static EnemySpaceShip CreateFriendShip2()
-	{
-		//var vr = Math2d.Chance (0.5f) ? Math2d.ScaleVertices2 (SpaceshipsData.alien6, 1.5f) : SpaceshipsData.alien3;
-		var vr = Math2d.ScaleVertices2 (SpaceshipsData.alien12, 1.1f);
-		//var vr = Math2d.ScaleVertices2 (vrt, 1.5f);
-		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-		spaceship.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
-		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
-		spaceship.gameObject.name = "friend spaceship";
-		
-		InitGuns (spaceship, SpaceshipsData.alien9gunplaces, GunsData.SimpleGun2);
-		
-		SpaceshipData data = new SpaceshipData{
-			thrust = 20f,
-			maxSpeed = 15f,
-			turnSpeed = 150f,
-			brake = 8f,
-			passiveBrake = 4f,
-		}; 
-		spaceship.Init(data);
-		
-		return spaceship;
-	}
 
 	public static EnemySpaceShip CreateBossEnemySpaceShip()
 	{
@@ -311,11 +291,11 @@ public class ObjectsCreator
 	}
 
 
-	private static void InitGuns(PolygonGameObject enemy, List<Place> gunplaces, System.Func<Place, Transform, Gun> gunsGetter)
+	private static void InitGuns(PolygonGameObject enemy, List<Place> gunplaces, System.Func<Place, IPolygonGameObject, Gun> gunsGetter)
 	{
 		foreach (var gunplace in gunplaces) 
 		{
-			var gun = gunsGetter(gunplace, enemy.cacheTransform);
+			var gun = gunsGetter(gunplace, enemy);
 			enemy.guns.Add (gun);
 		}
 	}

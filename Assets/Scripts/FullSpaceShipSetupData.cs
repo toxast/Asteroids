@@ -9,6 +9,7 @@ public class FullSpaceShipSetupData
 	public GlobalConfig.eLayer layer = GlobalConfig.eLayer.TEAM_ENEMIES;
 	public Color color = Color.white;
 	public SpaceshipData physicalParameters;
+	public ShieldData shield;
 	public List<GunSetupData> guns;
 	public List<ThrusterSetupData> thrusters;
 	public Vector2[] verts;

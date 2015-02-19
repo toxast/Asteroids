@@ -52,38 +52,38 @@ MonoBehaviour:
     - {x: -.400000006, y: .200000003}
     color: {r: 1, g: 0, b: 0, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
-  - damage: 1
-    lifeTime: 2
-    bulletSpeed: 20
-    fireInterval: .5
-    vertices:
-    - {x: .300000012, y: .150000006}
-    - {x: .300000012, y: -.150000006}
-    - {x: -.300000012, y: -.150000006}
-    - {x: -.300000012, y: .150000006}
-    color: {r: .827450991, g: .812238812, b: .33098039, a: 1}
-    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
-  - damage: 1.5
-    lifeTime: 2
-    bulletSpeed: 25
-    fireInterval: .5
-    vertices:
-    - {x: .300000012, y: .150000006}
-    - {x: .300000012, y: -.150000006}
-    - {x: -.300000012, y: -.150000006}
-    - {x: -.300000012, y: .150000006}
-    color: {r: .858823538, g: .843034625, b: .343529403, a: 1}
-    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - damage: 2
     lifeTime: 2
-    bulletSpeed: 40
+    bulletSpeed: 50
+    fireInterval: .400000006
+    vertices:
+    - {x: .400000006, y: .200000003}
+    - {x: .400000006, y: -.200000003}
+    - {x: -.400000006, y: -.200000003}
+    - {x: -.400000006, y: .200000003}
+    color: {r: 1, g: 0, b: 0, a: 1}
+    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  - damage: 1
+    lifeTime: 3
+    bulletSpeed: 60
     fireInterval: .5
     vertices:
-    - {x: .5, y: .150000006}
-    - {x: .5, y: -.150000006}
-    - {x: -.5, y: -.150000006}
-    - {x: -.5, y: .150000006}
-    color: {r: .858823538, g: .843034625, b: .343529403, a: 1}
+    - {x: .400000006, y: .200000003}
+    - {x: .400000006, y: -.200000003}
+    - {x: -.400000006, y: -.200000003}
+    - {x: -.400000006, y: .200000003}
+    color: {r: .79411763, g: .67121464, b: .157655716, a: 1}
+    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  - damage: 8
+    lifeTime: 2
+    bulletSpeed: 45
+    fireInterval: 1
+    vertices:
+    - {x: .800000012, y: .5}
+    - {x: .800000012, y: -.5}
+    - {x: -.800000012, y: -.5}
+    - {x: -.800000012, y: .5}
+    color: {r: .139165208, g: .860294104, b: .502216458, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   rocketLaunchers:
   - baseData:
@@ -92,7 +92,7 @@ MonoBehaviour:
       bulletSpeed: 0
       fireInterval: 4
       vertices:
-      - {x: 1.1400497, y: 3.34643424e-10}
+      - {x: 1.1400497, y: 7.47222395e-10}
       - {x: .640049756, y: -.200000003}
       - {x: -.559950233, y: -.150000006}
       - {x: -.859950244, y: -.349999994}

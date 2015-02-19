@@ -7,7 +7,7 @@ public class RocketLauncher : Gun
 	public ParticleSystem thrusterEffect;
 	private SpaceshipData missleParameters;
 	private Vector2 thrusterPos;
-	public RocketLauncher(Place place, RocketLauncherData data, Transform parentTransform):base(place, data.baseData, parentTransform)
+	public RocketLauncher(Place place, RocketLauncherData data, IPolygonGameObject parent):base(place, data.baseData, parent)
 	{
 		missleParameters = data.missleParameters;
 		thrusterEffect = data.thrusterEffect;
@@ -26,7 +26,7 @@ public class RocketLauncher : Gun
 			e.transform.localPosition = thrusterPos;//new Vector3(-1,0,-1);
 		}
 
-		Math2d.PositionOnShooterPlace (missile.cacheTransform, place, parentTransform);
+		Math2d.PositionOnShooterPlace (missile.cacheTransform, place, parent.cacheTransform);
 		
 		missile.gameObject.name = "missile";
 		var controller = new MissileController (missile, missleParameters.maxSpeed);

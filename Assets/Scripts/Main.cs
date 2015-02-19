@@ -572,20 +572,22 @@ public class Main : MonoBehaviour
 
 	private void CleanBulletsList(List<IBullet> pbullets)
 	{
-		int lastK_NUlls = 0;
+		if (pbullets.Count == 0)
+			return;
+
+		int fisrtNull = 0;
 		for (int k = pbullets.Count - 1; k >= 0; k--)
 		{
 			if(pbullets[k] != null)
 			{
-				lastK_NUlls = k;
+				fisrtNull = k+1;
 				break;
 			}
 		}
 
-		if(lastK_NUlls >= 0 && lastK_NUlls < pbullets.Count-1)
+		if(fisrtNull >= 0 && fisrtNull < pbullets.Count)
 		{
-			Debug.LogWarning("clear: "  + (pbullets.Count - (lastK_NUlls + 1)));
-			pbullets.RemoveRange (lastK_NUlls + 1, pbullets.Count - (lastK_NUlls + 1));
+			pbullets.RemoveRange (fisrtNull, pbullets.Count - fisrtNull);
 		}
 	}
 
@@ -899,19 +901,19 @@ public class Main : MonoBehaviour
 		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
 	}
 
-	void HandleEnemyGunFire (IBullet bullet)
-	{
-		bullet.SetCollisionLayerNum (GlobalConfig.ilayerBulletsEnemies);
-		PutOnFirstNullPlace<IBullet>(bullets, bullet);
-	}
+//	void HandleGunFire (IBullet bullet)
+//	{
+//		bullet.SetCollisionLayerNum (GlobalConfig.ilayerBulletsEnemies);
+//		PutOnFirstNullPlace<IBullet>(bullets, bullet);
+//	}
 
 	void HandleGunFire (IBullet bullet)
 	{
-		bullet.SetCollisionLayerNum (GlobalConfig.ilayerBulletsUser);
+		//bullet.SetCollisionLayerNum (GlobalConfig.ilayerBulletsUser);
 		PutOnFirstNullPlace<IBullet>(bullets, bullet);
 	}
 	
-	public void CreateEnemySpaceShip()
+	public void CreateEnemySpaceShip(int indx)
 	{
 //		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
 //		//var gT = Instantiate (thrustPrefab) as ParticleSystem;
@@ -919,7 +921,9 @@ public class Main : MonoBehaviour
 //		enemy.SetThruster (thrustPrefab, Vector2.zero);
 //		InitNewEnemy(enemy);
 
-		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(3);
+		//int indx = UnityEngine.Random.Range (0, SpaceshipsResources.Instance.spaceships.Count);
+		//4 - big
+		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(indx);
 		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
 
 		InitNewEnemy(enemy);
@@ -950,7 +954,7 @@ public class Main : MonoBehaviour
 			}; 
 			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
 			tenemy.SetAngleRestrictions(anglesRestriction1);
-			tenemy.guns.ForEach( g => g.onFire += HandleEnemyGunFire);
+			tenemy.guns.ForEach( g => g.onFire += HandleGunFire);
 			enemy.AddTurret (towerpos1, dir1, tenemy);
 		}
 		
@@ -969,7 +973,7 @@ public class Main : MonoBehaviour
 			}; 
 			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
 			tenemy.SetAngleRestrictions(anglesRestriction2);
-			tenemy.guns.ForEach( g => g.onFire += HandleEnemyGunFire);
+			tenemy.guns.ForEach( g => g.onFire += HandleGunFire);
 			enemy.AddTurret (towerpos2, dir2, tenemy);
 		}
 		
@@ -1113,7 +1117,7 @@ public class Main : MonoBehaviour
 	
 	private void InitNewEnemy(PolygonGameObject enemy)
 	{
-		enemy.guns.ForEach( g => g.onFire += HandleEnemyGunFire);
+		enemy.guns.ForEach( g => g.onFire += HandleGunFire);
 		enemy.SetTarget (spaceship);
 		SetRandomPosition(enemy);
 		Add2Objects(enemy);

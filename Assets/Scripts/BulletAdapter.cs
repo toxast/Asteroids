@@ -1,0 +1,80 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System;
+
+public class BulletAdapter : IBullet
+{
+	IPolygonGameObject go;
+
+	public float damage{ get; set;}
+	public bool breakOnDeath { get; set;}
+	public bool Expired()
+	{
+		return false;
+	}
+
+	public BulletAdapter (IPolygonGameObject go)
+	{
+		this.go = go;
+	}
+
+	public void SetTarget(IPolygonGameObject target)
+	{
+		go.SetTarget (target);
+	}
+
+	public void Tick(float delta)
+	{
+		go.Tick (delta);
+	}
+
+	public GameObject gameObj{get{return go.gameObj;}}
+	public Polygon polygon{get{return go.polygon;}}
+	public Transform cacheTransform{get{return go.cacheTransform;}}
+	public Vector2 position{get{return go.position;} set{go.position = value;}}
+	public Color GetColor()
+	{
+		return go.GetColor ();
+	}
+	
+	//collision
+	public int layer{get{return go.layer;} set{go.layer = value;}}
+	public int collision{get{return go.collision;} set{go.collision = value;}}
+	
+	//physical
+	public float density{get{return go.density;}}
+	public float mass{get{return go.mass;}}
+	public float inertiaMoment{get{return go.inertiaMoment;}}
+	public Vector3 velocity{get{return go.velocity;} set{go.velocity = value;}}
+	public float rotation{get{return go.rotation;} set{go.rotation = value;}}
+	
+	public void Hit(float dmg)
+	{
+		go.Hit (dmg);
+	}
+	public void Kill()
+	{
+		go.Kill ();
+	}
+	public event Action<float> healthChanged
+	{
+		add{go.healthChanged += value;}
+		remove{go.healthChanged -= value;}
+	}
+	public bool IsKilled()
+	{
+		return go.IsKilled ();
+	}
+	
+	public List<Gun> guns{get{return go.guns;} set{go.guns = value;}}
+	
+	public DropID dropID{get{return go.dropID;} set{go.dropID = value;}}
+	
+	public DeathAnimation deathAnimation{get{return go.deathAnimation;} set{go.deathAnimation = value;}}
+	
+	public List<Vector2[]> Split()
+	{
+		return go.Split();
+	}
+}

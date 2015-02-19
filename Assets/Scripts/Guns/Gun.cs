@@ -6,7 +6,7 @@ public class Gun : IGotTarget, ITickable
 {
 	protected IPolygonGameObject target;
 	public Place place;
-	public Transform parentTransform;
+	public IPolygonGameObject parent;
 
 	public float damage;
 	public float lifeTime;
@@ -24,7 +24,7 @@ public class Gun : IGotTarget, ITickable
 
 	public event Action<IBullet> onFire;
 
-	public Gun(Place place, GunData data, Transform parentTransform)
+	public Gun(Place place, GunData data, IPolygonGameObject parent)
 	{
 		this.place = place;
 		this.damage = data.damage;
@@ -33,12 +33,12 @@ public class Gun : IGotTarget, ITickable
 		this.fireInterval = data.fireInterval;
 		this.vertices = data.vertices;
 		this.color = data.color;
-		this.parentTransform = parentTransform;
+		this.parent = parent;
 
 		if(data.fireEffect != null)
 		{
 			fireEffect = GameObject.Instantiate(data.fireEffect) as ParticleSystem;
-			Math2d.PositionOnShooterPlace(fireEffect.transform, place, parentTransform, true, -1);
+			Math2d.PositionOnShooterPlace(fireEffect.transform, place, parent.cacheTransform, true, -1);
 //			PositionOnShooterPlace(fireEffect.transform);
 //			fireEffect.transform.parent = parentTransform;
 //			fireEffect.transform.position -=  new Vector3(0,0,1);
@@ -105,23 +105,26 @@ public class Gun : IGotTarget, ITickable
 		throw new System.NotImplementedException ();
 	}
 
+	protected void SetBulletLayer(IBullet b)
+	{
+		if(parent.layer == GlobalConfig.ilayerUser || parent.layer == GlobalConfig.ilayerTeamUser)
+		{
+			b.SetCollisionLayerNum(GlobalConfig.ilayerBulletsUser);
+		}
+		else if(parent.layer == GlobalConfig.ilayerTeamEnemies)
+		{
+			b.SetCollisionLayerNum(GlobalConfig.ilayerBulletsEnemies);
+		}
+	}
+
 	protected void Fire(IBullet b)
 	{
+		SetBulletLayer (b);
+
 		if(onFire != null)
 			onFire(b);
 
 		if (fireEffect != null)
 			fireEffect.Emit (1);
 	}
-
-//	protected void PositionOnShooterPlace(Transform objTransform)
-//	{
-//		float angle = Math2d.GetRotation(place.dir);
-//		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
-//		objTransform.position = place.pos;
-//
-//		angle = Math2d.GetRotation(parentTransform.right);
-//		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
-//		objTransform.position += parentTransform.position;
-//	}
 }

@@ -21,6 +21,29 @@ public class VertHandler : MonoBehaviour
 	[SerializeField] Vector2 scaleBy = Vector2.one;
 
 
+	void OnEnable()
+	{
+		duplicateIndx = 0;
+		duplicate = false;
+		
+		mesh = GetComponent<MeshFilter>().sharedMesh;
+		//var verts = mesh.vertices;
+		var verts = SpaceshipsData.spaceshipVertices2;
+		//var verts =SpaceshipsResources.Instance.spaceships[1].verts;
+		foreach(Vector3 vert in verts)
+		{
+			if(vert.y <= 0)
+			{
+				vertPos = transform.TransformPoint(vert);
+				GameObject handle = new GameObject("handle " + handles.Count);
+				handle.transform.position = vertPos;
+				handle.transform.parent = transform;
+				//handle.tag = "handle";
+				handles.Add(handle);
+			}
+		}
+	}
+
 	[ContextMenu ("Reset")]
 	void Reset () {
 		handles.ForEach (h =>
@@ -101,27 +124,7 @@ public class VertHandler : MonoBehaviour
 	}
 
 
-	void OnEnable()
-	{
-		duplicateIndx = 0;
-		duplicate = false;
 
-		mesh = GetComponent<MeshFilter>().sharedMesh;
-		//var verts = mesh.vertices;
-		var verts = SpaceshipsData.alien11;
-		foreach(Vector3 vert in verts)
-		{
-			if(vert.y <= 0)
-			{
-				vertPos = transform.TransformPoint(vert);
-				GameObject handle = new GameObject("handle " + handles.Count);
-				handle.transform.position = vertPos;
-				handle.transform.parent = transform;
-				//handle.tag = "handle";
-				handles.Add(handle);
-			}
-		}
-	}
 
 	void OnDisable()
 	{

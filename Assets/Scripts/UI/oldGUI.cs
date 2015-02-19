@@ -4,6 +4,7 @@ using System.Collections;
 public class oldGUI : MonoBehaviour {
 
 	[SerializeField] Main main;
+	string shipNum = string.Empty;
 	void OnGUI()
 	{
 		int starty = 20;
@@ -69,11 +70,14 @@ public class oldGUI : MonoBehaviour {
 			main.CreateTower();
 		}
 		y += height + margine;
-		
+
+
+		shipNum = GUI.TextField (new Rect (x + 200, y, width - 20, height), shipNum);
 		if(GUI.Button(new Rect(x, y, width+30, height), "enemy spaceship"))
 		{
-			main.CreateEnemySpaceShip();
+			main.CreateEnemySpaceShip(int.Parse(shipNum));
 		}
+	
 		y += height + margine;
 
 		if(GUI.Button(new Rect(x, y, width+30, height), "enemy spaceship 2"))

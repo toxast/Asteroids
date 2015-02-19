@@ -12,9 +12,10 @@ public class Shield
 
 
 	private Coroutine shieldAnimationCoroutine = null;
+	private const float FADE_FURATION = 0.3f;
 	private const float NO_SHIELD_ALPHA = 0f;
 	private const float SHIELD_ALPHA = 0.3f;
-	private const float SHIELD_HIT_ALPHA = 0.6f;
+	private const float SHIELD_HIT_ALPHA = 0.8f;//0.6f;
 
 	public Shield(ShieldData data)
 	{
@@ -75,7 +76,7 @@ public class Shield
 			time2startShieldRecharge -= delta;
 			if(shieldGo != null && time2startShieldRecharge <= 0)
 			{
-				shieldAnimationCoroutine = shieldGo.StartCoroutine(FadeTo (shieldGo, SHIELD_ALPHA, 0.3f));
+				shieldAnimationCoroutine = shieldGo.StartCoroutine(FadeTo (shieldGo, SHIELD_ALPHA, FADE_FURATION));
 			}
 		}
 		
@@ -94,7 +95,7 @@ public class Shield
 	IEnumerator AnimateHit()
 	{
 		shieldGo.SetAlpha(SHIELD_HIT_ALPHA);
-		shieldAnimationCoroutine = shieldGo.StartCoroutine(FadeTo (shieldGo, SHIELD_ALPHA, 0.3f));
+		shieldAnimationCoroutine = shieldGo.StartCoroutine(FadeTo (shieldGo, SHIELD_ALPHA, FADE_FURATION));
 		yield return shieldAnimationCoroutine;
 	}
 
