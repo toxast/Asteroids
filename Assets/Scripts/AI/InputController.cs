@@ -7,4 +7,5 @@ public interface InputController
 	Vector2 TurnDirection ();
 	bool IsShooting();
 	bool IsAccelerating();
+	bool IsBraking();
 }

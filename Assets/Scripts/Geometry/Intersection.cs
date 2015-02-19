@@ -58,7 +58,7 @@ public class Intersection {
 		foreach(Edge edge in edges)
 		{
 			Intersection insc = new Intersection(e.p1, e.p2, edge.p1, edge.p2); 
-			bool sameAsPrevious = intersections.Any() && Math2d.ApproximatelySame(intersections.Last(), insc.intersection);
+			bool sameAsPrevious = intersections.Any() && Math2d.ApproximatelySame(intersections[intersections.Count - 1], insc.intersection);
 			if(insc.haveIntersection && !sameAsPrevious)
 			{
 				intersections.Add(insc.intersection);

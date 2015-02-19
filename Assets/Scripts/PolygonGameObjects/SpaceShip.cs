@@ -170,10 +170,10 @@ public class SpaceShip : PolygonGameObject
 
 		InputTick (delta);
 
-		if(!acceleratedThisTick)
-		{
-			Brake(delta, passiveBrake);
-		}
+		//if(!acceleratedThisTick)
+		//{
+		//	Brake(delta, passiveBrake);
+		//}
 
 		//RestictSpeed ();
 
@@ -227,6 +227,11 @@ public class SpaceShip : PolygonGameObject
 		if(inputController.IsAccelerating())
 		{
 			Accelerate(delta);
+		}
+
+		if(inputController.IsBraking())
+		{
+			Brake(delta, brake);
 		}
 	}
 

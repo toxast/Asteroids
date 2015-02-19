@@ -6,7 +6,7 @@ public class StandaloneInputController : InputController
 	bool shooting = false;
 	bool accelerating = false;
 	Vector2 turnDirection;
-
+	bool braking = false;
 
 
 	public StandaloneInputController()
@@ -17,7 +17,7 @@ public class StandaloneInputController : InputController
 	{
 		shooting = Input.GetMouseButton (0);
 		accelerating = Input.GetKey (KeyCode.W);
-
+		braking = Input.GetKey (KeyCode.S);
 		Vector2 moveTo = (Vector2)Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		//moveTo = new Vector2 (Mathf.Clamp (moveTo.x, flyZoneBounds.xMin, flyZoneBounds.xMax
 
@@ -37,5 +37,10 @@ public class StandaloneInputController : InputController
 	public bool IsAccelerating()
 	{
 		return accelerating;
+	}
+
+	public bool IsBraking()
+	{
+		return braking;
 	}
 }

@@ -9,6 +9,7 @@ public class MissileController : InputController, IGotTarget
 	bool shooting = false;
 	bool accelerating = false;
 	Vector2 turnDirection;
+	bool braking = false;
 
 	float maxVelocity;
 
@@ -47,6 +48,11 @@ public class MissileController : InputController, IGotTarget
 	public bool IsAccelerating()
 	{
 		return accelerating;
+	}
+
+	public bool IsBraking()
+	{
+		return braking;
 	}
 
 

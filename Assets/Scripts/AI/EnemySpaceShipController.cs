@@ -9,6 +9,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 	List<IBullet> bullets;
 	bool shooting = false;
 	bool accelerating = false;
+	bool braking = false;
 	Vector2 turnDirection;
 	float bulletsSpeed;
 
@@ -37,6 +38,11 @@ public class EnemySpaceShipController : InputController, IGotTarget
 	public void Tick(PolygonGameObject p)
 	{
 
+	}
+
+	public bool IsBraking()
+	{
+		return braking;
 	}
 
 	private IEnumerator Logic()

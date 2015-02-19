@@ -12,6 +12,7 @@ public class SimpleAI1 : InputController, IGotTarget
 	IPolygonGameObject target;
 	bool shooting = false;
 	bool accelerating = false;
+	bool braking = false;
 	Vector2 turnDirection;
 	float fireRange = 60f;
 	float fireRangeSqr;
@@ -31,7 +32,12 @@ public class SimpleAI1 : InputController, IGotTarget
 	}
 	
 	public void Tick(PolygonGameObject p){}
-	
+
+	public bool IsBraking()
+	{
+		return braking;
+	}
+
 	private IEnumerator Logic()
 	{
 		while(true)
