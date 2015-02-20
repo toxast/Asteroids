@@ -511,6 +511,10 @@ public class Main : MonoBehaviour
 				gobject.velocity /= 2f;
 				SplitAsteroidAndMarkForDestructionAllParts(gobject);
 			}
+			else if(b.layer == (int)GlobalConfig.eLayer.TEAM_ENEMIES)
+			{
+				SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
+			}
 		}
 		else
 		{
@@ -720,7 +724,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void Add2Objects(PolygonGameObject p)
+	private void Add2Objects(IPolygonGameObject p)
 	{
 		if(p.layer == 0)
 		{
@@ -910,7 +914,19 @@ public class Main : MonoBehaviour
 	void HandleGunFire (IBullet bullet)
 	{
 		//bullet.SetCollisionLayerNum (GlobalConfig.ilayerBulletsUser);
-		PutOnFirstNullPlace<IBullet>(bullets, bullet);
+		var layer = (GlobalConfig.eLayer)bullet.layer;
+		switch (layer) {
+		case GlobalConfig.eLayer.BULLETS_ENEMIES:
+		case GlobalConfig.eLayer.BULLETS_USER:
+			PutOnFirstNullPlace<IBullet>(bullets, bullet);
+		break;
+		case GlobalConfig.eLayer.TEAM_USER:
+		case GlobalConfig.eLayer.TEAM_ENEMIES:
+			bullet.guns.ForEach( g => g.onFire += HandleGunFire);
+			Add2Objects(bullet);
+			break;
+		}
+
 	}
 	
 	public void CreateEnemySpaceShip(int indx)
@@ -1204,7 +1220,7 @@ public class Main : MonoBehaviour
 			{
 				return spaceship;
 			}
-			Debug.LogWarning("no target");
+			//Debug.LogWarning("no target");
 			return null;
 		}
 	}

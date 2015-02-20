@@ -7,12 +7,17 @@ public class RocketLauncher : Gun
 	public ParticleSystem thrusterEffect;
 	private SpaceshipData missleParameters;
 	private Vector2 thrusterPos;
+	private Vector2 launchDirection;
+	private float launchSpeed;
+
 	public RocketLauncher(Place place, RocketLauncherData data, IPolygonGameObject parent):base(place, data.baseData, parent)
 	{
 		missleParameters = data.missleParameters;
 		thrusterEffect = data.thrusterEffect;
 		thrusterPos = data.thrusterPos;
 		bulletSpeed = data.missleParameters.maxSpeed;
+		launchDirection = data.launchDirection;
+		launchSpeed = data.launchSpeed;
 	}
 
 	protected override IBullet CreateBullet()
@@ -34,7 +39,13 @@ public class RocketLauncher : Gun
 		missile.Init (missleParameters);
 		missile.SetController (controller);
 		missile.SetTarget (target);
-		
+
+		if(launchDirection != Vector2.zero)
+		{
+			float angle = Math2d.GetRotation(missile.cacheTransform.right);
+			var byPlace = Math2d.RotateVertex(launchDirection, angle);
+			missile.velocity += (Vector3)byPlace.normalized * launchSpeed;
+		}
 		return missile;
 	}
 

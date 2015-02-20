@@ -58,7 +58,7 @@ public class Gun : IGotTarget, ITickable
 		}
 	}
 	
-	public bool ReadyToShoot()
+	public virtual bool ReadyToShoot()
 	{
 		return timeToNextShot <= 0;
 	}
@@ -105,13 +105,13 @@ public class Gun : IGotTarget, ITickable
 		throw new System.NotImplementedException ();
 	}
 
-	protected void SetBulletLayer(IBullet b)
+	protected virtual void SetBulletLayer(IBullet b)
 	{
-		if(parent.layer == GlobalConfig.ilayerUser || parent.layer == GlobalConfig.ilayerTeamUser)
+		if(parent.layer == (int)GlobalConfig.eLayer.USER || parent.layer == (int)GlobalConfig.eLayer.TEAM_USER)
 		{
 			b.SetCollisionLayerNum(GlobalConfig.ilayerBulletsUser);
 		}
-		else if(parent.layer == GlobalConfig.ilayerTeamEnemies)
+		else if(parent.layer == (int)GlobalConfig.eLayer.TEAM_ENEMIES)
 		{
 			b.SetCollisionLayerNum(GlobalConfig.ilayerBulletsEnemies);
 		}
@@ -119,6 +119,7 @@ public class Gun : IGotTarget, ITickable
 
 	protected void Fire(IBullet b)
 	{
+		b.velocity += parent.velocity/2f;
 		SetBulletLayer (b);
 
 		if(onFire != null)

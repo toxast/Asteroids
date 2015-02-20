@@ -15,6 +15,10 @@ public class GunsData
 			case GunSetupData.eGuns.ROCKET:
 				var gun2 = GunsResources.Instance.rocketLaunchers[gdata.index];
 				return new RocketLauncher(gdata.place, gun2, t);
+
+			case GunSetupData.eGuns.SPAWNER:
+				var gun3 = GunsResources.Instance.spawnerGuns[gdata.index];
+				return new SpawnerGun(gdata.place, gun3, t);
 		}
 
 		return null;

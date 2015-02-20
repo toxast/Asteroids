@@ -8,7 +8,7 @@ public class GunsResources : ResourceSingleton<GunsResources>
 	[SerializeField] int clone;
 	[SerializeField] public List<GunData> guns;
 	[SerializeField] public List<RocketLauncherData> rocketLaunchers;
-
+	[SerializeField] public List<SwapnerGunData> spawnerGuns;
 
 	[ContextMenu ("clone rocketLauncher")]
 	void CloneRocketLauncher () 

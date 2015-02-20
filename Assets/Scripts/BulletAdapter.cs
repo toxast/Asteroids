@@ -5,7 +5,7 @@ using System;
 
 public class BulletAdapter : IBullet
 {
-	IPolygonGameObject go;
+	public IPolygonGameObject go;
 
 	public float damage{ get; set;}
 	public bool breakOnDeath { get; set;}

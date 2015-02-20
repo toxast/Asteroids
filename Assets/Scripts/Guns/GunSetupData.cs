@@ -8,6 +8,7 @@ public class GunSetupData
 	{
 		BULLET,
 		ROCKET,
+		SPAWNER,
 	}
 
 	public Place place;
