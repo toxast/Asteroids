@@ -195,8 +195,16 @@ public static class PolygonCreator
 		// Create the Vector3 vertices
 		Vector3[] vertices = new Vector3[vertices2D.Length];
 		for (int i=0; i<vertices.Length; i++) {
-			vertices[i] = new Vector3(vertices2D[i].x, vertices2D[i].y, 0);
+			var v = new Vector3(vertices2D[i].x, vertices2D[i].y, 0); 
+			vertices[i] = v;
 		}
+
+//		Vector2[] uvs = new Vector2[vertices.Length];
+//		for (var i = 0 ; i < uvs.Length; i++)
+//		{
+//			uvs[i] = new Vector2 (vertices[i].x, vertices[i].y)/R;
+//			Debug.LogWarning(uvs[i]);
+//		}
 		
 		Color[] colors = new Color[vertices.Length];
 		int k = 0;
@@ -210,6 +218,7 @@ public static class PolygonCreator
 
 		msh.vertices = vertices;
 		msh.triangles = indices;
+		//msh.uv = uvs;
 		msh.colors = colors;
 		msh.RecalculateNormals();
 		msh.RecalculateBounds();

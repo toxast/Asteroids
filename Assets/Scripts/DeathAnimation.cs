@@ -18,25 +18,29 @@ public class DeathAnimation
 	public static void MakeDeathForThatFellaYo(PolygonGameObject g, bool instant = false)
 	{
 		var config = Singleton<GlobalConfig>.inst;
-		float duration = (instant)? 0 : Mathf.Sqrt (g.polygon.area) / 4f;
+		float duration = (instant)? 0 : Mathf.Pow(g.polygon.area, 0.4f) / 4f;
 		DeathAnimation anim;
+		int minExplosions = (int)(2*Mathf.Pow(g.polygon.R, 0.5f));
+		int maxExplosions = (int)(2*Mathf.Pow(g.polygon.R, 0.8f));
+		Debug.LogWarning (minExplosions + " - " + maxExplosions);
+		int explosionsCount = UnityEngine.Random.Range(minExplosions,maxExplosions);
 		//Debug.LogWarning (g.polygon.area);
 		if(g.polygon.area < 5f)
 		{
-			int explosionsCount = UnityEngine.Random.Range(1,4);
+			//int explosionsCount = UnityEngine.Random.Range(1,4);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.smallDeathExplosionEffects);
 			anim = new DeathAnimation(duration, explosionsCount, explosions, config.smallFinalDeathExplosionEffects);
 		}
 		else if(g.polygon.area < 50f)
 		{
-			int explosionsCount = UnityEngine.Random.Range(2,5);
+			//int explosionsCount = UnityEngine.Random.Range(2,5);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.smallDeathExplosionEffects);
 			explosions.AddRange(config.mediumDeathExplosionEffects);
 			anim = new DeathAnimation(duration, explosionsCount, explosions, config.mediumFinalDeathExplosionEffects);
 		}
 		else
 		{
-			int explosionsCount = UnityEngine.Random.Range(4,7);
+ 			//int explosionsCount = UnityEngine.Random.Range(4,7);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.mediumDeathExplosionEffects);
 			explosions.AddRange(config.largeDeathExplosionEffects);
 			anim = new DeathAnimation(duration, explosionsCount, explosions, config.largeFinalDeathExplosionEffects);
@@ -87,7 +91,12 @@ public class DeathAnimation
 					for (int k = 0; k < finishExplosions.Count; k++) {
 						var e = GameObject.Instantiate(finishExplosions[k]) as ParticleSystem;
 						e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
-						//e.startSize = obj.polygon.area;
+						//Debug.LogWarning(e.startSize + " " + e.startLifetime);
+						//e.startSize = obj.polygon.R*7f * Mathf.Sqrt(obj.polygon.area / (obj.polygon.R * obj.polygon.R));
+						e.startSize = 6f*Mathf.Sqrt(obj.polygon.area);
+						e.startLifetime =  Mathf.Pow(e.startSize, 0.33f) * 0.5f;
+							//Mathf.Sqrt(Mathf.Sqrt(e.startSize))/ 2f;
+						//Debug.LogError(e.startSize + " " + e.startLifetime);
 						e.Play();
 						instantiatedExplosions.Add(e);
 					}

@@ -163,35 +163,11 @@ public static class SpaceshipsData
 		new Vector2(-1.5f,0f),
 	};
 
-	//half
-	public static Vector2[] spaceshipVertices2 = new Vector2[]
-	{
-		new Vector2(2.5f, 0f),
-		new Vector2(1.5f, -1f),
-		new Vector2(0.5f, -1f),
-		new Vector2(-0.5f, -2f),
-		new Vector2(-1f, -2f),
-		new Vector2(-1f, -1f),
-		new Vector2(-1.5f, -1f),
-	};
-
 	public static Vector2[] spaceshipVertices = new Vector2[]
 	{
 		new Vector2(2f, 0f),
 		new Vector2(-1f, -1f),
 		new Vector2(-1f, 1f),
-	};
-
-	public static Vector2[] fastSpaceshipVertices = new Vector2[]
-	{
-		new Vector2(2f, 0f),
-		new Vector2(-0.5f, -1f),
-		new Vector2(-2f, -1f),
-		new Vector2(-1f, -0.5f),
-		new Vector2(-0.5f, 0f),
-		new Vector2(-1f, 0.5f),
-		new Vector2(-2f, 1f),
-		new Vector2(-0.5f, 1f),
 	};
 	
 	public static Vector2[] tankSpaceshipVertices = new Vector2[]

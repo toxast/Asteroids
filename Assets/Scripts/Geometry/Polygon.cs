@@ -384,7 +384,7 @@ public class Polygon
 			if(insc.haveIntersection && insc.intersection != interiorVertex)
 			{
 				float distSqr = (interiorVertex - insc.intersection).sqrMagnitude;
-				if(intersection == null || lastDistance < distSqr)
+				if(intersection == null || lastDistance > distSqr)
 				{
 					edgeIndex = i;
 					lastDistance = distSqr;

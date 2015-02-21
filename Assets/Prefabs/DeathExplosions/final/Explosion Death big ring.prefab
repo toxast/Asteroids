@@ -335,24 +335,24 @@ ParticleSystem:
   SizeModule:
     enabled: 1
     curve:
-      scalar: 2
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
           value: .214899689
-          inSlope: .442536771
-          outSlope: .442536771
+          inSlope: 1.19129682
+          outSlope: 1.19129682
           tangentMode: 10
-        - time: .639944375
-          value: .498098612
-          inSlope: .918245912
-          outSlope: .918245912
+        - time: .554838002
+          value: .875876427
+          inSlope: .535384715
+          outSlope: .535384715
           tangentMode: 10
         - time: 1
-          value: 1
-          inSlope: 1.39395511
-          outSlope: 1.39395511
+          value: .822222233
+          inSlope: -.120527342
+          outSlope: -.120527342
           tangentMode: 10
         m_PreInfinity: 2
         m_PostInfinity: 2

@@ -437,10 +437,15 @@ public class Main : MonoBehaviour
 
 		MoveCamera ();
 
-		if(spaceship != null && spaceship.IsKilled())
+
+
+		if(spaceship != null)
 		{
-			ObjectDeath(spaceship);
-			spaceship = null;
+			List<IPolygonGameObject> spaceships = new List<IPolygonGameObject>();
+			spaceships.Add(spaceship);
+			CheckDeadObjects(spaceships);
+			if(spaceships.Count == 0)
+				spaceship = null;
 		}
 
 		CheckDeadObjects (gobjects);
@@ -610,10 +615,12 @@ public class Main : MonoBehaviour
 			int indxa, indxb;
 			if(PolygonCollision.IsCollides(obj, bullet, out indxa, out indxb))
 			{
-				PolygonCollision.ApplyCollision(obj, bullet, indxa, indxb);
+				var impulse = PolygonCollision.ApplyCollision(obj, bullet, indxa, indxb);
 
 				if(!bullet.IsKilled())
-					obj.Hit(bullet.damage);
+				{
+					obj.Hit(bullet.damage + GetCollisionDamage(impulse));
+				}
 
 				bullet.breakOnDeath = true;
 				bullet.Kill();
@@ -898,22 +905,13 @@ public class Main : MonoBehaviour
 		controller = tabletController;
 		#endif
 		spaceship = ObjectsCreator.CreateSpaceShip (controller);
-		spaceship.SetShield(new ShieldData(10f,2f,2f));
 		spaceship.guns.ForEach( g => g.onFire += HandleGunFire);
-		//var gT = Instantiate (thrustPrefab2) as ParticleSystem;
-		spaceship.SetThruster (thrustPrefab2, Vector2.zero);
+		//spaceship.SetThruster (thrustPrefab2, Vector2.zero);
 		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
 	}
 
-//	void HandleGunFire (IBullet bullet)
-//	{
-//		bullet.SetCollisionLayerNum (GlobalConfig.ilayerBulletsEnemies);
-//		PutOnFirstNullPlace<IBullet>(bullets, bullet);
-//	}
-
 	void HandleGunFire (IBullet bullet)
 	{
-		//bullet.SetCollisionLayerNum (GlobalConfig.ilayerBulletsUser);
 		var layer = (GlobalConfig.eLayer)bullet.layer;
 		switch (layer) {
 		case GlobalConfig.eLayer.BULLETS_ENEMIES:
@@ -931,14 +929,6 @@ public class Main : MonoBehaviour
 	
 	public void CreateEnemySpaceShip(int indx)
 	{
-//		var enemy = ObjectsCreator.CreateEnemySpaceShip ();
-//		//var gT = Instantiate (thrustPrefab) as ParticleSystem;
-//		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
-//		enemy.SetThruster (thrustPrefab, Vector2.zero);
-//		InitNewEnemy(enemy);
-
-		//int indx = UnityEngine.Random.Range (0, SpaceshipsResources.Instance.spaceships.Count);
-		//4 - big
 		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(indx);
 		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
 
@@ -1052,42 +1042,8 @@ public class Main : MonoBehaviour
 
 	public void CreateFight()
 	{
-//		var tower = ObjectsCreator.CreateTower();
-//		{
-//			tower.SetCollisionLayer(GlobalConfig.ilayerTeamUser);
-//			tower.guns.ForEach( g => g.onFire += HandleGunFire);
-//			SetRandomPosition(tower);
-//			Add2Objects(tower);
-//		}
-//
-//		var evade = ObjectsCreator.CreateEvadeEnemy (bullets);
-//		{
-//			evade.guns.ForEach( g => g.onFire += HandleGunFire);
-//			evade.SetCollisionLayer (GlobalConfig.ilayerTeamUser);
-//			SetRandomPosition(evade);
-//			Add2Objects(evade);
-//		}
-
 		var boss = CreateEnemySpaceShipBoss ();
 
-//		var evade = ObjectsCreator.CreateBossEnemySpaceShip (bullets);
-//		{
-//			evade.guns.ForEach( g => g.onFire += HandleGunFire);
-//			evade.SetCollisionLayer (GlobalConfig.ilayerTeamUser);
-//			SetRandomPosition(evade);
-//			Add2Objects(evade);
-//		}
-
-//		var enemy1 = ObjectsCreator.CreateEnemySpaceShip ();
-//		{
-//			var gT = Instantiate (thrustPrefab) as ParticleSystem;
-//			enemy1.SetController (new EnemySpaceShipController (enemy1, bullets, enemy1.guns[0].bulletSpeed));
-//			enemy1.SetThruster (gT, Vector2.zero);
-//			enemy1.guns.ForEach( g => g.onFire += HandleGunFire);
-//			enemy1.SetCollisionLayer (GlobalConfig.ilayerTeamUser);
-//			SetRandomPosition(enemy1);
-//			Add2Objects(enemy1);
-//		}
 
 		for (int i = 0; i < 2; i++) {
 			var enemy = ObjectsCreator.CreateEnemySpaceShip ();
@@ -1103,7 +1059,7 @@ public class Main : MonoBehaviour
 			
 			enemy.SetTarget (boss);
 			boss.SetTarget (enemy);
-				}
+		}
 
 	}
 	
@@ -1227,15 +1183,13 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
-	 * missile is IBullet && IploygonGO => missile can be Spaceship!
-	 * collision mask
+	 * sky texture?
+	 * duplicating enemy or illusions enemy?
 	 * death refactor && missiles explosion on death
 	 * explision by vertex
 	 * gravity misiles
 	 * change rotation (thruster attach) missiles?
 	 * mine missiles
-	 * make enemies fight with each other!
-	 * multiple thrusters
 	 * textured asteroids
 	 * bullets shoot missiles?
 	 * shoot place levels

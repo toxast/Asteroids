@@ -11,7 +11,7 @@ Shader "Custom/Diffuse"
    	  Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
       Pass 
       {    
-         Cull Off // since the front is partially transparent, 
+         //Cull Off // since the front is partially transparent, 
             // we shouldn't cull the back
  		 Blend SrcAlpha OneMinusSrcAlpha 
  		 ZWrite Off

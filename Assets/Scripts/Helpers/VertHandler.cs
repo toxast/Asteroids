@@ -28,8 +28,8 @@ public class VertHandler : MonoBehaviour
 		
 		mesh = GetComponent<MeshFilter>().sharedMesh;
 		//var verts = mesh.vertices;
-		var verts = SpaceshipsData.spaceshipVertices2;
-		//var verts =SpaceshipsResources.Instance.spaceships[1].verts;
+		var verts = SpaceshipsData.tankSpaceshipVertices;
+		//var verts =SpaceshipsResources.Instance.spaceships[ ].verts;
 		foreach(Vector3 vert in verts)
 		{
 			if(vert.y <= 0)

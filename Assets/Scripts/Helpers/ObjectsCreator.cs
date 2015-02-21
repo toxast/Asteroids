@@ -34,26 +34,28 @@ public class ObjectsCreator
 
 	public static UserSpaceShip CreateSpaceShip(InputController contorller)
 	{
-		var vr = Math2d.ScaleVertices2 (SpaceshipsData.fastSpaceshipVertices, 1f);
-		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(vr, Color.blue);
+		var spaceship = ObjectsCreator.CreateSpaceShip<UserSpaceShip> (5);
+
+//		var vr = Math2d.ScaleVertices2 (SpaceshipsResources.Instance.spaceships[21].verts, 1f);
+//		var spaceship = PolygonCreator.CreatePolygonGOByMassCenter<UserSpaceShip>(vr, Color.blue);
 
 		spaceship.SetCollisionLayerNum (GlobalConfig.ilayerUser);
 		spaceship.collector = new DropCollector (0.15f, 20f);
-
+		spaceship.SetColor (Color.blue);
 		spaceship.gameObject.name = "Spaceship";
-	
+		spaceship.SetShield(new ShieldData(10f,2f,2f));
 		spaceship.SetController (contorller);
-
-		InitGuns (spaceship, SpaceshipsData.alien5gunplaces, GunsData.SimpleGun);
-
-		SpaceshipData data = new SpaceshipData{
-			thrust = 45f,
-			maxSpeed = 20f,
-			turnSpeed = 220f,
-			brake = 15f,
-			passiveBrake = 2f,
-		}; 
-		spaceship.Init(data);
+//
+//		InitGuns (spaceship, SpaceshipsData.alien5gunplaces, GunsData.SimpleGun);
+//
+//		SpaceshipData data = new SpaceshipData{
+//			thrust = 45f,
+//			maxSpeed = 20f,
+//			turnSpeed = 220f,
+//			brake = 15f,
+//			passiveBrake = 2f,
+//		}; 
+//		spaceship.Init(data);
 		
 		return spaceship;
 	}
@@ -170,7 +172,7 @@ public class ObjectsCreator
 		int[] cannons;
 		Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/5f, sides, out cannons);
 		
-		var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, defaultEnemyColor);
+		var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, Singleton<GlobalConfig>.inst.towerEnemiesColor);
 		tower.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies);
 		tower.gameObject.name = "tower";
 		DeathAnimation.MakeDeathForThatFellaYo (tower);
