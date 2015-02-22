@@ -15,14 +15,17 @@ public class DeathAnimation
 	public List<ParticleSystem> instantiatedExplosions;
 	IPolygonGameObject obj;
 
-	public static void MakeDeathForThatFellaYo(PolygonGameObject g, bool instant = false)
+	public float finalExplosionPowerKoeff = 1f;
+	public float explosionSize;
+
+	public static void MakeDeathForThatFellaYo(IPolygonGameObject g, bool instant = false)
 	{
 		var config = Singleton<GlobalConfig>.inst;
 		float duration = (instant)? 0 : Mathf.Pow(g.polygon.area, 0.4f) / 4f;
 		DeathAnimation anim;
 		int minExplosions = (int)(2*Mathf.Pow(g.polygon.R, 0.5f));
 		int maxExplosions = (int)(2*Mathf.Pow(g.polygon.R, 0.8f));
-		Debug.LogWarning (minExplosions + " - " + maxExplosions);
+		//Debug.LogWarning (minExplosions + " - " + maxExplosions);
 		int explosionsCount = UnityEngine.Random.Range(minExplosions,maxExplosions);
 		//Debug.LogWarning (g.polygon.area);
 		if(g.polygon.area < 5f)
@@ -87,16 +90,13 @@ public class DeathAnimation
 			if(duration <= 0)
 			{
 
+				explosionSize = 6f*Mathf.Sqrt(obj.polygon.area) * finalExplosionPowerKoeff;
 				{
 					for (int k = 0; k < finishExplosions.Count; k++) {
 						var e = GameObject.Instantiate(finishExplosions[k]) as ParticleSystem;
 						e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
-						//Debug.LogWarning(e.startSize + " " + e.startLifetime);
-						//e.startSize = obj.polygon.R*7f * Mathf.Sqrt(obj.polygon.area / (obj.polygon.R * obj.polygon.R));
-						e.startSize = 6f*Mathf.Sqrt(obj.polygon.area);
+						e.startSize = explosionSize;
 						e.startLifetime =  Mathf.Pow(e.startSize, 0.33f) * 0.5f;
-							//Mathf.Sqrt(Mathf.Sqrt(e.startSize))/ 2f;
-						//Debug.LogError(e.startSize + " " + e.startLifetime);
 						e.Play();
 						instantiatedExplosions.Add(e);
 					}

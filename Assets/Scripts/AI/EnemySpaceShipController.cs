@@ -12,6 +12,8 @@ public class EnemySpaceShipController : InputController, IGotTarget
 	bool braking = false;
 	Vector2 turnDirection;
 	float bulletsSpeed;
+	float teleportationDistance = 50f;
+
 
 //	State state;
 //	private enum State
@@ -63,7 +65,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 					}
 					else if(Math2d.Chance(0.4f))
 					{
-						Vector2 newDir = RotateDiraction(dir, 20f, 50f);
+						Vector2 newDir = RotateDirection(dir, 20f, 50f);
 						yield return thisShip.StartCoroutine(SetState(newDir, true, true, 0.5f));
 						yield return thisShip.StartCoroutine(Attack (false, 2f));
 					}
@@ -86,14 +88,18 @@ public class EnemySpaceShipController : InputController, IGotTarget
 					                  CheckForBulletCollision(b, dir)
 					                  ))
 					{
-						leftUntilCheck = checkForBulletTime/2f;
-						Vector2 newDir = RotateDiraction(dir, 45f, 90f);
+						leftUntilCheck = checkForBulletTime;
+						//yield return thisShip.StartCoroutine(Teleport());
+
+						//yield return thisShip.StartCoroutine(FlyByArc(turnDirection, 90f, 1f));
+
+						Vector2 newDir = RotateDirection(dir, 45f, 90f);
 						yield return thisShip.StartCoroutine(SetState(newDir, true, false, 1f));
 						yield return thisShip.StartCoroutine(Attack (false, 1f));
 					}
 					else
 					{
-						leftUntilCheck = checkForBulletTime;
+						leftUntilCheck = checkForBulletTime/2f;
 					}
 				}
 				else if(leftUntilRandomBeh < 0)
@@ -109,7 +115,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 					}
 					else if(Math2d.Chance(0.3f))
 					{
-						Vector2 newDir = RotateDiraction(dir, 12, 30);
+						Vector2 newDir = RotateDirection(dir, 12, 30);
 						yield return thisShip.StartCoroutine(SetState(newDir, true, false, 1f));
 					}
 				}
@@ -143,6 +149,16 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		return false;
 	}
 
+	private IEnumerator Teleport()
+	{
+		Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
+		var dodgeDir = RotateDirection (dir, 15, 45);
+		thisShip.position += dodgeDir.normalized * teleportationDistance;
+		thisShip.cacheTransform.right = target.position - thisShip.position;
+		turnDirection = thisShip.cacheTransform.right;
+		yield return thisShip.StartCoroutine(Attack (false, 1.5f));
+	}
+
 	private IEnumerator Attack(bool acceleration, float duration)
 	{
 		accelerating = acceleration;
@@ -171,7 +187,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 			if(Main.IsNull(target))
 				yield break;
 
-			AimSystem a = new AimSystem(target.cacheTransform.position, target.velocity, thisShip.cacheTransform.position, bulletsSpeed);
+			AimSystem a = new AimSystem(target.cacheTransform.position, target.velocity - (Vector3)Main.AddSpipSpeed2TheBullet(thisShip), thisShip.cacheTransform.position, bulletsSpeed);
 			if(a.canShoot)
 			{
 				turnDirection = a.direction;
@@ -202,7 +218,21 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		yield return new WaitForSeconds(duration);
 	}
 
-	private Vector2 RotateDiraction(Vector2 dir, float angleMin, float angleMax)
+	private IEnumerator FlyByArc(Vector2 from, float angle, float duration)
+	{
+		accelerating = true;
+		Vector2 to = Math2d.RotateVertex(from, angle*Mathf.Deg2Rad);
+		float left = duration;
+		while(left > 0)
+		{
+			left -= Time.deltaTime;
+			turnDirection = Vector2.Lerp(from, to,  1f - left/duration);
+			yield return null;
+		}
+	}
+
+
+	private Vector2 RotateDirection(Vector2 dir, float angleMin, float angleMax)
 	{
 		float angle = UnityEngine.Random.Range (angleMin, angleMax) * Mathf.Sign (UnityEngine.Random.Range (-1f, 1f));
 		return Math2d.RotateVertex(dir, angle*Math2d.PIdiv180);

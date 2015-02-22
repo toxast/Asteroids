@@ -4,16 +4,25 @@ using System.Collections.Generic;
 
 public class PhExplosion
 {
-	public PhExplosion(Vector2 pos, float power, List<PolygonGameObject> objs)
+	public PhExplosion(Vector2 pos, float radius, float power, List<IPolygonGameObject> objs)
 	{
-		float radius = power / 10;
+		Debug.LogWarning (pos + " " + radius + " " + power);
 		float rsqr = radius * radius;
 		foreach(var obj in objs)
 		{
 			if(obj == null)
+			{
 				Debug.LogError("null");
+				continue;
+			}
 
-			Vector2 dist = (Vector2)obj.cacheTransform.position - pos;
+			Vector2 dist = obj.position - pos;
+			if(Math2d.ApproximatelySame(dist, Vector2.zero))
+			{
+				//TODO: self obj
+				continue;
+			}
+
 			float sqrMagnitude = dist.sqrMagnitude;
 			if(sqrMagnitude < rsqr) 
 			{
@@ -34,11 +43,14 @@ public class PhExplosion
 //				obj.Hit(impulse / (obj.mass * 15f)); //TODO: unify impule hits or add passive damage?
 
 				float magnitude = Mathf.Sqrt(sqrMagnitude);
-				float p = 1 - (magnitude/radius);
+				float p = Mathf.Pow(Mathf.Abs(1f - (magnitude/radius)), 1.5f);
 				Vector2 normalizedDist = dist/magnitude;
-				float hit = p * power / obj.mass;
-				obj.velocity += (Vector3)(normalizedDist * hit );
-				obj.Hit(hit / 15f);
+
+				float impulse = p * power;
+				var dVelocity = normalizedDist * impulse / obj.mass;
+//				Debug.LogWarning(dVelocity);
+				obj.velocity += (Vector3)dVelocity;
+				obj.Hit(Singleton<GlobalConfig>.inst.ExplosionDamageKff * Main.GetCollisionDamage(impulse));
 			}
 		}
 	}

@@ -253,11 +253,13 @@ public class ObjectsCreator
 
 	public static Asteroid CreateGasteroid()
 	{
-		float size = Random.Range(3f, 5f);
+		float size = Random.Range(3f, 7f);
 		int vcount = Random.Range(5, 5 + (int)size);
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 		
 		Gasteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Gasteroid>(vertices, Singleton<GlobalConfig>.inst.GasteroidColor);
+		DeathAnimation.MakeDeathForThatFellaYo (asteroid, true);
+		asteroid.deathAnimation.finalExplosionPowerKoeff = 1.3f;
 		asteroid.SetCollisionLayerNum (GlobalConfig.ilayerAsteroids);
 		asteroid.Init ();
 		asteroid.gameObject.name = "gasteroid";
@@ -270,7 +272,7 @@ public class ObjectsCreator
 		float size = Random.Range(3f, 8f);
 		int vcount = Random.Range(5, 5 + (int)size*3);
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
-		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, defaultEnemyColor);
+		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Singleton<GlobalConfig>.inst.AsteroidColor);
 		asteroid.SetCollisionLayerNum (GlobalConfig.ilayerAsteroids);
 		asteroid.Init ();
 		asteroid.gameObject.name = "asteroid";

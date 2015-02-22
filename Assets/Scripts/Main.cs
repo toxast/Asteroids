@@ -85,6 +85,20 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	static public Vector2 AddSpipSpeed2TheBullet(IPolygonGameObject ship)
+	{
+		return ship.velocity * 0.5f;
+	}
+
+	public void CreatePhysicalExplosion(Vector2 pos, float r)
+	{
+		float power = 3 * r;
+		List<IPolygonGameObject> affected = new List<IPolygonGameObject>();
+		affected.Add(spaceship);
+		affected.AddRange(gobjects);
+		new PhExplosion(pos, r, power, affected);
+	}
+
 	//TODO: partial objects reposition?
 	IEnumerator RepositionAll()
 	{
@@ -277,22 +291,32 @@ public class Main : MonoBehaviour
 	}
 
 	float enemyDtime;
+	bool doTick = true;
 	void Update()
 	{
 		//TODO: refactor Powerup
+		if(!doTick)
+		{
+			doTick = true;
+			return;
+		}
+
+		float dtime = Time.deltaTime;
+
 		if (slowTimeLeft > 0) 
 		{
-			slowTimeLeft -=  Time.deltaTime;
-			enemyDtime = Time.deltaTime/2f;
+			slowTimeLeft -=  dtime;
+			enemyDtime = dtime/2f;
 		}
 		else
 		{
-			enemyDtime = Time.deltaTime;
+			enemyDtime = dtime;
 		}
+
 
 		if(penetrationTimeLeft > 0)
 		{
-			penetrationTimeLeft -= Time.deltaTime;
+			penetrationTimeLeft -= dtime;
 		}
 
 		if(spaceship != null)
@@ -301,10 +325,10 @@ public class Main : MonoBehaviour
 			{
 				ApplyBoundsForce(spaceship);
 			}
-			spaceship.Tick(Time.deltaTime);
+			spaceship.Tick(dtime);
 		}
 
-		TickBullets (bullets, Time.deltaTime);
+		TickBullets (bullets, dtime);
 		//TickBullets (enemyBullets, enemyDtime);
 
 		TickObjects (gobjects, enemyDtime);
@@ -336,39 +360,24 @@ public class Main : MonoBehaviour
 
 		TickAlphaDestructors (enemyDtime);
 
-		Tick_GO_Destructors (Time.deltaTime);
+		Tick_GO_Destructors (dtime);
 
 		CleanBulletsList (bullets);
 		BulletsHitObjects (gobjects, bullets);
-//		BulletsHitObjects (enemies, bullets);
-//		BulletsHitObjects (asteroids, bullets);
-//		BulletsHitObjects (asteroids, enemyBullets);
 
 		if(spaceship != null)
 		{
 			if(spaceship.collector != null)
 			{
-				spaceship.collector.Pull(spaceship.position, drops, Time.deltaTime);
+				spaceship.collector.Pull(spaceship.position, drops, dtime);
 			}
 
 			BulletsHitObject(spaceship, bullets);
-
-			//BulletsHitObject(spaceship, enemyBullets);
 
 			for (int i = gobjects.Count - 1; i >= 0; i--) 
 			{
 				ObjectsCollide(spaceship, gobjects[i]);
 			}
-
-//			for (int i = enemies.Count - 1; i >= 0; i--) 
-//			{
-//				ObjectsCollide(spaceship, enemies[i]);
-//			}
-//
-//			for (int i = asteroids.Count - 1; i >= 0; i--) 
-//			{
-//				ObjectsCollide(spaceship, asteroids[i]);
-//			}
 
 			for (int i = drops.Count - 1; i >= 0; i--) 
 			{
@@ -389,15 +398,6 @@ public class Main : MonoBehaviour
 					ObjectsCollide(gobjects[i], gobjects[k]);
 			}
 		}
-
-		//experimental
-//		for (int i = enemies.Count - 1; i >= 0; i--) 
-//		{
-//			for (int k = asteroids.Count - 1; k >= 0; k--) 
-//			{
-//				ObjectsCollide(enemies[i], asteroids[k]);
-//			}
-//		}
 
 		//TODO: refactor
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
@@ -437,8 +437,6 @@ public class Main : MonoBehaviour
 
 		MoveCamera ();
 
-
-
 		if(spaceship != null)
 		{
 			List<IPolygonGameObject> spaceships = new List<IPolygonGameObject>();
@@ -449,11 +447,8 @@ public class Main : MonoBehaviour
 		}
 
 		CheckDeadObjects (gobjects);
-		//CheckDeadObjects (enemies);
-		//CheckDeadObjects (asteroids);
 		CheckDeadObjects (drops);
 		CheckDeadObjects (bullets, true);
-		//CheckDeadObjects (enemyBullets);
 	}
 
 	private void CheckDeadObjects<T> (List<T> objs, bool nullCheck = false)
@@ -502,11 +497,11 @@ public class Main : MonoBehaviour
 ////			affected.AddRange(asteroids);
 ////			affected.AddRange(enemies);
 //			new PhExplosion(gobject.cacheTransform.position, 8*gobject.mass, affected);
-			var e = Instantiate(gasteroidExplosion) as ParticleSystem;
-			e.transform.position = gobject.cacheTransform.position - new Vector3(0,0,1);
-			e.transform.localScale = new Vector3(gobject.polygon.R, gobject.polygon.R, 1);
-			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
-			PutOnFirstNullPlace(goDestructors, d); 
+//			var e = Instantiate(gasteroidExplosion) as ParticleSystem;
+//			e.transform.position = gobject.cacheTransform.position - new Vector3(0,0,1);
+//			e.transform.localScale = new Vector3(gobject.polygon.R, gobject.polygon.R, 1);
+//			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
+//			PutOnFirstNullPlace(goDestructors, d); 
 		}
 		else if(gobject is IBullet)
 		{
@@ -541,13 +536,20 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		if(gobject.deathAnimation != null && gobject.deathAnimation.instantiatedExplosions != null)
+		if(gobject.deathAnimation != null)
 		{
-			foreach (var e in gobject.deathAnimation.instantiatedExplosions) 
+		   	if(gobject.deathAnimation.instantiatedExplosions != null)
 			{
-				ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
-				PutOnFirstNullPlace(goDestructors, d); 
+				foreach (var e in gobject.deathAnimation.instantiatedExplosions) 
+				{
+					ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
+					PutOnFirstNullPlace(goDestructors, d); 
+				}
 			}
+
+			float radius = gobject.deathAnimation.explosionSize;
+			CreatePhysicalExplosion(gobject.position, radius);//radius = 6f*Mathf.Sqrt(obj.polygon.area) = 6a , 1.5aa = x 
+			//1.5f*gobject.polygon.area
 		}
 
 		Destroy(gobject.gameObj);
@@ -749,7 +751,7 @@ public class Main : MonoBehaviour
 		gobjects.Add (p);
 	}
 
-	private float GetCollisionDamage(float impulse)
+	static public float GetCollisionDamage(float impulse)
 	{
 		var dmg = Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier;
 		//Debug.LogWarning (dmg);
@@ -1183,33 +1185,33 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * textured asteroids
 	 * sky texture?
+	 * user rockets
+	 * target system
 	 * duplicating enemy or illusions enemy?
+	 * gravity shield
 	 * death refactor && missiles explosion on death
 	 * explision by vertex
 	 * gravity misiles
 	 * change rotation (thruster attach) missiles?
 	 * mine missiles
-	 * textured asteroids
 	 * bullets shoot missiles?
 	 * shoot place levels
 	 * Lazers!
-	 * shield hit animation
 	 * deflect shields
 	 * more efficeient stars render
 	 * fire enimies
 	 * cold enemies
-	 * cool ships explosion
+	 * cool ships explosion (not so circled)
 	 * gravity enemies
 	 * texture on asteroids?
 	 * joystick position fixed
 	 * bullets and shooters refactoring 
 	 * Z pos refactoring
-	 * enemy bulets hit asteroids?
 	 * magnet enemy
 	 * achievements and ship unlocks for them (luke - survive astroid field, reach 100% acc in more than x shots)
 	 * dissolve bullet and shader
-	 * rockets
 	 * bad effects on power-up destroy. Monster spawn, tough emeny, rocket launch, spawn of new very PoweR up! 
 	 * bosses (arcanoid?)
 	 * drops from enemies

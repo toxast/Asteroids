@@ -119,7 +119,7 @@ public class Gun : IGotTarget, ITickable
 
 	protected void Fire(IBullet b)
 	{
-		b.velocity += parent.velocity/2f;
+		b.velocity += (Vector3)Main.AddSpipSpeed2TheBullet(parent);
 		SetBulletLayer (b);
 
 		if(onFire != null)

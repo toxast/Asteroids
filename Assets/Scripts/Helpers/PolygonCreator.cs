@@ -39,7 +39,15 @@ public static class PolygonCreator
 		MeshRenderer renderer = gamePolygon.gameObject.AddComponent<MeshRenderer>();
 		MeshFilter filter = gamePolygon.gameObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
 		filter.mesh = msh;
-		Material mat = Resources.Load("Materials/asteroidMaterial", typeof(Material)) as Material;
+		Material mat = null;
+		if(gamePolygon is Asteroid)
+		{
+			mat = Resources.Load("Materials/textured", typeof(Material)) as Material;
+		}
+		else
+		{
+			mat = Resources.Load("Materials/asteroidMaterial", typeof(Material)) as Material;
+		}
 		renderer.sharedMaterial = mat;
 		renderer.castShadows = false;
 		renderer.receiveShadows = false;
@@ -193,18 +201,46 @@ public static class PolygonCreator
 		int[] indices = tr.Triangulate();
 		
 		// Create the Vector3 vertices
+		float minX = float.MaxValue;
+		float minY = float.MaxValue;
+		float maxX = float.MinValue;
+		float maxY = float.MinValue;
+
 		Vector3[] vertices = new Vector3[vertices2D.Length];
 		for (int i=0; i<vertices.Length; i++) {
 			var v = new Vector3(vertices2D[i].x, vertices2D[i].y, 0); 
 			vertices[i] = v;
+
+			if(v.x < minX)
+				minX = v.x;
+
+			if(v.y < minY)
+				minY = v.y;
+
+			if(v.x > maxX)
+				maxX = v.x;
+			
+			if(v.y > maxY)
+				maxY = v.y;
 		}
 
-//		Vector2[] uvs = new Vector2[vertices.Length];
-//		for (var i = 0 ; i < uvs.Length; i++)
-//		{
-//			uvs[i] = new Vector2 (vertices[i].x, vertices[i].y)/R;
-//			Debug.LogWarning(uvs[i]);
-//		}
+
+
+
+		float maxSide = Mathf.Max (maxX - minX, maxY - minY);
+
+
+		float imgSize = 256;
+		float pixelsPerUnit = 5;
+		float maxSidePx = maxSide * pixelsPerUnit;
+		float max = maxSidePx / imgSize;
+
+
+		Vector2[] uvs = new Vector2[vertices.Length];
+		for (var i = 0 ; i < uvs.Length; i++)
+		{
+			uvs[i] = (new Vector2 (vertices[i].x - minX, vertices[i].y - minY) * max) / maxSide;
+		}
 		
 		Color[] colors = new Color[vertices.Length];
 		int k = 0;
@@ -218,7 +254,7 @@ public static class PolygonCreator
 
 		msh.vertices = vertices;
 		msh.triangles = indices;
-		//msh.uv = uvs;
+		msh.uv = uvs;
 		msh.colors = colors;
 		msh.RecalculateNormals();
 		msh.RecalculateBounds();

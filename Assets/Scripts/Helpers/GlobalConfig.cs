@@ -14,7 +14,9 @@ public class GlobalConfig : MonoBehaviour{
 
 	[SerializeField] public float DamageFromCollisionsModifier = 0.3f;
 
+	[SerializeField] public float ExplosionDamageKff = 4f;
 
+	[SerializeField] public Color AsteroidColor = Color.gray;
 	[SerializeField] public Color GasteroidColor = Color.white;
 	[SerializeField] public Color spaceshipEnemiesColor = Color.white;
 	[SerializeField] public Color towerEnemiesColor = Color.white;

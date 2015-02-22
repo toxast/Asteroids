@@ -576,6 +576,8 @@ MonoBehaviour:
   TowerEnemyHealthModifier: 10
   RogueEnemyHealthModifier: 1
   DamageFromCollisionsModifier: .0299999993
+  ExplosionDamageKff: 2
+  AsteroidColor: {r: .25, g: .25, b: .25, a: 1}
   GasteroidColor: {r: .95588237, g: .909833252, b: .288170397, a: 1}
   spaceshipEnemiesColor: {r: .183068037, g: .633886814, b: .752941191, a: 1}
   towerEnemiesColor: {r: .103806213, g: .470588207, b: .212576032, a: 1}
@@ -1271,7 +1273,7 @@ MonoBehaviour:
   handles: []
   guns: []
   thrusters: []
-  duplicateIndx: 0
+  duplicateIndx: 3
   duplicate: 0
   reverse: 0
   doScale: 0
@@ -1283,7 +1285,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.5, y: .0500000007, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

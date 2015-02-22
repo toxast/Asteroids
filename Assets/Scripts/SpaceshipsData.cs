@@ -170,67 +170,6 @@ public static class SpaceshipsData
 		new Vector2(-1f, 1f),
 	};
 	
-	public static Vector2[] tankSpaceshipVertices = new Vector2[]
-	{
-		new Vector2(1f, 0f),
-		new Vector2(1f, -0.5f),
-		new Vector2(0.5f, -0.5f),
-		new Vector2(1f, -1f),
-		new Vector2(2f, -1f),
-		new Vector2(2f, -1.5f),
-		new Vector2(0f, -1.5f),
-		new Vector2(-0.5f, -1f),
-		new Vector2(-1f, -1f),
-		new Vector2(-0.5f, -0.5f),
-		new Vector2(-1f, 0f),
-		new Vector2(-0.5f, 0.5f),
-		new Vector2(-1f, 1f),
-		new Vector2(-0.5f, 1f),
-		new Vector2(0f, 1.5f),
-		new Vector2(2f, 1.5f),
-		new Vector2(2f, 1f),
-		new Vector2(1f, 1f),
-		new Vector2(0.5f, 0.5f),
-		new Vector2(1f, 0.5f),
-	};
-
-	public static Vector2[] CornSpaceshipVertices = new Vector2[]
-	{
-		new Vector2(4f, 0f),
-		new Vector2(3f, -0.5f),
-		new Vector2(3f, -1.5f),
-		new Vector2(2.5f, -1.5f),
-		new Vector2(2.5f, -0.5f),
-		new Vector2(2f, -0.5f),
-		new Vector2(1f, -1f),
-		new Vector2(1f, -3.5f),
-		new Vector2(0f, -4f),
-		new Vector2(-1f, -3.5f),
-		new Vector2(-1f, -1f),
-		new Vector2(-3f, -0.5f),
-		new Vector2(-3f, -1f),
-		new Vector2(-3.5f, -1.5f),
-		new Vector2(-4f,  -1f),
-		new Vector2(-4, -0.5f),
-		new Vector2(-4.5f, -0.5f),
-		new Vector2(-5f, 0f),
-		new Vector2(-4.5f, 0.5f),
-		new Vector2(-4f, 0.5f),
-		new Vector2(-4f,  1f),
-		new Vector2(-3.5f, 1.5f),
-		new Vector2(-3f, 1f),
-		new Vector2(-3f, 0.5f),
-		new Vector2(-1f, 1f),
-		new Vector2(-1f, 3.5f),
-		new Vector2(0f, 4f),
-		new Vector2(1f, 3.5f),
-		new Vector2(1f, 1f),
-		new Vector2(2f, 0.5f),
-		new Vector2(2.5f, 0.5f),
-		new Vector2(2.5f, 1.5f),
-		new Vector2(3f, 1.5f),
-		new Vector2(3f, 0.5f), 
-	};
 
 	public static List<Place> bossGunplaces = new List<Place>
 	{
