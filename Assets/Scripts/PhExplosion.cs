@@ -6,7 +6,7 @@ public class PhExplosion
 {
 	public PhExplosion(Vector2 pos, float radius, float power, List<IPolygonGameObject> objs)
 	{
-		Debug.LogWarning (pos + " " + radius + " " + power);
+		//Debug.LogWarning (pos + " " + radius + " " + power);
 		float rsqr = radius * radius;
 		foreach(var obj in objs)
 		{

@@ -40,14 +40,14 @@ public static class PolygonCreator
 		MeshFilter filter = gamePolygon.gameObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
 		filter.mesh = msh;
 		Material mat = null;
-		if(gamePolygon is Asteroid)
-		{
-			mat = Resources.Load("Materials/textured", typeof(Material)) as Material;
-		}
-		else
-		{
+//		if(gamePolygon is Asteroid)
+//		{
+//			mat = Resources.Load("Materials/textured", typeof(Material)) as Material;
+//		}
+//		else
+//		{
 			mat = Resources.Load("Materials/asteroidMaterial", typeof(Material)) as Material;
-		}
+//		}
 		renderer.sharedMaterial = mat;
 		renderer.castShadows = false;
 		renderer.receiveShadows = false;
@@ -235,11 +235,12 @@ public static class PolygonCreator
 		float maxSidePx = maxSide * pixelsPerUnit;
 		float max = maxSidePx / imgSize;
 
+		Vector2 offset = new Vector2(Random.Range(0, 1f - max), Random.Range(0, 1f - max));
 
 		Vector2[] uvs = new Vector2[vertices.Length];
 		for (var i = 0 ; i < uvs.Length; i++)
 		{
-			uvs[i] = (new Vector2 (vertices[i].x - minX, vertices[i].y - minY) * max) / maxSide;
+			uvs[i] = offset + (new Vector2 (vertices[i].x - minX, vertices[i].y - minY) * max) / maxSide;
 		}
 		
 		Color[] colors = new Color[vertices.Length];
