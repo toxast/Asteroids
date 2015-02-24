@@ -10,6 +10,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public Polygon polygon{ get; private set;}
 	public Transform cacheTransform{ get; private set;}
 	public Mesh mesh;
+	public PolygonCreator.MeshDataUV meshUV{ get; set;}
 
 	//collision
 	public int layer{ get; set;}
@@ -27,6 +28,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public event Action<float> healthChanged;
 
 	public List<Gun> guns { get; set;}
+
 
 	protected IPolygonGameObject target;
 

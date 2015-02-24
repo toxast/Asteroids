@@ -16,7 +16,7 @@ public class Spliter
 		
 		foreach(var vertices in polys)
 		{
-			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.GetColor());
+			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.GetColor(), polygonGo.meshUV);
 			
 			//			if(PolygonCreator.CheckIfVerySmallOrSpiky(asteroidPart.polygon))
 			//			{

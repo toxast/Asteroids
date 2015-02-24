@@ -10,7 +10,7 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	Transform cacheTransform{get;}
 	Vector2 position{get; set;}
 	Color GetColor();
-	
+	PolygonCreator.MeshDataUV meshUV{ get; set;}
 	//collision
 	int layer{get; set;}
 	int collision{get; set;}

@@ -4,6 +4,12 @@ using System.Linq;
 
 public static class PolygonCreator 
 {
+
+	public class MeshDataUV
+	{
+		public Vector2 offset;
+	}
+
 	public static Vector2[] GetRectShape(float halfWidth, float halfHeight)
 	{
 		return new Vector2[]
@@ -31,29 +37,144 @@ public static class PolygonCreator
 		return vertices; 
 	}
 
+	public static T CreatePolygonGOByMassCenter<T>(Vector2[] vertices, Color color, MeshDataUV meshUV = null)
+		where T: PolygonGameObject
+	{
+		float area;
+		Vector2 pivot = Math2d.GetMassCenter(vertices, out area);
+		Math2d.ShiftVertices(vertices, -pivot);
+		
+		Polygon polygon = new Polygon(vertices);
+		polygon.SetArea(area);
+		
+		GameObject polygonGo = new GameObject();
+		T gamePolygon = polygonGo.AddComponent<T>();
+		gamePolygon.meshUV = new MeshDataUV ();
+		if(meshUV != null)
+		{
+			gamePolygon.meshUV.offset = meshUV.offset + pivot * 5f / 256f;
+		}
+		gamePolygon.SetPolygon(polygon);
+		gamePolygon.cacheTransform.Translate(new Vector3(pivot.x, pivot.y, 0)); 
+		
+		AddRenderComponents (gamePolygon, color);
+		
+		return gamePolygon;
+	}
+
 	public static void AddRenderComponents(PolygonGameObject gamePolygon, Color color)
 	{
-		Mesh msh = CreatePolygonMesh(gamePolygon.polygon.vertices, color);
-		
+		MeshDataUV newMeshUV;
+		Mesh msh = CreatePolygonMesh(gamePolygon.polygon.vertices, color, gamePolygon.meshUV, out newMeshUV);
+		gamePolygon.meshUV = newMeshUV;
+
 		// Set up game object with mesh;
 		MeshRenderer renderer = gamePolygon.gameObject.AddComponent<MeshRenderer>();
 		MeshFilter filter = gamePolygon.gameObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
 		filter.mesh = msh;
 		Material mat = null;
-//		if(gamePolygon is Asteroid)
-//		{
-//			mat = Resources.Load("Materials/textured", typeof(Material)) as Material;
-//		}
-//		else
-//		{
+		if(gamePolygon is Asteroid)
+		{
+			mat = Resources.Load("Materials/textured", typeof(Material)) as Material;
+		}
+		else
+		{
 			mat = Resources.Load("Materials/asteroidMaterial", typeof(Material)) as Material;
-//		}
+		}
 		renderer.sharedMaterial = mat;
 		renderer.castShadows = false;
 		renderer.receiveShadows = false;
 
 		gamePolygon.mesh = filter.mesh;
 	}
+
+	private static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color, MeshDataUV meshD, out MeshDataUV newMeshUV)
+	{
+		// Use the triangulator to get indices for creating triangles
+		Triangulator tr = new Triangulator(vertices2D);
+		int[] indices = tr.Triangulate();
+		
+		
+		Vector3[] vertices = new Vector3[vertices2D.Length];
+		for (int i=0; i<vertices.Length; i++) 
+		{
+			vertices[i] = new Vector3(vertices2D[i].x, vertices2D[i].y, 0);
+		}
+		
+		Color[] colors = new Color[vertices.Length];
+		int k = 0;
+		while (k < vertices.Length) 
+		{
+			colors[k] = color;
+			k++;
+		}
+		
+		// Create the mesh
+		Mesh msh = new Mesh();
+		
+		msh.vertices = vertices;
+		msh.triangles = indices;
+		msh.uv = GetUV(vertices, meshD, out newMeshUV);
+		msh.colors = colors;
+		msh.RecalculateNormals();
+		msh.RecalculateBounds();
+		
+		return msh;
+	}
+
+	private static Vector2[] GetUV(Vector3[] vertices, MeshDataUV meshUV, out MeshDataUV newMeshUV)
+	{
+		int imgSize = 256;
+		float pixelsPerUnit = 5;
+
+		float minX = float.MaxValue;
+		float minY = float.MaxValue;
+		float maxX = float.MinValue;
+		float maxY = float.MinValue;
+		for (int i = 0; i < vertices.Length; i++) {
+			var v = new Vector3(vertices[i].x, vertices[i].y, 0); 
+			
+			if(v.x < minX)
+				minX = v.x;
+			
+			if(v.y < minY)
+				minY = v.y;
+			
+			if(v.x > maxX)
+				maxX = v.x;
+			
+			if(v.y > maxY)
+				maxY = v.y;
+		}
+		
+		float maxSide = Mathf.Max (maxX - minX, maxY - minY);
+		float maxSidePx = maxSide * pixelsPerUnit;
+		float max = maxSidePx / imgSize;
+		
+		Vector2 offset = Vector2.zero;
+		if(meshUV == null)
+		{
+			offset = new Vector2(Random.Range(0, 1f - max), Random.Range(0, 1f - max));
+		}
+		else
+		{
+			offset = meshUV.offset;
+		}
+
+		newMeshUV = new MeshDataUV
+		{
+			offset = offset,
+		};
+
+		Vector2[] uvs = new Vector2[vertices.Length];
+		for (var i = 0 ; i < uvs.Length; i++)
+		{
+			uvs[i] = offset + (new Vector2 (vertices[i].x - minX, vertices[i].y - minY) * max) / maxSide;
+		}
+		
+		return uvs;
+	}
+
 
 	/// <summary>
 	/// Creates the polygon inside of bagel (inside circle radius minR, outer - maxR)
@@ -194,94 +315,11 @@ public static class PolygonCreator
 		return new Vector2(r*Mathf.Cos(angle), r*Mathf.Sin(angle));
 	}
 
-	private static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color)
-	{
-		// Use the triangulator to get indices for creating triangles
-		Triangulator tr = new Triangulator(vertices2D);
-		int[] indices = tr.Triangulate();
-		
-		// Create the Vector3 vertices
-		float minX = float.MaxValue;
-		float minY = float.MaxValue;
-		float maxX = float.MinValue;
-		float maxY = float.MinValue;
-
-		Vector3[] vertices = new Vector3[vertices2D.Length];
-		for (int i=0; i<vertices.Length; i++) {
-			var v = new Vector3(vertices2D[i].x, vertices2D[i].y, 0); 
-			vertices[i] = v;
-
-			if(v.x < minX)
-				minX = v.x;
-
-			if(v.y < minY)
-				minY = v.y;
-
-			if(v.x > maxX)
-				maxX = v.x;
-			
-			if(v.y > maxY)
-				maxY = v.y;
-		}
 
 
 
 
-		float maxSide = Mathf.Max (maxX - minX, maxY - minY);
 
-
-		float imgSize = 256;
-		float pixelsPerUnit = 5;
-		float maxSidePx = maxSide * pixelsPerUnit;
-		float max = maxSidePx / imgSize;
-
-		Vector2 offset = new Vector2(Random.Range(0, 1f - max), Random.Range(0, 1f - max));
-
-		Vector2[] uvs = new Vector2[vertices.Length];
-		for (var i = 0 ; i < uvs.Length; i++)
-		{
-			uvs[i] = offset + (new Vector2 (vertices[i].x - minX, vertices[i].y - minY) * max) / maxSide;
-		}
-		
-		Color[] colors = new Color[vertices.Length];
-		int k = 0;
-		while (k < vertices.Length) {
-			colors[k] = color;
-			k++;
-		}
-		
-		// Create the mesh
-		Mesh msh = new Mesh();
-
-		msh.vertices = vertices;
-		msh.triangles = indices;
-		msh.uv = uvs;
-		msh.colors = colors;
-		msh.RecalculateNormals();
-		msh.RecalculateBounds();
-
-		return msh;
-	}
-
-	public static T CreatePolygonGOByMassCenter<T>(Vector2[] vertices, Color color)
-		where T: PolygonGameObject
-	{
-		float area;
-		Vector2 pivot = Math2d.GetMassCenter(vertices, out area);
-		Math2d.ShiftVertices(vertices, -pivot);
-
-		Polygon polygon = new Polygon(vertices);
-		polygon.SetArea(area);
-
-		GameObject polygonGo = new GameObject();
-		T gamePolygon = polygonGo.AddComponent<T>();
-		gamePolygon.SetPolygon(polygon);
-		gamePolygon.cacheTransform.Translate(new Vector3(pivot.x, pivot.y, 0)); 
-
-		AddRenderComponents (gamePolygon, color);
-
-		return gamePolygon;
-	}
 
 	public static bool CheckIfVerySmallOrSpiky(Polygon polygon)
 	{
