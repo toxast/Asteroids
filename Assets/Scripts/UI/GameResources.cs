@@ -19,4 +19,24 @@ public static class GameResources
 			shieldsChanged (s);
 	}
 
+
+	static public event Action<int> moneyChanged = delegate {};
+
+	public static int money {
+		get;
+		private set;
+	}
+
+	public static void AddMoney(int amount)
+	{
+		money += amount;
+		moneyChanged (money);
+	}
+
+	public static void SpendMoney(int amount)
+	{
+		money -= amount;
+		moneyChanged (money);
+	}
+
 }

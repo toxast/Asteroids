@@ -16,21 +16,14 @@ public class Spliter
 		
 		foreach(var vertices in polys)
 		{
-			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.GetColor(), polygonGo.meshUV);
+			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.GetColor(), polygonGo.mat, polygonGo.meshUV);
 			
-			//			if(PolygonCreator.CheckIfVerySmallOrSpiky(asteroidPart.polygon))
-			//			{
-			//				Destroy(asteroidPart.gameObject);
-			//			}
-			//			else
-			//			{
 			asteroidPart.Init();
 			asteroidPart.cacheTransform.Translate(polygonGo.position);
 			asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
 			asteroidPart.gameObject.name = "asteroid part";
 			
 			parts.Add(asteroidPart);
-			//}
 		}
 		
 		CalculateObjectPartVelocity(parts, polygonGo);

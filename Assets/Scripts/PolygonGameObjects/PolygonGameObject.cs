@@ -11,6 +11,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public Transform cacheTransform{ get; private set;}
 	public Mesh mesh;
 	public PolygonCreator.MeshDataUV meshUV{ get; set;}
+	public Material mat{get; set;}
 
 	//collision
 	public int layer{ get; set;}

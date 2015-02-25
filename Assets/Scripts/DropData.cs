@@ -7,4 +7,5 @@ public class DropData
 	public float dropsCount;
 	public float areaLeft;
 	public float dropChance;
+	public AsteroidData asteroidData;
 }

@@ -9,8 +9,12 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	Polygon polygon{get;}
 	Transform cacheTransform{get;}
 	Vector2 position{get; set;}
+
+	//render
 	Color GetColor();
-	PolygonCreator.MeshDataUV meshUV{ get; set;}
+	PolygonCreator.MeshDataUV meshUV{get; set;}
+	Material mat{get; set;}
+
 	//collision
 	int layer{get; set;}
 	int collision{get; set;}

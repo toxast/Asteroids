@@ -56,7 +56,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		{
 			if(!Main.IsNull(target))
 			{
-				Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
+				Vector2 dir = target.position - thisShip.position;
 				if(dir.sqrMagnitude < 700f)
 				{
 					if(dir.sqrMagnitude < 400f)
@@ -81,7 +81,6 @@ public class EnemySpaceShipController : InputController, IGotTarget
 				else if(leftUntilCheck < 0)
 				{
 
-					dir = target.cacheTransform.position - thisShip.cacheTransform.position;
 					if(bullets.Exists(b =>
 					                  b != null && 
 					                  (b.collision & thisShip.layer) != 0 && 

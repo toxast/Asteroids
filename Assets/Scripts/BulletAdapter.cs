@@ -37,6 +37,8 @@ public class BulletAdapter : IBullet
 	{
 		return go.GetColor ();
 	}
+
+	public Material mat{get{return go.mat;} set{go.mat = value;}}
 	
 	//collision
 	public int layer{get{return go.layer;} set{go.layer = value;}}

@@ -38,7 +38,32 @@ public static class PolygonCreator
 		return vertices; 
 	}
 
-	public static T CreatePolygonGOByMassCenter<T>(Vector2[] vertices, Color color, MeshDataUV meshUV = null)
+	private static Material _defaultMaterial;
+	public static Material defaultMaterial
+	{
+		get{
+			if(_defaultMaterial == null)
+			{
+				_defaultMaterial = Resources.Load("Materials/asteroidMaterial", typeof(Material)) as Material;
+			}
+			return _defaultMaterial;
+		}
+	}
+
+
+	private static Material _texturedMaterial;
+	public static Material texturedMaterial
+	{
+		get{
+			if(_texturedMaterial == null)
+			{
+				_texturedMaterial = Resources.Load("Materials/textured", typeof(Material)) as Material;
+			}
+			return _texturedMaterial;
+		}
+	}
+
+	public static T CreatePolygonGOByMassCenter<T>(Vector2[] vertices, Color color, Material mat = null, MeshDataUV meshUV = null)
 		where T: PolygonGameObject
 	{
 		float area;
@@ -58,13 +83,16 @@ public static class PolygonCreator
 		}
 		gamePolygon.SetPolygon(polygon);
 		gamePolygon.cacheTransform.Translate(new Vector3(pivot.x, pivot.y, 0)); 
-		
-		AddRenderComponents (gamePolygon, color);
+
+		if(mat == null)
+			mat = defaultMaterial;
+
+		AddRenderComponents (gamePolygon, color, mat);
 		
 		return gamePolygon;
 	}
 
-	public static void AddRenderComponents(PolygonGameObject gamePolygon, Color color)
+	public static void AddRenderComponents(PolygonGameObject gamePolygon, Color color, Material mat)
 	{
 		MeshDataUV newMeshUV;
 		Mesh msh = CreatePolygonMesh(gamePolygon.polygon.vertices, color, gamePolygon.meshUV, out newMeshUV);
@@ -73,19 +101,10 @@ public static class PolygonCreator
 		MeshRenderer renderer = gamePolygon.gameObject.AddComponent<MeshRenderer>();
 		MeshFilter filter = gamePolygon.gameObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
 		filter.mesh = msh;
-		Material mat = null;
-		if(gamePolygon is Asteroid)
-		{
-			mat = Resources.Load("Materials/textured", typeof(Material)) as Material;
-		}
-		else
-		{
-			mat = Resources.Load("Materials/asteroidMaterial", typeof(Material)) as Material;
-		}
+		gamePolygon.mat = mat;
 		renderer.sharedMaterial = mat;
 		renderer.castShadows = false;
 		renderer.receiveShadows = false;
-
 		gamePolygon.mesh = filter.mesh;
 	}
 
@@ -126,7 +145,7 @@ public static class PolygonCreator
 	private static Vector2[] GetUV(Vector3[] vertices, MeshDataUV meshUV, out MeshDataUV newMeshUV)
 	{
 		float imgSize = 256;
-		float pixelsPerUnit = 5;
+		float pixelsPerUnit = 7;
 
 		float minX = float.MaxValue;
 		float minY = float.MaxValue;

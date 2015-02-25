@@ -384,6 +384,7 @@ public class Main : MonoBehaviour
 				int indxa, indxb;
 				if(PolygonCollision.IsCollides(spaceship, drops[i], out indxa, out indxb))
 				{
+					GameResources.AddMoney(drops[i].data.asteroidData.value);
 					Destroy(drops[i].gameObject);
 					drops.RemoveAt(i);
 				}
@@ -724,7 +725,7 @@ public class Main : MonoBehaviour
 					continue;
 
 				Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
-				var dropObj = ObjectsCreator.CreateDrop();
+				var dropObj = ObjectsCreator.CreateDrop(drop);
 				dropObj.cacheTransform.position =
 					destroyingPart.cacheTransform.position + randomOffset + new Vector3(0,0,2);
 				dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f,1f));
@@ -1067,15 +1068,16 @@ public class Main : MonoBehaviour
 	
 	public Asteroid CreateAsteroid()
 	{
-		var asteroid = ObjectsCreator.CreateAsteroid ();
+		int indx = UnityEngine.Random.Range (0, AsteroidsResources.Instance.asteroidsData.Count);
+		var asteroid = ObjectsCreator.CreateAsteroid (indx);
 
-		CreateDropForObject (asteroid);
+		CreateDropForObject (asteroid, AsteroidsResources.Instance.asteroidsData[indx]);
 
 		InitNewEnemy (asteroid);
 		return asteroid;
 	}
 
-	private void CreateDropForObject(IPolygonGameObject obj)
+	private void CreateDropForObject(IPolygonGameObject obj, AsteroidData aData)
 	{
 		obj.dropID = new DropID ();
 		DropData dropData = new DropData
@@ -1084,6 +1086,7 @@ public class Main : MonoBehaviour
 			areaLeft = obj.polygon.area,
 			dropsCount = obj.polygon.area/10f,
 			dropChance = 0.8f,
+			asteroidData = aData,
 		};
 		id2drops [obj.dropID] = dropData;
 	}

@@ -6,6 +6,7 @@ namespace polygonGO
 	public class Drop : PolygonGameObject 
 	{
 		public float lifetime;
+		public DropData data;
 
 		public override void Tick (float delta)
 		{

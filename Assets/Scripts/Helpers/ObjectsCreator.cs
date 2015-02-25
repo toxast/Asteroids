@@ -266,13 +266,30 @@ public class ObjectsCreator
 
 		return asteroid;
 	}
-	
-	public static Asteroid CreateAsteroid()
+
+	private static List<Material> _asteroidsMaterials;
+	private static Material GetAsteroidMaterial(int n)
+	{
+		if(_asteroidsMaterials == null)
+		{
+			_asteroidsMaterials = new List<Material>();
+			for (int i = 0; i < AsteroidsResources.Instance.asteroidsData.Count; i++) 
+			{
+				var mat = GameObject.Instantiate (PolygonCreator.texturedMaterial) as Material;
+				mat.color = AsteroidsResources.Instance.asteroidsData[i].color;
+				_asteroidsMaterials.Add(mat);
+			}
+		}
+		return _asteroidsMaterials[n];
+	}
+
+
+	public static Asteroid CreateAsteroid(int indx)
 	{
 		float size = Random.Range(3f, 8f);
 		int vcount = Random.Range(5, 5 + (int)size*3);
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
-		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Singleton<GlobalConfig>.inst.AsteroidColor);
+		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Singleton<GlobalConfig>.inst.AsteroidColor, GetAsteroidMaterial(indx));
 		asteroid.SetCollisionLayerNum (GlobalConfig.ilayerAsteroids);
 		asteroid.Init ();
 		asteroid.gameObject.name = "asteroid";
@@ -280,14 +297,15 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
-	public static polygonGO.Drop CreateDrop()
+	public static polygonGO.Drop CreateDrop(DropData data)
 	{
 		float size = 0.7f;//Random.Range(1f, 2f);
 		int vcount = 5;//Random.Range(5, 5 + (int)size*3);
 		Vector2[] vertices = PolygonCreator.CreatePrefectPolygonVertices(size, vcount);
 		
-		var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, Color.cyan);
+		var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, data.asteroidData.color);
 		drop.SetCollisionLayerNum (GlobalConfig.ilayerMisc);
+		drop.data = data;
 		drop.gameObject.name = "drop";
 		drop.lifetime = 10f;
 		
