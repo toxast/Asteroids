@@ -8,6 +8,7 @@ public static class PolygonCreator
 	public class MeshDataUV
 	{
 		public Vector2 offset;
+		public Vector2 centerOffsetUnits;
 	}
 
 	public static Vector2[] GetRectShape(float halfWidth, float halfHeight)
@@ -49,10 +50,11 @@ public static class PolygonCreator
 		
 		GameObject polygonGo = new GameObject();
 		T gamePolygon = polygonGo.AddComponent<T>();
-		gamePolygon.meshUV = new MeshDataUV ();
 		if(meshUV != null)
 		{
+			gamePolygon.meshUV = new MeshDataUV ();
 			gamePolygon.meshUV.offset = meshUV.offset + pivot * 5f / 256f;
+			gamePolygon.meshUV.centerOffsetUnits = meshUV.centerOffsetUnits;
 		}
 		gamePolygon.SetPolygon(polygon);
 		gamePolygon.cacheTransform.Translate(new Vector3(pivot.x, pivot.y, 0)); 
@@ -67,7 +69,6 @@ public static class PolygonCreator
 		MeshDataUV newMeshUV;
 		Mesh msh = CreatePolygonMesh(gamePolygon.polygon.vertices, color, gamePolygon.meshUV, out newMeshUV);
 		gamePolygon.meshUV = newMeshUV;
-
 		// Set up game object with mesh;
 		MeshRenderer renderer = gamePolygon.gameObject.AddComponent<MeshRenderer>();
 		MeshFilter filter = gamePolygon.gameObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
@@ -124,7 +125,7 @@ public static class PolygonCreator
 
 	private static Vector2[] GetUV(Vector3[] vertices, MeshDataUV meshUV, out MeshDataUV newMeshUV)
 	{
-		int imgSize = 256;
+		float imgSize = 256;
 		float pixelsPerUnit = 5;
 
 		float minX = float.MaxValue;
@@ -158,12 +159,13 @@ public static class PolygonCreator
 		}
 		else
 		{
-			offset = meshUV.offset;
+			offset = meshUV.offset + (meshUV.centerOffsetUnits + new Vector2(minX, minY)) * pixelsPerUnit / imgSize;
 		}
 
 		newMeshUV = new MeshDataUV
 		{
 			offset = offset,
+			centerOffsetUnits = new Vector2(-minX, -minY),
 		};
 
 		Vector2[] uvs = new Vector2[vertices.Length];
@@ -182,6 +184,7 @@ public static class PolygonCreator
 	/// </summary>
 	public static Vector2[] CreateAsteroidVertices(float maxR, float minR, int vertexCount)
 	{
+		//return GetRectShape (5, 5);
 		if(vertexCount < 3)
 		{
 			throw new UnityException("cant create polygon from " + vertexCount + " vertices");
