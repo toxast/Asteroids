@@ -53,8 +53,8 @@ public static class PolygonCreator
 		if(meshUV != null)
 		{
 			gamePolygon.meshUV = new MeshDataUV ();
-			gamePolygon.meshUV.offset = meshUV.offset + pivot * 5f / 256f;
-			gamePolygon.meshUV.centerOffsetUnits = meshUV.centerOffsetUnits;
+			gamePolygon.meshUV.offset = meshUV.offset;
+			gamePolygon.meshUV.centerOffsetUnits = meshUV.centerOffsetUnits + pivot;
 		}
 		gamePolygon.SetPolygon(polygon);
 		gamePolygon.cacheTransform.Translate(new Vector3(pivot.x, pivot.y, 0)); 
