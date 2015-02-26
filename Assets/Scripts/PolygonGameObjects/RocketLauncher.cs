@@ -38,7 +38,6 @@ public class RocketLauncher : Gun
 		missile.Init (damage, lifeTime);
 		missile.Init (missleParameters);
 		missile.SetController (controller);
-		missile.SetTarget (target);
 
 		if(launchDirection != Vector2.zero)
 		{
@@ -47,6 +46,23 @@ public class RocketLauncher : Gun
 			missile.velocity += (Vector3)byPlace.normalized * launchSpeed;
 		}
 		return missile;
+	}
+
+	protected override void SetBulletTarget (IBullet b)
+	{
+		base.SetBulletTarget (b);
+		if(Main.IsNull(target))
+		{
+			var t = Singleton<Main>.inst.GetNewMissileTarget(b as Missile);
+			if(t != null)
+			{
+				b.SetTarget (t);
+			}
+		}
+		else
+		{
+			b.SetTarget (target);
+		}
 	}
 
 	public static Vector2[] missileVertices = PolygonCreator.GetCompleteVertexes(

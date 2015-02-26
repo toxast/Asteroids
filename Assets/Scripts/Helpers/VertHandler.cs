@@ -19,7 +19,7 @@ public class VertHandler : MonoBehaviour
 
 	[SerializeField] bool doScale = false;
 	[SerializeField] Vector2 scaleBy = Vector2.one;
-
+	[SerializeField] int saveANDloadIndx = -1;
 
 	void OnEnable()
 	{
@@ -27,10 +27,15 @@ public class VertHandler : MonoBehaviour
 		duplicate = false;
 		
 		mesh = GetComponent<MeshFilter>().sharedMesh;
-		//var verts = mesh.vertices;
-		var verts = SpaceshipsData.valaSpaceship;
+		var verts = mesh.vertices;
+		if(saveANDloadIndx >= 0)
+		{
+			verts = SpaceshipsResources.Instance.spaceships[saveANDloadIndx].verts.ToList().ConvertAll( v => (Vector3)v).ToArray();
+		}
+
+		//var verts = SpaceshipsData.valaSpaceship;
 		//var verts =SpaceshipsResources.Instance.spaceships[ ].verts;
-		foreach(Vector3 vert in verts)
+		foreach(var vert in verts)
 		{
 			if(vert.y <= 0)
 			{

@@ -2,7 +2,7 @@
 using System.Collections;
 
 [System.Serializable]
-public class ShieldData
+public class ShieldData: IClonable<ShieldData>
 {
 	public float capacity;
 	public float rechargeRate;
@@ -17,5 +17,10 @@ public class ShieldData
 		this.capacity = capacity;
 		this.rechargeRate = rechargeRate;
 		this.rechargeDelay = rechargeDelay;
+	}
+
+	public ShieldData Clone()
+	{
+		return new ShieldData (capacity, rechargeRate, rechargeDelay);
 	}
 }

@@ -6,7 +6,7 @@ using System.Linq;
 
 public class SpaceShip : PolygonGameObject 
 {
-	float turnSpeed = 220f;
+	public float turnSpeed = 220f;
 
 	float passiveBrake = 2f;
 	float brake = 15f;

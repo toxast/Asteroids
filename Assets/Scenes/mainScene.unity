@@ -1358,6 +1358,7 @@ MonoBehaviour:
   reverse: 0
   doScale: 0
   scaleBy: {x: 1.20000005, y: 1.20000005}
+  saveANDloadIndx: -1
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0
