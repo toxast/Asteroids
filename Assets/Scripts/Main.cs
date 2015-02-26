@@ -8,6 +8,7 @@ public class Main : MonoBehaviour
 {
 	[SerializeField] Texture2D cursorTexture;
 
+	[SerializeField] ParticleSystem dropAnimationPrefab;
 	[SerializeField] ParticleSystem thrustPrefab;
 	[SerializeField] ParticleSystem thrustPrefab2;
 	[SerializeField] ParticleSystem thrustBig;
@@ -726,6 +727,10 @@ public class Main : MonoBehaviour
 
 				Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
 				var dropObj = ObjectsCreator.CreateDrop(drop);
+				var anim = Instantiate(dropAnimationPrefab) as ParticleSystem;
+				anim.startColor = drop.asteroidData.color;
+				anim.transform.parent = dropObj.transform;
+				anim.transform.localPosition = new Vector3(0, 0, UnityEngine.Random.Range(1f, 1.1f));
 				dropObj.cacheTransform.position =
 					destroyingPart.cacheTransform.position + randomOffset + new Vector3(0,0,2);
 				dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f,1f));
