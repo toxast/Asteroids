@@ -81,7 +81,7 @@ public static class Math2d
 
 	static public float GetRotationG(Vector2 v)
 	{
-		return GetRotation(ref v) / PIdiv180;  
+		return GetRotation(ref v) * Mathf.Rad2Deg;  
 	}
 
 	static public Vector2 GetMassCenter(Vector2[] vertices)

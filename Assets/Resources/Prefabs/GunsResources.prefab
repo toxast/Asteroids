@@ -39,7 +39,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6983fa03316c20d49969175117993afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clone: 3
+  clone: 0
   guns:
   - damage: 3
     lifeTime: 2
@@ -121,8 +121,8 @@ MonoBehaviour:
       passiveBrake: 2
     thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
     thrusterPos: {x: -.859950185, y: 0, z: 1}
-    launchDirection: {x: 0, y: 0}
-    launchSpeed: 0
+    launchDirection: {x: 1, y: 0}
+    launchSpeed: 20
   - name: 
     baseData:
       damage: 6
@@ -130,13 +130,13 @@ MonoBehaviour:
       bulletSpeed: 0
       fireInterval: 5
       vertices:
-      - {x: 1.4820646, y: -9.81215886e-10}
-      - {x: .832064629, y: -.25999999}
-      - {x: -.727935314, y: -.195000008}
+      - {x: 1.4820646, y: 4.00165412e-09}
+      - {x: .832064688, y: -.25999999}
+      - {x: -.727935255, y: -.195000008}
       - {x: -1.1179353, y: -.454999983}
       - {x: -1.1179353, y: .454999983}
-      - {x: -.727935314, y: .195000008}
-      - {x: .832064629, y: .25999999}
+      - {x: -.727935255, y: .195000008}
+      - {x: .832064688, y: .25999999}
       color: {r: .742647052, g: .650908291, b: .26757136, a: 1}
       fireEffect: {fileID: 0}
     missleParameters:
@@ -147,8 +147,8 @@ MonoBehaviour:
       passiveBrake: 2
     thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
     thrusterPos: {x: -1.11793494, y: 0, z: 1}
-    launchDirection: {x: 0, y: 0}
-    launchSpeed: 0
+    launchDirection: {x: 1, y: 0}
+    launchSpeed: 15
   - name: small, launch up
     baseData:
       damage: 2
@@ -200,6 +200,32 @@ MonoBehaviour:
     thrusterEffect: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
     thrusterPos: {x: -.859950185, y: 0, z: 1}
     launchDirection: {x: 0, y: -1}
+    launchSpeed: 20
+  - name: (4) user rocket launcher
+    baseData:
+      damage: 3
+      lifeTime: 6
+      bulletSpeed: 0
+      fireInterval: 2
+      vertices:
+      - {x: 1.1400497, y: 7.47183426e-10}
+      - {x: .640049756, y: -.200000003}
+      - {x: -.559950233, y: -.150000006}
+      - {x: -.859950244, y: -.349999994}
+      - {x: -.859950244, y: .349999994}
+      - {x: -.559950233, y: .150000006}
+      - {x: .640049756, y: .200000003}
+      color: {r: .91911763, g: .799054384, b: .297361583, a: 1}
+      fireEffect: {fileID: 0}
+    missleParameters:
+      thrust: 35
+      maxSpeed: 40
+      turnSpeed: 200
+      brake: 8
+      passiveBrake: 2
+    thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
+    thrusterPos: {x: -.859950185, y: 0, z: 1}
+    launchDirection: {x: 1, y: 0}
     launchSpeed: 20
   spawnerGuns:
   - baseData:

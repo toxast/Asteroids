@@ -2,7 +2,7 @@
 using System.Collections;
 
 [System.Serializable]
-public class Place
+public class Place: IClonable<Place>
 {
 	public Vector2 pos;
 	public Vector2 dir;
@@ -11,6 +11,11 @@ public class Place
 	{
 		this.pos = pos;
 		this.dir = dir;
+	}
+
+	public Place Clone()
+	{
+		return new Place (pos, dir);
 	}
 
 }

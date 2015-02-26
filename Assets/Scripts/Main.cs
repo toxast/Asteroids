@@ -39,6 +39,8 @@ public class Main : MonoBehaviour
 	Rect screenBounds;
 	Rect flyZoneBounds;
 
+	public List <IPolygonGameObject> gObjects{get {return gobjects;}}
+
 	[SerializeField] private float starsDensity = 5f;
 
 	[SerializeField] Vector2 sceneSizeInCameras = new Vector2 (3, 3);
@@ -1191,9 +1193,76 @@ public class Main : MonoBehaviour
 		}
 	}
 
+
+	public IPolygonGameObject GetNewMissileTarget(Missile g)
+	{
+		int enemyLayer = 0;
+		if (g.layer == 1 << GlobalConfig.ilayerBulletsUser)
+			enemyLayer = 1 << GlobalConfig.ilayerTeamEnemies;
+		else if(g.layer == 1 << GlobalConfig.ilayerBulletsEnemies)
+			enemyLayer = 1 << GlobalConfig.ilayerTeamUser | 1 << GlobalConfig.ilayerUser;
+
+		float enemyDetectionRSqr = 300 * 300; 
+
+		var pos = g.position;
+		int indx = -1;
+		bool gotEnemyTarget = false;
+		float closeValue = 0;
+
+		for (int i = 0; i < gobjects.Count; i++)
+		{
+			var obj = gobjects[i];
+			if((obj.layer & enemyLayer) != 0)
+			{
+				var dir = obj.position - pos;
+				if(dir.sqrMagnitude < enemyDetectionRSqr)
+				{
+					float objCloseValue = GetCloseValue(g,dir) ;
+					if(!gotEnemyTarget || closeValue < objCloseValue)
+					{
+						indx = i;
+						closeValue = objCloseValue;
+						gotEnemyTarget = true;
+					}
+				}
+			}
+			else if(!gotEnemyTarget  && ((g.collision & obj.layer) != 0))
+			{
+				var dir = obj.position - pos;
+				if(dir.sqrMagnitude < enemyDetectionRSqr)
+				{
+					float objCloseValue = GetCloseValue(g, dir) ;
+					if(closeValue < objCloseValue)
+					{
+						indx = i;
+						closeValue = objCloseValue;
+					}
+				}
+			}
+		}
+
+
+		if(indx >= 0)
+		{
+			return gobjects[indx];
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	//the more the value the better target is
+	private float GetCloseValue(Missile g, Vector2 dir)
+	{
+		var angle = Math2d.DeltaAngleGRAD( Math2d.GetRotationG(dir), Math2d.GetRotationG(g.cacheTransform.right));
+		float time2rotate = Mathf.Abs(angle) / g.turnSpeed;
+		return 1000f / (dir.magnitude * time2rotate);
+	}
+
 	/*
 	 * FUTURE UPDATES
-	 * textured asteroids
+	 * explosions on check death causes new death ....
 	 * sky texture?
 	 * user rockets
 	 * target system
