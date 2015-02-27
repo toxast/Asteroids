@@ -24,6 +24,8 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public Vector3 velocity{ get; set;}
 	public float rotation{ get; set;}
 
+	public bool destroyOnBoundsTeleport{get; set;}
+
 	protected float fullHealth;
 	[SerializeField] protected float currentHealth;
 	public event Action<float> healthChanged;
