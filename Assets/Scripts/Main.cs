@@ -1156,7 +1156,7 @@ public class Main : MonoBehaviour
 
 	public static bool IsNull(IPolygonGameObject target)
 	{
-		return target == null || target.Equals (null);
+		return target == null || target.cacheTransform == null;
 	}
 
 	public IPolygonGameObject GetNewTarget(IPolygonGameObject g)

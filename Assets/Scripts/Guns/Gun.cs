@@ -33,6 +33,8 @@ public class Gun : IGotTarget, ITickable
 		this.fireInterval = data.fireInterval;
 		this.vertices = data.vertices;
 		this.color = data.color;
+		this.repeatCount = data.repeatCount;
+		this.repeatInterval = data.repeatInterval;
 		this.parent = parent;
 
 		if(data.fireEffect != null)
@@ -55,6 +57,11 @@ public class Gun : IGotTarget, ITickable
 		if(timeToNextShot > 0)
 		{
 			timeToNextShot -= delta;
+//			if(timeToNextShot <= 0 && currentRepeat > 0)
+//			{
+//				currentRepeat--;
+//				timeToNextShot = 2*repeatInterval;
+//			}
 		}
 	}
 	

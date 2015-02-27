@@ -45,6 +45,8 @@ MonoBehaviour:
     lifeTime: 2
     bulletSpeed: 35
     fireInterval: .300000012
+    repeatCount: 0
+    repeatInterval: 0
     vertices:
     - {x: .400000006, y: .200000003}
     - {x: .400000006, y: -.200000003}
@@ -56,6 +58,8 @@ MonoBehaviour:
     lifeTime: 2
     bulletSpeed: 50
     fireInterval: .400000006
+    repeatCount: 0
+    repeatInterval: 0
     vertices:
     - {x: .400000006, y: .200000003}
     - {x: .400000006, y: -.200000003}
@@ -67,6 +71,8 @@ MonoBehaviour:
     lifeTime: 3
     bulletSpeed: 60
     fireInterval: .5
+    repeatCount: 0
+    repeatInterval: 0
     vertices:
     - {x: .400000006, y: .200000003}
     - {x: .400000006, y: -.200000003}
@@ -78,6 +84,8 @@ MonoBehaviour:
     lifeTime: 2
     bulletSpeed: 45
     fireInterval: .699999988
+    repeatCount: 0
+    repeatInterval: 0
     vertices:
     - {x: .800000012, y: .5}
     - {x: .800000012, y: -.5}
@@ -89,6 +97,8 @@ MonoBehaviour:
     lifeTime: 2
     bulletSpeed: 60
     fireInterval: .600000024
+    repeatCount: 0
+    repeatInterval: 0
     vertices:
     - {x: .600000024, y: .300000012}
     - {x: .600000024, y: -.300000012}
@@ -103,6 +113,8 @@ MonoBehaviour:
       lifeTime: 5
       bulletSpeed: 0
       fireInterval: 4
+      repeatCount: 0
+      repeatInterval: 0
       vertices:
       - {x: 1.1400497, y: 2.01847117e-09}
       - {x: .640049756, y: -.200000003}
@@ -129,6 +141,8 @@ MonoBehaviour:
       lifeTime: 6
       bulletSpeed: 0
       fireInterval: 5
+      repeatCount: 0
+      repeatInterval: 0
       vertices:
       - {x: 1.4820646, y: 4.00165412e-09}
       - {x: .832064688, y: -.25999999}
@@ -155,6 +169,8 @@ MonoBehaviour:
       lifeTime: 4
       bulletSpeed: 0
       fireInterval: 3
+      repeatCount: 0
+      repeatInterval: 0
       vertices:
       - {x: 1.1400497, y: 2.01847117e-09}
       - {x: .640049756, y: -.200000003}
@@ -181,6 +197,8 @@ MonoBehaviour:
       lifeTime: 4
       bulletSpeed: 0
       fireInterval: 3
+      repeatCount: 0
+      repeatInterval: 0
       vertices:
       - {x: 1.1400497, y: 2.01847117e-09}
       - {x: .640049756, y: -.200000003}
@@ -203,10 +221,12 @@ MonoBehaviour:
     launchSpeed: 20
   - name: (4) user rocket launcher
     baseData:
-      damage: 3
+      damage: 4
       lifeTime: 6
       bulletSpeed: 0
       fireInterval: 2
+      repeatCount: 2
+      repeatInterval: .300000012
       vertices:
       - {x: 1.1400497, y: 7.47183426e-10}
       - {x: .640049756, y: -.200000003}
@@ -215,24 +235,26 @@ MonoBehaviour:
       - {x: -.859950244, y: .349999994}
       - {x: -.559950233, y: .150000006}
       - {x: .640049756, y: .200000003}
-      color: {r: .91911763, g: .799054384, b: .297361583, a: 1}
+      color: {r: .786764741, g: .465356171, b: .173551023, a: 1}
       fireEffect: {fileID: 0}
     missleParameters:
       thrust: 35
-      maxSpeed: 40
+      maxSpeed: 50
       turnSpeed: 200
       brake: 8
       passiveBrake: 2
     thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
     thrusterPos: {x: -.859950185, y: 0, z: 1}
     launchDirection: {x: 1, y: 0}
-    launchSpeed: 20
+    launchSpeed: 50
   spawnerGuns:
   - baseData:
       damage: 0
       lifeTime: 0
       bulletSpeed: 0
       fireInterval: 15
+      repeatCount: 0
+      repeatInterval: 0
       vertices:
       - {x: .400000006, y: .200000003}
       - {x: .400000006, y: -.200000003}

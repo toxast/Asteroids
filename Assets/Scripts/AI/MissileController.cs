@@ -19,15 +19,24 @@ public class MissileController : InputController, IGotTarget
 		this.thisShip = thisShip;
 	}
 
+	bool hadTarget = false;
 	public void Tick(PolygonGameObject p)
 	{
 		shooting = false;
 		accelerating = true;
 
-		if(Main.IsNull(target))
+		bool haveTargetNow = !Main.IsNull (target);
+		if(!haveTargetNow && hadTarget)
+		{
+			thisShip.SetTarget(Singleton<Main>.inst.GetNewMissileTarget(thisShip as Missile));
+		}
+
+		hadTarget = haveTargetNow;
+		if(!hadTarget)
 			return;
 
 		RotateOnTarget ();
+
 	}
 
 	public void SetTarget(IPolygonGameObject target)
