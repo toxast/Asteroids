@@ -38,7 +38,7 @@ public class RocketLauncher : Gun
 		missile.Init (damage, lifeTime);
 		missile.Init (missleParameters);
 		missile.SetController (controller);
-
+		missile.targetSystem = new TargetSystem (missile); //TODO
 		if(launchDirection != Vector2.zero)
 		{
 			float angle = Math2d.GetRotation(missile.cacheTransform.right);
@@ -48,22 +48,22 @@ public class RocketLauncher : Gun
 		return missile;
 	}
 
-	protected override void SetBulletTarget (IBullet b)
-	{
-		base.SetBulletTarget (b);
-		if(Main.IsNull(target))
-		{
-			var t = Singleton<Main>.inst.GetNewTarget(b as Missile);
-			if(t != null)
-			{
-				b.SetTarget (t);
-			}
-		}
-		else
-		{
-			b.SetTarget (target);
-		}
-	}
+//	protected override void SetBulletTarget (IBullet b)
+//	{
+//		base.SetBulletTarget (b);
+//		if(Main.IsNull(target))
+//		{
+//			var t = Singleton<Main>.inst.GetNewTarget(b as Missile);
+//			if(t != null)
+//			{
+//				b.SetTarget (t);
+//			}
+//		}
+//		else
+//		{
+//			b.SetTarget (target);
+//		}
+//	}
 
 	public static Vector2[] missileVertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]

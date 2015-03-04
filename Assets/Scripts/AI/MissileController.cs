@@ -25,15 +25,18 @@ public class MissileController : InputController, IGotTarget
 		shooting = false;
 		accelerating = true;
 
-		bool haveTargetNow = !Main.IsNull (target);
-		if(!haveTargetNow && hadTarget)
-		{
-			thisShip.SetTarget(Singleton<Main>.inst.GetNewTarget(thisShip)); //todo fix as
-		}
-
-		hadTarget = haveTargetNow;
-		if(!hadTarget)
+		if (Main.IsNull (target))
 			return;
+
+//		bool haveTargetNow = !Main.IsNull (target);
+//		if(!haveTargetNow && hadTarget)
+//		{
+//			thisShip.SetTarget(Singleton<Main>.inst.GetNewTarget(thisShip)); //todo fix as
+//		}
+//
+//		hadTarget = haveTargetNow;
+//		if(!hadTarget)
+//			return;
 
 		RotateOnTarget ();
 

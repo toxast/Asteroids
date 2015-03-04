@@ -74,7 +74,7 @@ public class SpikyAsteroid : Asteroid
 							Edge e1  = Math2d.RotateEdge(spike.a, cosA, sinA); 
 							Vector2 spikeDisrection = e1.p2;
 						
-							bool inFrontOfSpike = Math2d.Cos(spikeDisrection, aim.direction) > 0.95f;
+							bool inFrontOfSpike = Math2d.Cos(spikeDisrection, aim.direction) > 0.98f;
 							
 							if(inFrontOfSpike)
 							{

@@ -17,8 +17,9 @@ public class Spliter
 		foreach(var vertices in polys)
 		{
 			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.GetColor(), polygonGo.mat, polygonGo.meshUV);
-			
+
 			asteroidPart.Init();
+			asteroidPart.SetCollisionLayerNum(GlobalConfig.ilayerAsteroids);
 			asteroidPart.cacheTransform.Translate(polygonGo.position);
 			asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
 			asteroidPart.gameObject.name = "asteroid part";

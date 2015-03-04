@@ -124,16 +124,16 @@ public class Gun : IGotTarget, ITickable
 		}
 	}
 
-	protected virtual void SetBulletTarget(IBullet b)
-	{
-
-	}
+//	protected virtual void SetBulletTarget(IBullet b)
+//	{
+//
+//	}
 
 	protected void Fire(IBullet b)
 	{
 		b.velocity += (Vector3)Main.AddSpipSpeed2TheBullet(parent);
 		SetBulletLayer (b);
-		SetBulletTarget (b);
+//		SetBulletTarget (b);
 
 		if(onFire != null)
 			onFire(b);

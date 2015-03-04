@@ -94,10 +94,7 @@ public class Main : MonoBehaviour
 	public void CreatePhysicalExplosion(Vector2 pos, float r)
 	{
 		float power = 3 * r;
-		List<IPolygonGameObject> affected = new List<IPolygonGameObject>();
-		affected.Add(spaceship);
-		affected.AddRange(gobjects);
-		new PhExplosion(pos, r, power, affected);
+		new PhExplosion(pos, r, power, gobjects);
 	}
 
 	//TODO: partial objects reposition?
@@ -111,13 +108,9 @@ public class Main : MonoBehaviour
 				Vector2 pos = spaceship.position;
 				if(pos.magnitude > screenBounds.width*3)
 				{
-					spaceship.position -= pos;
-
 					Reposition(gobjects, pos, false);
-					//Reposition(enemies, pos, false);
 					Reposition(powerUps, pos, false);
 					Reposition(bullets, pos, true);
-					//Reposition(enemyBullets, pos, true);
 
 					var stars = starsGenerator.stars;
 					for (int i = 0; i < stars.Length ; i++)
@@ -141,11 +134,11 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 		int rogues = UnityEngine.Random.Range(0, 1);
-		int saws = UnityEngine.Random.Range(1, 7);
+		int saws = 0;//UnityEngine.Random.Range(1, 7);
 		int evades = UnityEngine.Random.Range(0, 1);
 		int tanks = UnityEngine.Random.Range(0, 1);
-		int spikies = UnityEngine.Random.Range(1, 4);
-		int asteroidsNum = UnityEngine.Random.Range(5, 20);
+		int spikies = 1;//UnityEngine.Random.Range(1, 4);
+		int asteroidsNum = 0;//UnityEngine.Random.Range(5, 20);
 
 		for (int i = 0; i < rogues; i++) 
 		{
@@ -186,30 +179,14 @@ public class Main : MonoBehaviour
 		if (spaceship == null)
 		{
 			CreateSpaceShip();
-			
-			yield return new WaitForSeconds (1f);
-			
-			if (spaceship != null)
-			{
-				foreach (var e in gobjects) 
-				{
-					e.SetTarget(spaceship);
-				}
-//				foreach (var e in enemies) 
-//				{
-//					e.SetTarget(spaceship);
-//				}
-//				foreach (var e in asteroids) 
-//				{
-//					e.SetTarget(spaceship);
-//				}
-			}
 		}
+		yield break;
 	}
 
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
 		spikePart.destroyOnBoundsTeleport = true;
+		spikePart.SetCollisionLayerNum (GlobalConfig.ilayerAsteroids);
 		Add2Objects (spikePart);
 	}
 
@@ -296,6 +273,9 @@ public class Main : MonoBehaviour
 	bool doTick = true;
 	void Update()
 	{
+		if (IsNull (spaceship))
+			spaceship = null;
+
 		//TODO: refactor Powerup
 		if(!doTick)
 		{
@@ -327,25 +307,17 @@ public class Main : MonoBehaviour
 			{
 				ApplyBoundsForce(spaceship);
 			}
-			spaceship.Tick(dtime);
 		}
 
 		TickBullets (bullets, dtime);
-		//TickBullets (enemyBullets, enemyDtime);
-
 		TickObjects (gobjects, enemyDtime);
-//		TickObjects (asteroids, enemyDtime);
-//		TickObjects (enemies, enemyDtime);
 		TickObjects (powerUps, enemyDtime);
 		TickObjects (drops, enemyDtime);
 
 		if(boundsMode)
 		{
 			CheckBounds(bullets, true);
-			CheckBounds (gobjects, false);
-			//CheckBounds(enemyBullets, true);
-			//CheckBounds(enemies, false);
-			//CheckBounds(asteroids, false);
+			CheckBounds (gobjects, false); //TODO: spaceship in gobjects!!!
 			CheckBounds(powerUps, false);
 			CheckBounds(drops, false);
 		}
@@ -353,9 +325,6 @@ public class Main : MonoBehaviour
 		{
 			Wrap(bullets, true);
 			Wrap(gobjects, true);
-//			Wrap(enemyBullets, true);
-//			Wrap(enemies, false);
-//			Wrap(asteroids, false);
 			Wrap(powerUps, false);
 			Wrap(drops, false);
 		}
@@ -372,13 +341,6 @@ public class Main : MonoBehaviour
 			if(spaceship.collector != null)
 			{
 				spaceship.collector.Pull(spaceship.position, drops, dtime);
-			}
-
-			BulletsHitObject(spaceship, bullets);
-
-			for (int i = gobjects.Count - 1; i >= 0; i--) 
-			{
-				ObjectsCollide(spaceship, gobjects[i]);
 			}
 
 			for (int i = drops.Count - 1; i >= 0; i--) 
@@ -439,15 +401,6 @@ public class Main : MonoBehaviour
 			powerUpsCreator.Tick(Time.deltaTime);
 
 		MoveCamera ();
-
-		if(spaceship != null)
-		{
-			List<IPolygonGameObject> spaceships = new List<IPolygonGameObject>();
-			spaceships.Add(spaceship);
-			CheckDeadObjects(spaceships);
-			if(spaceships.Count == 0)
-				spaceship = null;
-		}
 
 		CheckDeadObjects (gobjects);
 		CheckDeadObjects (drops);
@@ -742,19 +695,19 @@ public class Main : MonoBehaviour
 
 	private void Add2Objects(IPolygonGameObject p)
 	{
-		if(p.layer == 0)
-		{
-			if(p is Asteroid)
-			{
-				p.SetCollisionLayerNum(GlobalConfig.ilayerAsteroids);
-				//asteroids.Add(p);
-			}
-			else
-			{
-				p.SetCollisionLayerNum(GlobalConfig.ilayerTeamEnemies);
-				//enemies.Add (p);
-			}
-		}
+//		if(p.layer == 0)
+//		{
+//			if(p is Asteroid)
+//			{
+//				p.SetCollisionLayerNum(GlobalConfig.ilayerAsteroids);
+//				//asteroids.Add(p);
+//			}
+//			else
+//			{
+//				p.SetCollisionLayerNum(GlobalConfig.ilayerTeamEnemies);
+//				//enemies.Add (p);
+//			}
+//		}
 		gobjects.Add (p);
 	}
 
@@ -948,6 +901,7 @@ public class Main : MonoBehaviour
 		spaceship = ObjectsCreator.CreateSpaceShip (controller);
 		spaceship.guns.ForEach( g => g.onFire += HandleGunFire);
 		//spaceship.SetThruster (thrustPrefab2, Vector2.zero);
+		Add2Objects(spaceship);
 		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
 	}
 
@@ -968,12 +922,20 @@ public class Main : MonoBehaviour
 
 	}
 	
-	public void CreateEnemySpaceShip(int indx)
+	public EnemySpaceShip CreateEnemySpaceShip(int indx)
 	{
 		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(indx);
 		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
 
 		InitNewEnemy(enemy);
+		return enemy;
+	}
+
+	public EnemySpaceShip CreateFriendSpaceShip(int indx)
+	{
+		var e = CreateEnemySpaceShip (indx);
+		e.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
+		return e;
 	}
 	
 	public EnemySpaceShip CreateEnemySpaceShipBoss()
@@ -1054,10 +1016,11 @@ public class Main : MonoBehaviour
 		InitNewEnemy(enemy);
 	}
 	
-	public void CreateTower()
+	public TowerEnemy CreateTower()
 	{
 		var enemy = ObjectsCreator.CreateTower();
 		InitNewEnemy(enemy);
+		return enemy;
 	}
 	
 	public EvadeEnemy CreateEvadeEnemy()
@@ -1083,24 +1046,29 @@ public class Main : MonoBehaviour
 
 	public void CreateFight()
 	{
-		var boss = CreateEnemySpaceShipBoss ();
+		var e = CreateEnemySpaceShip (3);
+		var e2 = CreateEnemySpaceShip (5);
+		e2.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
 
 
-		for (int i = 0; i < 2; i++) {
-			var enemy = ObjectsCreator.CreateEnemySpaceShip ();
-			{
-				//var gT = Instantiate (thrustPrefab) as ParticleSystem;
-				enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
-				enemy.SetThruster (thrustPrefab, Vector2.zero);
-				enemy.guns.ForEach( g => g.onFire += HandleGunFire);
-				enemy.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
-				SetRandomPosition(enemy);
-				Add2Objects(enemy);
-			}
-			
-			enemy.SetTarget (boss);
-			boss.SetTarget (enemy);
-		}
+//		var boss = CreateEnemySpaceShipBoss ();
+//
+//
+//		for (int i = 0; i < 2; i++) {
+//			var enemy = ObjectsCreator.CreateEnemySpaceShip ();
+//			{
+//				//var gT = Instantiate (thrustPrefab) as ParticleSystem;
+//				enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
+//				enemy.SetThruster (thrustPrefab, Vector2.zero);
+//				enemy.guns.ForEach( g => g.onFire += HandleGunFire);
+//				enemy.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
+//				SetRandomPosition(enemy);
+//				Add2Objects(enemy);
+//			}
+//			
+//			enemy.SetTarget (boss);
+//			boss.SetTarget (enemy);
+//		}
 
 	}
 	
@@ -1133,7 +1101,7 @@ public class Main : MonoBehaviour
 	private void InitNewEnemy(PolygonGameObject enemy)
 	{
 		enemy.guns.ForEach( g => g.onFire += HandleGunFire);
-		enemy.SetTarget (spaceship);
+		enemy.targetSystem = new TargetSystem (enemy);
 		SetRandomPosition(enemy);
 		Add2Objects(enemy);
 	}
@@ -1192,6 +1160,10 @@ public class Main : MonoBehaviour
 
 	public IPolygonGameObject GetNewTarget(IPolygonGameObject g)
 	{
+		if(g is SpaceShip)
+		{
+			return GetNewTarget(g as SpaceShip);
+		}
 		var pos = g.position;
 		float minDist = float.MaxValue;
 		int indx = -1;
@@ -1224,45 +1196,49 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	static public int GetEnemyLayer(int layer)
+	{
+		int enemyLayer = 0;
+		if ((layer & (1 << GlobalConfig.ilayerBulletsUser | 1 << GlobalConfig.ilayerTeamUser | 1 << GlobalConfig.ilayerUser)) != 0 )
+		{
+			enemyLayer = 1 << GlobalConfig.ilayerTeamEnemies;
+		}
+		else if((layer & (1 << GlobalConfig.ilayerBulletsEnemies | 1 << GlobalConfig.ilayerTeamEnemies)) != 0)
+		{
+			enemyLayer = 1 << GlobalConfig.ilayerTeamUser | 1 << GlobalConfig.ilayerUser;
+		}
+		else if((layer & (1 << GlobalConfig.ilayerAsteroids)) != 0)
+		{
+		    enemyLayer =  1 << GlobalConfig.ilayerUser;
+		}
+
+		return enemyLayer;
+	}
 
 	public IPolygonGameObject GetNewTarget(SpaceShip g)
 	{
-		int enemyLayer = 0;
-		if (g.layer == 1 << GlobalConfig.ilayerBulletsUser)
-			enemyLayer = 1 << GlobalConfig.ilayerTeamEnemies;
-		else if(g.layer == 1 << GlobalConfig.ilayerBulletsEnemies)
-			enemyLayer = 1 << GlobalConfig.ilayerTeamUser | 1 << GlobalConfig.ilayerUser;
+		int enemyLayer = GetEnemyLayer (g.layer);
 
 		float enemyDetectionRSqr = 100 * 100; 
 
 		var pos = g.position;
 		int indx = -1;
-		bool gotEnemyTarget = false;
 		float closeValue = 0;
 
 		for (int i = 0; i < gobjects.Count; i++)
 		{
 			var obj = gobjects[i];
-			if((obj.layer & enemyLayer) != 0)
-			{
-				var dir = obj.position - pos;
-				if(dir.sqrMagnitude < enemyDetectionRSqr)
-				{
-					float objCloseValue = GetCloseValue(g,dir) ;
-					if(!gotEnemyTarget || closeValue < objCloseValue)
-					{
-						indx = i;
-						closeValue = objCloseValue;
-						gotEnemyTarget = true;
-					}
-				}
-			}
-			else if(!gotEnemyTarget  && ((g.collision & obj.layer) != 0))
+			if((g.collision & obj.layer) != 0)
 			{
 				var dir = obj.position - pos;
 				if(dir.sqrMagnitude < enemyDetectionRSqr)
 				{
 					float objCloseValue = GetCloseValue(g, dir) ;
+
+					//double importancy for enemies
+					if((obj.layer & enemyLayer) != 0)
+						objCloseValue *= 2f;
+
 					if(closeValue < objCloseValue)
 					{
 						indx = i;
@@ -1293,10 +1269,9 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * poison asteroids
 	 * camera shake on explosions
-	 * explosions on check death causes new death ....
 	 * sky texture?
-	 * user rockets
 	 * target system
 	 * duplicating enemy or illusions enemy?
 	 * gravity shield

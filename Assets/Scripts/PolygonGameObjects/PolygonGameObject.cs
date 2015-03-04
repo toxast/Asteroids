@@ -33,7 +33,8 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public List<Gun> guns { get; set;}
 
 
-	protected IPolygonGameObject target;
+	public IPolygonGameObject target{ get; private set;}
+	public ITickable targetSystem;
 
 	protected Shield shield = null;
 	[SerializeField] private PolygonGameObject shieldGO;
@@ -212,20 +213,10 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		shield.SetShieldGO (shieldGO);
 	}
 
-	float targetCheckPeriod = 3f;
-	float lastTargetCheck = 0;
 	public virtual void Tick(float delta)
 	{
-		lastTargetCheck -= delta;
-		if(lastTargetCheck < 0)
-		{
-			lastTargetCheck = targetCheckPeriod;
-			if(Main.IsNull(target) &&
-			    layer == 1<<GlobalConfig.ilayerTeamEnemies ||  layer == 1<<GlobalConfig.ilayerTeamUser)
-			{
-				SetTarget(Singleton<Main>.inst.GetNewTarget(this)); //TODO!
-			}
-		}
+		if(targetSystem != null)
+			targetSystem.Tick (delta);
 
 		cacheTransform.position += velocity * delta;
 		cacheTransform.Rotate(Vector3.back, rotation*delta);

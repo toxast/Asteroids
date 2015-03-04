@@ -29,6 +29,8 @@ public class BulletAdapter : IBullet
 		go.Tick (delta);
 	}
 
+	public IPolygonGameObject target{get{return go.target;}}
+
 	public GameObject gameObj{get{return go.gameObj;}}
 	public Polygon polygon{get{return go.polygon;}}
 	public Transform cacheTransform{get{return go.cacheTransform;}}

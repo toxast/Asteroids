@@ -15,6 +15,8 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	PolygonCreator.MeshDataUV meshUV{get; set;}
 	Material mat{get; set;}
 
+	IPolygonGameObject target{ get;}
+
 	//collision
 	int layer{get; set;}
 	int collision{get; set;}

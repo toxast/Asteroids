@@ -48,7 +48,7 @@ public class SpaceShip : PolygonGameObject
 	{
 		base.SetTarget (target);
 
-		var cnt = inputController as IGotTarget;
+		var cnt = inputController as IGotTarget; //TODO no as
 		if (cnt != null)
 			cnt.SetTarget (target);
 	}
