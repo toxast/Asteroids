@@ -53,7 +53,7 @@ public class RocketLauncher : Gun
 		base.SetBulletTarget (b);
 		if(Main.IsNull(target))
 		{
-			var t = Singleton<Main>.inst.GetNewMissileTarget(b as Missile);
+			var t = Singleton<Main>.inst.GetNewTarget(b as Missile);
 			if(t != null)
 			{
 				b.SetTarget (t);

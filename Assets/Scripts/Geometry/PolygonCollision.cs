@@ -101,6 +101,13 @@ public static class PolygonCollision
 	static private float ApplyCollision(IPolygonGameObject aobj, Polygon a, int aVertex,
 	                                    IPolygonGameObject bobj, Polygon b)
 	{
+
+		if(a.IsIneriorVertex(aVertex))
+		{
+			//Debug.LogError("IsIneriorVertex");
+			return 0f;
+		}
+
 		var v0 = a.vertices[a.Previous(aVertex)];
 		var v1 = a.vertices[aVertex];
 		var v2 = a.vertices[a.Next(aVertex)];
@@ -109,7 +116,7 @@ public static class PolygonCollision
 		var intersections = Intersection.GetIntersections(e, b.edges);
 		if(intersections.Count == 0)
 		{	
-			Debug.LogError("intersections.Count == 0");
+			//Debug.LogError("intersections.Count == 0");
 			return 0f;
 		}
 		

@@ -1194,7 +1194,7 @@ public class Main : MonoBehaviour
 	}
 
 
-	public IPolygonGameObject GetNewMissileTarget(Missile g)
+	public IPolygonGameObject GetNewTarget(SpaceShip g)
 	{
 		int enemyLayer = 0;
 		if (g.layer == 1 << GlobalConfig.ilayerBulletsUser)
@@ -1253,10 +1253,10 @@ public class Main : MonoBehaviour
 	}
 
 	//the more the value the better target is
-	private float GetCloseValue(Missile g, Vector2 dir)
+	private float GetCloseValue(SpaceShip s, Vector2 dir)
 	{
-		var angle = Math2d.DeltaAngleGRAD( Math2d.GetRotationG(dir), Math2d.GetRotationG(g.cacheTransform.right));
-		float time2rotate = Mathf.Abs(angle) / g.turnSpeed;
+		var angle = Math2d.DeltaAngleGRAD( Math2d.GetRotationG(dir), Math2d.GetRotationG(s.cacheTransform.right));
+		float time2rotate = Mathf.Abs(angle) / s.turnSpeed;
 		return 1000f / (dir.magnitude * time2rotate);
 	}
 

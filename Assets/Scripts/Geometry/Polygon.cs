@@ -345,14 +345,11 @@ public class Polygon
 		}
 		
 		//find vertex
-		for (int i = 1; i < circulatedVertices.Length-1; i++) 
+		for (int i = 0; i < vertices.Length; i++) 
 		{
-			Vector2 a = circulatedVertices[i] - circulatedVertices[i-1];
-			Vector2 b = circulatedVertices[i+1] - circulatedVertices[i];
-			float rotate = Math2d.Cross(ref a, ref b);
-			if(rotate > 0)
+			if(IsIneriorVertex(i))
 			{
-				interiors.Add(i-1);
+				interiors.Add(i);
 			}
 		}
 
@@ -360,6 +357,14 @@ public class Polygon
 		interiorVerticesCount = interiors.Count;
 
 		return interiors;
+	}
+
+	public bool IsIneriorVertex(int i)
+	{
+		Vector2 a = circulatedVertices[i+1] - circulatedVertices[i];
+		Vector2 b = circulatedVertices[i+2] - circulatedVertices[i+1];
+		float rotate = Math2d.Cross(ref a, ref b);
+		return (rotate > 0);
 	}
 
 	private List<Vector2[]> SplitByInteriorVertex(int interiorIndx)

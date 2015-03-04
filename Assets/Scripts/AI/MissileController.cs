@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class MissileController : InputController, IGotTarget
 {
-	IPolygonGameObject thisShip;
+	SpaceShip thisShip;
 	IPolygonGameObject target;
 	bool shooting = false;
 	bool accelerating = false;
@@ -13,7 +13,7 @@ public class MissileController : InputController, IGotTarget
 
 	float maxVelocity;
 
-	public MissileController(IPolygonGameObject thisShip, float maxVelocity)
+	public MissileController(SpaceShip thisShip, float maxVelocity)
 	{
 		this.maxVelocity = maxVelocity;
 		this.thisShip = thisShip;
@@ -28,7 +28,7 @@ public class MissileController : InputController, IGotTarget
 		bool haveTargetNow = !Main.IsNull (target);
 		if(!haveTargetNow && hadTarget)
 		{
-			thisShip.SetTarget(Singleton<Main>.inst.GetNewMissileTarget(thisShip as Missile));
+			thisShip.SetTarget(Singleton<Main>.inst.GetNewTarget(thisShip)); //todo fix as
 		}
 
 		hadTarget = haveTargetNow;
