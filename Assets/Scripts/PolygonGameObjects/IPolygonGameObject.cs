@@ -31,6 +31,8 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	event Action<float> healthChanged;
 	bool IsKilled();
 
+	bool destroyOnBoundsTeleport{get; set;}
+
 	List<Gun> guns{get; set;}
 	
 	DropID dropID{get; set;}

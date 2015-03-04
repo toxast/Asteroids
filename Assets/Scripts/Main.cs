@@ -20,11 +20,8 @@ public class Main : MonoBehaviour
 	[SerializeField] TabletInputController tabletController;
 	UserSpaceShip spaceship;
 	List <IPolygonGameObject> gobjects = new List<IPolygonGameObject>();
-	//List <PolygonGameObject> enemies = new List<PolygonGameObject>();
-	//List <PolygonGameObject> asteroids = new List<PolygonGameObject>();
 	List <polygonGO.Drop> drops = new List<polygonGO.Drop>();
 	List <IBullet> bullets = new List<IBullet>();
-	//List <BulletBase> enemyBullets = new List<BulletBase>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
 	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
@@ -51,15 +48,16 @@ public class Main : MonoBehaviour
 
 	private event Action moveCameraAction;
 	[SerializeField] bool boundsMode = true; 
-	//TODO: reposition ship if faraway
 	//TODO: stars Clusters for faster check
 
 	void Awake()
 	{
+#if UNITY_STANDALONE
 		if (cursorTexture != null)
 		{
 			Cursor.SetCursor (cursorTexture, new Vector2(cursorTexture.width/2f, cursorTexture.height/2f), CursorMode.Auto);
 		}
+#endif
 
 		if(boundsMode)
 		{
@@ -143,11 +141,11 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 		int rogues = UnityEngine.Random.Range(0, 1);
-		int saws = UnityEngine.Random.Range(0, 1);
+		int saws = UnityEngine.Random.Range(1, 7);
 		int evades = UnityEngine.Random.Range(0, 1);
 		int tanks = UnityEngine.Random.Range(0, 1);
-		int spikies = UnityEngine.Random.Range(0, 1);
-		int asteroidsNum = UnityEngine.Random.Range(0, 1);
+		int spikies = UnityEngine.Random.Range(1, 4);
+		int asteroidsNum = UnityEngine.Random.Range(5, 20);
 
 		for (int i = 0; i < rogues; i++) 
 		{
@@ -211,6 +209,7 @@ public class Main : MonoBehaviour
 
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
+		spikePart.destroyOnBoundsTeleport = true;
 		Add2Objects (spikePart);
 	}
 
@@ -783,7 +782,11 @@ public class Main : MonoBehaviour
 		{
 			for (int i = 0; i < list.Count ; i++)
 			{
-				CheckBounds(list[i]);
+				var wrapped = CheckBounds(list[i]);
+				if(wrapped && list[i].destroyOnBoundsTeleport)
+				{
+					list[i].Kill();
+				}
 			}
 		}
 		else
@@ -791,7 +794,13 @@ public class Main : MonoBehaviour
 			for (int i = 0; i < list.Count ; i++)
 			{
 				if(list[i] != null)
-					CheckBounds(list[i]);
+				{
+					var wrapped = CheckBounds(list[i]);
+					if(wrapped && list[i].destroyOnBoundsTeleport)
+					{
+						list[i].Kill();
+					}
+				}
 			}
 		}
 	}
@@ -824,7 +833,11 @@ public class Main : MonoBehaviour
 		{
 			for (int i = 0; i < list.Count ; i++)
 			{
-				Wrap(list[i].cacheTransform);
+				var wrapped = Wrap(list[i].cacheTransform);
+				if(wrapped && list[i].destroyOnBoundsTeleport)
+				{
+					list[i].Kill();
+				}
 			}
 		}
 		else
@@ -832,7 +845,13 @@ public class Main : MonoBehaviour
 			for (int i = 0; i < list.Count ; i++)
 			{
 				if(list[i] != null)
-					Wrap(list[i].cacheTransform);
+				{
+					var wrapped = Wrap(list[i].cacheTransform);
+					if(wrapped && list[i].destroyOnBoundsTeleport)
+					{
+						list[i].Kill();
+					}
+				}
 			}
 		}
 	}
@@ -854,54 +873,66 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void CheckBounds(IPolygonGameObject p)
+	private bool CheckBounds(IPolygonGameObject p)
 	{
 		Vector3 pos = p.cacheTransform.position;
 		float R = p.polygon.R;
+		bool repositioned = false;
 
 		if(pos.x - R > screenBounds.xMax)
 		{
 			p.cacheTransform.position = p.cacheTransform.position.SetX(screenBounds.xMin - R);
+			repositioned = true;
 		}
 		else if(pos.x + R < screenBounds.xMin)
 		{
 			p.cacheTransform.position = p.cacheTransform.position.SetX(screenBounds.xMax + R);
+			repositioned = true;
 		}
 
 		if(pos.y + R < screenBounds.yMin)
 		{
 			p.cacheTransform.position = p.cacheTransform.position.SetY(screenBounds.yMax + R);
+			repositioned = true;
 		}
 		else if(pos.y - R > screenBounds.yMax)
 		{
 			p.cacheTransform.position = p.cacheTransform.position.SetY(screenBounds.yMin - R);
+			repositioned = true;
 		}
+		return repositioned;
 	}
 
-	private void Wrap(Transform t)
+	private bool Wrap(Transform t)
 	{
 		Vector2 center = Camera.main.transform.position;
 		Vector2 pos = t.position;
 		float rHorisontal = screenBounds.width/2;
 		float rVertical = screenBounds.height/2;
-		
+		bool wrapped = false;
+
 		if(pos.x > center.x + rHorisontal)
 		{
 			t.position = t.position.SetX(pos.x - 2*rHorisontal);
+			wrapped = true;
 		}
 		else if(pos.x < center.x - rHorisontal)
 		{
 			t.position = t.position.SetX(pos.x + 2*rHorisontal);
+			wrapped = true;
 		}
 		
 		if(pos.y > center.y + rVertical)
 		{
 			t.position = t.position.SetY(pos.y - 2*rVertical);
+			wrapped = true;
 		}
 		else if(pos.y < center.y - rVertical)
 		{
 			t.position = t.position.SetY(pos.y + 2*rVertical);
+			wrapped = true;
 		}
+		return wrapped;
 	}
 
 
@@ -1202,7 +1233,7 @@ public class Main : MonoBehaviour
 		else if(g.layer == 1 << GlobalConfig.ilayerBulletsEnemies)
 			enemyLayer = 1 << GlobalConfig.ilayerTeamUser | 1 << GlobalConfig.ilayerUser;
 
-		float enemyDetectionRSqr = 300 * 300; 
+		float enemyDetectionRSqr = 100 * 100; 
 
 		var pos = g.position;
 		int indx = -1;
@@ -1262,6 +1293,7 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * camera shake on explosions
 	 * explosions on check death causes new death ....
 	 * sky texture?
 	 * user rockets
