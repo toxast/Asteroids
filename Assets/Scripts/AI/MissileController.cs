@@ -19,7 +19,7 @@ public class MissileController : InputController, IGotTarget
 		this.thisShip = thisShip;
 	}
 
-	bool hadTarget = false;
+	//bool hadTarget = false;
 	public void Tick(PolygonGameObject p)
 	{
 		shooting = false;

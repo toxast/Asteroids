@@ -34,6 +34,7 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	bool IsKilled();
 
 	bool destroyOnBoundsTeleport{get; set;}
+	PolygonGameObject.DestructionType destructionType{get; set;}
 
 	List<Gun> guns{get; set;}
 	

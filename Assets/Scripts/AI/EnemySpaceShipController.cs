@@ -127,7 +127,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 			{
 				accelerating = false;
 				shooting = false;
-				//TODO: break
+				braking = true;
 			}
 			yield return new WaitForSeconds(0f);
 			leftUntilCheck -= Time.deltaTime;

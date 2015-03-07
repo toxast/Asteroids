@@ -242,6 +242,7 @@ public class ObjectsCreator
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 		
 		Gasteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Gasteroid>(vertices, Singleton<GlobalConfig>.inst.GasteroidColor);
+		asteroid.destructionType = PolygonGameObject.DestructionType.eComplete;
 		DeathAnimation.MakeDeathForThatFellaYo (asteroid, true);
 		asteroid.deathAnimation.finalExplosionPowerKoeff = 1.3f;
 		asteroid.SetCollisionLayerNum (GlobalConfig.ilayerAsteroids);

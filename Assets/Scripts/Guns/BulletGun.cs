@@ -12,7 +12,8 @@ public class BulletGun : Gun
 
 		Math2d.PositionOnShooterPlace(bullet.cacheTransform, place, parent.cacheTransform);
 		//PositionOnShooterPlace (bullet.cacheTransform);
-		
+		bullet.destroyOnBoundsTeleport = true;
+		bullet.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 		bullet.gameObject.name = "bullet";
 		
 		bullet.Init(bulletSpeed, damage, lifeTime); 

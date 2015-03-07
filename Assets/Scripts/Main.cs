@@ -285,15 +285,15 @@ public class Main : MonoBehaviour
 
 		float dtime = Time.deltaTime;
 
-		if (slowTimeLeft > 0) 
-		{
-			slowTimeLeft -=  dtime;
-			enemyDtime = dtime/2f;
-		}
-		else
-		{
+//		if (slowTimeLeft > 0) 
+//		{
+//			slowTimeLeft -=  dtime;
+//			enemyDtime = dtime/2f;
+//		}
+//		else
+//		{
 			enemyDtime = dtime;
-		}
+//		}
 
 
 		if(penetrationTimeLeft > 0)
@@ -441,42 +441,20 @@ public class Main : MonoBehaviour
 
 	private void ObjectDeath(IPolygonGameObject gobject)
 	{
-		//TODO: refactor
-		if(gobject is Gasteroid)
-		{
-			SplitAsteroidAndMarkForDestructionAllParts(gobject);
-			
-			//TODO: refactor, do not make explosions on object death?
-//			List<PolygonGameObject> affected = new List<PolygonGameObject>();
-//			affected.Add(spaceship);
-//			affected.AddRange(gobjects);
-////			affected.AddRange(asteroids);
-////			affected.AddRange(enemies);
-//			new PhExplosion(gobject.cacheTransform.position, 8*gobject.mass, affected);
-//			var e = Instantiate(gasteroidExplosion) as ParticleSystem;
-//			e.transform.position = gobject.cacheTransform.position - new Vector3(0,0,1);
-//			e.transform.localScale = new Vector3(gobject.polygon.R, gobject.polygon.R, 1);
-//			ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
-//			PutOnFirstNullPlace(goDestructors, d); 
-		}
-		else if(gobject is IBullet)
-		{
-			var b = (gobject as IBullet);
-			if(b.breakOnDeath)
-			{
-				gobject.velocity /= 2f;
-				SplitAsteroidAndMarkForDestructionAllParts(gobject);
-			}
-			else if(b.layer == (int)GlobalConfig.eLayer.TEAM_ENEMIES)
-			{
-				SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
-			}
-		}
-		else
-		{
+		switch (gobject.destructionType) {
+		case PolygonGameObject.DestructionType.eNormal:
 			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
+			break;
+		case PolygonGameObject.DestructionType.eComplete:
+			SplitAsteroidAndMarkForDestructionAllParts(gobject);
+			break;
+		case PolygonGameObject.DestructionType.eJustDestroy:
+			break;
+		default:
+			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
+			break;
 		}
-		
+
 		//TODO: refactor
 		{
 			EnemySpaceShip esp = gobject as EnemySpaceShip;
@@ -580,7 +558,10 @@ public class Main : MonoBehaviour
 					obj.Hit(bullet.damage + GetCollisionDamage(impulse));
 				}
 
-				bullet.breakOnDeath = true;
+				if(bullet.destructionType == PolygonGameObject.DestructionType.eJustDestroy)
+				{
+					bullet.destructionType = PolygonGameObject.DestructionType.eComplete;
+				}
 				bullet.Kill();
 			}
 		}
@@ -695,19 +676,6 @@ public class Main : MonoBehaviour
 
 	private void Add2Objects(IPolygonGameObject p)
 	{
-//		if(p.layer == 0)
-//		{
-//			if(p is Asteroid)
-//			{
-//				p.SetCollisionLayerNum(GlobalConfig.ilayerAsteroids);
-//				//asteroids.Add(p);
-//			}
-//			else
-//			{
-//				p.SetCollisionLayerNum(GlobalConfig.ilayerTeamEnemies);
-//				//enemies.Add (p);
-//			}
-//		}
 		gobjects.Add (p);
 	}
 
@@ -739,6 +707,7 @@ public class Main : MonoBehaviour
 				if(wrapped && list[i].destroyOnBoundsTeleport)
 				{
 					list[i].Kill();
+					list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 				}
 			}
 		}
@@ -752,6 +721,7 @@ public class Main : MonoBehaviour
 					if(wrapped && list[i].destroyOnBoundsTeleport)
 					{
 						list[i].Kill();
+						list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 					}
 				}
 			}
@@ -790,6 +760,7 @@ public class Main : MonoBehaviour
 				if(wrapped && list[i].destroyOnBoundsTeleport)
 				{
 					list[i].Kill();
+					list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 				}
 			}
 		}
@@ -803,6 +774,7 @@ public class Main : MonoBehaviour
 					if(wrapped && list[i].destroyOnBoundsTeleport)
 					{
 						list[i].Kill();
+						list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 					}
 				}
 			}

@@ -24,6 +24,14 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public Vector3 velocity{ get; set;}
 	public float rotation{ get; set;}
 
+
+	public enum DestructionType
+	{
+		eNormal,
+		eComplete,
+		eJustDestroy,
+	}
+	public DestructionType destructionType{get; set;}
 	public bool destroyOnBoundsTeleport{get; set;}
 
 	protected float fullHealth;

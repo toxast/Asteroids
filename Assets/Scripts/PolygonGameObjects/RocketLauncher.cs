@@ -37,6 +37,8 @@ public class RocketLauncher : Gun
 		var controller = new MissileController (missile, missleParameters.maxSpeed);
 		missile.Init (damage, lifeTime);
 		missile.Init (missleParameters);
+		missile.destroyOnBoundsTeleport = true;
+		missile.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 		missile.SetController (controller);
 		missile.targetSystem = new TargetSystem (missile); //TODO
 		if(launchDirection != Vector2.zero)
