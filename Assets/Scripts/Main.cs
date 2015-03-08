@@ -897,7 +897,7 @@ public class Main : MonoBehaviour
 	public EnemySpaceShip CreateEnemySpaceShip(int indx)
 	{
 		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(indx);
-		enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
+		enemy.SetController (new FastSpaceshipAttackController (enemy, bullets, enemy.guns[0].bulletSpeed));
 
 		InitNewEnemy(enemy);
 		return enemy;
