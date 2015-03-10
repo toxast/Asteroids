@@ -81,11 +81,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 				else if(leftUntilCheck < 0)
 				{
 
-					if(bullets.Exists(b =>
-					                  b != null && 
-					                  (b.collision & thisShip.layer) != 0 && 
-					                  CheckForBulletCollision(b, dir)
-					                  ))
+					if(bullets.Exists(b => CheckForBulletCollision(b)))
 					{
 						leftUntilCheck = checkForBulletTime;
 						//yield return thisShip.StartCoroutine(Teleport());
@@ -135,14 +131,22 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		}
 	}
 
-	private bool CheckForBulletCollision(IBullet b, Vector2 dir)
+	private bool CheckForBulletCollision(IBullet b)
 	{
+		if (b == null)
+			return false;
+
+		if((b.collision & thisShip.layer) == 0)
+			return false;
+
+		Vector2 dir2thisShip = thisShip.position - b.position;
+
 		float angleVS = Math2d.AngleRAD2 (b.velocity, thisShip.velocity);
 		float cosVS = Mathf.Cos (angleVS);
 		if(cosVS < -0.9f)
 		{
-			var cos = Mathf.Cos(Math2d.AngleRAD2 (b.velocity, dir));
-			return cos  < -0.9f;
+			var cos = Mathf.Cos(Math2d.AngleRAD2 (b.velocity, dir2thisShip));
+			return cos  > 0.9f;
 		}
 
 		return false;
