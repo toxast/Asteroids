@@ -150,11 +150,11 @@ public class ObjectsCreator
 
 	public static TowerEnemy CreateTower()
 	{
-		float r = UnityEngine.Random.Range(3f, 4f);
-		int sides = UnityEngine.Random.Range(3, 6);
+		float r = UnityEngine.Random.Range(7f, 12f);
+		int sides = UnityEngine.Random.Range(5, 8);
 		
 		int[] cannons;
-		Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/5f, sides, out cannons);
+		Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/7f, sides, out cannons);
 		
 		var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, Singleton<GlobalConfig>.inst.towerEnemiesColor);
 		tower.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies);

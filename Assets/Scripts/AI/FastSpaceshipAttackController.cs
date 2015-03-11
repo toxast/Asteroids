@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,6 +21,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 
 	float accuracy = 0f;
 
+	int attacks = 0;
 
 	public FastSpaceshipAttackController(PolygonGameObject thisShip, List<IBullet> bullets, Gun gun)
 	{
@@ -32,7 +34,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 
 		float bulletDist = bulletsSpeed * bulletLifeTime;
 		comformDistanceMax = bulletDist;
-		comformDistanceMin = 30f;
+		comformDistanceMin = 30;
 	}
 	
 	public Vector2 TurnDirection ()
@@ -78,81 +80,121 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 				Vector2 dirNorm = dir/dist;
 				float vprojThis = Vector2.Dot(thisShip.velocity, dirNorm); //+ means towards other ship
 				float vprojTarget = Vector2.Dot(target.velocity, -dirNorm); //+ means towards other ship
-				float evadeSign = Mathf.Sign(Math2d.Cross2(target.velocity, dir));
+				float evadeSign = Mathf.Sign(Math2d.Cross2(target.velocity - thisShip.velocity, dir));
 
-//				if(!behaviourChosen)
-//				{
-//					if(dist < thisShip.polygon.R + target.polygon.R + 5 + 1*(vprojThis + vprojTarget))
-//					{
-//						behaviourChosen = true;
-//						//уклон от столкновения и атака
-//						//Debug.LogWarning("уклон и атака");
-//						float angle = UnityEngine.Random.Range(90-25, 90+25);
-//						var newDir = Math2d.RotateVertex(dirNorm, evadeSign * angle * Mathf.Deg2Rad);
-//						float duration = 0.5f;
-//						yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration)); //TODO: by maxV
-//						bool accelration = UnityEngine.Random.Range(-1f, 1f) > 0;
-//						duration = 1f;
-//						yield return thisShip.StartCoroutine(AimAttack(accelration, duration, accuracy));
-//					}
-//				}
-//
-//				if(!behaviourChosen)
-//				{
-//					foreach(var b in bullets)
-//					{
-//						if(BulletDanger(b))
-//						{
-//							behaviourChosen = true;
-//							var bulletDir =  b.position - thisShip.position;
-//							float bulletEvadeSign = Mathf.Sign(Math2d.Cross2(b.velocity, bulletDir));
-//							float angle = 90;
-//							var newDir = Math2d.RotateVertex(bulletDir.normalized, bulletEvadeSign * angle * Mathf.Deg2Rad);
-//							float duration = 0.5f;
-//							yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration));
-//							break;
-//						}
-//					}
-//				}
-//
-//				if(!behaviourChosen)
-//				{
-//					if(vprojThis > 0 && vprojTarget < 0) //этот догоняет свою цель
-//					{
-//						behaviourChosen = true;
-//						//Debug.LogWarning("атака сзади");
-//						//перехватывающий маневр и атака
-//						float angle = UnityEngine.Random.Range(-30, 60);
-//						float duration = 0.5f;
-//						var newDir =  Math2d.RotateVertex(dirNorm, (-evadeSign) * angle * Mathf.Deg2Rad); 
-//						yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration)); 
-//						bool accelration = UnityEngine.Random.Range(-1f, 1f) > 0;
-//						duration = 1f;
-//						yield return thisShip.StartCoroutine(AimAttack(accelration, duration, accuracy));
-//						shooting = false;
-//					}
-//					//TODO: rest behs
-//				}
+				if(!behaviourChosen)
+				{
+					if(dist < thisShip.polygon.R + target.polygon.R + 15 + 1.5*(vprojThis + vprojTarget))
+					{
+						//Debug.LogWarning("collision evade");
+						behaviourChosen = true;
+						//уклон от столкновения и атака
+						////Debug.LogWarning("уклон и атака");
+						float angle = UnityEngine.Random.Range(90-15, 90+25);
+						var newDir = Math2d.RotateVertex(dirNorm, evadeSign * angle * Mathf.Deg2Rad);
+						float duration = UnityEngine.Random.Range(0.5f, 1.5f);
+						yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration)); //TODO: by maxV
+						if(!Main.IsNull(target))
+						{
+							dir = target.position - thisShip.position;
+							if(dir.magnitude > comformDistanceMin)
+							{
+								//Debug.LogWarning("after collision attack");
+								duration = UnityEngine.Random.Range(0.8f, 1.6f);
+								yield return thisShip.StartCoroutine(AimAttack(false, duration, accuracy));
+							}
+						}
+					}
+				}
+
+				if(!behaviourChosen)
+				{
+					foreach(var b in bullets)
+					{
+						if(BulletDanger(b))
+						{
+							//Debug.LogWarning("bullet evade");
+							behaviourChosen = true;
+							var bulletDir =  b.position - thisShip.position;
+							float bulletEvadeSign = Mathf.Sign(Math2d.Cross2(b.velocity, bulletDir));
+							float angle = 90;
+							var newDir = Math2d.RotateVertex(bulletDir.normalized, bulletEvadeSign * angle * Mathf.Deg2Rad);
+							float duration = 0.7f;
+							yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration));
+							break;
+						}
+					}
+				}
 
 				if(!behaviourChosen)
 				{
 					behaviourChosen = true;
 					if(dist > comformDistanceMax || dist < comformDistanceMin)
 					{
-						float angle = -evadeSign * UnityEngine.Random.Range(10, 30);
+						float angle = 0;
+						float duration = 0;
+						if(dist > comformDistanceMax)
+						{
+							//Debug.LogWarning("far");
+							angle = UnityEngine.Random.Range(-30, 30);
+
+						}
+						else
+						{
+							//Debug.LogWarning("close");
+							angle = -evadeSign * UnityEngine.Random.Range(80, 100);
+						}
+						duration = UnityEngine.Random.Range(0.7f, 1.7f);
+
 						var dirFromTarget =  Math2d.RotateVertex(-dirNorm, angle * Mathf.Deg2Rad);  
 						dirFromTarget *= (comformDistanceMax + comformDistanceMin)/2f;
+						dirFromTarget *= UnityEngine.Random.Range(0.8f, 1.2f);
 						var newDir =  dir + dirFromTarget;
-						float duration = 0.5f;
-						Debug.DrawLine(thisShip.position, newDir); //TODO
+
 						yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration)); 
+						if(!Main.IsNull(target))
+						{
+							dir = target.position - thisShip.position;
+							if(dir.magnitude > comformDistanceMin)
+							{
+								//Debug.LogWarning("the attack");
+								yield return thisShip.StartCoroutine(AimAttack(false, 1f, accuracy));
+							}
+						}
 					}
 					else
 					{
-						yield return thisShip.StartCoroutine(AimAttack(false, 1f, accuracy));
+						if(attacks != 0 && (Math2d.Chance(0.3f) || attacks > 2))
+						{ 
+							//Debug.LogWarning("turn");
+
+							attacks = 0;
+
+							Vector2 newDir;
+							if(dist > (comformDistanceMax + comformDistanceMin)/2f)
+							{
+								float angle = UnityEngine.Random.Range(30, 80) * Mathf.Sign(UnityEngine.Random.Range(-1f, 1f));
+								newDir = Math2d.RotateVertex(dirNorm, angle * Mathf.Deg2Rad);
+							}
+							else
+							{
+								float angle = UnityEngine.Random.Range(80, 110);
+								newDir = Math2d.RotateVertex(dirNorm, evadeSign * angle * Mathf.Deg2Rad);
+							}
+							float duration =  UnityEngine.Random.Range(0.7f, 1.7f);
+							yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration)); //TODO: by maxV
+//							bool accelration = thisShip.velocity.magnitude < 3f;
+//							duration = 1f;
+//							yield return thisShip.StartCoroutine(AimAttack(accelration, duration, accuracy));
+						}
+						else
+						{
+							attacks++;
+							//Debug.LogWarning("AimAttack");
+							bool acc = thisShip.velocity.magnitude < 3f || dist > (comformDistanceMax*0.6f + comformDistanceMin*0.4f);
+							yield return thisShip.StartCoroutine(AimAttack(acc, 1f, accuracy));
+						}
 					}
-
-
 				}
 			}
 			else
@@ -186,6 +228,14 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 		braking = true;
 	}
 
+	private IEnumerator EvadeCollision(Vector2 dirNorm, float evadeSign)
+	{
+		float angle = UnityEngine.Random.Range(90-25, 90+25);
+		var newDir = Math2d.RotateVertex(dirNorm, evadeSign * angle * Mathf.Deg2Rad);
+		float duration = 0.5f;
+		yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration));
+	}
+
 	private IEnumerator SetState(Vector2 dir, bool accelerating, bool shooting, float duration)
 	{
 		turnDirection = dir;
@@ -215,7 +265,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 				}
 				accuracy += sameVelocityMesure*dtime/time2reachFullAccuracy;
 				accuracy = Mathf.Clamp(accuracy, 0, 1);
-				//Debug.LogWarning(accuracy);
+				////Debug.LogWarning(accuracy);
 				lastDir = target.velocity;
 			}
 			yield return new WaitForSeconds(dtime);

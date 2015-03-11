@@ -134,11 +134,11 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 		int rogues = UnityEngine.Random.Range(0, 1);
-		int saws = 0;//UnityEngine.Random.Range(1, 7);
+		int saws = UnityEngine.Random.Range(1, 7);
 		int evades = UnityEngine.Random.Range(0, 1);
 		int tanks = UnityEngine.Random.Range(0, 1);
-		int spikies = 1;//UnityEngine.Random.Range(1, 4);
-		int asteroidsNum = 0;//UnityEngine.Random.Range(5, 20);
+		int spikies = UnityEngine.Random.Range(1, 4);
+		int asteroidsNum = UnityEngine.Random.Range(5, 20);
 
 		for (int i = 0; i < rogues; i++) 
 		{
@@ -1130,43 +1130,43 @@ public class Main : MonoBehaviour
 		return target == null || target.cacheTransform == null;
 	}
 
-	public IPolygonGameObject GetNewTarget(IPolygonGameObject g)
-	{
-		if(g is SpaceShip)
-		{
-			return GetNewTarget(g as SpaceShip);
-		}
-		var pos = g.position;
-		float minDist = float.MaxValue;
-		int indx = -1;
-		for (int i = 0; i < gobjects.Count; i++)
-		{
-			var obj = gobjects[i];
-			if(((g.collision & obj.layer) != 0))
-			{
-				var distSqr = (obj.position - pos).sqrMagnitude;
-				if(distSqr < minDist)
-				{
-					minDist = distSqr;
-					indx = i;
-				}
-			}
-		}
-
-		if(indx >= 0)
-		{
-			return gobjects[indx];
-		}
-		else
-		{
-			if(!IsNull(spaceship) && (g.collision & spaceship.layer) != 0)
-			{
-				return spaceship;
-			}
-			//Debug.LogWarning("no target");
-			return null;
-		}
-	}
+//	public IPolygonGameObject GetNewTarget(IPolygonGameObject g)
+//	{
+//		if(g is SpaceShip)
+//		{
+//			return GetNewTarget(g as SpaceShip);
+//		}
+//		var pos = g.position;
+//		float minDist = float.MaxValue;
+//		int indx = -1;
+//		for (int i = 0; i < gobjects.Count; i++)
+//		{
+//			var obj = gobjects[i];
+//			if(((g.collision & obj.layer) != 0))
+//			{
+//				var distSqr = (obj.position - pos).sqrMagnitude;
+//				if(distSqr < minDist)
+//				{
+//					minDist = distSqr;
+//					indx = i;
+//				}
+//			}
+//		}
+//
+//		if(indx >= 0)
+//		{
+//			return gobjects[indx];
+//		}
+//		else
+//		{
+//			if(!IsNull(spaceship) && (g.collision & spaceship.layer) != 0)
+//			{
+//				return spaceship;
+//			}
+//			//Debug.LogWarning("no target");
+//			return null;
+//		}
+//	}
 
 	static public int GetEnemyLayer(int layer)
 	{
@@ -1187,57 +1187,7 @@ public class Main : MonoBehaviour
 		return enemyLayer;
 	}
 
-	public IPolygonGameObject GetNewTarget(SpaceShip g)
-	{
-		int enemyLayer = GetEnemyLayer (g.layer);
 
-		float enemyDetectionRSqr = 100 * 100; 
-
-		var pos = g.position;
-		int indx = -1;
-		float closeValue = 0;
-
-		for (int i = 0; i < gobjects.Count; i++)
-		{
-			var obj = gobjects[i];
-			if((g.collision & obj.layer) != 0)
-			{
-				var dir = obj.position - pos;
-				if(dir.sqrMagnitude < enemyDetectionRSqr)
-				{
-					float objCloseValue = GetCloseValue(g, dir) ;
-
-					//double importancy for enemies
-					if((obj.layer & enemyLayer) != 0)
-						objCloseValue *= 2f;
-
-					if(closeValue < objCloseValue)
-					{
-						indx = i;
-						closeValue = objCloseValue;
-					}
-				}
-			}
-		}
-
-
-		if(indx >= 0)
-		{
-			return gobjects[indx];
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	//the more the value the better target is
-	private float GetCloseValue(SpaceShip s, Vector2 dir)
-	{
-		var angle = Math2d.DeltaAngleGRAD( Math2d.GetRotationG(dir), Math2d.GetRotationG(s.cacheTransform.right));
-		float time2rotate = Mathf.Abs(angle) / s.turnSpeed;
-		return 1000f / (dir.magnitude * time2rotate);
-	}
 
 	/*
 	 * FUTURE UPDATES

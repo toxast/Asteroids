@@ -40,7 +40,7 @@ public class RocketLauncher : Gun
 		missile.destroyOnBoundsTeleport = true;
 		missile.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 		missile.SetController (controller);
-		missile.targetSystem = new TargetSystem (missile); //TODO
+		missile.targetSystem = new MissileTargetSystem (missile);
 		if(launchDirection != Vector2.zero)
 		{
 			float angle = Math2d.GetRotation(missile.cacheTransform.right);

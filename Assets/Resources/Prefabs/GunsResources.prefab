@@ -94,7 +94,7 @@ MonoBehaviour:
     color: {r: .139165208, g: .860294104, b: .502216458, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - damage: 3.5
-    lifeTime: 2
+    lifeTime: 1.29999995
     bulletSpeed: 60
     fireInterval: .600000024
     repeatCount: 0
@@ -228,7 +228,7 @@ MonoBehaviour:
       repeatCount: 2
       repeatInterval: .300000012
       vertices:
-      - {x: 1.1400497, y: 7.47183426e-10}
+      - {x: 1.1400497, y: 2.01847117e-09}
       - {x: .640049756, y: -.200000003}
       - {x: -.559950233, y: -.150000006}
       - {x: -.859950244, y: -.349999994}

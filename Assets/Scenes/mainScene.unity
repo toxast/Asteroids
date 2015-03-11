@@ -73,6 +73,7 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
+    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &319574955
 GameObject:
@@ -122,8 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoreReversedGraphics: 1
-  blockingObjects: 0
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -735,7 +736,7 @@ MonoBehaviour:
   tabletController: {fileID: 1381619135}
   borderWidth: 40
   starsDensity: 4
-  sceneSizeInCameras: {x: 2, y: 2}
+  sceneSizeInCameras: {x: 4, y: 4}
   boundsMode: 0
 --- !u!4 &1045239090
 Transform:
@@ -1538,7 +1539,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 80
+  orthographic size: 120
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

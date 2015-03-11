@@ -70,7 +70,7 @@ public class GlobalConfig : MonoBehaviour{
 		//layerUser
 		(int)(eLayer.TEAM_ENEMIES | eLayer.BULLETS_ENEMIES | eLayer.ASTEROIDS | eLayer.MISC), 
 		//layerTeamUser
-		(int)(eLayer.TEAM_ENEMIES | eLayer.BULLETS_ENEMIES | eLayer.ASTEROIDS), 	
+		(int)(eLayer.TEAM_ENEMIES | eLayer.BULLETS_ENEMIES), 	
 		//layerTeamEnemies
 		(int)eLayer.BULLETS_USER, //+ layerAsteroids, 
 		//layerBulletsUser
