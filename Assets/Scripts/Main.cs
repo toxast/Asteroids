@@ -9,13 +9,7 @@ public class Main : MonoBehaviour
 	[SerializeField] Texture2D cursorTexture;
 
 	[SerializeField] ParticleSystem dropAnimationPrefab;
-	[SerializeField] ParticleSystem thrustPrefab;
-	[SerializeField] ParticleSystem thrustPrefab2;
 	[SerializeField] ParticleSystem thrustBig;
-	[SerializeField] ParticleSystem explosion;
-	[SerializeField] ParticleSystem gasteroidExplosion;
-	[SerializeField] List<ParticleSystem> deathExplosions;
-	[SerializeField] List<ParticleSystem> finishExplosions;
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
 	UserSpaceShip spaceship;

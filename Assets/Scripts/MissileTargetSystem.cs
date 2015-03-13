@@ -98,7 +98,7 @@ public class MissileTargetSystem : ITickable
 				{
 					float objCloseValue = GetCloseValue(g, dir) ;
 					
-					//double importancy for enemies
+					//inc importancy for enemies
 					if((obj.layer & enemyLayer) != 0)
 						objCloseValue *= enemiesImportancy;
 					

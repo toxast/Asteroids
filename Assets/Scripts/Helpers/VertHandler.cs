@@ -116,16 +116,28 @@ public class VertHandler : MonoBehaviour
 
 		//ObjectsCreator.CreateSpaceShip<EnemySpaceShip> (sdata);
 	}
-	
-	private void Print(Vector2[] verts)
+
+	[ContextMenu ("Custom action")]
+	private void CustomAction()
 	{
-		string s = string.Empty;
-		foreach (var v in verts) 
+		Vector2[] v2 = new Vector2[handles.Count];    
+		for(int i = 0; i < handles.Count; i++)
 		{
-			s += string.Format("new Vector2 ({0:0.00}f, {1:0.00}f),", v.x, v.y);
-			s += '\n';
+			v2[i] = handles[i].transform.localPosition;    
 		}
-		Debug.LogWarning (s);
+		
+		var verts = PolygonCreator.GetCompleteVertexes (v2, 1).ToArray();
+		var pivot = Math2d.GetMassCenter (verts);
+		Math2d.ShiftVertices(verts, -pivot);
+		GunsResources.Instance.rocketLaunchers [5].baseData.vertices = verts;
+
+//		string s = string.Empty;
+//		foreach (var v in verts) 
+//		{
+//			s += string.Format("new Vector2 ({0:0.00}f, {1:0.00}f),", v.x, v.y);
+//			s += '\n';
+//		}
+//		Debug.LogWarning (s);
 	}
 
 
