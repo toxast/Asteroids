@@ -24,6 +24,11 @@ public class Gun : IGotTarget, ITickable
 
 	public event Action<IBullet> onFire;
 
+	public virtual float Range
+	{
+		get{return bulletSpeed*lifeTime;}
+	}
+
 	public Gun(Place place, GunData data, IPolygonGameObject parent)
 	{
 		this.place = place;
@@ -41,9 +46,6 @@ public class Gun : IGotTarget, ITickable
 		{
 			fireEffect = GameObject.Instantiate(data.fireEffect) as ParticleSystem;
 			Math2d.PositionOnShooterPlace(fireEffect.transform, place, parent.cacheTransform, true, -1);
-//			PositionOnShooterPlace(fireEffect.transform);
-//			fireEffect.transform.parent = parentTransform;
-//			fireEffect.transform.position -=  new Vector3(0,0,1);
 		}
 	}
 
@@ -57,11 +59,6 @@ public class Gun : IGotTarget, ITickable
 		if(timeToNextShot > 0)
 		{
 			timeToNextShot -= delta;
-//			if(timeToNextShot <= 0 && currentRepeat > 0)
-//			{
-//				currentRepeat--;
-//				timeToNextShot = 2*repeatInterval;
-//			}
 		}
 	}
 	
@@ -114,14 +111,7 @@ public class Gun : IGotTarget, ITickable
 
 	protected virtual void SetBulletLayer(IBullet b)
 	{
-		if(parent.layer == (int)GlobalConfig.eLayer.USER || parent.layer == (int)GlobalConfig.eLayer.TEAM_USER)
-		{
-			b.SetCollisionLayerNum(GlobalConfig.ilayerBulletsUser);
-		}
-		else if(parent.layer == (int)GlobalConfig.eLayer.TEAM_ENEMIES)
-		{
-			b.SetCollisionLayerNum(GlobalConfig.ilayerBulletsEnemies);
-		}
+		b.SetCollisionLayerNum(Main.GetBulletLayerNum(parent.layer));
 	}
 
 //	protected virtual void SetBulletTarget(IBullet b)

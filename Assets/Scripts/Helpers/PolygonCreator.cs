@@ -121,6 +121,13 @@ public static class PolygonCreator
 		};
 		MeshDataUV newMeshUV;
 		Mesh msh = CreatePolygonMesh(vrts, Color.red, null, out newMeshUV);
+		msh.uv = new Vector2[]
+		{
+			new Vector2 (0, 1),
+			new Vector2 (1, 1),
+			new Vector2 (1, 0),
+			new Vector2 (0, 0),
+		};
 		MeshRenderer renderer = g.AddComponent<MeshRenderer>();
 		MeshFilter filter = g.AddComponent(typeof(MeshFilter)) as MeshFilter;
 		filter.mesh = msh;

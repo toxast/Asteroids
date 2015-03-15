@@ -32,6 +32,7 @@ public class Main : MonoBehaviour
 	Rect flyZoneBounds;
 
 	public List <IPolygonGameObject> gObjects{get {return gobjects;}}
+	public List <IBullet> pBullets{get {return bullets;}}
 
 	[SerializeField] private float starsDensity = 5f;
 
@@ -1181,6 +1182,24 @@ public class Main : MonoBehaviour
 //			return null;
 //		}
 //	}
+
+	static public int GetBulletLayerNum(int parentLayer)
+	{
+		if(parentLayer == (int)GlobalConfig.eLayer.USER || parentLayer == (int)GlobalConfig.eLayer.TEAM_USER)
+		{
+			return GlobalConfig.ilayerBulletsUser;
+		}
+		else if(parentLayer == (int)GlobalConfig.eLayer.TEAM_ENEMIES)
+		{
+			return GlobalConfig.ilayerBulletsEnemies;
+		}
+		else
+		{
+			Debug.LogError("wtf layer");
+			return 0;
+		}
+	}
+
 
 	static public int GetEnemyLayer(int layer)
 	{

@@ -32,8 +32,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 		thisShip.StartCoroutine (Logic ());
 		thisShip.StartCoroutine (AccuracyChanger ());
 
-		float bulletDist = bulletsSpeed * bulletLifeTime;
-		comformDistanceMax = bulletDist;
+		comformDistanceMax = gun.Range;
 		comformDistanceMin = 30;
 	}
 	
@@ -97,7 +96,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 						if(!Main.IsNull(target))
 						{
 							dir = target.position - thisShip.position;
-							if(dir.magnitude > comformDistanceMin)
+							if(vprojThis < 0)
 							{
 								//Debug.LogWarning("after collision attack");
 								duration = UnityEngine.Random.Range(0.8f, 1.6f);

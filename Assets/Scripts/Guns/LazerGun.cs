@@ -17,10 +17,17 @@ public class LazerGun : Gun
 
 	float leftDuration = 0;
 
+	int layer = 0;
+
 	public LazerGun(Place place, LazerGunData data, IPolygonGameObject parent):base(place, data.baseData, parent)
 	{
 		distance = data.distance;
-		bulletSpeed = 100; //TODO: gun distance
+		bulletSpeed = Mathf.Infinity;
+	}
+
+	public override float Range
+	{
+		get{return distance;}
 	}
 
 	protected override IBullet CreateBullet ()
@@ -31,6 +38,7 @@ public class LazerGun : Gun
 			lTransform = lazer.transform;
 			lazerMesh = lazer.GetComponent<MeshFilter>().mesh;
 			Math2d.PositionOnShooterPlace (lTransform, place, parent.cacheTransform, true);
+			layer = 1 << Main.GetBulletLayerNum(parent.layer);
 		}
 		leftDuration = lifeTime;
 		return null;
@@ -58,8 +66,6 @@ public class LazerGun : Gun
 		Vector2 lazerDir = lTransform.right;
 		Vector2 perp = lTransform.up;
 		var lazerEdge = new Edge (lpos, lpos + lazerDir * distance);
-		Debug.DrawLine (lazerEdge.p1, lazerEdge.p2);
-		
 		
 		IPolygonGameObject hitObject = null;
 		Vector2 hitPlace = Vector2.zero;
@@ -70,6 +76,9 @@ public class LazerGun : Gun
 		{
 			var obj = objs[i];
 			if(parent == obj)
+				continue;
+
+			if((layer & obj.collision) == 0)
 				continue;
 			
 			var dir = obj.position - lpos;

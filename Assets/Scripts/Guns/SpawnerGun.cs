@@ -39,7 +39,7 @@ public class SpawnerGun : Gun
 		var obj = ObjectsCreator.CreateSpaceShip<EnemySpaceShip> (spaceshipIndex);
 		Math2d.PositionOnShooterPlace (obj.cacheTransform, place, parent.cacheTransform);
 		obj.gameObject.name += "_spawn";
-		obj.SetController (new EnemySpaceShipController (obj, new System.Collections.Generic.List<IBullet>(), obj.guns[0].bulletSpeed)); //TODO bullets
+		obj.SetController (new FastSpaceshipAttackController(obj, Singleton<Main>.inst.pBullets, obj.guns[0])); //TODO bullets
 		obj.targetSystem = new TargetSystem (obj);
 		//TODO: Guns Data refactor
 		var adapted =  new BulletAdapter(obj);
