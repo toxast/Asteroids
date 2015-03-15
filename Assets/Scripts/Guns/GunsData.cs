@@ -9,16 +9,28 @@ public class GunsData
 		switch (gdata.type) 
 		{
 			case GunSetupData.eGuns.BULLET:
+			{
 				 var gun1 = GunsResources.Instance.guns[gdata.index];
 				 return new BulletGun(gdata.place, gun1, t);
+			}
+
+			case GunSetupData.eGuns.LAZER:
+			{
+				var lz = GunsResources.Instance.lazerGuns[gdata.index];
+				return new LazerGun(gdata.place, lz, t);
+			}
 
 			case GunSetupData.eGuns.ROCKET:
+			{
 				var gun2 = GunsResources.Instance.rocketLaunchers[gdata.index];
 				return new RocketLauncher(gdata.place, gun2, t);
+			}
 
 			case GunSetupData.eGuns.SPAWNER:
+			{
 				var gun3 = GunsResources.Instance.spawnerGuns[gdata.index];
 				return new SpawnerGun(gdata.place, gun3, t);
+			}
 		}
 
 		return null;

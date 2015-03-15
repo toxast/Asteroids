@@ -52,7 +52,7 @@ public class Gun : IGotTarget, ITickable
 		this.target = target;
 	}
 
-	public void Tick(float delta)
+	public virtual void Tick(float delta)
 	{
 		if(timeToNextShot > 0)
 		{
@@ -98,7 +98,7 @@ public class Gun : IGotTarget, ITickable
 		}
 	}
 	
-	public void ShootIfReady()
+	public virtual void ShootIfReady()
 	{
 		if(ReadyToShoot())
 		{
@@ -129,7 +129,7 @@ public class Gun : IGotTarget, ITickable
 //
 //	}
 
-	protected void Fire(IBullet b)
+	protected virtual void Fire(IBullet b)
 	{
 		b.velocity += (Vector3)Main.AddSpipSpeed2TheBullet(parent);
 		SetBulletLayer (b);

@@ -27,10 +27,10 @@ public static class PolygonCollision
 		float r = a.polygon.R + b.polygon.R;
 		if (distance2d.sqrMagnitude <= r*r) 
 		{
-			Polygon aGlobal = GetPolygonInGlobalCoordinates (a);
-			Polygon bGlobal = GetPolygonInGlobalCoordinates (b);
+//			Polygon aGlobal = GetPolygonInGlobalCoordinates (a);
+//			Polygon bGlobal = GetPolygonInGlobalCoordinates (b);
 
-			collides = IsCollides (aGlobal, bGlobal, out indxa, out indxb);
+			collides = IsCollides (a.globalPolygon, b.globalPolygon, out indxa, out indxb);
 		}
 
 		//--------------------
@@ -47,7 +47,6 @@ public static class PolygonCollision
 		Vector2[] verticesA = Math2d.RotateVerticesRAD(a.polygon.vertices, angle);
 		Math2d.ShiftVertices(verticesA, a.cacheTransform.position);
 		Polygon aRotated = new Polygon(verticesA, a.cacheTransform.position);
-		//aRotated.SetMassCenter (a.cacheTransform.position);
 		return aRotated;
 	}
 
@@ -83,16 +82,16 @@ public static class PolygonCollision
 	//returns impulse of collision
 	static public float ApplyCollision(IPolygonGameObject aobj, IPolygonGameObject bobj, int aVertex, int bVertex)
 	{
-		Polygon a = GetPolygonInGlobalCoordinates(aobj);
-		Polygon b = GetPolygonInGlobalCoordinates(bobj);
+//		Polygon a = GetPolygonInGlobalCoordinates(aobj);
+//		Polygon b = GetPolygonInGlobalCoordinates(bobj);
 		//find edge
 		if(aVertex >= 0)
 		{ 
-			return ApplyCollision(aobj, a, aVertex, bobj, b);
+			return ApplyCollision(aobj, aobj.globalPolygon, aVertex, bobj, bobj.globalPolygon);
 		}
 		else if(bVertex >= 0)
 		{
-			return ApplyCollision(bobj, b, bVertex, aobj, a);
+			return ApplyCollision(bobj, bobj.globalPolygon, bVertex, aobj, aobj.globalPolygon);
 		}
 
 		return 0;
@@ -176,8 +175,8 @@ public static class PolygonCollision
 
 	static public void ApplyImpulse(IPolygonGameObject p, Vector2 Ppos, Vector2 P)
 	{
-		Polygon a = GetPolygonInGlobalCoordinates(p);
-		Vector2 dir2p = a.massCenter - Ppos;
+//		Polygon a = GetPolygonInGlobalCoordinates(p);
+		Vector2 dir2p = p.position - Ppos;
 		dir2p.Normalize ();
 		float Pvelocity = Math2d.DotProduct (ref dir2p, ref P);
 		Vector3 up = Vector3.Cross (P, dir2p);

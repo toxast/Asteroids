@@ -33,6 +33,7 @@ public class BulletAdapter : IBullet
 
 	public GameObject gameObj{get{return go.gameObj;}}
 	public Polygon polygon{get{return go.polygon;}}
+	public Polygon globalPolygon{get{return go.globalPolygon;} set{go.globalPolygon = value;}}
 	public Transform cacheTransform{get{return go.cacheTransform;}}
 	public Vector2 position{get{return go.position;} set{go.position = value;}}
 	public Color GetColor()

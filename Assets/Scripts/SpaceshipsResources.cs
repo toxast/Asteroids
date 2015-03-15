@@ -13,4 +13,18 @@ public class SpaceshipsResources : ResourceSingleton<SpaceshipsResources>
 	{
 		spaceships.Add (spaceships [clone].Clone());
 	}
+
+
+	[ContextMenu ("sort")]
+	void SortIt () 
+	{
+		spaceships.Sort ((a,b) => 
+				{
+					float aArea;
+					Math2d.GetMassCenter (a.verts, out aArea);
+					float bArea;
+					Math2d.GetMassCenter (b.verts, out bArea);
+					return aArea.CompareTo(bArea);
+				});
+	}
 }

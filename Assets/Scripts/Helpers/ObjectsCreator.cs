@@ -32,9 +32,9 @@ public class ObjectsCreator
 		return spaceship;
 	}
 
-	public static UserSpaceShip CreateSpaceShip(InputController contorller)
+	public static UserSpaceShip CreateSpaceShip(InputController contorller, int indx)
 	{
-		var spaceship = ObjectsCreator.CreateSpaceShip<UserSpaceShip> (31);
+		var spaceship = ObjectsCreator.CreateSpaceShip<UserSpaceShip> (indx);
 		spaceship.SetCollisionLayerNum (GlobalConfig.ilayerUser);
 		spaceship.collector = new DropCollector (0.15f, 20f);
 		spaceship.SetColor (Color.blue);

@@ -7,6 +7,7 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 {
 	GameObject gameObj{get;}
 	Polygon polygon{get;}
+	Polygon globalPolygon{get; set;}
 	Transform cacheTransform{get;}
 	Vector2 position{get; set;}
 

@@ -6,6 +6,7 @@ public class oldGUI : MonoBehaviour {
 	[SerializeField] Main main;
 	string shipNum = string.Empty;
 	string shipNum2 = string.Empty;
+	public string userShipNum = "5";
 	void OnGUI()
 	{
 		int starty = 20;
@@ -86,6 +87,8 @@ public class oldGUI : MonoBehaviour {
 			main.CreateFriendSpaceShip(int.Parse(shipNum2));
 		}
 	
+		y += height + margine;
+		userShipNum = GUI.TextField (new Rect (x + 200, y, width - 20, height), userShipNum);
 		y += height + margine;
 
 		if(GUI.Button(new Rect(x, y, width+30, height), "enemy spaceship 2"))

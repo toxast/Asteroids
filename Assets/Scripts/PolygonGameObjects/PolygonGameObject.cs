@@ -8,6 +8,8 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	//basic
 	public GameObject gameObj{get{return gameObject;}}
 	public Polygon polygon{ get; private set;}
+
+	public Polygon globalPolygon{get; set;}
 	public Transform cacheTransform{ get; private set;}
 	public Mesh mesh;
 	public PolygonCreator.MeshDataUV meshUV{ get; set;}

@@ -108,7 +108,45 @@ public static class PolygonCreator
 		gamePolygon.mesh = filter.mesh;
 	}
 
-	private static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color, MeshDataUV meshD, out MeshDataUV newMeshUV)
+	public static GameObject CreateLazerGO()
+	{
+		var mat = defaultMaterial;
+		GameObject g = new GameObject("lazer");
+		var vrts = new Vector2[]
+		{
+			new Vector2(10, 1),
+			new Vector2(10, -1),
+			new Vector2(0, -1),
+			new Vector2(0, 1),
+		};
+		MeshDataUV newMeshUV;
+		Mesh msh = CreatePolygonMesh(vrts, Color.red, null, out newMeshUV);
+		MeshRenderer renderer = g.AddComponent<MeshRenderer>();
+		MeshFilter filter = g.AddComponent(typeof(MeshFilter)) as MeshFilter;
+		filter.mesh = msh;
+//		gamePgolygon.mat = mat;
+		renderer.sharedMaterial = mat;
+		renderer.castShadows = false;
+		renderer.receiveShadows = false;
+//		gamePolygon.mesh = filter.mesh;
+
+		return g;
+	}
+
+	public static void ChangeLazerMesh(Mesh m, float dist, float width)
+	{
+		var vrts = new Vector3[]
+		{
+			new Vector3(dist, width/2f, 0),
+			new Vector3(dist, -width/2f, 0),
+			new Vector3(0, -width/2f, 0),
+			new Vector3(0, width/2f, 0),
+		};
+		m.vertices = vrts;
+		m.RecalculateBounds ();
+	}
+
+	public static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color, MeshDataUV meshD, out MeshDataUV newMeshUV)
 	{
 		// Use the triangulator to get indices for creating triangles
 		Triangulator tr = new Triangulator(vertices2D);

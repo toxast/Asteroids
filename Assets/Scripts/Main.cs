@@ -12,7 +12,8 @@ public class Main : MonoBehaviour
 	[SerializeField] ParticleSystem thrustBig;
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
-	UserSpaceShip spaceship;
+	[SerializeField] oldGUI oldGUI;
+ 	UserSpaceShip spaceship;
 	List <IPolygonGameObject> gobjects = new List<IPolygonGameObject>();
 	List <polygonGO.Drop> drops = new List<polygonGO.Drop>();
 	List <IBullet> bullets = new List<IBullet>();
@@ -308,6 +309,11 @@ public class Main : MonoBehaviour
 		TickObjects (powerUps, enemyDtime);
 		TickObjects (drops, enemyDtime);
 
+		CalculateGlobalPolygons (bullets);
+		CalculateGlobalPolygons (gobjects);
+		CalculateGlobalPolygons (powerUps);
+		CalculateGlobalPolygons (drops);
+
 		if(boundsMode)
 		{
 			CheckBounds(bullets, true);
@@ -399,6 +405,20 @@ public class Main : MonoBehaviour
 		CheckDeadObjects (gobjects);
 		CheckDeadObjects (drops);
 		CheckDeadObjects (bullets, true);
+	}
+
+
+	private void CalculateGlobalPolygons<T> (List<T> objs)
+		where T: IPolygonGameObject
+	{
+		for (int k = objs.Count - 1; k >= 0; k--)
+		{
+			var obj = objs[k];
+			if(obj != null)
+			{
+				obj.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates(obj);
+			}
+		}
 	}
 
 	private void CheckDeadObjects<T> (List<T> objs, bool nullCheck = false)
@@ -864,7 +884,7 @@ public class Main : MonoBehaviour
 		tabletController.Init();
 		controller = tabletController;
 		#endif
-		spaceship = ObjectsCreator.CreateSpaceShip (controller);
+		spaceship = ObjectsCreator.CreateSpaceShip (controller, int.Parse(oldGUI.userShipNum));
 		spaceship.guns.ForEach( g => g.onFire += HandleGunFire);
 		//spaceship.SetThruster (thrustPrefab2, Vector2.zero);
 		Add2Objects(spaceship);

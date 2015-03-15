@@ -116,7 +116,7 @@ MonoBehaviour:
       repeatCount: 0
       repeatInterval: 0
       vertices:
-      - {x: 1.1400497, y: 7.47183426e-10}
+      - {x: 1.1400497, y: 2.01847117e-09}
       - {x: .640049756, y: -.200000003}
       - {x: -.559950233, y: -.150000006}
       - {x: -.859950244, y: -.349999994}
@@ -295,6 +295,18 @@ MonoBehaviour:
       fireEffect: {fileID: 0}
     spaceshipIndex: 10
     maxSpawn: 2
+  lazerGuns:
+  - baseData:
+      damage: 20
+      lifeTime: 3
+      bulletSpeed: 0
+      fireInterval: 5
+      repeatCount: 0
+      repeatInterval: 0
+      vertices: []
+      color: {r: .875, g: .0836396813, b: .0836396813, a: 1}
+      fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
+    distance: 50
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

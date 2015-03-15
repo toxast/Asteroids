@@ -9,6 +9,7 @@ public class GunSetupData : IClonable<GunSetupData>
 		BULLET,
 		ROCKET,
 		SPAWNER,
+		LAZER,
 	}
 
 	public Place place;
