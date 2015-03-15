@@ -107,17 +107,18 @@ public class LazerGun : Gun
 			if(hitDistance <= distance)
 			{
 				hitObject.Hit(damage*delta);
+				if (fireEffect != null)
+				{
+					fireEffect.transform.position = hitPlace;
+					fireEffect.transform.right = -lazerDir;
+					fireEffect.Emit (1);
+				}
 			}
 		}
 
 		PolygonCreator.ChangeLazerMesh (lazerMesh, hitDistance, 0.5f);
 
-		if (fireEffect != null)
-		{
-			fireEffect.transform.position = hitPlace;
-			fireEffect.transform.right = -lazerDir;
-			fireEffect.Emit (1);
-		}
+
 	}
 
 

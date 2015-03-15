@@ -297,7 +297,7 @@ MonoBehaviour:
     maxSpawn: 2
   lazerGuns:
   - baseData:
-      damage: 20
+      damage: 30
       lifeTime: 3
       bulletSpeed: 0
       fireInterval: 5
