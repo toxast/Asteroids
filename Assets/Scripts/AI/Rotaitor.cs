@@ -19,8 +19,9 @@ public class Rotaitor
 	/// <summary>
 	/// Rotates passed transform in direction of aimAngle by shortes arc
 	/// aimAngle should be within [0, 360]
+	/// returns true if rotated on desired aimAngle
 	/// </summary>
-	public void Rotate(float dtime, float aimAngle)
+	public bool Rotate(float dtime, float aimAngle)
 	{
 		float deltaAngle = dtime * rotatingSpeed;
 		Vector3 currentAngles = transform.eulerAngles;
@@ -30,11 +31,13 @@ public class Rotaitor
 		if(Mathf.Abs(dangle) <= deltaAngle)
 		{
 			transform.rotation = Quaternion.Euler(currentAngles.SetZ(aimAngle));
+			return true;
 		}
 		else
 		{
 			deltaAngle *= Mathf.Sign(dangle);
 			transform.rotation = Quaternion.Euler(currentAngles + new Vector3(0, 0, deltaAngle));
+			return false;
 		}
 	}
 

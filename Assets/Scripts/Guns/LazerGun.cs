@@ -4,16 +4,27 @@ using System.Collections;
 public class LazerGun : Gun
 {
 	[System.Serializable]
-	public class LazerGunData 
+	public class LazerGunData : IClonable<LazerGunData>
 	{
 		public GunData baseData;
-		public float distance;
+		public float distance = 50f;
+		public float width = 0.5f;
+
+		public LazerGunData Clone()
+		{
+			LazerGunData r = new LazerGunData ();
+			r.baseData = baseData.Clone ();
+			r.distance = distance;
+			r.width = width; 
+			return r;
+		}
 	}
 
 	GameObject lazer;
 	Mesh lazerMesh;
 	Transform lTransform;
 	float distance;
+	float width;
 
 	float leftDuration = 0;
 
@@ -22,6 +33,7 @@ public class LazerGun : Gun
 	public LazerGun(Place place, LazerGunData data, IPolygonGameObject parent):base(place, data.baseData, parent)
 	{
 		distance = data.distance;
+		width = data.width;
 		bulletSpeed = Mathf.Infinity;
 	}
 
@@ -34,7 +46,7 @@ public class LazerGun : Gun
 	{
 		if(lazer == null)
 		{
-			lazer = PolygonCreator.CreateLazerGO();
+			lazer = PolygonCreator.CreateLazerGO(color);
 			lTransform = lazer.transform;
 			lazerMesh = lazer.GetComponent<MeshFilter>().mesh;
 			Math2d.PositionOnShooterPlace (lTransform, place, parent.cacheTransform, true);
@@ -90,10 +102,10 @@ public class LazerGun : Gun
 			if(dir.magnitude > distance + obj.polygon.R)
 				continue;
 			
-			if(obj.globalPolygon == null)
-			{
-				obj.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates(obj);
-			}
+//			if(obj.globalPolygon == null)
+//			{
+//				obj.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates(obj);
+//			}
 			var intersections = Intersection.GetIntersections(lazerEdge, obj.globalPolygon.edges);
 			foreach(var isc in intersections)
 			{
@@ -125,9 +137,7 @@ public class LazerGun : Gun
 			}
 		}
 
-		PolygonCreator.ChangeLazerMesh (lazerMesh, hitDistance, 0.5f);
-
-
+		PolygonCreator.ChangeLazerMesh (lazerMesh, hitDistance, width);
 	}
 
 

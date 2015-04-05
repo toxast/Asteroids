@@ -23,6 +23,12 @@ public class GunsResources : ResourceSingleton<GunsResources>
 		guns.Add (guns [clone].Clone());
 	}
 
+	[ContextMenu ("clone lazer")]
+	void CloneLazer () 
+	{
+		lazerGuns.Add (lazerGuns [clone].Clone());
+	}
+
 
 
 }

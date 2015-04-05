@@ -104,6 +104,7 @@ public class Main : MonoBehaviour
 				Vector2 pos = spaceship.position;
 				if(pos.magnitude > screenBounds.width*3)
 				{
+					Reposition(drops, pos, false);
 					Reposition(gobjects, pos, false);
 					Reposition(powerUps, pos, false);
 					Reposition(bullets, pos, true);
@@ -117,7 +118,7 @@ public class Main : MonoBehaviour
 					MoveCamera();
 				}
 			}
-			yield return new WaitForSeconds(5f);
+			yield return new WaitForSeconds(2f);
 		}
 	}
 
@@ -130,10 +131,10 @@ public class Main : MonoBehaviour
 		CreateSpaceShip();
 
 		int rogues = UnityEngine.Random.Range(0, 1);
-		int saws = UnityEngine.Random.Range(1, 7);
+		int saws = 0;//= UnityEngine.Random.Range(1, 7);
 		int evades = UnityEngine.Random.Range(0, 1);
 		int tanks = UnityEngine.Random.Range(0, 1);
-		int spikies = UnityEngine.Random.Range(1, 4);
+		int spikies = 0;//= UnityEngine.Random.Range(1, 4);
 		int asteroidsNum = UnityEngine.Random.Range(5, 20);
 
 		for (int i = 0; i < rogues; i++) 
@@ -691,6 +692,7 @@ public class Main : MonoBehaviour
 
 	private void Add2Objects(IPolygonGameObject p)
 	{
+		p.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates (p);
 		gobjects.Add (p);
 	}
 
@@ -1227,7 +1229,6 @@ public class Main : MonoBehaviour
 	 * poison asteroids
 	 * camera shake on explosions
 	 * sky texture?
-	 * target system
 	 * duplicating enemy or illusions enemy?
 	 * gravity shield
 	 * death refactor && missiles explosion on death
@@ -1237,7 +1238,6 @@ public class Main : MonoBehaviour
 	 * mine missiles
 	 * bullets shoot missiles?
 	 * shoot place levels
-	 * Lazers!
 	 * deflect shields
 	 * more efficeient stars render
 	 * fire enimies

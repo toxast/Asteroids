@@ -63,6 +63,20 @@ public static class PolygonCreator
 		}
 	}
 
+
+	private static Material _lazerMaterial;
+	public static Material lazerMaterial
+	{
+		get{
+			if(_lazerMaterial == null)
+			{
+				_lazerMaterial = Resources.Load("Materials/lazerMaterial", typeof(Material)) as Material;
+			}
+			return _lazerMaterial;
+		}
+	}
+
+
 	public static T CreatePolygonGOByMassCenter<T>(Vector2[] vertices, Color color, Material mat = null, MeshDataUV meshUV = null)
 		where T: PolygonGameObject
 	{
@@ -108,9 +122,9 @@ public static class PolygonCreator
 		gamePolygon.mesh = filter.mesh;
 	}
 
-	public static GameObject CreateLazerGO()
+	public static GameObject CreateLazerGO(Color col)
 	{
-		var mat = defaultMaterial;
+		var mat = lazerMaterial;
 		GameObject g = new GameObject("lazer");
 		var vrts = new Vector2[]
 		{
@@ -120,7 +134,7 @@ public static class PolygonCreator
 			new Vector2(0, 1),
 		};
 		MeshDataUV newMeshUV;
-		Mesh msh = CreatePolygonMesh(vrts, Color.red, null, out newMeshUV);
+		Mesh msh = CreatePolygonMesh(vrts, col, null, out newMeshUV);
 		msh.uv = new Vector2[]
 		{
 			new Vector2 (0, 1),

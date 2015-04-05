@@ -97,70 +97,6 @@ public class SpaceShip : PolygonGameObject
 		SetThrusters (tdatas);
 	}
 
-//	public void SetThruster(ParticleSystem p, Vector2 pos)
-//	{
-//		Place place = new Place
-//		{
-//			dir = new Vector2(1,0),
-//			pos = pos,
-//		};
-//		thrustPSystem = p;
-//
-//		Math2d.PositionOnShooterPlace (p.transform, place, cacheTransform, true, 1);
-////		thrustPSystem.gameObject.transform.parent = cacheTransform;
-////		Vector3 pos3 = pos;
-////		pos3.z = 1;
-////		thrustPSystem.gameObject.transform.localPosition = pos3;
-//
-//		defaultThrustLifetime = thrustPSystem.startLifetime;
-//		thrustPSystem.startLifetime = defaultThrustLifetime / 3f;
-//	}
-
-	private void TurnRight(float delta)
-	{	
-		float dRotation = turnSpeed * delta;
-		Turn (dRotation);
-	}
-
-	private void TurnLeft(float delta)
-	{
-		float dRotation = -turnSpeed * delta;
-		Turn (dRotation);
-	}
-
-	private void Turn(float dRotation)
-	{
-
-		if(rotation != 0)
-		{
-			float stability = 0.5f;
-			dRotation*= stability;
-
-			var dsign = Mathf.Sign (dRotation);
-			if(dsign != Mathf.Sign(rotation))
-			{
-				rotation += dRotation;
-				if(dsign == Mathf.Sign(rotation))
-				{
-					rotation = 0;
-				}
-			}
-			else
-			{
-				rotation -= dRotation;
-				if(dsign != Mathf.Sign(rotation))
-				{
-					rotation = 0;
-				}
-				cacheTransform.Rotate(Vector3.back, dRotation);
-			}
-		}
-		else
-		{
-			cacheTransform.Rotate(Vector3.back, dRotation);
-		}
-	}
-
 	public void Accelerate(float delta)
 	{
 		float k = 0.5f; 
@@ -184,12 +120,6 @@ public class SpaceShip : PolygonGameObject
 			newMagnitude = 0;
 
 		velocity = velocity.normalized * newMagnitude;
-
-		if(rotation != 0)
-		{
-			if(rotation > 0)  TurnLeft(delta);
-			else TurnRight(delta);
-		}
 	}
 
 	private void RestictSpeed()
@@ -276,20 +206,34 @@ public class SpaceShip : PolygonGameObject
 	private void TurnByDirection(Vector3 dir, float delta)
 	{
 		bool turnLeft = Mathf.Sign(Math2d.Cross2(dir, cacheTransform.right)) < 0;
-
-		if(rotation != 0)
+		var drot = turnSpeed * delta;
+		var r = Mathf.Abs (rotation);
+		if(r > turnSpeed)
 		{
-			if(turnLeft)
-				TurnLeft(delta);
+			if(r < turnSpeed + drot)
+			{
+				rotation = Mathf.Clamp(rotation, -turnSpeed, turnSpeed);
+			}
 			else
-				TurnRight(delta);
+			{
+				rotation = Mathf.Sign(rotation) * (r - drot);
+			}
+			base.ApplyRotation(delta);
 		}
 		else
 		{
+			rotation = turnLeft ? -turnSpeed : turnSpeed;
 			Rotaitor rotaitor = new Rotaitor(cacheTransform, turnSpeed);
 			var currentAimAngle = Math2d.GetRotation(dir) / Math2d.PIdiv180 ;
-			rotaitor.Rotate(delta, currentAimAngle);
+			bool reachedAngle = rotaitor.Rotate(delta, currentAimAngle);
+			if(reachedAngle)
+				rotation = 0;
 		}
+	}
+
+	protected override void ApplyRotation (float dtime)
+	{
+		//base.ApplyRotation (dtime);
 	}
 
 	public void Shoot()
