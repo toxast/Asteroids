@@ -244,7 +244,7 @@ public class SpaceShip : PolygonGameObject
 
 	protected override void ApplyRotation (float dtime)
 	{
-		//base.ApplyRotation (dtime);
+		//base.ApplyRotation (dtime); 
 	}
 
 	public void Shoot()

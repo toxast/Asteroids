@@ -67,7 +67,7 @@ public class SimpleTower : PolygonGameObject
 	
 	private IEnumerator Aim()
 	{
-		float aimInterval = (smartAim) ? 0.5f : 0f;
+		float aimInterval = 0;//(smartAim) ? 0.2f : 0f;
 		
 		while(true)
 		{

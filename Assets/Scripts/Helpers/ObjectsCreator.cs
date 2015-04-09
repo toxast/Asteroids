@@ -88,11 +88,13 @@ public class ObjectsCreator
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
 		turret.Init (smartAim);
+		turret.layer = parent.layer; //TODO
 		turret.SetAngleRestrictions(anglesRestriction);
+		turret.targetSystem = new TargetSystem (turret);
 		turret.guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) 
 		{
-			var gun = GunsData.GetGun(gunplace, parent);
+			var gun = GunsData.GetGun(gunplace, turret);
 			turret.guns.Add (gun);
 		}
 		parent.AddTurret(pos.place, turret);

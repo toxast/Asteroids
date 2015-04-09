@@ -108,6 +108,7 @@ public class TargetSystem : ITickable
 
 	private IPolygonGameObject GetClosestTarget()
 	{
+		//TODO: pass desired layer
 		int enemyLayer = Main.GetEnemyLayer (thisObj.layer);
 		
 		var pos = thisObj.position;

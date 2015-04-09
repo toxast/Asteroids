@@ -75,7 +75,7 @@ public class VertHandler : MonoBehaviour
 				var dataGuns = oIGotTurrets.iturrets.ConvertAll( t => t.place);
 				for (int i = 0; i < dataGuns.Count; i++) 
 				{
-					CreatePosition(dataGuns[i].pos, dataGuns[i].dir, "turret ", guns);
+					CreatePosition(dataGuns[i].pos, dataGuns[i].dir, "turret ", turrets);
 				}
 			}
 		}

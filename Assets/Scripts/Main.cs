@@ -1090,7 +1090,18 @@ public class Main : MonoBehaviour
 	private void InitNewEnemy(PolygonGameObject enemy)
 	{
 		enemy.guns.ForEach( g => g.onFire += HandleGunFire);
-		enemy.targetSystem = new TargetSystem (enemy);
+
+		if (enemy is SpaceShip) {
+			foreach (var t in (enemy as SpaceShip).turrets)
+			{
+				t.guns.ForEach( g => g.onFire += HandleGunFire);
+			}
+		}
+
+		//TODO:
+		if(!(enemy is Asteroid))
+			enemy.targetSystem = new TargetSystem (enemy);
+
 		SetRandomPosition(enemy);
 		Add2Objects(enemy);
 	}
@@ -1227,6 +1238,7 @@ public class Main : MonoBehaviour
 	/*
 	 * FUTURE UPDATES
 	 * turrets
+	 * lazer fix when target destroyed
 	 * destroy shaceship wrecks on bounds check?
 	 * faster rocket parts fade on hit?
 	 * ipad trampolines (2 if i recall correctly, about interfaces)
