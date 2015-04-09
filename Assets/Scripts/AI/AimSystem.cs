@@ -48,9 +48,7 @@ public class AimSystem
 			canShoot = t > 0;
 			if(canShoot)
 			{
-				direction = new Vector2();
-				direction.x = targetSpeed.x + dist.x/t;
-				direction.y = targetSpeed.y + dist.y/t;
+				direction = targetSpeed + dist/t;
 			}
 		}
 	}

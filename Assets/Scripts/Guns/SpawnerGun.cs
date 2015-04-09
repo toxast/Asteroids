@@ -36,7 +36,7 @@ public class SpawnerGun : Gun
 
 	protected override IBullet CreateBullet()
 	{
-		var obj = ObjectsCreator.CreateSpaceShip<EnemySpaceShip> (spaceshipIndex);
+		var obj = ObjectsCreator.CreateSpaceShip<SpaceShip> (spaceshipIndex);
 		Math2d.PositionOnShooterPlace (obj.cacheTransform, place, parent.cacheTransform);
 		obj.gameObject.name += "_spawn";
 		obj.SetController (new FastSpaceshipAttackController(obj, Singleton<Main>.inst.pBullets, obj.guns[0])); //TODO bullets

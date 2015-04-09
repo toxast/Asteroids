@@ -472,7 +472,7 @@ public class Main : MonoBehaviour
 
 		//TODO: refactor
 		{
-			EnemySpaceShip esp = gobject as EnemySpaceShip;
+			SpaceShip esp = gobject as SpaceShip;
 			if(esp != null)
 			{
 				foreach(var t in esp.turrets)
@@ -906,26 +906,24 @@ public class Main : MonoBehaviour
 			Add2Objects(bullet);
 			break;
 		}
-
 	}
 	
-	public EnemySpaceShip CreateEnemySpaceShip(int indx)
+	public SpaceShip CreateEnemySpaceShip(int indx)
 	{
-		var enemy = ObjectsCreator.CreateSpaceShip<EnemySpaceShip>(indx);
+		var enemy = ObjectsCreator.CreateSpaceShip<SpaceShip>(indx);
 		enemy.SetController (new FastSpaceshipAttackController (enemy, bullets, enemy.guns[0]));
-
 		InitNewEnemy(enemy);
 		return enemy;
 	}
 
-	public EnemySpaceShip CreateFriendSpaceShip(int indx)
+	public SpaceShip CreateFriendSpaceShip(int indx)
 	{
 		var e = CreateEnemySpaceShip (indx);
 		e.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
 		return e;
 	}
 	
-	public EnemySpaceShip CreateEnemySpaceShipBoss()
+	public SpaceShip CreateEnemySpaceShipBoss()
 	{
 		var enemy = ObjectsCreator.CreateBossEnemySpaceShip ();
 		//var gT = Instantiate (thrustBig) as ParticleSystem;
@@ -951,7 +949,8 @@ public class Main : MonoBehaviour
 			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
 			tenemy.SetAngleRestrictions(anglesRestriction1);
 			tenemy.guns.ForEach( g => g.onFire += HandleGunFire);
-			enemy.AddTurret (towerpos1, dir1, tenemy);
+			Place p1 = new Place(towerpos1, dir1);
+			enemy.AddTurret (p1, tenemy);
 		}
 		
 		{
@@ -970,7 +969,8 @@ public class Main : MonoBehaviour
 			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
 			tenemy.SetAngleRestrictions(anglesRestriction2);
 			tenemy.guns.ForEach( g => g.onFire += HandleGunFire);
-			enemy.AddTurret (towerpos2, dir2, tenemy);
+			Place p2 = new Place(towerpos2, dir2);
+			enemy.AddTurret (p2, tenemy);
 		}
 		
 		InitNewEnemy(enemy);
@@ -1224,11 +1224,15 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * turrets
+	 * destroy shaceship wrecks on bounds check?
+	 * faster rocket parts fade on hit?
+	 * ipad trampolines (2 if i recall correctly, about interfaces)
 	 * poison asteroids
 	 * camera shake on explosions
 	 * sky texture?
 	 * target system
-	 * duplicating enemy or illusions enemy?
+	 * duplicating enemy and illusions enemy?
 	 * gravity shield
 	 * death refactor && missiles explosion on death
 	 * explision by vertex

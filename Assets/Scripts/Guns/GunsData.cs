@@ -33,7 +33,7 @@ public class GunsData
 			}
 		}
 
-		return null;
+		return new GunPlaceholder();
 	}
 
 	public static BulletGun SimpleGun(Place gp, IPolygonGameObject t)

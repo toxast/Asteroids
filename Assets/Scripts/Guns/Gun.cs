@@ -29,6 +29,8 @@ public class Gun : IGotTarget, ITickable
 		get{return bulletSpeed*lifeTime;}
 	}
 
+	public Gun(){}
+
 	public Gun(Place place, GunData data, IPolygonGameObject parent)
 	{
 		this.place = place;

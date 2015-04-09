@@ -21,7 +21,7 @@ public class SpaceShip : PolygonGameObject
 		public float defaultLifetime;
 	}
 	List<Thruster> thrusters = new List<Thruster> ();
-
+	public List<PolygonGameObject> turrets = new List<PolygonGameObject>();
 //	ParticleSystem thrustPSystem; //TODO refactor
 //	float defaultThrustLifetime;
 
@@ -80,6 +80,12 @@ public class SpaceShip : PolygonGameObject
 			thrusterInstance.startLifetime = newThruster.defaultLifetime / 3f;
 			thrusters.Add(newThruster);
 		}
+	}
+
+	public void AddTurret(Place place, PolygonGameObject turret)
+	{
+		Math2d.PositionOnShooterPlace(turret.cacheTransform, place, cacheTransform, true, -1);
+		turrets.Add (turret);
 	}
 
 	public void SetThruster(ParticleSystem p, Vector2 pos)
@@ -216,6 +222,11 @@ public class SpaceShip : PolygonGameObject
 		//RestictSpeed ();
 
 		TickGuns (delta);
+
+		foreach (var t in turrets)
+		{
+			t.Tick(delta);
+		}
 
 		foreach(var th in thrusters)
 		{

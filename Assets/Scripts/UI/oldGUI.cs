@@ -6,7 +6,7 @@ public class oldGUI : MonoBehaviour {
 	[SerializeField] Main main;
 	string shipNum = string.Empty;
 	string shipNum2 = string.Empty;
-	public string userShipNum = "5";
+	public string userShipNum = "6";
 	void OnGUI()
 	{
 		int starty = 20;

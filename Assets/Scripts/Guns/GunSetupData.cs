@@ -2,19 +2,23 @@
 using System.Collections;
 
 [System.Serializable]
-public class GunSetupData : IClonable<GunSetupData>
+public class GunSetupData : IClonable<GunSetupData>, IGotPlace
 {
 	public enum eGuns
 	{
-		BULLET,
-		ROCKET,
-		SPAWNER,
-		LAZER,
+		None = 0,
+		BULLET = 1,
+		ROCKET = 2,
+		SPAWNER = 3,
+		LAZER = 4,
+		TURRET = 5,
 	}
 
 	public Place place;
 	public eGuns type;
 	public int index;
+
+	public Place pos {get {return place;} set{place = value;}}
 
 	public GunSetupData Clone()
 	{

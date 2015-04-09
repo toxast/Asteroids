@@ -41,7 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clone: 16
   spaceships:
-  - name: (21) fast spaceship
+  - name: 
     layer: 4
     color: {r: .613471031, g: .265679091, b: .669117689, a: 1}
     physicalParameters:
@@ -58,13 +58,14 @@ MonoBehaviour:
     - place:
         pos: {x: 1.61000001, y: 0}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -.00999999791, y: 0}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    turrets: []
     verts:
     - {x: 2.0999999, y: 0}
     - {x: -.399999976, y: -1}
@@ -91,17 +92,18 @@ MonoBehaviour:
     - place:
         pos: {x: .980368197, y: -8.37749781e-09}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: .0703681856, y: -8.37749781e-09}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
+    turrets: []
     verts:
     - {x: 1.15380228, y: -.468512028}
     - {x: .831700385, y: -1.22984397}
-    - {x: -.0196326077, y: -.74000001}
+    - {x: -.0196326263, y: -.74000001}
     - {x: -.629631639, y: -1.11000001}
     - {x: -1.64963186, y: -.689999998}
     - {x: -2.10963178, y: -.340000004}
@@ -112,7 +114,7 @@ MonoBehaviour:
     - {x: -2.10963178, y: .340000004}
     - {x: -1.64963186, y: .689999998}
     - {x: -.629631639, y: 1.11000001}
-    - {x: -.0196326077, y: .74000001}
+    - {x: -.0196326263, y: .74000001}
     - {x: .831700385, y: 1.22984397}
     - {x: 1.15380228, y: .468512028}
   - name: alien3
@@ -132,13 +134,14 @@ MonoBehaviour:
     - place:
         pos: {x: .126178741, y: 7.43517958e-09}
         dir: {x: 1, y: 0}
-      type: 1
+      type: 2
       index: 0
     thrusters:
     - place:
         pos: {x: -.41382122, y: 7.43517958e-09}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19817912, guid: d70207a7d5c351949a8989c8c1febc96, type: 2}
+    turrets: []
     verts:
     - {x: .353178799, y: -.550001323}
     - {x: -.0428216308, y: -.950001299}
@@ -160,7 +163,7 @@ MonoBehaviour:
     - {x: .672178566, y: 1.37}
     - {x: -.0428216308, y: .949998677}
     - {x: .353178799, y: .549998701}
-  - name: (8) a7
+  - name: 
     layer: 4
     color: {r: .926470578, g: .258866817, b: .659429312, a: 1}
     physicalParameters:
@@ -177,27 +180,28 @@ MonoBehaviour:
     - place:
         pos: {x: 1.39988971, y: -2.21817213e-08}
         dir: {x: 1, y: 0}
-      type: 3
+      type: 4
       index: 0
     thrusters:
     - place:
         pos: {x: -.700110257, y: -2.21817213e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    turrets: []
     verts:
-    - {x: 1.46675801, y: -.234256163}
+    - {x: 1.46675801, y: -.234256148}
     - {x: 1.32034802, y: -.570999026}
     - {x: .749348938, y: -.980947077}
-    - {x: .0319389664, y: -1.06879318}
+    - {x: .0319389552, y: -1.06879318}
     - {x: -.275521815, y: -1.71299696}
     - {x: -1.06613529, y: -1.22984397}
     - {x: -1.06613529, y: 1.22984397}
     - {x: -.275521815, y: 1.71299696}
-    - {x: .0319389664, y: 1.06879318}
+    - {x: .0319389552, y: 1.06879318}
     - {x: .749348938, y: .980947077}
     - {x: 1.32034802, y: .570999026}
-    - {x: 1.46675801, y: .234255865}
-  - name: a8
+    - {x: 1.46675801, y: .23425588}
+  - name: 
     layer: 4
     color: {r: .388948947, g: .485294104, b: .401573479, a: 1}
     physicalParameters:
@@ -212,20 +216,30 @@ MonoBehaviour:
       rechargeDelay: 0
     guns:
     - place:
-        pos: {x: 1.47937512, y: 1.13}
+        pos: {x: 1.30999994, y: 1.13}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
-        pos: {x: 1.47937512, y: -1.13}
+        pos: {x: 1.30999994, y: -1.13}
+        dir: {x: 1, y: 0}
+      type: 2
+      index: 0
+    - place:
+        pos: {x: .280000001, y: 1.80364346e-08}
         dir: {x: 1, y: 0}
       type: 0
       index: 0
     thrusters:
     - place:
-        pos: {x: -.410624981, y: 2.03001687e-08}
-        dir: {x: 1, y: 0}
+        pos: {x: -1.23000002, y: -.810000002}
+        dir: {x: .935395837, y: -.35360238}
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    - place:
+        pos: {x: -1.17999995, y: .730000019}
+        dir: {x: .935395658, y: .353602856}
+      thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    turrets: []
     verts:
     - {x: .291640908, y: -.330112696}
     - {x: 1.63567126, y: -.990338027}
@@ -238,8 +252,8 @@ MonoBehaviour:
     - {x: -.887333155, y: 1.48550725}
     - {x: 1.63567126, y: 1.3204509}
     - {x: 1.63567126, y: .990338027}
-    - {x: .291640908, y: .330112755}
-  - name: a5
+    - {x: .291640908, y: .330112696}
+  - name: 
     layer: 4
     color: {r: .860294104, g: .1454909, b: .1454909, a: 1}
     physicalParameters:
@@ -256,18 +270,19 @@ MonoBehaviour:
     - place:
         pos: {x: 1.09837937, y: 1.10000002}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 1.09837937, y: -1.10000002}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -.441620618, y: 7.93073429e-09}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
+    turrets: []
     verts:
     - {x: 1.03837931, y: -.519999981}
     - {x: 1.34837937, y: -.939999998}
@@ -275,7 +290,7 @@ MonoBehaviour:
     - {x: -.511620522, y: -2.05999994}
     - {x: -2.09162045, y: -2.00999999}
     - {x: -1.56162071, y: -1.5}
-    - {x: .00838017184, y: -1.28999996}
+    - {x: .00838017557, y: -1.28999996}
     - {x: .178380206, y: -.889999986}
     - {x: .0783801377, y: -.769999981}
     - {x: -.201619819, y: -.420000106}
@@ -286,14 +301,14 @@ MonoBehaviour:
     - {x: -.201619819, y: .419999868}
     - {x: .0783801377, y: .769999981}
     - {x: .178380206, y: .889999986}
-    - {x: .00838017184, y: 1.28999996}
+    - {x: .00838017557, y: 1.28999996}
     - {x: -1.56162071, y: 1.5}
     - {x: -2.09162045, y: 2.00999999}
     - {x: -.511620522, y: 2.05999994}
     - {x: 1.30837929, y: 1.53999996}
     - {x: 1.34837937, y: .939999998}
     - {x: 1.03837931, y: .519999981}
-  - name: (5) a4
+  - name: 
     layer: 4
     color: {r: .187337801, g: .772058845, b: .288151801, a: 1}
     physicalParameters:
@@ -310,43 +325,44 @@ MonoBehaviour:
     - place:
         pos: {x: 1.3611052, y: -.75}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 4
     - place:
         pos: {x: 1.3611052, y: .75}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 4
     thrusters:
     - place:
         pos: {x: -.288894892, y: -1.30963951e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: 1c5514a89d3bb4f459d1e8aad8c21c5c, type: 2}
+    turrets: []
     verts:
-    - {x: 1.58110499, y: -.230000272}
-    - {x: 1.3611052, y: -.750000119}
+    - {x: 1.58110499, y: -.230000526}
+    - {x: 1.3611052, y: -.750000358}
     - {x: .76110518, y: -1.53999996}
     - {x: -.498894542, y: -2.05999994}
     - {x: -1.96889496, y: -2.19000006}
     - {x: -1.47889495, y: -1.62}
     - {x: -.408894569, y: -1.17999995}
-    - {x: -.0188942105, y: -.840000093}
-    - {x: .441105455, y: -.420000225}
-    - {x: -.0888941959, y: -.17000027}
-    - {x: -1.0288949, y: -.570000112}
-    - {x: -1.34889483, y: -.150000274}
-    - {x: -1.34889483, y: .149999738}
-    - {x: -1.0288949, y: .569999874}
-    - {x: -.0888941959, y: .169999734}
-    - {x: .441105455, y: .419999748}
-    - {x: -.0188942105, y: .839999855}
+    - {x: -.0188941173, y: -.840000331}
+    - {x: .441105455, y: -.420000315}
+    - {x: -.0888941139, y: -.170000523}
+    - {x: -1.0288949, y: -.57000035}
+    - {x: -1.34889483, y: -.150000528}
+    - {x: -1.34889483, y: .149999484}
+    - {x: -1.0288949, y: .569999635}
+    - {x: -.0888941139, y: .16999948}
+    - {x: .441105455, y: .419999659}
+    - {x: -.0188941173, y: .839999616}
     - {x: -.408894569, y: 1.17999995}
     - {x: -1.47889495, y: 1.62}
     - {x: -1.96889496, y: 2.19000006}
     - {x: -.498894542, y: 2.05999994}
     - {x: .76110518, y: 1.53999996}
-    - {x: 1.3611052, y: .749999881}
-    - {x: 1.58110499, y: .229999736}
+    - {x: 1.3611052, y: .749999642}
+    - {x: 1.58110499, y: .229999483}
   - name: (22) small tank
     layer: 4
     color: {r: .0973183438, g: .529411793, b: .27909556, a: 1}
@@ -364,12 +380,12 @@ MonoBehaviour:
     - place:
         pos: {x: 1.72727275, y: -1.5}
         dir: {x: 1, y: 0}
-      type: 3
+      type: 4
       index: 0
     - place:
         pos: {x: 1.72727275, y: 1.5}
         dir: {x: 1, y: 0}
-      type: 3
+      type: 4
       index: 0
     thrusters:
     - place:
@@ -380,6 +396,7 @@ MonoBehaviour:
         pos: {x: -.972727299, y: -.579999983}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
+    turrets: []
     verts:
     - {x: .727272809, y: 1.44610922e-07}
     - {x: .727272809, y: -.600000024}
@@ -401,7 +418,7 @@ MonoBehaviour:
     - {x: .727272809, y: 1.20000005}
     - {x: .127272725, y: .600000024}
     - {x: .727272809, y: .600000024}
-  - name: (20) simple
+  - name: 
     layer: 4
     color: {r: .647058845, g: .451989651, b: .451989651, a: 1}
     physicalParameters:
@@ -418,13 +435,14 @@ MonoBehaviour:
     - place:
         pos: {x: 2.07814813, y: 0}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -1.20185184, y: 0}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19868348, guid: f83746c780871214281129b770ef409b, type: 2}
+    turrets: []
     verts:
     - {x: 2.39814806, y: -3.19159454e-07}
     - {x: 1.39814818, y: -1}
@@ -439,7 +457,7 @@ MonoBehaviour:
     - {x: -.601851702, y: 2}
     - {x: .398148209, y: 1}
     - {x: 1.39814818, y: 1}
-  - name: alien2
+  - name: 
     layer: 4
     color: {r: .281033754, g: .512349367, b: .83088237, a: 1}
     physicalParameters:
@@ -456,13 +474,14 @@ MonoBehaviour:
     - place:
         pos: {x: .111913681, y: 0}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -1.08808613, y: 0}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
+    turrets: []
     verts:
     - {x: .280115873, y: -.525385559}
     - {x: -.170213461, y: -1.32096887}
@@ -503,23 +522,24 @@ MonoBehaviour:
     - place:
         pos: {x: .0232723951, y: -1.53670001}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: .0232723951, y: 1.53670001}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.7452724, y: -.0100000398}
         dir: {x: 1, y: 0}
-      type: 1
+      type: 2
       index: 0
     thrusters:
     - place:
         pos: {x: -.874727488, y: -.0400000401}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
+    turrets: []
     verts:
     - {x: 3.14507246, y: -7.02373825e-07}
     - {x: 2.17707253, y: -.592900097}
@@ -559,23 +579,24 @@ MonoBehaviour:
     - place:
         pos: {x: .0232723951, y: -1.53670001}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 4
     - place:
         pos: {x: .0232723951, y: 1.53670001}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 4
     - place:
         pos: {x: 2.7452724, y: -.0100000398}
         dir: {x: 1, y: 0}
-      type: 1
+      type: 2
       index: 4
     thrusters:
     - place:
         pos: {x: -.874727488, y: -.0400000401}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
+    turrets: []
     verts:
     - {x: 3.14507246, y: -6.83644146e-07}
     - {x: 2.17707253, y: -.592900097}
@@ -615,7 +636,7 @@ MonoBehaviour:
     - place:
         pos: {x: 1.39527071, y: 0}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 1
     thrusters:
     - place:
@@ -626,6 +647,7 @@ MonoBehaviour:
         pos: {x: -1.45472896, y: -.980000079}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
+    turrets: []
     verts:
     - {x: 2.17527056, y: -.729999959}
     - {x: 2.45127082, y: -1.06700003}
@@ -664,18 +686,19 @@ MonoBehaviour:
     - place:
         pos: {x: .148816139, y: -2.1400001}
         dir: {x: 1, y: 0}
-      type: 1
+      type: 2
       index: 3
     - place:
         pos: {x: .148816139, y: 2.17000008}
         dir: {x: 1, y: 0}
-      type: 1
+      type: 2
       index: 2
     thrusters:
     - place:
         pos: {x: -1.62118387, y: -2.07898303e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 2.76193333, y: -.311249495}
     - {x: 2.99537063, y: -1.06343484}
@@ -726,18 +749,19 @@ MonoBehaviour:
     - place:
         pos: {x: 2.10996866, y: -1.21000004}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.10996866, y: 1.21000004}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -1.42003143, y: -6.75594869e-09}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    turrets: []
     verts:
     - {x: .157968521, y: -.144000098}
     - {x: .361968637, y: -.504000008}
@@ -774,13 +798,14 @@ MonoBehaviour:
     - place:
         pos: {x: 1.32800531, y: -1.9282222e-08}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 3
     thrusters:
     - place:
         pos: {x: -2.52199459, y: -1.9282222e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 1.40800536, y: -.700000048}
     - {x: .32600522, y: -.461999923}
@@ -823,18 +848,19 @@ MonoBehaviour:
     - place:
         pos: {x: .869137347, y: 1.45000005}
         dir: {x: 1, y: 0}
-      type: 1
+      type: 2
       index: 0
     - place:
         pos: {x: .869137347, y: -1.45000005}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -.740862668, y: 4.08235259e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 1.64913726, y: -1.71999991}
     - {x: 1.64913726, y: -2.58999991}
@@ -871,18 +897,19 @@ MonoBehaviour:
     - place:
         pos: {x: 2.0646832, y: .790000021}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 2
     - place:
         pos: {x: 2.0646832, y: -.790000021}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 2
     thrusters:
     - place:
         pos: {x: -.645316839, y: -.0999999866}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 2.08311796, y: -.912997425}
     - {x: 1.32468319, y: -2.21000004}
@@ -919,28 +946,29 @@ MonoBehaviour:
     - place:
         pos: {x: 1.21158409, y: 2.72000003}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 1.21158409, y: 1.89999998}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 1.21158409, y: -1.89999998}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 1.21158409, y: -2.72000003}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -2.97841573, y: 0}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 4.34158421, y: 6.0072388e-08}
     - {x: 3.34158421, y: -.499999911}
@@ -993,17 +1021,17 @@ MonoBehaviour:
     - place:
         pos: {x: 1.615785, y: 0}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 3
     - place:
         pos: {x: 1.61578536, y: .420000046}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 1.61578536, y: -.419999987}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
@@ -1014,6 +1042,7 @@ MonoBehaviour:
         pos: {x: -1.47421479, y: -.459999949}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    turrets: []
     verts:
     - {x: 1.5957855, y: -.519999743}
     - {x: 2.45328045, y: -1.18232572}
@@ -1054,13 +1083,14 @@ MonoBehaviour:
     - place:
         pos: {x: .321172297, y: 5.52971002e-08}
         dir: {x: 1, y: 0}
-      type: 1
+      type: 2
       index: 5
     thrusters:
     - place:
         pos: {x: -2.33882785, y: 5.52971002e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    turrets: []
     verts:
     - {x: .407172263, y: -.549999952}
     - {x: -.131827757, y: -1.02999997}
@@ -1101,18 +1131,19 @@ MonoBehaviour:
     - place:
         pos: {x: 2.52829027, y: 3.38000011}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.52829027, y: -3.42000008}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -2.24170995, y: 6.12274462e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: .00828974973, y: -.23999989}
     - {x: -.0917101577, y: -.819999874}
@@ -1132,7 +1163,7 @@ MonoBehaviour:
     - {x: .208289817, y: 1.41000009}
     - {x: -.0917101577, y: .820000112}
     - {x: .00828974973, y: .240000099}
-  - name: alien1
+  - name: 
     layer: 4
     color: {r: .566176474, g: .508582652, b: .320555806, a: 1}
     physicalParameters:
@@ -1149,13 +1180,14 @@ MonoBehaviour:
     - place:
         pos: {x: 1.29999995, y: 0}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -2, y: 0}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 1.36978376, y: -.579782128}
     - {x: -.305146933, y: -2.44797468}
@@ -1196,23 +1228,24 @@ MonoBehaviour:
     - place:
         pos: {x: 1.32804954, y: 2.23995089e-09}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.18804955, y: .930000007}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.18804955, y: -.930000007}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -.69195044, y: 2.23995089e-09}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 1.35273635, y: -.495931208}
     - {x: 2.0750699, y: -.301871449}
@@ -1253,17 +1286,17 @@ MonoBehaviour:
     - place:
         pos: {x: .920728326, y: -1.57252451e-08}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.77072859, y: -3.78999996}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.77072859, y: 3.78999996}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
@@ -1274,6 +1307,7 @@ MonoBehaviour:
         pos: {x: -1.99927163, y: -1.89999998}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
+    turrets: []
     verts:
     - {x: 1.06072807, y: -.71999979}
     - {x: 3.94072866, y: -.71999979}
@@ -1316,23 +1350,24 @@ MonoBehaviour:
     - place:
         pos: {x: 2.2388823, y: -3.43594522e-08}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 3.77888227, y: -1.58000004}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 3.77888227, y: 1.58000004}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -.641117632, y: -3.43594522e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
+    turrets: []
     verts:
     - {x: 2.37888241, y: -.720000088}
     - {x: 4.14888239, y: -1.17999995}
@@ -1379,17 +1414,17 @@ MonoBehaviour:
     - place:
         pos: {x: 3.24517632, y: -5.93935923e-08}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 4.14517546, y: 4.40999985}
         dir: {x: .993622065, y: -.112761818}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 4.14517546, y: -4.40999985}
         dir: {x: .993621945, y: .112762883}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
@@ -1400,6 +1435,7 @@ MonoBehaviour:
         pos: {x: -3, y: -5}
         dir: {x: .912503123, y: .409069836}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 3.2351768, y: -1.54999995}
     - {x: 2.57517695, y: -3.20000005}
@@ -1436,13 +1472,14 @@ MonoBehaviour:
     - place:
         pos: {x: -.667761803, y: -7.56984448e-08}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -2.89776182, y: -7.56984448e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    turrets: []
     verts:
     - {x: -.51776135, y: -.950000346}
     - {x: .542238593, y: -1.07000077}
@@ -1493,28 +1530,29 @@ MonoBehaviour:
     - place:
         pos: {x: 2.49484873, y: .430000097}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.49484873, y: -.429999918}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.51484871, y: .860000074}
         dir: {x: .998226702, y: .0595268831}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 2.51484871, y: -.859999955}
         dir: {x: .998226643, y: -.059527453}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -2.56515121, y: 8.05951501e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19868348, guid: f83746c780871214281129b770ef409b, type: 2}
+    turrets: []
     verts:
     - {x: 2.53484845, y: -1.41999996}
     - {x: 4.55484867, y: -2.00999999}
@@ -1561,23 +1599,24 @@ MonoBehaviour:
     - place:
         pos: {x: 2.68249989, y: 1.64747362e-08}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 3.14249992, y: -3.32999992}
         dir: {x: .995136142, y: .0985090211}
-      type: 0
+      type: 1
       index: 0
     - place:
         pos: {x: 3.14249992, y: 3.32999992}
         dir: {x: .995136082, y: -.0985100791}
-      type: 0
+      type: 1
       index: 0
     thrusters:
     - place:
         pos: {x: -.717499852, y: 1.64747362e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 2.82250023, y: -.720000088}
     - {x: 1.73250008, y: -1.45000017}
@@ -1624,23 +1663,24 @@ MonoBehaviour:
     - place:
         pos: {x: 3.43726254, y: 1.11126539e-07}
         dir: {x: 1, y: 0}
-      type: 2
+      type: 3
       index: 0
     - place:
         pos: {x: 3.0672617, y: -7.30999994}
         dir: {x: .93599695, y: -.352008134}
-      type: 2
+      type: 3
       index: 0
     - place:
         pos: {x: 3.0672617, y: 7.30999994}
         dir: {x: .935996711, y: .35200876}
-      type: 2
+      type: 3
       index: 0
     thrusters:
     - place:
         pos: {x: -7.37273788, y: 1.11126539e-07}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 4.27552557, y: -2.09857368}
     - {x: 5.87893057, y: -1.22613287}
@@ -1676,7 +1716,7 @@ MonoBehaviour:
     - {x: 7.29369879, y: 1.93351781}
     - {x: 5.87893057, y: 1.22613335}
     - {x: 4.27552557, y: 2.09857368}
-  - name: Boss1
+  - name: 
     layer: 4
     color: {r: .159602076, g: .419490516, b: .602941155, a: 1}
     physicalParameters:
@@ -1693,17 +1733,17 @@ MonoBehaviour:
     - place:
         pos: {x: 4.04572868, y: .669999897}
         dir: {x: .979481876, y: .201532379}
-      type: 0
+      type: 1
       index: 1
     - place:
         pos: {x: 4.04572868, y: -9.26692465e-08}
         dir: {x: 1, y: 0}
-      type: 0
+      type: 1
       index: 1
     - place:
         pos: {x: 4.04572868, y: -.670000136}
         dir: {x: .979481876, y: -.20153217}
-      type: 0
+      type: 1
       index: 1
     thrusters:
     - place:
@@ -1714,6 +1754,7 @@ MonoBehaviour:
         pos: {x: -4.5, y: 4.76999998}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    turrets: []
     verts:
     - {x: 4.03943157, y: -1.21770096}
     - {x: 5.6333313, y: -1.76220095}
@@ -1745,6 +1786,99 @@ MonoBehaviour:
     - {x: 4.6829319, y: 3.25709987}
     - {x: 5.6333313, y: 1.76219904}
     - {x: 4.03943157, y: 1.21769905}
+  - name: turret ship
+    layer: 4
+    color: {r: 1, g: 1, b: 1, a: 1}
+    physicalParameters:
+      thrust: 45
+      maxSpeed: 14
+      turnSpeed: 40
+      brake: 15
+      passiveBrake: 2
+    shield:
+      capacity: 50
+      rechargeRate: 4
+      rechargeDelay: 4
+    guns:
+    - place:
+        pos: {x: .758118033, y: 9.56568087e-08}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 1
+    - place:
+        pos: {x: .758118033, y: -.999999881}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 1
+    - place:
+        pos: {x: .758118033, y: 1.00000012}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 1
+    thrusters:
+    - place:
+        pos: {x: -5.94188213, y: 1.70000017}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19897922, guid: 016050792ddac9448bcf3b07318ca2ae, type: 2}
+    - place:
+        pos: {x: -5.94188213, y: -1.99999988}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19897922, guid: 016050792ddac9448bcf3b07318ca2ae, type: 2}
+    turrets:
+    - place:
+        pos: {x: 5.05811787, y: 10}
+        dir: {x: .98480773, y: .173648164}
+      index: 0
+    - place:
+        pos: {x: 5.05811787, y: -10}
+        dir: {x: .98480773, y: -.173648164}
+      index: 0
+    verts:
+    - {x: .910046458, y: -1.57889307}
+    - {x: 3.85811806, y: -6.30000019}
+    - {x: 9.45811844, y: -7.30000019}
+    - {x: 8.45811844, y: -13}
+    - {x: 1.43015254, y: -13.559907}
+    - {x: -4.58821726, y: -11.4856749}
+    - {x: -7.56025219, y: -8.88514328}
+    - {x: -7.89460468, y: -7.43008614}
+    - {x: -6.3216424, y: -1.92717326}
+    - {x: -6.3216424, y: 1.9271735}
+    - {x: -7.89460468, y: 7.43008614}
+    - {x: -7.56025219, y: 8.88514328}
+    - {x: -4.58821726, y: 11.4856749}
+    - {x: 1.43015254, y: 13.559907}
+    - {x: 8.45811844, y: 13}
+    - {x: 9.45811844, y: 7.30000019}
+    - {x: 3.85811806, y: 6.30000019}
+    - {x: .910046458, y: 1.5788933}
+  turrets:
+  - name: turret
+    color: {r: .779411793, g: .779411793, b: .779411793, a: 1}
+    rotationSpeed: 50
+    restrictionAngle: 360
+    guns:
+    - place:
+        pos: {x: 1.38999999, y: 1.17999995}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 0
+    - place:
+        pos: {x: 1.38999999, y: -1.17999995}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 0
+    verts:
+    - {x: .0149913272, y: -.396135241}
+    - {x: 1.63302231, y: -.720000029}
+    - {x: 1.62782788, y: -1.5845412}
+    - {x: -1.12697768, y: -1.78800011}
+    - {x: -1.28659618, y: -.622498333}
+    - {x: -1.28659618, y: .622498333}
+    - {x: -1.12697768, y: 1.78800011}
+    - {x: 1.62782788, y: 1.5845412}
+    - {x: 1.63302231, y: .720000029}
+    - {x: .0149913272, y: .396135241}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

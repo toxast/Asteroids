@@ -28,6 +28,11 @@ public class ObjectsCreator
 			var gun = GunsData.GetGun(gunplace, spaceship);
 			spaceship.guns.Add (gun);
 		}
+
+		foreach (var item in sdata.turrets) 
+		{
+			CreateTurret(spaceship, item, SpaceshipsResources.Instance.turrets[item.index]);
+		}
 		
 		return spaceship;
 	}
@@ -44,35 +49,60 @@ public class ObjectsCreator
 		return spaceship;
 	}
 	
-	public static EnemySpaceShip CreateEnemySpaceShip()
+//	public static EnemySpaceShip CreateEnemySpaceShip()
+//	{
+//		//var vr = Math2d.Chance (0.5f) ? Math2d.ScaleVertices2 (SpaceshipsData.alien6, 1.5f) : SpaceshipsData.alien3;
+//		var vr = Math2d.ScaleVertices2 (SpaceshipsData.butterflySpaceship, 1.1f);
+//		//var vr = Math2d.ScaleVertices2 (vrt, 1.5f);
+//		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
+//		spaceship.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies);
+//		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
+//		spaceship.gameObject.name = "enemy spaceship";
+//
+//		InitGuns (spaceship, SpaceshipsData.alien9gunplaces, GunsData.SimpleGun2);
+//
+//		SpaceshipData data = new SpaceshipData{
+//			thrust = 20f,
+//			maxSpeed = 15f,
+//			turnSpeed = 150f,
+//			brake = 8f,
+//			passiveBrake = 4f,
+//		}; 
+//		spaceship.Init(data);
+//
+//		return spaceship;
+//	}
+
+	private static void CreateTurret(SpaceShip parent, TurretReferenceData pos, TurretSetupData data)
 	{
-		//var vr = Math2d.Chance (0.5f) ? Math2d.ScaleVertices2 (SpaceshipsData.alien6, 1.5f) : SpaceshipsData.alien3;
-		var vr = Math2d.ScaleVertices2 (SpaceshipsData.butterflySpaceship, 1.1f);
-		//var vr = Math2d.ScaleVertices2 (vrt, 1.5f);
-		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vr, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-		spaceship.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies);
-		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
-		spaceship.gameObject.name = "enemy spaceship";
-
-		InitGuns (spaceship, SpaceshipsData.alien9gunplaces, GunsData.SimpleGun2);
-
-		SpaceshipData data = new SpaceshipData{
-			thrust = 20f,
-			maxSpeed = 15f,
-			turnSpeed = 150f,
-			brake = 8f,
-			passiveBrake = 4f,
+		bool smartAim = true;
+		var copyAngle = data.restrictionAngle * 0.5f;
+		var copyDir = pos.place.dir;
+		System.Func<Vector3> anglesRestriction = () =>
+		{
+			float angle = parent.cacheTransform.rotation.eulerAngles.z * Mathf.Deg2Rad;
+			Vector2 dir = Math2d.RotateVertex(copyDir, angle);
+			Vector3 result = dir;
+			result.z = copyAngle;
+			return result;
 		}; 
-		spaceship.Init(data);
-
-		return spaceship;
+		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
+		turret.Init (smartAim);
+		turret.SetAngleRestrictions(anglesRestriction);
+		turret.guns = new List<Gun> ();
+		foreach (var gunplace in data.guns) 
+		{
+			var gun = GunsData.GetGun(gunplace, parent);
+			turret.guns.Add (gun);
+		}
+		parent.AddTurret(pos.place, turret);
 	}
 
 
-	public static EnemySpaceShip CreateBossEnemySpaceShip()
+	public static SpaceShip CreateBossEnemySpaceShip()
 	{
 		var vertices = PolygonCreator.GetCompleteVertexes (SpaceshipsData.halfBossVertices, 2).ToArray();
-		EnemySpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<EnemySpaceShip> (vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
+		SpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip> (vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		spaceship.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies);
 		spaceship.gameObject.name = "boss";
 		DeathAnimation.MakeDeathForThatFellaYo (spaceship);

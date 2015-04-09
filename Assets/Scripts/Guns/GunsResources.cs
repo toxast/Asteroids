@@ -11,6 +11,7 @@ public class GunsResources : ResourceSingleton<GunsResources>
 	[SerializeField] public List<SwapnerGunData> spawnerGuns;
 	[SerializeField] public List<LazerGun.LazerGunData> lazerGuns;
 
+
 	[ContextMenu ("clone rocketLauncher")]
 	void CloneRocketLauncher () 
 	{

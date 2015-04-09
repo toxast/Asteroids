@@ -4,17 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 
 [System.Serializable]
-public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>
+public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
 {
 	public string name;
-	public GlobalConfig.eLayer layer = GlobalConfig.eLayer.TEAM_ENEMIES;
+	public GlobalConfig.eLayer layer = GlobalConfig.eLayer.TEAM_ENEMIES; //TODO: use (now its not)
 	public Color color = Color.white;
 	public SpaceshipData physicalParameters;
 	public ShieldData shield;
 	public List<GunSetupData> guns;
 	public List<ThrusterSetupData> thrusters;
+	public List<TurretReferenceData> turrets;
 	public Vector2[] verts;
 
+	//interfaces
+	public Vector2[] iverts {get {return verts;} set{verts = value;}}
+	public List<GunSetupData> iguns {get {return guns;} set{guns = value;}}
+	public List<ThrusterSetupData> ithrusters {get {return thrusters;} set{thrusters = value;}}
+	public List<TurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
 	public FullSpaceShipSetupData Clone()
 	{

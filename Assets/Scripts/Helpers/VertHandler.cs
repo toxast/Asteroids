@@ -7,11 +7,18 @@ using System.Collections.Generic;
 
 public class VertHandler : MonoBehaviour 
 {
+	public enum eSaveLoadType
+	{
+		SpaceShip,
+		Turret,
+	}
+
 	Mesh mesh;
 	Vector3 vertPos;
 	[SerializeField] List<GameObject> handles;
 	[SerializeField] List<GameObject> guns;
 	[SerializeField] List<GameObject> thrusters;
+	[SerializeField] List<GameObject> turrets;
 
 	[SerializeField] int duplicateIndx = 0;
 	[SerializeField] bool duplicate = false;
@@ -20,6 +27,9 @@ public class VertHandler : MonoBehaviour
 	[SerializeField] bool doScale = false;
 	[SerializeField] Vector2 scaleBy = Vector2.one;
 	[SerializeField] int saveANDloadIndx = -1;
+	[SerializeField] eSaveLoadType editType;
+
+	Vector2 vright = new Vector2(1,0);
 
 	void OnEnable()
 	{
@@ -30,30 +40,100 @@ public class VertHandler : MonoBehaviour
 		var verts = mesh.vertices;
 		if(saveANDloadIndx >= 0)
 		{
-			verts = SpaceshipsResources.Instance.spaceships[saveANDloadIndx].verts.ToList().ConvertAll( v => (Vector3)v).ToArray();
+
+			object obj;
+			if(editType == eSaveLoadType.SpaceShip)
+				obj = SpaceshipsResources.Instance.spaceships[saveANDloadIndx];
+			else
+				obj = SpaceshipsResources.Instance.turrets[saveANDloadIndx];
+
+			verts = (obj as IGotShape).iverts.ToList().ConvertAll( v => (Vector3)v).ToArray();
+
+			var oIGotThrusters = obj as IGotThrusters;
+			if(oIGotThrusters != null)
+			{
+				var dataThrusters = oIGotThrusters.ithrusters.ConvertAll( t => t.place);
+				for (int i = 0; i < dataThrusters.Count; i++) 
+				{
+					CreatePosition(dataThrusters[i].pos, dataThrusters[i].dir, "truster ", thrusters);
+				}
+			}
+
+			var oIGotGuns = obj as IGotGuns;
+			if(oIGotGuns != null)
+			{
+				var dataGuns = oIGotGuns.iguns.ConvertAll( t => t.place);
+				for (int i = 0; i < dataGuns.Count; i++) 
+				{
+					CreatePosition(dataGuns[i].pos, dataGuns[i].dir, "gun ", guns);
+				}
+			}
+
+			var oIGotTurrets = obj as IGotTurrets;
+			if(oIGotTurrets != null)
+			{
+				var dataGuns = oIGotTurrets.iturrets.ConvertAll( t => t.place);
+				for (int i = 0; i < dataGuns.Count; i++) 
+				{
+					CreatePosition(dataGuns[i].pos, dataGuns[i].dir, "turret ", guns);
+				}
+			}
 		}
 
-		//var verts = SpaceshipsData.valaSpaceship;
-		//var verts =SpaceshipsResources.Instance.spaceships[ ].verts;
 		foreach(var vert in verts)
 		{
 			if(vert.y <= 0)
 			{
-				vertPos = transform.TransformPoint(vert);
-				GameObject handle = new GameObject("handle " + handles.Count);
-				handle.transform.position = vertPos;
-				handle.transform.parent = transform;
-				//handle.tag = "handle";
-				handles.Add(handle);
+				CreatePosition(vert,  vright, "handle ", handles);
 			}
 		}
 	}
 
+
+	[ContextMenu ("Custom action")]
+	private void CustomAction()
+	{
+		Vector2[] v2 = new Vector2[handles.Count];    
+		for(int i = 0; i < handles.Count; i++)
+		{
+			v2[i] = handles[i].transform.localPosition;    
+		}
+		
+		var verts = PolygonCreator.GetCompleteVertexes (v2, 1).ToArray();
+		var pivot = Math2d.GetMassCenter (verts);
+		Math2d.ShiftVertices(verts, -pivot);
+		GunsResources.Instance.rocketLaunchers [5].baseData.vertices = verts;
+		
+		//		string s = string.Empty;
+		//		foreach (var v in verts) 
+		//		{
+		//			s += string.Format("new Vector2 ({0:0.00}f, {1:0.00}f),", v.x, v.y);
+		//			s += '\n';
+		//		}
+		//		Debug.LogWarning (s);
+	}
+
+	[ContextMenu ("Create Gun Position")]
+	private void CreateGunPosition()
+	{
+		CreatePosition (Vector3.zero, vright, "gun ", guns);
+	}
+	
+	[ContextMenu ("Create Thruster Position")]
+	private void CreateThrusterPosition()
+	{
+		CreatePosition (Vector3.zero, vright, "thruster ", thrusters);
+	}
+
+	[ContextMenu ("Create Turret Position")]
+	private void CreateTurretPosition()
+	{
+		CreatePosition (Vector3.zero, vright, "turret ", turrets);
+	}
+
 	[ContextMenu ("Reset")]
 	void Reset () {
-		handles.ForEach (h =>
-		                 { h.transform.localPosition = Vector3.zero;}
-				);
+		handles.ForEach (h => { h.transform.localPosition = Vector3.zero;});
 	}
 
 	[ContextMenu ("Save")]
@@ -70,23 +150,10 @@ public class VertHandler : MonoBehaviour
 		{
 			full.Reverse();
 		}
-//		if(reverse)
-//		{
-//			List<Vector2> rv = new List<Vector2>(full);
-//			rv.Reverse();
-//			Print(rv.ToArray());
-//		}
-//		else
-//		{
-//			Print(full.ToArray());
-//		}
-
-		var sdata = new FullSpaceShipSetupData ();
 
 		var fullArray = full.ToArray ();
 		var pivot = Math2d.GetMassCenter (fullArray);
 		Math2d.ShiftVertices(fullArray, -pivot);
-		sdata.verts = fullArray;
 
 		List<GunSetupData> gunsData = new List<GunSetupData> ();
 		foreach(var g in guns)
@@ -95,8 +162,6 @@ public class VertHandler : MonoBehaviour
 			gd.place = new Place((Vector2)g.transform.localPosition - pivot, g.transform.right);
 			gunsData.Add(gd);
 		}
-		sdata.guns = gunsData;
-
 
 		List<ThrusterSetupData> thrustersData = new List<ThrusterSetupData> ();
 		foreach(var t in thrusters)
@@ -105,108 +170,133 @@ public class VertHandler : MonoBehaviour
 			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
 			thrustersData.Add(td);
 		}
-		sdata.thrusters = thrustersData;
 
-		sdata.physicalParameters = new SpaceshipData ();
+		List<TurretReferenceData> turretsData = new List<TurretReferenceData> ();
+		foreach(var t in turrets)
+		{
+			TurretReferenceData td = new TurretReferenceData();
+			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
+			turretsData.Add(td);
+		}
+
+		if(saveANDloadIndx >= 0)
+		{
+			object obj;
+			if(editType == eSaveLoadType.SpaceShip)
+				obj = SpaceshipsResources.Instance.spaceships[saveANDloadIndx];
+			else
+				obj = SpaceshipsResources.Instance.turrets[saveANDloadIndx];
+
+			(obj as IGotShape).iverts = fullArray;
+
+			if(obj is IGotGuns)
+				FillPlaces<GunSetupData>(gunsData, (obj as IGotGuns).iguns);
+
+			if(obj is IGotThrusters)
+				FillPlaces<ThrusterSetupData>(thrustersData, (obj as IGotThrusters).ithrusters);
+
+			if(obj is IGotTurrets)
+				FillPlaces<TurretReferenceData>(turretsData, (obj as IGotTurrets).iturrets);
+		}
+		else
+		{
+			if(editType == eSaveLoadType.SpaceShip)
+			{
+				var newShip = new FullSpaceShipSetupData ();
+				newShip.verts = fullArray;
+				newShip.guns = gunsData;
+				newShip.thrusters = thrustersData;
+				newShip.turrets = turretsData;
+				newShip.physicalParameters = new SpaceshipData ();
+				SpaceshipsResources.Instance.spaceships.Add (newShip);
+			}
+			else
+			{
+				var newTurret = new TurretSetupData();
+				newTurret.verts = fullArray;
+				newTurret.guns = gunsData;
+				SpaceshipsResources.Instance.turrets.Add (newTurret);
+			}
+		}
 
 
-		SpaceshipsResources.Instance.spaceships.Add (sdata);
 		//var sdata = new FullSpaceShipSetupData(
 		//SpaceshipsRecources.Instance.spaceships.Add( 
 
 		//ObjectsCreator.CreateSpaceShip<EnemySpaceShip> (sdata);
 	}
 
-	[ContextMenu ("Custom action")]
-	private void CustomAction()
+	private void FillPlaces<T>(List<T> newPlaces, List<T> oldPlaces)
+		where T : IGotPlace
 	{
-		Vector2[] v2 = new Vector2[handles.Count];    
-		for(int i = 0; i < handles.Count; i++)
+		for (int i = 0; i < newPlaces.Count; i++) 
 		{
-			v2[i] = handles[i].transform.localPosition;    
+			if(oldPlaces.Count <= i)
+			{
+				oldPlaces.Add(newPlaces[i]);
+			}
+			else
+			{
+				oldPlaces[i].pos = newPlaces[i].pos;
+			}
 		}
-		
-		var verts = PolygonCreator.GetCompleteVertexes (v2, 1).ToArray();
-		var pivot = Math2d.GetMassCenter (verts);
-		Math2d.ShiftVertices(verts, -pivot);
-		GunsResources.Instance.rocketLaunchers [5].baseData.vertices = verts;
-
-//		string s = string.Empty;
-//		foreach (var v in verts) 
-//		{
-//			s += string.Format("new Vector2 ({0:0.00}f, {1:0.00}f),", v.x, v.y);
-//			s += '\n';
-//		}
-//		Debug.LogWarning (s);
+		if(newPlaces.Count < oldPlaces.Count)
+		{
+			oldPlaces.RemoveRange(newPlaces.Count, oldPlaces.Count - newPlaces.Count);
+		}
 	}
-
-
-
 
 	void OnDisable()
 	{
-		foreach(GameObject handle in handles)
+		foreach(GameObject go in handles)
 		{
-			DestroyImmediate(handle);    
+			DestroyImmediate(go);    
 		}
 		handles.Clear ();
 
-		foreach(GameObject gun in guns)
+		foreach(GameObject go in guns)
 		{
-			DestroyImmediate(gun);    
+			DestroyImmediate(go);    
 		}
 		guns.Clear ();
 
-		foreach(GameObject th in thrusters)
+
+		foreach(GameObject go in turrets)
 		{
-			DestroyImmediate(th);    
+			DestroyImmediate(go);    
+		}
+		turrets.Clear ();
+
+		foreach(GameObject go in thrusters)
+		{
+			DestroyImmediate(go);    
 		}
 		thrusters.Clear ();
 	}
-
-	
 
 	private void DuplicateHandler(int dindx)
 	{
 		if(dindx >= 0 && dindx < handles.Count)
 		{
-			GameObject handle = new GameObject("handle " + dindx);
-			handle.transform.position = handles[dindx].transform.position;
-			handle.transform.parent = transform;
-			//handle.tag = "handle";
-			handles.Insert(dindx, handle);
-
-			for (int i = dindx; i < handles.Count; i++) {
-				handles[i].name = "handle " + i;
+			CreatePosition(Vector3.zero, vright, "handle ", handles);
+			for (int i = handles.Count - 1; i >= dindx+1; i--) {
+				handles[i].transform.position = handles[i-1].transform.position;
 			}
 		}
 	}
 
-	[ContextMenu ("Create Gun Position")]
-	private void CreateGunPosition()
+	private GameObject CreatePosition(Vector2 localPos, Vector2 right, string name, List<GameObject> addTo)
 	{
-		GameObject handle = new GameObject("gun" + guns.Count);
+		GameObject handle = new GameObject(name + addTo.Count);
 		handle.transform.parent = transform;
-		handle.transform.localPosition = Vector3.zero;
-		guns.Add (handle);
-	}
-
-	[ContextMenu ("Create Thruster Position")]
-	private void CreateThrusterPosition()
-	{
-		GameObject handle = new GameObject("thruster" + thrusters.Count);
-		handle.transform.parent = transform;
-		handle.transform.localPosition = Vector3.zero;
-		thrusters.Add (handle);
+		handle.transform.localPosition = localPos;
+		handle.transform.right = right;
+		addTo.Add (handle);
+		return handle;
 	}
 
 	void Update()
 	{
-//		if(Input.GetKeyDown(KeyCode.LeftShift))
-//		{
-//			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-//			Debug.LogWarning(ray.origin);
-		//}
 		if(handles == null || handles.Count < 2)
 			return;
 
