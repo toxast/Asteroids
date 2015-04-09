@@ -39,7 +39,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6983fa03316c20d49969175117993afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clone: 4
+  clone: 1
   guns:
   - damage: 3
     lifeTime: 2
@@ -307,6 +307,31 @@ MonoBehaviour:
       color: {r: .875, g: .0836396813, b: .0836396813, a: 1}
       fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
     distance: 50
+    width: .5
+  - baseData:
+      damage: 15
+      lifeTime: 3
+      bulletSpeed: 0
+      fireInterval: 6
+      repeatCount: 0
+      repeatInterval: 0
+      vertices: []
+      color: {r: .647058845, g: .0142733706, b: .577234209, a: 1}
+      fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
+    distance: 70
+    width: .699999988
+  - baseData:
+      damage: 15
+      lifeTime: 2
+      bulletSpeed: 0
+      fireInterval: 4
+      repeatCount: 0
+      repeatInterval: 0
+      vertices: []
+      color: {r: .0356833749, g: .744839489, b: .808823526, a: 1}
+      fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
+    distance: 80
+    width: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

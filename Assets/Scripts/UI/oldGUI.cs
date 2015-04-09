@@ -89,6 +89,10 @@ public class oldGUI : MonoBehaviour {
 	
 		y += height + margine;
 		userShipNum = GUI.TextField (new Rect (x + 200, y, width - 20, height), userShipNum);
+		if(GUI.Button(new Rect(x, y, width, height), "respawn"))
+		{
+			StartCoroutine(main.Respawn());
+		}
 		y += height + margine;
 
 		if(GUI.Button(new Rect(x, y, width+30, height), "enemy spaceship 2"))
@@ -109,10 +113,7 @@ public class oldGUI : MonoBehaviour {
 		}
 		y += height + margine;
 		
-		if(GUI.Button(new Rect(x, y, width, height), "respawn"))
-		{
-			StartCoroutine(main.Respawn());
-		}
+
 		y += height + margine;
 		
 		

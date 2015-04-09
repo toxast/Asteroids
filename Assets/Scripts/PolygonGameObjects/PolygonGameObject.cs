@@ -229,12 +229,17 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 			targetSystem.Tick (delta);
 
 		cacheTransform.position += velocity * delta;
-		cacheTransform.Rotate(Vector3.back, rotation*delta);
+		ApplyRotation (delta);
 
 		if (deathAnimation != null)
 			deathAnimation.Tick (delta);
 
 		ShieldsTick (delta);
+	}
+
+	protected virtual void ApplyRotation(float dtime)
+	{
+		cacheTransform.Rotate(Vector3.back, rotation*dtime);
 	}
 
 	private void ShieldsTick(float delta)

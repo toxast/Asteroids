@@ -577,7 +577,7 @@ MonoBehaviour:
   TowerEnemyHealthModifier: 10
   RogueEnemyHealthModifier: 1
   DamageFromCollisionsModifier: .0299999993
-  ExplosionDamageKff: 2
+  ExplosionDamageKff: 3
   AsteroidColor: {r: .25, g: .25, b: .25, a: 1}
   GasteroidColor: {r: .95588237, g: .909833252, b: .288170397, a: 1}
   spaceshipEnemiesColor: {r: .183068037, g: .633886814, b: .752941191, a: 1}
@@ -1531,7 +1531,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 120
+  orthographic size: 80
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

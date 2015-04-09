@@ -1854,7 +1854,7 @@ MonoBehaviour:
     - {x: .910046458, y: 1.5788933}
   turrets:
   - name: turret
-    color: {r: .779411793, g: .779411793, b: .779411793, a: 1}
+    color: {r: .235294104, g: .235294104, b: .235294104, a: 1}
     rotationSpeed: 50
     restrictionAngle: 360
     guns:
