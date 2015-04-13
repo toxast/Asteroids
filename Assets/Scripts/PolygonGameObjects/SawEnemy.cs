@@ -24,7 +24,7 @@ public class SawEnemy : Asteroid
 		chargeSpeed = 130f/Mathf.Sqrt(mass);
 
 		//TODO: asteroid?
-		float a = Random.Range(0f, 359f) * Math2d.PIdiv180;
+		float a = Random.Range(0f, 359f) * Mathf.Deg2Rad;
 		velocity = new Vector3(Mathf.Cos(a)*initialVelocity, Mathf.Sin(a)*initialVelocity, 0f);
 		rotation = initialRotation;
 

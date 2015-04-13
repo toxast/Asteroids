@@ -19,6 +19,7 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	IPolygonGameObject target{ get;}
 
 	//collision
+	int layerNum{get; set;}
 	int layer{get; set;}
 	int collision{get; set;}
 	
@@ -44,4 +45,6 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	DeathAnimation deathAnimation{get; set;}
 
 	List<Vector2[]> Split();
+
+	void SetCollisionLayerNum (int layerNum);
 }

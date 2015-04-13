@@ -10,7 +10,7 @@ public class BulletGun : Gun
 	{
 		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(vertices, color);
 
-		Math2d.PositionOnShooterPlace(bullet.cacheTransform, place, parent.cacheTransform);
+		Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform);
 		//PositionOnShooterPlace (bullet.cacheTransform);
 		bullet.destroyOnBoundsTeleport = true;
 		bullet.destructionType = PolygonGameObject.DestructionType.eJustDestroy;

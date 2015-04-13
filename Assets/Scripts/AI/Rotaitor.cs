@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 
@@ -43,6 +43,6 @@ public class Rotaitor
 
 	public float DeltaAngle(float toAngle)
 	{
-		return Math2d.DeltaAngleGRAD (transform.eulerAngles.z, toAngle);
+		return Math2d.DeltaAngleDeg (transform.eulerAngles.z, toAngle);
 	}
 }

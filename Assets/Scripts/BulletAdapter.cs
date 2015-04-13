@@ -44,9 +44,11 @@ public class BulletAdapter : IBullet
 	public Material mat{get{return go.mat;} set{go.mat = value;}}
 	
 	//collision
+	public int layerNum{get{return go.layerNum;} set{go.layerNum = value;}}
 	public int layer{get{return go.layer;} set{go.layer = value;}}
 	public int collision{get{return go.collision;} set{go.collision = value;}}
 
+	public void SetCollisionLayerNum (int layerN) {go.SetCollisionLayerNum (layerN);}
 	public PolygonGameObject.DestructionType destructionType{get{return go.destructionType;} set{go.destructionType = value;}}
 	public bool destroyOnBoundsTeleport{get{return go.destroyOnBoundsTeleport;} set{go.destroyOnBoundsTeleport = value;}}
 

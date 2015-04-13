@@ -13,7 +13,6 @@ public class ObjectsCreator
 		var sdata = SpaceshipsResources.Instance.spaceships [dataIndex];
 		T spaceship = PolygonCreator.CreatePolygonGOByMassCenter<T> (sdata.verts, sdata.color);
 		spaceship.Init(sdata.physicalParameters);
-		spaceship.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies); //TODO
 		spaceship.SetThrusters (sdata.thrusters);
 
 		if (sdata.shield != null && sdata.shield.capacity > 0)
@@ -33,7 +32,7 @@ public class ObjectsCreator
 		{
 			CreateTurret(spaceship, item, SpaceshipsResources.Instance.turrets[item.index]);
 		}
-		
+
 		return spaceship;
 	}
 
@@ -87,41 +86,16 @@ public class ObjectsCreator
 			return result;
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
-		turret.Init (smartAim);
-		turret.layer = parent.layer; //TODO
-		turret.SetAngleRestrictions(anglesRestriction);
-		turret.targetSystem = new TargetSystem (turret);
+		turret.Init (smartAim, anglesRestriction);
 		turret.guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) 
 		{
 			var gun = GunsData.GetGun(gunplace, turret);
 			turret.guns.Add (gun);
 		}
+		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction);
 		parent.AddTurret(pos.place, turret);
 	}
-
-
-	public static SpaceShip CreateBossEnemySpaceShip()
-	{
-		var vertices = PolygonCreator.GetCompleteVertexes (SpaceshipsData.halfBossVertices, 2).ToArray();
-		SpaceShip spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip> (vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-		spaceship.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies);
-		spaceship.gameObject.name = "boss";
-		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
-		InitGuns (spaceship, SpaceshipsData.bossGunplaces, GunsData.SimpleGun2);
-
-		SpaceshipData data = new SpaceshipData{
-			thrust = 15f,
-			maxSpeed = 5f,
-			turnSpeed = 30f,
-			brake = 8f,
-			passiveBrake = 4f,
-		}; 
-		spaceship.Init(data);
-		
-		return spaceship;
-	}
-
 
 	public static RogueEnemy CreateRogueEnemy()
 	{ 
@@ -210,7 +184,7 @@ public class ObjectsCreator
 		return tower;
 	}
 
-	public static SimpleTower CreateSimpleTower(bool smartAim)
+	public static SimpleTower CreateSimpleTower(bool smartAim, System.Func<Vector3> restrict)
 	{
 		float r = 1f;//UnityEngine.Random.Range(1.0f, 1.2f);
 		int sides = 6;
@@ -227,8 +201,7 @@ public class ObjectsCreator
 		};
 
 		InitGuns (enemy, gunplaces, GunsData.SimpleGun2);
-
-		enemy.Init(smartAim);
+		enemy.Init(smartAim, restrict);
 		
 		return enemy;
 	}

@@ -31,7 +31,7 @@ public class RocketLauncher : Gun
 			e.transform.localPosition = thrusterPos;//new Vector3(-1,0,-1);
 		}
 
-		Math2d.PositionOnShooterPlace (missile.cacheTransform, place, parent.cacheTransform);
+		Math2d.PositionOnParent (missile.cacheTransform, place, parent.cacheTransform);
 		
 		missile.gameObject.name = "missile";
 		var controller = new MissileController (missile, missleParameters.maxSpeed);
@@ -43,7 +43,7 @@ public class RocketLauncher : Gun
 		missile.targetSystem = new MissileTargetSystem (missile);
 		if(launchDirection != Vector2.zero)
 		{
-			float angle = Math2d.GetRotation(missile.cacheTransform.right);
+			float angle = Math2d.GetRotationRad(missile.cacheTransform.right);
 			var byPlace = Math2d.RotateVertex(launchDirection, angle);
 			missile.velocity += (Vector3)byPlace.normalized * launchSpeed;
 		}

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -141,11 +141,11 @@ public class EnemySpaceShipController : InputController, IGotTarget
 
 		Vector2 dir2thisShip = thisShip.position - b.position;
 
-		float angleVS = Math2d.AngleRAD2 (b.velocity, thisShip.velocity);
+		float angleVS = Math2d.AngleRad (b.velocity, thisShip.velocity);
 		float cosVS = Mathf.Cos (angleVS);
 		if(cosVS < -0.9f)
 		{
-			var cos = Mathf.Cos(Math2d.AngleRAD2 (b.velocity, dir2thisShip));
+			var cos = Mathf.Cos(Math2d.AngleRad (b.velocity, dir2thisShip));
 			return cos  > 0.9f;
 		}
 
@@ -238,7 +238,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 	private Vector2 RotateDirection(Vector2 dir, float angleMin, float angleMax)
 	{
 		float angle = UnityEngine.Random.Range (angleMin, angleMax) * Mathf.Sign (UnityEngine.Random.Range (-1f, 1f));
-		return Math2d.RotateVertex(dir, angle*Math2d.PIdiv180);
+		return Math2d.RotateVertex(dir, angle*Mathf.Deg2Rad);
 	}
 
 	public Vector2 TurnDirection ()

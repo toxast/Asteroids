@@ -95,11 +95,11 @@ public class oldGUI : MonoBehaviour {
 		}
 		y += height + margine;
 
-		if(GUI.Button(new Rect(x, y, width+30, height), "enemy spaceship 2"))
-		{
-			main.CreateEnemySpaceShipBoss();
-		}
-		y += height + margine;
+//		if(GUI.Button(new Rect(x, y, width+30, height), "enemy spaceship 2"))
+//		{
+//			main.CreateEnemySpaceShipBoss();
+//		}
+//		y += height + margine;
 		
 		if(GUI.Button(new Rect(x, y, width+20, height), "gasteroid"))
 		{

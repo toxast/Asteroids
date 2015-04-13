@@ -22,8 +22,6 @@ public class SpaceShip : PolygonGameObject
 	}
 	List<Thruster> thrusters = new List<Thruster> ();
 	public List<PolygonGameObject> turrets = new List<PolygonGameObject>();
-//	ParticleSystem thrustPSystem; //TODO refactor
-//	float defaultThrustLifetime;
 
 	public DropCollector collector;
 
@@ -72,7 +70,7 @@ public class SpaceShip : PolygonGameObject
 		foreach (var t in tdatas) 
 		{
 			var thrusterInstance  = Instantiate(t.thrusterPrefab) as ParticleSystem;
-			Math2d.PositionOnShooterPlace (thrusterInstance.transform, t.place, cacheTransform, true, 1);
+			Math2d.PositionOnParent (thrusterInstance.transform, t.place, cacheTransform, true, 1);
 
 			Thruster newThruster = new Thruster();
 			newThruster.defaultLifetime = thrusterInstance.startLifetime;
@@ -84,8 +82,15 @@ public class SpaceShip : PolygonGameObject
 
 	public void AddTurret(Place place, PolygonGameObject turret)
 	{
-		Math2d.PositionOnShooterPlace(turret.cacheTransform, place, cacheTransform, true, -1);
+		Math2d.PositionOnParent(turret.cacheTransform, place, cacheTransform, true, -1);
+		turret.SetCollisionLayerNum (layerNum);
 		turrets.Add (turret);
+	}
+
+	public override void SetCollisionLayerNum (int layerNum)
+	{
+		base.SetCollisionLayerNum (layerNum);
+		turrets.ForEach (t => t.SetCollisionLayerNum (layerNum));
 	}
 
 	public void SetThruster(ParticleSystem p, Vector2 pos)
@@ -235,7 +240,7 @@ public class SpaceShip : PolygonGameObject
 		{
 			rotation = turnLeft ? -turnSpeed : turnSpeed;
 			Rotaitor rotaitor = new Rotaitor(cacheTransform, turnSpeed);
-			var currentAimAngle = Math2d.GetRotation(dir) / Math2d.PIdiv180 ;
+			var currentAimAngle = Math2d.GetRotationRad(dir) / Math2d.PIdiv180 ;
 			bool reachedAngle = rotaitor.Rotate(delta, currentAimAngle);
 			if(reachedAngle)
 				rotation = 0;

@@ -240,7 +240,7 @@ public class Main : MonoBehaviour
 
 	private void MoveCamera()
 	{
-		if(spaceship != null)
+		if(!IsNull(spaceship))
 		{
 			moveCameraAction();
 		}
@@ -888,8 +888,15 @@ public class Main : MonoBehaviour
 		controller = tabletController;
 		#endif
 		spaceship = ObjectsCreator.CreateSpaceShip (controller, int.Parse(oldGUI.userShipNum));
-		spaceship.guns.ForEach( g => g.onFire += HandleGunFire);
-		//spaceship.SetThruster (thrustPrefab2, Vector2.zero);
+		spaceship.guns.ForEach( g => g.onFire += HandleGunFire); //TODO
+		//TODO
+		if (spaceship is SpaceShip) 
+		{
+			foreach (var t in (spaceship as SpaceShip).turrets)
+			{
+				t.guns.ForEach( g => g.onFire += HandleGunFire);
+			}
+		}
 		Add2Objects(spaceship);
 		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
 	}
@@ -914,6 +921,7 @@ public class Main : MonoBehaviour
 	{
 		var enemy = ObjectsCreator.CreateSpaceShip<SpaceShip>(indx);
 		enemy.SetController (new FastSpaceshipAttackController (enemy, bullets, enemy.guns[0]));
+		enemy.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies);
 		InitNewEnemy(enemy);
 		return enemy;
 	}
@@ -923,60 +931,6 @@ public class Main : MonoBehaviour
 		var e = CreateEnemySpaceShip (indx);
 		e.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
 		return e;
-	}
-	
-	public SpaceShip CreateEnemySpaceShipBoss()
-	{
-		var enemy = ObjectsCreator.CreateBossEnemySpaceShip ();
-		//var gT = Instantiate (thrustBig) as ParticleSystem;
-		enemy.SetController (new SimpleAI1(enemy));
-		var tpos = enemy.polygon.vertices [6];
-		var tpos2 = tpos;
-		tpos2.y = -tpos2.y;
-		enemy.SetThruster (thrustBig, (tpos + tpos2)*0.5f );
-		bool smartAim = true;
-		
-		//		var towerpos1 = (enemy.polygon.vertices [2] + enemy.polygon.vertices [4])/2f;
-		var towerpos1 = enemy.polygon.vertices [6] * 0.6f;
-		var dir1 = enemy.polygon.vertices [6];
-		{
-			Func<Vector3> anglesRestriction1 = () =>
-			{
-				float angle = enemy.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
-				Vector2 dir = Math2d.RotateVertex(dir1, angle);
-				Vector3 result = dir;
-				result.z = 90f;
-				return result;
-			}; 
-			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
-			tenemy.SetAngleRestrictions(anglesRestriction1);
-			tenemy.guns.ForEach( g => g.onFire += HandleGunFire);
-			Place p1 = new Place(towerpos1, dir1);
-			enemy.AddTurret (p1, tenemy);
-		}
-		
-		{
-			var towerpos2 = towerpos1;
-			towerpos2.y = -towerpos2.y;
-			var dir2 = dir1;
-			dir2.y = -dir2.y;
-			Func<Vector3> anglesRestriction2 = () =>
-			{
-				float angle = enemy.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
-				Vector2 dir = Math2d.RotateVertex(dir2, angle);
-				Vector3 result = dir;
-				result.z = 90f;
-				return result;
-			}; 
-			var tenemy = ObjectsCreator.CreateSimpleTower(smartAim);
-			tenemy.SetAngleRestrictions(anglesRestriction2);
-			tenemy.guns.ForEach( g => g.onFire += HandleGunFire);
-			Place p2 = new Place(towerpos2, dir2);
-			enemy.AddTurret (p2, tenemy);
-		}
-		
-		InitNewEnemy(enemy);
-		return enemy;
 	}
 	
 	public void CreateRogueEnemy()
@@ -1000,9 +954,9 @@ public class Main : MonoBehaviour
 	
 	public void CreateSimpleTower()
 	{
-		bool smartAim = false;
-		var enemy = ObjectsCreator.CreateSimpleTower(smartAim);
-		InitNewEnemy(enemy);
+//		bool smartAim = false;
+//		var enemy = ObjectsCreator.CreateSimpleTower(smartAim);
+//		InitNewEnemy(enemy);
 	}
 	
 	public TowerEnemy CreateTower()
@@ -1038,27 +992,6 @@ public class Main : MonoBehaviour
 		var e = CreateEnemySpaceShip (3);
 		var e2 = CreateEnemySpaceShip (5);
 		e2.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
-
-
-//		var boss = CreateEnemySpaceShipBoss ();
-//
-//
-//		for (int i = 0; i < 2; i++) {
-//			var enemy = ObjectsCreator.CreateEnemySpaceShip ();
-//			{
-//				//var gT = Instantiate (thrustPrefab) as ParticleSystem;
-//				enemy.SetController (new EnemySpaceShipController (enemy, bullets, enemy.guns[0].bulletSpeed));
-//				enemy.SetThruster (thrustPrefab, Vector2.zero);
-//				enemy.guns.ForEach( g => g.onFire += HandleGunFire);
-//				enemy.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
-//				SetRandomPosition(enemy);
-//				Add2Objects(enemy);
-//			}
-//			
-//			enemy.SetTarget (boss);
-//			boss.SetTarget (enemy);
-//		}
-
 	}
 	
 	public Asteroid CreateAsteroid()
@@ -1108,7 +1041,7 @@ public class Main : MonoBehaviour
 	
 	private void SetRandomPosition(IPolygonGameObject p)
 	{
-		float angle = UnityEngine.Random.Range(0f, 359f) * Math2d.PIdiv180;
+		float angle = UnityEngine.Random.Range(0f, 359f) * Mathf.Deg2Rad;
 		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, screenBounds.yMax);
 		p.position = new Vector2(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len);
 	}

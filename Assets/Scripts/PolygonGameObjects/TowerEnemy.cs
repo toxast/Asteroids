@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -45,13 +45,13 @@ public class TowerEnemy : PolygonGameObject
 				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, guns[0].bulletSpeed);
 				if(aim.canShoot)
 				{
-					currentAimAngle = aim.directionAngleRAD / Math2d.PIdiv180;
+					currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;
 					float minAngle = 360;
 
 					foreach (var gun in guns) 
 					{
 						float shooterAngle = GunAngle(gun) + transform.eulerAngles.z;
-						float dangle = Math2d.DeltaAngleGRAD(currentAimAngle, shooterAngle);
+						float dangle = Math2d.DeltaAngleDeg(currentAimAngle, shooterAngle);
 
 						float absAngle = Mathf.Abs(dangle);
 						if(absAngle < minAngle)
@@ -69,7 +69,7 @@ public class TowerEnemy : PolygonGameObject
 
 	private float GunAngle(Gun p)
 	{
-		return Math2d.AngleRAD2 (new Vector2 (1, 0), p.place.pos) / Math2d.PIdiv180;
+		return Math2d.AngleRad (new Vector2 (1, 0), p.place.pos) * Mathf.Rad2Deg;
 	}
 
 	private void RotateCannon(float deltaTime)

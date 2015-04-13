@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public static class PolygonCollision 
@@ -43,8 +43,8 @@ public static class PolygonCollision
 
 	static public Polygon GetPolygonInGlobalCoordinates(IPolygonGameObject a)
 	{
-		float angle = a.cacheTransform.rotation.eulerAngles.z*Math2d.PIdiv180;
-		Vector2[] verticesA = Math2d.RotateVerticesRAD(a.polygon.vertices, angle);
+		float angle = a.cacheTransform.rotation.eulerAngles.z*Mathf.Deg2Rad;
+		Vector2[] verticesA = Math2d.RotateVerticesRad(a.polygon.vertices, angle);
 		Math2d.ShiftVertices(verticesA, a.cacheTransform.position);
 		Polygon aRotated = new Polygon(verticesA, a.cacheTransform.position);
 		return aRotated;
@@ -147,8 +147,8 @@ public static class PolygonCollision
 		
 		var Ra = intersectionPointOnEdge - a.massCenter;
 		var Rb = intersectionPointOnEdge - b.massCenter;
-		Vector2 Va = (Vector2)aobj.velocity + cross(Ra,  aobj.rotation * Math2d.PIdiv180);
-		Vector2 Vb = (Vector2)bobj.velocity + cross(Rb,  bobj.rotation * Math2d.PIdiv180);
+		Vector2 Va = (Vector2)aobj.velocity + cross(Ra,  aobj.rotation * Mathf.Deg2Rad);
+		Vector2 Vb = (Vector2)bobj.velocity + cross(Rb,  bobj.rotation * Mathf.Deg2Rad);
 		var Vab =  Va - Vb;
 		var Nb = -makeRight(collisionEdge.p2-collisionEdge.p1).normalized;
 		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
@@ -167,8 +167,8 @@ public static class PolygonCollision
 		aobj.velocity = (Vector2)aobj.velocity + (jNb / aobj.mass);
 		bobj.velocity = (Vector2)bobj.velocity - (jNb / bobj.mass);
 
-		aobj.rotation -= Vector3.Cross (Ra, jNb).z / (aobj.inertiaMoment * Math2d.PIdiv180);
-		bobj.rotation += Vector3.Cross (Rb, jNb).z / (bobj.inertiaMoment * Math2d.PIdiv180);
+		aobj.rotation -= Vector3.Cross (Ra, jNb).z / (aobj.inertiaMoment * Mathf.Deg2Rad);
+		bobj.rotation += Vector3.Cross (Rb, jNb).z / (bobj.inertiaMoment * Mathf.Deg2Rad);
 
 		return j;
 	}

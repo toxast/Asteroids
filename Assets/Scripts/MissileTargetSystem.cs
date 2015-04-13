@@ -124,7 +124,7 @@ public class MissileTargetSystem : ITickable
 	//the more the value the better target is
 	private float GetCloseValue(SpaceShip s, Vector2 dir)
 	{
-		var angle = Math2d.DeltaAngleGRAD( Math2d.GetRotationG(dir), Math2d.GetRotationG(s.cacheTransform.right));
+		var angle = Math2d.DeltaAngleDeg( Math2d.GetRotationDg(dir), Math2d.GetRotationDg(s.cacheTransform.right));
 		float time2rotate = Mathf.Abs(angle) / s.turnSpeed;
 		return 1000f / (dir.magnitude * time2rotate);
 	}

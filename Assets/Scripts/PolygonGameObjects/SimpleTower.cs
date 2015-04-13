@@ -14,56 +14,41 @@ public class SimpleTower : PolygonGameObject
 	Rotaitor cannonsRotaitor;
 	private bool smartAim = false;
 
-	private bool restrictAngle = false;
 	private Func<Vector3> anglesRestriction;
 
-	public void Init(bool smartAim)
+	public void Init(bool smartAim, Func<Vector3> angelsRestriction)
 	{
 		this.smartAim = smartAim;
 		
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
-		
+		this.anglesRestriction = angelsRestriction;
 		StartCoroutine(Aim());
 	}
 
-	public void SetAngleRestrictions(Func<Vector3> angelsRestriction)
-	{
-		restrictAngle = true;
-		this.anglesRestriction = angelsRestriction;
-	}
-	
 	public override void Tick(float delta)
 	{
 		base.Tick (delta);
-		
-		if(Main.IsNull(target))
-			return;
 		
 		RotateCannonWithRestrictions(delta);
 
 		TickGuns (delta);
 	}
-	
+
+	Vector2 lastRestrictDir = new Vector2(1,0);
+	float lastAllowed = 180;
+
 	private void RotateCannonWithRestrictions(float deltaTime)
 	{
 		float angle = currentAimAngle;
-		if(restrictAngle)
-		{
-			Vector3 restrict = anglesRestriction();
-			Vector2 dir = restrict;
-			float allowed = restrict.z;
-			float dangle = Math2d.DeltaAngleGRAD(Math2d.GetRotation(dir)/Math2d.PIdiv180, currentAimAngle);
-			if(Mathf.Abs(dangle) < allowed)
-			{
-				cannonsRotaitor.Rotate(deltaTime, angle);
-			}
-		}
-		else
+		Vector3 restrict = anglesRestriction();
+		lastRestrictDir = restrict;
+		lastAllowed = restrict.z;
+		float dangle = Math2d.DeltaAngleDeg(Math2d.GetRotationRad(lastRestrictDir)*Mathf.Rad2Deg, currentAimAngle);
+		if(Mathf.Abs(dangle) < lastAllowed)
 		{
 			cannonsRotaitor.Rotate(deltaTime, angle);
 		}
 	}
-	
 	
 	private IEnumerator Aim()
 	{
@@ -75,19 +60,21 @@ public class SimpleTower : PolygonGameObject
 			{
 				if(smartAim)
 				{
-					AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, guns[0].bulletSpeed);
+					AimSystem aim = new AimSystem(target.position, target.velocity, position, guns[0].bulletSpeed);
 					if(aim.canShoot)
 					{
-						currentAimAngle = aim.directionAngleRAD;
-						currentAimAngle /= Math2d.PIdiv180;
+						currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;
 					}
 				}
 				else
 				{
-					currentAimAngle = Math2d.AngleRAD2(new Vector2(1, 0), target.cacheTransform.position - cacheTransform.position);
-					currentAimAngle /= Math2d.PIdiv180;
+					currentAimAngle = Math2d.GetRotationDg(target.position - position);
 				}
 
+			}
+			else
+			{
+				currentAimAngle = Math2d.GetRotationDg(lastRestrictDir);
 			}
 			yield return new WaitForSeconds(aimInterval);
 		}

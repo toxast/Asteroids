@@ -64,12 +64,12 @@ public class GunsData
 	{
 		var e = GameObject.Instantiate(fireEffect) as ParticleSystem;
 		
-		float angle = Math2d.GetRotation(gp.dir);
-		e.transform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+		float angle = Math2d.GetRotationRad(gp.dir);
+		e.transform.RotateAround(Vector3.zero, Vector3.back, -angle*Mathf.Rad2Deg);
 		e.transform.position = gp.pos;
 		
-		angle = Math2d.GetRotation(trf.right);
-		e.transform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+		angle = Math2d.GetRotationRad(trf.right);
+		e.transform.RotateAround(Vector3.zero, Vector3.back, -angle*Mathf.Rad2Deg);
 		e.transform.position += trf.position;
 		
 		e.transform.parent = trf;

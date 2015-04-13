@@ -59,7 +59,7 @@ public class SpikyAsteroid : Asteroid
 				Vector2 dist = target.position - position;
 				if(dist.sqrMagnitude < detectionDistanceSqr)
 				{
-					float angle = cacheTransform.rotation.eulerAngles.z * Math2d.PIdiv180;
+					float angle = cacheTransform.rotation.eulerAngles.z * Mathf.Deg2Rad;
 					float cosA = Mathf.Cos(angle);
 					float sinA = Mathf.Sin(angle);
 
@@ -80,7 +80,7 @@ public class SpikyAsteroid : Asteroid
 							{
 								//split spike off
 								List<Vector2[]> parts = polygon.SplitBy2Vertices(polygon.Previous(spike.index), polygon.Next(spike.index));
-								Vector2[] spikePart = Math2d.RotateVerticesRAD(parts[1], angle);
+								Vector2[] spikePart = Math2d.RotateVerticesRad(parts[1], angle);
 								
 								spikesLeft.RemoveAt(i);
 								StartCoroutine(GrowSpike(spike.index, spike.a.p2));

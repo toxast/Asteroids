@@ -47,7 +47,7 @@ public class Gun : IGotTarget, ITickable
 		if(data.fireEffect != null)
 		{
 			fireEffect = GameObject.Instantiate(data.fireEffect) as ParticleSystem;
-			Math2d.PositionOnShooterPlace(fireEffect.transform, place, parent.cacheTransform, true, -1);
+			Math2d.PositionOnParent(fireEffect.transform, place, parent.cacheTransform, true, -1);
 		}
 	}
 

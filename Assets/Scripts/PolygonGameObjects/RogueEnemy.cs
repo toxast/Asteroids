@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -71,7 +71,7 @@ public class RogueEnemy : PolygonGameObject
 	//TODO: refactor from tank enemy and evades
 	private void RotateCannon(float deltaTime)
 	{
-		currentAimAngle = Math2d.GetRotation(ref distToTraget) / Math2d.PIdiv180 ;
+		currentAimAngle = Math2d.GetRotationRad(ref distToTraget) * Mathf.Rad2Deg;
 		cannonsRotaitor.Rotate(deltaTime, currentAimAngle);
 	}
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class LazerGun : Gun
@@ -49,7 +49,7 @@ public class LazerGun : Gun
 			lazer = PolygonCreator.CreateLazerGO(color);
 			lTransform = lazer.transform;
 			lazerMesh = lazer.GetComponent<MeshFilter>().mesh;
-			Math2d.PositionOnShooterPlace (lTransform, place, parent.cacheTransform, true);
+			Math2d.PositionOnParent (lTransform, place, parent.cacheTransform, true);
 			layer = 1 << Main.GetBulletLayerNum(parent.layer);
 		}
 		leftDuration = lifeTime;

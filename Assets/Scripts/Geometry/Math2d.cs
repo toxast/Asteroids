@@ -24,14 +24,14 @@ public static class Math2d
 	}
 
 
-	static public float AngleRAD2(Vector2 v1, Vector2 v2)
+	static public float AngleRad(Vector2 v1, Vector2 v2)
 	{
-		return AngleRAD (ref v1, ref v2);
+		return AngleRad (ref v1, ref v2);
 	}
 	/// <summary>
 	/// returns angle [0, 2*Pi] to rotate from v1 to v2 counterclockwise;
 	/// </summary>
-	static public float AngleRAD(ref Vector2 v1, ref Vector2 v2)
+	static public float AngleRad(ref Vector2 v1, ref Vector2 v2)
 	{
 		float sign = Mathf.Sign(Cross(ref v1, ref v2));
 		float angle = Mathf.Acos(Cos(ref v1, ref v2));
@@ -50,7 +50,7 @@ public static class Math2d
 		return chance > UnityEngine.Random.Range(0f, 1f);
 	}
 
-	static public float DeltaAngleGRAD(float fromAngle, float toAngle)
+	static public float DeltaAngleDeg(float fromAngle, float toAngle)
 	{
 		float diff = toAngle - fromAngle;
 		
@@ -69,19 +69,19 @@ public static class Math2d
 	/// <summary>
 	/// returns angle [0, 2*Pi] to rotate from vector (1, 0) to v counterclockwise;
 	/// </summary>
-	static public float GetRotation(ref Vector2 v)
+	static public float GetRotationRad(ref Vector2 v)
 	{
-		return AngleRAD(ref right, ref v);  
+		return AngleRad(ref right, ref v);  
 	}
 
-	static public float GetRotation(Vector2 v)
+	static public float GetRotationRad(Vector2 v)
 	{
-		return AngleRAD(ref right, ref v);  
+		return AngleRad(ref right, ref v);  
 	}
 
-	static public float GetRotationG(Vector2 v)
+	static public float GetRotationDg(Vector2 v)
 	{
-		return GetRotation(ref v) * Mathf.Rad2Deg;  
+		return GetRotationRad(ref v) * Mathf.Rad2Deg;  
 	}
 
 	static public Vector2 GetMassCenter(Vector2[] vertices)
@@ -187,7 +187,7 @@ public static class Math2d
 		return fvertices;
 	}
 	
-	static public Vector2[] RotateVerticesRAD(Vector2[] vertices, float angle)
+	static public Vector2[] RotateVerticesRad(Vector2[] vertices, float angle)
 	{
 		float cosA = Mathf.Cos(angle);
 		float sinA = Mathf.Sin(angle);
@@ -219,14 +219,14 @@ public static class Math2d
 	}
 
 
-	static public void PositionOnShooterPlace(Transform objTransform, Place place, Transform parentTransform, bool makeParent = false, float zOffset = 0)
+	static public void PositionOnParent(Transform objTransform, Place place, Transform parentTransform, bool makeParent = false, float zOffset = 0)
 	{
-		float angle = Math2d.GetRotation(place.dir);
-		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+		float angle = Math2d.GetRotationRad(place.dir);
+		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle*Mathf.Rad2Deg);
 		objTransform.position = place.pos;
 		
-		angle = Math2d.GetRotation(parentTransform.right);
-		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle/Math2d.PIdiv180);
+		angle = Math2d.GetRotationRad(parentTransform.right);
+		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle*Mathf.Rad2Deg);
 		objTransform.position += parentTransform.position;
 
 		if(makeParent)

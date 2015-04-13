@@ -16,6 +16,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public Material mat{get; set;}
 
 	//collision
+	public int layerNum{ get; set;}
 	public int layer{ get; set;}
 	public int collision{ get; set;}
 
@@ -77,6 +78,13 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	{
 		this.target = target;
 		guns.ForEach(g => g.SetTarget(target));
+	}
+
+	public virtual void SetCollisionLayerNum (int layerNum)
+	{
+		this.layerNum = layerNum;
+		layer = 1 << layerNum;
+		collision = GlobalConfig.GetLayerCollisions (layerNum);
 	}
 
 	public Vector2 position

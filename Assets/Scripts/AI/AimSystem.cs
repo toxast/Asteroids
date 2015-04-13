@@ -19,7 +19,7 @@ public class AimSystem
 	{
 		get
 		{
-			return Math2d.AngleRAD(ref right, ref direction);
+			return Math2d.AngleRad(ref right, ref direction);
 		}
 	}
 

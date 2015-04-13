@@ -35,7 +35,7 @@ public class Spliter
 	private static void CalculateObjectPartVelocity(List<Asteroid> parts, IPolygonGameObject mainPart)
 	{
 		Vector2 mainVelocity = mainPart.velocity;
-		float mainRotation = mainPart.rotation* Math2d.PIdiv180; 
+		float mainRotation = mainPart.rotation* Mathf.Deg2Rad; 
 		
 		float mainPartEnergy = 0.5f * mainPart.mass * mainVelocity.sqrMagnitude;
 		float mainPartRotationEnergy = 0.5f * mainPart.inertiaMoment * (mainRotation*mainRotation);
@@ -90,7 +90,7 @@ public class Spliter
 			float velocityEnegryFromRotation = kRotationEnergyToVelocity * pieceRotationEnergy;
 			pieceRotationEnergy = pieceRotationEnergy * (1 - kRotationEnergyToVelocity);
 			
-			part.rotation = rotationSign * Mathf.Sqrt( 2f * pieceRotationEnergy / part.inertiaMoment ) / Math2d.PIdiv180;
+			part.rotation = rotationSign * Mathf.Sqrt( 2f * pieceRotationEnergy / part.inertiaMoment ) * Mathf.Rad2Deg;
 			
 			Vector2 perpendecular = new Vector2(direction.y, -direction.x);
 			part.velocity += (Vector3)perpendecular.normalized * rotationSign * Mathf.Sqrt( 2f * velocityEnegryFromRotation / part.mass );
