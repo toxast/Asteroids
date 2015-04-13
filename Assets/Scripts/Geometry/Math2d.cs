@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 public static class Math2d
@@ -177,14 +178,27 @@ public static class Math2d
 		return vertices2;
 	}
 
-	public static Vector2[] OffsetVerticesFromCenter(Vector2[] vertices, float offset)
+	public static Vector2[] OffsetVerticesFromCenter(Vector2[] circulatedVertices, float offset)
 	{
-		Vector2[] fvertices = new Vector2[vertices.Length];
-		for (int i = 0; i < fvertices.Length; i++) 
+		List<Vector2> vrt = new List<Vector2> ();
+
+		for (int i = 0; i < circulatedVertices.Length - 2; i++) 
 		{
-			fvertices[i] = vertices[i].normalized * ( vertices[i].magnitude + offset);
+			Vector2 a = circulatedVertices[i+1] - circulatedVertices[i];
+			Vector2 b = circulatedVertices[i+2] - circulatedVertices[i+1];
+			float rotate = Math2d.Cross(ref a, ref b);
+			var outDir = (a.normalized - b.normalized)*Mathf.Sign(-rotate);
+			if(Mathf.Approximately(outDir.sqrMagnitude, 0f))
+			{
+				continue;
+			}
+			else
+			{
+				vrt.Add(circulatedVertices[i+1] + outDir.normalized * offset);
+			}
 		}
-		return fvertices;
+
+		return vrt.ToArray ();
 	}
 	
 	static public Vector2[] RotateVerticesRad(Vector2[] vertices, float angle)
