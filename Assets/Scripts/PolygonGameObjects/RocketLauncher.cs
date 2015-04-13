@@ -45,7 +45,7 @@ public class RocketLauncher : Gun
 		{
 			float angle = Math2d.GetRotationRad(missile.cacheTransform.right);
 			var byPlace = Math2d.RotateVertex(launchDirection, angle);
-			missile.velocity += (Vector3)byPlace.normalized * launchSpeed;
+			missile.velocity += byPlace.normalized * launchSpeed;
 		}
 		return missile;
 	}

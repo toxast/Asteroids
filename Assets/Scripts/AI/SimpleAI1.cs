@@ -44,7 +44,7 @@ public class SimpleAI1 : InputController, IGotTarget
 		{
 			if(!Main.IsNull(target))
 			{
-				Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
+				Vector2 dir = target.position - thisShip.position;
 				turnDirection = dir;
 				if(dir.sqrMagnitude < fireRangeSqr)
 				{

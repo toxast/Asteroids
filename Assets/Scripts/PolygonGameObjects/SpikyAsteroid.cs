@@ -87,7 +87,7 @@ public class SpikyAsteroid : Asteroid
 								
 								Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, ObjectsCreator.defaultEnemyColor);
 								spikeAsteroid.Init();
-								spikeAsteroid.cacheTransform.position += cacheTransform.position;
+								spikeAsteroid.position += position;
 								spikeAsteroid.rotation = 0f;
 								spikeAsteroid.velocity = spikeSpeed * spikeDisrection.normalized;
 								

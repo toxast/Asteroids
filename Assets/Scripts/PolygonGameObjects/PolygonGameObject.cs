@@ -24,9 +24,13 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public float density{ get; set;}
 	public float mass{ get; private set;}
 	public float inertiaMoment{ get; private set;}
-	public Vector3 velocity{ get; set;}
+	public Vector2 velocity{ get; set;}
 	public float rotation{ get; set;}
-
+	public Vector2 position
+	{
+		get{return cacheTransform.position;}
+		set{cacheTransform.position = ((Vector3)value).SetZ(cacheTransform.position.z);}
+	}
 
 	public enum DestructionType
 	{
@@ -42,7 +46,6 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public event Action<float> healthChanged;
 
 	public List<Gun> guns { get; set;}
-
 
 	public IPolygonGameObject target{ get; private set;}
 	public ITickable targetSystem;
@@ -87,11 +90,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		collision = GlobalConfig.GetLayerCollisions (layerNum);
 	}
 
-	public Vector2 position
-	{
-		get{return cacheTransform.position;}
-		set{cacheTransform.position = ((Vector3)value).SetZ(cacheTransform.position.z);}
-	}
+
 
 	protected virtual float healthModifier
 	{
@@ -236,7 +235,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		if(targetSystem != null)
 			targetSystem.Tick (delta);
 
-		cacheTransform.position += velocity * delta;
+		position += velocity * delta;
 		ApplyRotation (delta);
 
 		if (deathAnimation != null)

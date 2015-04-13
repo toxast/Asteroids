@@ -25,7 +25,7 @@ public class SawEnemy : Asteroid
 
 		//TODO: asteroid?
 		float a = Random.Range(0f, 359f) * Mathf.Deg2Rad;
-		velocity = new Vector3(Mathf.Cos(a)*initialVelocity, Mathf.Sin(a)*initialVelocity, 0f);
+		velocity = new Vector2(Mathf.Cos(a)*initialVelocity, Mathf.Sin(a)*initialVelocity);
 		rotation = initialRotation;
 
 		detectionDistanceSqr = detectionDistance*detectionDistance;
@@ -53,7 +53,7 @@ public class SawEnemy : Asteroid
 
 			if(!Main.IsNull(target))
 			{
-				Vector2 dist = target.cacheTransform.position - cacheTransform.position;
+				Vector2 dist = target.position - position;
 				bool targetInRange = dist.sqrMagnitude < detectionDistanceSqr;
 				if(targetInRange)
 				{
@@ -90,14 +90,14 @@ public class SawEnemy : Asteroid
 	{
 		if(!Main.IsNull(target))
 		{
-			AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, chargeSpeed);
+			AimSystem aim = new AimSystem(target.position, target.velocity, position, chargeSpeed);
 			if(aim.canShoot)
 			{
 				velocity = chargeSpeed * aim.direction.normalized;
 			}
 			else
 			{
-				Vector2 direction = target.cacheTransform.position - cacheTransform.position;
+				Vector2 direction = target.position - position;
 				velocity = chargeSpeed * direction.normalized;
 			}
 		}

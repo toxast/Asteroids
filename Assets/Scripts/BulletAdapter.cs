@@ -56,7 +56,7 @@ public class BulletAdapter : IBullet
 	public float density{get{return go.density;}}
 	public float mass{get{return go.mass;}}
 	public float inertiaMoment{get{return go.inertiaMoment;}}
-	public Vector3 velocity{get{return go.velocity;} set{go.velocity = value;}}
+	public Vector2 velocity{get{return go.velocity;} set{go.velocity = value;}}
 	public float rotation{get{return go.rotation;} set{go.rotation = value;}}
 	public PolygonCreator.MeshDataUV meshUV{get{return go.meshUV;} set{go.meshUV = value;}}
 	public void Hit(float dmg)

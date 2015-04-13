@@ -16,13 +16,13 @@ public static class PolygonCollision
 		indxb = -1;
 
 		//--------------------
-//		var aPos = a.cacheTransform.position;
-//		a.cacheTransform.position += a.velocity.normalized * 0.2f;
-//		var bPos = b.cacheTransform.position;
-//		b.cacheTransform.position += b.velocity.normalized * 0.2f;
+//		var aPos = aposition;
+//		aposition += a.velocity.normalized * 0.2f;
+//		var bPos = bposition;
+//		bposition += b.velocity.normalized * 0.2f;
 		//--------------------
 
-		Vector2 distance2d = a.cacheTransform.position - b.cacheTransform.position;
+		Vector2 distance2d = a.position - b.position;
 		bool collides = false;
 		float r = a.polygon.R + b.polygon.R;
 		if (distance2d.sqrMagnitude <= r*r) 
@@ -34,8 +34,8 @@ public static class PolygonCollision
 		}
 
 		//--------------------
-//		a.cacheTransform.position = aPos;
-//		b.cacheTransform.position = bPos;
+//		aposition = aPos;
+//		bposition = bPos;
 		//--------------------
 
 		return collides;
@@ -45,8 +45,8 @@ public static class PolygonCollision
 	{
 		float angle = a.cacheTransform.rotation.eulerAngles.z*Mathf.Deg2Rad;
 		Vector2[] verticesA = Math2d.RotateVerticesRad(a.polygon.vertices, angle);
-		Math2d.ShiftVertices(verticesA, a.cacheTransform.position);
-		Polygon aRotated = new Polygon(verticesA, a.cacheTransform.position);
+		Math2d.ShiftVertices(verticesA, a.position);
+		Polygon aRotated = new Polygon(verticesA, a.position);
 		return aRotated;
 	}
 
@@ -147,8 +147,8 @@ public static class PolygonCollision
 		
 		var Ra = intersectionPointOnEdge - a.massCenter;
 		var Rb = intersectionPointOnEdge - b.massCenter;
-		Vector2 Va = (Vector2)aobj.velocity + cross(Ra,  aobj.rotation * Mathf.Deg2Rad);
-		Vector2 Vb = (Vector2)bobj.velocity + cross(Rb,  bobj.rotation * Mathf.Deg2Rad);
+		Vector2 Va = aobj.velocity + cross(Ra,  aobj.rotation * Mathf.Deg2Rad);
+		Vector2 Vb = bobj.velocity + cross(Rb,  bobj.rotation * Mathf.Deg2Rad);
 		var Vab =  Va - Vb;
 		var Nb = -makeRight(collisionEdge.p2-collisionEdge.p1).normalized;
 		if(Math2d.DotProduct(ref Nb, ref Vab) >= 0)
@@ -164,8 +164,8 @@ public static class PolygonCollision
 		float j =  -(1 + ekff) * Math2d.DotProduct(ref Vab, ref Nb) / (1f/aobj.mass + 1f/bobj.mass + wa + wb);
 		var jNb = j * Nb;
 
-		aobj.velocity = (Vector2)aobj.velocity + (jNb / aobj.mass);
-		bobj.velocity = (Vector2)bobj.velocity - (jNb / bobj.mass);
+		aobj.velocity = aobj.velocity + (jNb / aobj.mass);
+		bobj.velocity = bobj.velocity - (jNb / bobj.mass);
 
 		aobj.rotation -= Vector3.Cross (Ra, jNb).z / (aobj.inertiaMoment * Mathf.Deg2Rad);
 		bobj.rotation += Vector3.Cross (Rb, jNb).z / (bobj.inertiaMoment * Mathf.Deg2Rad);
@@ -181,7 +181,7 @@ public static class PolygonCollision
 		float Pvelocity = Math2d.DotProduct (ref dir2p, ref P);
 		Vector3 up = Vector3.Cross (P, dir2p);
 		Vector2 PRotation = Vector3.Cross (dir2p, up);
-		p.velocity += (Vector3)dir2p * (Pvelocity / p.mass); 
+		p.velocity += dir2p * (Pvelocity / p.mass); 
 		p.rotation -= PRotation.magnitude / p.inertiaMoment;
 	}
 

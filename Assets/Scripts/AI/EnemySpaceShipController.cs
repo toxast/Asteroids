@@ -154,7 +154,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 
 	private IEnumerator Teleport()
 	{
-		Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
+		Vector2 dir = target.position - thisShip.position;
 		var dodgeDir = RotateDirection (dir, 15, 45);
 		thisShip.position += dodgeDir.normalized * teleportationDistance;
 		thisShip.cacheTransform.right = target.position - thisShip.position;
@@ -172,7 +172,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 			if(Main.IsNull(target))
 				yield break;
 
-			Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
+			Vector2 dir = target.position - thisShip.position;
 			turnDirection = dir;
 			yield return new WaitForSeconds(0);
 			duration -= Time.deltaTime;
@@ -190,14 +190,14 @@ public class EnemySpaceShipController : InputController, IGotTarget
 			if(Main.IsNull(target))
 				yield break;
 
-			AimSystem a = new AimSystem(target.cacheTransform.position, target.velocity - (Vector3)Main.AddSpipSpeed2TheBullet(thisShip), thisShip.cacheTransform.position, bulletsSpeed);
+			AimSystem a = new AimSystem(target.position, target.velocity - Main.AddSpipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
 			if(a.canShoot)
 			{
 				turnDirection = a.direction;
 			}
 			else
 			{
-				turnDirection = target.cacheTransform.position - thisShip.cacheTransform.position;
+				turnDirection = target.position - thisShip.position;
 			}
 			yield return new WaitForSeconds(0);
 			duration -= Time.deltaTime;
@@ -208,7 +208,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 	{
 		accelerating = true;
 		shooting = false;
-		Vector2 dir = target.cacheTransform.position - thisShip.cacheTransform.position;
+		Vector2 dir = target.position - thisShip.position;
 		turnDirection = -dir;
 		yield return new WaitForSeconds(duration);
 	}

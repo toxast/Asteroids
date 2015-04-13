@@ -21,7 +21,7 @@ public class Spliter
 			asteroidPart.Init();
 			asteroidPart.SetCollisionLayerNum(GlobalConfig.ilayerAsteroids);
 			asteroidPart.cacheTransform.Translate(polygonGo.position);
-			asteroidPart.cacheTransform.RotateAround(polygonGo.cacheTransform.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
+			asteroidPart.cacheTransform.RotateAround(polygonGo.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
 			asteroidPart.gameObject.name = "asteroid part";
 			
 			parts.Add(asteroidPart);
@@ -53,7 +53,7 @@ public class Spliter
 		List<Vector2> distances = new List<Vector2> (parts.Count);
 		for (int i = 0; i < parts.Count; i++) 
 		{
-			distances.Add(parts[i].cacheTransform.position - mainPart.cacheTransform.position);
+			distances.Add(parts[i].position - mainPart.position);
 		}
 		
 		float sumVelocityWeights = 0;
@@ -83,7 +83,7 @@ public class Spliter
 			part.velocity = direction.normalized * Mathf.Sqrt(2f * pieceBlowEnergy / part.mass );
 			if(mainVelocity != Vector2.zero)
 			{
-				part.velocity += (Vector3)mainVelocity.normalized * Mathf.Sqrt( 2f * pieceInertiaEnergy / part.mass );
+				part.velocity += mainVelocity.normalized * Mathf.Sqrt( 2f * pieceInertiaEnergy / part.mass );
 			}
 			
 			float pieceRotationEnergy = mainPartRotationEnergy * (rotationWeights[i]/ sumRotationWeights);
@@ -93,7 +93,7 @@ public class Spliter
 			part.rotation = rotationSign * Mathf.Sqrt( 2f * pieceRotationEnergy / part.inertiaMoment ) * Mathf.Rad2Deg;
 			
 			Vector2 perpendecular = new Vector2(direction.y, -direction.x);
-			part.velocity += (Vector3)perpendecular.normalized * rotationSign * Mathf.Sqrt( 2f * velocityEnegryFromRotation / part.mass );
+			part.velocity += perpendecular.normalized * rotationSign * Mathf.Sqrt( 2f * velocityEnegryFromRotation / part.mass );
 			
 			part.velocity = part.velocity.SetZ(0);//TODO: z system*/
 		}

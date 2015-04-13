@@ -42,7 +42,7 @@ public class TowerEnemy : PolygonGameObject
 		{
 			if(target != null && !target.Equals(null))
 			{
-				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, guns[0].bulletSpeed);
+				AimSystem aim = new AimSystem(target.position, target.velocity, position, guns[0].bulletSpeed);
 				if(aim.canShoot)
 				{
 					currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;

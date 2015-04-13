@@ -39,7 +39,7 @@ public class SpaceShip : PolygonGameObject
 	{
 		base.Awake ();
 		maxSpeedSqr = maxSpeed*maxSpeed;
-		velocity = Vector3.zero;
+		velocity = Vector2.zero;
 	}
 
 	public override void SetTarget(IPolygonGameObject target)
@@ -114,7 +114,7 @@ public class SpaceShip : PolygonGameObject
 
 		float deltaV = delta * thrust;
 		velocity -= k * velocity.normalized * deltaV;
-		velocity += (1 + k)*cacheTransform.right * deltaV;
+		velocity += (Vector2)((1 + k)*cacheTransform.right * deltaV);
 
 		if(velocity.sqrMagnitude > maxSpeedSqr)
 		{

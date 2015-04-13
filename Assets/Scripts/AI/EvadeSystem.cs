@@ -36,7 +36,7 @@ public class EvadeSystem
 
 	//results
 	public bool safeAtCurrentPosition;
-	public Vector3 safePosition;
+	public Vector2 safePosition;
 
 	public EvadeSystem(List<IBullet> bullets, PolygonGameObject victim)
 	{
@@ -61,11 +61,11 @@ public class EvadeSystem
 			float safePoint1d = FindSpaceInIntervals(intersections, requiredSpace);
 			//rotate back
 			Vector2 safe2d = Math2d.RotateVertex(new Vector2(safePoint1d, 0), cosA, -sinA);
-			safePosition = victim.cacheTransform.position + (Vector3)safe2d;
+			safePosition = victim.position + safe2d;
 		}
 		else
 		{
-			safePosition = victim.cacheTransform.position;
+			safePosition = victim.position;
 		}
 	}
 
@@ -82,7 +82,7 @@ public class EvadeSystem
 			if((bullet.collision & victim.layer) == 0)
 				continue;
 
-			Vector2 pos = (Vector2)bullet.cacheTransform.position - victimPos; 
+			Vector2 pos = (Vector2)bullet.position - victimPos; 
 			float cos = Math2d.Cos(-pos, bullet.velocity);
 			DangerBullet b = new DangerBullet(bullet, pos);
 

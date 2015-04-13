@@ -45,7 +45,7 @@ public class RogueEnemy : PolygonGameObject
 		if(Main.IsNull(target))
 			return;
 
-		distToTraget = target.cacheTransform.position - cacheTransform.position;
+		distToTraget = target.position - position;
 		
 		float deltaDist = movingSpeed * delta;
 		
@@ -60,11 +60,11 @@ public class RogueEnemy : PolygonGameObject
 		float sqrDist = distToTraget.sqrMagnitude;
 		if(sqrDist < minDistanceToTargetSqr)
 		{
-			cacheTransform.position -= (Vector3) distToTraget.normalized * deltaDist;
+			position -= distToTraget.normalized * deltaDist;
 		}
 		else if (sqrDist > maxDistanceToTargetSqr)
 		{
-			cacheTransform.position += (Vector3) distToTraget.normalized * deltaDist;
+			position += distToTraget.normalized * deltaDist;
 		}
 	}
 

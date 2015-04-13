@@ -29,7 +29,7 @@ public class EvadeEnemy : PolygonGameObject
 	private float cannonsRotatingSpeed = 55f;
 
 	private bool avoiding = false;
-	private Vector3 currentSafePoint;
+	private Vector2 currentSafePoint;
 	private float currentAimAngle = 0;
 	private int goRoundTargetSign = 1;
 
@@ -94,37 +94,37 @@ public class EvadeEnemy : PolygonGameObject
 
 	private void MoveToSafePoint(float deltaDist)
 	{
-		Vector2 dist = cacheTransform.position - currentSafePoint;
+		Vector2 dist = position - currentSafePoint;
 		if(dist.sqrMagnitude < deltaDist*deltaDist)
 		{
-			cacheTransform.position = currentSafePoint;
+			position = currentSafePoint;
 			//avoiding = false;
 		}
 		else
 		{
-			cacheTransform.position += (currentSafePoint - cacheTransform.position).normalized*deltaDist;
+			position += (currentSafePoint - position).normalized*deltaDist;
 		}
 	}
 
 	private void KeepTargetDistance(float deltaDist)
 	{
-		Vector2 dist = target.cacheTransform.position - cacheTransform.position;
+		Vector2 dist = target.position - position;
 		float sqrDist = dist.sqrMagnitude;
 		if(sqrDist < minDistanceToTargetSqr)
 		{
-			cacheTransform.position -= (Vector3) dist.normalized * deltaDist;
+			position -= dist.normalized * deltaDist;
 		}
 		else if (sqrDist > maxDistanceToTargetSqr)
 		{
-			cacheTransform.position += (Vector3) dist.normalized * deltaDist;
+			position += dist.normalized * deltaDist;
 		}
 	}
 
 	private void RotateAroundTarget(float deltaDist)
 	{
-		Vector2 dist = target.cacheTransform.position - cacheTransform.position;
+		Vector2 dist = target.position - position;
 		Vector2 rotateDirection = new Vector2(dist.y, -dist.x).normalized; //right
-		cacheTransform.position += (Vector3) rotateDirection * deltaDist * goRoundTargetSign;
+		position += rotateDirection * deltaDist * goRoundTargetSign;
 	}
 
 	private void RotateCannon(float deltaTime)
@@ -151,7 +151,7 @@ public class EvadeEnemy : PolygonGameObject
 		{
 			if(!Main.IsNull(target))
 			{
-				AimSystem aim = new AimSystem(target.cacheTransform.position, target.velocity, cacheTransform.position, guns[0].bulletSpeed);
+				AimSystem aim = new AimSystem(target.position, target.velocity, position, guns[0].bulletSpeed);
 				if(aim.canShoot)
 				{
 					currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;

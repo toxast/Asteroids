@@ -21,7 +21,7 @@ public class StandaloneInputController : InputController
 		Vector2 moveTo = (Vector2)Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		//moveTo = new Vector2 (Mathf.Clamp (moveTo.x, flyZoneBounds.xMin, flyZoneBounds.xMax
 
-		turnDirection = moveTo - (Vector2)p.cacheTransform.position;
+		turnDirection = moveTo - p.position;
 	}
 
 	public Vector2 TurnDirection ()

@@ -72,7 +72,7 @@ public class MissileController : InputController, IGotTarget
 	{
 		var aimVelocity = (target.velocity - thisShip.velocity) * 0.5f;
 		//var aimVelocity = target.velocity * 1.5f - velocity; imba
-		AimSystem aim = new AimSystem (target.cacheTransform.position, aimVelocity, thisShip.cacheTransform.position, maxVelocity);  
+		AimSystem aim = new AimSystem (target.position, aimVelocity, thisShip.position, maxVelocity);  
 		turnDirection = aim.direction;
 	}
 }

@@ -27,7 +27,7 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	float density{get;}
 	float mass{get;}
 	float inertiaMoment{get;}
-	Vector3 velocity{get; set;}
+	Vector2 velocity{get; set;}
 	float rotation{get; set;}
 
 	void Hit(float dmg);

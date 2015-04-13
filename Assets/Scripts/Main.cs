@@ -225,13 +225,13 @@ public class Main : MonoBehaviour
 
 	private void MoveCameraWarpMode()
 	{
-		Vector3 pos = spaceship.cacheTransform.position;
+		Vector3 pos = spaceship.position;
 		Camera.main.transform.position = pos.SetZ(Camera.main.transform.position.z);
 	}
 
 	private void MoveCameraBoundsMode()
 	{
-		Vector3 pos = spaceship.cacheTransform.position;
+		Vector3 pos = spaceship.position;
 		float x = Mathf.Clamp(pos.x, -maxCameraX, maxCameraX);
 		float y = Mathf.Clamp(pos.y, -maxCameraY, maxCameraY);
 		Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
@@ -587,7 +587,7 @@ public class Main : MonoBehaviour
 
 	private void ApplyBoundsForce(PolygonGameObject p)
 	{
-		Vector2 curPos = p.cacheTransform.position;
+		Vector2 curPos = p.position;
 		//CheckIfShipOutOfBounds()
 		if(curPos.x < flyZoneBounds.xMin)
 		{
@@ -616,7 +616,7 @@ public class Main : MonoBehaviour
 	private void ApplyForce(PolygonGameObject p, Vector2 dir)
 	{
 		float pushingForce = 4f;
-		Vector3 f = dir.normalized * pushingForce * dir.sqrMagnitude;
+		var f = dir.normalized * pushingForce * dir.sqrMagnitude;
 		p.velocity += (Time.deltaTime * f) / p.mass ;
 	}
 
@@ -817,29 +817,29 @@ public class Main : MonoBehaviour
 
 	private bool CheckBounds(IPolygonGameObject p)
 	{
-		Vector3 pos = p.cacheTransform.position;
+		Vector3 pos = p.position;
 		float R = p.polygon.R;
 		bool repositioned = false;
 
 		if(pos.x - R > screenBounds.xMax)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetX(screenBounds.xMin - R);
+			p.position = p.position.SetX(screenBounds.xMin - R);
 			repositioned = true;
 		}
 		else if(pos.x + R < screenBounds.xMin)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetX(screenBounds.xMax + R);
+			p.position = p.position.SetX(screenBounds.xMax + R);
 			repositioned = true;
 		}
 
 		if(pos.y + R < screenBounds.yMin)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetY(screenBounds.yMax + R);
+			p.position = p.position.SetY(screenBounds.yMax + R);
 			repositioned = true;
 		}
 		else if(pos.y - R > screenBounds.yMax)
 		{
-			p.cacheTransform.position = p.cacheTransform.position.SetY(screenBounds.yMin - R);
+			p.position = p.position.SetY(screenBounds.yMin - R);
 			repositioned = true;
 		}
 		return repositioned;

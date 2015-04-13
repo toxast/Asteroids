@@ -28,7 +28,7 @@ public class TankEnemy : PolygonGameObject
 	private float currentAimAngle = 0;
 	private bool avoiding = false;
 	private Vector2 distToTraget;
-	private Vector3 currentSafePoint;
+	private Vector2 currentSafePoint;
 
 	private Rotaitor cannonsRotaitor;
 	private List<IBullet> bullets;
@@ -55,7 +55,7 @@ public class TankEnemy : PolygonGameObject
 		if(Main.IsNull(target))
 			return;
 
-		distToTraget = target.cacheTransform.position - cacheTransform.position;
+		distToTraget = target.position - position;
 
 		float deltaDist = movingSpeed * delta;
 		
@@ -75,15 +75,15 @@ public class TankEnemy : PolygonGameObject
 	
 	private void MoveToSafePoint(float deltaDist)
 	{
-		Vector2 dist = cacheTransform.position - currentSafePoint;
+		Vector2 dist = position - currentSafePoint;
 		if(dist.sqrMagnitude < deltaDist*deltaDist)
 		{
-			cacheTransform.position = currentSafePoint;
+			position = currentSafePoint;
 			avoiding = false;
 		}
 		else
 		{
-			cacheTransform.position += (currentSafePoint - cacheTransform.position).normalized*deltaDist;
+			position += (currentSafePoint - position).normalized*deltaDist;
 		}
 	}
 	
@@ -92,11 +92,11 @@ public class TankEnemy : PolygonGameObject
 		float sqrDist = distToTraget.sqrMagnitude;
 		if(sqrDist < minDistanceToTargetSqr)
 		{
-			cacheTransform.position -= (Vector3) distToTraget.normalized * deltaDist;
+			position -= distToTraget.normalized * deltaDist;
 		}
 		else if (sqrDist > maxDistanceToTargetSqr)
 		{
-			cacheTransform.position += (Vector3) distToTraget.normalized * deltaDist;
+			position += distToTraget.normalized * deltaDist;
 		}
 	}
 	

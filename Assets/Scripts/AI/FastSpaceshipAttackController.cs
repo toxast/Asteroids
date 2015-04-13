@@ -281,15 +281,15 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 			if(Main.IsNull(target))
 				yield break;
 
-			Vector2 relativeVelocity = ((Vector2)target.velocity - Main.AddSpipSpeed2TheBullet(thisShip));
-			AimSystem a = new AimSystem(target.cacheTransform.position, accuracy * relativeVelocity, thisShip.cacheTransform.position, bulletsSpeed);
+			Vector2 relativeVelocity = (target.velocity - Main.AddSpipSpeed2TheBullet(thisShip));
+			AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity, thisShip.position, bulletsSpeed);
 			if(a.canShoot)
 			{
 				turnDirection = a.direction;
 			}
 			else
 			{
-				turnDirection = target.cacheTransform.position - thisShip.cacheTransform.position;
+				turnDirection = target.position - thisShip.position;
 			}
 			yield return new WaitForSeconds(0);
 			duration -= Time.deltaTime;
