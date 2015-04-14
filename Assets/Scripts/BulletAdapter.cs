@@ -52,6 +52,8 @@ public class BulletAdapter : IBullet
 	public PolygonGameObject.DestructionType destructionType{get{return go.destructionType;} set{go.destructionType = value;}}
 	public bool destroyOnBoundsTeleport{get{return go.destroyOnBoundsTeleport;} set{go.destroyOnBoundsTeleport = value;}}
 
+	public PolygonGameObject minimapIndicator {get{return go.minimapIndicator;} set{go.minimapIndicator = value;}}
+
 	//physical
 	public float density{get{return go.density;}}
 	public float mass{get{return go.mass;}}

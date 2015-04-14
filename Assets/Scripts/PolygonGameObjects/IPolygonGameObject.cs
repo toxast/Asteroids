@@ -35,6 +35,8 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	event Action<float> healthChanged;
 	bool IsKilled();
 
+	PolygonGameObject minimapIndicator { get; set;}
+
 	bool destroyOnBoundsTeleport{get; set;}
 	PolygonGameObject.DestructionType destructionType{get; set;}
 

@@ -46,8 +46,14 @@ public class Main : MonoBehaviour
 	[SerializeField] bool boundsMode = true; 
 	//TODO: stars Clusters for faster check
 
+	[SerializeField] Camera mainCamera;
+	[SerializeField] Camera minimapCamera;
+
 	void Awake()
 	{
+		mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera>();
+		minimapCamera = GameObject.FindGameObjectWithTag ("MinimapCamera").GetComponent<Camera>();
+
 #if UNITY_STANDALONE
 		if (cursorTexture != null)
 		{
@@ -191,7 +197,7 @@ public class Main : MonoBehaviour
 	float maxCameraY;
 	private void CalculateBounds(float screensNumHeight, float screensNumWidth)
 	{
-		float camHeight = 2f * Camera.main.camera.orthographicSize;
+		float camHeight = 2f * mainCamera.camera.orthographicSize;
 		float camWidth = camHeight * (Screen.width / (float)Screen.height);
 		float height = screensNumHeight * camHeight;  
 		float width = screensNumWidth * camWidth;
@@ -226,7 +232,8 @@ public class Main : MonoBehaviour
 	private void MoveCameraWarpMode()
 	{
 		Vector3 pos = spaceship.position;
-		Camera.main.transform.position = pos.SetZ(Camera.main.transform.position.z);
+		mainCamera.transform.position = pos.SetZ(mainCamera.transform.position.z);
+		minimapCamera.transform.position = mainCamera.transform.position.SetZ(minimapCamera.transform.position.z);
 	}
 
 	private void MoveCameraBoundsMode()
@@ -234,7 +241,8 @@ public class Main : MonoBehaviour
 		Vector3 pos = spaceship.position;
 		float x = Mathf.Clamp(pos.x, -maxCameraX, maxCameraX);
 		float y = Mathf.Clamp(pos.y, -maxCameraY, maxCameraY);
-		Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
+		mainCamera.transform.position = new Vector3(x, y, mainCamera.transform.position.z);
+		minimapCamera.transform.position = mainCamera.transform.position.SetZ(minimapCamera.transform.position.z);
 	}
 
 
@@ -693,6 +701,7 @@ public class Main : MonoBehaviour
 	private void Add2Objects(IPolygonGameObject p)
 	{
 		p.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates (p);
+		CreateMinimapIndicatorForObject (p);
 		gobjects.Add (p);
 	}
 
@@ -847,7 +856,7 @@ public class Main : MonoBehaviour
 
 	private bool Wrap(Transform t)
 	{
-		Vector2 center = Camera.main.transform.position;
+		Vector2 center = mainCamera.transform.position;
 		Vector2 pos = t.position;
 		float rHorisontal = screenBounds.width/2;
 		float rVertical = screenBounds.height/2;
@@ -898,7 +907,7 @@ public class Main : MonoBehaviour
 			}
 		}
 		Add2Objects(spaceship);
-		spaceship.cacheTransform.position = Camera.main.transform.position.SetZ (0);
+		spaceship.cacheTransform.position = mainCamera.transform.position.SetZ (0);
 	}
 
 	void HandleGunFire (IBullet bullet)
@@ -919,18 +928,21 @@ public class Main : MonoBehaviour
 	
 	public SpaceShip CreateEnemySpaceShip(int indx)
 	{
-		var enemy = ObjectsCreator.CreateSpaceShip<SpaceShip>(indx);
-		enemy.SetController (new FastSpaceshipAttackController (enemy, bullets, enemy.guns[0]));
-		enemy.SetCollisionLayerNum (GlobalConfig.ilayerTeamEnemies);
-		InitNewEnemy(enemy);
-		return enemy;
+		return CreateSpaceship (indx, GlobalConfig.ilayerTeamEnemies);
 	}
 
 	public SpaceShip CreateFriendSpaceShip(int indx)
 	{
-		var e = CreateEnemySpaceShip (indx);
-		e.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
-		return e;
+		return CreateSpaceship (indx, GlobalConfig.ilayerTeamUser);
+	}
+
+	private SpaceShip CreateSpaceship(int indx, int layerNum)
+	{
+		var enemy = ObjectsCreator.CreateSpaceShip<SpaceShip>(indx);
+		enemy.SetController (new FastSpaceshipAttackController (enemy, bullets, enemy.guns[0]));
+		enemy.SetCollisionLayerNum (layerNum);
+		InitNewEnemy(enemy);
+		return enemy;
 	}
 	
 	public void CreateRogueEnemy()
@@ -1037,6 +1049,46 @@ public class Main : MonoBehaviour
 
 		SetRandomPosition(enemy);
 		Add2Objects(enemy);
+	}
+
+	private void CreateMinimapIndicatorForObject(IPolygonGameObject obj)
+	{
+		if(obj.minimapIndicator != null)
+		{
+			Debug.LogWarning("indicator already exists");
+			return;
+		}
+
+		Color col = Color.white;
+
+		switch (obj.layerNum) 
+		{
+		case GlobalConfig.ilayerUser:
+			col = Color.blue;
+			break;
+
+		case GlobalConfig.ilayerTeamUser:
+			col = Color.green;
+			break;
+
+		case GlobalConfig.ilayerTeamEnemies:
+			col = Color.red;
+			break;
+
+		case GlobalConfig.ilayerAsteroids:
+			col = Color.gray;
+			break;
+
+		case GlobalConfig.ilayerMisc:
+			return;
+		}
+
+		var R = 2 + Mathf.Pow(obj.polygon.area, 0.4f);
+		var verts = PolygonCreator.CreatePerfectPolygonVertices(R, 5);
+		obj.minimapIndicator = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(verts, col);
+		obj.minimapIndicator.cacheTransform.parent = obj.cacheTransform;
+		obj.minimapIndicator.cacheTransform.localPosition = Vector3.zero;
+		obj.minimapIndicator.gameObj.layer = LayerMask.NameToLayer("Minimap");
 	}
 	
 	private void SetRandomPosition(IPolygonGameObject p)

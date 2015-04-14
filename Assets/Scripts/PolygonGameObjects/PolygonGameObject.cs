@@ -53,6 +53,8 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	protected Shield shield = null;
 	[SerializeField] private PolygonGameObject shieldGO;
 
+	public PolygonGameObject minimapIndicator { get; set;}
+
 	public DropID dropID{get; set;}
 
 	public DeathAnimation deathAnimation{get; set;}
@@ -89,8 +91,6 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		layer = 1 << layerNum;
 		collision = GlobalConfig.GetLayerCollisions (layerNum);
 	}
-
-
 
 	protected virtual float healthModifier
 	{
@@ -225,6 +225,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		shCol.a = 0.3f;
 		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.circulatedVertices, 0.6f);
 		shieldGO = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(v, shCol);
+		shieldGO.name = "shield";
 		shieldGO.cacheTransform.parent = cacheTransform;
 		shieldGO.cacheTransform.localPosition = new Vector3 (0, 0, 1);
 		shield.SetShieldGO (shieldGO);

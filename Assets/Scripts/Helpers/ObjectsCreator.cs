@@ -291,7 +291,7 @@ public class ObjectsCreator
 	{
 		float size = 0.7f;//Random.Range(1f, 2f);
 		int vcount = 5;//Random.Range(5, 5 + (int)size*3);
-		Vector2[] vertices = PolygonCreator.CreatePrefectPolygonVertices(size, vcount);
+		Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(size, vcount);
 		
 		var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, data.asteroidData.color);
 		drop.SetCollisionLayerNum (GlobalConfig.ilayerMisc);

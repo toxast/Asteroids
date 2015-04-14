@@ -327,7 +327,7 @@ public static class PolygonCreator
 		return vertices;
 	}
 
-	public static Vector2[] CreatePrefectPolygonVertices(float R, int sidesNum)
+	public static Vector2[] CreatePerfectPolygonVertices(float R, int sidesNum)
 	{
 		Vector2[] vertices = new Vector2[sidesNum];
 		float dAngle = - 2f * Mathf.PI / sidesNum;
