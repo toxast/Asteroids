@@ -120,7 +120,7 @@ public class TurretTargetSystem : ITickable
 	{
 		var g = thisObj;
 		
-		int enemyLayer = Main.GetEnemyLayer(g.layer);
+		int enemyLayer = CollisionLayers.GetEnemyLayer(g.layer);
 		
 		var pos = g.position;
 		int indx = -1;
@@ -134,7 +134,7 @@ public class TurretTargetSystem : ITickable
 		for (int i = 0; i < gobjects.Count; i++)
 		{
 			var obj = gobjects[i];
-			if((g.collision & obj.layer) != 0)
+			if((enemyLayer & obj.layer) != 0)
 			{
 				var dir = obj.position - pos;
 				if(InHitZone(dir, restrictDir, allowed))
@@ -142,8 +142,8 @@ public class TurretTargetSystem : ITickable
 					float objCloseValue = GetCloseValue(dir) ;
 					
 					//inc importancy for enemies
-					if((obj.layer & enemyLayer) != 0)
-						objCloseValue *= enemiesImportancy;
+//					if((obj.layer & enemyLayer) != 0)
+//						objCloseValue *= enemiesImportancy;
 					
 					if(closeValue < objCloseValue)
 					{

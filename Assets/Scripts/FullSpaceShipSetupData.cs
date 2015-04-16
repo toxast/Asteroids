@@ -7,7 +7,7 @@ using System.Linq;
 public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
 {
 	public string name;
-	public GlobalConfig.eLayer layer = GlobalConfig.eLayer.TEAM_ENEMIES; //TODO: use (now its not)
+	public CollisionLayers.eLayer layer = CollisionLayers.eLayer.TEAM_ENEMIES; //TODO: use (now its not)
 	public Color color = Color.white;
 	public SpaceshipData physicalParameters;
 	public ShieldData shield;

@@ -50,7 +50,7 @@ public class LazerGun : Gun
 			lTransform = lazer.transform;
 			lazerMesh = lazer.GetComponent<MeshFilter>().mesh;
 			Math2d.PositionOnParent (lTransform, place, parent.cacheTransform, true);
-			layer = 1 << Main.GetBulletLayerNum(parent.layer);
+			layer = 1 << CollisionLayers.GetBulletLayerNum(parent.layer);
 		}
 		leftDuration = lifeTime;
 		return null;

@@ -113,7 +113,7 @@ public class Gun : IGotTarget, ITickable
 
 	protected virtual void SetBulletLayer(IBullet b)
 	{
-		b.SetCollisionLayerNum(Main.GetBulletLayerNum(parent.layer));
+		b.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
 	}
 
 //	protected virtual void SetBulletTarget(IBullet b)

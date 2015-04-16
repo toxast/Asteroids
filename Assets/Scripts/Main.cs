@@ -189,7 +189,7 @@ public class Main : MonoBehaviour
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
 		spikePart.destroyOnBoundsTeleport = true;
-		spikePart.SetCollisionLayerNum (GlobalConfig.ilayerAsteroids);
+		spikePart.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
 		Add2Objects (spikePart);
 	}
 
@@ -700,6 +700,15 @@ public class Main : MonoBehaviour
 
 	private void Add2Objects(IPolygonGameObject p)
 	{
+		p.guns.ForEach( g => g.onFire += HandleGunFire);
+		
+		if (p is SpaceShip) {
+			foreach (var t in (p as SpaceShip).turrets)
+			{
+				t.guns.ForEach( g => g.onFire += HandleGunFire);
+			}
+		}
+
 		p.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates (p);
 		CreateMinimapIndicatorForObject (p);
 		gobjects.Add (p);
@@ -897,30 +906,20 @@ public class Main : MonoBehaviour
 		controller = tabletController;
 		#endif
 		spaceship = ObjectsCreator.CreateSpaceShip (controller, int.Parse(oldGUI.userShipNum));
-		spaceship.guns.ForEach( g => g.onFire += HandleGunFire); //TODO
-		//TODO
-		if (spaceship is SpaceShip) 
-		{
-			foreach (var t in (spaceship as SpaceShip).turrets)
-			{
-				t.guns.ForEach( g => g.onFire += HandleGunFire);
-			}
-		}
 		Add2Objects(spaceship);
 		spaceship.cacheTransform.position = mainCamera.transform.position.SetZ (0);
 	}
 
 	void HandleGunFire (IBullet bullet)
 	{
-		var layer = (GlobalConfig.eLayer)bullet.layer;
+		var layer = (CollisionLayers.eLayer)bullet.layer;
 		switch (layer) {
-		case GlobalConfig.eLayer.BULLETS_ENEMIES:
-		case GlobalConfig.eLayer.BULLETS_USER:
+		case CollisionLayers.eLayer.BULLETS_ENEMIES:
+		case CollisionLayers.eLayer.BULLETS_USER:
 			PutOnFirstNullPlace<IBullet>(bullets, bullet);
 		break;
-		case GlobalConfig.eLayer.TEAM_USER:
-		case GlobalConfig.eLayer.TEAM_ENEMIES:
-			bullet.guns.ForEach( g => g.onFire += HandleGunFire);
+		case CollisionLayers.eLayer.TEAM_USER:
+		case CollisionLayers.eLayer.TEAM_ENEMIES:
 			Add2Objects(bullet);
 			break;
 		}
@@ -928,12 +927,12 @@ public class Main : MonoBehaviour
 	
 	public SpaceShip CreateEnemySpaceShip(int indx)
 	{
-		return CreateSpaceship (indx, GlobalConfig.ilayerTeamEnemies);
+		return CreateSpaceship (indx, CollisionLayers.ilayerTeamEnemies);
 	}
 
 	public SpaceShip CreateFriendSpaceShip(int indx)
 	{
-		return CreateSpaceship (indx, GlobalConfig.ilayerTeamUser);
+		return CreateSpaceship (indx, CollisionLayers.ilayerTeamUser);
 	}
 
 	private SpaceShip CreateSpaceship(int indx, int layerNum)
@@ -1003,7 +1002,7 @@ public class Main : MonoBehaviour
 	{
 		var e = CreateEnemySpaceShip (3);
 		var e2 = CreateEnemySpaceShip (5);
-		e2.SetCollisionLayerNum (GlobalConfig.ilayerTeamUser);
+		e2.SetCollisionLayerNum (CollisionLayers.ilayerTeamUser);
 	}
 	
 	public Asteroid CreateAsteroid()
@@ -1034,14 +1033,6 @@ public class Main : MonoBehaviour
 	
 	private void InitNewEnemy(PolygonGameObject enemy)
 	{
-		enemy.guns.ForEach( g => g.onFire += HandleGunFire);
-
-		if (enemy is SpaceShip) {
-			foreach (var t in (enemy as SpaceShip).turrets)
-			{
-				t.guns.ForEach( g => g.onFire += HandleGunFire);
-			}
-		}
 
 		//TODO:
 		if(!(enemy is Asteroid))
@@ -1063,23 +1054,23 @@ public class Main : MonoBehaviour
 
 		switch (obj.layerNum) 
 		{
-		case GlobalConfig.ilayerUser:
+		case CollisionLayers.ilayerUser:
 			col = Color.blue;
 			break;
 
-		case GlobalConfig.ilayerTeamUser:
+		case CollisionLayers.ilayerTeamUser:
 			col = Color.green;
 			break;
 
-		case GlobalConfig.ilayerTeamEnemies:
+		case CollisionLayers.ilayerTeamEnemies:
 			col = Color.red;
 			break;
 
-		case GlobalConfig.ilayerAsteroids:
+		case CollisionLayers.ilayerAsteroids:
 			col = Color.gray;
 			break;
 
-		case GlobalConfig.ilayerMisc:
+		case CollisionLayers.ilayerMisc:
 			return;
 		}
 
@@ -1181,42 +1172,6 @@ public class Main : MonoBehaviour
 //		}
 //	}
 
-	static public int GetBulletLayerNum(int parentLayer)
-	{
-		if(parentLayer == (int)GlobalConfig.eLayer.USER || parentLayer == (int)GlobalConfig.eLayer.TEAM_USER)
-		{
-			return GlobalConfig.ilayerBulletsUser;
-		}
-		else if(parentLayer == (int)GlobalConfig.eLayer.TEAM_ENEMIES)
-		{
-			return GlobalConfig.ilayerBulletsEnemies;
-		}
-		else
-		{
-			Debug.LogError("wtf layer");
-			return 0;
-		}
-	}
-
-
-	static public int GetEnemyLayer(int layer)
-	{
-		int enemyLayer = 0;
-		if ((layer & (1 << GlobalConfig.ilayerBulletsUser | 1 << GlobalConfig.ilayerTeamUser | 1 << GlobalConfig.ilayerUser)) != 0 )
-		{
-			enemyLayer = 1 << GlobalConfig.ilayerTeamEnemies;
-		}
-		else if((layer & (1 << GlobalConfig.ilayerBulletsEnemies | 1 << GlobalConfig.ilayerTeamEnemies)) != 0)
-		{
-			enemyLayer = 1 << GlobalConfig.ilayerTeamUser | 1 << GlobalConfig.ilayerUser;
-		}
-		else if((layer & (1 << GlobalConfig.ilayerAsteroids)) != 0)
-		{
-		    enemyLayer =  1 << GlobalConfig.ilayerUser;
-		}
-
-		return enemyLayer;
-	}
 
 
 

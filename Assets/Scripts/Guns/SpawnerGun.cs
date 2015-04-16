@@ -24,14 +24,7 @@ public class SpawnerGun : Gun
 
 	protected override void SetBulletLayer (IBullet b)
 	{
-		if(parent.layer == (int)GlobalConfig.eLayer.USER || parent.layer == (int)GlobalConfig.eLayer.TEAM_USER)
-		{
-			b.SetCollisionLayerNum(GlobalConfig.ilayerTeamUser);
-		}
-		else if(parent.layer == (int)GlobalConfig.eLayer.TEAM_ENEMIES)
-		{
-			b.SetCollisionLayerNum(GlobalConfig.ilayerTeamEnemies);
-		}
+		b.SetCollisionLayerNum(CollisionLayers.GetSpawnedLayer(parent.layer));
 	}
 
 	protected override IBullet CreateBullet()

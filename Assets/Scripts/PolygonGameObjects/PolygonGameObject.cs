@@ -75,7 +75,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		mass = polygon.area * density;
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;
-		fullHealth = Mathf.Sqrt(mass) * healthModifier;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
+		fullHealth = Mathf.Pow(mass, 0.8f) * healthModifier / 2f;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
 		currentHealth = fullHealth;
 	}
 
@@ -89,7 +89,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	{
 		this.layerNum = layerNum;
 		layer = 1 << layerNum;
-		collision = GlobalConfig.GetLayerCollisions (layerNum);
+		collision = CollisionLayers.GetLayerCollisions (layerNum);
 	}
 
 	protected virtual float healthModifier

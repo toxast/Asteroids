@@ -81,7 +81,7 @@ public class MissileTargetSystem : ITickable
 	{
 		var g = thisObj;
 
-		int enemyLayer = Main.GetEnemyLayer(g.layer);
+		int enemyLayer = CollisionLayers.GetEnemyLayer(g.layer);
 		
 		var pos = g.position;
 		int indx = -1;
