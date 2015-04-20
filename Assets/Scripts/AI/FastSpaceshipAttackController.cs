@@ -23,6 +23,8 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 
 	int attacks = 0;
 
+    bool evadeBullets = true;
+
 	public FastSpaceshipAttackController(PolygonGameObject thisShip, List<IBullet> bullets, Gun gun)
 	{
 		this.bulletsSpeed = gun.bulletSpeed;
@@ -34,6 +36,10 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 
 		comformDistanceMax = gun.Range;
 		comformDistanceMin = 30;
+
+        float evadeDuration = (90f / thisShip.turnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.maxSpeed / 2f);
+        Debug.LogWarning("initial evade duration " + evadeDuration);
+        evadeBullets = evadeDuration < 1f;
 	}
 	
 	public Vector2 TurnDirection ()
@@ -72,7 +78,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 		{
 			if(!Main.IsNull(target))
 			{
-				bool behaviourChosen = false;
+                comformDistanceMin = Mathf.Max(target.polygon.R + thisShip.polygon.R, 20f);
 
 				Vector2 dir = target.position - thisShip.position;
 				float dist = dir.magnitude;
@@ -81,6 +87,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 				float vprojTarget = Vector2.Dot(target.velocity, -dirNorm); //+ means towards other ship
 				float evadeSign = Mathf.Sign(Math2d.Cross2(target.velocity - thisShip.velocity, dir));
 
+                bool behaviourChosen = false;
 				if(!behaviourChosen)
 				{
 					if(dist < thisShip.polygon.R + target.polygon.R + 15 + 1.5*(vprojThis + vprojTarget))
@@ -91,39 +98,53 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 						////Debug.LogWarning("уклон и атака");
 						float angle = UnityEngine.Random.Range(90-15, 90+25);
 						var newDir = Math2d.RotateVertex(dirNorm, evadeSign * angle * Mathf.Deg2Rad);
-						float duration = UnityEngine.Random.Range(0.5f, 1.5f);
-						yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration)); //TODO: by maxV
+                        float duration = (angle / thisShip.turnSpeed) + ((thisShip.polygon.R + target.polygon.R) * 2f) / (thisShip.maxSpeed / 2f);// UnityEngine.Random.Range(0.5f, 1.5f);
+                        Debug.LogWarning("evade COLLISION duration = " + duration);
+						yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration)); 
 						if(!Main.IsNull(target))
 						{
 							dir = target.position - thisShip.position;
+                            vprojThis = Vector2.Dot(thisShip.velocity, dirNorm);
 							if(vprojThis < 0)
 							{
-								//Debug.LogWarning("after collision attack");
+								Debug.LogWarning("after collision attack");
 								duration = UnityEngine.Random.Range(0.8f, 1.6f);
-								yield return thisShip.StartCoroutine(AimAttack(false, duration, accuracy));
+                                vprojTarget = Vector2.Dot(target.velocity, -dirNorm);
+                                bool iaccelerate = false;
+                                if (vprojTarget < 0)
+                                {
+                                    iaccelerate = true;
+                                    duration += 1f;
+                                }
+                                yield return thisShip.StartCoroutine(AimAttack(iaccelerate, duration, accuracy));
 							}
 						}
 					}
 				}
 
-				if(!behaviourChosen)
-				{
-					foreach(var b in bullets)
-					{
-						if(BulletDanger(b))
-						{
-							//Debug.LogWarning("bullet evade");
-							behaviourChosen = true;
-							var bulletDir =  b.position - thisShip.position;
-							float bulletEvadeSign = Mathf.Sign(Math2d.Cross2(b.velocity, bulletDir));
-							float angle = 90;
-							var newDir = Math2d.RotateVertex(bulletDir.normalized, bulletEvadeSign * angle * Mathf.Deg2Rad);
-							float duration = 0.7f;
-							yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration));
-							break;
-						}
-					}
-				}
+                
+                if (!behaviourChosen)
+                {
+                    if (evadeBullets)
+                    {
+                        foreach (var b in bullets)
+                        {
+                            if (BulletDanger(b))
+                            {
+                                //Debug.LogWarning("bullet evade");
+                                behaviourChosen = true;
+                                var bulletDir = b.position - thisShip.position;
+                                float bulletEvadeSign = Mathf.Sign(Math2d.Cross2(b.velocity, bulletDir));
+                                float angle = 90;
+                                var newDir = Math2d.RotateVertex(bulletDir.normalized, bulletEvadeSign * angle * Mathf.Deg2Rad);
+                                float duration = (angle / thisShip.turnSpeed) + ((thisShip.polygon.R + b.polygon.R) * 2f) / (thisShip.maxSpeed / 2f);
+                                Debug.LogWarning("evade BULLET duration = " + duration);
+                                yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration));
+                                break;
+                            }
+                        }
+                    }
+                }
 
 				if(!behaviourChosen)
 				{
