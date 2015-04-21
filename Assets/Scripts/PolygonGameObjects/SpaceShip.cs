@@ -7,11 +7,11 @@ using System.Linq;
 public class SpaceShip : PolygonGameObject 
 {
 	public float turnSpeed = 220f;
+	public float maxSpeed = 20f;
 
 	float passiveBrake = 2f;
 	float brake = 15f;
 	float thrust = 45f;
-	float maxSpeed = 20f;
 	float maxSpeedSqr;
 
 

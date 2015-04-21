@@ -53,7 +53,7 @@ public static class CollisionLayers
 		}
 		else if(parentLayer == (int)CollisionLayers.eLayer.TEAM_ENEMIES)
 		{
-			return CollisionLayers.ilayerBulletsEnemies;
+			return CollisionLayers.ilayerTeamEnemies;
 		}
 		else
 		{

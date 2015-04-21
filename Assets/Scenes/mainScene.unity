@@ -856,7 +856,7 @@ MonoBehaviour:
   oldGUI: {fileID: 2053336190}
   borderWidth: 40
   starsDensity: 4
-  sceneSizeInCameras: {x: 2, y: 2}
+  sceneSizeInCameras: {x: 1.10000002, y: 1.10000002}
   boundsMode: 0
   mainCamera: {fileID: 0}
   minimapCamera: {fileID: 0}

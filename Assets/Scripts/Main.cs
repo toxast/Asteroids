@@ -189,7 +189,7 @@ public class Main : MonoBehaviour
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
 		spikePart.destroyOnBoundsTeleport = true;
-		spikePart.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
+		spikePart.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
 		Add2Objects (spikePart);
 	}
 
@@ -938,7 +938,7 @@ public class Main : MonoBehaviour
 	private SpaceShip CreateSpaceship(int indx, int layerNum)
 	{
 		var enemy = ObjectsCreator.CreateSpaceShip<SpaceShip>(indx);
-		enemy.SetController (new FastSpaceshipAttackController (enemy, bullets, enemy.guns[0]));
+		enemy.SetController (new CommonController (enemy, bullets, enemy.guns[0]));
 		enemy.SetCollisionLayerNum (layerNum);
 		InitNewEnemy(enemy);
 		return enemy;
@@ -1033,9 +1033,7 @@ public class Main : MonoBehaviour
 	
 	private void InitNewEnemy(PolygonGameObject enemy)
 	{
-
-		//TODO:
-		if(!(enemy is Asteroid))
+		if(enemy.layerNum != CollisionLayers.ilayerAsteroids)
 			enemy.targetSystem = new TargetSystem (enemy);
 
 		SetRandomPosition(enemy);
