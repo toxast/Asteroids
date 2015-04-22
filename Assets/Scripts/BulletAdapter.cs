@@ -80,6 +80,7 @@ public class BulletAdapter : IBullet
 	}
 	
 	public List<Gun> guns{get{return go.guns;} set{go.guns = value;}}
+	public List<PolygonGameObject> turrets{get{return go.turrets;} set{go.turrets = value;}}
 	
 	public DropID dropID{get{return go.dropID;} set{go.dropID = value;}}
 	

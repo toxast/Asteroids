@@ -47,6 +47,7 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	DeathAnimation deathAnimation{get; set;}
 
 	List<Vector2[]> Split();
+	List<PolygonGameObject> turrets{get; set;}
 
 	void SetCollisionLayerNum (int layerNum);
 }

@@ -16,17 +16,11 @@ public class SawEnemy : Asteroid
 	private float initialVelocitySqr;
 	private float detectionDistanceSqr;
 
-	public override void Init()
+	public void Init()
 	{
-		base.Init ();
-		initialRotation = Random.Range(40,100);
-		initialVelocity = Random.Range(2f, 7f);
+		initialRotation = rotation;
+		initialVelocity = velocity.magnitude;
 		chargeSpeed = 130f/Mathf.Sqrt(mass);
-
-		//TODO: asteroid?
-		float a = Random.Range(0f, 359f) * Mathf.Deg2Rad;
-		velocity = new Vector2(Mathf.Cos(a)*initialVelocity, Mathf.Sin(a)*initialVelocity);
-		rotation = initialRotation;
 
 		detectionDistanceSqr = detectionDistance*detectionDistance;
 		initialVelocitySqr = initialVelocity * initialVelocity;

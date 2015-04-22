@@ -55,6 +55,8 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 
 	public PolygonGameObject minimapIndicator { get; set;}
 
+	public List<PolygonGameObject> turrets { get; set;}
+
 	public DropID dropID{get; set;}
 
 	public DeathAnimation deathAnimation{get; set;}
@@ -63,15 +65,20 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	{
 		cacheTransform = transform;
 		guns = new List<Gun>();
+		turrets = new List<PolygonGameObject> ();
 	}
 
 	public void SetPolygon(Polygon polygon)
 	{
 		if(cacheTransform == null)
 			cacheTransform = transform;
-
+		
 		this.polygon = polygon;
-		density = 1; //TODO
+	}
+
+	public void Init(float density)
+	{
+		this.density = density;
 		mass = polygon.area * density;
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;
@@ -85,11 +92,19 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		guns.ForEach(g => g.SetTarget(target));
 	}
 
+	public void AddTurret(Place place, PolygonGameObject turret)
+	{
+		Math2d.PositionOnParent(turret.cacheTransform, place, cacheTransform, true, -1);
+		turret.SetCollisionLayerNum (layerNum);
+		turrets.Add (turret);
+	}
+
 	public virtual void SetCollisionLayerNum (int layerNum)
 	{
 		this.layerNum = layerNum;
 		layer = 1 << layerNum;
 		collision = CollisionLayers.GetLayerCollisions (layerNum);
+		turrets.ForEach (t => t.SetCollisionLayerNum (layerNum));
 	}
 
 	protected virtual float healthModifier
@@ -243,6 +258,11 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 			deathAnimation.Tick (delta);
 
 		ShieldsTick (delta);
+
+		foreach (var t in turrets)
+		{
+			t.Tick(delta);
+		}
 	}
 
 	protected virtual void ApplyRotation(float dtime)

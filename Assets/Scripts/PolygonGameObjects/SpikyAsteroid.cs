@@ -32,8 +32,6 @@ public class SpikyAsteroid : Asteroid
 
 	public void Init (int[] spikes)
 	{
-		base.Init ();
-
 		foreach(int spikeVertex in spikes)
 		{
 			int previous = polygon.Previous(spikeVertex);
@@ -86,7 +84,8 @@ public class SpikyAsteroid : Asteroid
 								StartCoroutine(GrowSpike(spike.index, spike.a.p2));
 								
 								Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, ObjectsCreator.defaultEnemyColor);
-								spikeAsteroid.Init();
+								//spikeAsteroid.Init();
+								spikeAsteroid.Init(this.density);
 								spikeAsteroid.position += position;
 								spikeAsteroid.rotation = 0f;
 								spikeAsteroid.velocity = spikeSpeed * spikeDisrection.normalized;

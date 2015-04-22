@@ -9,6 +9,7 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 	public string name;
 	public CollisionLayers.eLayer layer = CollisionLayers.eLayer.TEAM_ENEMIES; //TODO: use (now its not)
 	public Color color = Color.white;
+	public float density = 1f;
 	public SpaceshipData physicalParameters;
 	public ShieldData shield;
 	public List<GunSetupData> guns;

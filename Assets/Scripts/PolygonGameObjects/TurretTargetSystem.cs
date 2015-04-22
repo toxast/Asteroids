@@ -12,7 +12,7 @@ public class TurretTargetSystem : ITickable
 	private float leftUntilTargetCheck;
 	
 	float enemyDetectionRSqr;
-	float enemiesImportancy = 10f; //1 means - as important as asteroids
+//	float enemiesImportancy = 10f; //1 means - as important as asteroids
 
 	float rotationSpeed;
 	Func<Vector3> angelsRestriction;

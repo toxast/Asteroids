@@ -24,6 +24,7 @@ public class Bullet : PolygonGameObject, IBullet
 		this.damage = damage;
 		this.lifeTime = lifeTime;
 		velocity = cacheTransform.right * speed;
+		base.Init (1); //TODO pass
 	}
 
 

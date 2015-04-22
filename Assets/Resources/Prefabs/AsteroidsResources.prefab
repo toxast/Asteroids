@@ -41,19 +41,118 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidsData:
   - color: {r: .838235259, g: .838235259, b: .838235259, a: 1}
+    density: 1
     value: 10
   - color: {r: .375, g: 1, b: .50862062, a: 1}
-    value: 20
+    density: 1.5
+    value: 30
   - color: {r: 1, g: .972413778, b: 0, a: 1}
-    value: 40
+    density: 2
+    value: 60
   - color: {r: 0, g: .917241335, b: 1, a: 1}
-    value: 70
+    density: 3
+    value: 100
   - color: {r: 1, g: .641379297, b: 0, a: 1}
-    value: 110
+    density: 5
+    value: 180
   - color: {r: .87626791, g: .102941155, b: 1, a: 1}
-    value: 170
+    density: 7
+    value: 260
   - color: {r: 1, g: .0588235259, b: .0588235259, a: 1}
-    value: 280
+    density: 10
+    value: 400
+  asteroidsResData:
+  - speed: 0
+    rotation: 0
+    size: 0
+  - speed: 0
+    rotation: 0
+    size: 1
+  - speed: 0
+    rotation: 0
+    size: 2
+  - speed: 0
+    rotation: 0
+    size: 3
+  - speed: 1
+    rotation: 1
+    size: 0
+  - speed: 1
+    rotation: 1
+    size: 1
+  - speed: 1
+    rotation: 1
+    size: 2
+  - speed: 1
+    rotation: 1
+    size: 3
+  - speed: 2
+    rotation: 2
+    size: 0
+  - speed: 2
+    rotation: 2
+    size: 1
+  - speed: 2
+    rotation: 2
+    size: 2
+  - speed: 2
+    rotation: 2
+    size: 3
+  spikyData:
+  - speed:
+      min: 4
+      max: 8
+    rotation:
+      min: 60
+      max: 120
+    size:
+      min: 3
+      max: 4
+    spikeSize:
+      min: 2
+      max: 3
+    spikesCount:
+      min: 5
+      max: 7
+  sawData:
+  - speed:
+      min: 6
+      max: 10
+    rotation:
+      min: 30
+      max: 90
+    size:
+      min: 2
+      max: 3
+    spikeSize:
+      min: .200000003
+      max: .400000006
+    spikesCount:
+      min: 10
+      max: 15
+  initSpeed:
+  - min: 2
+    max: 5
+  - min: 4
+    max: 8
+  - min: 8
+    max: 13
+  initRotation:
+  - min: 20
+    max: 50
+  - min: 40
+    max: 90
+  - min: 90
+    max: 180
+  initSize:
+  - min: 3
+    max: 5
+  - min: 4
+    max: 6
+  - min: 6
+    max: 8
+  - min: 8
+    max: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

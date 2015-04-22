@@ -21,7 +21,7 @@ public class SpaceShip : PolygonGameObject
 		public float defaultLifetime;
 	}
 	List<Thruster> thrusters = new List<Thruster> ();
-	public List<PolygonGameObject> turrets = new List<PolygonGameObject>();
+
 
 	public DropCollector collector;
 
@@ -42,15 +42,6 @@ public class SpaceShip : PolygonGameObject
 		velocity = Vector2.zero;
 	}
 
-	public override void SetTarget(IPolygonGameObject target)
-	{
-		base.SetTarget (target);
-
-		var cnt = inputController as IGotTarget; //TODO no as
-		if (cnt != null)
-			cnt.SetTarget (target);
-	}
-
 	public void Init(SpaceshipData data)
 	{
 		turnSpeed = data.turnSpeed;
@@ -58,6 +49,15 @@ public class SpaceShip : PolygonGameObject
 		thrust = data.thrust;
 		maxSpeed = data.maxSpeed;
 		maxSpeedSqr = maxSpeed*maxSpeed;
+	}
+
+	public override void SetTarget(IPolygonGameObject target)
+	{
+		base.SetTarget (target);
+
+		var cnt = inputController as IGotTarget; //TODO no as
+		if (cnt != null)
+			cnt.SetTarget (target);
 	}
 
 	public void SetController(InputController iController)
@@ -78,19 +78,6 @@ public class SpaceShip : PolygonGameObject
 			thrusterInstance.startLifetime = newThruster.defaultLifetime / 3f;
 			thrusters.Add(newThruster);
 		}
-	}
-
-	public void AddTurret(Place place, PolygonGameObject turret)
-	{
-		Math2d.PositionOnParent(turret.cacheTransform, place, cacheTransform, true, -1);
-		turret.SetCollisionLayerNum (layerNum);
-		turrets.Add (turret);
-	}
-
-	public override void SetCollisionLayerNum (int layerNum)
-	{
-		base.SetCollisionLayerNum (layerNum);
-		turrets.ForEach (t => t.SetCollisionLayerNum (layerNum));
 	}
 
 	public void SetThruster(ParticleSystem p, Vector2 pos)
@@ -157,11 +144,6 @@ public class SpaceShip : PolygonGameObject
 		//RestictSpeed ();
 
 		TickGuns (delta);
-
-		foreach (var t in turrets)
-		{
-			t.Tick(delta);
-		}
 
 		foreach(var th in thrusters)
 		{

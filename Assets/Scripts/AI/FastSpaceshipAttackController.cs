@@ -14,7 +14,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 	IPolygonGameObject target;
 	List<IBullet> bullets;
 	float bulletsSpeed;
-	float bulletLifeTime;
+//	float bulletLifeTime;
 
 	float comformDistanceMin, comformDistanceMax;
 	//float comformDistanceMinSqr, comformDistanceMaxSqr;
@@ -28,7 +28,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 	public FastSpaceshipAttackController(SpaceShip thisShip, List<IBullet> bullets, Gun gun)
 	{
 		this.bulletsSpeed = gun.bulletSpeed;
-		this.bulletLifeTime = gun.lifeTime;
+//		this.bulletLifeTime = gun.lifeTime;
 		this.bullets = bullets;
 		this.thisShip = thisShip;
 		thisShip.StartCoroutine (Logic ());

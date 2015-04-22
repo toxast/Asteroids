@@ -14,14 +14,14 @@ public class CommonController : InputController, IGotTarget
 	IPolygonGameObject target;
 	List<IBullet> bullets;
 	float bulletsSpeed;
-	float bulletLifeTime;
+//	float bulletLifeTime;
 	
 	float comformDistanceMin, comformDistanceMax;
 	//float comformDistanceMinSqr, comformDistanceMaxSqr;
 	
 	float accuracy = 0f;
 	
-	int attacks = 0;
+//	int attacks = 0;
 
 	bool turnBehEnabled = true;
 	bool evadeBullets = true;
@@ -29,7 +29,7 @@ public class CommonController : InputController, IGotTarget
 	public CommonController(SpaceShip thisShip, List<IBullet> bullets, Gun gun)
 	{
 		this.bulletsSpeed = gun.bulletSpeed;
-		this.bulletLifeTime = gun.lifeTime;
+//		this.bulletLifeTime = gun.lifeTime;
 		this.bullets = bullets;
 		this.thisShip = thisShip;
 		thisShip.StartCoroutine (Logic ());
@@ -39,14 +39,14 @@ public class CommonController : InputController, IGotTarget
 		comformDistanceMin = 30;
 		
 		float evadeDuration = (90f / thisShip.turnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.maxSpeed * 0.8f);
-		Debug.LogWarning("initial evade duration " + evadeDuration);
+		//Debug.LogWarning("initial evade duration " + evadeDuration);
 		evadeBullets = evadeDuration < 1.2f;
 		turnBehEnabled = evadeDuration < 3f;
 		if(turnBehEnabled)
 		{
 			untilTurnMin = Mathf.Max(2f, Mathf.Sqrt(evadeDuration) * 2.5f);
 			untilTurnMax = untilTurnMin * 1.8f;
-			Debug.LogWarning(untilTurnMin + " - " + untilTurnMax);
+			//Debug.LogWarning(untilTurnMin + " - " + untilTurnMax);
 		}
 
 		untilCheckAccelerationMin = evadeDuration / 6f;
@@ -117,7 +117,7 @@ public class CommonController : InputController, IGotTarget
 		if(timeLeft < 0)
 		{
 			timeLeft = UnityEngine.Random.Range (min, max);
-//			Debug.LogWarning("in " + timeLeft);
+//			//Debug.LogWarning("in " + timeLeft);
 			action = true;
 		}
 	}
@@ -147,7 +147,7 @@ public class CommonController : InputController, IGotTarget
 					checkBehTime = checkBehTimeInterval;
 
 					comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.7f);
-					Debug.LogWarning(comformDistanceMin + " " + comformDistanceMax);
+					//Debug.LogWarning(comformDistanceMin + " " + comformDistanceMax);
 					Vector2 dir = target.position - thisShip.position;
 					float dist2targetCenter = dir.magnitude;
 					float dist2TargetR = dist2targetCenter - (thisShip.polygon.R + target.polygon.R);
@@ -177,14 +177,14 @@ public class CommonController : InputController, IGotTarget
 						{
 							if(dist2TargetR < 1.3f*(vprojThis + vprojTarget))
 							{
-								//Debug.LogWarning("collision evade");
+								////Debug.LogWarning("collision evade");
 
 								//уклон от столкновения и атака
-								////Debug.LogWarning("уклон и атака");
+								//////Debug.LogWarning("уклон и атака");
 								float angle = UnityEngine.Random.Range(90-15, 90+25);
 								var newDir = Math2d.RotateVertex(dirNorm, evadeSign * angle * Mathf.Deg2Rad);
 								float duration = (angle / thisShip.turnSpeed) + ((thisShip.polygon.R + target.polygon.R) * 2f) / (thisShip.maxSpeed * 0.8f);// UnityEngine.Random.Range(0.5f, 1.5f);
-								Debug.LogWarning("evade COLLISION duration = " + duration);
+								//Debug.LogWarning("evade COLLISION duration = " + duration);
 
 								behaviourChosen = true;
 								yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration)); 
@@ -200,14 +200,14 @@ public class CommonController : InputController, IGotTarget
 							{
 								if (BulletDanger(b))
 								{
-									//Debug.LogWarning("bullet evade");
+									////Debug.LogWarning("bullet evade");
 									behaviourChosen = true;
 									var bulletDir = b.position - thisShip.position;
 									float bulletEvadeSign = Mathf.Sign(Math2d.Cross2(b.velocity, bulletDir));
 									float angle = 90;
 									var newDir = Math2d.RotateVertex(bulletDir.normalized, bulletEvadeSign * angle * Mathf.Deg2Rad);
 									float duration = (angle / thisShip.turnSpeed) + ((thisShip.polygon.R + b.polygon.R) * 2f) / (thisShip.maxSpeed / 2f);
-									Debug.LogWarning("evade BULLET duration = " + duration);
+									//Debug.LogWarning("evade BULLET duration = " + duration);
 									yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration));
 									break;
 								}
@@ -233,13 +233,13 @@ public class CommonController : InputController, IGotTarget
 									float angle = 0;
 									if(dist2TargetR > comformDistanceMax)
 									{
-										//Debug.LogWarning("far");
+										////Debug.LogWarning("far");
 										angle = UnityEngine.Random.Range(-30, 30);
 										
 									}
 									else
 									{
-										//Debug.LogWarning("close");
+										////Debug.LogWarning("close");
 										angle = -evadeSign * UnityEngine.Random.Range(80, 100);
 									}
 									float restoreDist =  UnityEngine.Random.Range(30f, 40f);
@@ -279,7 +279,7 @@ public class CommonController : InputController, IGotTarget
 								float turnDist =  UnityEngine.Random.Range(30f, 40f);
 								float duration =  turnDist / thisShip.maxSpeed;
 
-								Debug.LogWarning("turn duration " + duration);
+								//Debug.LogWarning("turn duration " + duration);
 								behaviourChosen = true;
 								yield return thisShip.StartCoroutine(SetState(newDir, true, false, duration)); //TODO: by maxV
 								turnAction = false;
@@ -316,7 +316,7 @@ public class CommonController : InputController, IGotTarget
 	
 	private void SetAcceleration(bool accelrate)
 	{
-		Debug.LogWarning ("accelerating " + accelrate);
+		//Debug.LogWarning ("accelerating " + accelrate);
 		accelerating = accelrate;
 		
 		if (accelerating)
@@ -372,7 +372,7 @@ public class CommonController : InputController, IGotTarget
 				}
 				accuracy += sameVelocityMesure*dtime/time2reachFullAccuracy;
 				accuracy = Mathf.Clamp(accuracy, 0, 1);
-				////Debug.LogWarning(accuracy);
+				//////Debug.LogWarning(accuracy);
 				lastDir = target.velocity;
 			}
 			yield return new WaitForSeconds(dtime);
