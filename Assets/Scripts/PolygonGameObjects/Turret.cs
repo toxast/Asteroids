@@ -7,7 +7,7 @@ public class Turret : PolygonGameObject
 	public static Vector2[] vertices = PolygonCreator.CreateTowerVertices2(1, 6);
 	
 	private float rangeAngle = 20f; //if angle to target bigger than this - dont even try to shoot
-	private float cannonsRotatingSpeed = 0;
+	//private float cannonsRotatingSpeed = 0;
 	private float currentAimAngle = 180;
 	Rotaitor cannonsRotaitor;
 	private bool smartAim = false;
@@ -17,7 +17,7 @@ public class Turret : PolygonGameObject
 	public void Init(bool smartAim, float cannonsRotatingSpeed, Func<Vector3> angelsRestriction)
 	{
 		this.smartAim = smartAim;
-		this.cannonsRotatingSpeed = cannonsRotatingSpeed;
+		//this.cannonsRotatingSpeed = cannonsRotatingSpeed;
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
 		this.anglesRestriction = angelsRestriction;
 	}

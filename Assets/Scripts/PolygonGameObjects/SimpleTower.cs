@@ -7,7 +7,7 @@ public class SimpleTower : PolygonGameObject
 	public static Vector2[] vertices = PolygonCreator.CreateTowerVertices2(1, 6);
 	
 	private float rangeAngle = 20f; //if angle to target bigger than this - dont even try to shoot
-	private float cannonsRotatingSpeed = 0;
+	//private float cannonsRotatingSpeed = 0;
 	
 	private float currentAimAngle = 0;
 	
@@ -18,7 +18,7 @@ public class SimpleTower : PolygonGameObject
 	public void Init(bool smartAim, float cannonsRotatingSpeed)
 	{
 		this.smartAim = smartAim;
-		this.cannonsRotatingSpeed = cannonsRotatingSpeed;
+		//this.cannonsRotatingSpeed = cannonsRotatingSpeed;
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
 	}
