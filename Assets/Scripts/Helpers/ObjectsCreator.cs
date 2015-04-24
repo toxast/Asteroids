@@ -62,9 +62,9 @@ public class ObjectsCreator
 			result.z = copyAngle;
 			return result;
 		}; 
-		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
+		var turret = PolygonCreator.CreatePolygonGOByMassCenter<Turret>(data.verts, data.color);
 		turret.Init (1);
-		turret.Init (smartAim, anglesRestriction);
+		turret.Init (smartAim, data.rotationSpeed, anglesRestriction);
 		turret.guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) 
 		{
@@ -200,27 +200,38 @@ public class ObjectsCreator
 		return tower;
 	}
 
-	public static SimpleTower CreateSimpleTower(bool smartAim, System.Func<Vector3> restrict)
+	public static SimpleTower CreateSimpleTower(TowerSetupData data)
 	{
-		float r = 1f;//UnityEngine.Random.Range(1.0f, 1.2f);
-		int sides = 6;
-
-		Vector2[] vertices = PolygonCreator.CreateTowerVertices2 (r, sides);
-		
-		var enemy = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(vertices, defaultEnemyColor);
-		enemy.Init (1);
-		enemy.gameObject.name = "tower1";
-		enemy.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
-		DeathAnimation.MakeDeathForThatFellaYo (enemy);
-		List<Place> gunplaces = new List<Place>
+		bool smartAim = true;
+		System.Func<Vector3> anglesRestriction = () =>
 		{
-			new Place(new Vector2(2f, 0.0f), new Vector2(1.0f, 0f)),
-		};
+			Vector2 dir = new Vector2(1,0);
+			Vector3 result = dir;
+			result.z = 180;
+			return result;
+		}; 
+		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
+		turret.Init (data.density);
+		turret.Init (smartAim, data.rotationSpeed);
+		turret.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+		turret.guns = new List<Gun> ();
+		foreach (var gunplace in data.guns) 
+		{
+			var gun = GunsData.GetGun(gunplace, turret);
+			turret.guns.Add (gun);
+		}
+		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction);
+		DeathAnimation.MakeDeathForThatFellaYo (turret);
 
-		InitGuns (enemy, gunplaces, GunsData.SimpleGun2);
-		enemy.Init(smartAim, restrict);
-		
-		return enemy;
+		if (data.shield != null && data.shield.capacity > 0)
+			turret.SetShield (data.shield);
+
+		foreach (var item in data.turrets) 
+		{
+			CreateTurret(turret, item, SpaceshipsResources.Instance.turrets[item.index]);
+		}
+
+		return turret;
 	}
 
 	public static EvadeEnemy CreateEvadeEnemy(List<IBullet> bullets)

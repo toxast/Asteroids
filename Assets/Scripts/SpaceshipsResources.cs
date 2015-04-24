@@ -9,6 +9,8 @@ public class SpaceshipsResources : ResourceSingleton<SpaceshipsResources>
 
 	[SerializeField] public List<TurretSetupData> turrets;
 
+	[SerializeField] public List<TowerSetupData> towers;
+
 	[ContextMenu ("clone spaceship")]
 	void CloneRocketLauncher () 
 	{

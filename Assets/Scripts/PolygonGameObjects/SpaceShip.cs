@@ -9,7 +9,7 @@ public class SpaceShip : PolygonGameObject
 	public float turnSpeed = 220f;
 	public float maxSpeed = 20f;
 
-	float passiveBrake = 2f;
+	//float passiveBrake = 2f;
 	float brake = 15f;
 	float thrust = 45f;
 	float maxSpeedSqr;
@@ -45,7 +45,7 @@ public class SpaceShip : PolygonGameObject
 	public void Init(SpaceshipData data)
 	{
 		turnSpeed = data.turnSpeed;
-		passiveBrake = data.passiveBrake;
+		//passiveBrake = data.passiveBrake;
 		thrust = data.thrust;
 		maxSpeed = data.maxSpeed;
 		maxSpeedSqr = maxSpeed*maxSpeed;
@@ -120,15 +120,7 @@ public class SpaceShip : PolygonGameObject
 		velocity = velocity.normalized * newMagnitude;
 	}
 
-	private void RestictSpeed()
-	{
-		if(velocity.sqrMagnitude > maxSpeedSqr)
-		{
-			velocity = velocity.normalized * maxSpeed;
-		}
-	}
-
-	 public override void Tick(float delta)
+	public override void Tick(float delta)
 	{
 		base.Tick (delta);
 

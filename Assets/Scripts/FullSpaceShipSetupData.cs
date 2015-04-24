@@ -29,10 +29,12 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 		r.name = name + " clone";
 		r.layer = layer;
 		r.color = color; 
+		r.density = density; 
 		r.physicalParameters = physicalParameters.Clone();
 		r.shield = shield.Clone(); 
 		r.guns = guns.ConvertAll(g => g.Clone());
 		r.thrusters = thrusters.ConvertAll(t => t.Clone());
+		r.turrets = turrets.ConvertAll(t => t.Clone());
 		r.verts = verts.ToList ().ToArray ();
 		return r;
 	}

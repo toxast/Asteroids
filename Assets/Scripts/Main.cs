@@ -706,11 +706,9 @@ public class Main : MonoBehaviour
 	{
 		p.guns.ForEach( g => g.onFire += HandleGunFire);
 		
-		if (p is SpaceShip) {
-			foreach (var t in (p as SpaceShip).turrets)
-			{
-				t.guns.ForEach( g => g.onFire += HandleGunFire);
-			}
+		foreach (var t in p.turrets)
+		{
+			t.guns.ForEach( g => g.onFire += HandleGunFire);
 		}
 
 		p.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates (p);
@@ -1001,9 +999,11 @@ public class Main : MonoBehaviour
 	
 	public void CreateSimpleTower()
 	{
-//		bool smartAim = false;
-//		var enemy = ObjectsCreator.CreateSimpleTower(smartAim);
-//		InitNewEnemy(enemy);
+		int indx = UnityEngine.Random.Range (0,  SpaceshipsResources.Instance.towers.Count);
+		var turretData = SpaceshipsResources.Instance.towers [indx];
+
+		var enemy = ObjectsCreator.CreateSimpleTower(turretData);
+		InitNewEnemy(enemy);
 	}
 	
 	public TowerEnemy CreateTower()

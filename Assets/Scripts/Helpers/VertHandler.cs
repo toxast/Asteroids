@@ -11,6 +11,7 @@ public class VertHandler : MonoBehaviour
 	{
 		SpaceShip,
 		Turret,
+		Tower,
 	}
 
 	Mesh mesh;
@@ -40,12 +41,13 @@ public class VertHandler : MonoBehaviour
 		var verts = mesh.vertices;
 		if(saveANDloadIndx >= 0)
 		{
-
-			object obj;
+			object obj = null;
 			if(editType == eSaveLoadType.SpaceShip)
 				obj = SpaceshipsResources.Instance.spaceships[saveANDloadIndx];
-			else
+			else if(editType == eSaveLoadType.Turret)
 				obj = SpaceshipsResources.Instance.turrets[saveANDloadIndx];
+			else if(editType == eSaveLoadType.Tower)
+				obj = SpaceshipsResources.Instance.towers[saveANDloadIndx];
 
 			verts = (obj as IGotShape).iverts.ToList().ConvertAll( v => (Vector3)v).ToArray();
 
@@ -181,11 +183,13 @@ public class VertHandler : MonoBehaviour
 
 		if(saveANDloadIndx >= 0)
 		{
-			object obj;
+			object obj = null;
 			if(editType == eSaveLoadType.SpaceShip)
 				obj = SpaceshipsResources.Instance.spaceships[saveANDloadIndx];
-			else
+			else if(editType == eSaveLoadType.Turret)
 				obj = SpaceshipsResources.Instance.turrets[saveANDloadIndx];
+			else if(editType == eSaveLoadType.Tower)
+				obj = SpaceshipsResources.Instance.towers[saveANDloadIndx];
 
 			(obj as IGotShape).iverts = fullArray;
 
@@ -210,12 +214,20 @@ public class VertHandler : MonoBehaviour
 				newShip.physicalParameters = new SpaceshipData ();
 				SpaceshipsResources.Instance.spaceships.Add (newShip);
 			}
-			else
+			else if(editType == eSaveLoadType.Turret)
 			{
 				var newTurret = new TurretSetupData();
 				newTurret.verts = fullArray;
 				newTurret.guns = gunsData;
 				SpaceshipsResources.Instance.turrets.Add (newTurret);
+			}
+			else if(editType == eSaveLoadType.Tower)
+			{
+				var newTower = new TowerSetupData();
+				newTower.verts = fullArray;
+				newTower.guns = gunsData;
+				newTower.turrets = turretsData;
+				SpaceshipsResources.Instance.towers.Add (newTower);
 			}
 		}
 
