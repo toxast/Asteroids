@@ -8,14 +8,16 @@ public class GUIHangar : MonoBehaviour
 	[SerializeField] Camera cam;
 	[SerializeField] int ship = 1;
 	[SerializeField] Transform cannonsHolder;
-	[SerializeField] Image canonImgPrefab;
+	[SerializeField] Button canonImgPrefab;
 	int created = -1;
 
 	[SerializeField] BuyShipElem buyShipElemPrefab;
 	[SerializeField] RectTransform shipsHolder;
 
+	[SerializeField] RectTransform rightScroll;
+
 	PolygonGameObject spaceship;
-	List<Image> cannons = new List<Image> ();
+	List<Button> cannons = new List<Button> ();
 
 	void Start ()
 	{
@@ -33,25 +35,27 @@ public class GUIHangar : MonoBehaviour
 			var shipElem = Instantiate(buyShipElemPrefab) as BuyShipElem;
 			shipElem.transform.SetParent(shipsHolder, false);
 			shipElem.Init(sdata.name, sdata.price); 
-			shipElem.click += (b) => Create(shipIndex);
+			shipElem.AddListener(() => Create(shipIndex));
 		}
-
-
-
 //		Create(ship);
 //		created = ship;
 	}
 	
-	void Update () 
-	{
+//	void Update () 
+//	{
 //		if(created > 0 && created != ship)
 //		{
 //			Create(ship);
 //			created = ship;
 //		}
+//	}
+
+	private void SelectCannon(int index)
+	{
+		Debug.LogWarning ("SelectCannon " + index);
 	}
 
-	private void Create(int indx)
+	private void Create(int shipIndx)
 	{
 		if (spaceship != null)
 			Destroy (spaceship.gameObject);
@@ -59,20 +63,26 @@ public class GUIHangar : MonoBehaviour
 		cannons.ForEach (c => Destroy (c.gameObject));
 		cannons.Clear ();
 
-		Debug.LogWarning ("create " + indx);
-		var sdata = SpaceshipsResources.Instance.spaceships [indx];
+		Debug.LogWarning ("create " + shipIndx);
+		var sdata = SpaceshipsResources.Instance.spaceships [shipIndx];
 		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject> (sdata.verts, sdata.color);
 		spaceship.cacheTransform.position = new Vector3(0, 0, 70);
 
+		int gunIndex = 0;
 		foreach(var gun in sdata.guns)
 		{
-			var cannon = Instantiate(canonImgPrefab) as Image;
+			int cnnIndex = gunIndex;
+			var cannon = Instantiate(canonImgPrefab) as Button;
+			var img = cannon.GetComponent<Image>();
 			cannon.transform.SetParent(cannonsHolder, false);
 
 			Vector2 pos = cam.WorldToScreenPoint(spaceship.cacheTransform.position + (Vector3)gun.place.pos);
-			cannon.rectTransform.anchoredPosition = pos - new Vector2(Screen.width, Screen.height)*0.5f;
-			cannon.rectTransform.Rotate(new Vector3(0,0,1), Math2d.GetRotationDg(gun.place.dir));
+			img.rectTransform.anchoredPosition = pos - new Vector2(Screen.width, Screen.height)*0.5f;
+			img.rectTransform.Rotate(new Vector3(0,0,1), Math2d.GetRotationDg(gun.place.dir));
+			cannon.onClick.AddListener(() => SelectCannon(cnnIndex));
 			cannons.Add(cannon);
+
+			gunIndex++;
 		}
 	}
 }

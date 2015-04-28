@@ -8,11 +8,9 @@ public class BuyShipElem : MonoBehaviour
 	[SerializeField] Text label;
 	[SerializeField] MoneyButton btn;
 
-	public event Action<BuyShipElem> click;
-
-	void Awake()
+	public void AddListener(Action act)
 	{
-		btn.click += HandleClick;
+		btn.AddListener (act);
 	}
 
 	public void Init(string text, int price)
@@ -20,12 +18,4 @@ public class BuyShipElem : MonoBehaviour
 		label.text = text;
 		btn.SetPrice (price);
 	}
-
-	void HandleClick (MoneyButton obj)
-	{
-		if (click != null)
-			click (this);
-	}
-
-
 }

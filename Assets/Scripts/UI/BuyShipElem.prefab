@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: {fileID: 11468384}
+  clickArea: {fileID: 11468378}
 --- !u!114 &11468382
 MonoBehaviour:
   m_ObjectHideFlags: 1

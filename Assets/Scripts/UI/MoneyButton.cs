@@ -6,18 +6,16 @@ using System;
 public class MoneyButton : MonoBehaviour 
 {
 	[SerializeField] Text price;
-	public event Action<MoneyButton> click;
+	[SerializeField] Button clickArea;
 
 	public void SetPrice(int m)
 	{
 		price.text = m.ToString ();
 	}
 
-	public void OnClickMe()
+	public void AddListener(Action act)
 	{
-		if (click != null)click (this);
+		clickArea.onClick.AddListener (() => act());
 	}
-
-	
 
 }
