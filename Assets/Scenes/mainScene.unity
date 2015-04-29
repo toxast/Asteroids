@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Elasticity: .100000001
   m_Inertia: 1
   m_DecelerationRate: .135000005
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 60
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1268580008}
   m_OnValueChanged:
@@ -480,7 +480,7 @@ MonoBehaviour:
   m_Elasticity: .100000001
   m_Inertia: 1
   m_DecelerationRate: .135000005
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 60
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 889429126}
   m_OnValueChanged:
@@ -788,6 +788,7 @@ GameObject:
   - 224: {fileID: 519115101}
   - 222: {fileID: 519115103}
   - 114: {fileID: 519115102}
+  - 114: {fileID: 519115104}
   m_Layer: 5
   m_Name: RightScroll
   m_TagString: Untagged
@@ -842,6 +843,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 519115100}
+--- !u!114 &519115104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519115100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26158b8039dd113419602f9e1c1e5418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 11468370, guid: 75aa43c701ccee44d8ab318ed5e8cdfe, type: 2}
+  elementsHolder: {fileID: 1148358173}
 --- !u!1 &565183081
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,6 +867,7 @@ GameObject:
   - 114: {fileID: 565183083}
   - 222: {fileID: 565183085}
   - 114: {fileID: 565183084}
+  - 114: {fileID: 565183086}
   m_Layer: 5
   m_Name: Hangar
   m_TagString: Untagged
@@ -891,13 +906,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95206dfafa360794cb97d778a7a5ea12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 514620140}
-  ship: 1
-  cannonsHolder: {fileID: 1292411644}
-  canonImgPrefab: {fileID: 11477546, guid: f90075de41902164098d2a9158f7aa25, type: 2}
-  buyShipElemPrefab: {fileID: 11468370, guid: 75aa43c701ccee44d8ab318ed5e8cdfe, type: 2}
-  shipsHolder: {fileID: 1499499237}
-  rightScroll: {fileID: 1148358173}
+  shipsScroll: {fileID: 1715262227}
+  uiShip: {fileID: 565183086}
+  gunsScroll: {fileID: 519115104}
 --- !u!114 &565183084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -925,6 +936,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 565183081}
+--- !u!114 &565183086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 565183081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 438f4ab91acff10498acb56dcfcadfcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 514620140}
+  canonImgPrefab: {fileID: 11477546, guid: f90075de41902164098d2a9158f7aa25, type: 2}
+  cannonsHolder: {fileID: 1292411644}
 --- !u!1 &591842984
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,7 +1408,7 @@ MonoBehaviour:
     m_NormalColor: {r: .441176474, g: .246450305, b: 0, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: .996078432, g: .996078432, b: .996078432, a: 1}
-    m_DisabledColor: {r: .996078432, g: .996078432, b: .996078432, a: .501960814}
+    m_DisabledColor: {r: .443137258, g: .247058824, b: 0, a: .741176486}
     m_ColorMultiplier: 1
     m_FadeDuration: .100000001
   m_SpriteState:
@@ -1395,7 +1420,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1543549236}
   m_HandleRect: {fileID: 1543549235}
   m_Direction: 2
@@ -1984,7 +2009,7 @@ MonoBehaviour:
     m_NormalColor: {r: .441176474, g: .246450305, b: 0, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: .996078432, g: .996078432, b: .996078432, a: 1}
-    m_DisabledColor: {r: .996078432, g: .996078432, b: .996078432, a: .501960814}
+    m_DisabledColor: {r: .443137258, g: .247058824, b: 0, a: .701960802}
     m_ColorMultiplier: 1
     m_FadeDuration: .100000001
   m_SpriteState:
@@ -1996,7 +2021,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1748447740}
   m_HandleRect: {fileID: 1748447739}
   m_Direction: 2
@@ -2626,6 +2651,7 @@ GameObject:
   - 224: {fileID: 1715262224}
   - 222: {fileID: 1715262226}
   - 114: {fileID: 1715262225}
+  - 114: {fileID: 1715262227}
   m_Layer: 5
   m_Name: LeftScroll
   m_TagString: Untagged
@@ -2680,6 +2706,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1715262223}
+--- !u!114 &1715262227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1715262223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9d174f1d1b8f7e4ab8c27e497e45e79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 11468370, guid: 75aa43c701ccee44d8ab318ed5e8cdfe, type: 2}
+  elementsHolder: {fileID: 1499499237}
 --- !u!1 &1748447738
 GameObject:
   m_ObjectHideFlags: 0

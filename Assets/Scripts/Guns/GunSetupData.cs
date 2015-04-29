@@ -29,3 +29,10 @@ public class GunSetupData : IClonable<GunSetupData>, IGotPlace
 		return r;
 	}
 }
+
+public interface IGun
+{
+	string iname{ get;}
+	int iprice{ get;}
+	GunSetupData.eGuns itype{ get;}
+}

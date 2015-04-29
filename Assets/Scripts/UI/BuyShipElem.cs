@@ -7,6 +7,7 @@ public class BuyShipElem : MonoBehaviour
 {
 	[SerializeField] Text label;
 	[SerializeField] MoneyButton btn;
+	[SerializeField] Image selectElem;
 
 	public void AddListener(Action act)
 	{
@@ -17,5 +18,15 @@ public class BuyShipElem : MonoBehaviour
 	{
 		label.text = text;
 		btn.SetPrice (price);
+	}
+
+	public void Select()
+	{
+		selectElem.enabled = true;
+	}
+
+	public void Unselect()
+	{
+		selectElem.enabled = false;
 	}
 }

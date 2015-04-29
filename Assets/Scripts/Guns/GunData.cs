@@ -3,10 +3,12 @@ using System.Collections;
 using System.Linq;
 
 [System.Serializable]
-public class GunData : IClonable<GunData>
+public class GunData : IClonable<GunData>, IGun
 {
+	public string name;
+	public int price;
 	public float damage = 3;
-	public float lifeTime= 2;
+	public float lifeTime = 2;
 	public float bulletSpeed = 35;
 	public float fireInterval = 0.5f;
 	public int repeatCount = 0;
@@ -15,9 +17,15 @@ public class GunData : IClonable<GunData>
 	public Color color = Color.red;
 	public ParticleSystem fireEffect;
 
+	public string iname{ get {return name;}}
+	public int iprice{ get {return price;}}
+	public GunSetupData.eGuns itype{ get {return GunSetupData.eGuns.BULLET;}}
+
 	public GunData Clone()
 	{
 		GunData g = new GunData ();
+		g.name = name;
+		g.price = price;
 		g.damage = damage;
 		g.lifeTime = lifeTime;
 		g.bulletSpeed = bulletSpeed;

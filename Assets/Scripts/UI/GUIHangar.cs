@@ -1,88 +1,76 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public class GUIHangar : MonoBehaviour 
 {
-	[SerializeField] Camera cam;
-	[SerializeField] int ship = 1;
-	[SerializeField] Transform cannonsHolder;
-	[SerializeField] Button canonImgPrefab;
-	int created = -1;
+	[SerializeField] UIShipsScroll shipsScroll;
+	[SerializeField] UIShip uiShip;
+	[SerializeField] UIGunsScroll gunsScroll;
 
-	[SerializeField] BuyShipElem buyShipElemPrefab;
-	[SerializeField] RectTransform shipsHolder;
-
-	[SerializeField] RectTransform rightScroll;
-
-	PolygonGameObject spaceship;
-	List<Button> cannons = new List<Button> ();
+	FullSpaceShipSetupData currentShipData = null;
 
 	void Start ()
 	{
-		List<int> indx = new List<int> ();
+		shipsScroll.Show (SpaceshipsResources.Instance.spaceships, Create);
+	}
 
-		for (int i = 0; i <  SpaceshipsResources.Instance.spaceships.Count; i++) {
-			indx.Add(i);
-		}
+	private void Create(int shipIndx, FullSpaceShipSetupData data)
+	{
+		shipsScroll.Select (shipIndx);
+		currentShipData = data.Clone();
+		uiShip.Create (shipIndx, data, SelectCannonClicked);
+	}
 
-		for (int i = 0; i < indx.Count; i++) 
+	private void SelectCannonClicked(int cannonNum)
+	{
+		var guns = GetAvaliableGuns (currentShipData, cannonNum);
+		Action<int, GUIHangar.GunIndexWarpper> act = (indx, gun) =>
 		{
-			int shipIndex = indx[i];
-			var sdata = SpaceshipsResources.Instance.spaceships [shipIndex];
+			gunsScroll.Select(indx);
+//			GunSelected(cannonNum, gun.itype, gun.index);
+			currentShipData.guns [cannonNum].type = gun.itype;
+			currentShipData.guns [cannonNum].index = gun.index;
+		};
 
-			var shipElem = Instantiate(buyShipElemPrefab) as BuyShipElem;
-			shipElem.transform.SetParent(shipsHolder, false);
-			shipElem.Init(sdata.name, sdata.price); 
-			shipElem.AddListener(() => Create(shipIndex));
+		gunsScroll.Show (guns, act);
+	}
+
+	private List<GunIndexWarpper> GetAvaliableGuns(FullSpaceShipSetupData spaceship, int cannonNum)
+	{
+		var cannon = spaceship.guns [cannonNum];
+		List<GunIndexWarpper> guns = new List<GunIndexWarpper> ();
+		for (int i = 0; i < GunsResources.Instance.guns.Count; i++) {
+			guns.Add(new GunIndexWarpper{gun = GunsResources.Instance.guns[i], index = i});
 		}
-//		Create(ship);
-//		created = ship;
+		for (int i = 0; i < GunsResources.Instance.rocketLaunchers.Count; i++) {
+			guns.Add(new GunIndexWarpper{gun = GunsResources.Instance.rocketLaunchers[i], index = i});
+		}
+		for (int i = 0; i < GunsResources.Instance.lazerGuns.Count; i++) {
+			guns.Add(new GunIndexWarpper{gun = GunsResources.Instance.lazerGuns[i], index = i});
+		}
+		for (int i = 0; i < GunsResources.Instance.spawnerGuns.Count; i++) {
+			guns.Add(new GunIndexWarpper{gun = GunsResources.Instance.spawnerGuns[i], index = i});
+		}
+		return guns;
 	}
 	
-//	void Update () 
+//	private void GunSelected(int cannonNum, GunSetupData.eGuns gunType, int indx)
 //	{
-//		if(created > 0 && created != ship)
-//		{
-//			Create(ship);
-//			created = ship;
-//		}
+//		Debug.LogWarning ("GunSelected " + cannonNum + " " + gunType + " " + indx);
+//		currentShipData.guns [cannonNum].type = gunType;
+//		currentShipData.guns [cannonNum].index = indx;
 //	}
 
-	private void SelectCannon(int index)
+	public class GunIndexWarpper: IGun
 	{
-		Debug.LogWarning ("SelectCannon " + index);
-	}
+		public IGun gun;
+		public int index;
 
-	private void Create(int shipIndx)
-	{
-		if (spaceship != null)
-			Destroy (spaceship.gameObject);
-
-		cannons.ForEach (c => Destroy (c.gameObject));
-		cannons.Clear ();
-
-		Debug.LogWarning ("create " + shipIndx);
-		var sdata = SpaceshipsResources.Instance.spaceships [shipIndx];
-		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject> (sdata.verts, sdata.color);
-		spaceship.cacheTransform.position = new Vector3(0, 0, 70);
-
-		int gunIndex = 0;
-		foreach(var gun in sdata.guns)
-		{
-			int cnnIndex = gunIndex;
-			var cannon = Instantiate(canonImgPrefab) as Button;
-			var img = cannon.GetComponent<Image>();
-			cannon.transform.SetParent(cannonsHolder, false);
-
-			Vector2 pos = cam.WorldToScreenPoint(spaceship.cacheTransform.position + (Vector3)gun.place.pos);
-			img.rectTransform.anchoredPosition = pos - new Vector2(Screen.width, Screen.height)*0.5f;
-			img.rectTransform.Rotate(new Vector3(0,0,1), Math2d.GetRotationDg(gun.place.dir));
-			cannon.onClick.AddListener(() => SelectCannon(cnnIndex));
-			cannons.Add(cannon);
-
-			gunIndex++;
-		}
+		public string iname{ get {return gun.iname;}}
+		public int iprice{ get {return gun.iprice;}}
+		public GunSetupData.eGuns itype{ get {return gun.itype;}}
 	}
 }

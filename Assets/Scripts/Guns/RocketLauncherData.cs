@@ -2,9 +2,8 @@
 using System.Collections;
 
 [System.Serializable]
-public class RocketLauncherData : IClonable<RocketLauncherData>
+public class RocketLauncherData : IClonable<RocketLauncherData>, IGun
 {
-	public string name;
 	public GunData baseData;
 	public SpaceshipData missleParameters;
 	public ParticleSystem thrusterEffect;
@@ -12,6 +11,10 @@ public class RocketLauncherData : IClonable<RocketLauncherData>
 
 	public Vector2 launchDirection;
 	public float launchSpeed;
+
+	public string iname{ get {return baseData.name;}}
+	public int iprice{ get {return baseData.price;}}
+	public GunSetupData.eGuns itype{ get {return GunSetupData.eGuns.ROCKET;}}
 
 	public RocketLauncherData Clone()
 	{

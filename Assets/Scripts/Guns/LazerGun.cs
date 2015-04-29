@@ -4,11 +4,15 @@ using System.Collections;
 public class LazerGun : Gun
 {
 	[System.Serializable]
-	public class LazerGunData : IClonable<LazerGunData>
+	public class LazerGunData : IClonable<LazerGunData>, IGun
 	{
 		public GunData baseData;
 		public float distance = 50f;
 		public float width = 0.5f;
+
+		public string iname{ get {return baseData.name;}}
+		public int iprice{ get {return baseData.price;}}
+		public GunSetupData.eGuns itype{ get {return GunSetupData.eGuns.LAZER;}}
 
 		public LazerGunData Clone()
 		{
