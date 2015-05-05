@@ -12,14 +12,16 @@ public class TowerEnemy : PolygonGameObject
 	float currentAimAngle;
 	Rotaitor cannonsRotaitor;
 
-	protected override float healthModifier {
-		get {
-			return base.healthModifier * Singleton<GlobalConfig>.inst.TowerEnemyHealthModifier;
-		}
-	}
+//	protected override float healthModifier {
+//		get {
+//			return base.healthModifier * Singleton<GlobalConfig>.inst.TowerEnemyHealthModifier;
+//		}
+//	}
 
-	public void Init()
+	public void InitTowerEnemy()
 	{
+		InitPolygonGameObject(1f, 1f);
+
 		cannonsRotaitor = new Rotaitor (cacheTransform, rotationSpeed);
 
 		StartCoroutine(Aim());

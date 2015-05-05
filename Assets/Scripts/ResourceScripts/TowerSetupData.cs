@@ -8,6 +8,7 @@ public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IG
 {
 	public string name = "tower";
 	public float density = 1f;
+	public float healthModifier = 1f;
 	public Color color = Color.white;
 	public float rotationSpeed = 50;
 	public ShieldData shield;
@@ -25,6 +26,7 @@ public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IG
 		TowerSetupData r = new TowerSetupData ();
 		r.name = name + " clone";
 		r.density = density; 
+		r.healthModifier = healthModifier; 
 		r.color = color; 
 		r.rotationSpeed = rotationSpeed;
 		r.shield = shield.Clone();

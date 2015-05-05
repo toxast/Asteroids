@@ -26,16 +26,18 @@ public class RogueEnemy : PolygonGameObject
 
 	public void Init () 
 	{
+		InitPolygonGameObject (1f, 1f);
+
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 		SetAlpha(0f);
 		StartCoroutine(FadeAndShoot());
 	}
 
-	protected override float healthModifier {
-		get {
-			return base.healthModifier * Singleton<GlobalConfig>.inst.RogueEnemyHealthModifier;
-		}
-	}
+//	protected override float healthModifier {
+//		get {
+//			return base.healthModifier * Singleton<GlobalConfig>.inst.RogueEnemyHealthModifier;
+//		}
+//	}
 
 	private Vector2 distToTraget;
 	public override void Tick(float delta)

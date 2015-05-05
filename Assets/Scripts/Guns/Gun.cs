@@ -123,7 +123,7 @@ public class Gun : IGotTarget, ITickable
 
 	protected virtual void Fire(IBullet b)
 	{
-		b.velocity += Main.AddSpipSpeed2TheBullet(parent);
+		b.velocity += Main.AddShipSpeed2TheBullet(parent);
 		SetBulletLayer (b);
 //		SetBulletTarget (b);
 

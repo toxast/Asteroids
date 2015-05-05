@@ -209,7 +209,7 @@ public class ShipEditor : MonoBehaviour
 			newTurret.verts = fullArray;
 			newTurret.guns = gunsData;
 			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : SpaceshipsResources.Instance.turrets.Count;
-			SpaceshipsResources.Instance.turrets.Add (newTurret);
+			SpaceshipsResources.Instance.turrets.Insert (indx, newTurret);
 		}
 		else if(editType == eSaveLoadType.Tower)
 		{
@@ -218,7 +218,7 @@ public class ShipEditor : MonoBehaviour
 			newTower.guns = gunsData;
 			newTower.turrets = turretsData;
 			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : SpaceshipsResources.Instance.towers.Count;
-			SpaceshipsResources.Instance.towers.Add (newTower);
+			SpaceshipsResources.Instance.towers.Insert (indx, newTower);
 		}
 	}
 

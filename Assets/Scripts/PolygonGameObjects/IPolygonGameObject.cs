@@ -25,6 +25,7 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	
 	//physical
 	float density{get;}
+	float healthModifier{get;}
 	float mass{get;}
 	float inertiaMoment{get;}
 	Vector2 velocity{get; set;}

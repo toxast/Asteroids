@@ -50,9 +50,13 @@ MonoBehaviour:
         indx: 1
         count: 2
         spawnInterval: .300000012
-      doneWhenLeft: 2
+      doneWhenLeft: 7
     - objects:
-      - type: 5
+      - type: 3
+        indx: 0
+        count: 2
+        spawnInterval: .300000012
+      - type: 4
         indx: 0
         count: 2
         spawnInterval: .300000012

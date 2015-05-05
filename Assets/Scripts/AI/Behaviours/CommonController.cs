@@ -291,7 +291,7 @@ public class CommonController : InputController, IGotTarget
 				if(!behaviourChosen)
 				{
 					shooting = true;
-					Vector2 relativeVelocity = (target.velocity - Main.AddSpipSpeed2TheBullet(thisShip));
+					Vector2 relativeVelocity = (target.velocity - Main.AddShipSpeed2TheBullet(thisShip));
 					AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity, thisShip.position, bulletsSpeed);
 					if(a.canShoot)
 					{
@@ -389,7 +389,7 @@ public class CommonController : InputController, IGotTarget
 			if(Main.IsNull(target))
 				yield break;
 			
-			Vector2 relativeVelocity = (target.velocity - Main.AddSpipSpeed2TheBullet(thisShip));
+			Vector2 relativeVelocity = (target.velocity - Main.AddShipSpeed2TheBullet(thisShip));
 			AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity, thisShip.position, bulletsSpeed);
 			if(a.canShoot)
 			{

@@ -29,11 +29,11 @@ public class SpaceShip : PolygonGameObject
 
 	bool acceleratedThisTick = false;
 
-	protected override float healthModifier {
-		get {
-			return base.healthModifier * Singleton<GlobalConfig>.inst.SpaceshipHealthModifier;
-		}
-	}
+//	protected override float healthModifier {
+//		get {
+//			return base.healthModifier * Singleton<GlobalConfig>.inst.SpaceshipHealthModifier;
+//		}
+//	}
 
 	protected override void Awake()
 	{
@@ -42,8 +42,10 @@ public class SpaceShip : PolygonGameObject
 		velocity = Vector2.zero;
 	}
 
-	public void Init(SpaceshipData data)
+	public void InitSpaceShip(float density, float healthModifier, SpaceshipData data)
 	{
+		InitPolygonGameObject (density, healthModifier);
+
 		turnSpeed = data.turnSpeed;
 		//passiveBrake = data.passiveBrake;
 		thrust = data.thrust;

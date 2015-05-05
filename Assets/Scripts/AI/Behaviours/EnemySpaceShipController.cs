@@ -190,7 +190,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 			if(Main.IsNull(target))
 				yield break;
 
-			AimSystem a = new AimSystem(target.position, target.velocity - Main.AddSpipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
+			AimSystem a = new AimSystem(target.position, target.velocity - Main.AddShipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
 			if(a.canShoot)
 			{
 				turnDirection = a.direction;

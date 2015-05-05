@@ -56,6 +56,7 @@ public class BulletAdapter : IBullet
 
 	//physical
 	public float density{get{return go.density;}}
+	public float healthModifier{get{return go.healthModifier;}}
 	public float mass{get{return go.mass;}}
 	public float inertiaMoment{get{return go.inertiaMoment;}}
 	public Vector2 velocity{get{return go.velocity;} set{go.velocity = value;}}

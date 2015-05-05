@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +22,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 
 	//physical
 	public float density{ get; set;}
+	public float healthModifier{ get; set;}
 	public float mass{ get; private set;}
 	public float inertiaMoment{ get; private set;}
 	public Vector2 velocity{ get; set;}
@@ -76,9 +77,10 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		this.polygon = polygon;
 	}
 
-	public void Init(float density)
+	public void InitPolygonGameObject(float density, float healthModifier)
 	{
 		this.density = density;
+		this.healthModifier = healthModifier;
 		mass = polygon.area * density;
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;
@@ -108,10 +110,10 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		turrets.ForEach (t => t.SetCollisionLayerNum (layerNum));
 	}
 
-	protected virtual float healthModifier
-	{
-		get{return Singleton<GlobalConfig>.inst.GlobalHealthModifier;}
-	}
+//	protected virtual float healthModifier
+//	{
+//		get{return Singleton<GlobalConfig>.inst.GlobalHealthModifier;}
+//	}
 
 	public Color GetColor()
 	{

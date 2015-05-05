@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PowerUp : PolygonGameObject 
@@ -6,7 +6,7 @@ public class PowerUp : PolygonGameObject
 	public EffectType effect;
 	public float lived = 0;
 
-	public void Init(EffectType effect)
+	public void InitAsteroid(EffectType effect)
 	{
 		this.effect = effect;
 	}

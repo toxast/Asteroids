@@ -33,7 +33,7 @@ public class TankEnemy : PolygonGameObject
 	private Rotaitor cannonsRotaitor;
 	private List<IBullet> bullets;
 
-	public void Init(List<IBullet> bullets)
+	public void InitAsteroid(List<IBullet> bullets)
 	{
 		this.bullets = bullets;
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
@@ -41,11 +41,11 @@ public class TankEnemy : PolygonGameObject
 		StartCoroutine(Evade());
 	}
 
-	protected override float healthModifier {
-		get {
-			return base.healthModifier * Singleton<GlobalConfig>.inst.TankEnemyHealthModifier;
-		}
-	}
+//	protected override float healthModifier {
+//		get {
+//			return base.healthModifier * Singleton<GlobalConfig>.inst.TankEnemyHealthModifier;
+//		}
+//	}
 
 	
 	public override void Tick(float delta)

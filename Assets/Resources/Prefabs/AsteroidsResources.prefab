@@ -83,7 +83,8 @@ MonoBehaviour:
       min: 4
       max: 5
   spikyData:
-  - speed:
+  - density: 2
+    speed:
       min: 4
       max: 8
     rotation:
@@ -98,8 +99,10 @@ MonoBehaviour:
     spikesCount:
       min: 5
       max: 7
+    spikeVelocity: 40
   sawData:
-  - speed:
+  - density: 2
+    speed:
       min: 6
       max: 10
     rotation:
@@ -109,11 +112,15 @@ MonoBehaviour:
       min: 2
       max: 3
     spikeSize:
-      min: .200000003
-      max: .400000006
+      min: .300000012
+      max: .5
     spikesCount:
-      min: 10
-      max: 15
+      min: 9
+      max: 12
+    chargeDuration: 3
+    chargeSpeed: 30
+    chargeRotation: 200
+    prepareTime: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

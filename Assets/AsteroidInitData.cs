@@ -27,9 +27,26 @@ public class AsteroidSetupData
 [System.Serializable]
 public class SpikyInitData
 {
+	public float density = 1f;
+	public float healthModifier = 1f;
 	public RandomFloat speed;
 	public RandomFloat rotation;
 	public RandomFloat size;
 	public RandomFloat spikeSize;
 	public RandomInt spikesCount;
+}
+
+[System.Serializable]
+public class SpikeShooterInitData : SpikyInitData
+{
+	public float spikeVelocity = 45f;
+}
+
+[System.Serializable]
+public class SawInitData : SpikyInitData
+{
+	public float chargeDuration = 3f;
+	public float chargeSpeed = 50f;
+	public float chargeRotation = 300f;
+	public float prepareTime = 2f;
 }

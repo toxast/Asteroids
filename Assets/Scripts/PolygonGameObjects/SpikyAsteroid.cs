@@ -23,15 +23,19 @@ public class SpikyAsteroid : Asteroid
 		}
 	}
 
-	private float detectionDistance = 70f;
+//	private float detectionDistance = 70f;
+//	private float detectionDistanceSqr;
 	private float regrowPause = 3f;
 	private float spikeSpeed = 45f;
 	private float growSpeed = 0.1f;
 
 	private List<Spike> spikesLeft = new List<Spike>();
 
-	public void Init (int[] spikes)
+	public void InitSpikyAsteroid (int[] spikes, SpikeShooterInitData data)
 	{
+		InitAsteroid (data.density, data.healthModifier, data.speed, data.rotation);
+		this.spikeSpeed = data.spikeVelocity;
+
 		foreach(int spikeVertex in spikes)
 		{
 			int previous = polygon.Previous(spikeVertex);
@@ -48,53 +52,47 @@ public class SpikyAsteroid : Asteroid
 	IEnumerator CheckForTarget()
 	{
 		float checkInterval = 0.5f;
-		float detectionDistanceSqr = detectionDistance * detectionDistance;
-		
+
 		while(true)
 		{
 			if(!Main.IsNull(target))
 			{
-				Vector2 dist = target.position - position;
-				if(dist.sqrMagnitude < detectionDistanceSqr)
-				{
-					float angle = cacheTransform.rotation.eulerAngles.z * Mathf.Deg2Rad;
-					float cosA = Mathf.Cos(angle);
-					float sinA = Mathf.Sin(angle);
+				float angle = cacheTransform.rotation.eulerAngles.z * Mathf.Deg2Rad;
+				float cosA = Mathf.Cos(angle);
+				float sinA = Mathf.Sin(angle);
 
-					var randomSpeed = spikeSpeed + UnityEngine.Random.Range(-spikeSpeed/5f, 0);
-					AimSystem aim = new AimSystem(target.position, target.velocity, position, randomSpeed);
-					if(aim.canShoot)
+				var randomSpeed = spikeSpeed + UnityEngine.Random.Range(-spikeSpeed/5f, 0);
+				AimSystem aim = new AimSystem(target.position, target.velocity, position, randomSpeed);
+				if(aim.canShoot)
+				{
+					for (int i = spikesLeft.Count - 1; i >= 0; i--) 
 					{
-						for (int i = spikesLeft.Count - 1; i >= 0; i--) 
-						{
-							Spike spike = spikesLeft[i];
-							
-							Edge e1  = Math2d.RotateEdge(spike.a, cosA, sinA); 
-							Vector2 spikeDisrection = e1.p2;
+						Spike spike = spikesLeft[i];
 						
-							bool inFrontOfSpike = Math2d.Cos(spikeDisrection, aim.direction) > 0.98f;
+						Edge e1  = Math2d.RotateEdge(spike.a, cosA, sinA); 
+						Vector2 spikeDirection = e1.p2;
+					
+						bool inFrontOfSpike = Math2d.Cos(spikeDirection, aim.direction) > 0.98f;
+						
+						if(inFrontOfSpike)
+						{
+							//split spike off
+							List<Vector2[]> parts = polygon.SplitBy2Vertices(polygon.Previous(spike.index), polygon.Next(spike.index));
+							Vector2[] spikePart = Math2d.RotateVerticesRad(parts[1], angle);
 							
-							if(inFrontOfSpike)
-							{
-								//split spike off
-								List<Vector2[]> parts = polygon.SplitBy2Vertices(polygon.Previous(spike.index), polygon.Next(spike.index));
-								Vector2[] spikePart = Math2d.RotateVerticesRad(parts[1], angle);
-								
-								spikesLeft.RemoveAt(i);
-								StartCoroutine(GrowSpike(spike.index, spike.a.p2));
-								
-								Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, ObjectsCreator.defaultEnemyColor);
-								//spikeAsteroid.Init();
-								spikeAsteroid.Init(this.density);
-								spikeAsteroid.position += position;
-								spikeAsteroid.rotation = 0f;
-								spikeAsteroid.velocity = spikeSpeed * spikeDisrection.normalized;
-								
-								//change mesh and polygon
-								ChangeVertex(spike.index, (spike.a.p1 + spike.b.p2) / 2f);
-								
-								SpikeAttack(spikeAsteroid);
-							}
+							spikesLeft.RemoveAt(i);
+							StartCoroutine(GrowSpike(spike.index, spike.a.p2));
+							
+							Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, ObjectsCreator.defaultEnemyColor);
+							spikeAsteroid.InitPolygonGameObject(this.density, this.healthModifier);
+							spikeAsteroid.position += position;
+							spikeAsteroid.rotation = 0f;
+							spikeAsteroid.velocity = spikeSpeed * spikeDirection.normalized;
+							
+							//change mesh and polygon
+							ChangeVertex(spike.index, (spike.a.p1 + spike.b.p2) / 2f);
+							
+							SpikeAttack(spikeAsteroid);
 						}
 					}
 				}

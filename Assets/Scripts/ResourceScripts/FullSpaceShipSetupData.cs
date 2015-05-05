@@ -8,9 +8,10 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 {
 	public string name;
 	public int price = -1;
-	public CollisionLayers.eLayer layer = CollisionLayers.eLayer.TEAM_ENEMIES; //TODO: use (now its not)
+//	public CollisionLayers.eLayer layer = CollisionLayers.eLayer.TEAM_ENEMIES; //TODO: use (now its not)
 	public Color color = Color.white;
 	public float density = 1f;
+	public float healthModifier = 1f;
 	public SpaceshipData physicalParameters;
 	public ShieldData shield;
 	public List<GunSetupData> guns;
@@ -29,9 +30,10 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 		FullSpaceShipSetupData r = new FullSpaceShipSetupData ();
 		r.name = name + " clone";
 		r.price = price;
-		r.layer = layer;
+//		r.layer = layer;
 		r.color = color; 
 		r.density = density; 
+		r.healthModifier = healthModifier; 
 		r.physicalParameters = physicalParameters.Clone();
 		r.shield = shield.Clone(); 
 		r.guns = guns.ConvertAll(g => g.Clone());

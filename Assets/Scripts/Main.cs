@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
@@ -88,7 +88,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	static public Vector2 AddSpipSpeed2TheBullet(IPolygonGameObject ship)
+	static public Vector2 AddShipSpeed2TheBullet(IPolygonGameObject ship)
 	{
 		return ship.velocity * 0.5f;
 	}
