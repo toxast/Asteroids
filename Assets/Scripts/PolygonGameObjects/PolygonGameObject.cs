@@ -83,7 +83,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;
 		fullHealth = Mathf.Pow(mass, 0.8f) * healthModifier / 2f;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
-		Debug.LogWarning (mass + " " + fullHealth);
+//		Debug.LogWarning (mass + " " + fullHealth);
 		currentHealth = fullHealth;
 	}
 

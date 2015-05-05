@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 [ExecuteInEditMode]
 
-public class VertHandler : MonoBehaviour 
+public class ShipEditor : MonoBehaviour 
 {
 	public enum eSaveLoadType
 	{
@@ -138,8 +138,10 @@ public class VertHandler : MonoBehaviour
 		handles.ForEach (h => { h.transform.localPosition = Vector3.zero;});
 	}
 
-	[ContextMenu ("Save")]
-	private void PrintIt()
+	private void GetCurrentData(out Vector2[] fullArray, 
+	                            out List<GunSetupData> gunsData,
+	                            out List<ThrusterSetupData> thrustersData,
+	                            out List<TurretReferenceData> turretsData)
 	{
 		Vector2[] v2 = new Vector2[handles.Count];    
 		for(int i = 0; i < handles.Count; i++)
@@ -152,35 +154,82 @@ public class VertHandler : MonoBehaviour
 		{
 			full.Reverse();
 		}
-
-		var fullArray = full.ToArray ();
+		
+		fullArray = full.ToArray ();
 		var pivot = Math2d.GetMassCenter (fullArray);
 		Math2d.ShiftVertices(fullArray, -pivot);
-
-		List<GunSetupData> gunsData = new List<GunSetupData> ();
+		
+		gunsData = new List<GunSetupData> ();
 		foreach(var g in guns)
 		{
 			GunSetupData gd = new GunSetupData();
 			gd.place = new Place((Vector2)g.transform.localPosition - pivot, g.transform.right);
 			gunsData.Add(gd);
 		}
-
-		List<ThrusterSetupData> thrustersData = new List<ThrusterSetupData> ();
+		
+		thrustersData = new List<ThrusterSetupData> ();
 		foreach(var t in thrusters)
 		{
 			ThrusterSetupData td = new ThrusterSetupData();
 			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
 			thrustersData.Add(td);
 		}
-
-		List<TurretReferenceData> turretsData = new List<TurretReferenceData> ();
+		
+		turretsData = new List<TurretReferenceData> ();
 		foreach(var t in turrets)
 		{
 			TurretReferenceData td = new TurretReferenceData();
 			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
 			turretsData.Add(td);
 		}
+	}
 
+	[ContextMenu ("Insert")]
+	private void Insert()
+	{
+		Vector2[] fullArray;
+		List<GunSetupData> gunsData;
+		List<ThrusterSetupData> thrustersData;
+		List<TurretReferenceData> turretsData;
+		GetCurrentData (out fullArray, out gunsData, out thrustersData, out turretsData);
+		if(editType == eSaveLoadType.SpaceShip)
+		{
+			var newShip = new FullSpaceShipSetupData ();
+			newShip.verts = fullArray;
+			newShip.guns = gunsData;
+			newShip.thrusters = thrustersData;
+			newShip.turrets = turretsData;
+			newShip.physicalParameters = new SpaceshipData ();
+			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : SpaceshipsResources.Instance.spaceships.Count;
+			SpaceshipsResources.Instance.spaceships.Insert(indx, newShip);
+		}
+		else if(editType == eSaveLoadType.Turret)
+		{
+			var newTurret = new TurretSetupData();
+			newTurret.verts = fullArray;
+			newTurret.guns = gunsData;
+			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : SpaceshipsResources.Instance.turrets.Count;
+			SpaceshipsResources.Instance.turrets.Add (newTurret);
+		}
+		else if(editType == eSaveLoadType.Tower)
+		{
+			var newTower = new TowerSetupData();
+			newTower.verts = fullArray;
+			newTower.guns = gunsData;
+			newTower.turrets = turretsData;
+			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : SpaceshipsResources.Instance.towers.Count;
+			SpaceshipsResources.Instance.towers.Add (newTower);
+		}
+	}
+
+	[ContextMenu ("Save On")]
+	private void SaveOn()
+	{
+		Vector2[] fullArray;
+		List<GunSetupData> gunsData;
+		List<ThrusterSetupData> thrustersData;
+		List<TurretReferenceData> turretsData;
+		GetCurrentData (out fullArray, out gunsData, out thrustersData, out turretsData);
 		if(saveANDloadIndx >= 0)
 		{
 			object obj = null;
@@ -190,52 +239,22 @@ public class VertHandler : MonoBehaviour
 				obj = SpaceshipsResources.Instance.turrets[saveANDloadIndx];
 			else if(editType == eSaveLoadType.Tower)
 				obj = SpaceshipsResources.Instance.towers[saveANDloadIndx];
-
+			
 			(obj as IGotShape).iverts = fullArray;
-
+			
 			if(obj is IGotGuns)
 				FillPlaces<GunSetupData>(gunsData, (obj as IGotGuns).iguns);
-
+			
 			if(obj is IGotThrusters)
 				FillPlaces<ThrusterSetupData>(thrustersData, (obj as IGotThrusters).ithrusters);
-
+			
 			if(obj is IGotTurrets)
 				FillPlaces<TurretReferenceData>(turretsData, (obj as IGotTurrets).iturrets);
 		}
 		else
 		{
-			if(editType == eSaveLoadType.SpaceShip)
-			{
-				var newShip = new FullSpaceShipSetupData ();
-				newShip.verts = fullArray;
-				newShip.guns = gunsData;
-				newShip.thrusters = thrustersData;
-				newShip.turrets = turretsData;
-				newShip.physicalParameters = new SpaceshipData ();
-				SpaceshipsResources.Instance.spaceships.Add (newShip);
-			}
-			else if(editType == eSaveLoadType.Turret)
-			{
-				var newTurret = new TurretSetupData();
-				newTurret.verts = fullArray;
-				newTurret.guns = gunsData;
-				SpaceshipsResources.Instance.turrets.Add (newTurret);
-			}
-			else if(editType == eSaveLoadType.Tower)
-			{
-				var newTower = new TowerSetupData();
-				newTower.verts = fullArray;
-				newTower.guns = gunsData;
-				newTower.turrets = turretsData;
-				SpaceshipsResources.Instance.towers.Add (newTower);
-			}
+			Debug.LogWarning("index is not valid");
 		}
-
-
-		//var sdata = new FullSpaceShipSetupData(
-		//SpaceshipsRecources.Instance.spaceships.Add( 
-
-		//ObjectsCreator.CreateSpaceShip<EnemySpaceShip> (sdata);
 	}
 
 	private void FillPlaces<T>(List<T> newPlaces, List<T> oldPlaces)

@@ -16,16 +16,9 @@ public class RandomInt
 }
 
 [System.Serializable]
-public class AsteroidResData 
+public class AsteroidSetupData 
 {
-	public int speed;
-	public int rotation;
-	public int size;
-}
-
-[System.Serializable]
-public class AsteroidInitData 
-{
+	public int densityIndx;
 	public RandomFloat speed;
 	public RandomFloat rotation;
 	public RandomFloat size;

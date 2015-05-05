@@ -11,6 +11,12 @@ public class ObjectsCreator
 		where T:SpaceShip
 	{
 		var sdata = SpaceshipsResources.Instance.spaceships [dataIndex];
+		return CreateSpaceShip<T> (sdata);
+	}
+
+	public static T CreateSpaceShip<T>(FullSpaceShipSetupData sdata)
+		where T:SpaceShip
+	{
 		T spaceship = PolygonCreator.CreatePolygonGOByMassCenter<T> (sdata.verts, sdata.color);
 		spaceship.Init(sdata.density);
 		spaceship.Init(sdata.physicalParameters);
@@ -37,9 +43,9 @@ public class ObjectsCreator
 		return spaceship;
 	}
 
-	public static UserSpaceShip CreateSpaceShip(InputController contorller, int indx)
+	public static UserSpaceShip CreateSpaceShip(InputController contorller, FullSpaceShipSetupData data)
 	{
-		var spaceship = ObjectsCreator.CreateSpaceShip<UserSpaceShip> (indx);
+		var spaceship = ObjectsCreator.CreateSpaceShip<UserSpaceShip> (data);
 		spaceship.SetCollisionLayerNum (CollisionLayers.ilayerUser);
 		spaceship.collector = new DropCollector (0.15f, 20f);
 		spaceship.SetColor (Color.blue);
@@ -87,14 +93,16 @@ public class ObjectsCreator
 		return enemy;
 	}
 
-	public static Asteroid CreateAsteroid(AsteroidData data, AsteroidInitData initData, Material mat)
+
+
+	public static Asteroid CreateAsteroid(AsteroidSetupData dataPh, AsteroidData data, Material mat)
 	{
-		float size = Random(initData.size);
+		float size = Random(dataPh.size);
 		int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size*3);
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Singleton<GlobalConfig>.inst.AsteroidColor, mat);
 		asteroid.Init (data.density);
-		asteroid.Init (initData.speed, initData.rotation);
+		asteroid.Init (dataPh.speed, dataPh.rotation);
 		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
 		asteroid.gameObject.name = "asteroid";
 		
@@ -141,9 +149,9 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
-	public static Asteroid CreateGasteroid(AsteroidInitData initData)
+	public static Gasteroid CreateGasteroid(AsteroidSetupData initData)
 	{
-		float size = UnityEngine.Random.Range(3f, 7f);
+		float size = Random (initData.size);
 		int vcount = UnityEngine.Random.Range(5, 5 + (int)size);
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 		
@@ -288,9 +296,6 @@ public class ObjectsCreator
 		return _asteroidsMaterials[n];
 	}
 
-
-
-
 	public static polygonGO.Drop CreateDrop(DropData data)
 	{
 		float size = 0.7f;//Random.Range(1f, 2f);
@@ -306,7 +311,6 @@ public class ObjectsCreator
 		
 		return drop;
 	}
-
 
 	private static void InitGuns(PolygonGameObject enemy, List<Place> gunplaces, System.Func<Place, IPolygonGameObject, Gun> gunsGetter)
 	{

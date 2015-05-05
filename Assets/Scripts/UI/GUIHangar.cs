@@ -3,18 +3,35 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GUIHangar : MonoBehaviour 
 {
 	[SerializeField] UIShipsScroll shipsScroll;
 	[SerializeField] UIShip uiShip;
 	[SerializeField] UIGunsScroll gunsScroll;
+	[SerializeField] Button startButton;
 
 	FullSpaceShipSetupData currentShipData = null;
+	public event Action<FullSpaceShipSetupData> startTheGame;
+
+	void Awake()
+	{
+		startButton.onClick.AddListener (() => StartGame());
+	}
 
 	void Start ()
 	{
 		shipsScroll.Show (SpaceshipsResources.Instance.spaceships, Create);
+	}
+
+	void StartGame()
+	{
+		if(currentShipData != null)
+		{
+			startTheGame(currentShipData);
+			uiShip.Clear();
+		}
 	}
 
 	private void Create(int shipIndx, FullSpaceShipSetupData data)
@@ -22,6 +39,8 @@ public class GUIHangar : MonoBehaviour
 		shipsScroll.Select (shipIndx);
 		currentShipData = data.Clone();
 		uiShip.Create (shipIndx, data, SelectCannonClicked);
+
+		gunsScroll.Clear ();
 	}
 
 	private void SelectCannonClicked(int cannonNum)
@@ -30,17 +49,25 @@ public class GUIHangar : MonoBehaviour
 		Action<int, GUIHangar.GunIndexWarpper> act = (indx, gun) =>
 		{
 			gunsScroll.Select(indx);
-//			GunSelected(cannonNum, gun.itype, gun.index);
 			currentShipData.guns [cannonNum].type = gun.itype;
 			currentShipData.guns [cannonNum].index = gun.index;
 		};
 
 		gunsScroll.Show (guns, act);
+
+		var currentGun = currentShipData.guns [cannonNum];
+		if(currentGun.type != GunSetupData.eGuns.None)
+		{
+			var i = guns.FindIndex( g => g.gun.itype == currentGun.type && g.index == currentGun.index);
+
+			if(i >= 0)
+				gunsScroll.Select(i);
+		}
 	}
 
 	private List<GunIndexWarpper> GetAvaliableGuns(FullSpaceShipSetupData spaceship, int cannonNum)
 	{
-		var cannon = spaceship.guns [cannonNum];
+		//var cannon = spaceship.guns [cannonNum];
 		List<GunIndexWarpper> guns = new List<GunIndexWarpper> ();
 		for (int i = 0; i < GunsResources.Instance.guns.Count; i++) {
 			guns.Add(new GunIndexWarpper{gun = GunsResources.Instance.guns[i], index = i});
@@ -57,13 +84,6 @@ public class GUIHangar : MonoBehaviour
 		return guns;
 	}
 	
-//	private void GunSelected(int cannonNum, GunSetupData.eGuns gunType, int indx)
-//	{
-//		Debug.LogWarning ("GunSelected " + cannonNum + " " + gunType + " " + indx);
-//		currentShipData.guns [cannonNum].type = gunType;
-//		currentShipData.guns [cannonNum].index = indx;
-//	}
-
 	public class GunIndexWarpper: IGun
 	{
 		public IGun gun;

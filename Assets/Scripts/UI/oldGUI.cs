@@ -23,7 +23,7 @@ public class oldGUI : MonoBehaviour {
 		
 		if(GUI.Button(new Rect(x, y, width+20, height), "asteroid"))
 		{
-			main.CreateAsteroid();
+			main.CreateAsteroid(0);
 		}
 		y += height + margine;
 		

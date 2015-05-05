@@ -17,11 +17,7 @@ public class UIShip : MonoBehaviour
 	{
 		Debug.LogWarning ("create " + shipIndx);
 
-		if (spaceship != null)
-			Destroy (spaceship.gameObject);
-		
-		cannons.ForEach (c => Destroy (c.gameObject));
-		cannons.Clear ();
+		Clear ();
 		
 		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject> (data.verts, data.color);
 		spaceship.cacheTransform.position = new Vector3(0, 0, 70);
@@ -42,5 +38,14 @@ public class UIShip : MonoBehaviour
 			
 			gunIndex++;
 		}
+	}
+
+	public void Clear()
+	{
+		if (spaceship != null)
+			Destroy (spaceship.gameObject);
+		
+		cannons.ForEach (c => Destroy (c.gameObject));
+		cannons.Clear ();
 	}
 }

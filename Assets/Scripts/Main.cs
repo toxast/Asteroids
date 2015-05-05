@@ -99,6 +99,24 @@ public class Main : MonoBehaviour
 		new PhExplosion(pos, r, power, gobjects);
 	}
 
+	LevelSpawner spawner;
+	public void StartTheGame(FullSpaceShipSetupData spaceshipData)
+	{
+		int level = 0;
+		gameIsOn = true;
+
+		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
+		
+		starsGenerator.Generate ((int)(starsDensity*(screenBounds.width * screenBounds.height)/2000f) , screenBounds, 30f);
+		
+		CreateSpaceShip (spaceshipData);
+
+		spawner = new LevelSpawner (LevelsResources.Instance.levels [level]);
+
+		powerUpsCreator = new PowerUpsCreator(5f, 10f);
+		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
+	}
+
 	//TODO: partial objects reposition?
 	IEnumerator RepositionAll()
 	{
@@ -130,66 +148,22 @@ public class Main : MonoBehaviour
 
 	void Start()
 	{
-		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
 
-		starsGenerator.Generate ((int)(starsDensity*(screenBounds.width * screenBounds.height)/2000f) , screenBounds, 30f);
-
-		CreateSpaceShip();
-
-		int rogues = UnityEngine.Random.Range(0, 1);
-		int saws = 0;//= UnityEngine.Random.Range(1, 7);
-		int evades = UnityEngine.Random.Range(0, 1);
-		int tanks = UnityEngine.Random.Range(0, 1);
-		int spikies = 0;//= UnityEngine.Random.Range(1, 4);
-		int asteroidsNum = 0;//UnityEngine.Random.Range(5, 20);
-
-		for (int i = 0; i < rogues; i++) 
-		{
-			CreateRogueEnemy();
-		}
-
-		for (int i = 0; i < saws; i++) 
-		{
-			CreateSawEnemy();
-		}
-
-		for (int i = 0; i < evades; i++) 
-		{
-			CreateEvadeEnemy();
-		}
-
-		for (int i = 0; i < tanks; i++) 
-		{
-			CreateTankEnemy();
-		}
-
-		for (int i = 0; i < spikies; i++) 
-		{
-			CreateSpikyAsteroid();
-		}
-
-		for (int i = 0; i < asteroidsNum; i++) 
-		{
-			CreateAsteroid();
-		}
-
-		powerUpsCreator = new PowerUpsCreator(5f, 10f);
-		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
 	}
 
 	public IEnumerator Respawn()
 	{
-		if (spaceship != null)
-		{
-			spaceship.Hit (10000000);
-			spaceship = null;
-			yield return new WaitForSeconds(0.5f);
-		}
-
-		if (spaceship == null)
-		{
-			CreateSpaceShip();
-		}
+//		if (spaceship != null)
+//		{
+//			spaceship.Hit (10000000);
+//			spaceship = null;
+//			yield return new WaitForSeconds(0.5f);
+//		}
+//
+//		if (spaceship == null)
+//		{
+//			CreateSpaceShip();
+//		}
 		yield break;
 	}
 
@@ -283,10 +257,17 @@ public class Main : MonoBehaviour
 
 	float enemyDtime;
 	bool doTick = true;
+	bool gameIsOn = false;
 	void Update()
 	{
+		if (!gameIsOn)
+			return;
+
 		if (IsNull (spaceship))
 			spaceship = null;
+
+		if (spawner != null)
+			spawner.Tick ();
 
 		//TODO: refactor Powerup
 		if(!doTick)
@@ -477,7 +458,7 @@ public class Main : MonoBehaviour
 			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
 			break;
 		case PolygonGameObject.DestructionType.eComplete:
-			SplitAsteroidAndMarkForDestructionAllParts(gobject);
+			SplitAndMarkForDestructionAllParts(gobject);
 			break;
 		case PolygonGameObject.DestructionType.eJustDestroy:
 			break;
@@ -637,7 +618,7 @@ public class Main : MonoBehaviour
 		SplitAndDestroyThresholdParts (obj, DestroyAfterSplitTreshold);
 	}
 
-	private void SplitAsteroidAndMarkForDestructionAllParts(IPolygonGameObject obj)
+	private void SplitAndMarkForDestructionAllParts(IPolygonGameObject obj)
 	{
 		SplitAndDestroyThresholdParts (obj, Mathf.Infinity);
 	}
@@ -669,6 +650,11 @@ public class Main : MonoBehaviour
 				if(obj.dropID != null)
 				{
 					part.dropID = obj.dropID;
+				}
+				else
+				{
+					part.destroyOnBoundsTeleport = true;
+//					part.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 				}
 				Add2Objects(part);
 			}
@@ -898,7 +884,7 @@ public class Main : MonoBehaviour
 	}
 
 
-	public void CreateSpaceShip()
+	public void CreateSpaceShip(FullSpaceShipSetupData data)
 	{
 		InputController controller = null; 
 		#if UNITY_STANDALONE
@@ -907,7 +893,7 @@ public class Main : MonoBehaviour
 		tabletController.Init();
 		controller = tabletController;
 		#endif
-		spaceship = ObjectsCreator.CreateSpaceShip (controller, int.Parse(oldGUI.userShipNum));
+		spaceship = ObjectsCreator.CreateSpaceShip (controller, data);
 		Add2Objects(spaceship);
 		spaceship.cacheTransform.position = mainCamera.transform.position.SetZ (0);
 	}
@@ -926,7 +912,17 @@ public class Main : MonoBehaviour
 			break;
 		}
 	}
-	
+
+	public Asteroid CreateAsteroid(int i)
+	{
+		var sdata = AsteroidsResources.Instance.asteroids [i];
+		var data = AsteroidsResources.Instance.asteroidsData [sdata.densityIndx];
+		var asteroid = ObjectsCreator.CreateAsteroid (sdata, data, ObjectsCreator.GetAsteroidMaterial(sdata.densityIndx));
+		CreateDropForObject (asteroid, data); 
+		InitNewEnemy(asteroid);
+		return asteroid; 
+	}
+
 	public SpaceShip CreateEnemySpaceShip(int indx)
 	{
 		return CreateSpaceship (indx, CollisionLayers.ilayerTeamEnemies);
@@ -952,58 +948,56 @@ public class Main : MonoBehaviour
 		InitNewEnemy(enemy);
 	}
 
-	public Asteroid CreateAsteroid()
-	{
-		int indx = UnityEngine.Random.Range (0, AsteroidsResources.Instance.asteroidsData.Count);
-		var data = AsteroidsResources.Instance.asteroidsData [indx];
-		
-		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.asteroidsResData.Count);
-		var initData = ComposeData(AsteroidsResources.Instance.asteroidsResData[indxInit]);
-		Debug.LogWarning (indxInit);
-		var asteroid = ObjectsCreator.CreateAsteroid (data, initData, ObjectsCreator.GetAsteroidMaterial(indx));
-		
-		CreateDropForObject (asteroid, data);
-		
-		InitNewEnemy (asteroid);
-		return asteroid;
-	}
-
 	public Asteroid CreateGasteroid()
 	{
-		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.asteroidsResData.Count);
-		var initData = ComposeData(AsteroidsResources.Instance.asteroidsResData[indxInit]);
-
+		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.asteroids.Count);
+		var initData = AsteroidsResources.Instance.asteroids[indxInit];
 		var asteroid = ObjectsCreator.CreateGasteroid (initData);
 		InitNewEnemy(asteroid);
 		return asteroid;
 	}
 
-	public void CreateSawEnemy()
+	public SawEnemy CreateSawEnemy()
 	{
 		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.sawData.Count);
-		var initData = AsteroidsResources.Instance.sawData[indxInit];
+		return CreateSawEnemy (indxInit);
+	}
 
+	public SawEnemy CreateSawEnemy(int indxInit)
+	{
+		var initData = AsteroidsResources.Instance.sawData[indxInit];
 		var enemy = ObjectsCreator.CreateSawEnemy(initData);
 		InitNewEnemy(enemy);
+		return enemy;
 	}
 	
-	public void CreateSpikyAsteroid()
+	public SpikyAsteroid CreateSpikyAsteroid()
 	{
 		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.spikyData.Count);
-		var initData = AsteroidsResources.Instance.spikyData[indxInit];
+		return CreateSpikyAsteroid (indxInit);
+	}
 
+	public SpikyAsteroid CreateSpikyAsteroid(int indxInit)
+	{
+		var initData = AsteroidsResources.Instance.spikyData[indxInit];
 		var enemy = ObjectsCreator.CreateSpikyAsteroid(initData);
 		enemy.SpikeAttack += HandleSpikeAttack;
 		InitNewEnemy(enemy);
+		return enemy;
 	}
-	
-	public void CreateSimpleTower()
+
+	public SimpleTower CreateSimpleTower()
 	{
 		int indx = UnityEngine.Random.Range (0,  SpaceshipsResources.Instance.towers.Count);
-		var turretData = SpaceshipsResources.Instance.towers [indx];
+		return CreateSimpleTower (indx);
+	}
 
+	public SimpleTower CreateSimpleTower(int indx)
+	{
+		var turretData = SpaceshipsResources.Instance.towers [indx];
 		var enemy = ObjectsCreator.CreateSimpleTower(turretData);
 		InitNewEnemy(enemy);
+		return enemy;
 	}
 	
 	public TowerEnemy CreateTower()
@@ -1027,8 +1021,6 @@ public class Main : MonoBehaviour
 		return enemy;
 	}
 	
-
-
 	public void CreateFight()
 	{
 		CreateEnemySpaceShip (3);
@@ -1038,16 +1030,7 @@ public class Main : MonoBehaviour
 	
 
 
-	private AsteroidInitData ComposeData(AsteroidResData resource)
-	{
-		AsteroidInitData d = new AsteroidInitData ();
-		d.rotation = AsteroidsResources.Instance.initRotation [resource.rotation];
-		d.speed = AsteroidsResources.Instance.initSpeed [resource.speed];
-		d.size = AsteroidsResources.Instance.initSize [resource.size];
-		return d;
-	}
-
-	private void CreateDropForObject(IPolygonGameObject obj, AsteroidData aData) //TODO: color + value data
+	public void CreateDropForObject(IPolygonGameObject obj, AsteroidData aData) //TODO: color + value data
 	{
 		obj.dropID = new DropID ();
 		DropData dropData = new DropData
@@ -1062,7 +1045,7 @@ public class Main : MonoBehaviour
 	}
 	
 	
-	private void InitNewEnemy(PolygonGameObject enemy)
+	public void InitNewEnemy(PolygonGameObject enemy)
 	{
 		if(enemy.layerNum != CollisionLayers.ilayerAsteroids)
 			enemy.targetSystem = new TargetSystem (enemy);

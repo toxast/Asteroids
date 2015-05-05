@@ -76,7 +76,7 @@ MonoBehaviour:
     damage: 1
     lifeTime: 3
     bulletSpeed: 60
-    fireInterval: .5
+    fireInterval: .100000001
     repeatCount: 0
     repeatInterval: 0
     vertices:
@@ -156,7 +156,7 @@ MonoBehaviour:
       repeatCount: 0
       repeatInterval: 0
       vertices:
-      - {x: 1.4820646, y: 4.00165412e-09}
+      - {x: 1.4820646, y: 6.07031314e-09}
       - {x: .832064688, y: -.25999999}
       - {x: -.727935255, y: -.195000008}
       - {x: -1.1179353, y: -.454999983}
