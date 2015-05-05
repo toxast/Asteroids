@@ -7,11 +7,13 @@ public class Missile : SpaceShip, IBullet
 	protected float lifeTime;
 	public bool breakOnDeath { get; set;}
 
-	public void Init(float damage, float lifeTime)
+	public void InitMissile(float density, SpaceshipData data, float damage, float lifeTime)
 	{
-		DeathAnimation.MakeDeathForThatFellaYo (this, true);
 		this.damage = damage; 
 		this.lifeTime = lifeTime; 
+		InitSpaceShip (density, data);
+
+		DeathAnimation.MakeDeathForThatFellaYo (this, true);
 	}
 
 	public override void Tick (float delta)

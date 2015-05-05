@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 
@@ -14,8 +14,10 @@ public class Turret : PolygonGameObject
 	
 	private Func<Vector3> anglesRestriction;
 	
-	public void Init(bool smartAim, float cannonsRotatingSpeed, Func<Vector3> angelsRestriction)
+	public void InitTurret(float density, bool smartAim, float cannonsRotatingSpeed, Func<Vector3> angelsRestriction)
 	{
+		InitPolygonGameObject (1);
+
 		this.smartAim = smartAim;
 		//this.cannonsRotatingSpeed = cannonsRotatingSpeed;
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);

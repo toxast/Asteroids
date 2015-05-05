@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PowerUpsCreator 
@@ -64,7 +64,7 @@ public class PowerUpsCreator
 		
 		PowerUp powerup = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, color);
 		powerup.gameObject.name = "powerup";
-		powerup.Init(type);
+		powerup.InitAsteroid(type);
 		
 		return powerup;
 	}

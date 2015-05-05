@@ -18,8 +18,10 @@ public class TowerEnemy : PolygonGameObject
 		}
 	}
 
-	public void Init()
+	public void InitTowerEnemy()
 	{
+		InitPolygonGameObject(1f);
+
 		cannonsRotaitor = new Rotaitor (cacheTransform, rotationSpeed);
 
 		StartCoroutine(Aim());

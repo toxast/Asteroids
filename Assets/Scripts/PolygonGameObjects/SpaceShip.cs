@@ -42,8 +42,10 @@ public class SpaceShip : PolygonGameObject
 		velocity = Vector2.zero;
 	}
 
-	public void Init(SpaceshipData data)
+	public void InitSpaceShip(float density, SpaceshipData data)
 	{
+		InitPolygonGameObject (density);
+
 		turnSpeed = data.turnSpeed;
 		//passiveBrake = data.passiveBrake;
 		thrust = data.thrust;

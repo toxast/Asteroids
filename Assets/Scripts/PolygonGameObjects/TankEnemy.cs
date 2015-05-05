@@ -33,7 +33,7 @@ public class TankEnemy : PolygonGameObject
 	private Rotaitor cannonsRotaitor;
 	private List<IBullet> bullets;
 
-	public void Init(List<IBullet> bullets)
+	public void InitAsteroid(List<IBullet> bullets)
 	{
 		this.bullets = bullets;
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);

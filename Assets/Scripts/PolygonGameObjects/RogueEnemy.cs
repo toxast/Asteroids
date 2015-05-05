@@ -26,6 +26,8 @@ public class RogueEnemy : PolygonGameObject
 
 	public void Init () 
 	{
+		InitPolygonGameObject (1f);
+
 		cannonsRotaitor = new Rotaitor(cacheTransform, rotatingSpeed);
 		SetAlpha(0f);
 		StartCoroutine(FadeAndShoot());

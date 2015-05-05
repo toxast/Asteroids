@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 
@@ -15,8 +15,10 @@ public class SimpleTower : PolygonGameObject
 	private bool smartAim = false;
 
 
-	public void Init(bool smartAim, float cannonsRotatingSpeed)
+	public void InitSimpleTower(float density, bool smartAim, float cannonsRotatingSpeed)
 	{
+		InitPolygonGameObject (density);
+
 		this.smartAim = smartAim;
 		//this.cannonsRotatingSpeed = cannonsRotatingSpeed;
 

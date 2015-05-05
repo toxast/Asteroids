@@ -32,12 +32,10 @@ public class RocketLauncher : Gun
 		}
 
 		Math2d.PositionOnParent (missile.cacheTransform, place, parent.cacheTransform);
-		
+
 		missile.gameObject.name = "missile";
 		var controller = new MissileController (missile, missleParameters.maxSpeed);
-		missile.Init (damage, lifeTime);
-		missile.Init (missleParameters);
-		missile.Init (1); //TODO
+		missile.InitMissile(1f, missleParameters, damage, lifeTime);
 		missile.destroyOnBoundsTeleport = true;
 		missile.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 		missile.SetController (controller);

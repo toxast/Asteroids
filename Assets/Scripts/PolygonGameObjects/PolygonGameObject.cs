@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -76,7 +76,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		this.polygon = polygon;
 	}
 
-	public void Init(float density)
+	public void InitPolygonGameObject(float density)
 	{
 		this.density = density;
 		mass = polygon.area * density;

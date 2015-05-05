@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Bullet : PolygonGameObject, IBullet 
@@ -19,12 +19,12 @@ public class Bullet : PolygonGameObject, IBullet
 		return lifeTime < 0;
 	}
 
-	public void Init(float speed, float damage, float lifeTime)
+	public void InitBullet(float speed, float damage, float lifeTime)
 	{
+		base.InitPolygonGameObject (1); //TODO pass
 		this.damage = damage;
 		this.lifeTime = lifeTime;
 		velocity = cacheTransform.right * speed;
-		base.Init (1); //TODO pass
 	}
 
 
