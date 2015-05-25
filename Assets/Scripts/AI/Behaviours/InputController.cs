@@ -4,8 +4,8 @@ using System.Collections;
 public interface InputController
 {
 	void Tick (PolygonGameObject p);
-	Vector2 TurnDirection ();
-	bool IsShooting();
-	bool IsAccelerating();
-	bool IsBraking();
+	Vector2 turnDirection{ get;}
+	bool shooting{get;}
+	bool accelerating{ get;}
+	bool braking{get;}
 }

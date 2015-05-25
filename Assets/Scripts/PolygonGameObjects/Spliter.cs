@@ -18,7 +18,7 @@ public class Spliter
 		{
 			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.GetColor(), polygonGo.mat, polygonGo.meshUV);
 
-			asteroidPart.InitPolygonGameObject(polygonGo.density, polygonGo.healthModifier);
+			asteroidPart.InitPolygonGameObject(new PhysicalData(polygonGo.density, polygonGo.healthModifier, polygonGo.collisionDefence, polygonGo.collisionAttackModifier));
 			asteroidPart.SetCollisionLayerNum(CollisionLayers.ilayerAsteroids);
 			asteroidPart.cacheTransform.Translate(polygonGo.position);
 			asteroidPart.cacheTransform.RotateAround(polygonGo.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);

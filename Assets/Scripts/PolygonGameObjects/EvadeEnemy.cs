@@ -36,9 +36,9 @@ public class EvadeEnemy : PolygonGameObject
 	private List<IBullet> incomingBullets;
 	Rotaitor cannonsRotaitor;
 
-	public void InitEvadeEnemy(float density, float healthModifier, List<IBullet> incomingBullets)
+	public void InitEvadeEnemy(PhysicalData physical, List<IBullet> incomingBullets)
 	{
-		InitPolygonGameObject (density, healthModifier);
+		InitPolygonGameObject (physical);
 		this.incomingBullets = incomingBullets;
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);

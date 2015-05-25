@@ -42,9 +42,9 @@ public class SpaceShip : PolygonGameObject
 		velocity = Vector2.zero;
 	}
 
-	public void InitSpaceShip(float density, float healthModifier, SpaceshipData data)
+	public void InitSpaceShip(PhysicalData physical, SpaceshipData data)
 	{
-		InitPolygonGameObject (density, healthModifier);
+		InitPolygonGameObject (physical);
 
 		turnSpeed = data.turnSpeed;
 		//passiveBrake = data.passiveBrake;
@@ -71,14 +71,21 @@ public class SpaceShip : PolygonGameObject
 	{
 		foreach (var t in tdatas) 
 		{
-			var thrusterInstance  = Instantiate(t.thrusterPrefab) as ParticleSystem;
-			Math2d.PositionOnParent (thrusterInstance.transform, t.place, cacheTransform, true, 1);
+			if(t.thrusterPrefab == null)
+			{
+				Debug.LogError("null thruster");
+			}
+			else
+			{
+				var thrusterInstance  = Instantiate(t.thrusterPrefab) as ParticleSystem;
+				Math2d.PositionOnParent (thrusterInstance.transform, t.place, cacheTransform, true, 1);
 
-			Thruster newThruster = new Thruster();
-			newThruster.defaultLifetime = thrusterInstance.startLifetime;
-			newThruster.thrust = thrusterInstance;
-			thrusterInstance.startLifetime = newThruster.defaultLifetime / 3f;
-			thrusters.Add(newThruster);
+				Thruster newThruster = new Thruster();
+				newThruster.defaultLifetime = thrusterInstance.startLifetime;
+				newThruster.thrust = thrusterInstance;
+				thrusterInstance.startLifetime = newThruster.defaultLifetime / 3f;
+				thrusters.Add(newThruster);
+			}
 		}
 	}
 
@@ -172,24 +179,24 @@ public class SpaceShip : PolygonGameObject
 	{
 		inputController.Tick (this);
 
-		var dir = inputController.TurnDirection();
+		var dir = inputController.turnDirection;
 
 		if(dir != Vector2.zero)
 		{
 			TurnByDirection (dir, delta);
 		}
 
-		if(inputController.IsShooting())
+		if(inputController.shooting)
 		{
 			Shoot();
 		}
 
-		if(inputController.IsAccelerating())
+		if(inputController.accelerating)
 		{
 			Accelerate(delta);
 		}
 
-		if(inputController.IsBraking())
+		if(inputController.braking)
 		{
 			Brake(delta, brake);
 		}
@@ -243,5 +250,4 @@ public class SpaceShip : PolygonGameObject
 		firingSpeedPUpKoeff = koeff;
 		firingSpeedPUpTimeLeft = duration;
 	}
- 	
 }

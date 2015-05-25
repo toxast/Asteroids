@@ -83,7 +83,11 @@ MonoBehaviour:
       min: 4
       max: 5
   spikyData:
-  - density: 2
+  - physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 2
     speed:
       min: 4
       max: 8
@@ -101,7 +105,11 @@ MonoBehaviour:
       max: 7
     spikeVelocity: 40
   sawData:
-  - density: 2
+  - physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 1
+      collisionAttackModifier: 2
     speed:
       min: 6
       max: 10

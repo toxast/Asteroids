@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class Asteroid : PolygonGameObject
 {
-	public virtual void InitAsteroid(float density, float healthModifier, RandomFloat pSpeed, RandomFloat pRotation)
+	public virtual void InitAsteroid(PhysicalData physical, RandomFloat pSpeed, RandomFloat pRotation)
 	{
-		InitPolygonGameObject (density, healthModifier);
+		InitPolygonGameObject (physical);
 		float speed = Random.Range(pSpeed.min, pSpeed.max);
 		float a = Random.Range(0f, 359f) * Mathf.Deg2Rad;
 		velocity = new Vector2(Mathf.Cos(a)*speed, Mathf.Sin(a)*speed);

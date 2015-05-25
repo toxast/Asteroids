@@ -14,9 +14,9 @@ public class Turret : PolygonGameObject
 	
 	private Func<Vector3> anglesRestriction;
 	
-	public void InitTurret(float density, float healthModifier, bool smartAim, float cannonsRotatingSpeed, Func<Vector3> angelsRestriction)
+	public void InitTurret(PhysicalData physical, bool smartAim, float cannonsRotatingSpeed, Func<Vector3> angelsRestriction)
 	{
-		InitPolygonGameObject (density, healthModifier);
+		InitPolygonGameObject (physical);
 
 		this.smartAim = smartAim;
 		//this.cannonsRotatingSpeed = cannonsRotatingSpeed;

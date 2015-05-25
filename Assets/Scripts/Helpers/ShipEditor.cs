@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-[ExecuteInEditMode]
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
+[ExecuteInEditMode]
 public class ShipEditor : MonoBehaviour 
 {
 	public enum eSaveLoadType
@@ -105,7 +108,10 @@ public class ShipEditor : MonoBehaviour
 		var pivot = Math2d.GetMassCenter (verts);
 		Math2d.ShiftVertices(verts, -pivot);
 		GunsResources.Instance.rocketLaunchers [5].baseData.vertices = verts;
-		
+
+		#if UNITY_EDITOR
+		EditorUtility.SetDirty (GunsResources.Instance);
+		#endif
 		//		string s = string.Empty;
 		//		foreach (var v in verts) 
 		//		{
@@ -199,7 +205,7 @@ public class ShipEditor : MonoBehaviour
 			newShip.guns = gunsData;
 			newShip.thrusters = thrustersData;
 			newShip.turrets = turretsData;
-			newShip.physicalParameters = new SpaceshipData ();
+			newShip.mobility = new SpaceshipData ();
 			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : SpaceshipsResources.Instance.spaceships.Count;
 			SpaceshipsResources.Instance.spaceships.Insert(indx, newShip);
 		}
@@ -220,6 +226,9 @@ public class ShipEditor : MonoBehaviour
 			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : SpaceshipsResources.Instance.towers.Count;
 			SpaceshipsResources.Instance.towers.Insert (indx, newTower);
 		}
+		#if UNITY_EDITOR
+		EditorUtility.SetDirty (SpaceshipsResources.Instance);
+		#endif
 	}
 
 	[ContextMenu ("Save On")]
@@ -250,6 +259,10 @@ public class ShipEditor : MonoBehaviour
 			
 			if(obj is IGotTurrets)
 				FillPlaces<TurretReferenceData>(turretsData, (obj as IGotTurrets).iturrets);
+
+			#if UNITY_EDITOR
+			EditorUtility.SetDirty (SpaceshipsResources.Instance);
+			#endif
 		}
 		else
 		{
@@ -368,7 +381,15 @@ public class ShipEditor : MonoBehaviour
 		}
 		indx [full.Count] = 0;
 
+		Color[] c3 = new Color[v3.Length];    
+		for(int i = 0; i < c3.Length; i++)
+		{
+			c3[i] = Color.white;    
+		}
+
+		mesh.Clear ();
 		mesh.vertices = v3;
+		mesh.colors = c3;
 		mesh.SetIndices (indx, MeshTopology.LineStrip, 0);
 		mesh.RecalculateBounds();
 	}

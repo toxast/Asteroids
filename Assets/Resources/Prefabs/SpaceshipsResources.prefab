@@ -42,10 +42,57 @@ MonoBehaviour:
   clone: 16
   spaceships:
   - name: 
-    layer: 4
+    price: -1
+    color: {r: 1, g: 1, b: 1, a: 1}
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 1
+    mobility:
+      thrust: 45
+      maxSpeed: 20
+      turnSpeed: 220
+      brake: 15
+      passiveBrake: 2
+    shield:
+      capacity: 0
+      rechargeRate: 0
+      rechargeDelay: 0
+    guns:
+    - place:
+        pos: {x: 1.15960276, y: -1.48609303e-09}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 0
+    thrusters:
+    - place:
+        pos: {x: -.460397184, y: -1.48609303e-09}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
+    turrets: []
+    verts:
+    - {x: 1.64960277, y: -.203000024}
+    - {x: .175003365, y: -.980000019}
+    - {x: -1.37339723, y: -.884000003}
+    - {x: -1.35039723, y: -.5}
+    - {x: -.985397339, y: -.280999988}
+    - {x: -.985397339, y: .280999988}
+    - {x: -1.35039723, y: .5}
+    - {x: -1.37339723, y: .884000003}
+    - {x: .175003365, y: .980000019}
+    - {x: 1.64960277, y: .202999964}
+  - name: 
+    price: -1
     color: {r: .613471031, g: .265679091, b: .669117689, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -77,10 +124,15 @@ MonoBehaviour:
     - {x: -1.89999998, y: 1}
     - {x: -.399999976, y: 1}
   - name: (10) tooth
-    layer: 4
+    price: -1
     color: {r: .702151835, g: .827574968, b: .860294104, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -105,7 +157,7 @@ MonoBehaviour:
     verts:
     - {x: 1.15380228, y: -.468512028}
     - {x: .831700385, y: -1.22984397}
-    - {x: -.0196326748, y: -.74000001}
+    - {x: -.0196326897, y: -.74000001}
     - {x: -.629631639, y: -1.11000001}
     - {x: -1.64963186, y: -.689999998}
     - {x: -2.10963178, y: -.340000004}
@@ -116,14 +168,19 @@ MonoBehaviour:
     - {x: -2.10963178, y: .340000004}
     - {x: -1.64963186, y: .689999998}
     - {x: -.629631639, y: 1.11000001}
-    - {x: -.0196326748, y: .74000001}
+    - {x: -.0196326897, y: .74000001}
     - {x: .831700385, y: 1.22984397}
     - {x: 1.15380228, y: .468512028}
   - name: alien3
-    layer: 4
+    price: -1
     color: {r: .860294104, g: .768157125, b: .253027648, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -167,13 +224,18 @@ MonoBehaviour:
     - {x: -.0428216308, y: .949998677}
     - {x: .353178799, y: .549998701}
   - name: 
-    layer: 4
+    price: -1
     color: {r: .926470578, g: .258866817, b: .659429312, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: .699999988
+      collisionAttackModifier: 2
+    ai: 1
+    mobility:
       thrust: 45
-      maxSpeed: 40
-      turnSpeed: 300
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -193,23 +255,28 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
     turrets: []
     verts:
-    - {x: 1.46675801, y: -.234255955}
+    - {x: 1.46675801, y: -.234256327}
     - {x: 1.32034802, y: -.570999026}
     - {x: .749348938, y: -.980947077}
-    - {x: .0319385603, y: -1.06879318}
-    - {x: -.275521934, y: -1.71299696}
+    - {x: .0319385491, y: -1.06879318}
+    - {x: -.275521964, y: -1.71299696}
     - {x: -1.06613529, y: -1.22984397}
     - {x: -1.06613529, y: 1.22984397}
-    - {x: -.275521934, y: 1.71299696}
-    - {x: .0319385603, y: 1.06879318}
+    - {x: -.275521964, y: 1.71299696}
+    - {x: .0319385491, y: 1.06879318}
     - {x: .749348938, y: .980947077}
     - {x: 1.32034802, y: .570999026}
-    - {x: 1.46675801, y: .234256074}
+    - {x: 1.46675801, y: .234255701}
   - name: 
-    layer: 4
+    price: -1
     color: {r: .388948947, g: .485294104, b: .401573479, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -259,10 +326,15 @@ MonoBehaviour:
     - {x: 1.63567126, y: .990338027}
     - {x: .291640908, y: .330112696}
   - name: 
-    layer: 4
+    price: -1
     color: {r: .860294104, g: .1454909, b: .1454909, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -296,18 +368,18 @@ MonoBehaviour:
     - {x: -.511620522, y: -2.05999994}
     - {x: -2.09162045, y: -2.00999999}
     - {x: -1.56162071, y: -1.5}
-    - {x: .00838024262, y: -1.28999996}
-    - {x: .178380206, y: -.889999986}
-    - {x: .0783801377, y: -.769999981}
-    - {x: -.201619819, y: -.420000106}
+    - {x: .00838027429, y: -1.28999996}
+    - {x: .178380236, y: -.889999986}
+    - {x: .0783801675, y: -.769999981}
+    - {x: -.201619789, y: -.420000106}
     - {x: -.841620564, y: -.670000017}
     - {x: -.941620588, y: -.0200000741}
     - {x: -.941620588, y: .019999925}
     - {x: -.841620564, y: .670000017}
-    - {x: -.201619819, y: .419999868}
-    - {x: .0783801377, y: .769999981}
-    - {x: .178380206, y: .889999986}
-    - {x: .00838024262, y: 1.28999996}
+    - {x: -.201619789, y: .419999868}
+    - {x: .0783801675, y: .769999981}
+    - {x: .178380236, y: .889999986}
+    - {x: .00838027429, y: 1.28999996}
     - {x: -1.56162071, y: 1.5}
     - {x: -2.09162045, y: 2.00999999}
     - {x: -.511620522, y: 2.05999994}
@@ -315,13 +387,18 @@ MonoBehaviour:
     - {x: 1.34837937, y: .939999998}
     - {x: 1.03837931, y: .519999981}
   - name: 
-    layer: 4
+    price: -1
     color: {r: .187337801, g: .772058845, b: .288151801, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 30
-      turnSpeed: 200
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -353,7 +430,7 @@ MonoBehaviour:
     - {x: -1.96889496, y: -2.19000006}
     - {x: -1.47889495, y: -1.61999989}
     - {x: -.408894151, y: -1.17999983}
-    - {x: -.0188935101, y: -.839999914}
+    - {x: -.0188935064, y: -.839999914}
     - {x: .441105872, y: -.419999391}
     - {x: -.0888937861, y: -.170000046}
     - {x: -1.0288949, y: -.569999933}
@@ -362,7 +439,7 @@ MonoBehaviour:
     - {x: -1.0288949, y: .570000052}
     - {x: -.0888937861, y: .169999957}
     - {x: .441105872, y: .420000583}
-    - {x: -.0188935101, y: .840000033}
+    - {x: -.0188935064, y: .840000033}
     - {x: -.408894151, y: 1.18000007}
     - {x: -1.47889495, y: 1.62000012}
     - {x: -1.96889496, y: 2.19000006}
@@ -371,13 +448,18 @@ MonoBehaviour:
     - {x: 1.3611052, y: .75000006}
     - {x: 1.58110499, y: .229999959}
   - name: (22) small tank
-    layer: 4
+    price: -1
     color: {r: .0973183438, g: .529411793, b: .27909556, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 15
-      turnSpeed: 150
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -406,7 +488,7 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
     turrets: []
     verts:
-    - {x: .727272809, y: 1.64494892e-07}
+    - {x: .727272809, y: 1.79487785e-07}
     - {x: .727272809, y: -.600000024}
     - {x: .127272725, y: -.600000024}
     - {x: .727272809, y: -1.20000005}
@@ -416,7 +498,7 @@ MonoBehaviour:
     - {x: -1.07272732, y: -1.20000005}
     - {x: -1.67272735, y: -1.20000005}
     - {x: -1.07272732, y: -.600000024}
-    - {x: -1.67272735, y: 1.64494892e-07}
+    - {x: -1.67272735, y: 1.79487785e-07}
     - {x: -1.07272732, y: .600000024}
     - {x: -1.67272735, y: 1.20000005}
     - {x: -1.07272732, y: 1.20000005}
@@ -427,13 +509,18 @@ MonoBehaviour:
     - {x: .127272725, y: .600000024}
     - {x: .727272809, y: .600000024}
   - name: 
-    layer: 4
+    price: -1
     color: {r: .647058845, g: .451989651, b: .451989651, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 25
-      turnSpeed: 200
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -453,7 +540,7 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19868348, guid: f83746c780871214281129b770ef409b, type: 2}
     turrets: []
     verts:
-    - {x: 2.39814806, y: -3.94705125e-07}
+    - {x: 2.39814806, y: -4.72712657e-07}
     - {x: 1.39814818, y: -1}
     - {x: .398148209, y: -1}
     - {x: -.601851702, y: -2}
@@ -467,10 +554,15 @@ MonoBehaviour:
     - {x: .398148209, y: 1}
     - {x: 1.39814818, y: 1}
   - name: 
-    layer: 4
+    price: -1
     color: {r: .281033754, g: .512349367, b: .83088237, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -516,10 +608,15 @@ MonoBehaviour:
     - {x: -.170213461, y: 1.32096863}
     - {x: .280115873, y: .525385022}
   - name: (16) cool ship
-    layer: 4
+    price: -1
     color: {r: .639705896, g: .282223195, b: .555882335, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -574,12 +671,17 @@ MonoBehaviour:
     - {x: 1.01547229, y: .992199898}
     - {x: 2.17707253, y: .592899978}
   - name: (31) cool ship clone
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 40
+      maxSpeed: 20
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
@@ -610,32 +712,37 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
     turrets: []
     verts:
-    - {x: 3.14507246, y: -7.21596507e-07}
+    - {x: 3.14507246, y: -7.40324936e-07}
     - {x: 2.17707253, y: -.592900097}
     - {x: 1.01547229, y: -.992200017}
-    - {x: .0232723113, y: -1.53670013}
+    - {x: .0232723188, y: -1.53670013}
     - {x: -.763227761, y: -2.8919003}
     - {x: -1.57392776, y: -2.57730031}
     - {x: -1.52552783, y: -1.94810033}
     - {x: -1.25932777, y: -1.01639998}
     - {x: -1.53762782, y: -.72600013}
-    - {x: -1.71912801, y: -.338800639}
-    - {x: -1.21092784, y: -.496100634}
-    - {x: -1.21092784, y: .496099323}
-    - {x: -1.71912801, y: .338799328}
+    - {x: -1.71912801, y: -.338800669}
+    - {x: -1.21092784, y: -.496100664}
+    - {x: -1.21092784, y: .496099293}
+    - {x: -1.71912801, y: .338799298}
     - {x: -1.53762782, y: .726000011}
     - {x: -1.25932777, y: 1.01639974}
     - {x: -1.52552783, y: 1.94810009}
     - {x: -1.57392776, y: 2.57730031}
     - {x: -.763227761, y: 2.8919003}
-    - {x: .0232723113, y: 1.53669989}
+    - {x: .0232723188, y: 1.53669989}
     - {x: 1.01547229, y: .992199898}
     - {x: 2.17707253, y: .592899978}
   - name: (15) ghost
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -671,8 +778,8 @@ MonoBehaviour:
     - {x: -1.33272934, y: -1.77099991}
     - {x: -1.72872925, y: -1.34200001}
     - {x: -1.7727294, y: -.681999981}
-    - {x: -1.58572936, y: -.308000356}
-    - {x: -1.58572936, y: .307999641}
+    - {x: -1.58572936, y: -.308000445}
+    - {x: -1.58572936, y: .307999551}
     - {x: -1.7727294, y: .682000101}
     - {x: -1.72872925, y: 1.34200001}
     - {x: -1.33272934, y: 1.77099991}
@@ -683,13 +790,18 @@ MonoBehaviour:
     - {x: 2.45127082, y: 1.06700003}
     - {x: 2.17527056, y: .730000079}
   - name: a6
-    layer: 4
+    price: -1
     color: {r: .755995691, g: .725562274, b: .808823526, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 17
-      turnSpeed: 150
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -747,10 +859,15 @@ MonoBehaviour:
     - {x: 2.99537063, y: 1.0634346}
     - {x: 2.76193333, y: .31124872}
   - name: 
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -778,32 +895,37 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
     turrets: []
     verts:
-    - {x: .157968521, y: -.144000128}
+    - {x: .157968521, y: -.144000143}
     - {x: .361968637, y: -.504000008}
     - {x: 2.18596888, y: -.492000014}
     - {x: 2.08996868, y: -1.21000004}
     - {x: 2.97996855, y: -2}
-    - {x: .0499685407, y: -2.38800001}
+    - {x: .0499685369, y: -2.38800001}
     - {x: -2.20603132, y: -1.69200003}
     - {x: -2.67403126, y: -.708000004}
     - {x: -1.76203156, y: -.492000014}
     - {x: -1.76203156, y: .492000014}
     - {x: -2.67403126, y: .708000004}
     - {x: -2.20603132, y: 1.69200003}
-    - {x: .0499685407, y: 2.38800001}
+    - {x: .0499685369, y: 2.38800001}
     - {x: 2.97996855, y: 2}
     - {x: 2.08996868, y: 1.21000004}
     - {x: 2.18596888, y: .492000014}
     - {x: .361968637, y: .504000008}
-    - {x: .157968521, y: .143999889}
+    - {x: .157968521, y: .143999875}
   - name: (17) heavyGun Ship
-    layer: 4
+    price: -1
     color: {r: .529328287, g: .276059717, b: .544117689, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 10
-      turnSpeed: 130
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -824,7 +946,7 @@ MonoBehaviour:
     turrets: []
     verts:
     - {x: 1.40800524, y: -.700000048}
-    - {x: .326005071, y: -.461999893}
+    - {x: .326005071, y: -.461999863}
     - {x: -.322994918, y: -.682000101}
     - {x: .20500508, y: -.770000041}
     - {x: 1.00800514, y: -1.59000003}
@@ -845,16 +967,21 @@ MonoBehaviour:
     - {x: 1.00800514, y: 1.59000003}
     - {x: .20500508, y: .769999921}
     - {x: -.322994918, y: .681999981}
-    - {x: .326005071, y: .462000072}
+    - {x: .326005071, y: .462000102}
     - {x: 1.40800524, y: .699999928}
   - name: boomerang
-    layer: 4
+    price: -1
     color: {r: .96325016, g: .992647052, b: .459829181, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 15
-      turnSpeed: 100
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -898,13 +1025,18 @@ MonoBehaviour:
     - {x: 1.64913726, y: 2.58999991}
     - {x: 1.64913726, y: 1.72000015}
   - name: manta
-    layer: 4
+    price: -1
     color: {r: .353000939, g: .138516471, b: .897058845, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 15
-      turnSpeed: 180
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -948,10 +1080,15 @@ MonoBehaviour:
     - {x: 1.32468319, y: 2.21000004}
     - {x: 2.08311796, y: .912997544}
   - name: (23) corn plane
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -1024,13 +1161,18 @@ MonoBehaviour:
     - {x: 3.34158421, y: 1.5}
     - {x: 3.34158421, y: .5}
   - name: Bzzz
-    layer: 4
+    price: -1
     color: {r: 1, g: .922920942, b: .301470578, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 15
-      turnSpeed: 150
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -1087,13 +1229,18 @@ MonoBehaviour:
     - {x: 2.45328045, y: 1.18232596}
     - {x: 1.5957855, y: .520000219}
   - name: (13) small bat
-    layer: 4
+    price: -1
     color: {r: .41603592, g: .488120407, b: .698529422, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
-      turnSpeed: 150
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -1136,10 +1283,15 @@ MonoBehaviour:
     - {x: -.131827757, y: 1.02999997}
     - {x: .407172263, y: .550000072}
   - name: 
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -1186,13 +1338,18 @@ MonoBehaviour:
     - {x: -.0917101949, y: .820000112}
     - {x: .00828971714, y: .240000099}
   - name: 
-    layer: 4
+    price: -1
     color: {r: .566176474, g: .508582652, b: .320555806, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 15
-      turnSpeed: 120
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -1235,13 +1392,18 @@ MonoBehaviour:
     - {x: -.305146992, y: 2.44797611}
     - {x: 1.36978376, y: .579785466}
   - name: medium fat
-    layer: 4
+    price: -1
     color: {r: .324633867, g: .507352948, b: .309634507, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 10
-      turnSpeed: 150
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -1271,8 +1433,8 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
     turrets: []
     verts:
-    - {x: 1.35273635, y: -.495931566}
-    - {x: 2.0750699, y: -.301871806}
+    - {x: 1.35273635, y: -.495931625}
+    - {x: 2.0750699, y: -.301871866}
     - {x: 2.59256268, y: -1.53091621}
     - {x: 1.84866679, y: -2.1993444}
     - {x: .371656299, y: -2.75996161}
@@ -1281,8 +1443,8 @@ MonoBehaviour:
     - {x: 1.22336304, y: -4.7544651}
     - {x: -3.09985828, y: -3.24511099}
     - {x: -1.96784258, y: -1.45544863}
-    - {x: -1.55816054, y: -.204842135}
-    - {x: -1.55816054, y: .204839662}
+    - {x: -1.55816054, y: -.204842225}
+    - {x: -1.55816054, y: .204839572}
     - {x: -1.96784258, y: 1.45544863}
     - {x: -3.09985828, y: 3.24511099}
     - {x: 1.22336304, y: 4.7544651}
@@ -1291,13 +1453,18 @@ MonoBehaviour:
     - {x: .371656299, y: 2.75996161}
     - {x: 1.84866679, y: 2.1993444}
     - {x: 2.59256268, y: 1.53091621}
-    - {x: 2.0750699, y: .301869839}
-    - {x: 1.35273635, y: .495929599}
+    - {x: 2.0750699, y: .30186978}
+    - {x: 1.35273635, y: .495929539}
   - name: 
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -1359,10 +1526,15 @@ MonoBehaviour:
     - {x: 3.94072866, y: .720000267}
     - {x: 1.06072807, y: .720000267}
   - name: 
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -1428,13 +1600,18 @@ MonoBehaviour:
     - {x: 4.14888239, y: 1.17999995}
     - {x: 2.37888241, y: .720000088}
   - name: Devil
-    layer: 4
+    price: -1
     color: {r: .433823526, g: .26794982, b: .26794982, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 10
-      turnSpeed: 50
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -1495,10 +1672,15 @@ MonoBehaviour:
     - {x: 2.57823682, y: 3.20000005}
     - {x: 3.23823667, y: 1.54999995}
   - name: 
-    layer: 4
+    price: -1
     color: {r: .661634147, g: .60310334, b: .845588207, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -1558,10 +1740,15 @@ MonoBehaviour:
     - {x: .542238772, y: 1.07000077}
     - {x: -.517761171, y: .950000346}
   - name: 
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -1628,10 +1815,15 @@ MonoBehaviour:
     - {x: 4.55484867, y: 2.00999999}
     - {x: 2.53484845, y: 1.41999996}
   - name: 
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
       maxSpeed: 20
       turnSpeed: 220
@@ -1671,7 +1863,7 @@ MonoBehaviour:
     - {x: 3.72249985, y: -3.41000009}
     - {x: 3.73250008, y: -5.1500001}
     - {x: 2.78250003, y: -6.67000008}
-    - {x: .872500539, y: -6.98000002}
+    - {x: .872500598, y: -6.98000002}
     - {x: -1.39749992, y: -7.07000017}
     - {x: -5.33749962, y: -4.8499999}
     - {x: -3.29749966, y: -4.15999985}
@@ -1684,7 +1876,7 @@ MonoBehaviour:
     - {x: -3.29749966, y: 4.15999985}
     - {x: -5.33749962, y: 4.8499999}
     - {x: -1.39749992, y: 7.07000017}
-    - {x: .872500539, y: 6.98000002}
+    - {x: .872500598, y: 6.98000002}
     - {x: 2.78250003, y: 6.67000008}
     - {x: 3.73250008, y: 5.1500001}
     - {x: 3.72249985, y: 3.41000009}
@@ -1693,13 +1885,18 @@ MonoBehaviour:
     - {x: 1.73250008, y: 1.44999993}
     - {x: 2.82250023, y: .719999969}
   - name: Spawner
-    layer: 4
+    price: -1
     color: {r: .661764741, g: .165441185, b: .165441185, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 10
-      turnSpeed: 50
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -1746,8 +1943,8 @@ MonoBehaviour:
       index: 4
     verts:
     - {x: 4.27552557, y: -2.09857368}
-    - {x: 5.87893057, y: -1.22613299}
-    - {x: 7.29369879, y: -1.93351746}
+    - {x: 5.87893057, y: -1.22613311}
+    - {x: 7.29369879, y: -1.93351758}
     - {x: 6.18546438, y: -7.54543352}
     - {x: 4.32268381, y: -5.84771109}
     - {x: 3.04939222, y: -9.33747578}
@@ -1759,12 +1956,12 @@ MonoBehaviour:
     - {x: -4.04803133, y: -8.72440815}
     - {x: -5.20342636, y: -4.5508399}
     - {x: -6.8539896, y: -3.7491374}
-    - {x: -9.21193695, y: -.848861217}
+    - {x: -9.21193695, y: -.848861277}
     - {x: -6.8775692, y: -2.1928916}
-    - {x: -7.84432793, y: -.848861217}
-    - {x: -7.84432793, y: .848861098}
+    - {x: -7.84432793, y: -.848861277}
+    - {x: -7.84432793, y: .848861039}
     - {x: -6.8775692, y: 2.1928916}
-    - {x: -9.21193695, y: .848861098}
+    - {x: -9.21193695, y: .848861039}
     - {x: -6.8539896, y: 3.7491374}
     - {x: -5.20342636, y: 4.5508399}
     - {x: -4.04803133, y: 8.72440815}
@@ -1776,17 +1973,22 @@ MonoBehaviour:
     - {x: 3.04939222, y: 9.33747578}
     - {x: 4.32268381, y: 5.84771109}
     - {x: 6.18546438, y: 7.54543352}
-    - {x: 7.29369879, y: 1.93351722}
-    - {x: 5.87893057, y: 1.22613275}
+    - {x: 7.29369879, y: 1.9335171}
+    - {x: 5.87893057, y: 1.22613263}
     - {x: 4.27552557, y: 2.09857368}
   - name: 
-    layer: 4
+    price: -1
     color: {r: .159602076, g: .419490516, b: .602941155, a: 1}
-    density: 1
-    physicalParameters:
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
       thrust: 45
-      maxSpeed: 15
-      turnSpeed: 70
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -1851,13 +2053,18 @@ MonoBehaviour:
     - {x: 5.6333313, y: 1.76219904}
     - {x: 4.03943157, y: 1.21769905}
   - name: turret ship
-    layer: 4
+    price: -1
     color: {r: 1, g: 1, b: 1, a: 1}
-    density: 1
-    physicalParameters:
-      thrust: 20
-      maxSpeed: 45
-      turnSpeed: 60
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
+      thrust: 45
+      maxSpeed: 20
+      turnSpeed: 220
       brake: 15
       passiveBrake: 2
     shield:
@@ -2076,7 +2283,11 @@ MonoBehaviour:
     - {x: 2.38089991, y: .360000014}
   towers:
   - name: 
-    density: 1
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
     color: {r: .823529422, g: .448096901, b: .448096901, a: 1}
     rotationSpeed: 50
     shield:

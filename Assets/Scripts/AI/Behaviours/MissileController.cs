@@ -6,12 +6,13 @@ public class MissileController : InputController, IGotTarget
 {
 	SpaceShip thisShip;
 	IPolygonGameObject target;
-	bool shooting = false;
-	bool accelerating = false;
-	Vector2 turnDirection;
-	bool braking = false;
+	public bool shooting{ get; private set; }
+	public bool accelerating{ get; private set; }
+	public bool braking{ get; private set; }
+	public Vector2 turnDirection{ get; private set; }
 
 	float maxVelocity;
+	float accuracy = 0.5f; //TODO
 
 	public MissileController(SpaceShip thisShip, float maxVelocity)
 	{
@@ -19,7 +20,11 @@ public class MissileController : InputController, IGotTarget
 		this.thisShip = thisShip;
 	}
 
-	//bool hadTarget = false;
+	public void SetTarget(IPolygonGameObject target)
+	{
+		this.target = target;
+	}
+
 	public void Tick(PolygonGameObject p)
 	{
 		shooting = false;
@@ -28,50 +33,12 @@ public class MissileController : InputController, IGotTarget
 		if (Main.IsNull (target))
 			return;
 
-//		bool haveTargetNow = !Main.IsNull (target);
-//		if(!haveTargetNow && hadTarget)
-//		{
-//			thisShip.SetTarget(Singleton<Main>.inst.GetNewTarget(thisShip)); //todo fix as
-//		}
-//
-//		hadTarget = haveTargetNow;
-//		if(!hadTarget)
-//			return;
-
 		RotateOnTarget ();
-
 	}
-
-	public void SetTarget(IPolygonGameObject target)
-	{
-		this.target = target;
-	}
-
-	public Vector2 TurnDirection ()
-	{
-		return turnDirection;
-	}
-	
-	public bool IsShooting()
-	{
-		return shooting;
-	}
-	
-	public bool IsAccelerating()
-	{
-		return accelerating;
-	}
-
-	public bool IsBraking()
-	{
-		return braking;
-	}
-
 
 	private void RotateOnTarget()
 	{
-		var aimVelocity = (target.velocity - thisShip.velocity) * 0.5f;
-		//var aimVelocity = target.velocity * 1.5f - velocity; imba
+		var aimVelocity = (target.velocity* 1.5f - thisShip.velocity) * accuracy;
 		AimSystem aim = new AimSystem (target.position, aimVelocity, thisShip.position, maxVelocity);  
 		turnDirection = aim.direction;
 	}

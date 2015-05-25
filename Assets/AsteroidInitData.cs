@@ -1,6 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+[System.Serializable]
+public class PhysicalData : IClonable<PhysicalData>
+{
+	public float density = 1f;
+	public float healthModifier = 1f;
+	public float collisionDefence = 0f;
+	public float collisionAttackModifier = 1f;
+
+	public PhysicalData() : this(1, 1, 0, 1) {}
+
+	public PhysicalData(float density, float healthModifier, float collisionDefence, float collisionAttackModifier)
+	{
+		this.density = density;
+		this.healthModifier = healthModifier;
+		this.collisionDefence = collisionDefence;
+		this.collisionAttackModifier = collisionAttackModifier;
+	}
+
+	public PhysicalData Clone()
+	{
+		PhysicalData c = new PhysicalData (density, healthModifier, collisionDefence, collisionAttackModifier);
+		return c;
+	}
+}
+
 [System.Serializable]
 public class RandomFloat
 {
@@ -27,8 +53,7 @@ public class AsteroidSetupData
 [System.Serializable]
 public class SpikyInitData
 {
-	public float density = 1f;
-	public float healthModifier = 1f;
+	public PhysicalData physical;
 	public RandomFloat speed;
 	public RandomFloat rotation;
 	public RandomFloat size;

@@ -6,10 +6,10 @@ using System.Collections.Generic;
 public class FastSpaceshipAttackController : InputController, IGotTarget
 {
 	SpaceShip thisShip;
-	bool shooting = false;
-	bool accelerating = false;
-	bool braking = false;
-	Vector2 turnDirection;
+	public bool shooting{ get; private set; }
+	public bool accelerating{ get; private set; }
+	public bool braking{ get; private set; }
+	public Vector2 turnDirection{ get; private set; }
 
 	IPolygonGameObject target;
 	List<IBullet> bullets;
@@ -41,21 +41,6 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
         Debug.LogWarning("initial evade duration " + evadeDuration);
         evadeBullets = evadeDuration < 1.5f;
 	}
-	
-	public Vector2 TurnDirection ()
-	{
-		return turnDirection;
-	}
-	
-	public bool IsShooting()
-	{
-		return shooting;
-	}
-	
-	public bool IsAccelerating()
-	{
-		return accelerating;
-	}
 
 	public void SetTarget(IPolygonGameObject target)
 	{
@@ -65,11 +50,6 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 	public void Tick(PolygonGameObject p)
 	{
 		
-	}
-	
-	public bool IsBraking()
-	{
-		return braking;
 	}
 	
 	private IEnumerator Logic()

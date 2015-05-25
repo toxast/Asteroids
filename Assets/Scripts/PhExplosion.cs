@@ -49,7 +49,7 @@ public class PhExplosion
 				float impulse = p * power;
 				var dVelocity = normalizedDist * impulse / obj.mass;
 				obj.velocity += dVelocity;
-				obj.Hit(Singleton<GlobalConfig>.inst.ExplosionDamageKff * Main.GetCollisionDamage(impulse));
+				obj.Hit(Singleton<GlobalConfig>.inst.ExplosionDamageKff * impulse * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier);
 			}
 		}
 	}

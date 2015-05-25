@@ -7,8 +7,7 @@ using System.Linq;
 public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IGotTurrets
 {
 	public string name = "tower";
-	public float density = 1f;
-	public float healthModifier = 1f;
+	public PhysicalData physical;
 	public Color color = Color.white;
 	public float rotationSpeed = 50;
 	public ShieldData shield;
@@ -25,8 +24,7 @@ public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IG
 	{
 		TowerSetupData r = new TowerSetupData ();
 		r.name = name + " clone";
-		r.density = density; 
-		r.healthModifier = healthModifier; 
+		r.physical = physical.Clone(); 
 		r.color = color; 
 		r.rotationSpeed = rotationSpeed;
 		r.shield = shield.Clone();

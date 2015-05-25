@@ -7,10 +7,10 @@ public class EnemySpaceShipController : InputController, IGotTarget
 	PolygonGameObject thisShip;
 	IPolygonGameObject target;
 	List<IBullet> bullets;
-	bool shooting = false;
-	bool accelerating = false;
-	bool braking = false;
-	Vector2 turnDirection;
+	public bool shooting{ get; private set; }
+	public bool accelerating{ get; private set; }
+	public bool braking{ get; private set; }
+	public Vector2 turnDirection{ get; private set; }
 	float bulletsSpeed;
 	float teleportationDistance = 50f;
 
@@ -40,11 +40,6 @@ public class EnemySpaceShipController : InputController, IGotTarget
 	public void Tick(PolygonGameObject p)
 	{
 
-	}
-
-	public bool IsBraking()
-	{
-		return braking;
 	}
 
 	private IEnumerator Logic()
@@ -239,20 +234,5 @@ public class EnemySpaceShipController : InputController, IGotTarget
 	{
 		float angle = UnityEngine.Random.Range (angleMin, angleMax) * Mathf.Sign (UnityEngine.Random.Range (-1f, 1f));
 		return Math2d.RotateVertex(dir, angle*Mathf.Deg2Rad);
-	}
-
-	public Vector2 TurnDirection ()
-	{
-		return turnDirection;
-	}
-	
-	public bool IsShooting()
-	{
-		return shooting;
-	}
-	
-	public bool IsAccelerating()
-	{
-		return accelerating;
 	}
 }

@@ -15,9 +15,9 @@ public class SimpleTower : PolygonGameObject
 	private bool smartAim = false;
 
 
-	public void InitSimpleTower(float density, float healthModifier, bool smartAim, float cannonsRotatingSpeed)
+	public void InitSimpleTower(PhysicalData physical, bool smartAim, float cannonsRotatingSpeed)
 	{
-		InitPolygonGameObject (density, healthModifier);
+		InitPolygonGameObject (physical);
 
 		this.smartAim = smartAim;
 		//this.cannonsRotatingSpeed = cannonsRotatingSpeed;

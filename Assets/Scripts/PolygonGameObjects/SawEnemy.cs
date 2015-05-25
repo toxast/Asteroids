@@ -16,7 +16,7 @@ public class SawEnemy : Asteroid
 
 	public void InitSawEnemy(SawInitData data) //300
 	{
-		this.InitAsteroid (data.density, data.healthModifier, data.speed, data.rotation);
+		this.InitAsteroid (data.physical, data.speed, data.rotation);
 
 		initialRotation = rotation;
 		initialVelocity = velocity.magnitude;

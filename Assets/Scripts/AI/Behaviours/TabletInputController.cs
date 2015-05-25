@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 public class TabletInputController : MonoBehaviour, InputController
 {
-	bool shooting = false;
-	bool accelerating = false;
-	bool braking = false;
-	Vector2 turnDirection;
+	public bool shooting{ get; private set; }
+	public bool accelerating{ get; private set; }
+	public bool braking{ get; private set; }
+	public Vector2 turnDirection{ get; private set; }
 
 
 	[SerializeField] Image joystick;
@@ -31,27 +31,6 @@ public class TabletInputController : MonoBehaviour, InputController
 		joystick.gameObject.SetActive (true);
 
 		joystick.rectTransform.sizeDelta = new Vector2(2*controlRadius, 2*controlRadius);
-	}
-
-
-	public Vector2 TurnDirection ()
-	{
-		return turnDirection;
-	}
-	
-	public bool IsShooting()
-	{
-		return shooting;
-	}
-	
-	public bool IsAccelerating()
-	{
-		return accelerating;
-	}
-	
-	public bool IsBraking()
-	{
-		return braking;
 	}
 
 	public void Tick(PolygonGameObject p)

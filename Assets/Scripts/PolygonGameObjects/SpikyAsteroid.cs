@@ -33,7 +33,7 @@ public class SpikyAsteroid : Asteroid
 
 	public void InitSpikyAsteroid (int[] spikes, SpikeShooterInitData data)
 	{
-		InitAsteroid (data.density, data.healthModifier, data.speed, data.rotation);
+		InitAsteroid (data.physical, data.speed, data.rotation);
 		this.spikeSpeed = data.spikeVelocity;
 
 		foreach(int spikeVertex in spikes)
@@ -84,7 +84,7 @@ public class SpikyAsteroid : Asteroid
 							StartCoroutine(GrowSpike(spike.index, spike.a.p2));
 							
 							Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, ObjectsCreator.defaultEnemyColor);
-							spikeAsteroid.InitPolygonGameObject(this.density, this.healthModifier);
+							spikeAsteroid.InitPolygonGameObject(new PhysicalData(this.density, this.healthModifier, this.collisionDefence, this.collisionAttackModifier));
 							spikeAsteroid.position += position;
 							spikeAsteroid.rotation = 0f;
 							spikeAsteroid.velocity = spikeSpeed * spikeDirection.normalized;

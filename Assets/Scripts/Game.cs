@@ -28,3 +28,11 @@ public class Game : MonoBehaviour
 		main.StartTheGame (data);
 	}
 }
+
+/*
+ * анимация появления врагов
+ * дроп со всех
+ * суицидальные враги
+ * 
+ * 
+ */

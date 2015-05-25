@@ -3,10 +3,10 @@ using System.Collections;
 
 public class StandaloneInputController : InputController
 {
-	bool shooting = false;
-	bool accelerating = false;
-	Vector2 turnDirection;
-	bool braking = false;
+	public bool shooting{ get; private set; }
+	public bool accelerating{ get; private set; }
+	public bool braking{ get; private set; }
+	public Vector2 turnDirection{ get; private set; }
 
 
 	public StandaloneInputController()
@@ -24,23 +24,5 @@ public class StandaloneInputController : InputController
 		turnDirection = moveTo - p.position;
 	}
 
-	public Vector2 TurnDirection ()
-	{
-		return turnDirection;
-	}
 
-	public bool IsShooting()
-	{
-		return shooting;
-	}
-
-	public bool IsAccelerating()
-	{
-		return accelerating;
-	}
-
-	public bool IsBraking()
-	{
-		return braking;
-	}
 }

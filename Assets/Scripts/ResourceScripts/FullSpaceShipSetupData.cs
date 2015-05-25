@@ -8,11 +8,10 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 {
 	public string name;
 	public int price = -1;
-//	public CollisionLayers.eLayer layer = CollisionLayers.eLayer.TEAM_ENEMIES; //TODO: use (now its not)
 	public Color color = Color.white;
-	public float density = 1f;
-	public float healthModifier = 1f;
-	public SpaceshipData physicalParameters;
+	public PhysicalData physical;
+	public AIType ai = AIType.eCommon;
+	public SpaceshipData mobility;
 	public ShieldData shield;
 	public List<GunSetupData> guns;
 	public List<ThrusterSetupData> thrusters;
@@ -30,16 +29,22 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 		FullSpaceShipSetupData r = new FullSpaceShipSetupData ();
 		r.name = name + " clone";
 		r.price = price;
-//		r.layer = layer;
+		r.ai = ai;
 		r.color = color; 
-		r.density = density; 
-		r.healthModifier = healthModifier; 
-		r.physicalParameters = physicalParameters.Clone();
+		r.physical = physical.Clone(); 
+		r.mobility = mobility.Clone();
 		r.shield = shield.Clone(); 
 		r.guns = guns.ConvertAll(g => g.Clone());
 		r.thrusters = thrusters.ConvertAll(t => t.Clone());
 		r.turrets = turrets.ConvertAll(t => t.Clone());
 		r.verts = verts.ToList ().ToArray ();
 		return r;
+	}
+
+
+	public enum AIType
+	{
+		eCommon = 0,
+		eSuicide = 1,
 	}
 }

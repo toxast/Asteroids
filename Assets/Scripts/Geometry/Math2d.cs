@@ -46,6 +46,20 @@ public static class Math2d
 		}
 	}
 
+
+	static public float ClosestAngleBetweenNormalizedDegAbs(Vector2 vn1, Vector2 vn2)
+	{
+		var rad = ClosestAngleBetweenNormalizedRad (vn1, vn2);
+		return Mathf.Abs (rad * Mathf.Rad2Deg);
+	}
+
+	static public float ClosestAngleBetweenNormalizedRad(Vector2 vn1, Vector2 vn2)
+	{
+		var cos = DotProduct (ref vn1, ref vn2);
+		var rad = Mathf.Acos (cos);
+		return rad;
+	}
+
 	static public bool Chance(float chance)
 	{
 		return chance > UnityEngine.Random.Range(0f, 1f);

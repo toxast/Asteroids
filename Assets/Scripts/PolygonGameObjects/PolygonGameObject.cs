@@ -23,8 +23,14 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	//physical
 	public float density{ get; set;}
 	public float healthModifier{ get; set;}
+	public float collisionDefence{ get; set;}
+	public float collisionAttackModifier{ get; set;}
+
+	//calculated
 	public float mass{ get; private set;}
 	public float inertiaMoment{ get; private set;}
+
+	//momentum
 	public Vector2 velocity{ get; set;}
 	public float rotation{ get; set;}
 	public Vector2 position
@@ -77,10 +83,13 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		this.polygon = polygon;
 	}
 
-	public void InitPolygonGameObject(float density, float healthModifier)
+	public void InitPolygonGameObject(PhysicalData physics)
 	{
-		this.density = density;
-		this.healthModifier = healthModifier;
+		this.density = physics.density;
+		this.healthModifier = physics.healthModifier;
+		this.collisionDefence = physics.collisionDefence;
+		this.collisionAttackModifier = physics.collisionAttackModifier;
+
 		mass = polygon.area * density;
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;

@@ -11,7 +11,9 @@ public class Missile : SpaceShip, IBullet
 	{
 		this.damage = damage; 
 		this.lifeTime = lifeTime; 
-		InitSpaceShip (density, 1f, data);
+		PhysicalData ph = new PhysicalData ();
+		ph.density = density;
+		InitSpaceShip (ph, data);
 
 		DeathAnimation.MakeDeathForThatFellaYo (this, true);
 	}

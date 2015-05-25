@@ -102,7 +102,7 @@ public class Main : MonoBehaviour
 	LevelSpawner spawner;
 	public void StartTheGame(FullSpaceShipSetupData spaceshipData)
 	{
-		int level = 0;
+		int level = 1;
 		gameIsOn = true;
 
 		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
@@ -508,10 +508,8 @@ public class Main : MonoBehaviour
 		if(PolygonCollision.IsCollides(a, b, out indxa, out indxb))
 		{
 			var impulse = PolygonCollision.ApplyCollision(a, b, indxa, indxb);
-			var dmg = GetCollisionDamage(impulse);
-
-			a.Hit(dmg);
-			b.Hit(dmg);
+			a.Hit(GetCollisionDamage(impulse, a, b));
+			b.Hit(GetCollisionDamage(impulse, b, a));
 		}
 	}
 
@@ -564,8 +562,8 @@ public class Main : MonoBehaviour
 
 				if(!bullet.IsKilled())
 				{
-					obj.Hit(bullet.damage + GetCollisionDamage(impulse));
-				}
+					obj.Hit(bullet.damage + GetCollisionDamage(impulse, obj, bullet));
+				} 
 
 				if(bullet.destructionType == PolygonGameObject.DestructionType.eJustDestroy)
 				{
@@ -702,11 +700,10 @@ public class Main : MonoBehaviour
 		gobjects.Add (p);
 	}
 
-	static public float GetCollisionDamage(float impulse)
+	static public float GetCollisionDamage(float impulse, IPolygonGameObject a,  IPolygonGameObject from)
 	{
 		var dmg = Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier;
-		//Debug.LogWarning (dmg);
-		return dmg;
+		return (1f - a.collisionDefence) * from.collisionAttackModifier * dmg;
 	}
 
 
@@ -936,7 +933,17 @@ public class Main : MonoBehaviour
 	private SpaceShip CreateSpaceship(int indx, int layerNum)
 	{
 		var enemy = ObjectsCreator.CreateSpaceShip<SpaceShip>(indx);
-		enemy.SetController (new CommonController (enemy, bullets, enemy.guns[0]));
+		var sdata = SpaceshipsResources.Instance.spaceships [indx];
+		switch(sdata.ai)
+		{
+			case  FullSpaceShipSetupData.AIType.eCommon:
+				enemy.SetController (new CommonController (enemy, bullets, enemy.guns[0]));
+			break;
+			case  FullSpaceShipSetupData.AIType.eSuicide:
+			enemy.SetController (new SuicideController(enemy, bullets));
+			break;
+		}
+
 		enemy.SetCollisionLayerNum (layerNum);
 		InitNewEnemy(enemy);
 		return enemy;

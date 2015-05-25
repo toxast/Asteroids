@@ -21,7 +21,7 @@ public class Bullet : PolygonGameObject, IBullet
 
 	public void InitBullet(float speed, float damage, float lifeTime)
 	{
-		base.InitPolygonGameObject (1,1); //TODO pass
+		base.InitPolygonGameObject (new PhysicalData()); //TODO pass
 		this.damage = damage;
 		this.lifeTime = lifeTime;
 		velocity = cacheTransform.right * speed;
