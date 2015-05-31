@@ -25,16 +25,18 @@ public class SpikyAsteroid : Asteroid
 
 //	private float detectionDistance = 70f;
 //	private float detectionDistanceSqr;
-	private float regrowPause = 3f;
-	private float spikeSpeed = 45f;
-	private float growSpeed = 0.1f;
+	private float regrowPause = 2f;
+	private float spikeSpeed;
+	private float growSpeed;
 
 	private List<Spike> spikesLeft = new List<Spike>();
 
 	public void InitSpikyAsteroid (int[] spikes, SpikeShooterInitData data)
 	{
+		reward = data.reward;
 		InitAsteroid (data.physical, data.speed, data.rotation);
 		this.spikeSpeed = data.spikeVelocity;
+		this.growSpeed = data.growSpeed;
 
 		foreach(int spikeVertex in spikes)
 		{
@@ -42,17 +44,12 @@ public class SpikyAsteroid : Asteroid
 			Spike spike = new Spike(polygon.edges[previous], polygon.edges[spikeVertex], spikeVertex);
 			spikesLeft.Add(spike);
 		}
+
+		StartCoroutine (CheckForTarget (data.checkForTargetdTime));
 	}
 
-	void Start()
+	IEnumerator CheckForTarget(float checkInterval)
 	{
-		StartCoroutine (CheckForTarget ());
-	}
-
-	IEnumerator CheckForTarget()
-	{
-		float checkInterval = 0.5f;
-
 		while(true)
 		{
 			if(!Main.IsNull(target))
@@ -61,9 +58,8 @@ public class SpikyAsteroid : Asteroid
 				float cosA = Mathf.Cos(angle);
 				float sinA = Mathf.Sin(angle);
 
-				var randomSpeed = spikeSpeed + UnityEngine.Random.Range(-spikeSpeed/5f, 0);
-				AimSystem aim = new AimSystem(target.position, target.velocity, position, randomSpeed);
-				if(aim.canShoot)
+				AimSystem aim = new AimSystem(target.position, target.velocity, position, spikeSpeed * 1.1f);
+				if(aim.canShoot && aim.time < 3f)
 				{
 					for (int i = spikesLeft.Count - 1; i >= 0; i--) 
 					{
@@ -83,7 +79,7 @@ public class SpikyAsteroid : Asteroid
 							spikesLeft.RemoveAt(i);
 							StartCoroutine(GrowSpike(spike.index, spike.a.p2));
 							
-							Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, ObjectsCreator.defaultEnemyColor);
+							Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, this.GetColor());
 							spikeAsteroid.InitPolygonGameObject(new PhysicalData(this.density, this.healthModifier, this.collisionDefence, this.collisionAttackModifier));
 							spikeAsteroid.position += position;
 							spikeAsteroid.rotation = 0f;

@@ -9,7 +9,7 @@ public class Game : MonoBehaviour
 {
 	[SerializeField] Main main;
 	[SerializeField] GUIHangar hangar;
-
+	[SerializeField] InputField waveInput;
 	[SerializeField] List<GameObject> gameObjects;
 	[SerializeField] List<GameObject> hangarObjects;
 
@@ -25,14 +25,16 @@ public class Game : MonoBehaviour
 		hangarObjects.ForEach (h => h.SetActive (false));
 		gameObjects.ForEach (h => h.SetActive (true));
 
-		main.StartTheGame (data);
+		main.StartTheGame (data, int.Parse(waveInput.text));
 	}
 }
 
 /*
  * анимация появления врагов
  * дроп со всех
- * суицидальные враги
- * 
- * 
+ * апгрейд кораблей
+ * болле детальные параметры для всех врагов 
+ * радиус появления врагов
+ * появления в главном меню после сметри
+ * сохранение игры
  */

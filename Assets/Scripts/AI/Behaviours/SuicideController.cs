@@ -18,10 +18,15 @@ public class SuicideController : BaseSpaceshipController
 	float untilBulletsEvade = 1f;
 	float untilBulletsEvadeMax = 3f;
 	float untilBulletsEvadeMin = 1f;
+	float accuracy;
 
-	public SuicideController (SpaceShip thisShip, List<IBullet> bullets) : base(thisShip)
+	public SuicideController (SpaceShip thisShip, List<IBullet> bullets, AccuracyData accData) : base(thisShip)
 	{
 		this.bullets = bullets;
+
+		accuracy = accData.startingAccuracy;
+		if(accData.isDynamic)
+			thisShip.StartCoroutine (AccuracyChanger (accData));
 
 		thisShip.StartCoroutine (Logic ());
 		thisShip.StartCoroutine (BehavioursRandomTiming ());
@@ -46,7 +51,6 @@ public class SuicideController : BaseSpaceshipController
 		float checkBehTime = 0;
 		bool behaviourChosen = false;
 
-		float accuracy = 0.5f;
 		float duration;
 		Vector2 newDir;
 		while(true)
@@ -86,7 +90,7 @@ public class SuicideController : BaseSpaceshipController
 
 					if(!behaviourChosen)
 					{
-						var aimVelocity = (target.velocity* 1.5f - thisShip.velocity) * accuracy;
+						var aimVelocity = (target.velocity - thisShip.velocity) * accuracy;
 						AimSystem aim = new AimSystem (target.position, aimVelocity, thisShip.position, thisShip.maxSpeed);  
 						turnDirection = aim.direction;
 						yield return null;
@@ -99,6 +103,20 @@ public class SuicideController : BaseSpaceshipController
 				yield return new WaitForSeconds(0.5f); 
 				checkBehTime -= 0.5f;
 			}
+		}
+	}
+
+	private IEnumerator AccuracyChanger(AccuracyData data)
+	{
+		Vector2 lastDir = Vector2.one; //just not zero
+		float dtime = data.checkDtime;
+		while(true)
+		{
+			if(!Main.IsNull(target))
+			{
+				AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, target, data);
+			}
+			yield return new WaitForSeconds(dtime);
 		}
 	}
 }

@@ -127,4 +127,23 @@ public static class AIHelper
 		}
 		return false;
 	}
+
+	
+	public static void ChangeAccuracy(ref float accuracy, ref Vector2 lastDir, IPolygonGameObject target, AccuracyData data)
+	{
+		float sameVelocityMesure = 0;
+		if(Math2d.ApproximatelySame(target.velocity, Vector2.zero) || Math2d.ApproximatelySame(lastDir, Vector2.zero))
+		{
+			sameVelocityMesure = data.add;
+		}
+		else
+		{
+			var cos =  Math2d.Cos(target.velocity, lastDir); 
+			sameVelocityMesure = (cos > 0.9) ? data.add : -data.sub; //TODO: 0.9?
+		}
+		accuracy += sameVelocityMesure*data.checkDtime;
+		accuracy = Mathf.Clamp(accuracy, data.bounds.x, data.bounds.y);
+		lastDir = target.velocity;
+	}
+
 }

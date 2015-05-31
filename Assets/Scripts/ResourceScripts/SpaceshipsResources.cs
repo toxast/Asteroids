@@ -14,7 +14,7 @@ public class SpaceshipsResources : ResourceSingleton<SpaceshipsResources>
 	[ContextMenu ("clone spaceship")]
 	void CloneRocketLauncher () 
 	{
-		spaceships.Add (spaceships [clone].Clone());
+		spaceships.Insert (clone + 1, spaceships [clone].Clone());
 	}
 
 //	[ContextMenu ("guns+1")]

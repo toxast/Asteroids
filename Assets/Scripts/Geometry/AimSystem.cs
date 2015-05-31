@@ -8,7 +8,7 @@ public class AimSystem
 	public bool canShoot{get; private set;}
 
 	//time the bullet will fly till collision, valid only if canShoot is true
-	//public float time; 
+	public float time; 
 
 	//shot direction, valid only if canShoot is true
 	public Vector2 direction; 
@@ -47,15 +47,15 @@ public class AimSystem
 				float t1 = (-B + Dsqrt)/(2*A);
 				float t2 = (-B - Dsqrt)/(2*A);
 				
-				float t = -1;
-				if(t1 > 0 && t2 > 0) t = Mathf.Min(t1, t2);
-				else if(t1 > 0) t = t1;
-				else if(t2 > 0) t = t2;
+				time = -1;
+				if(t1 > 0 && t2 > 0)time = Mathf.Min(t1, t2);
+				else if(t1 > 0) time = t1;
+				else if(t2 > 0) time = t2;
 
-				canShoot = t > 0;
+				canShoot = time > 0;
 				if(canShoot)
 				{
-					direction = targetSpeed + dist/t;
+					direction = targetSpeed + dist/time;
 				}
 			}
 		}

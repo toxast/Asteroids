@@ -60,6 +60,8 @@ public class BulletAdapter : IBullet
 	public float collisionDefence{get{return go.collisionDefence;}}
 	public float collisionAttackModifier{get{return go.collisionAttackModifier;}}
 
+	public int reward{get{return go.reward;} set{go.reward = value;}}
+
 	public float mass{get{return go.mass;}}
 	public float inertiaMoment{get{return go.inertiaMoment;}}
 	public Vector2 velocity{get{return go.velocity;} set{go.velocity = value;}}
@@ -83,7 +85,7 @@ public class BulletAdapter : IBullet
 		return go.IsKilled ();
 	}
 	
-	public List<Gun> guns{get{return go.guns;} set{go.guns = value;}}
+	public List<Gun> guns{get{return go.guns;}}
 	public List<PolygonGameObject> turrets{get{return go.turrets;} set{go.turrets = value;}}
 	
 	public DropID dropID{get{return go.dropID;} set{go.dropID = value;}}

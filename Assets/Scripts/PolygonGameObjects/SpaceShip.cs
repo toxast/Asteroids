@@ -29,12 +29,6 @@ public class SpaceShip : PolygonGameObject
 
 	bool acceleratedThisTick = false;
 
-//	protected override float healthModifier {
-//		get {
-//			return base.healthModifier * Singleton<GlobalConfig>.inst.SpaceshipHealthModifier;
-//		}
-//	}
-
 	protected override void Awake()
 	{
 		base.Awake ();
@@ -137,20 +131,10 @@ public class SpaceShip : PolygonGameObject
 
 		InputTick (delta);
 
-		//if(!acceleratedThisTick)
-		//{
-		//	Brake(delta, passiveBrake);
-		//}
-
-		//RestictSpeed ();
-
 		TickGuns (delta);
 
 		foreach(var th in thrusters)
 		{
-			//Or speed and rate by 3;
-			//Or another trust
-			//And change colr a bit??
 			float dthrust = th.defaultLifetime * delta * 0.5f;
 			dthrust = (acceleratedThisTick)? dthrust : -dthrust;
 			th.thrust.startLifetime = Mathf.Clamp(th.thrust.startLifetime + dthrust, th.defaultLifetime/2f,  th.defaultLifetime);
@@ -169,10 +153,13 @@ public class SpaceShip : PolygonGameObject
 		float kff = (firingSpeedPUpTimeLeft > 0) ? firingSpeedPUpKoeff : 1;
 		
 		var d = delta * kff;
-		for (int i = 0; i < guns.Count; i++) 
+		for (int i = 0; i < notLinkedGuns.Count; i++) 
 		{
-			guns[i].Tick(d);
+			guns[notLinkedGuns[i]].Tick(d);
 		}
+
+		if(linkedGuns.Any())
+			guns [linkedGuns [linkedGunTick]].Tick (d);
 	}
 
 	void InputTick(float delta)
@@ -235,11 +222,22 @@ public class SpaceShip : PolygonGameObject
 		//base.ApplyRotation (dtime); 
 	}
 
+
 	public void Shoot()
 	{
-		for (int i = 0; i < guns.Count; i++) 
+//		guns
+
+		for (int i = 0; i < notLinkedGuns.Count; i++) 
 		{
-			guns[i].ShootIfReady();
+			guns[notLinkedGuns[i]].ShootIfReady();
+		}
+
+		if(linkedGuns.Any() && guns[linkedGuns[linkedGunTick]].ReadyToShoot())
+		{
+			guns[linkedGuns[linkedGunTick]].ShootIfReady();
+			linkedGunTick ++;
+			if(linkedGunTick >= linkedGuns.Count)
+				linkedGunTick = 0;
 		}
 	}
 

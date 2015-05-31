@@ -47,11 +47,13 @@ public class Main : MonoBehaviour
 	//TODO: stars Clusters for faster check
 
 	[SerializeField] Camera mainCamera;
+	Transform cameraTransform;
 	[SerializeField] Camera minimapCamera;
 
 	void Awake()
 	{
 		mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera>();
+		cameraTransform = mainCamera.transform;
 		minimapCamera = GameObject.FindGameObjectWithTag ("MinimapCamera").GetComponent<Camera>();
 
 #if UNITY_STANDALONE
@@ -100,9 +102,9 @@ public class Main : MonoBehaviour
 	}
 
 	LevelSpawner spawner;
-	public void StartTheGame(FullSpaceShipSetupData spaceshipData)
+	public void StartTheGame(FullSpaceShipSetupData spaceshipData, int waveNum = 0)
 	{
-		int level = 1;
+		int level = 0;
 		gameIsOn = true;
 
 		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
@@ -111,7 +113,7 @@ public class Main : MonoBehaviour
 		
 		CreateSpaceShip (spaceshipData);
 
-		spawner = new LevelSpawner (LevelsResources.Instance.levels [level]);
+		spawner = new LevelSpawner (LevelsResources.Instance.levels [level], waveNum);
 
 		powerUpsCreator = new PowerUpsCreator(5f, 10f);
 		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
@@ -237,7 +239,7 @@ public class Main : MonoBehaviour
 
 	void HandlePowerUpCreated (PowerUp powerUp)
 	{
-		SetRandomPosition(powerUp);
+		SetRandomPosition(powerUp, new Vector2(50, 100));
 		powerUps.Add(powerUp);
 	}
 
@@ -344,10 +346,11 @@ public class Main : MonoBehaviour
 			for (int i = drops.Count - 1; i >= 0; i--) 
 			{
 				int indxa, indxb;
-				if(PolygonCollision.IsCollides(spaceship, drops[i], out indxa, out indxb))
+				var drop = drops[i];
+				if(PolygonCollision.IsCollides(spaceship, drop, out indxa, out indxb))
 				{
-					GameResources.AddMoney(drops[i].data.asteroidData.value);
-					Destroy(drops[i].gameObject);
+					GameResources.AddMoney(drop.data.value);
+					Destroy(drop.gameObject);
 					drops.RemoveAt(i);
 				}
 			}
@@ -395,8 +398,8 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		if(powerUpsCreator != null)
-			powerUpsCreator.Tick(Time.deltaTime);
+//		if(powerUpsCreator != null)
+//			powerUpsCreator.Tick(Time.deltaTime);
 
 		MoveCamera ();
 
@@ -629,6 +632,8 @@ public class Main : MonoBehaviour
 			id2drops.TryGetValue(obj.dropID, out drop);
 		}
 
+		CheckReward (obj);
+
 		List<Asteroid> parts = Spliter.SplitIntoAsteroids(obj);
 		foreach(var part in parts)
 		{
@@ -659,6 +664,37 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	private void CheckReward(IPolygonGameObject go)
+	{
+		if (go.reward <= 0)
+			return;
+
+		int rewardLeft = go.reward;
+
+		var	datas = AsteroidsResources.Instance.asteroidsData;
+		int dataIndex = datas.Count - 1;
+		int maxLoops = 3;
+
+		while(rewardLeft > 0)
+		{
+			var val = datas[dataIndex].value;
+			if(rewardLeft >= val && (maxLoops <= 0 || Math2d.Chance(0.7f)))
+			{
+				rewardLeft -= val;
+				CreateDrop(datas[dataIndex], go.cacheTransform.position, go.polygon.R*0.6f);
+			}
+			else
+			{
+				dataIndex--;
+				if(dataIndex < 0)
+				{
+					dataIndex = datas.Count - 1;
+					maxLoops --;
+				}
+			}
+		}
+	}
+
 	private void CheckDrop(DropData drop, IPolygonGameObject destroyingPart)
 	{
 		int lastDrops = (int)((drop.areaLeft/drop.startingArea) * drop.dropsCount);
@@ -669,24 +705,29 @@ public class Main : MonoBehaviour
 		{
 			for (int i = 0; i < diff; i++) 
 			{
-				if(!Math2d.Chance(drop.dropChance))
-					continue;
+//				if(!Math2d.Chance(drop.dropChance))
+//					continue;
 
-				Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
-				var dropObj = ObjectsCreator.CreateDrop(drop);
-				var anim = Instantiate(dropAnimationPrefab) as ParticleSystem;
-				anim.startColor = drop.asteroidData.color;
-				anim.transform.parent = dropObj.transform;
-				anim.transform.localPosition = new Vector3(0, 0, UnityEngine.Random.Range(1f, 1.1f));
-				dropObj.cacheTransform.position =
-					destroyingPart.cacheTransform.position + randomOffset + new Vector3(0,0,2);
-				dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f,1f));
-				drops.Add(dropObj);
+				CreateDrop(drop.asteroidData, destroyingPart.cacheTransform.position, destroyingPart.polygon.R*0.6f);
 			}
 		}
 	}
 
-	private void Add2Objects(IPolygonGameObject p)
+	private void CreateDrop(AsteroidData drop, Vector3 position, float R)
+	{
+		Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-R, R), UnityEngine.Random.Range(-R, R), 0);
+		var dropObj = ObjectsCreator.CreateDrop(drop);
+		var anim = Instantiate(dropAnimationPrefab) as ParticleSystem;
+		anim.startColor = drop.color;
+		anim.transform.parent = dropObj.transform;
+		anim.transform.localPosition = new Vector3(0, 0, UnityEngine.Random.Range(1f, 1.1f));
+		dropObj.cacheTransform.position =
+			position + randomOffset + new Vector3(0,0,2);
+		dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f,1f));
+		drops.Add(dropObj);
+	}
+
+	public void Add2Objects(IPolygonGameObject p)
 	{
 		p.guns.ForEach( g => g.onFire += HandleGunFire);
 		
@@ -916,7 +957,6 @@ public class Main : MonoBehaviour
 		var data = AsteroidsResources.Instance.asteroidsData [sdata.densityIndx];
 		var asteroid = ObjectsCreator.CreateAsteroid (sdata, data, ObjectsCreator.GetAsteroidMaterial(sdata.densityIndx));
 		CreateDropForObject (asteroid, data); 
-		InitNewEnemy(asteroid);
 		return asteroid; 
 	}
 
@@ -937,22 +977,20 @@ public class Main : MonoBehaviour
 		switch(sdata.ai)
 		{
 			case  FullSpaceShipSetupData.AIType.eCommon:
-				enemy.SetController (new CommonController (enemy, bullets, enemy.guns[0]));
+				enemy.SetController (new CommonController (enemy, bullets, enemy.guns[0], sdata.accuracy));
 			break;
 			case  FullSpaceShipSetupData.AIType.eSuicide:
-			enemy.SetController (new SuicideController(enemy, bullets));
+				enemy.SetController (new SuicideController(enemy, bullets,  sdata.accuracy));
 			break;
 		}
 
 		enemy.SetCollisionLayerNum (layerNum);
-		InitNewEnemy(enemy);
 		return enemy;
 	}
 	
-	public void CreateRogueEnemy()
+	public RogueEnemy CreateRogueEnemy()
 	{
-		var enemy = ObjectsCreator.CreateRogueEnemy();
-		InitNewEnemy(enemy);
+		return ObjectsCreator.CreateRogueEnemy();
 	}
 
 	public Asteroid CreateGasteroid()
@@ -960,7 +998,6 @@ public class Main : MonoBehaviour
 		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.asteroids.Count);
 		var initData = AsteroidsResources.Instance.asteroids[indxInit];
 		var asteroid = ObjectsCreator.CreateGasteroid (initData);
-		InitNewEnemy(asteroid);
 		return asteroid;
 	}
 
@@ -974,7 +1011,6 @@ public class Main : MonoBehaviour
 	{
 		var initData = AsteroidsResources.Instance.sawData[indxInit];
 		var enemy = ObjectsCreator.CreateSawEnemy(initData);
-		InitNewEnemy(enemy);
 		return enemy;
 	}
 	
@@ -989,7 +1025,6 @@ public class Main : MonoBehaviour
 		var initData = AsteroidsResources.Instance.spikyData[indxInit];
 		var enemy = ObjectsCreator.CreateSpikyAsteroid(initData);
 		enemy.SpikeAttack += HandleSpikeAttack;
-		InitNewEnemy(enemy);
 		return enemy;
 	}
 
@@ -1003,28 +1038,24 @@ public class Main : MonoBehaviour
 	{
 		var turretData = SpaceshipsResources.Instance.towers [indx];
 		var enemy = ObjectsCreator.CreateSimpleTower(turretData);
-		InitNewEnemy(enemy);
 		return enemy;
 	}
 	
 	public TowerEnemy CreateTower()
 	{
 		var enemy = ObjectsCreator.CreateTower();
-		InitNewEnemy(enemy);
 		return enemy;
 	}
 	
 	public EvadeEnemy CreateEvadeEnemy()
 	{
 		EvadeEnemy enemy = ObjectsCreator.CreateEvadeEnemy (bullets);
-		InitNewEnemy(enemy);
 		return enemy;
 	}
 	
 	public EvadeEnemy CreateTankEnemy()
 	{
 		var enemy = ObjectsCreator.CreateTankEnemy(bullets);
-		InitNewEnemy(enemy);
 		return enemy;
 	}
 	
@@ -1051,15 +1082,19 @@ public class Main : MonoBehaviour
 		id2drops [obj.dropID] = dropData;
 	}
 	
-	
-	public void InitNewEnemy(PolygonGameObject enemy)
-	{
-		if(enemy.layerNum != CollisionLayers.ilayerAsteroids)
-			enemy.targetSystem = new TargetSystem (enemy);
-
-		SetRandomPosition(enemy);
-		Add2Objects(enemy);
-	}
+//	public void InitNewEnemy(PolygonGameObject enemy)
+//	{
+//		InitNewEnemy(enemy, new Vector2(50f, 150f));
+//	}
+//
+//	public void InitNewEnemy(PolygonGameObject enemy, Vector2 spawnRange)
+//	{
+//		if(enemy.layerNum != CollisionLayers.ilayerAsteroids)
+//			enemy.targetSystem = new TargetSystem (enemy);
+//
+//		SetRandomPosition(enemy, spawnRange);
+//		Add2Objects(enemy);
+//	}
 
 	private void CreateMinimapIndicatorForObject(IPolygonGameObject obj)
 	{
@@ -1101,11 +1136,11 @@ public class Main : MonoBehaviour
 		obj.minimapIndicator.gameObj.layer = LayerMask.NameToLayer("Minimap");
 	}
 	
-	private void SetRandomPosition(IPolygonGameObject p)
+	public void SetRandomPosition(IPolygonGameObject p, Vector2 range)
 	{
 		float angle = UnityEngine.Random.Range(0f, 359f) * Mathf.Deg2Rad;
-		float len = UnityEngine.Random.Range(p.polygon.R + 2 * p.polygon.R, screenBounds.yMax);
-		p.position = new Vector2(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len);
+		float len = UnityEngine.Random.Range(range.x, range.y);
+		p.position = (Vector2)cameraTransform.position + new Vector2(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len);
 	}
 
 

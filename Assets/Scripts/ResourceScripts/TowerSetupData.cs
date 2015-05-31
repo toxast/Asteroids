@@ -7,9 +7,11 @@ using System.Linq;
 public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IGotTurrets
 {
 	public string name = "tower";
+	public int reward;
 	public PhysicalData physical;
 	public Color color = Color.white;
 	public float rotationSpeed = 50;
+	public AccuracyData accuracy;
 	public ShieldData shield;
 	public List<GunSetupData> guns;
 	public List<TurretReferenceData> turrets;
@@ -24,9 +26,11 @@ public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IG
 	{
 		TowerSetupData r = new TowerSetupData ();
 		r.name = name + " clone";
+		r.reward = reward;
 		r.physical = physical.Clone(); 
 		r.color = color; 
 		r.rotationSpeed = rotationSpeed;
+		r.accuracy = accuracy.Clone ();
 		r.shield = shield.Clone();
 		r.guns = guns.ConvertAll(g => g.Clone());
 		r.turrets = turrets.ConvertAll(t => t.Clone());

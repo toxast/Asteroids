@@ -13,14 +13,18 @@ public class SimpleTower : PolygonGameObject
 	
 	Rotaitor cannonsRotaitor;
 	private bool smartAim = false;
+	float accuracy;
 
-
-	public void InitSimpleTower(PhysicalData physical, bool smartAim, float cannonsRotatingSpeed)
+	public void InitSimpleTower(PhysicalData physical, bool smartAim, float cannonsRotatingSpeed, AccuracyData accData)
 	{
 		InitPolygonGameObject (physical);
 
 		this.smartAim = smartAim;
 		//this.cannonsRotatingSpeed = cannonsRotatingSpeed;
+
+		accuracy = accData.startingAccuracy;
+		if(accData.isDynamic)
+			StartCoroutine (AccuracyChanger (accData));
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
 	}
@@ -50,7 +54,7 @@ public class SimpleTower : PolygonGameObject
 		{
 			if(smartAim)
 			{
-				AimSystem aim = new AimSystem(target.position, target.velocity, position, guns[0].bulletSpeed);
+				AimSystem aim = new AimSystem(target.position, accuracy * target.velocity, position, guns[0].bulletSpeed);
 				if(aim.canShoot)
 				{
 					currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;
@@ -68,6 +72,20 @@ public class SimpleTower : PolygonGameObject
 					guns[i].ShootIfReady();
 				}
 			}
+		}
+	}
+
+	private IEnumerator AccuracyChanger(AccuracyData data)
+	{
+		Vector2 lastDir = Vector2.one; //just not zero
+		float dtime = data.checkDtime;
+		while(true)
+		{
+			if(!Main.IsNull(target))
+			{
+				AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, target, data);
+			}
+			yield return new WaitForSeconds(dtime);
 		}
 	}
 }

@@ -40,57 +40,108 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - list:
-    - objects:
-      - type: 1
-        indx: 0
-        count: 5
-        spawnInterval: .300000012
-      - type: 1
-        indx: 1
-        count: 2
-        spawnInterval: .300000012
-      doneWhenLeft: 7
-    - objects:
-      - type: 3
-        indx: 0
-        count: 2
-        spawnInterval: .300000012
-      - type: 4
-        indx: 0
-        count: 2
-        spawnInterval: .300000012
-      doneWhenLeft: 1
-    - objects:
-      - type: 2
-        indx: 0
-        count: 2
-        spawnInterval: .300000012
-      doneWhenLeft: 0
-    - objects:
-      - type: 3
+  - name: level 0
+    list:
+    - name: wave 0 (asteroids)
+      objects:
+      - name: spawns
+        type: 1
         indx: 0
         count: 3
         spawnInterval: .300000012
-      doneWhenLeft: 0
-    - objects:
-      - type: 4
-        indx: 0
-        count: 6
-        spawnInterval: .300000012
-      doneWhenLeft: 0
-  - list:
-    - objects:
-      - type: 2
-        indx: 4
-        count: 2
-        spawnInterval: .300000012
-      doneWhenLeft: 0
-    - objects:
-      - type: 2
+        spawnRange: {x: 30, y: 60}
+      - name: spawns
+        type: 1
         indx: 1
         count: 2
         spawnInterval: .300000012
+        spawnRange: {x: 30, y: 60}
+      doneWhenLeft: 2
+    - name: wave 1 (1 spiky)
+      objects:
+      - name: spawns
+        type: 3
+        indx: 0
+        count: 1
+        spawnInterval: .300000012
+        spawnRange: {x: 50, y: 60}
+      doneWhenLeft: 0
+    - name: wave 2 (green asteroid)
+      objects:
+      - name: spawns
+        type: 1
+        indx: 2
+        count: 1
+        spawnInterval: 0
+        spawnRange: {x: 20, y: 40}
+      doneWhenLeft: 0
+    - name: wave 3 (3 spiky)
+      objects:
+      - name: spawns
+        type: 3
+        indx: 0
+        count: 3
+        spawnInterval: 1
+        spawnRange: {x: 30, y: 50}
+      doneWhenLeft: 0
+    - name: wave 4 (asteroids)
+      objects:
+      - name: asteroids
+        type: 1
+        indx: 0
+        count: 2
+        spawnInterval: .400000006
+        spawnRange: {x: 40, y: 60}
+      - name: asteroids
+        type: 1
+        indx: 1
+        count: 1
+        spawnInterval: .400000006
+        spawnRange: {x: 40, y: 60}
+      - name: asteroids
+        type: 1
+        indx: 2
+        count: 1
+        spawnInterval: .400000006
+        spawnRange: {x: 40, y: 60}
+      doneWhenLeft: 100
+    - name: wave 5 (tower)
+      objects:
+      - name: asteroids
+        type: 5
+        indx: 0
+        count: 5
+        spawnInterval: .400000006
+        spawnRange: {x: 40, y: 120}
+      doneWhenLeft: 0
+    - name: wave 6 mega-spiky
+      objects:
+      - name: 
+        type: 3
+        indx: 1
+        count: 1
+        spawnInterval: .400000006
+        spawnRange: {x: 40, y: 120}
+      doneWhenLeft: 0
+  - name: level
+    list:
+    - name: wave
+      objects:
+      - name: spawns
+        type: 2
+        indx: 4
+        count: 2
+        spawnInterval: .300000012
+        spawnRange: {x: 1, y: 1}
+      doneWhenLeft: 0
+    - name: wave
+      objects:
+      - name: spawns
+        type: 2
+        indx: 1
+        count: 2
+        spawnInterval: .300000012
+        spawnRange: {x: 1, y: 1}
       doneWhenLeft: 0
 --- !u!1001 &100100000
 Prefab:

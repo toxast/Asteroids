@@ -18,10 +18,12 @@ public enum ObjectType
 [Serializable]
 public class SpawnObject 
 {
+	public string name = "spawns";
 	public ObjectType type = ObjectType.eAsteroid;
 	public int indx;
 	public int count = 1;
 	public float spawnInterval = 0;
+	public Vector2 spawnRange = new Vector2(40,80);
 
 	public PolygonGameObject Spawn()
 	{
@@ -45,6 +47,9 @@ public class SpawnObject
 		case ObjectType.eTurretTower:
 			obj = main.CreateSimpleTower(indx);
 			break;
+			//gasteroid
+			//blockpost
+
 		default:
 			break;
 		}
@@ -53,6 +58,16 @@ public class SpawnObject
 		{
 			Debug.LogWarning("null " + type + " " + indx);
 		}
+		else
+		{
+			if(obj.layerNum != CollisionLayers.ilayerAsteroids)
+				obj.targetSystem = new TargetSystem (obj);
+
+			Singleton<Main>.inst.SetRandomPosition(obj, spawnRange);
+			Singleton<Main>.inst.Add2Objects(obj);
+		}
+
+
 		return obj;
 	}
 }
@@ -60,6 +75,7 @@ public class SpawnObject
 [Serializable]
 public class SpawnWave
 {
+	public string name = "wave";
 	public List<SpawnObject> objects;
 	public int doneWhenLeft = 0;
 
@@ -114,6 +130,7 @@ public class SpawnWave
 [Serializable]
 public class SpawnWaves
 {
+	public string name = "level";
 	public List<SpawnWave> list;
 }
 
@@ -121,12 +138,12 @@ public class SpawnWaves
 public class LevelSpawner
 {
 	public SpawnWaves waves;
-	[NonSerialized] int currentQueue = -1;
+	[NonSerialized] int currentQueue = 0;
 
-	public LevelSpawner(SpawnWaves waves)
+	public LevelSpawner(SpawnWaves waves, int waveNum = 0)
 	{
 		this.waves = waves;
-		currentQueue = -1;
+		currentQueue = waveNum;
 	}
 
 	public bool Done()
@@ -136,17 +153,19 @@ public class LevelSpawner
 
 	public void Tick()
 	{
-		if (Done ())
+		if (Done())
 			return;
 
-		if(currentQueue < 0 || waves.list[currentQueue].Done())
+		var wave = waves.list [currentQueue];
+
+		if(!wave.startedSpawn)
+			wave.Spawn();
+
+		if(wave.Done())
 		{
 			currentQueue++;
 			if(currentQueue >= waves.list.Count)
 				return;
-
-			if(!waves.list[currentQueue].startedSpawn)
-				waves.list[currentQueue].Spawn();
 		}
 	}
 }

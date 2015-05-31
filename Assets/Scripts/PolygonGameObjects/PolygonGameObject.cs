@@ -30,6 +30,8 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public float mass{ get; private set;}
 	public float inertiaMoment{ get; private set;}
 
+	public int reward{ get; set;}
+
 	//momentum
 	public Vector2 velocity{ get; set;}
 	public float rotation{ get; set;}
@@ -52,7 +54,10 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	[SerializeField] protected float currentHealth;
 	public event Action<float> healthChanged;
 
-	public List<Gun> guns { get; set;}
+	public List<Gun> guns { get; private set;}
+	protected int linkedGunTick = 0;
+	protected List<int> linkedGuns = new List<int>();
+	protected List<int> notLinkedGuns = new List<int>();
 
 	public IPolygonGameObject target{ get; private set;}
 	public ITickable targetSystem;
@@ -93,9 +98,24 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		mass = polygon.area * density;
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;
-		fullHealth = Mathf.Pow(mass, 0.8f) * healthModifier / 2f;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
+		fullHealth = Mathf.Pow(polygon.area, 0.8f) * healthModifier / 2f;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
 //		Debug.LogWarning (mass + " " + fullHealth);
 		currentHealth = fullHealth;
+	}
+
+	public void SetGuns(List<Gun> guns, List<int> linked = null)
+	{
+		this.linkedGunTick = 0;
+		this.guns = new List<Gun>(guns);
+		this.notLinkedGuns = new List<int> ();
+		this.linkedGuns = new List<int> ();
+		if (linked == null)
+			linked = new List<int> ();
+
+		for (int i = 0; i < guns.Count; i++) {
+			var addList = (linked.Contains(i)) ? linkedGuns : notLinkedGuns;
+			addList.Add(i);
+		}
 	}
 
 	public virtual void SetTarget(IPolygonGameObject target)
@@ -250,7 +270,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		
 		Color shCol = Color.green;
 		shCol.a = 0.3f;
-		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.circulatedVertices, 0.6f);
+		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.circulatedVertices, 0.3f);
 		shieldGO = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(v, shCol);
 		shieldGO.name = "shield";
 		shieldGO.cacheTransform.parent = cacheTransform;

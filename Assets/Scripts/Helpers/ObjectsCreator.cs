@@ -18,6 +18,7 @@ public class ObjectsCreator
 		where T:SpaceShip
 	{
 		T spaceship = PolygonCreator.CreatePolygonGOByMassCenter<T> (sdata.verts, sdata.color);
+		spaceship.reward = sdata.reward;
 		spaceship.InitSpaceShip(sdata.physical, sdata.mobility);
 		spaceship.SetThrusters (sdata.thrusters);
 
@@ -27,12 +28,13 @@ public class ObjectsCreator
 		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
 		spaceship.gameObject.name = sdata.name; 
 		
-		spaceship.guns = new List<Gun> ();
+		var guns = new List<Gun> ();
 		foreach (var gunplace in sdata.guns) 
 		{
 			var gun = GunsData.GetGun(gunplace, spaceship);
-			spaceship.guns.Add (gun);
+			guns.Add (gun);
 		}
+		spaceship.SetGuns (guns, sdata.linkedGuns);
 
 		foreach (var item in sdata.turrets) 
 		{
@@ -49,7 +51,6 @@ public class ObjectsCreator
 		spaceship.collector = new DropCollector (0.15f, 20f);
 		spaceship.SetColor (Color.blue);
 		spaceship.gameObject.name = "Spaceship";
-		spaceship.SetShield(new ShieldData(10f,2f,2f));
 		spaceship.SetController (contorller);
 		return spaceship;
 	}
@@ -69,12 +70,14 @@ public class ObjectsCreator
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<Turret>(data.verts, data.color);
 		turret.InitTurret (new PhysicalData(), smartAim, data.rotationSpeed, anglesRestriction);
-		turret.guns = new List<Gun> ();
+		var guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) 
 		{
 			var gun = GunsData.GetGun(gunplace, turret);
-			turret.guns.Add (gun);
+			guns.Add (gun);
 		}
+		turret.SetGuns (guns);
+
 		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction);
 		parent.AddTurret(pos.place, turret);
 	}
@@ -120,7 +123,7 @@ public class ObjectsCreator
 		int[] spikes;
 		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
 		
-		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, defaultEnemyColor);
+		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, initData.color);
 		asteroid.InitSawEnemy (initData);
 		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
 		asteroid.gameObject.name = "SawEnemy";
@@ -138,7 +141,7 @@ public class ObjectsCreator
 		int[] spikes;
 		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
 		
-		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, defaultEnemyColor);
+		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, initData.color);
 		asteroid.InitSpikyAsteroid (spikes, initData);
 		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
 		asteroid.gameObject.name = "spiked asteroid";
@@ -213,14 +216,16 @@ public class ObjectsCreator
 			return result;
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
-		turret.InitSimpleTower (data.physical, smartAim, data.rotationSpeed);
+		turret.InitSimpleTower (data.physical, smartAim, data.rotationSpeed, data.accuracy);
+		turret.reward = data.reward;
 		turret.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
-		turret.guns = new List<Gun> ();
+		var guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) 
 		{
 			var gun = GunsData.GetGun(gunplace, turret);
-			turret.guns.Add (gun);
+			guns.Add (gun);
 		}
+		turret.SetGuns (guns);
 		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction);
 		DeathAnimation.MakeDeathForThatFellaYo (turret);
 
@@ -285,18 +290,18 @@ public class ObjectsCreator
 		return _asteroidsMaterials[n];
 	}
 
-	public static polygonGO.Drop CreateDrop(DropData data)
+	public static polygonGO.Drop CreateDrop(AsteroidData data)
 	{
 		float size = 0.7f;//Random.Range(1f, 2f);
 		int vcount = 5;//Random.Range(5, 5 + (int)size*3);
 		Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(size, vcount);
 		
-		var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, data.asteroidData.color);
+		var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, data.color);
 		drop.InitPolygonGameObject (new PhysicalData());
 		drop.SetCollisionLayerNum (CollisionLayers.ilayerMisc);
 		drop.data = data;
 		drop.gameObject.name = "drop";
-		drop.lifetime = 10f;
+		drop.lifetime = 30f;
 		
 		return drop;
 	}

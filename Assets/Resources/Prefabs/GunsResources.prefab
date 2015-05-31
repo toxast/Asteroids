@@ -39,14 +39,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6983fa03316c20d49969175117993afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clone: 1
+  clone: 0
   guns:
-  - name: gun 1
+  - name: user gun 1
     price: 0
     damage: 3
     lifeTime: 2
     bulletSpeed: 35
-    fireInterval: .300000012
+    fireInterval: .800000012
+    repeatCount: 0
+    repeatInterval: 0
+    vertices:
+    - {x: .400000006, y: .200000003}
+    - {x: .400000006, y: -.200000003}
+    - {x: -.400000006, y: -.200000003}
+    - {x: -.400000006, y: .200000003}
+    color: {r: .886274517, g: .725490212, b: .0666666701, a: 1}
+    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  - name: turret gun 1
+    price: 0
+    damage: 2
+    lifeTime: 2
+    bulletSpeed: 30
+    fireInterval: 1.60000002
     repeatCount: 0
     repeatInterval: 0
     vertices:
@@ -56,20 +71,35 @@ MonoBehaviour:
     - {x: -.400000006, y: .200000003}
     color: {r: 1, g: 0, b: 0, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
-  - name: gun 2
+  - name: (2) user gun 2
     price: 0
     damage: 2
     lifeTime: 2
-    bulletSpeed: 50
+    bulletSpeed: 35
+    fireInterval: .5
+    repeatCount: 0
+    repeatInterval: 0
+    vertices:
+    - {x: .300000012, y: .200000003}
+    - {x: .300000012, y: -.200000003}
+    - {x: -.300000012, y: -.200000003}
+    - {x: -.300000012, y: .200000003}
+    color: {r: .992647052, g: .915022314, b: .313851655, a: 1}
+    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  - name: (3) user gun 3 for dual
+    price: 0
+    damage: 2
+    lifeTime: 2
+    bulletSpeed: 35
     fireInterval: .400000006
     repeatCount: 0
     repeatInterval: 0
     vertices:
-    - {x: .400000006, y: .200000003}
-    - {x: .400000006, y: -.200000003}
-    - {x: -.400000006, y: -.200000003}
-    - {x: -.400000006, y: .200000003}
-    color: {r: 1, g: 0, b: 0, a: 1}
+    - {x: .300000012, y: .200000003}
+    - {x: .300000012, y: -.200000003}
+    - {x: -.300000012, y: -.200000003}
+    - {x: -.300000012, y: .200000003}
+    color: {r: .292685807, g: .808823526, b: .0892084688, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - name: gun 3
     price: 0
@@ -156,7 +186,7 @@ MonoBehaviour:
       repeatCount: 0
       repeatInterval: 0
       vertices:
-      - {x: 1.4820646, y: 6.07031314e-09}
+      - {x: 1.4820646, y: 5.92508442e-09}
       - {x: .832064688, y: -.25999999}
       - {x: -.727935255, y: -.195000008}
       - {x: -1.1179353, y: -.454999983}

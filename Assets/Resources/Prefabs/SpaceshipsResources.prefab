@@ -39,52 +39,174 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f82fa8de924d764794d90a59fc3e783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clone: 16
+  clone: 0
   spaceships:
-  - name: 
-    price: -1
-    color: {r: 1, g: 1, b: 1, a: 1}
+  - name: Box
+    price: 0
+    reward: 0
+    color: {r: 0, g: .300659329, b: .889705896, a: 1}
     physical:
       density: 1
-      healthModifier: 1
+      healthModifier: 10
       collisionDefence: 0
       collisionAttackModifier: 1
-    ai: 1
+    ai: 0
     mobility:
-      thrust: 45
+      thrust: 20
       maxSpeed: 20
-      turnSpeed: 220
+      turnSpeed: 150
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
       rechargeDelay: 0
     guns:
     - place:
-        pos: {x: 1.15960276, y: -1.48609303e-09}
+        pos: {x: 1.73187649, y: -1.02102486e-08}
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
-        pos: {x: -.460397184, y: -1.48609303e-09}
+        pos: {x: -1.09812343, y: -1.02102486e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
     turrets: []
     verts:
-    - {x: 1.64960277, y: -.203000024}
-    - {x: .175003365, y: -.980000019}
-    - {x: -1.37339723, y: -.884000003}
-    - {x: -1.35039723, y: -.5}
-    - {x: -.985397339, y: -.280999988}
-    - {x: -.985397339, y: .280999988}
-    - {x: -1.35039723, y: .5}
-    - {x: -1.37339723, y: .884000003}
-    - {x: .175003365, y: .980000019}
-    - {x: 1.64960277, y: .202999964}
+    - {x: 2.14749765, y: -.27019304}
+    - {x: .481876433, y: -1.17660403}
+    - {x: -1.8761152, y: -1.17660403}
+    - {x: -1.6481235, y: -.569999993}
+    - {x: -1.35968745, y: -.37401104}
+    - {x: -1.35968745, y: .37401104}
+    - {x: -1.6481235, y: .569999993}
+    - {x: -1.8761152, y: 1.17660403}
+    - {x: .481876433, y: 1.17660403}
+    - {x: 2.14749765, y: .27019304}
+    upgradeIndex: 1
+  - name: (1) Box level 2
+    price: 150
+    reward: 0
+    color: {r: 0, g: .300659329, b: .889705896, a: 1}
+    physical:
+      density: 1
+      healthModifier: 14
+      collisionDefence: .100000001
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
+      thrust: 20
+      maxSpeed: 25
+      turnSpeed: 150
+      brake: 15
+      passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 0
+      rechargeRate: 0
+      rechargeDelay: 0
+    guns:
+    - place:
+        pos: {x: 1.94341433, y: -1.53354556e-08}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 2
+    linkedGuns: 
+    thrusters:
+    - place:
+        pos: {x: -.886585593, y: -1.53354556e-08}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19868348, guid: f83746c780871214281129b770ef409b, type: 2}
+    turrets: []
+    verts:
+    - {x: 2.35903549, y: -.27019304}
+    - {x: .693414271, y: -1.17660403}
+    - {x: -2.15846205, y: -1.66999996}
+    - {x: -1.43658566, y: -.569999993}
+    - {x: -1.14814961, y: -.37401104}
+    - {x: -1.14814961, y: .37401104}
+    - {x: -1.43658566, y: .569999993}
+    - {x: -2.15846205, y: 1.66999996}
+    - {x: .693414271, y: 1.17660403}
+    - {x: 2.35903549, y: .27019304}
+    upgradeIndex: -1
+  - name: (1) Box level 3
+    price: 300
+    reward: 0
+    color: {r: 0, g: .300659329, b: .889705896, a: 1}
+    physical:
+      density: 1
+      healthModifier: 14
+      collisionDefence: .100000001
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
+      thrust: 20
+      maxSpeed: 25
+      turnSpeed: 150
+      brake: 15
+      passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 2.5
+      rechargeRate: .699999988
+      rechargeDelay: 2
+    guns:
+    - place:
+        pos: {x: 1.74000001, y: .699999988}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 3
+    - place:
+        pos: {x: 1.74000001, y: -.699999988}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 3
+    linkedGuns: 0000000001000000
+    thrusters:
+    - place:
+        pos: {x: -.541130364, y: -8.39510506e-08}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19868348, guid: f83746c780871214281129b770ef409b, type: 2}
+    turrets: []
+    verts:
+    - {x: 2.4340415, y: -.243173867}
+    - {x: 1.37290955, y: -1.10699999}
+    - {x: .373909712, y: -1.47599995}
+    - {x: -2.47009015, y: -1.755}
+    - {x: -1.98409021, y: -.926999927}
+    - {x: -.722424865, y: -.336609989}
+    - {x: -.722424865, y: .336609989}
+    - {x: -1.98409021, y: .926999927}
+    - {x: -2.47009015, y: 1.755}
+    - {x: .373909712, y: 1.47599995}
+    - {x: 1.37290955, y: 1.10699999}
+    - {x: 2.4340415, y: .243173748}
+    upgradeIndex: -1
   - name: 
     price: -1
+    reward: 0
     color: {r: .613471031, g: .265679091, b: .669117689, a: 1}
     physical:
       density: 1
@@ -98,6 +220,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -108,6 +237,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.00999999791, y: 0}
@@ -123,8 +253,10 @@ MonoBehaviour:
     - {x: -.899999976, y: .5}
     - {x: -1.89999998, y: 1}
     - {x: -.399999976, y: 1}
+    upgradeIndex: 0
   - name: (10) tooth
     price: -1
+    reward: 0
     color: {r: .702151835, g: .827574968, b: .860294104, a: 1}
     physical:
       density: 1
@@ -138,6 +270,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -148,6 +287,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: .0703681856, y: -8.37749781e-09}
@@ -157,7 +297,7 @@ MonoBehaviour:
     verts:
     - {x: 1.15380228, y: -.468512028}
     - {x: .831700385, y: -1.22984397}
-    - {x: -.0196326897, y: -.74000001}
+    - {x: -.0196326934, y: -.74000001}
     - {x: -.629631639, y: -1.11000001}
     - {x: -1.64963186, y: -.689999998}
     - {x: -2.10963178, y: -.340000004}
@@ -168,11 +308,13 @@ MonoBehaviour:
     - {x: -2.10963178, y: .340000004}
     - {x: -1.64963186, y: .689999998}
     - {x: -.629631639, y: 1.11000001}
-    - {x: -.0196326897, y: .74000001}
+    - {x: -.0196326934, y: .74000001}
     - {x: .831700385, y: 1.22984397}
     - {x: 1.15380228, y: .468512028}
+    upgradeIndex: 0
   - name: alien3
     price: -1
+    reward: 0
     color: {r: .860294104, g: .768157125, b: .253027648, a: 1}
     physical:
       density: 1
@@ -186,6 +328,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -196,6 +345,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 2
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.41382122, y: 7.43517958e-09}
@@ -223,8 +373,10 @@ MonoBehaviour:
     - {x: .672178566, y: 1.37}
     - {x: -.0428216308, y: .949998677}
     - {x: .353178799, y: .549998701}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: .926470578, g: .258866817, b: .659429312, a: 1}
     physical:
       density: 1
@@ -238,6 +390,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -248,6 +407,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 4
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.700110257, y: -2.21817213e-08}
@@ -255,20 +415,22 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
     turrets: []
     verts:
-    - {x: 1.46675801, y: -.234256327}
+    - {x: 1.46675801, y: -.234256357}
     - {x: 1.32034802, y: -.570999026}
     - {x: .749348938, y: -.980947077}
-    - {x: .0319385491, y: -1.06879318}
-    - {x: -.275521964, y: -1.71299696}
+    - {x: .0319385603, y: -1.06879318}
+    - {x: -.275521934, y: -1.71299696}
     - {x: -1.06613529, y: -1.22984397}
     - {x: -1.06613529, y: 1.22984397}
-    - {x: -.275521964, y: 1.71299696}
-    - {x: .0319385491, y: 1.06879318}
+    - {x: -.275521934, y: 1.71299696}
+    - {x: .0319385603, y: 1.06879318}
     - {x: .749348938, y: .980947077}
     - {x: 1.32034802, y: .570999026}
-    - {x: 1.46675801, y: .234255701}
+    - {x: 1.46675801, y: .234255672}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: .388948947, g: .485294104, b: .401573479, a: 1}
     physical:
       density: 1
@@ -282,6 +444,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -302,6 +471,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 0
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -1.23000002, y: -.810000002}
@@ -325,8 +495,10 @@ MonoBehaviour:
     - {x: 1.63567126, y: 1.3204509}
     - {x: 1.63567126, y: .990338027}
     - {x: .291640908, y: .330112696}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: .860294104, g: .1454909, b: .1454909, a: 1}
     physical:
       density: 1
@@ -340,6 +512,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -355,6 +534,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.441620618, y: 7.93073429e-09}
@@ -368,31 +548,33 @@ MonoBehaviour:
     - {x: -.511620522, y: -2.05999994}
     - {x: -2.09162045, y: -2.00999999}
     - {x: -1.56162071, y: -1.5}
-    - {x: .00838027429, y: -1.28999996}
-    - {x: .178380236, y: -.889999986}
-    - {x: .0783801675, y: -.769999981}
-    - {x: -.201619789, y: -.420000106}
+    - {x: .00838030223, y: -1.28999996}
+    - {x: .178380266, y: -.889999986}
+    - {x: .0783801973, y: -.769999981}
+    - {x: -.201619759, y: -.420000106}
     - {x: -.841620564, y: -.670000017}
     - {x: -.941620588, y: -.0200000741}
     - {x: -.941620588, y: .019999925}
     - {x: -.841620564, y: .670000017}
-    - {x: -.201619789, y: .419999868}
-    - {x: .0783801675, y: .769999981}
-    - {x: .178380236, y: .889999986}
-    - {x: .00838027429, y: 1.28999996}
+    - {x: -.201619759, y: .419999868}
+    - {x: .0783801973, y: .769999981}
+    - {x: .178380266, y: .889999986}
+    - {x: .00838030223, y: 1.28999996}
     - {x: -1.56162071, y: 1.5}
     - {x: -2.09162045, y: 2.00999999}
     - {x: -.511620522, y: 2.05999994}
     - {x: 1.30837929, y: 1.53999996}
     - {x: 1.34837937, y: .939999998}
     - {x: 1.03837931, y: .519999981}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: .187337801, g: .772058845, b: .288151801, a: 1}
     physical:
       density: 1
-      healthModifier: 1
-      collisionDefence: 0
+      healthModifier: 20
+      collisionDefence: 1
       collisionAttackModifier: 1
     ai: 0
     mobility:
@@ -401,6 +583,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -416,6 +605,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 4
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.288894892, y: -1.30963951e-08}
@@ -430,7 +620,7 @@ MonoBehaviour:
     - {x: -1.96889496, y: -2.19000006}
     - {x: -1.47889495, y: -1.61999989}
     - {x: -.408894151, y: -1.17999983}
-    - {x: -.0188935064, y: -.839999914}
+    - {x: -.0188934971, y: -.839999914}
     - {x: .441105872, y: -.419999391}
     - {x: -.0888937861, y: -.170000046}
     - {x: -1.0288949, y: -.569999933}
@@ -439,7 +629,7 @@ MonoBehaviour:
     - {x: -1.0288949, y: .570000052}
     - {x: -.0888937861, y: .169999957}
     - {x: .441105872, y: .420000583}
-    - {x: -.0188935064, y: .840000033}
+    - {x: -.0188934971, y: .840000033}
     - {x: -.408894151, y: 1.18000007}
     - {x: -1.47889495, y: 1.62000012}
     - {x: -1.96889496, y: 2.19000006}
@@ -447,8 +637,10 @@ MonoBehaviour:
     - {x: .761105239, y: 1.54000008}
     - {x: 1.3611052, y: .75000006}
     - {x: 1.58110499, y: .229999959}
+    upgradeIndex: 0
   - name: (22) small tank
     price: -1
+    reward: 0
     color: {r: .0973183438, g: .529411793, b: .27909556, a: 1}
     physical:
       density: 1
@@ -462,6 +654,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -477,6 +676,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 4
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.972727299, y: .579999983}
@@ -488,9 +688,9 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
     turrets: []
     verts:
-    - {x: .727272809, y: 1.79487785e-07}
+    - {x: .727272809, y: 1.90509297e-07}
     - {x: .727272809, y: -.600000024}
-    - {x: .127272725, y: -.600000024}
+    - {x: .127272695, y: -.600000024}
     - {x: .727272809, y: -1.20000005}
     - {x: 1.9272728, y: -1.20000005}
     - {x: 1.9272728, y: -1.80000007}
@@ -498,7 +698,7 @@ MonoBehaviour:
     - {x: -1.07272732, y: -1.20000005}
     - {x: -1.67272735, y: -1.20000005}
     - {x: -1.07272732, y: -.600000024}
-    - {x: -1.67272735, y: 1.79487785e-07}
+    - {x: -1.67272735, y: 1.90509297e-07}
     - {x: -1.07272732, y: .600000024}
     - {x: -1.67272735, y: 1.20000005}
     - {x: -1.07272732, y: 1.20000005}
@@ -506,10 +706,12 @@ MonoBehaviour:
     - {x: 1.9272728, y: 1.80000007}
     - {x: 1.9272728, y: 1.20000005}
     - {x: .727272809, y: 1.20000005}
-    - {x: .127272725, y: .600000024}
+    - {x: .127272695, y: .600000024}
     - {x: .727272809, y: .600000024}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: .647058845, g: .451989651, b: .451989651, a: 1}
     physical:
       density: 1
@@ -523,6 +725,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 20
       rechargeRate: 4
@@ -533,6 +742,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -1.20185184, y: 0}
@@ -540,7 +750,7 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19868348, guid: f83746c780871214281129b770ef409b, type: 2}
     turrets: []
     verts:
-    - {x: 2.39814806, y: -4.72712657e-07}
+    - {x: 2.39814806, y: -5.01150112e-07}
     - {x: 1.39814818, y: -1}
     - {x: .398148209, y: -1}
     - {x: -.601851702, y: -2}
@@ -553,8 +763,10 @@ MonoBehaviour:
     - {x: -.601851702, y: 2}
     - {x: .398148209, y: 1}
     - {x: 1.39814818, y: 1}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: .281033754, g: .512349367, b: .83088237, a: 1}
     physical:
       density: 1
@@ -568,6 +780,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -578,6 +797,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -1.08808613, y: 0}
@@ -592,14 +812,14 @@ MonoBehaviour:
     - {x: 1.37591958, y: -2.17659593}
     - {x: 3.21981072, y: -1.91510057}
     - {x: 1.85627294, y: -2.73200297}
-    - {x: -.00509237498, y: -2.73200297}
+    - {x: -.0050923815, y: -2.73200297}
     - {x: -.88473767, y: -2.15053725}
     - {x: -1.65212083, y: -1.3626678}
-    - {x: -1.41536379, y: -.194667339}
-    - {x: -1.41536379, y: .194666266}
+    - {x: -1.41536379, y: -.194667369}
+    - {x: -1.41536379, y: .194666237}
     - {x: -1.65212083, y: 1.36266756}
     - {x: -.88473767, y: 2.15053725}
-    - {x: -.00509237498, y: 2.73200297}
+    - {x: -.0050923815, y: 2.73200297}
     - {x: 1.85627294, y: 2.73200297}
     - {x: 3.21981072, y: 1.91510034}
     - {x: 1.37591958, y: 2.17659593}
@@ -607,8 +827,10 @@ MonoBehaviour:
     - {x: .880557358, y: 1.14083648}
     - {x: -.170213461, y: 1.32096863}
     - {x: .280115873, y: .525385022}
+    upgradeIndex: 0
   - name: (16) cool ship
     price: -1
+    reward: 0
     color: {r: .639705896, g: .282223195, b: .555882335, a: 1}
     physical:
       density: 1
@@ -622,6 +844,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 20
       rechargeRate: 5
@@ -642,6 +871,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 2
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.874727488, y: -.0400000401}
@@ -670,8 +900,10 @@ MonoBehaviour:
     - {x: .0232723188, y: 1.53669989}
     - {x: 1.01547229, y: .992199898}
     - {x: 2.17707253, y: .592899978}
+    upgradeIndex: 0
   - name: (31) cool ship clone
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -685,6 +917,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 20
       rechargeRate: 5
@@ -705,6 +944,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 2
       index: 4
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.874727488, y: -.0400000401}
@@ -733,8 +973,10 @@ MonoBehaviour:
     - {x: .0232723188, y: 1.53669989}
     - {x: 1.01547229, y: .992199898}
     - {x: 2.17707253, y: .592899978}
+    upgradeIndex: 0
   - name: (15) ghost
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -748,6 +990,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -758,6 +1007,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 1
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -1.4547292, y: .980000079}
@@ -789,8 +1039,10 @@ MonoBehaviour:
     - {x: 1.74727082, y: 1.22100008}
     - {x: 2.45127082, y: 1.06700003}
     - {x: 2.17527056, y: .730000079}
+    upgradeIndex: 0
   - name: a6
     price: -1
+    reward: 0
     color: {r: .755995691, g: .725562274, b: .808823526, a: 1}
     physical:
       density: 1
@@ -804,6 +1056,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 20
       rechargeRate: 2
@@ -819,6 +1078,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 2
       index: 2
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -1.62118387, y: -2.07898303e-08}
@@ -858,8 +1118,10 @@ MonoBehaviour:
     - {x: 2.19130993, y: 1.40062129}
     - {x: 2.99537063, y: 1.0634346}
     - {x: 2.76193333, y: .31124872}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -873,6 +1135,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -888,6 +1157,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -1.42003143, y: -6.75594869e-09}
@@ -913,8 +1183,10 @@ MonoBehaviour:
     - {x: 2.18596888, y: .492000014}
     - {x: .361968637, y: .504000008}
     - {x: .157968521, y: .143999875}
+    upgradeIndex: 0
   - name: (17) heavyGun Ship
     price: -1
+    reward: 0
     color: {r: .529328287, g: .276059717, b: .544117689, a: 1}
     physical:
       density: 1
@@ -928,6 +1200,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 20
       rechargeRate: 3
@@ -938,6 +1217,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 3
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -2.52199459, y: -1.9282222e-08}
@@ -969,8 +1249,10 @@ MonoBehaviour:
     - {x: -.322994918, y: .681999981}
     - {x: .326005071, y: .462000102}
     - {x: 1.40800524, y: .699999928}
+    upgradeIndex: 0
   - name: boomerang
     price: -1
+    reward: 0
     color: {r: .96325016, g: .992647052, b: .459829181, a: 1}
     physical:
       density: 1
@@ -984,6 +1266,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -999,6 +1288,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.740862668, y: 4.08235259e-08}
@@ -1024,8 +1314,10 @@ MonoBehaviour:
     - {x: 1.03913736, y: 3.38000011}
     - {x: 1.64913726, y: 2.58999991}
     - {x: 1.64913726, y: 1.72000015}
+    upgradeIndex: 0
   - name: manta
     price: -1
+    reward: 0
     color: {r: .353000939, g: .138516471, b: .897058845, a: 1}
     physical:
       density: 1
@@ -1039,6 +1331,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 10
       rechargeRate: 1
@@ -1054,6 +1353,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 2
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.645316839, y: -.0999999866}
@@ -1079,8 +1379,10 @@ MonoBehaviour:
     - {x: 1.61468315, y: 4.21000004}
     - {x: 1.32468319, y: 2.21000004}
     - {x: 2.08311796, y: .912997544}
+    upgradeIndex: 0
   - name: (23) corn plane
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -1094,6 +1396,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -1119,6 +1428,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -2.97841573, y: 0}
@@ -1160,8 +1470,10 @@ MonoBehaviour:
     - {x: 2.84158421, y: 1.5}
     - {x: 3.34158421, y: 1.5}
     - {x: 3.34158421, y: .5}
+    upgradeIndex: 0
   - name: Bzzz
     price: -1
+    reward: 0
     color: {r: 1, g: .922920942, b: .301470578, a: 1}
     physical:
       density: 1
@@ -1175,6 +1487,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 15
       rechargeRate: 3
@@ -1195,6 +1514,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -1.47421455, y: .460000068}
@@ -1228,8 +1548,10 @@ MonoBehaviour:
     - {x: 3.59070802, y: 1.49661517}
     - {x: 2.45328045, y: 1.18232596}
     - {x: 1.5957855, y: .520000219}
+    upgradeIndex: 0
   - name: (13) small bat
     price: -1
+    reward: 0
     color: {r: .41603592, g: .488120407, b: .698529422, a: 1}
     physical:
       density: 1
@@ -1243,6 +1565,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 5
       rechargeRate: 2
@@ -1253,6 +1582,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 2
       index: 5
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -2.33882785, y: 5.52971002e-08}
@@ -1282,8 +1612,10 @@ MonoBehaviour:
     - {x: .231172249, y: 1.74000001}
     - {x: -.131827757, y: 1.02999997}
     - {x: .407172263, y: .550000072}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -1297,6 +1629,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -1312,6 +1651,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -2.24170995, y: 6.12274462e-08}
@@ -1337,8 +1677,10 @@ MonoBehaviour:
     - {x: .208289817, y: 1.41000009}
     - {x: -.0917101949, y: .820000112}
     - {x: .00828971714, y: .240000099}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: .566176474, g: .508582652, b: .320555806, a: 1}
     physical:
       density: 1
@@ -1352,6 +1694,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -1362,6 +1711,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -2, y: 0}
@@ -1391,8 +1741,10 @@ MonoBehaviour:
     - {x: .0491642281, y: 3.54312301}
     - {x: -.305146992, y: 2.44797611}
     - {x: 1.36978376, y: .579785466}
+    upgradeIndex: 0
   - name: medium fat
     price: -1
+    reward: 0
     color: {r: .324633867, g: .507352948, b: .309634507, a: 1}
     physical:
       density: 1
@@ -1406,6 +1758,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 30
       rechargeRate: 3
@@ -1426,6 +1785,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.69195044, y: 2.23995089e-09}
@@ -1455,8 +1815,10 @@ MonoBehaviour:
     - {x: 2.59256268, y: 1.53091621}
     - {x: 2.0750699, y: .30186978}
     - {x: 1.35273635, y: .495929539}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -1470,6 +1832,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -1490,6 +1859,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -1.99927163, y: 1.89999998}
@@ -1525,8 +1895,10 @@ MonoBehaviour:
     - {x: 3.94072866, y: 1.44000006}
     - {x: 3.94072866, y: .720000267}
     - {x: 1.06072807, y: .720000267}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -1540,6 +1912,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -1560,6 +1939,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.641117632, y: -3.62774024e-08}
@@ -1599,8 +1979,10 @@ MonoBehaviour:
     - {x: 4.50888252, y: 1.90999997}
     - {x: 4.14888239, y: 1.17999995}
     - {x: 2.37888241, y: .720000088}
+    upgradeIndex: 0
   - name: Devil
     price: -1
+    reward: 0
     color: {r: .433823526, g: .26794982, b: .26794982, a: 1}
     physical:
       density: 1
@@ -1614,6 +1996,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -1634,6 +2023,7 @@ MonoBehaviour:
         dir: {x: .993621945, y: .112762883}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -2.99694014, y: 5}
@@ -1671,8 +2061,10 @@ MonoBehaviour:
     - {x: 3.98823667, y: 4.01999998}
     - {x: 2.57823682, y: 3.20000005}
     - {x: 3.23823667, y: 1.54999995}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: .661634147, g: .60310334, b: .845588207, a: 1}
     physical:
       density: 1
@@ -1686,6 +2078,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -1696,6 +2095,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -2.89776158, y: -6.90316497e-08}
@@ -1739,8 +2139,10 @@ MonoBehaviour:
     - {x: .542238772, y: 2.41000009}
     - {x: .542238772, y: 1.07000077}
     - {x: -.517761171, y: .950000346}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -1754,6 +2156,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -1779,6 +2188,7 @@ MonoBehaviour:
         dir: {x: .998226643, y: -.059527453}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -2.56515121, y: 8.05951501e-08}
@@ -1814,8 +2224,10 @@ MonoBehaviour:
     - {x: 3.44484878, y: 3.3599999}
     - {x: 4.55484867, y: 2.00999999}
     - {x: 2.53484845, y: 1.41999996}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -1829,6 +2241,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -1849,6 +2268,7 @@ MonoBehaviour:
         dir: {x: .995136082, y: -.0985100791}
       type: 1
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -.717499852, y: 1.64747362e-08}
@@ -1884,8 +2304,10 @@ MonoBehaviour:
     - {x: 2.05250001, y: 2.36999989}
     - {x: 1.73250008, y: 1.44999993}
     - {x: 2.82250023, y: .719999969}
+    upgradeIndex: 0
   - name: Spawner
     price: -1
+    reward: 0
     color: {r: .661764741, g: .165441185, b: .165441185, a: 1}
     physical:
       density: 1
@@ -1899,6 +2321,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 20
       rechargeRate: 5
@@ -1919,6 +2348,7 @@ MonoBehaviour:
         dir: {x: .935996711, y: .35200879}
       type: 3
       index: 0
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -7.37273788, y: 1.06404173e-07}
@@ -1976,8 +2406,10 @@ MonoBehaviour:
     - {x: 7.29369879, y: 1.9335171}
     - {x: 5.87893057, y: 1.22613263}
     - {x: 4.27552557, y: 2.09857368}
+    upgradeIndex: 0
   - name: 
     price: -1
+    reward: 0
     color: {r: .159602076, g: .419490516, b: .602941155, a: 1}
     physical:
       density: 1
@@ -1991,6 +2423,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -2011,6 +2450,7 @@ MonoBehaviour:
         dir: {x: .979481876, y: -.20153217}
       type: 1
       index: 1
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -4.5, y: -4.76999998}
@@ -2052,8 +2492,10 @@ MonoBehaviour:
     - {x: 4.6829319, y: 3.25709987}
     - {x: 5.6333313, y: 1.76219904}
     - {x: 4.03943157, y: 1.21769905}
+    upgradeIndex: 0
   - name: turret ship
     price: -1
+    reward: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     physical:
       density: 1
@@ -2067,6 +2509,13 @@ MonoBehaviour:
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 50
       rechargeRate: 4
@@ -2087,6 +2536,7 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       type: 1
       index: 1
+    linkedGuns: 
     thrusters:
     - place:
         pos: {x: -5.94188213, y: 1.70000017}
@@ -2128,6 +2578,7 @@ MonoBehaviour:
     - {x: 9.45811844, y: 7.30000019}
     - {x: 3.85811806, y: 6.30000019}
     - {x: .910046458, y: 1.57889307}
+    upgradeIndex: 0
   turrets:
   - name: turret
     color: {r: .235294104, g: .235294104, b: .235294104, a: 1}
@@ -2282,7 +2733,44 @@ MonoBehaviour:
     - {x: 1.04090011, y: .930000007}
     - {x: 2.38089991, y: .360000014}
   towers:
-  - name: 
+  - name: 0 tower 1-st
+    reward: 20
+    physical:
+      density: 1
+      healthModifier: 1.29999995
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    color: {r: .602619052, g: .0538494959, b: .610294104, a: 1}
+    rotationSpeed: 30
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .100000001
+      sub: .600000024
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 0
+      rechargeRate: 0
+      rechargeDelay: 0
+    guns:
+    - place:
+        pos: {x: 2.6126852, y: -9.91643656e-09}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 1
+    turrets: []
+    verts:
+    - {x: 2.21474862, y: -.360000044}
+    - {x: .974748433, y: -.819999993}
+    - {x: .274748355, y: -2.01999998}
+    - {x: -1.71448576, y: -.860219896}
+    - {x: -1.71448576, y: .860219896}
+    - {x: .274748355, y: 2.01999998}
+    - {x: .974748433, y: .819999993}
+    - {x: 2.21474862, y: .359999985}
+  - name: 1 mega tower
+    reward: 0
     physical:
       density: 1
       healthModifier: 1
@@ -2290,6 +2778,13 @@ MonoBehaviour:
       collisionAttackModifier: 1
     color: {r: .823529422, g: .448096901, b: .448096901, a: 1}
     rotationSpeed: 50
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
     shield:
       capacity: 20
       rechargeRate: 10
@@ -2315,18 +2810,18 @@ MonoBehaviour:
         dir: {x: .743144751, y: .669130683}
       index: 1
     verts:
-    - {x: 1.7649473, y: -1.28675723}
-    - {x: 3.68667173, y: -3.21061277}
+    - {x: 1.7649473, y: -1.2867583}
+    - {x: 3.68667173, y: -3.21061301}
     - {x: 1.96053505, y: -4.83318138}
-    - {x: -.248919114, y: -6.00695419}
-    - {x: -1.57823563, y: -3.6441021}
-    - {x: -3.14305592, y: -2.48656344}
-    - {x: -3.14305592, y: 2.48656344}
-    - {x: -1.57823563, y: 3.6441021}
-    - {x: -.248919114, y: 6.00695419}
+    - {x: -.248919144, y: -6.00695419}
+    - {x: -1.57823563, y: -3.64410233}
+    - {x: -3.14305592, y: -2.48656368}
+    - {x: -3.14305592, y: 2.48656321}
+    - {x: -1.57823563, y: 3.64410186}
+    - {x: -.248919144, y: 6.00695419}
     - {x: 1.96053505, y: 4.83318138}
-    - {x: 3.68667173, y: 3.21061277}
-    - {x: 1.7649473, y: 1.28675556}
+    - {x: 3.68667173, y: 3.21061254}
+    - {x: 1.7649473, y: 1.28675449}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

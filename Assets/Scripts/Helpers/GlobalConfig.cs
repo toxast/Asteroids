@@ -3,16 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GlobalConfig : MonoBehaviour{
-
-	[SerializeField] public float GlobalHealthModifier = 1f;
-	[SerializeField] public float SpaceshipHealthModifier = 1f;
-	[SerializeField] public float TankEnemyHealthModifier = 1f;
-	[SerializeField] public float SawEnemyHealthModifier = 1f;
-	[SerializeField] public float TowerEnemyHealthModifier = 1f;
-	[SerializeField] public float RogueEnemyHealthModifier = 1f;
-
-
+public class GlobalConfig : MonoBehaviour
+{
 	[SerializeField] public float DamageFromCollisionsModifier = 0.3f;
 
 	[SerializeField] public float ExplosionDamageKff = 4f;

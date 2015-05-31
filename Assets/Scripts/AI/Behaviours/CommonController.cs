@@ -14,12 +14,16 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 
 	AIHelper.Data tickData = new AIHelper.Data();
 
-	public CommonController (SpaceShip thisShip, List<IBullet> bullets, Gun gun) : base(thisShip)
+	public CommonController (SpaceShip thisShip, List<IBullet> bullets, Gun gun, AccuracyData accData) : base(thisShip)
 	{
 		this.bulletsSpeed = gun.bulletSpeed;
 		this.bullets = bullets;
 		thisShip.StartCoroutine (Logic ());
-		thisShip.StartCoroutine (AccuracyChanger ());
+
+		accuracy = accData.startingAccuracy;
+		if(accData.isDynamic)
+			thisShip.StartCoroutine (AccuracyChanger (accData));
+
 		thisShip.StartCoroutine (BehavioursRandomTiming ());
 		comformDistanceMax = gun.Range;
 		comformDistanceMin = 30;
@@ -158,31 +162,18 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		}
 	}
 
-	private IEnumerator AccuracyChanger()
+	private IEnumerator AccuracyChanger(AccuracyData data)
 	{
 		Vector2 lastDir = Vector2.one; //just not zero
-		float dtime = 0.7f;
-		float time2reachFullAccuracy = 5f;
+		float dtime = data.checkDtime;
 		while(true)
 		{
 			if(!Main.IsNull(target))
 			{
-				float sameVelocityMesure = 0;
-				if(Math2d.ApproximatelySame(target.velocity, Vector2.zero) || Math2d.ApproximatelySame(lastDir, Vector2.zero))
-				{
-					sameVelocityMesure = 1;
-				}
-				else
-				{
-					var cos =  Math2d.Cos(target.velocity, lastDir); 
-					sameVelocityMesure = (cos > 0.9) ? 1 : -1; //TODO: 0.9?
-				}
-				accuracy += sameVelocityMesure*dtime/time2reachFullAccuracy;
-				accuracy = Mathf.Clamp(accuracy, 0, 1);
-				//////Debug.LogWarning(accuracy);
-				lastDir = target.velocity;
+				AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, target, data);
 			}
 			yield return new WaitForSeconds(dtime);
 		}
 	}
+
 }

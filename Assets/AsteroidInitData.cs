@@ -44,6 +44,7 @@ public class RandomInt
 [System.Serializable]
 public class AsteroidSetupData 
 {
+	public string name;
 	public int densityIndx;
 	public RandomFloat speed;
 	public RandomFloat rotation;
@@ -53,6 +54,9 @@ public class AsteroidSetupData
 [System.Serializable]
 public class SpikyInitData
 {
+	public string name;
+	public Color color = new Color (0.5f, 0.5f, 0.5f);
+	public int reward = 0;
 	public PhysicalData physical;
 	public RandomFloat speed;
 	public RandomFloat rotation;
@@ -62,9 +66,34 @@ public class SpikyInitData
 }
 
 [System.Serializable]
+public class AccuracyData: IClonable<AccuracyData>
+{
+	public float startingAccuracy = 0f;
+	public bool isDynamic = true;
+	public float checkDtime = 0.5f;
+	public float add = 0.15f;
+	public float sub = 0.4f;
+	public Vector2 bounds = new Vector2 (0, 1); 
+
+	public AccuracyData Clone()
+	{
+		AccuracyData c = new AccuracyData ();
+		c.startingAccuracy = startingAccuracy;
+		c.isDynamic = isDynamic;
+		c.checkDtime = checkDtime;
+		c.add = add;
+		c.sub = sub;
+		c.bounds = bounds;
+		return c;
+	}
+}
+
+[System.Serializable]
 public class SpikeShooterInitData : SpikyInitData
 {
 	public float spikeVelocity = 45f;
+	public float growSpeed = 0.1f;
+	public float checkForTargetdTime = 0.2f;
 }
 
 [System.Serializable]

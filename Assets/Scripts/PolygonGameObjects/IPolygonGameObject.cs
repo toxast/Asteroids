@@ -29,6 +29,8 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	float collisionDefence{ get;}
 	float collisionAttackModifier{ get;}
 
+	int reward{ get; set;}
+
 	float mass{get;}
 	float inertiaMoment{get;}
 	Vector2 velocity{get; set;}
@@ -44,7 +46,7 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	bool destroyOnBoundsTeleport{get; set;}
 	PolygonGameObject.DestructionType destructionType{get; set;}
 
-	List<Gun> guns{get; set;}
+	List<Gun> guns{get;}
 	
 	DropID dropID{get; set;}
 	
