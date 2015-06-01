@@ -104,7 +104,7 @@ public class Main : MonoBehaviour
 	LevelSpawner spawner;
 	public void StartTheGame(FullSpaceShipSetupData spaceshipData, int waveNum = 0)
 	{
-		int level = 0;
+		int level = 1;
 		gameIsOn = true;
 
 		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
@@ -1136,11 +1136,11 @@ public class Main : MonoBehaviour
 		obj.minimapIndicator.gameObj.layer = LayerMask.NameToLayer("Minimap");
 	}
 	
-	public void SetRandomPosition(IPolygonGameObject p, Vector2 range)
+	public void SetRandomPosition(IPolygonGameObject obj, Vector2 range)
 	{
 		float angle = UnityEngine.Random.Range(0f, 359f) * Mathf.Deg2Rad;
 		float len = UnityEngine.Random.Range(range.x, range.y);
-		p.position = (Vector2)cameraTransform.position + new Vector2(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len);
+		obj.position = (Vector2)cameraTransform.position + new Vector2(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len);
 	}
 
 

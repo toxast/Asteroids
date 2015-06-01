@@ -125,23 +125,32 @@ MonoBehaviour:
       doneWhenLeft: 0
   - name: level
     list:
-    - name: wave
+    - name: wave 0
+      objects:
+      - name: spawns
+        type: 1
+        indx: 2
+        count: 3
+        spawnInterval: .300000012
+        spawnRange: {x: 30, y: 60}
+      doneWhenLeft: 3
+    - name: wave 0
       objects:
       - name: spawns
         type: 2
-        indx: 4
+        indx: 3
         count: 2
         spawnInterval: .300000012
-        spawnRange: {x: 1, y: 1}
+        spawnRange: {x: 20, y: 20}
       doneWhenLeft: 0
-    - name: wave
+    - name: wave 0
       objects:
       - name: spawns
         type: 2
-        indx: 1
+        indx: 3
         count: 2
         spawnInterval: .300000012
-        spawnRange: {x: 1, y: 1}
+        spawnRange: {x: 20, y: 20}
       doneWhenLeft: 0
 --- !u!1001 &100100000
 Prefab:

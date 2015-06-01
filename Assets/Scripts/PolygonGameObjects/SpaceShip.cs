@@ -13,7 +13,7 @@ public class SpaceShip : PolygonGameObject
 	float brake = 15f;
 	float thrust = 45f;
 	float maxSpeedSqr;
-
+	float stability = 0.5f;
 
 	private class Thruster
 	{
@@ -44,6 +44,7 @@ public class SpaceShip : PolygonGameObject
 		//passiveBrake = data.passiveBrake;
 		thrust = data.thrust;
 		maxSpeed = data.maxSpeed;
+		stability = data.stability;
 		maxSpeedSqr = maxSpeed*maxSpeed;
 	}
 
@@ -100,11 +101,9 @@ public class SpaceShip : PolygonGameObject
 
 	public void Accelerate(float delta)
 	{
-		float k = 0.5f; 
-
 		float deltaV = delta * thrust;
-		velocity -= k * velocity.normalized * deltaV;
-		velocity += (Vector2)((1 + k)*cacheTransform.right * deltaV);
+		velocity -= stability * velocity.normalized * deltaV;
+		velocity += (Vector2)((1 + stability)*cacheTransform.right * deltaV);
 
 		if(velocity.sqrMagnitude > maxSpeedSqr)
 		{

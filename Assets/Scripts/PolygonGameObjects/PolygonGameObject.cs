@@ -105,7 +105,6 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 
 	public void SetGuns(List<Gun> guns, List<int> linked = null)
 	{
-		this.linkedGunTick = 0;
 		this.guns = new List<Gun>(guns);
 		this.notLinkedGuns = new List<int> ();
 		this.linkedGuns = new List<int> ();
@@ -115,6 +114,11 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		for (int i = 0; i < guns.Count; i++) {
 			var addList = (linked.Contains(i)) ? linkedGuns : notLinkedGuns;
 			addList.Add(i);
+		}
+
+		this.linkedGunTick = 0;
+		for (int i = 1; i < linkedGuns.Count; i++) {
+			guns[linkedGuns[i]].ResetTime();
 		}
 	}
 
