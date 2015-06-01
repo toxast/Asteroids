@@ -9,8 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 465940}
   - 114: {fileID: 11465940}
-  - 114: {fileID: 11494894}
-  - 114: {fileID: 11441996}
   m_Layer: 0
   m_Name: AsteroidsResources
   m_TagString: Untagged
@@ -30,20 +28,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11441996
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 165940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9b9d86b5d712404ab3be65f8e7dd595, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mesh: {fileID: 0}
-  currentHealth: 0
-  shieldGO: {fileID: 0}
 --- !u!114 &11465940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,7 +73,7 @@ MonoBehaviour:
     size:
       min: 2.5
       max: 4
-  - name: 1 bigger grey
+  - name: 1 big grey
     densityIndx: 0
     speed:
       min: 5
@@ -111,8 +95,19 @@ MonoBehaviour:
     size:
       min: 5
       max: 6
+  - name: 3 medium grey faster
+    densityIndx: 0
+    speed:
+      min: 5
+      max: 10
+    rotation:
+      min: 50
+      max: 100
+    size:
+      min: 3.5
+      max: 4.80000019
   spikyData:
-  - name: 0 simple
+  - name: lvl 0
     color: {r: .393598616, g: .419490516, b: .514705896, a: 1}
     reward: 30
     physical:
@@ -138,7 +133,7 @@ MonoBehaviour:
     spikeVelocity: 25
     growSpeed: .100000001
     checkForTargetdTime: .200000003
-  - name: 1 level 0 boss
+  - name: (1) level 0 boss
     color: {r: .326452643, g: .319204181, b: .529411793, a: 1}
     reward: 230
     physical:
@@ -164,49 +159,60 @@ MonoBehaviour:
     spikeVelocity: 35
     growSpeed: .119999997
     checkForTargetdTime: .300000012
-  sawData:
-  - name: 0
-    color: {r: .514705896, g: .408737034, b: .408737034, a: 1}
-    reward: 0
+  - name: (2) spike lvl 1
+    color: {r: .449528664, g: .442474067, b: .647058845, a: 1}
+    reward: 70
     physical:
       density: 1
-      healthModifier: 1
-      collisionDefence: 1
-      collisionAttackModifier: 2
+      healthModifier: 2
+      collisionDefence: .200000003
+      collisionAttackModifier: 1.60000002
+    speed:
+      min: 7
+      max: 12
+    rotation:
+      min: 50
+      max: 60
+    size:
+      min: 2.5
+      max: 3
+    spikeSize:
+      min: 2
+      max: 2.5
+    spikesCount:
+      min: 9
+      max: 9
+    spikeVelocity: 35
+    growSpeed: .119999997
+    checkForTargetdTime: .300000012
+  sawData:
+  - name: 0
+    color: {r: .772058845, g: .261137575, b: .261137575, a: 1}
+    reward: 60
+    physical:
+      density: .600000024
+      healthModifier: 2
+      collisionDefence: .5
+      collisionAttackModifier: 1.20000005
     speed:
       min: 2
-      max: 3
+      max: 6
     rotation:
       min: 30
       max: 90
     size:
-      min: 2
-      max: 3
+      min: 2.4000001
+      max: 2.79999995
     spikeSize:
       min: .300000012
       max: .5
     spikesCount:
-      min: 9
-      max: 12
+      min: 7
+      max: 10
     chargeDuration: 3
     chargeSpeed: 30
     chargeRotation: 200
-    prepareTime: 2
---- !u!114 &11494894
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 165940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2371063938b89064d8cc34a2b59bf932, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  asteroidsData: []
-  asteroids: []
-  spikyData: []
-  sawData: []
+    prepareTime: 1.5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

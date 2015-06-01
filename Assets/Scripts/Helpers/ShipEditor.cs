@@ -94,9 +94,23 @@ public class ShipEditor : MonoBehaviour
 		}
 	}
 
+	[ContextMenu ("Custom init action")]
+	private void CustomInitAction()
+	{
+		mesh = GetComponent<MeshFilter>().sharedMesh;
+		var verts = mesh.vertices;
+		verts = GunsResources.Instance.guns[4].vertices.ToList().ConvertAll( v => (Vector3)v).ToArray();
+		foreach(var vert in verts)
+		{
+			if(vert.y <= 0)
+			{
+				CreatePosition(vert,  vright, "handle ", handles);
+			}
+		}
+	}
 
-	[ContextMenu ("Custom action")]
-	private void CustomAction()
+	[ContextMenu ("Custom save action")]
+	private void CustomSaveAction()
 	{
 		Vector2[] v2 = new Vector2[handles.Count];    
 		for(int i = 0; i < handles.Count; i++)
@@ -107,18 +121,11 @@ public class ShipEditor : MonoBehaviour
 		var verts = PolygonCreator.GetCompleteVertexes (v2, 1).ToArray();
 		var pivot = Math2d.GetMassCenter (verts);
 		Math2d.ShiftVertices(verts, -pivot);
-		GunsResources.Instance.rocketLaunchers [5].baseData.vertices = verts;
+		GunsResources.Instance.guns[5].vertices = verts;
 
 		#if UNITY_EDITOR
 		EditorUtility.SetDirty (GunsResources.Instance);
 		#endif
-		//		string s = string.Empty;
-		//		foreach (var v in verts) 
-		//		{
-		//			s += string.Format("new Vector2 ({0:0.00}f, {1:0.00}f),", v.x, v.y);
-		//			s += '\n';
-		//		}
-		//		Debug.LogWarning (s);
 	}
 
 	[ContextMenu ("Create Gun Position")]

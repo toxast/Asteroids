@@ -11,7 +11,18 @@ public class ObjectsCreator
 		where T:SpaceShip
 	{
 		var sdata = SpaceshipsResources.Instance.spaceships [dataIndex];
-		return CreateSpaceShip<T> (sdata);
+		var sp =  CreateSpaceShip<T> (sdata);
+		var bullets = Singleton<Main>.inst.bullets;
+		switch(sdata.ai)
+		{
+			case  FullSpaceShipSetupData.AIType.eCommon:
+				sp.SetController (new CommonController (sp, bullets, sp.guns[0], sdata.accuracy));
+				break;
+			case  FullSpaceShipSetupData.AIType.eSuicide:
+				sp.SetController (new SuicideController(sp, bullets, sdata.accuracy));
+				break;
+		}
+		return sp;
 	}
 
 	public static T CreateSpaceShip<T>(FullSpaceShipSetupData sdata)

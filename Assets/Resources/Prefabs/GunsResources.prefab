@@ -41,7 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clone: 0
   guns:
-  - name: user gun 1
+  - name: (0) user gun 1
     price: 0
     damage: 3
     lifeTime: 2
@@ -56,7 +56,7 @@ MonoBehaviour:
     - {x: -.400000006, y: .200000003}
     color: {r: .886274517, g: .725490212, b: .0666666701, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
-  - name: turret gun 1
+  - name: (1) turret gun 1
     price: 0
     damage: 2
     lifeTime: 2
@@ -101,12 +101,50 @@ MonoBehaviour:
     - {x: -.300000012, y: .200000003}
     color: {r: .292685807, g: .808823526, b: .0892084688, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
-  - name: gun 3
+  - name: (4) user gun for old school
     price: 0
-    damage: 1
+    damage: 4
+    lifeTime: 2
+    bulletSpeed: 40
+    fireInterval: .800000012
+    repeatCount: 0
+    repeatInterval: 0
+    vertices:
+    - {x: .525312841, y: -.263859302}
+    - {x: .31961906, y: -.51700002}
+    - {x: -.427985281, y: -.697950363}
+    - {x: -.427985281, y: .697950363}
+    - {x: .31961906, y: .51700002}
+    - {x: .525312841, y: .263859302}
+    color: {r: .816176474, g: .0660142899, b: .76444155, a: 1}
+    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  - name: (5) user gun for old school 2
+    price: 0
+    damage: 4.5
+    lifeTime: 2
+    bulletSpeed: 42
+    fireInterval: .800000012
+    repeatCount: 0
+    repeatInterval: 0
+    vertices:
+    - {x: .580476522, y: -.237473369}
+    - {x: .285163701, y: -.629999995}
+    - {x: -.424836308, y: -1.09800005}
+    - {x: -.654836297, y: -.791999996}
+    - {x: -.114836328, y: -.305999994}
+    - {x: -.114836328, y: .305999994}
+    - {x: -.654836297, y: .791999996}
+    - {x: -.424836308, y: 1.09800005}
+    - {x: .285163701, y: .629999995}
+    - {x: .580476522, y: .237473369}
+    color: {r: .816176474, g: .0660142899, b: .422988713, a: 1}
+    fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  - name: (6) level 2 boss gun
+    price: 0
+    damage: 6
     lifeTime: 3
-    bulletSpeed: 60
-    fireInterval: .100000001
+    bulletSpeed: 30
+    fireInterval: 1.5
     repeatCount: 0
     repeatInterval: 0
     vertices:
@@ -114,7 +152,7 @@ MonoBehaviour:
     - {x: .400000006, y: -.200000003}
     - {x: -.400000006, y: -.200000003}
     - {x: -.400000006, y: .200000003}
-    color: {r: .79411763, g: .67121464, b: .157655716, a: 1}
+    color: {r: 1, g: 0, b: 0, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - name: strong gun
     price: 0
@@ -150,14 +188,14 @@ MonoBehaviour:
   - baseData:
       name: rockets 1
       price: 0
-      damage: 3
-      lifeTime: 5
+      damage: 5
+      lifeTime: 3.5
       bulletSpeed: 0
-      fireInterval: 4
+      fireInterval: 3.5
       repeatCount: 0
       repeatInterval: 0
       vertices:
-      - {x: 1.1400497, y: 2.01847117e-09}
+      - {x: 1.1400497, y: 7.47183426e-10}
       - {x: .640049756, y: -.200000003}
       - {x: -.559950233, y: -.150000006}
       - {x: -.859950244, y: -.349999994}
@@ -172,6 +210,7 @@ MonoBehaviour:
       turnSpeed: 200
       brake: 8
       passiveBrake: 2
+      stability: .5
     thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
     thrusterPos: {x: -.859950185, y: 0, z: 1}
     launchDirection: {x: 1, y: 0}
@@ -201,6 +240,7 @@ MonoBehaviour:
       turnSpeed: 180
       brake: 8
       passiveBrake: 2
+      stability: .5
     thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
     thrusterPos: {x: -1.11793494, y: 0, z: 1}
     launchDirection: {x: 1, y: 0}
@@ -230,6 +270,7 @@ MonoBehaviour:
       turnSpeed: 200
       brake: 8
       passiveBrake: 2
+      stability: .5
     thrusterEffect: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
     thrusterPos: {x: -.859950185, y: 0, z: 1}
     launchDirection: {x: 0, y: 1}
@@ -259,6 +300,7 @@ MonoBehaviour:
       turnSpeed: 200
       brake: 8
       passiveBrake: 2
+      stability: .5
     thrusterEffect: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
     thrusterPos: {x: -.859950185, y: 0, z: 1}
     launchDirection: {x: 0, y: -1}
@@ -288,6 +330,7 @@ MonoBehaviour:
       turnSpeed: 200
       brake: 8
       passiveBrake: 2
+      stability: .5
     thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
     thrusterPos: {x: -.859950185, y: 0, z: 1}
     launchDirection: {x: 1, y: 0}
@@ -320,6 +363,7 @@ MonoBehaviour:
       turnSpeed: 120
       brake: 8
       passiveBrake: 2
+      stability: .5
     thrusterEffect: {fileID: 19897922, guid: 016050792ddac9448bcf3b07318ca2ae, type: 2}
     thrusterPos: {x: -1.89999998, y: 0, z: 1}
     launchDirection: {x: 1, y: 0}
@@ -331,7 +375,7 @@ MonoBehaviour:
       damage: 0
       lifeTime: 0
       bulletSpeed: 0
-      fireInterval: 15
+      fireInterval: 10
       repeatCount: 0
       repeatInterval: 0
       vertices:
@@ -341,8 +385,10 @@ MonoBehaviour:
       - {x: -.400000006, y: .200000003}
       color: {r: 1, g: 0, b: 0, a: 1}
       fireEffect: {fileID: 0}
-    spaceshipIndex: 1
-    maxSpawn: 2
+    spaceshipIndex: 8
+    maxSpawn: 6
+    startSpawn: 3
+    startSpawnInterval: 2
   lazerGuns:
   - baseData:
       name: Lazer 1

@@ -123,34 +123,88 @@ MonoBehaviour:
         spawnInterval: .400000006
         spawnRange: {x: 40, y: 120}
       doneWhenLeft: 0
-  - name: level
+  - name: level 1
     list:
-    - name: wave 0
+    - name: wave 0 (asteroids)
       objects:
       - name: spawns
         type: 1
         indx: 2
-        count: 3
-        spawnInterval: .300000012
+        count: 2
+        spawnInterval: 0
         spawnRange: {x: 30, y: 60}
+      - name: spawns
+        type: 1
+        indx: 3
+        count: 3
+        spawnInterval: 0
+        spawnRange: {x: 30, y: 100}
       doneWhenLeft: 3
-    - name: wave 0
+    - name: wave 1 (suisides)
       objects:
       - name: spawns
         type: 2
         indx: 3
         count: 2
         spawnInterval: .300000012
-        spawnRange: {x: 20, y: 20}
+        spawnRange: {x: 40, y: 60}
       doneWhenLeft: 0
-    - name: wave 0
+    - name: wave 2 (more suisides)
       objects:
       - name: spawns
         type: 2
         indx: 3
-        count: 2
-        spawnInterval: .300000012
-        spawnRange: {x: 20, y: 20}
+        count: 5
+        spawnInterval: 1
+        spawnRange: {x: 40, y: 60}
+      doneWhenLeft: 0
+    - name: wave 3 (saws)
+      objects:
+      - name: spawns
+        type: 4
+        indx: 0
+        count: 4
+        spawnInterval: 1
+        spawnRange: {x: 60, y: 100}
+      doneWhenLeft: 0
+    - name: wave 4 (asteroids)
+      objects:
+      - name: spawns
+        type: 1
+        indx: 2
+        count: 1
+        spawnInterval: 1
+        spawnRange: {x: 60, y: 100}
+      - name: spawns
+        type: 1
+        indx: 3
+        count: 3
+        spawnInterval: 1
+        spawnRange: {x: 60, y: 100}
+      doneWhenLeft: 50
+    - name: wave 5(spikes and saws)
+      objects:
+      - name: spikes
+        type: 3
+        indx: 2
+        count: 4
+        spawnInterval: 2
+        spawnRange: {x: 40, y: 100}
+      - name: saws
+        type: 4
+        indx: 0
+        count: 3
+        spawnInterval: 2.5
+        spawnRange: {x: 40, y: 100}
+      doneWhenLeft: 0
+    - name: wave 6(spikes and saws)
+      objects:
+      - name: Boss
+        type: 2
+        indx: 7
+        count: 1
+        spawnInterval: 2
+        spawnRange: {x: 50, y: 50}
       doneWhenLeft: 0
 --- !u!1001 &100100000
 Prefab:

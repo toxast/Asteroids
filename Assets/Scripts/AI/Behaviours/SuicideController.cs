@@ -64,7 +64,7 @@ public class SuicideController : BaseSpaceshipController
 				{
 					checkBehTime = checkBehTimeInterval;
 					
-					if (!behaviourChosen && checkBulletsAction)
+					if (!behaviourChosen && checkBulletsAction && tickData.dir.sqrMagnitude > 400)
 					{
 						if(AIHelper.EvadeBullets(thisShip, bullets, out duration, out newDir))
 						{

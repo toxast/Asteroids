@@ -101,8 +101,8 @@ public class Gun : IGotTarget, ITickable
 	{
 		if(ReadyToShoot())
 		{
-			ResetTime();
 			Fire(CreateBullet());
+			ResetTime();
 		}
 	}
 

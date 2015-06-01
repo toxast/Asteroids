@@ -16,7 +16,7 @@ public class Main : MonoBehaviour
  	UserSpaceShip spaceship;
 	List <IPolygonGameObject> gobjects = new List<IPolygonGameObject>();
 	List <polygonGO.Drop> drops = new List<polygonGO.Drop>();
-	List <IBullet> bullets = new List<IBullet>();
+	public List<IBullet> bullets = new List<IBullet>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
 	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
@@ -172,7 +172,7 @@ public class Main : MonoBehaviour
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
 		spikePart.destroyOnBoundsTeleport = true;
-		spikePart.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+		spikePart.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
 		Add2Objects (spikePart);
 	}
 
@@ -973,17 +973,6 @@ public class Main : MonoBehaviour
 	private SpaceShip CreateSpaceship(int indx, int layerNum)
 	{
 		var enemy = ObjectsCreator.CreateSpaceShip<SpaceShip>(indx);
-		var sdata = SpaceshipsResources.Instance.spaceships [indx];
-		switch(sdata.ai)
-		{
-			case  FullSpaceShipSetupData.AIType.eCommon:
-				enemy.SetController (new CommonController (enemy, bullets, enemy.guns[0], sdata.accuracy));
-			break;
-			case  FullSpaceShipSetupData.AIType.eSuicide:
-				enemy.SetController (new SuicideController(enemy, bullets,  sdata.accuracy));
-			break;
-		}
-
 		enemy.SetCollisionLayerNum (layerNum);
 		return enemy;
 	}
