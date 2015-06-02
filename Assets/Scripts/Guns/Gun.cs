@@ -13,6 +13,7 @@ public class Gun : IGotTarget, ITickable
 	public float bulletSpeed;
 	public float fireInterval;
 	public Vector2[] vertices; 
+	public PhysicalData physical;
 	public Color color;
 	public ParticleSystem fireEffect;
 
@@ -38,11 +39,13 @@ public class Gun : IGotTarget, ITickable
 		this.lifeTime = data.lifeTime;
 		this.bulletSpeed = data.bulletSpeed;
 		this.fireInterval = data.fireInterval;
+		this.physical = data.physical;
 		this.vertices = data.vertices;
 		this.color = data.color;
 		this.repeatCount = data.repeatCount;
 		this.repeatInterval = data.repeatInterval;
 		this.parent = parent;
+
 
 		if(data.fireEffect != null)
 		{

@@ -58,6 +58,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	protected int linkedGunTick = 0;
 	protected List<int> linkedGuns = new List<int>();
 	protected List<int> notLinkedGuns = new List<int>();
+	protected List<int> spawnerGuns = new List<int>();
 
 	public IPolygonGameObject target{ get; private set;}
 	public ITickable targetSystem;
@@ -105,6 +106,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 
 	public void SetGuns(List<Gun> guns, List<int> linked = null)
 	{
+		this.spawnerGuns = new List<int> ();
 		this.guns = new List<Gun>(guns);
 		this.notLinkedGuns = new List<int> ();
 		this.linkedGuns = new List<int> ();
@@ -114,6 +116,11 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		for (int i = 0; i < guns.Count; i++) {
 			var addList = (linked.Contains(i)) ? linkedGuns : notLinkedGuns;
 			addList.Add(i);
+
+			if(guns[i] is SpawnerGun)
+			{
+				spawnerGuns.Add(i);
+			}
 		}
 
 		this.linkedGunTick = 0;

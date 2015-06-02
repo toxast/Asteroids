@@ -11,6 +11,7 @@ public class GunData : IClonable<GunData>, IGun
 	public float lifeTime = 2;
 	public float bulletSpeed = 35;
 	public float fireInterval = 0.5f;
+	public PhysicalData physical;
 	public int repeatCount = 0;
 	public float repeatInterval = 0;
 	public Vector2[] vertices = PolygonCreator.GetRectShape(0.4f, 0.2f); 
@@ -30,6 +31,7 @@ public class GunData : IClonable<GunData>, IGun
 		g.lifeTime = lifeTime;
 		g.bulletSpeed = bulletSpeed;
 		g.fireInterval = fireInterval;
+		g.physical = physical.Clone ();
 		g.vertices = vertices.ToList ().ToArray ();
 		g.color = color;
 		g.fireEffect = fireEffect;

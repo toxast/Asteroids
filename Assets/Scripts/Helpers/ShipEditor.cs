@@ -99,7 +99,7 @@ public class ShipEditor : MonoBehaviour
 	{
 		mesh = GetComponent<MeshFilter>().sharedMesh;
 		var verts = mesh.vertices;
-		verts = GunsResources.Instance.guns[4].vertices.ToList().ConvertAll( v => (Vector3)v).ToArray();
+		verts = GunsResources.Instance.guns[6].vertices.ToList().ConvertAll( v => (Vector3)v).ToArray();
 		foreach(var vert in verts)
 		{
 			if(vert.y <= 0)
@@ -121,7 +121,7 @@ public class ShipEditor : MonoBehaviour
 		var verts = PolygonCreator.GetCompleteVertexes (v2, 1).ToArray();
 		var pivot = Math2d.GetMassCenter (verts);
 		Math2d.ShiftVertices(verts, -pivot);
-		GunsResources.Instance.guns[5].vertices = verts;
+		GunsResources.Instance.guns[6].vertices = verts;
 
 		#if UNITY_EDITOR
 		EditorUtility.SetDirty (GunsResources.Instance);

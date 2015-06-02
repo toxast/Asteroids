@@ -19,9 +19,9 @@ public class Bullet : PolygonGameObject, IBullet
 		return lifeTime < 0;
 	}
 
-	public void InitBullet(float speed, float damage, float lifeTime)
+	public void InitBullet(float speed, float damage, float lifeTime, PhysicalData physical)
 	{
-		base.InitPolygonGameObject (new PhysicalData()); //TODO pass
+		base.InitPolygonGameObject (physical); //TODO pass
 		this.damage = damage;
 		this.lifeTime = lifeTime;
 		velocity = cacheTransform.right * speed;

@@ -176,6 +176,18 @@ public class SpaceShip : PolygonGameObject
 		{
 			Shoot();
 		}
+		else
+		{
+			//hack
+			//spawner guns should shoot if there is a target
+			if(!Main.IsNull(target) && spawnerGuns.Any())
+			{
+				for (int i = 0; i < spawnerGuns.Count; i++) 
+				{
+					guns[spawnerGuns[i]].ShootIfReady();
+				}
+			}
+		}
 
 		if(inputController.accelerating)
 		{
