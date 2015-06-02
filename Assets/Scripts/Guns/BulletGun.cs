@@ -15,7 +15,7 @@ public class BulletGun : Gun
 		bullet.destroyOnBoundsTeleport = true;
 		bullet.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 		bullet.gameObject.name = "bullet";
-		bullet.InitBullet(bulletSpeed, damage, lifeTime); 
+		bullet.InitBullet(bulletSpeed, damage, lifeTime, physical); 
 		
 		return bullet;
 	}
