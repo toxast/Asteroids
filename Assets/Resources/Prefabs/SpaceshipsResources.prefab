@@ -586,6 +586,314 @@ MonoBehaviour:
     - {x: .566313267, y: .504000187}
     - {x: 1.33457375, y: .00999954622}
     upgradeIndex: 0
+  - name: 
+    price: -1
+    reward: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
+      thrust: 45
+      maxSpeed: 20
+      turnSpeed: 220
+      brake: 15
+      passiveBrake: 2
+      stability: .5
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 0
+      rechargeRate: 0
+      rechargeDelay: 0
+    guns:
+    - place:
+        pos: {x: 1.05680823, y: 2.10899547e-08}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    linkedGuns: 
+    thrusters:
+    - place:
+        pos: {x: -.563191831, y: 2.10899547e-08}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 0}
+    turrets: []
+    verts:
+    - {x: -.164964005, y: -.301774532}
+    - {x: -.783988595, y: -.448792934}
+    - {x: -1.0470742, y: -.495219767}
+    - {x: -1.13219011, y: -.719616234}
+    - {x: .0130055835, y: -.657713771}
+    - {x: .330255717, y: -.425579488}
+    - {x: 2.17959189, y: -.417841703}
+    - {x: 2.35756159, y: -.781518638}
+    - {x: 3.1081295, y: -.665451646}
+    - {x: 3.47180676, y: -1.02912867}
+    - {x: 2.56648254, y: -1.79517174}
+    - {x: 1.25879312, y: -1.88028765}
+    - {x: .136810556, y: -2.4683609}
+    - {x: -1.37206221, y: -1.91123879}
+    - {x: -2.84224582, y: -1.60946417}
+    - {x: -2.37023973, y: -.758305252}
+    - {x: -2.73391676, y: -.518433213}
+    - {x: -2.73391676, y: .518433213}
+    - {x: -2.37023973, y: .758305252}
+    - {x: -2.84224582, y: 1.60946417}
+    - {x: -1.37206221, y: 1.91123879}
+    - {x: .136810556, y: 2.4683609}
+    - {x: 1.25879312, y: 1.88028765}
+    - {x: 2.56648254, y: 1.79517174}
+    - {x: 3.47180676, y: 1.02912867}
+    - {x: 3.1081295, y: .665451646}
+    - {x: 2.35756159, y: .781518638}
+    - {x: 2.17959189, y: .417841703}
+    - {x: .330255717, y: .425579488}
+    - {x: .0130055835, y: .657713771}
+    - {x: -1.13219011, y: .719616234}
+    - {x: -1.0470742, y: .495219767}
+    - {x: -.783988595, y: .448792934}
+    - {x: -.164964005, y: .301774532}
+    upgradeIndex: 0
+  - name: 
+    price: -1
+    reward: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
+      thrust: 45
+      maxSpeed: 20
+      turnSpeed: 220
+      brake: 15
+      passiveBrake: 2
+      stability: .5
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 0
+      rechargeRate: 0
+      rechargeDelay: 0
+    guns:
+    - place:
+        pos: {x: 1.75, y: 1}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    - place:
+        pos: {x: 1.75, y: -1}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    linkedGuns: 
+    thrusters:
+    - place:
+        pos: {x: -1.08000004, y: 5.90483751e-09}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 0}
+    turrets: []
+    verts:
+    - {x: .0387319401, y: -.181724861}
+    - {x: -.425328285, y: -.722000122}
+    - {x: .0168967526, y: -1.18227494}
+    - {x: .540346801, y: -.929574966}
+    - {x: 1.17011499, y: -.609657407}
+    - {x: 2.61805129, y: -.803106368}
+    - {x: 2.85839653, y: -1.22517669}
+    - {x: -.729201615, y: -2.22173119}
+    - {x: -2.0129993, y: -1.79966116}
+    - {x: -1.39161789, y: -.638967931}
+    - {x: -1.64243329, y: -.392760187}
+    - {x: -1.64243329, y: .392760187}
+    - {x: -1.39161789, y: .638967931}
+    - {x: -2.0129993, y: 1.79966116}
+    - {x: -.729201615, y: 2.22173119}
+    - {x: 2.85839653, y: 1.22517669}
+    - {x: 2.61805129, y: .803106368}
+    - {x: 1.17011499, y: .609657407}
+    - {x: .540346801, y: .929574966}
+    - {x: .0168967526, y: 1.18227494}
+    - {x: -.425328285, y: .722000122}
+    - {x: .0387319401, y: .181724861}
+    upgradeIndex: 0
+  - name: 
+    price: -1
+    reward: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
+      thrust: 45
+      maxSpeed: 20
+      turnSpeed: 220
+      brake: 15
+      passiveBrake: 2
+      stability: .5
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 0
+      rechargeRate: 0
+      rechargeDelay: 0
+    guns:
+    - place:
+        pos: {x: 1.73999989, y: 1.13}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    - place:
+        pos: {x: 1.73999965, y: -1.13}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    linkedGuns: 
+    thrusters:
+    - place:
+        pos: {x: -1.36000013, y: .300000012}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 0}
+    - place:
+        pos: {x: -1.36000013, y: -.300000012}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 0}
+    turrets: []
+    verts:
+    - {x: .0324847661, y: -.191289544}
+    - {x: -.578406513, y: -.641744792}
+    - {x: -.849913716, y: -1.17241824}
+    - {x: -.214339986, y: -1.49946117}
+    - {x: .779129803, y: -1.32051301}
+    - {x: 1.22341394, y: -.641744792}
+    - {x: 2.7475574, y: -.84537524}
+    - {x: 3.00055242, y: -1.2896601}
+    - {x: 1.11234283, y: -2.33866453}
+    - {x: -.775866449, y: -2.33866453}
+    - {x: -2.12723255, y: -1.89438057}
+    - {x: -2.49746966, y: -1.04900587}
+    - {x: -1.47314703, y: -.672597945}
+    - {x: -1.73716319, y: -.413431883}
+    - {x: -1.73716319, y: .413431883}
+    - {x: -1.47314703, y: .672597945}
+    - {x: -2.49746966, y: 1.04900587}
+    - {x: -2.12723255, y: 1.89438057}
+    - {x: -.775866449, y: 2.33866453}
+    - {x: 1.11234283, y: 2.33866453}
+    - {x: 3.00055242, y: 1.2896601}
+    - {x: 2.7475574, y: .84537524}
+    - {x: 1.22341394, y: .641744792}
+    - {x: .779129803, y: 1.32051301}
+    - {x: -.214339986, y: 1.49946117}
+    - {x: -.849913716, y: 1.17241824}
+    - {x: -.578406513, y: .641744792}
+    - {x: .0324847661, y: .191289574}
+    upgradeIndex: 0
+  - name: 
+    price: -1
+    reward: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
+      thrust: 45
+      maxSpeed: 20
+      turnSpeed: 220
+      brake: 15
+      passiveBrake: 2
+      stability: .5
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 0
+      rechargeRate: 0
+      rechargeDelay: 0
+    guns:
+    - place:
+        pos: {x: -.529999971, y: -1.40792942e-08}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    - place:
+        pos: {x: 1.38, y: -.959999979}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    - place:
+        pos: {x: 1.38000011, y: .960000277}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    linkedGuns: 
+    thrusters:
+    - place:
+        pos: {x: -1.71000004, y: -1.40792942e-08}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 0}
+    turrets: []
+    verts:
+    - {x: -.197589844, y: -.201357126}
+    - {x: -.741783977, y: -1.11000001}
+    - {x: .208216041, y: -.790000021}
+    - {x: 1.07821596, y: -1.13}
+    - {x: 1.19821596, y: -.519999981}
+    - {x: 1.8882159, y: -1}
+    - {x: 2.95821619, y: -.709999979}
+    - {x: 2.6982162, y: -1.89999998}
+    - {x: 1.70821607, y: -2.45000005}
+    - {x: .538215995, y: -2.0999999}
+    - {x: -1.39178395, y: -2.07999992}
+    - {x: -3.06178379, y: -1.63999999}
+    - {x: -1.7824651, y: -.707997501}
+    - {x: -2.06037688, y: -.435191035}
+    - {x: -2.06037688, y: .435191035}
+    - {x: -1.7824651, y: .707997501}
+    - {x: -3.06178379, y: 1.63999999}
+    - {x: -1.39178395, y: 2.07999992}
+    - {x: .538215995, y: 2.0999999}
+    - {x: 1.70821607, y: 2.45000005}
+    - {x: 2.6982162, y: 1.89999998}
+    - {x: 2.95821619, y: .709999979}
+    - {x: 1.8882159, y: 1}
+    - {x: 1.19821596, y: .519999981}
+    - {x: 1.07821596, y: 1.13}
+    - {x: .208216041, y: .790000021}
+    - {x: -.741783977, y: 1.11000001}
+    - {x: -.197589844, y: .201357096}
+    upgradeIndex: 0
   - name: ' triangle'
     price: -1
     reward: 0
@@ -2993,6 +3301,58 @@ MonoBehaviour:
     - {x: 9.45811844, y: 7.30000019}
     - {x: 3.85811806, y: 6.30000019}
     - {x: .910046458, y: 1.57889307}
+    upgradeIndex: 0
+  - name: 
+    price: -1
+    reward: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
+      thrust: 45
+      maxSpeed: 20
+      turnSpeed: 220
+      brake: 15
+      passiveBrake: 2
+      stability: .5
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 0
+      rechargeRate: 0
+      rechargeDelay: 0
+    guns:
+    - place:
+        pos: {x: 1.38853788, y: -8.74435191e-09}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    linkedGuns: 
+    thrusters:
+    - place:
+        pos: {x: -.231462061, y: -8.74435191e-09}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 0}
+    turrets: []
+    verts:
+    - {x: 1.03853798, y: -.150000021}
+    - {x: .718537927, y: -.460000008}
+    - {x: -.0114620775, y: -.579999983}
+    - {x: -1.12146211, y: -.5}
+    - {x: -.621462047, y: -8.74435191e-09}
+    - {x: -1.12146211, y: .5}
+    - {x: -.0114620775, y: .579999983}
+    - {x: .718537927, y: .460000008}
+    - {x: 1.03853798, y: .149999991}
     upgradeIndex: 0
   turrets:
   - name: turret
