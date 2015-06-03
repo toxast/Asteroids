@@ -14,6 +14,14 @@ public enum ObjectType
 	eGasteroid = 6,
 	ePowerup = 10,
 }
+[Serializable]
+public class SpawnPositioning
+{
+	public float angle2Ship = 0f; // 0 - towards user, 180 - turn back 2 user
+	public float angle2ShipRange = 180f; // randomize angle2Ship by this degrees
+	public float angleFromShip = 0f; // 0 - right, 90 - up, 180 - left, 270 - down from the user ship
+	public float angleFromShipRange = 180f; //randomize angleFromShip by this degrees
+}
 
 [Serializable]
 public class SpawnObject 
@@ -24,6 +32,8 @@ public class SpawnObject
 	public int count = 1;
 	public float spawnInterval = 0;
 	public Vector2 spawnRange = new Vector2(40,80);
+	public SpawnPositioning positioning;
+
 
 	public PolygonGameObject Spawn()
 	{
@@ -63,7 +73,7 @@ public class SpawnObject
 			if(obj.layerNum != CollisionLayers.ilayerAsteroids)
 				obj.targetSystem = new TargetSystem (obj);
 
-			Singleton<Main>.inst.SetRandomPosition(obj, spawnRange);
+			Singleton<Main>.inst.SetRandomPosition(obj, spawnRange, positioning);
 			Singleton<Main>.inst.Add2Objects(obj);
 		}
 

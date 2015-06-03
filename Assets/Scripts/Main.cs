@@ -239,7 +239,7 @@ public class Main : MonoBehaviour
 
 	void HandlePowerUpCreated (PowerUp powerUp)
 	{
-		SetRandomPosition(powerUp, new Vector2(50, 100));
+		SetRandomPosition(powerUp, new Vector2(50, 100), new SpawnPositioning());
 		powerUps.Add(powerUp);
 	}
 
@@ -1124,12 +1124,16 @@ public class Main : MonoBehaviour
 		obj.minimapIndicator.cacheTransform.localPosition = Vector3.zero;
 		obj.minimapIndicator.gameObj.layer = LayerMask.NameToLayer("Minimap");
 	}
-	
-	public void SetRandomPosition(IPolygonGameObject obj, Vector2 range)
+
+	public void SetRandomPosition(IPolygonGameObject obj, Vector2 range, SpawnPositioning pos)
 	{
-		float angle = UnityEngine.Random.Range(0f, 359f) * Mathf.Deg2Rad;
+		float angle = UnityEngine.Random.Range(pos.angleFromShip - pos.angleFromShipRange, pos.angleFromShip + pos.angleFromShipRange) * Mathf.Deg2Rad;
 		float len = UnityEngine.Random.Range(range.x, range.y);
-		obj.position = (Vector2)cameraTransform.position + new Vector2(Mathf.Cos(angle)*len, Mathf.Sin(angle)*len);
+		var dist = new Vector2 (Mathf.Cos (angle) * len, Mathf.Sin (angle) * len);
+		obj.position = (Vector2)cameraTransform.position + dist;
+		float pangle2Ship = Math2d.GetRotationDg(-dist);
+		pangle2Ship = UnityEngine.Random.Range (pangle2Ship - pos.angle2ShipRange, pangle2Ship + pos.angle2ShipRange);
+		obj.cacheTransform.rotation = Quaternion.Euler (0, 0, pangle2Ship);
 	}
 
 
