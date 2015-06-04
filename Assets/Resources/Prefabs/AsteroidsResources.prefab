@@ -180,11 +180,11 @@ MonoBehaviour:
       min: 2
       max: 2.5
     spikesCount:
-      min: 9
-      max: 9
+      min: 5
+      max: 8
     spikeVelocity: 35
     growSpeed: .119999997
-    checkForTargetdTime: .300000012
+    checkForTargetdTime: .400000006
   sawData:
   - name: 0
     color: {r: .772058845, g: .261137575, b: .261137575, a: 1}

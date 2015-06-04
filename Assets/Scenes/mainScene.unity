@@ -3387,7 +3387,7 @@ MonoBehaviour:
   reverse: 0
   doScale: 0
   scaleBy: {x: 1.10000002, y: 1.10000002}
-  saveANDloadIndx: 89
+  saveANDloadIndx: 7
   editType: 0
 --- !u!4 &1922263271
 Transform:

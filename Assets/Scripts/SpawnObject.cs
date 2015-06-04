@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public enum ObjectType
 {
@@ -27,9 +28,11 @@ public class SpawnPositioning
 public class SpawnObject 
 {
 	public string name = "spawns";
+	public bool overrideAmount = false;
+	public int keepEnemiesAmount;
+	public int count = 1;
 	public ObjectType type = ObjectType.eAsteroid;
 	public int indx;
-	public int count = 1;
 	public float spawnInterval = 0;
 	public Vector2 spawnRange = new Vector2(40,80);
 	public SpawnPositioning positioning;
@@ -87,6 +90,8 @@ public class SpawnWave
 {
 	public string name = "wave";
 	public List<SpawnObject> objects;
+	[NonSerialized] private int keepEnemiesAmount;
+//	public List<SpawnObject> secondary;
 	public int doneWhenLeft = 0;
 
 	[NonSerialized] public bool startedSpawn = false;
@@ -98,16 +103,25 @@ public class SpawnWave
 		if (!finishedSpawn)
 			return false;
 
+		var left = Left ();
+		return left <= doneWhenLeft;
+	}
+
+	private int Left()
+	{
 		int left = 0;
-		for (int i = 0; i < spawned.Count; i++) 
+		for (int i = spawned.Count - 1; i >= 0; i--) 
 		{
 			if(!Main.IsNull(spawned[i]))
 			{
 				left++;
 			}
-		}
-
-		return left <= doneWhenLeft;
+			else
+			{
+				spawned.RemoveAt(i);
+			}
+		} 
+		return left;
 	}
 
 	public void Spawn()
@@ -121,17 +135,59 @@ public class SpawnWave
 	private IEnumerator SpawnRoutine()
 	{
 		startedSpawn = true;
-		foreach (var item in objects) 
+//		foreach (var item in objects) 
+//		{
+//			for (int i = 0; i < item.count; i++) 
+//			{
+//				if(item.spawnInterval > 0)
+//				{
+//					yield return new WaitForSeconds(item.spawnInterval);
+//				}
+//				spawned.Add(item.Spawn());
+//			}
+//		}
+
+		if(objects.Any())
 		{
-			for (int i = 0; i < item.count; i++) 
+			int curList = 0;
+			int objCounter = 0;
+			keepEnemiesAmount = objects[0].keepEnemiesAmount;
+
+			while(curList < objects.Count)
 			{
-				spawned.Add(item.Spawn());
-				if(item.spawnInterval > 0)
+				while(true)
 				{
-					yield return new WaitForSeconds(item.spawnInterval);
+					if(curList >= objects.Count)
+						break;
+
+					var item = objects[curList];
+
+					if(item.overrideAmount)
+						keepEnemiesAmount = item.keepEnemiesAmount;
+
+					var left = Left();
+					if(left >= keepEnemiesAmount)
+						break;
+
+					if(objCounter >= item.count)
+					{
+						curList++;
+						objCounter = 0;
+						continue;
+					}
+
+					if(item.spawnInterval > 0)
+					{
+						yield return new WaitForSeconds(item.spawnInterval);
+					}
+					spawned.Add(item.Spawn());
+					objCounter ++;
 				}
+
+				yield return new WaitForSeconds(1f);
 			}
 		}
+
 		finishedSpawn = true;
 		yield break;
 	}

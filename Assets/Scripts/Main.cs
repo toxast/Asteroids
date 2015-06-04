@@ -104,7 +104,7 @@ public class Main : MonoBehaviour
 	LevelSpawner spawner;
 	public void StartTheGame(FullSpaceShipSetupData spaceshipData, int waveNum = 0)
 	{
-		int level = 1;
+		int level = 0;
 		gameIsOn = true;
 
 		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
