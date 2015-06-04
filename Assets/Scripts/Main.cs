@@ -9,7 +9,7 @@ public class Main : MonoBehaviour
 	[SerializeField] Texture2D cursorTexture;
 
 	[SerializeField] ParticleSystem dropAnimationPrefab;
-	[SerializeField] ParticleSystem thrustBig;
+	[SerializeField] public ParticleSystem teleportationRingPrefab;
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
 	[SerializeField] oldGUI oldGUI;
@@ -104,7 +104,7 @@ public class Main : MonoBehaviour
 	LevelSpawner spawner;
 	public void StartTheGame(FullSpaceShipSetupData spaceshipData, int waveNum = 0)
 	{
-		int level = 0;
+		int level = 1;
 		gameIsOn = true;
 
 		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
@@ -239,8 +239,8 @@ public class Main : MonoBehaviour
 
 	void HandlePowerUpCreated (PowerUp powerUp)
 	{
-		SetRandomPosition(powerUp, new Vector2(50, 100), new SpawnPositioning());
-		powerUps.Add(powerUp);
+//		SetRandomPosition(powerUp, new Vector2(50, 100), new SpawnPositioning());
+//		powerUps.Add(powerUp);
 	}
 
 	private void PutOnFirstNullPlace<T>(List<T> list, T obj)
@@ -713,6 +713,13 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	public ParticleSystem CreateTeleportationRing(Vector2 pos)
+	{
+		var anim = Instantiate(teleportationRingPrefab) as ParticleSystem;
+		anim.transform.position = (Vector3)pos + new Vector3(0,0,1);
+		return anim;
+	}
+
 	private void CreateDrop(AsteroidData drop, Vector3 position, float R)
 	{
 		Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-R, R), UnityEngine.Random.Range(-R, R), 0);
@@ -1125,15 +1132,15 @@ public class Main : MonoBehaviour
 		obj.minimapIndicator.gameObj.layer = LayerMask.NameToLayer("Minimap");
 	}
 
-	public void SetRandomPosition(IPolygonGameObject obj, Vector2 range, SpawnPositioning pos)
+	public void GetRandomPosition(Vector2 range, SpawnPositioning pos, out Vector2 position, out float lookAngle)
 	{
 		float angle = UnityEngine.Random.Range(pos.angleFromShip - pos.angleFromShipRange, pos.angleFromShip + pos.angleFromShipRange) * Mathf.Deg2Rad;
 		float len = UnityEngine.Random.Range(range.x, range.y);
 		var dist = new Vector2 (Mathf.Cos (angle) * len, Mathf.Sin (angle) * len);
-		obj.position = (Vector2)cameraTransform.position + dist;
+		position = (Vector2)cameraTransform.position + dist;
 		float pangle2Ship = Math2d.GetRotationDg(-dist);
-		pangle2Ship = UnityEngine.Random.Range (pangle2Ship - pos.angle2ShipRange, pangle2Ship + pos.angle2ShipRange);
-		obj.cacheTransform.rotation = Quaternion.Euler (0, 0, pangle2Ship);
+		lookAngle = UnityEngine.Random.Range (pangle2Ship - pos.angle2ShipRange, pangle2Ship + pos.angle2ShipRange);
+//		obj.cacheTransform.rotation = Quaternion.Euler (0, 0, pangle2Ship);
 	}
 
 

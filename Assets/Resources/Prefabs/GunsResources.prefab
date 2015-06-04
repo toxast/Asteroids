@@ -123,15 +123,15 @@ MonoBehaviour:
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - name: (4) user gun for old school
     price: 0
-    damage: 4
+    damage: 1.79999995
     lifeTime: 2
     bulletSpeed: 40
-    fireInterval: .800000012
+    fireInterval: .5
     physical:
-      density: 1
+      density: 2
       healthModifier: 1
       collisionDefence: 0
-      collisionAttackModifier: 1
+      collisionAttackModifier: 1.5
     repeatCount: 0
     repeatInterval: 0
     vertices:
@@ -141,16 +141,16 @@ MonoBehaviour:
     - {x: -.427985281, y: .697950363}
     - {x: .31961906, y: .51700002}
     - {x: .525312841, y: .263859302}
-    color: {r: .816176474, g: .0660142899, b: .76444155, a: 1}
+    color: {r: .71212554, g: .0850453898, b: .889705896, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - name: (5) user gun for old school 2
     price: 0
     damage: 4.5
     lifeTime: 2
     bulletSpeed: 42
-    fireInterval: .800000012
+    fireInterval: .699999988
     physical:
-      density: 1
+      density: 2
       healthModifier: 1
       collisionDefence: 0
       collisionAttackModifier: 1
@@ -167,7 +167,7 @@ MonoBehaviour:
     - {x: -.424836308, y: 1.09800005}
     - {x: .285163701, y: .629999995}
     - {x: .580476522, y: .237473369}
-    color: {r: .816176474, g: .0660142899, b: .422988713, a: 1}
+    color: {r: .02189661, g: .595588207, b: .168286785, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - name: (6) level 2 boss gun
     price: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
     repeatCount: 0
     repeatInterval: 0
     vertices:
-    - {x: .394606292, y: -.0534597151}
+    - {x: .394606292, y: -.0534597002}
     - {x: .0819548145, y: -.739530027}
     - {x: .617034853, y: -.814730525}
     - {x: 1.09537792, y: -1.71962988}
@@ -198,7 +198,7 @@ MonoBehaviour:
     - {x: 1.09537792, y: 1.71962988}
     - {x: .617034853, y: .814730406}
     - {x: .0819548145, y: .739529908}
-    - {x: .394606292, y: .053459648}
+    - {x: .394606292, y: .0534596629}
     color: {r: .558823526, g: .0693711936, b: 0, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - name: strong gun
@@ -248,7 +248,7 @@ MonoBehaviour:
       damage: 5
       lifeTime: 3.5
       bulletSpeed: 0
-      fireInterval: 3.5
+      fireInterval: 2.70000005
       physical:
         density: 1
         healthModifier: 1

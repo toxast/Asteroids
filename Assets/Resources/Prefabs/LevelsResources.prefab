@@ -232,7 +232,7 @@ MonoBehaviour:
         count: 4
         type: 2
         indx: 3
-        spawnInterval: .300000012
+        spawnInterval: .899999976
         spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0

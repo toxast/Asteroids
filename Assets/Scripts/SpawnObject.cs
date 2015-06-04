@@ -38,7 +38,7 @@ public class SpawnObject
 	public SpawnPositioning positioning;
 
 
-	public PolygonGameObject Spawn()
+	public PolygonGameObject Spawn(Vector2 pos, float lookAngle)
 	{
 		PolygonGameObject obj = null;
 		var main = Singleton<Main>.inst;
@@ -76,10 +76,12 @@ public class SpawnObject
 			if(obj.layerNum != CollisionLayers.ilayerAsteroids)
 				obj.targetSystem = new TargetSystem (obj);
 
-			Singleton<Main>.inst.SetRandomPosition(obj, spawnRange, positioning);
+			obj.cacheTransform.position = pos;
+			obj.cacheTransform.rotation = Quaternion.Euler (0, 0, lookAngle);
+
+//			Singleton<Main>.inst.SetRandomPosition(obj, spawnRange, positioning);
 			Singleton<Main>.inst.Add2Objects(obj);
 		}
-
 
 		return obj;
 	}
@@ -176,11 +178,30 @@ public class SpawnWave
 						continue;
 					}
 
+					Vector2 pos;
+					float lookAngle;
+					Singleton<Main>.inst.GetRandomPosition(item.spawnRange, item.positioning, out pos, out lookAngle);
 					if(item.spawnInterval > 0)
 					{
-						yield return new WaitForSeconds(item.spawnInterval);
+						float spawnTime = item.spawnInterval;
+						float teleportAnimation = 0.8f;
+
+						if(spawnTime > teleportAnimation)
+						{
+							var anim = Singleton<Main>.inst.CreateTeleportationRing(pos);
+							yield return new WaitForSeconds(spawnTime - teleportAnimation);
+							//placeTeleport;
+							yield return new WaitForSeconds(teleportAnimation);
+							anim.Stop();
+//							GameObject.Destroy(anim.gameObject);
+							//remove teleport
+						}
+						else
+						{
+							yield return new WaitForSeconds(item.spawnInterval);
+						}
 					}
-					spawned.Add(item.Spawn());
+					spawned.Add(item.Spawn(pos, lookAngle));
 					objCounter ++;
 				}
 

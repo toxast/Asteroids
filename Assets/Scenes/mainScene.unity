@@ -1983,7 +1983,8 @@ MonoBehaviour:
   cursorTexture: {fileID: 2800000, guid: fb1c04efc5b62a44f8cc4b643be5dbb5, type: 3}
   dropAnimationPrefab: {fileID: 19837224, guid: f703d0f24b4745c4e80cf37e3b4aad24,
     type: 2}
-  thrustBig: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+  teleportationRingPrefab: {fileID: 19871148, guid: 7bc47b11ada650749a3ad4ca2a08cd07,
+    type: 2}
   starsGenerator: {fileID: 1445927427}
   tabletController: {fileID: 1381619135}
   oldGUI: {fileID: 2053336190}
@@ -3387,7 +3388,7 @@ MonoBehaviour:
   reverse: 0
   doScale: 0
   scaleBy: {x: 1.10000002, y: 1.10000002}
-  saveANDloadIndx: 7
+  saveANDloadIndx: 3
   editType: 0
 --- !u!4 &1922263271
 Transform:
