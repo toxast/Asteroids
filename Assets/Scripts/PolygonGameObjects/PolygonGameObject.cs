@@ -50,7 +50,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public DestructionType destructionType{get; set;}
 	public bool destroyOnBoundsTeleport{get; set;}
 
-	protected float fullHealth;
+	public float fullHealth{ protected set; get;}
 	[SerializeField] protected float currentHealth;
 	public event Action<float> healthChanged;
 

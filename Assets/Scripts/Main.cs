@@ -102,9 +102,8 @@ public class Main : MonoBehaviour
 	}
 
 	LevelSpawner spawner;
-	public void StartTheGame(FullSpaceShipSetupData spaceshipData, int waveNum = 0)
+	public void StartTheGame(FullSpaceShipSetupData spaceshipData, int level = 0, int waveNum = 0)
 	{
-		int level = 1;
 		gameIsOn = true;
 
 		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
@@ -488,8 +487,7 @@ public class Main : MonoBehaviour
 			{
 				foreach (var e in gobject.deathAnimation.instantiatedExplosions) 
 				{
-					ObjectsDestructor d = new ObjectsDestructor(e.gameObject, e.duration);
-					PutOnFirstNullPlace(goDestructors, d); 
+					PutObjectOnDestructionQueue(e.gameObject, e.duration);
 				}
 			}
 
@@ -500,6 +498,12 @@ public class Main : MonoBehaviour
 
 		Destroy(gobject.gameObj);
 		gobject = null;
+	}
+
+	public void PutObjectOnDestructionQueue(GameObject obj, float duration)
+	{
+		ObjectsDestructor d = new ObjectsDestructor(obj, duration);
+		PutOnFirstNullPlace(goDestructors, d); 
 	}
 
 	private void ObjectsCollide(IPolygonGameObject a, IPolygonGameObject b)
@@ -716,7 +720,7 @@ public class Main : MonoBehaviour
 	public ParticleSystem CreateTeleportationRing(Vector2 pos)
 	{
 		var anim = Instantiate(teleportationRingPrefab) as ParticleSystem;
-		anim.transform.position = (Vector3)pos + new Vector3(0,0,1);
+		anim.transform.position = (Vector3)pos - new Vector3(0,0,1);
 		return anim;
 	}
 

@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
 {
 	[SerializeField] Main main;
 	[SerializeField] GUIHangar hangar;
+	[SerializeField] InputField levelInput;
 	[SerializeField] InputField waveInput;
 	[SerializeField] List<GameObject> gameObjects;
 	[SerializeField] List<GameObject> hangarObjects;
@@ -25,7 +26,7 @@ public class Game : MonoBehaviour
 		hangarObjects.ForEach (h => h.SetActive (false));
 		gameObjects.ForEach (h => h.SetActive (true));
 
-		main.StartTheGame (data, int.Parse(waveInput.text));
+		main.StartTheGame (data, int.Parse(levelInput.text), int.Parse(waveInput.text));
 	}
 }
 

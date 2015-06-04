@@ -29,6 +29,15 @@ public class SpaceShip : PolygonGameObject
 
 	bool acceleratedThisTick = false;
 
+
+	//hack for ships menu
+	public void ShowFullThruster()
+	{
+		foreach (var th in thrusters) {
+			th.thrust.startLifetime = th.defaultLifetime;
+		}
+	}
+
 	protected override void Awake()
 	{
 		base.Awake ();

@@ -10,18 +10,19 @@ public class UIShip : MonoBehaviour
 	[SerializeField] Button canonImgPrefab;
 	[SerializeField] Transform cannonsHolder;
 
-	PolygonGameObject spaceship;
+	SpaceShip spaceship;
 	List<Button> cannons = new List<Button> ();
 
 	public void Create(int shipIndx, FullSpaceShipSetupData data, Action<int> cannonClicked)
 	{
-		Debug.LogWarning ("create " + shipIndx);
-
 		Clear ();
 		
-		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject> (data.verts, data.color);
+		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip> (data.verts, data.color);
+		spaceship.InitPolygonGameObject (data.physical);
+		spaceship.SetThrusters (data.thrusters);
+		spaceship.ShowFullThruster ();
 		spaceship.cacheTransform.position = new Vector3(0, 0, 70);
-		
+		Debug.LogWarning ("created " + shipIndx + " health:" + spaceship.fullHealth + " area:" + spaceship.polygon.area + " R:" + spaceship.polygon.R);
 		int gunIndex = 0;
 		foreach(var gun in data.guns)
 		{

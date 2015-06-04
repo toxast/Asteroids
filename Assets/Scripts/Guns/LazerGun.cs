@@ -6,6 +6,7 @@ public class LazerGun : Gun
 	[System.Serializable]
 	public class LazerGunData : IClonable<LazerGunData>, IGun
 	{
+		public string name;
 		public GunData baseData;
 		public float distance = 50f;
 		public float width = 0.5f;

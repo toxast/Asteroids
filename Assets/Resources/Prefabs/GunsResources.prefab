@@ -106,7 +106,7 @@ MonoBehaviour:
     damage: 2
     lifeTime: 2
     bulletSpeed: 35
-    fireInterval: .400000006
+    fireInterval: .370000005
     physical:
       density: 1
       healthModifier: 1
@@ -115,10 +115,10 @@ MonoBehaviour:
     repeatCount: 0
     repeatInterval: 0
     vertices:
-    - {x: .300000012, y: .200000003}
-    - {x: .300000012, y: -.200000003}
-    - {x: -.300000012, y: -.200000003}
-    - {x: -.300000012, y: .200000003}
+    - {x: .600000024, y: .25}
+    - {x: .600000024, y: -.25}
+    - {x: -.600000024, y: -.25}
+    - {x: -.600000024, y: .25}
     color: {r: .292685807, g: .808823526, b: .0892084688, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - name: (4) user gun for old school
@@ -183,7 +183,7 @@ MonoBehaviour:
     repeatCount: 0
     repeatInterval: 0
     vertices:
-    - {x: .394606292, y: -.0534597002}
+    - {x: .394606292, y: -.0534594432}
     - {x: .0819548145, y: -.739530027}
     - {x: .617034853, y: -.814730525}
     - {x: 1.09537792, y: -1.71962988}
@@ -198,7 +198,7 @@ MonoBehaviour:
     - {x: 1.09537792, y: 1.71962988}
     - {x: .617034853, y: .814730406}
     - {x: .0819548145, y: .739529908}
-    - {x: .394606292, y: .0534596629}
+    - {x: .394606292, y: .05345992}
     color: {r: .558823526, g: .0693711936, b: 0, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   - name: strong gun
@@ -257,7 +257,7 @@ MonoBehaviour:
       repeatCount: 0
       repeatInterval: 0
       vertices:
-      - {x: 1.1400497, y: 2.01847117e-09}
+      - {x: 1.1400497, y: 7.47183426e-10}
       - {x: .640049756, y: -.200000003}
       - {x: -.559950233, y: -.150000006}
       - {x: -.859950244, y: -.349999994}
@@ -461,7 +461,7 @@ MonoBehaviour:
       price: 0
       damage: 0
       lifeTime: 0
-      bulletSpeed: 30
+      bulletSpeed: 20
       fireInterval: 6
       physical:
         density: 1
@@ -482,13 +482,14 @@ MonoBehaviour:
     startSpawn: 3
     startSpawnInterval: 2
   lazerGuns:
-  - baseData:
+  - name: user jaw gun 0
+    baseData:
       name: Lazer 1
       price: 0
-      damage: 10
-      lifeTime: 3
+      damage: 20
+      lifeTime: 1.70000005
       bulletSpeed: 0
-      fireInterval: 5
+      fireInterval: 2.29999995
       physical:
         density: 1
         healthModifier: 1
@@ -497,11 +498,32 @@ MonoBehaviour:
       repeatCount: 0
       repeatInterval: 0
       vertices: []
-      color: {r: .875, g: .0836396813, b: .0836396813, a: 1}
+      color: {r: .911764681, g: .0402248949, b: .0402248949, a: 1}
       fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
     distance: 50
     width: .5
-  - baseData:
+  - name: user jaw 2 gun
+    baseData:
+      name: Lazer 1
+      price: 0
+      damage: 25
+      lifeTime: 1
+      bulletSpeed: 0
+      fireInterval: 1.29999995
+      physical:
+        density: 1
+        healthModifier: 1
+        collisionDefence: 0
+        collisionAttackModifier: 1
+      repeatCount: 0
+      repeatInterval: 0
+      vertices: []
+      color: {r: .0402248949, g: .623255193, b: .911764681, a: 1}
+      fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
+    distance: 65
+    width: .699999988
+  - name: 
+    baseData:
       name: Lazer 2
       price: 0
       damage: 15
@@ -520,7 +542,8 @@ MonoBehaviour:
       fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
     distance: 70
     width: .699999988
-  - baseData:
+  - name: 
+    baseData:
       name: Lazer 3
       price: 0
       damage: 15

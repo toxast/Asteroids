@@ -34,6 +34,9 @@ public class SpawnObject
 	public ObjectType type = ObjectType.eAsteroid;
 	public int indx;
 	public float spawnInterval = 0;
+	public float teleportDuration = 1.5f;
+	public float teleportRingSize = 10f;
+	public Color teleportationColor = new Color (1, 174f / 255f, 0);
 	public Vector2 spawnRange = new Vector2(40,80);
 	public SpawnPositioning positioning;
 
@@ -96,6 +99,9 @@ public class SpawnWave
 //	public List<SpawnObject> secondary;
 	public int doneWhenLeft = 0;
 
+	[NonSerialized] private int shouldSpawn = 100;
+	[NonSerialized] private int spawningNow = 0;
+	[NonSerialized] private int spawnedCount = 0;
 	[NonSerialized] public bool startedSpawn = false;
 	[NonSerialized] public bool finishedSpawn = false;
 	[NonSerialized] private List<PolygonGameObject> spawned = new List<PolygonGameObject>();
@@ -111,7 +117,7 @@ public class SpawnWave
 
 	private int Left()
 	{
-		int left = 0;
+		int left = spawningNow;
 		for (int i = spawned.Count - 1; i >= 0; i--) 
 		{
 			if(!Main.IsNull(spawned[i]))
@@ -130,6 +136,10 @@ public class SpawnWave
 	{
 		if(!startedSpawn)
 		{
+			shouldSpawn = 0;
+			foreach (var item in objects) {
+				shouldSpawn += item.count;
+			}
 			Singleton<Main>.inst.StartCoroutine(SpawnRoutine());
 		}
 	}
@@ -178,41 +188,58 @@ public class SpawnWave
 						continue;
 					}
 
+					objCounter ++;
 					Vector2 pos;
 					float lookAngle;
 					Singleton<Main>.inst.GetRandomPosition(item.spawnRange, item.positioning, out pos, out lookAngle);
 					if(item.spawnInterval > 0)
 					{
-						float spawnTime = item.spawnInterval;
-						float teleportAnimation = 0.8f;
-
-						if(spawnTime > teleportAnimation)
-						{
-							var anim = Singleton<Main>.inst.CreateTeleportationRing(pos);
-							yield return new WaitForSeconds(spawnTime - teleportAnimation);
-							//placeTeleport;
-							yield return new WaitForSeconds(teleportAnimation);
-							anim.Stop();
-//							GameObject.Destroy(anim.gameObject);
-							//remove teleport
-						}
-						else
-						{
-							yield return new WaitForSeconds(item.spawnInterval);
-						}
+						yield return new WaitForSeconds(item.spawnInterval);
 					}
-					spawned.Add(item.Spawn(pos, lookAngle));
-					objCounter ++;
+					if(item.teleportDuration > 0)
+					{
+						spawningNow++;
+						Singleton<Main>.inst.StartCoroutine(SpawnObjectWithTeleportAnimation(item, pos, lookAngle));
+					}
+					else
+					{
+						spawned.Add(item.Spawn(pos, lookAngle));
+						spawnedCount ++;
+					}
 				}
-
 				yield return new WaitForSeconds(1f);
 			}
+		}
+
+		while(spawnedCount < shouldSpawn)
+		{
+			yield return new WaitForSeconds(0.5f);
 		}
 
 		finishedSpawn = true;
 		yield break;
 	}
+
+	private IEnumerator SpawnObjectWithTeleportAnimation(SpawnObject item, Vector2 pos, float lookAngle)
+	{
+		var anim = Singleton<Main>.inst.CreateTeleportationRing(pos);
+
+		if (item.type != ObjectType.eAsteroid)
+			anim.startColor = item.teleportationColor;
+		else
+			anim.startColor = Color.gray;
+
+		anim.startSize = item.teleportRingSize;
+		yield return new WaitForSeconds(item.teleportDuration);
+		anim.Stop ();
+		spawned.Add(item.Spawn(pos, lookAngle));
+		spawnedCount ++;
+		Singleton<Main>.inst.PutObjectOnDestructionQueue (anim.gameObject, 5f);
+		spawningNow--;
+	}
 }
+
+
 
 [Serializable]
 public class SpawnWaves
