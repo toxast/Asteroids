@@ -28,16 +28,16 @@ public class SpawnPositioning
 public class SpawnObject 
 {
 	public string name = "spawns";
-	public bool overrideAmount = false;
-	public int keepEnemiesAmount;
-	public int count = 1;
 	public ObjectType type = ObjectType.eAsteroid;
 	public int indx;
+	public int count = 1;
+	public bool overrideAmount = false;
+	public int keepEnemiesAmount;
+	public Vector2 spawnRange = new Vector2(40,80);
 	public float spawnInterval = 0;
 	public float teleportDuration = 1.5f;
 	public float teleportRingSize = 10f;
 	public Color teleportationColor = new Color (1, 174f / 255f, 0);
-	public Vector2 spawnRange = new Vector2(40,80);
 	public SpawnPositioning positioning;
 
 
@@ -258,6 +258,10 @@ public class LevelSpawner
 	{
 		this.waves = waves;
 		currentQueue = waveNum;
+		foreach (var item in waves.list) {
+			item.startedSpawn = false;
+			item.finishedSpawn = false;
+		}
 	}
 
 	public bool Done()

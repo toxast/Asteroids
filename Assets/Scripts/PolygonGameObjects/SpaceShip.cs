@@ -149,27 +149,6 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-	private void TickGuns(float delta)
-	{
-		if (deathAnimation != null && deathAnimation.started)
-			return;
-
-		if(firingSpeedPUpTimeLeft > 0)
-		{
-			firingSpeedPUpTimeLeft -= delta;
-		}
-		float kff = (firingSpeedPUpTimeLeft > 0) ? firingSpeedPUpKoeff : 1;
-		
-		var d = delta * kff;
-		for (int i = 0; i < notLinkedGuns.Count; i++) 
-		{
-			guns[notLinkedGuns[i]].Tick(d);
-		}
-
-		if(linkedGuns.Any())
-			guns [linkedGuns [linkedGunTick]].Tick (d);
-	}
-
 	void InputTick(float delta)
 	{
 		inputController.Tick (this);
@@ -243,29 +222,11 @@ public class SpaceShip : PolygonGameObject
 	}
 
 
-	public void Shoot()
-	{
-//		guns
-
-		for (int i = 0; i < notLinkedGuns.Count; i++) 
-		{
-			guns[notLinkedGuns[i]].ShootIfReady();
-		}
-
-		if(linkedGuns.Any() && guns[linkedGuns[linkedGunTick]].ReadyToShoot())
-		{
-			guns[linkedGuns[linkedGunTick]].ShootIfReady();
-			linkedGunTick ++;
-			if(linkedGunTick >= linkedGuns.Count)
-				linkedGunTick = 0;
-		}
-	}
-
-	private float firingSpeedPUpKoeff = 1f;
-	private float firingSpeedPUpTimeLeft = 0f;
-	public void ChangeFiringSpeed(float koeff, float duration)
-	{
-		firingSpeedPUpKoeff = koeff;
-		firingSpeedPUpTimeLeft = duration;
-	}
+//	private float firingSpeedPUpKoeff = 1f;
+//	private float firingSpeedPUpTimeLeft = 0f;
+//	public void ChangeFiringSpeed(float koeff, float duration)
+//	{
+//		firingSpeedPUpKoeff = koeff;
+//		firingSpeedPUpTimeLeft = duration;
+//	}
 }

@@ -40,37 +40,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - name: level 0
+  - name: level 1
     list:
     - name: wave 0 (asteroids)
       objects:
       - name: spawns
-        overrideAmount: 0
-        keepEnemiesAmount: 5
-        count: 3
         type: 1
         indx: 0
+        count: 3
+        overrideAmount: 0
+        keepEnemiesAmount: 5
+        spawnRange: {x: 30, y: 60}
         spawnInterval: 0
         teleportDuration: 0
         teleportRingSize: 10
         teleportationColor: {r: .676470578, g: .666990638, b: .646626294, a: 1}
-        spawnRange: {x: 30, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: spawns
-        overrideAmount: 0
-        keepEnemiesAmount: 0
-        count: 2
         type: 1
         indx: 1
+        count: 2
+        overrideAmount: 0
+        keepEnemiesAmount: 0
+        spawnRange: {x: 30, y: 60}
         spawnInterval: 0
         teleportDuration: 0
         teleportRingSize: 10
         teleportationColor: {r: .674509823, g: .662745118, b: .643137276, a: 1}
-        spawnRange: {x: 30, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -80,16 +80,16 @@ MonoBehaviour:
     - name: wave 1 (1 spiky)
       objects:
       - name: spawns
-        overrideAmount: 0
-        keepEnemiesAmount: 1
-        count: 1
         type: 3
         indx: 0
+        count: 1
+        overrideAmount: 0
+        keepEnemiesAmount: 1
+        spawnRange: {x: 50, y: 60}
         spawnInterval: 1
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 50, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -99,16 +99,16 @@ MonoBehaviour:
     - name: wave 2 (green asteroid)
       objects:
       - name: spawns
-        overrideAmount: 0
-        keepEnemiesAmount: 1
-        count: 1
         type: 1
         indx: 2
+        count: 1
+        overrideAmount: 0
+        keepEnemiesAmount: 1
+        spawnRange: {x: 20, y: 40}
         spawnInterval: 0
         teleportDuration: 1.5
         teleportRingSize: 15
         teleportationColor: {r: .670588255, g: .65882355, b: .639215708, a: 1}
-        spawnRange: {x: 20, y: 40}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -118,16 +118,16 @@ MonoBehaviour:
     - name: wave 3 (spiky)
       objects:
       - name: spawns
-        overrideAmount: 0
-        keepEnemiesAmount: 3
-        count: 5
         type: 3
         indx: 0
+        count: 5
+        overrideAmount: 0
+        keepEnemiesAmount: 3
+        spawnRange: {x: 30, y: 50}
         spawnInterval: 0
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 30, y: 50}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -137,48 +137,48 @@ MonoBehaviour:
     - name: wave 4 (asteroids)
       objects:
       - name: asteroids
-        overrideAmount: 0
-        keepEnemiesAmount: 4
-        count: 2
         type: 1
         indx: 0
+        count: 2
+        overrideAmount: 0
+        keepEnemiesAmount: 4
+        spawnRange: {x: 40, y: 60}
         spawnInterval: 0
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: asteroids
-        overrideAmount: 0
-        keepEnemiesAmount: 0
-        count: 1
         type: 1
         indx: 1
+        count: 1
+        overrideAmount: 0
+        keepEnemiesAmount: 0
+        spawnRange: {x: 40, y: 60}
         spawnInterval: 0
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: asteroids
-        overrideAmount: 0
-        keepEnemiesAmount: 0
-        count: 1
         type: 1
         indx: 2
+        count: 1
+        overrideAmount: 0
+        keepEnemiesAmount: 0
+        spawnRange: {x: 40, y: 60}
         spawnInterval: 0
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -188,16 +188,16 @@ MonoBehaviour:
     - name: wave 5 (towers)
       objects:
       - name: asteroids
-        overrideAmount: 0
-        keepEnemiesAmount: 4
-        count: 7
         type: 5
         indx: 0
+        count: 7
+        overrideAmount: 0
+        keepEnemiesAmount: 4
+        spawnRange: {x: 40, y: 120}
         spawnInterval: .400000006
         teleportDuration: 1.5
         teleportRingSize: 7
         teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
-        spawnRange: {x: 40, y: 120}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -207,53 +207,53 @@ MonoBehaviour:
     - name: wave 6 mega-spiky
       objects:
       - name: 
-        overrideAmount: 0
-        keepEnemiesAmount: 1
-        count: 1
         type: 3
         indx: 1
+        count: 1
+        overrideAmount: 0
+        keepEnemiesAmount: 1
+        spawnRange: {x: 40, y: 120}
         spawnInterval: .400000006
         teleportDuration: 2.5
         teleportRingSize: 15
         teleportationColor: {r: 1, g: 0, b: 0, a: 1}
-        spawnRange: {x: 40, y: 120}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       doneWhenLeft: 0
-  - name: level 1
+  - name: level 2
     list:
     - name: wave 0 (asteroids)
       objects:
       - name: spawns
-        overrideAmount: 1
-        keepEnemiesAmount: 5
-        count: 2
         type: 1
         indx: 2
+        count: 2
+        overrideAmount: 1
+        keepEnemiesAmount: 5
+        spawnRange: {x: 30, y: 60}
         spawnInterval: 0
         teleportDuration: 0
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 30, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: spawns
-        overrideAmount: 0
-        keepEnemiesAmount: 0
-        count: 3
         type: 1
         indx: 3
+        count: 3
+        overrideAmount: 0
+        keepEnemiesAmount: 0
+        spawnRange: {x: 30, y: 100}
         spawnInterval: 0
         teleportDuration: 0
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 30, y: 100}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -263,16 +263,16 @@ MonoBehaviour:
     - name: wave 1 (suisides)
       objects:
       - name: spawns
-        overrideAmount: 1
-        keepEnemiesAmount: 2
-        count: 4
         type: 2
         indx: 3
+        count: 4
+        overrideAmount: 1
+        keepEnemiesAmount: 2
+        spawnRange: {x: 40, y: 60}
         spawnInterval: .400000006
         teleportDuration: 1.20000005
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -282,80 +282,80 @@ MonoBehaviour:
     - name: wave 2 (more suisides)
       objects:
       - name: suiside
+        type: 2
+        indx: 3
+        count: 5
         overrideAmount: 1
         keepEnemiesAmount: 5
-        count: 5
-        type: 2
-        indx: 3
+        spawnRange: {x: 40, y: 60}
         spawnInterval: 0
         teleportDuration: 1
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: saw
-        overrideAmount: 0
-        keepEnemiesAmount: 5
-        count: 2
         type: 4
         indx: 0
+        count: 2
+        overrideAmount: 0
+        keepEnemiesAmount: 5
+        spawnRange: {x: 40, y: 60}
         spawnInterval: 0
         teleportDuration: 1
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: suiside
-        overrideAmount: 0
-        keepEnemiesAmount: 5
+        type: 2
+        indx: 3
         count: 3
-        type: 2
-        indx: 3
+        overrideAmount: 0
+        keepEnemiesAmount: 5
+        spawnRange: {x: 40, y: 60}
         spawnInterval: 0
         teleportDuration: 1
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: saw
-        overrideAmount: 0
-        keepEnemiesAmount: 5
-        count: 2
         type: 4
         indx: 0
+        count: 2
+        overrideAmount: 0
+        keepEnemiesAmount: 5
+        spawnRange: {x: 40, y: 60}
         spawnInterval: 0
         teleportDuration: 1
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: suiside
+        type: 2
+        indx: 3
+        count: 2
         overrideAmount: 0
         keepEnemiesAmount: 6
-        count: 2
-        type: 2
-        indx: 3
+        spawnRange: {x: 40, y: 60}
         spawnInterval: 0
         teleportDuration: 1
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 60}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -365,16 +365,16 @@ MonoBehaviour:
     - name: wave 3 (saws)
       objects:
       - name: spawns
-        overrideAmount: 0
-        keepEnemiesAmount: 5
-        count: 5
         type: 4
         indx: 0
+        count: 5
+        overrideAmount: 0
+        keepEnemiesAmount: 5
+        spawnRange: {x: 50, y: 80}
         spawnInterval: .800000012
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 50, y: 80}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -384,32 +384,32 @@ MonoBehaviour:
     - name: wave 4 (asteroids)
       objects:
       - name: asteroids
-        overrideAmount: 1
-        keepEnemiesAmount: 6
-        count: 1
         type: 1
         indx: 2
+        count: 1
+        overrideAmount: 1
+        keepEnemiesAmount: 6
+        spawnRange: {x: 60, y: 100}
         spawnInterval: 0
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 60, y: 100}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: asteroids
-        overrideAmount: 0
-        keepEnemiesAmount: 0
-        count: 3
         type: 1
         indx: 3
+        count: 3
+        overrideAmount: 0
+        keepEnemiesAmount: 0
+        spawnRange: {x: 60, y: 100}
         spawnInterval: 0
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 60, y: 100}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -419,48 +419,48 @@ MonoBehaviour:
     - name: wave 5 (spikes and saws)
       objects:
       - name: spikes
-        overrideAmount: 1
-        keepEnemiesAmount: 7
-        count: 4
         type: 3
         indx: 2
+        count: 4
+        overrideAmount: 1
+        keepEnemiesAmount: 7
+        spawnRange: {x: 40, y: 100}
         spawnInterval: 1.5
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 100}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: saws
-        overrideAmount: 0
-        keepEnemiesAmount: 0
-        count: 3
         type: 4
         indx: 0
+        count: 3
+        overrideAmount: 0
+        keepEnemiesAmount: 0
+        spawnRange: {x: 40, y: 100}
         spawnInterval: 1.5
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 100}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
       - name: suisides
-        overrideAmount: 0
-        keepEnemiesAmount: 5
-        count: 3
         type: 2
         indx: 3
+        count: 3
+        overrideAmount: 0
+        keepEnemiesAmount: 5
+        spawnRange: {x: 40, y: 100}
         spawnInterval: 1.5
         teleportDuration: 1.5
         teleportRingSize: 10
         teleportationColor: {r: 1, g: .68235296, b: 0, a: 1}
-        spawnRange: {x: 40, y: 100}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 180
@@ -470,16 +470,228 @@ MonoBehaviour:
     - name: wave 6 (boss)
       objects:
       - name: Boss
-        overrideAmount: 1
-        keepEnemiesAmount: 1
-        count: 1
         type: 2
         indx: 7
+        count: 1
+        overrideAmount: 1
+        keepEnemiesAmount: 1
+        spawnRange: {x: 70, y: 70}
         spawnInterval: 4
         teleportDuration: 3
         teleportRingSize: 20
         teleportationColor: {r: 1, g: 0, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 0
+          angleFromShip: 0
+          angleFromShipRange: 180
+      doneWhenLeft: 0
+  - name: level 3
+    list:
+    - name: (0) wave asteroids
+      objects:
+      - name: green asteroids
+        type: 1
+        indx: 4
+        count: 5
+        overrideAmount: 0
+        keepEnemiesAmount: 10
+        spawnRange: {x: 70, y: 120}
+        spawnInterval: 0
+        teleportDuration: 0
+        teleportRingSize: 0
+        teleportationColor: {r: 0, g: 0, b: 0, a: 0}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: 0
+          angleFromShipRange: 180
+      - name: yellow asteroids
+        type: 1
+        indx: 5
+        count: 2
+        overrideAmount: 0
+        keepEnemiesAmount: 10
+        spawnRange: {x: 70, y: 120}
+        spawnInterval: 0
+        teleportDuration: 0
+        teleportRingSize: 0
+        teleportationColor: {r: 0, g: 0, b: 0, a: 0}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: 0
+          angleFromShipRange: 180
+      doneWhenLeft: 5
+    - name: (1) wave small manta
+      objects:
+      - name: mantas
+        type: 2
+        indx: 12
+        count: 5
+        overrideAmount: 0
+        keepEnemiesAmount: 2
+        spawnRange: {x: 50, y: 70}
+        spawnInterval: 2
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: 0
+          angleFromShipRange: 180
+      doneWhenLeft: 0
+    - name: (2) mantas + backhead
+      objects:
+      - name: mantas
+        type: 2
+        indx: 12
+        count: 1
+        overrideAmount: 0
+        keepEnemiesAmount: 3
+        spawnRange: {x: 60, y: 60}
+        spawnInterval: 0
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 90
+          angle2ShipRange: 0
+          angleFromShip: 80
+          angleFromShipRange: 0
+      - name: mantas
+        type: 2
+        indx: 12
+        count: 1
+        overrideAmount: 0
+        keepEnemiesAmount: 3
+        spawnRange: {x: 60, y: 60}
+        spawnInterval: 0
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: -90
+          angle2ShipRange: 0
+          angleFromShip: 100
+          angleFromShipRange: 0
+      - name: backhead
+        type: 2
+        indx: 13
+        count: 1
+        overrideAmount: 0
+        keepEnemiesAmount: 3
         spawnRange: {x: 70, y: 70}
+        spawnInterval: 0
+        teleportDuration: 1.5
+        teleportRingSize: 15
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 0
+          angleFromShip: 90
+          angleFromShipRange: 0
+      - name: mantas
+        type: 2
+        indx: 12
+        count: 4
+        overrideAmount: 1
+        keepEnemiesAmount: 4
+        spawnRange: {x: 70, y: 70}
+        spawnInterval: 0
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: -90
+          angleFromShipRange: 45
+      doneWhenLeft: 0
+    - name: (3) asteroids
+      objects:
+      - name: green
+        type: 1
+        indx: 4
+        count: 4
+        overrideAmount: 0
+        keepEnemiesAmount: 6
+        spawnRange: {x: 80, y: 130}
+        spawnInterval: 1
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: 0
+          angleFromShipRange: 180
+      doneWhenLeft: 6
+    - name: (4) towers
+      objects:
+      - name: rocket tower
+        type: 5
+        indx: 1
+        count: 2
+        overrideAmount: 0
+        keepEnemiesAmount: 2
+        spawnRange: {x: 70, y: 100}
+        spawnInterval: 1
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: 0
+          angleFromShipRange: 180
+      - name: rocket tower
+        type: 5
+        indx: 1
+        count: 1
+        overrideAmount: 1
+        keepEnemiesAmount: 4
+        spawnRange: {x: 70, y: 100}
+        spawnInterval: 1
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: 0
+          angleFromShipRange: 180
+      - name: rocket tower
+        type: 2
+        indx: 12
+        count: 4
+        overrideAmount: 0
+        keepEnemiesAmount: 4
+        spawnRange: {x: 50, y: 80}
+        spawnInterval: 1
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: 0
+          angleFromShipRange: 180
+      doneWhenLeft: 0
+    - name: (5) test fighters
+      objects:
+      - name: 
+        type: 5
+        indx: 2
+        count: 3
+        overrideAmount: 0
+        keepEnemiesAmount: 3
+        spawnRange: {x: 60, y: 80}
+        spawnInterval: 2
+        teleportDuration: 3
+        teleportRingSize: 15
+        teleportationColor: {r: .823529422, g: .329738259, b: .0121106897, a: 1}
         positioning:
           angle2Ship: 0
           angle2ShipRange: 0

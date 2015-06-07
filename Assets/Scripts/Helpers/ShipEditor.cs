@@ -15,6 +15,8 @@ public class ShipEditor : MonoBehaviour
 		SpaceShip,
 		Turret,
 		Tower,
+		BulletGun,
+		RocketGun,
 	}
 
 	Mesh mesh;
@@ -44,13 +46,7 @@ public class ShipEditor : MonoBehaviour
 		var verts = mesh.vertices;
 		if(saveANDloadIndx >= 0)
 		{
-			object obj = null;
-			if(editType == eSaveLoadType.SpaceShip)
-				obj = SpaceshipsResources.Instance.spaceships[saveANDloadIndx];
-			else if(editType == eSaveLoadType.Turret)
-				obj = SpaceshipsResources.Instance.turrets[saveANDloadIndx];
-			else if(editType == eSaveLoadType.Tower)
-				obj = SpaceshipsResources.Instance.towers[saveANDloadIndx];
+			object obj = GetObjByType(editType, saveANDloadIndx);
 
 			verts = (obj as IGotShape).iverts.ToList().ConvertAll( v => (Vector3)v).ToArray();
 
@@ -235,7 +231,25 @@ public class ShipEditor : MonoBehaviour
 		}
 		#if UNITY_EDITOR
 		EditorUtility.SetDirty (SpaceshipsResources.Instance);
+		EditorUtility.SetDirty (GunsResources.Instance);
 		#endif
+	}
+
+	private object GetObjByType(eSaveLoadType type, int indx)
+	{
+		object obj = null;
+		if(type == eSaveLoadType.SpaceShip)
+			obj = SpaceshipsResources.Instance.spaceships[indx];
+		else if(type == eSaveLoadType.Turret)
+			obj = SpaceshipsResources.Instance.turrets[indx];
+		else if(type == eSaveLoadType.Tower)
+			obj = SpaceshipsResources.Instance.towers[indx];
+		else if(type == eSaveLoadType.BulletGun)
+			obj = GunsResources.Instance.guns[indx];
+		else if(type == eSaveLoadType.RocketGun)
+			obj = GunsResources.Instance.rocketLaunchers[indx];
+
+		return obj;
 	}
 
 	[ContextMenu ("Save On")]
@@ -248,13 +262,7 @@ public class ShipEditor : MonoBehaviour
 		GetCurrentData (out fullArray, out gunsData, out thrustersData, out turretsData);
 		if(saveANDloadIndx >= 0)
 		{
-			object obj = null;
-			if(editType == eSaveLoadType.SpaceShip)
-				obj = SpaceshipsResources.Instance.spaceships[saveANDloadIndx];
-			else if(editType == eSaveLoadType.Turret)
-				obj = SpaceshipsResources.Instance.turrets[saveANDloadIndx];
-			else if(editType == eSaveLoadType.Tower)
-				obj = SpaceshipsResources.Instance.towers[saveANDloadIndx];
+			object obj = GetObjByType(editType, saveANDloadIndx);
 			
 			(obj as IGotShape).iverts = fullArray;
 			
@@ -269,6 +277,7 @@ public class ShipEditor : MonoBehaviour
 
 			#if UNITY_EDITOR
 			EditorUtility.SetDirty (SpaceshipsResources.Instance);
+			EditorUtility.SetDirty (GunsResources.Instance);
 			#endif
 		}
 		else

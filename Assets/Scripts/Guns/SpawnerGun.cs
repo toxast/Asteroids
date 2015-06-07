@@ -52,6 +52,7 @@ public class SpawnerGun : Gun
 		}
 
 		var obj = ObjectsCreator.CreateSpaceShip<SpaceShip> (spaceshipIndex);
+		obj.reward = 0;
 
 		if(target != null)
 			obj.SetTarget (target);

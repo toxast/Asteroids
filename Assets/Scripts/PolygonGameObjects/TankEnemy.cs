@@ -70,7 +70,7 @@ public class TankEnemy : PolygonGameObject
 		
 		RotateCannon(delta);
 
-		TickGuns (delta);
+		TickGunsNew (delta);
 	}
 	
 	private void MoveToSafePoint(float deltaDist)
@@ -117,7 +117,7 @@ public class TankEnemy : PolygonGameObject
 		}
 	}
 
-	private void TickGuns(float delta)
+	private void TickGunsNew(float delta)
 	{
 		for (int i = 0; i < guns.Count; i++) 
 		{

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 [System.Serializable]
-public class GunData : IClonable<GunData>, IGun
+public class GunData : IClonable<GunData>, IGun, IGotShape
 {
 	public string name;
 	public int price;
@@ -19,6 +19,7 @@ public class GunData : IClonable<GunData>, IGun
 	public ParticleSystem fireEffect;
 
 	public string iname{ get {return name;}}
+	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}
 	public int iprice{ get {return price;}}
 	public GunSetupData.eGuns itype{ get {return GunSetupData.eGuns.BULLET;}}
 

@@ -4,6 +4,7 @@ using System.Collections;
 [System.Serializable]
 public class SwapnerGunData : IClonable<SwapnerGunData>, IGun
 {
+	public string name;
 	public GunData baseData;
 	public int spaceshipIndex;
 	public int maxSpawn = 1;

@@ -1,7 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class UserSpaceShip : SpaceShip {
+
+	private bool sentDestroyed = false;
+	public event Action destroyed;
 
 	void Start()
 	{
@@ -12,6 +16,13 @@ public class UserSpaceShip : SpaceShip {
 	public override void Hit (float dmg)
 	{
 		base.Hit (dmg);
+
+		if(IsKilled() && !sentDestroyed)
+		{
+			sentDestroyed = true;
+			if(destroyed != null)
+				destroyed();
+		}
 
 		UpdateHealth ();
 		UpdateShields ();

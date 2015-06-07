@@ -71,10 +71,10 @@ public class EvadeEnemy : PolygonGameObject
 
 		RotateCannon(delta);
 
-		TickGuns (delta);
+		TickGunsNew (delta);
 	}
 
-	private void TickGuns(float delta)
+	private void TickGunsNew(float delta)
 	{
 		for (int i = 0; i < guns.Count; i++) 
 		{

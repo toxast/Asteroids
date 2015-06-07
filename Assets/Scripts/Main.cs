@@ -25,7 +25,7 @@ public class Main : MonoBehaviour
 	List<PowerUp> powerUps = new List<PowerUp> ();
 
 	private float DestroyAfterSplitTreshold = 5f;
-
+	private float addMoneyKff = 1.2f;
 
 	[SerializeField] float borderWidth = 40f;
 	Rect screenBounds;
@@ -39,7 +39,7 @@ public class Main : MonoBehaviour
 	[SerializeField] Vector2 sceneSizeInCameras = new Vector2 (3, 3);
 
 	//powerup
-	private float slowTimeLeft = 0;
+	//private float slowTimeLeft = 0;
 	private float penetrationTimeLeft = 0;
 
 	private event Action moveCameraAction;
@@ -50,18 +50,17 @@ public class Main : MonoBehaviour
 	Transform cameraTransform;
 	[SerializeField] Camera minimapCamera;
 
+	Coroutine repositionCoroutine;
+	Coroutine wrapStarsCoroutine;
+	Coroutine levelEndRoutine;
+
 	void Awake()
 	{
 		mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera>();
 		cameraTransform = mainCamera.transform;
 		minimapCamera = GameObject.FindGameObjectWithTag ("MinimapCamera").GetComponent<Camera>();
 
-#if UNITY_STANDALONE
-		if (cursorTexture != null)
-		{
-			Cursor.SetCursor (cursorTexture, new Vector2(cursorTexture.width/2f, cursorTexture.height/2f), CursorMode.Auto);
-		}
-#endif
+
 
 		if(boundsMode)
 		{
@@ -70,8 +69,7 @@ public class Main : MonoBehaviour
 		else
 		{
 			moveCameraAction += MoveCameraWarpMode;
-			StartCoroutine(RepositionAll());
-			StartCoroutine(WrapStars());
+
 		}
 	}
 
@@ -104,6 +102,13 @@ public class Main : MonoBehaviour
 	LevelSpawner spawner;
 	public void StartTheGame(FullSpaceShipSetupData spaceshipData, int level = 0, int waveNum = 0)
 	{
+		#if UNITY_STANDALONE
+		if (cursorTexture != null)
+		{
+			Cursor.SetCursor (cursorTexture, new Vector2(cursorTexture.width/2f, cursorTexture.height/2f), CursorMode.Auto);
+		}
+		#endif
+
 		gameIsOn = true;
 
 		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
@@ -111,11 +116,88 @@ public class Main : MonoBehaviour
 		starsGenerator.Generate ((int)(starsDensity*(screenBounds.width * screenBounds.height)/2000f) , screenBounds, 30f);
 		
 		CreateSpaceShip (spaceshipData);
+		spaceship.destroyed += HandleUserDestroyed;
 
 		spawner = new LevelSpawner (LevelsResources.Instance.levels [level], waveNum);
 
-		powerUpsCreator = new PowerUpsCreator(5f, 10f);
-		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
+		repositionCoroutine = StartCoroutine(RepositionAll());
+		wrapStarsCoroutine = StartCoroutine(WrapStars());
+
+//		powerUpsCreator = new PowerUpsCreator(5f, 10f);
+//		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
+	}
+
+	public event Action gameOver;
+	public event Action levelCleared;
+	private void HandleUserDestroyed()
+	{
+		gameOver ();
+	}
+
+	public void Clear()
+	{
+		#if UNITY_STANDALONE
+		if (cursorTexture != null)
+		{
+			Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
+		}
+		#endif
+
+		if (repositionCoroutine != null) {
+			StopCoroutine (repositionCoroutine);
+			repositionCoroutine = null;
+		}
+
+		if (wrapStarsCoroutine != null) {
+			StopCoroutine (wrapStarsCoroutine);
+			wrapStarsCoroutine = null;
+		}
+
+		if (levelEndRoutine != null) {
+			StopCoroutine (levelEndRoutine);
+			levelEndRoutine = null;
+		}
+
+		spawner = null;
+
+		if (!IsNull (spaceship))
+		{
+			Destroy (spaceship.gameObject);
+			spaceship = null;
+		}
+
+		foreach (var drop in drops) {
+			drop.Collect();
+			Destroy(drop.gameObject);
+		}
+		drops.Clear ();
+
+		foreach (var obj in gobjects) {
+			if(!IsNull(obj))
+				Destroy(obj.gameObj);
+		}
+		gobjects.Clear ();
+
+		foreach (var obj in bullets) {
+			if(!IsNull(obj))
+				Destroy(obj.gameObj);
+		}
+		bullets.Clear ();
+
+		foreach (var obj in destructors) {
+			if(obj!= null && !IsNull(obj.a))
+				Destroy(obj.a.gameObject);
+		}
+		destructors.Clear ();
+
+		foreach (var obj in goDestructors) {
+			if(obj != null && obj.g != null && obj.g.transform != null)
+				Destroy(obj.g.gameObject);
+		}
+		goDestructors.Clear ();
+		id2drops.Clear ();
+
+		gameIsOn = false;
 	}
 
 	//TODO: partial objects reposition?
@@ -124,32 +206,49 @@ public class Main : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		while(true)
 		{
-			if(spaceship != null)
+			Vector2 pos = cameraTransform.position;
+			if(pos.magnitude > screenBounds.width*3)
 			{
-				Vector2 pos = spaceship.position;
-				if(pos.magnitude > screenBounds.width*3)
+				Reposition(drops, pos, false);
+				Reposition(gobjects, pos, false);
+				Reposition(powerUps, pos, false);
+				Reposition(bullets, pos, true);
+
+				var stars = starsGenerator.stars;
+				for (int i = 0; i < stars.Length ; i++)
 				{
-					Reposition(drops, pos, false);
-					Reposition(gobjects, pos, false);
-					Reposition(powerUps, pos, false);
-					Reposition(bullets, pos, true);
-
-					var stars = starsGenerator.stars;
-					for (int i = 0; i < stars.Length ; i++)
-					{
-						stars[i].position -= (Vector3)pos;
-					}
-
-					MoveCamera();
+					stars[i].position -= (Vector3)pos;
 				}
+
+				MoveCamera();
 			}
 			yield return new WaitForSeconds(2f);
 		}
 	}
 
-	void Start()
-	{
 
+	IEnumerator CheckLevelEndRoutine()
+	{
+		while(true)
+		{
+			bool finished = true;
+			foreach(var obj in gobjects)
+			{
+				if(obj.layerNum == CollisionLayers.ilayerTeamEnemies)
+				{
+					finished = false;
+					break;
+				}
+			}
+
+			if(finished)
+			{
+				levelCleared();
+				yield break;
+			}
+
+			yield return new WaitForSeconds(1.5f);
+		}
 	}
 
 	public IEnumerator Respawn()
@@ -227,7 +326,6 @@ public class Main : MonoBehaviour
 		minimapCamera.transform.position = mainCamera.transform.position.SetZ(minimapCamera.transform.position.z);
 	}
 
-
 	private void MoveCamera()
 	{
 		if(!IsNull(spaceship))
@@ -252,29 +350,40 @@ public class Main : MonoBehaviour
 				return;
 			}
 		}
-		
 		list.Add(obj);
 	}
 
 	float enemyDtime;
-	bool doTick = true;
+//	bool doTick = true;
 	bool gameIsOn = false;
 	void Update()
 	{
 		if (!gameIsOn)
 			return;
 
+//		doTick = !doTick;
+//		if(!doTick)
+//		{
+//			return;
+//		}
+
 		if (IsNull (spaceship))
 			spaceship = null;
 
 		if (spawner != null)
-			spawner.Tick ();
-
-		//TODO: refactor Powerup
-		if(!doTick)
 		{
-			doTick = true;
-			return;
+			if(!spawner.Done())
+			{
+				spawner.Tick ();
+			}
+			else
+			{
+				if(levelEndRoutine == null)
+				{
+					levelEndRoutine = StartCoroutine(CheckLevelEndRoutine());
+					spawner = null;
+				}
+			}
 		}
 
 		float dtime = Time.deltaTime;
@@ -348,7 +457,7 @@ public class Main : MonoBehaviour
 				var drop = drops[i];
 				if(PolygonCollision.IsCollides(spaceship, drop, out indxa, out indxb))
 				{
-					GameResources.AddMoney(drop.data.value);
+					GameResources.AddMoney((int)(drop.data.value * addMoneyKff));
 					Destroy(drop.gameObject);
 					drops.RemoveAt(i);
 				}
@@ -382,16 +491,16 @@ public class Main : MonoBehaviour
 
 				switch (effect) 
 				{
-				case EffectType.IncreasedShootingSpeed:
-					spaceship.ChangeFiringSpeed(3f, 10f);
-				break;
+//				case EffectType.IncreasedShootingSpeed:
+//					spaceship.ChangeFiringSpeed(3f, 10f);
+//				break;
 
 				case EffectType.PenetrationBullet:
 					penetrationTimeLeft = 10f;
 				break;
 
 				case EffectType.SlowAsteroids:
-					slowTimeLeft = 10f;
+					//slowTimeLeft = 10f;
 				break;
 				}	
 			}
@@ -1142,7 +1251,7 @@ public class Main : MonoBehaviour
 		float len = UnityEngine.Random.Range(range.x, range.y);
 		var dist = new Vector2 (Mathf.Cos (angle) * len, Mathf.Sin (angle) * len);
 		position = (Vector2)cameraTransform.position + dist;
-		float pangle2Ship = Math2d.GetRotationDg(-dist);
+		float pangle2Ship = Math2d.GetRotationDg(-dist) + pos.angle2Ship;
 		lookAngle = UnityEngine.Random.Range (pangle2Ship - pos.angle2ShipRange, pangle2Ship + pos.angle2ShipRange);
 //		obj.cacheTransform.rotation = Quaternion.Euler (0, 0, pangle2Ship);
 	}

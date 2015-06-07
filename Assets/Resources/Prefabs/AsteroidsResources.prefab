@@ -106,6 +106,28 @@ MonoBehaviour:
     size:
       min: 3.5
       max: 4.80000019
+  - name: (4) medium green fast
+    densityIndx: 1
+    speed:
+      min: 15
+      max: 20
+    rotation:
+      min: 100
+      max: 160
+    size:
+      min: 3.5
+      max: 4.80000019
+  - name: (5) big yellow fast
+    densityIndx: 2
+    speed:
+      min: 10
+      max: 20
+    rotation:
+      min: 70
+      max: 160
+    size:
+      min: 4
+      max: 5
   spikyData:
   - name: lvl 0
     color: {r: .393598616, g: .419490516, b: .514705896, a: 1}
@@ -161,7 +183,7 @@ MonoBehaviour:
     checkForTargetdTime: .300000012
   - name: (2) spike lvl 1
     color: {r: .449528664, g: .442474067, b: .647058845, a: 1}
-    reward: 70
+    reward: 100
     physical:
       density: 1
       healthModifier: 2
@@ -188,7 +210,7 @@ MonoBehaviour:
   sawData:
   - name: 0
     color: {r: .772058845, g: .261137575, b: .261137575, a: 1}
-    reward: 60
+    reward: 70
     physical:
       density: .600000024
       healthModifier: 2

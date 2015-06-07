@@ -68,7 +68,6 @@ public class ObjectsCreator
 
 	private static void CreateTurret(PolygonGameObject parent, TurretReferenceData pos, TurretSetupData data)
 	{
-		bool smartAim = true;
 		var copyAngle = data.restrictionAngle * 0.5f;
 		var copyDir = pos.place.dir;
 		System.Func<Vector3> anglesRestriction = () =>
@@ -80,14 +79,14 @@ public class ObjectsCreator
 			return result;
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<Turret>(data.verts, data.color);
-		turret.InitTurret (new PhysicalData(), smartAim, data.rotationSpeed, anglesRestriction);
+		turret.InitTurret (new PhysicalData(), data.rotationSpeed, anglesRestriction);
 		var guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) 
 		{
 			var gun = GunsData.GetGun(gunplace, turret);
 			guns.Add (gun);
 		}
-		turret.SetGuns (guns);
+		turret.SetGuns (guns, data.linkedGuns);
 
 		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction);
 		parent.AddTurret(pos.place, turret);
@@ -116,6 +115,7 @@ public class ObjectsCreator
 		//todo: include physical into asteroids?
 		var ph = new PhysicalData ();
 		ph.density = data.density;
+		ph.healthModifier = data.density;
 
 		asteroid.InitAsteroid (ph, dataPh.speed, dataPh.rotation); 
 		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
@@ -218,7 +218,6 @@ public class ObjectsCreator
 
 	public static SimpleTower CreateSimpleTower(TowerSetupData data)
 	{
-		bool smartAim = true;
 		System.Func<Vector3> anglesRestriction = () =>
 		{
 			Vector2 dir = new Vector2(1,0);
@@ -227,7 +226,7 @@ public class ObjectsCreator
 			return result;
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
-		turret.InitSimpleTower (data.physical, smartAim, data.rotationSpeed, data.accuracy);
+		turret.InitSimpleTower (data.physical, data.rotationSpeed, data.accuracy);
 		turret.reward = data.reward;
 		turret.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
 		var guns = new List<Gun> ();
@@ -236,7 +235,7 @@ public class ObjectsCreator
 			var gun = GunsData.GetGun(gunplace, turret);
 			guns.Add (gun);
 		}
-		turret.SetGuns (guns);
+		turret.SetGuns (guns, data.linkedGuns);
 		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction);
 		DeathAnimation.MakeDeathForThatFellaYo (turret);
 
@@ -312,7 +311,7 @@ public class ObjectsCreator
 		drop.SetCollisionLayerNum (CollisionLayers.ilayerMisc);
 		drop.data = data;
 		drop.gameObject.name = "drop";
-		drop.lifetime = 30f;
+		drop.lifetime = 10f;
 		
 		return drop;
 	}

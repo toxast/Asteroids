@@ -27,7 +27,7 @@ public class TowerEnemy : PolygonGameObject
 
 		RotateCannon(delta);
 
-		TickGuns (delta);
+		TickGunsNew (delta);
 	}
 
 	private IEnumerator Aim()
@@ -73,7 +73,7 @@ public class TowerEnemy : PolygonGameObject
 		cannonsRotaitor.Rotate(deltaTime, currentAimAngle);
 	}
 
-	private void TickGuns(float delta)
+	private void TickGunsNew(float delta)
 	{
 		for (int i = 0; i < guns.Count; i++) 
 		{

@@ -14,6 +14,7 @@ public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IG
 	public AccuracyData accuracy;
 	public ShieldData shield;
 	public List<GunSetupData> guns;
+	public List<int> linkedGuns;
 	public List<TurretReferenceData> turrets;
 	public Vector2[] verts;
 	
@@ -33,6 +34,7 @@ public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IG
 		r.accuracy = accuracy.Clone ();
 		r.shield = shield.Clone();
 		r.guns = guns.ConvertAll(g => g.Clone());
+		r.linkedGuns = new List<int> (linkedGuns);
 		r.turrets = turrets.ConvertAll(t => t.Clone());
 		r.verts = verts.ToList().ToArray();
 		return r;

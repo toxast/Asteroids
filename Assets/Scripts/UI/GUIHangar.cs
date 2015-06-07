@@ -34,11 +34,11 @@ public class GUIHangar : MonoBehaviour
 		}
 	}
 
-	private void Create(int shipIndx, FullSpaceShipSetupData data)
+	private void Create(int shipIndx, int dataIndx, FullSpaceShipSetupData data)
 	{
 		shipsScroll.Select (shipIndx);
 		currentShipData = data.Clone();
-		uiShip.Create (shipIndx, data, SelectCannonClicked);
+		uiShip.Create (dataIndx, data, SelectCannonClicked);
 
 		gunsScroll.Clear ();
 	}

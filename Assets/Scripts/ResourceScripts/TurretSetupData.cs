@@ -11,6 +11,7 @@ public class TurretSetupData : IClonable<TurretSetupData>, IGotShape, IGotGuns
 	public float rotationSpeed = 50;
 	public float restrictionAngle = 360;
 	public List<GunSetupData> guns;
+	public List<int> linkedGuns;
 	public Vector2[] verts;
 
 	//interfaces
@@ -25,6 +26,7 @@ public class TurretSetupData : IClonable<TurretSetupData>, IGotShape, IGotGuns
 		r.rotationSpeed = rotationSpeed;
 		r.restrictionAngle = restrictionAngle;
 		r.guns = guns.ConvertAll(g => g.Clone());
+		r.linkedGuns = new List<int> (linkedGuns);
 		r.verts = verts.ToList ().ToArray ();
 		return r;
 	}

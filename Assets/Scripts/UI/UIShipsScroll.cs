@@ -12,7 +12,7 @@ public class UIShipsScroll : MonoBehaviour
 	BuyShipElem selected = null;
 	List<BuyShipElem> list = new List<BuyShipElem>();
 
-	public void Show(List<FullSpaceShipSetupData> elemsData, Action<int, FullSpaceShipSetupData> onClick)
+	public void Show(List<FullSpaceShipSetupData> elemsData, Action<int, int, FullSpaceShipSetupData> onClick)
 	{
 		Clear ();
 
@@ -20,11 +20,14 @@ public class UIShipsScroll : MonoBehaviour
 		{
 			int index = i;
 			var data = elemsData [index];
-			
+			if(data.price <= 0)
+				continue;
+
 			var shipElem = Instantiate(prefab) as BuyShipElem;
 			shipElem.transform.SetParent(elementsHolder, false);
 			shipElem.Init(data.name, data.price); 
-			shipElem.AddListener(() => onClick(index, data));
+			int indxInList = list.Count;
+			shipElem.AddListener(() => onClick(indxInList, index, data));
 			list.Add(shipElem);
 		}
 	}

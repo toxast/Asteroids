@@ -11,6 +11,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 	float accuracy = 0f;
 	bool turnBehEnabled = true;
 	bool evadeBullets = true;
+	bool isLazerShip = false;
 
 	AIHelper.Data tickData = new AIHelper.Data();
 
@@ -19,6 +20,9 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		this.bulletsSpeed = gun.bulletSpeed;
 		this.bullets = bullets;
 		thisShip.StartCoroutine (Logic ());
+
+		if (gun is LazerGun)
+			isLazerShip = true;
 
 		accuracy = accData.startingAccuracy;
 		if(accData.isDynamic)
@@ -129,7 +133,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 						}
 					}
 
-					if(turnBehEnabled && !behaviourChosen && timeForTurnAction)
+					if(turnBehEnabled && !behaviourChosen && timeForTurnAction && !(isLazerShip && shooting))
 					{
 						behaviourChosen = true;
 						if(tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin)

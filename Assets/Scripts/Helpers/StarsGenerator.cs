@@ -43,4 +43,11 @@ public class StarsGenerator : MonoBehaviour
 			t.parent = transform;
 		}
 	}
+
+	public void Clear()
+	{
+		foreach (var s in stars) {
+			Destroy(s);
+		}
+	}
 }

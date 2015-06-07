@@ -7,6 +7,7 @@ namespace polygonGO
 	{
 		public float lifetime;
 		public AsteroidData data;
+		bool moneyAdded = false;
 
 		public override void Tick (float delta)
 		{
@@ -14,7 +15,21 @@ namespace polygonGO
 			lifetime -= delta;
 			if(lifetime < 0)
 			{
+				if(!moneyAdded)
+				{
+					GameResources.AddMoney(data.value);
+					moneyAdded = true;
+				}
 				currentHealth = 0;
+			}
+		}
+
+		public void Collect()
+		{
+			if(!moneyAdded)
+			{
+				GameResources.AddMoney(data.value);
+				moneyAdded = true;
 			}
 		}
 	}

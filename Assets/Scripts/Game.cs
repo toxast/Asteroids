@@ -19,6 +19,34 @@ public class Game : MonoBehaviour
 		hangarObjects.ForEach (h => h.SetActive (true));
 
 		hangar.startTheGame += HandleStartTheGame;
+
+		main.gameOver += HandleGameOver;
+		main.levelCleared += HandlelevelCleared;
+	}
+
+	void HandlelevelCleared ()
+	{
+		Debug.LogWarning ("levelCleared");
+		StartCoroutine(FinishGameIn (10f));
+	}
+
+	void HandleGameOver ()
+	{
+		Debug.LogWarning ("GameOver");
+		StartCoroutine (FinishGameIn (3f));
+	}
+
+	IEnumerator FinishGameIn(float seconds)
+	{
+		yield return new WaitForSeconds (seconds);
+
+		hangarObjects.ForEach (h => h.SetActive (true));
+		gameObjects.ForEach (h => h.SetActive (false));
+
+		yield return new WaitForEndOfFrame ();
+		yield return new WaitForEndOfFrame ();
+
+		main.Clear ();
 	}
 
 	void HandleStartTheGame (FullSpaceShipSetupData data)

@@ -12,15 +12,11 @@ public class SimpleTower : PolygonGameObject
 	private float currentAimAngle = 0;
 	
 	Rotaitor cannonsRotaitor;
-	private bool smartAim = false;
 	float accuracy;
 
-	public void InitSimpleTower(PhysicalData physical, bool smartAim, float cannonsRotatingSpeed, AccuracyData accData)
+	public void InitSimpleTower(PhysicalData physical, float cannonsRotatingSpeed, AccuracyData accData)
 	{
 		InitPolygonGameObject (physical);
-
-		this.smartAim = smartAim;
-		//this.cannonsRotatingSpeed = cannonsRotatingSpeed;
 
 		accuracy = accData.startingAccuracy;
 		if(accData.isDynamic)
@@ -35,7 +31,17 @@ public class SimpleTower : PolygonGameObject
 		
 		RotateCannon(delta);
 
+		CalculateAim ();
+
 		TickGuns (delta);
+
+		if(!Main.IsNull(target))
+		{
+			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+			{
+				Shoot();
+			}
+		}
 	}
 
 	private void RotateCannon(float deltaTime)
@@ -43,34 +49,14 @@ public class SimpleTower : PolygonGameObject
 		cannonsRotaitor.Rotate(deltaTime, currentAimAngle);
 	}
 	
-	private void TickGuns(float delta)
+	private void CalculateAim()
 	{
-		for (int i = 0; i < guns.Count; i++) 
-		{
-			guns[i].Tick(delta);
-		}
-		
 		if(!Main.IsNull(target))
 		{
-			if(smartAim)
+			AimSystem aim = new AimSystem(target.position, accuracy * target.velocity, position, guns[0].bulletSpeed);
+			if(aim.canShoot)
 			{
-				AimSystem aim = new AimSystem(target.position, accuracy * target.velocity, position, guns[0].bulletSpeed);
-				if(aim.canShoot)
-				{
-					currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;
-				}
-			}
-			else
-			{
-				currentAimAngle = Math2d.GetRotationDg(target.position - position);
-			}
-
-			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
-			{
-				for (int i = 0; i < guns.Count; i++) 
-				{
-					guns[i].ShootIfReady();
-				}
+				currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -307,7 +308,7 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 			t.Tick(delta);
 		}
 	}
-
+	
 	protected virtual void ApplyRotation(float dtime)
 	{
 		cacheTransform.Rotate(Vector3.back, rotation*dtime);
@@ -318,6 +319,37 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		if(shield != null)
 		{
 			shield.Tick(delta);
+		}
+	}
+
+	protected void TickGuns(float delta)
+	{
+		if (deathAnimation != null && deathAnimation.started)
+			return;
+		
+		var d = delta;
+		for (int i = 0; i < notLinkedGuns.Count; i++) 
+		{
+			guns[notLinkedGuns[i]].Tick(d);
+		}
+		
+		if(linkedGuns.Any())
+			guns [linkedGuns [linkedGunTick]].Tick (d);
+	}
+
+	protected void Shoot()
+	{
+		for (int i = 0; i < notLinkedGuns.Count; i++) 
+		{
+			guns[notLinkedGuns[i]].ShootIfReady();
+		}
+		
+		if(linkedGuns.Any() && guns[linkedGuns[linkedGunTick]].ReadyToShoot())
+		{
+			guns[linkedGuns[linkedGunTick]].ShootIfReady();
+			linkedGunTick ++;
+			if(linkedGunTick >= linkedGuns.Count)
+				linkedGunTick = 0;
 		}
 	}
 
