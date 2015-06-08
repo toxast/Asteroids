@@ -226,7 +226,7 @@ public class ObjectsCreator
 			return result;
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
-		turret.InitSimpleTower (data.physical, data.rotationSpeed, data.accuracy);
+		turret.InitSimpleTower (data.physical, data.rotationSpeed, data.accuracy, data.shootAngle);
 		turret.reward = data.reward;
 		turret.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
 		var guns = new List<Gun> ();

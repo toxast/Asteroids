@@ -58,6 +58,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -111,6 +112,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -164,6 +166,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -224,6 +227,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .300000012
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -274,6 +278,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .529999971
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -330,6 +335,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .550000012
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -355,7 +361,7 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
     turrets: []
     verts:
-    - {x: 2.38785267, y: -.0899999887}
+    - {x: 2.38785267, y: -.0899999738}
     - {x: 1.23785269, y: -.74000001}
     - {x: .197852626, y: -1}
     - {x: -.257620364, y: -1.96000004}
@@ -368,7 +374,7 @@ MonoBehaviour:
     - {x: -.257620364, y: 1.96000004}
     - {x: .197852626, y: 1}
     - {x: 1.23785269, y: .74000001}
-    - {x: 2.38785267, y: .0900000781}
+    - {x: 2.38785267, y: .090000093}
     upgradeIndex: 0
   - name: OldSchool lvl 2
     price: 3600
@@ -387,6 +393,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .550000012
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -417,11 +424,11 @@ MonoBehaviour:
     linkedGuns: 0100000002000000
     thrusters:
     - place:
-        pos: {x: -1.5, y: .709999979}
+        pos: {x: -1.29999995, y: .709999979}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19868348, guid: f83746c780871214281129b770ef409b, type: 2}
     - place:
-        pos: {x: -1.50000012, y: -.710000277}
+        pos: {x: -1.29999995, y: -.709999979}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 19868348, guid: f83746c780871214281129b770ef409b, type: 2}
     turrets: []
@@ -462,6 +469,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .400000006
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 0
@@ -547,6 +555,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .300000012
+      shootAngle: 15
     accuracy:
       startingAccuracy: .5
       isDynamic: 1
@@ -603,6 +612,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -628,9 +638,9 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19871822, guid: 88c58e46015860349b466fa73565cc32, type: 2}
     turrets: []
     verts:
-    - {x: .0387319922, y: -.181725323}
+    - {x: .0387318693, y: -.181725323}
     - {x: -.425327778, y: -.722000122}
-    - {x: .0168968011, y: -1.18227458}
+    - {x: .0168966837, y: -1.18227458}
     - {x: .54034704, y: -.929574966}
     - {x: 1.17011511, y: -.609657407}
     - {x: 2.61805129, y: -.803106368}
@@ -647,9 +657,9 @@ MonoBehaviour:
     - {x: 2.61805129, y: .803106368}
     - {x: 1.17011511, y: .609657407}
     - {x: .54034704, y: .929574966}
-    - {x: .0168968011, y: 1.1822753}
+    - {x: .0168966837, y: 1.1822753}
     - {x: -.425327778, y: .722000122}
-    - {x: .0387319922, y: .181724399}
+    - {x: .0387318693, y: .181724399}
     upgradeIndex: 0
   - name: Jaw 2
     price: 6000
@@ -668,6 +678,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -697,10 +708,10 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19871822, guid: e7967024cfe556a44adc0ac5ee27fefc, type: 2}
     turrets: []
     verts:
-    - {x: .0324843563, y: -.191289216}
+    - {x: .0324842483, y: -.191289276}
     - {x: -.578406513, y: -.641744912}
     - {x: -.849913716, y: -1.17241836}
-    - {x: -.214340582, y: -1.49946129}
+    - {x: -.214340746, y: -1.49946129}
     - {x: .779129803, y: -1.32051313}
     - {x: 1.22341394, y: -.641744912}
     - {x: 2.7475574, y: -.845375359}
@@ -710,8 +721,8 @@ MonoBehaviour:
     - {x: -2.12723255, y: -1.89438069}
     - {x: -2.49746966, y: -1.04900599}
     - {x: -1.47314703, y: -.672598064}
-    - {x: -1.73716319, y: -.413431197}
-    - {x: -1.73716319, y: .413432568}
+    - {x: -1.73716319, y: -.413431227}
+    - {x: -1.73716319, y: .413432539}
     - {x: -1.47314703, y: .672597826}
     - {x: -2.49746966, y: 1.04900575}
     - {x: -2.12723255, y: 1.89438045}
@@ -721,10 +732,10 @@ MonoBehaviour:
     - {x: 2.7475574, y: .845375121}
     - {x: 1.22341394, y: .641744673}
     - {x: .779129803, y: 1.32051289}
-    - {x: -.214340582, y: 1.49946105}
+    - {x: -.214340746, y: 1.49946105}
     - {x: -.849913716, y: 1.17241812}
     - {x: -.578406513, y: .641744673}
-    - {x: .0324843563, y: .191289902}
+    - {x: .0324842483, y: .191289842}
     upgradeIndex: 0
   - name: Jaw 3
     price: 10000
@@ -743,6 +754,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -773,8 +785,8 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19867060, guid: af21db030d86f1f4f96e657d579bb1f3, type: 2}
     turrets: []
     verts:
-    - {x: .307883561, y: -.129999846}
-    - {x: .0278834552, y: -.829999983}
+    - {x: .307883561, y: -.129999578}
+    - {x: .0278833527, y: -.829999983}
     - {x: .517883539, y: -1.14999998}
     - {x: 1.0960995, y: -1.13}
     - {x: 1.2160995, y: -.519999981}
@@ -786,8 +798,8 @@ MonoBehaviour:
     - {x: -1.37390041, y: -2.07999992}
     - {x: -3.04390025, y: -1.63999999}
     - {x: -1.76458156, y: -.707997501}
-    - {x: -2.04249334, y: -.435190737}
-    - {x: -2.04249334, y: .435191333}
+    - {x: -2.04249334, y: -.435190469}
+    - {x: -2.04249334, y: .435191602}
     - {x: -1.76458156, y: .707997501}
     - {x: -3.04390025, y: 1.63999999}
     - {x: -1.37390041, y: 2.07999992}
@@ -799,8 +811,8 @@ MonoBehaviour:
     - {x: 1.2160995, y: .519999981}
     - {x: 1.0960995, y: 1.13}
     - {x: .517883539, y: 1.14999998}
-    - {x: .0278834552, y: .829999983}
-    - {x: .307883561, y: .130000144}
+    - {x: .0278833527, y: .829999983}
+    - {x: .307883561, y: .130000412}
     upgradeIndex: 0
   - name: (12) small manta
     price: -1
@@ -819,6 +831,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -885,13 +898,14 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
-      startingAccuracy: 0
+      startingAccuracy: .5
       isDynamic: 1
       checkDtime: .5
       add: .200000003
-      sub: .400000006
-      bounds: {x: 0, y: 1}
+      sub: .200000003
+      bounds: {x: .5, y: 1}
     shield:
       capacity: 0
       rechargeRate: 0
@@ -952,6 +966,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .600000024
+      shootAngle: 15
     accuracy:
       startingAccuracy: .5
       isDynamic: 1
@@ -1023,6 +1038,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .600000024
+      shootAngle: 15
     accuracy:
       startingAccuracy: .5
       isDynamic: 1
@@ -1048,32 +1064,32 @@ MonoBehaviour:
       thrusterPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
     turrets: []
     verts:
-    - {x: .242227256, y: -.0690869465}
-    - {x: .141253501, y: -.510183096}
-    - {x: .920398831, y: -.600528121}
-    - {x: 1.26790822, y: -.419837952}
-    - {x: 1.6611743, y: -.605842471}
-    - {x: 1.20944965, y: -1.12134016}
-    - {x: .0881094262, y: -1.53054988}
-    - {x: -1.41055417, y: -1.21699953}
-    - {x: -.921628296, y: -.669615448}
-    - {x: -.921628296, y: .669615686}
-    - {x: -1.41055417, y: 1.21699977}
-    - {x: .0881094262, y: 1.53055012}
-    - {x: 1.20944965, y: 1.12134039}
-    - {x: 1.6611743, y: .60584271}
-    - {x: 1.26790822, y: .419838846}
-    - {x: .920398831, y: .600528359}
-    - {x: .141253501, y: .510183334}
-    - {x: .242227256, y: .0690876767}
+    - {x: .242227256, y: -.0690870285}
+    - {x: .141253501, y: -.510183156}
+    - {x: .920398831, y: -.600528181}
+    - {x: 1.26790822, y: -.419838041}
+    - {x: 1.6611743, y: -.605842531}
+    - {x: 1.20944965, y: -1.12134027}
+    - {x: .0881094187, y: -1.53055}
+    - {x: -1.41055417, y: -1.21699965}
+    - {x: -.921628296, y: -.669615507}
+    - {x: -.921628296, y: .669615626}
+    - {x: -1.41055417, y: 1.21699965}
+    - {x: .0881094187, y: 1.53055}
+    - {x: 1.20944965, y: 1.12134027}
+    - {x: 1.6611743, y: .60584265}
+    - {x: 1.26790822, y: .419838756}
+    - {x: .920398831, y: .6005283}
+    - {x: .141253501, y: .510183275}
+    - {x: .242227256, y: .0690875947}
     upgradeIndex: 0
   - name: (16) lvl 3 boss
     price: -1
-    reward: 1400
+    reward: 1000
     color: {r: .514705896, g: .509903371, b: .3406142, a: 1}
     physical:
       density: 3
-      healthModifier: 10
+      healthModifier: 8
       collisionDefence: 0
       collisionAttackModifier: 1
     ai: 0
@@ -1084,6 +1100,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 180
     accuracy:
       startingAccuracy: 1
       isDynamic: 0
@@ -1097,92 +1114,93 @@ MonoBehaviour:
       rechargeDelay: 1
     guns:
     - place:
-        pos: {x: 3.88000011, y: -1.41375107e-08}
+        pos: {x: 3.88000035, y: -8.98510955e-09}
         dir: {x: 1, y: 0}
       type: 4
       index: 4
     - place:
-        pos: {x: -.13000001, y: -7.69000006}
+        pos: {x: -.129999742, y: -7.69000006}
         dir: {x: .424010456, y: -.905657291}
       type: 4
       index: 4
     - place:
-        pos: {x: -.13000001, y: 7.69000053}
-        dir: {x: .424010992, y: .905657053}
+        pos: {x: -.129999742, y: 7.69000053}
+        dir: {x: .424010873, y: .905657172}
       type: 4
       index: 4
     - place:
-        pos: {x: 6.78000069, y: 6.42000008}
-        dir: {x: .74477762, y: .667312801}
+        pos: {x: 6.78000116, y: 6.42000008}
+        dir: {x: .456632137, y: .88965559}
       type: 2
-      index: 1
+      index: 2
     - place:
-        pos: {x: 6.78000069, y: -6.42000008}
-        dir: {x: .74477756, y: -.667312801}
+        pos: {x: 6.78000116, y: -6.42000008}
+        dir: {x: .456632137, y: -.88965559}
       type: 2
-      index: 1
+      index: 2
     linkedGuns: 
     thrusters:
     - place:
-        pos: {x: -.883282244, y: -4.39582308e-08}
+        pos: {x: -.883281946, y: -3.88058297e-08}
         dir: {x: 1, y: 0}
       thrusterPrefab: {fileID: 0}
     turrets:
     - place:
-        pos: {x: -4.86000013, y: 5.25}
-        dir: {x: -.866025329, y: .50000006}
+        pos: {x: -4.85999966, y: 5.25}
+        dir: {x: -.866025329, y: .500000119}
       index: 0
     - place:
-        pos: {x: -4.86000013, y: -5.25}
-        dir: {x: -.866025329, y: -.50000006}
+        pos: {x: -4.85999966, y: -5.25}
+        dir: {x: -.866025329, y: -.500000119}
       index: 0
     verts:
-    - {x: 4.00329399, y: -.572313964}
-    - {x: 6.86486387, y: -1.84135759}
-    - {x: 12.2147532, y: -1.29392684}
+    - {x: 4.00329494, y: -.572314799}
+    - {x: 6.86486483, y: -1.84135818}
+    - {x: 12.2147532, y: -1.29392743}
     - {x: 11.8663874, y: -5.27523899}
-    - {x: 5.57093573, y: -11.5458059}
-    - {x: 3.10749865, y: -10.9734917}
-    - {x: 1.06707644, y: -7.73867655}
-    - {x: -1.39636075, y: -7.9626255}
-    - {x: .619178772, y: -12.1430035}
+    - {x: 5.57093668, y: -11.5458059}
+    - {x: 3.10750008, y: -10.9734917}
+    - {x: 1.06707859, y: -7.73867655}
+    - {x: -1.39635861, y: -7.9626255}
+    - {x: .619180381, y: -12.1430035}
     - {x: -10.2298985, y: -8.21145821}
-    - {x: -12.1210222, y: -2.71226954}
-    - {x: -7.06973124, y: -2.51320386}
-    - {x: -8.21435928, y: -1.46810937}
-    - {x: -10.3543148, y: -1.069978}
-    - {x: -10.3543148, y: 1.069978}
-    - {x: -8.21435928, y: 1.46810937}
-    - {x: -7.06973124, y: 2.51320386}
-    - {x: -12.1210222, y: 2.71226954}
+    - {x: -12.1210222, y: -2.71227026}
+    - {x: -7.06973028, y: -2.51320457}
+    - {x: -8.21435928, y: -1.46810997}
+    - {x: -10.3543148, y: -1.06997859}
+    - {x: -10.3543148, y: 1.06997859}
+    - {x: -8.21435928, y: 1.46810997}
+    - {x: -7.06973028, y: 2.51320457}
+    - {x: -12.1210222, y: 2.71227026}
     - {x: -10.2298985, y: 8.21145821}
-    - {x: .619178772, y: 12.1430035}
-    - {x: -1.39636075, y: 7.9626255}
-    - {x: 1.06707644, y: 7.73867655}
-    - {x: 3.10749865, y: 10.9734917}
-    - {x: 5.57093573, y: 11.5458059}
+    - {x: .619180381, y: 12.1430035}
+    - {x: -1.39635861, y: 7.9626255}
+    - {x: 1.06707859, y: 7.73867655}
+    - {x: 3.10750008, y: 10.9734917}
+    - {x: 5.57093668, y: 11.5458059}
     - {x: 11.8663874, y: 5.27523899}
-    - {x: 12.2147532, y: 1.29392684}
-    - {x: 6.86486387, y: 1.84135759}
-    - {x: 4.00329399, y: .572313964}
+    - {x: 12.2147532, y: 1.29392743}
+    - {x: 6.86486483, y: 1.84135818}
+    - {x: 4.00329494, y: .572314322}
     upgradeIndex: 0
-  - name: tooth
-    price: -1
+  - name: Bat
+    price: 4
     reward: 0
-    color: {r: .702151835, g: .827574968, b: .860294104, a: 1}
+    color: {r: 0, g: .255172253, b: 1, a: 1}
     physical:
-      density: 1
-      healthModifier: 1
-      collisionDefence: 0
-      collisionAttackModifier: 1
+      density: 1.5
+      healthModifier: 25
+      collisionDefence: .200000003
+      collisionAttackModifier: 3
     ai: 0
     mobility:
-      thrust: 45
-      maxSpeed: 20
+      thrust: 28
+      maxSpeed: 36
       turnSpeed: 220
       brake: 15
       passiveBrake: 2
-      stability: .5
+      stability: .600000024
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1191,39 +1209,243 @@ MonoBehaviour:
       sub: .400000006
       bounds: {x: 0, y: 1}
     shield:
-      capacity: 0
-      rechargeRate: 0
-      rechargeDelay: 0
+      capacity: 10
+      rechargeRate: 3
+      rechargeDelay: 1
     guns:
     - place:
-        pos: {x: .980368197, y: -8.37749781e-09}
+        pos: {x: 1.26697266, y: -.920000017}
         dir: {x: 1, y: 0}
       type: 1
+      index: 11
+    - place:
+        pos: {x: 1.26697266, y: .920000017}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 11
+    linkedGuns: 
+    thrusters:
+    - place:
+        pos: {x: -.499633729, y: -.0399999395}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19870422, guid: c2bf1d89cd77ee54b8687df201e50b24, type: 2}
+    turrets: []
+    verts:
+    - {x: 2.31828165, y: -.0899997279}
+    - {x: 2.09328151, y: -.42299974}
+    - {x: 2.0569725, y: -.879999995}
+    - {x: 1.70628178, y: -1.03499985}
+    - {x: .842281818, y: -1.50299978}
+    - {x: 1.56228197, y: -1.81799996}
+    - {x: .860281825, y: -2.49300003}
+    - {x: -.300718367, y: -2.46599984}
+    - {x: -1.90271807, y: -2.38499999}
+    - {x: -2.83871841, y: -1.65599978}
+    - {x: -1.551718, y: -1.45799959}
+    - {x: -.795113206, y: -.914759636}
+    - {x: -1.29302716, y: -.720000029}
+    - {x: -1.32302725, y: -.460000008}
+    - {x: -.642718256, y: -.422999561}
+    - {x: -.642718256, y: .422999561}
+    - {x: -1.32302725, y: .460000008}
+    - {x: -1.29302716, y: .720000029}
+    - {x: -.795113206, y: .914759636}
+    - {x: -1.551718, y: 1.45799959}
+    - {x: -2.83871841, y: 1.65599978}
+    - {x: -1.90271807, y: 2.38499999}
+    - {x: -.300718367, y: 2.46599984}
+    - {x: .860281825, y: 2.49300003}
+    - {x: 1.56228197, y: 1.81799996}
+    - {x: .842281818, y: 1.50299978}
+    - {x: 1.70628178, y: 1.03499985}
+    - {x: 2.0569725, y: .879999995}
+    - {x: 2.09328151, y: .42299974}
+    - {x: 2.31828165, y: .0899997875}
+    upgradeIndex: 0
+  - name: Bat 2
+    price: 10
+    reward: 0
+    color: {r: 0, g: .0482757092, b: 1, a: 1}
+    physical:
+      density: 2
+      healthModifier: 26
+      collisionDefence: .219999999
+      collisionAttackModifier: 3
+    ai: 0
+    mobility:
+      thrust: 28
+      maxSpeed: 36
+      turnSpeed: 220
+      brake: 15
+      passiveBrake: 2
+      stability: .5
+      shootAngle: 15
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 17
+      rechargeRate: 3
+      rechargeDelay: 1
+    guns:
+    - place:
+        pos: {x: 2.3499999, y: -.74000001}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 12
+    - place:
+        pos: {x: 2.3499999, y: .74000001}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 12
+    - place:
+        pos: {x: 2.45362878, y: -.0100001367}
+        dir: {x: 1, y: 0}
+      type: 0
       index: 0
     linkedGuns: 
     thrusters:
     - place:
-        pos: {x: .0703681856, y: -8.37749781e-09}
+        pos: {x: -1.16637135, y: -.0400001369}
         dir: {x: 1, y: 0}
-      thrusterPrefab: {fileID: 19800000, guid: f90a7646a95b5f840932b8ced158f7a2, type: 2}
+      thrusterPrefab: {fileID: 19873948, guid: 94c9f86025d610c4b892fde11ce8a66c, type: 2}
+    - place:
+        pos: {x: -1.78999996, y: .959999979}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19873948, guid: 94c9f86025d610c4b892fde11ce8a66c, type: 2}
+    - place:
+        pos: {x: -1.78999996, y: -.959999979}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19873948, guid: 94c9f86025d610c4b892fde11ce8a66c, type: 2}
     turrets: []
     verts:
-    - {x: 1.15380228, y: -.468512028}
-    - {x: .831700385, y: -1.22984397}
-    - {x: -.0196327586, y: -.74000001}
-    - {x: -.629631639, y: -1.11000001}
-    - {x: -1.64963186, y: -.689999998}
-    - {x: -2.10963178, y: -.340000004}
-    - {x: -.749631643, y: -.629999995}
-    - {x: -.329631865, y: -.300000012}
-    - {x: -.329631865, y: .300000012}
-    - {x: -.749631643, y: .629999995}
-    - {x: -2.10963178, y: .340000004}
-    - {x: -1.64963186, y: .689999998}
-    - {x: -.629631639, y: 1.11000001}
-    - {x: -.0196327586, y: .74000001}
-    - {x: .831700385, y: 1.22984397}
-    - {x: 1.15380228, y: .468512028}
+    - {x: -1.25069237, y: .423000127}
+    - {x: -1.92569208, y: .396000296}
+    - {x: -2.07869196, y: .882000446}
+    - {x: -1.98869193, y: 1.11599994}
+    - {x: -2.15969181, y: 1.45799983}
+    - {x: -3.44669199, y: 1.65600002}
+    - {x: -2.51069212, y: 2.38499999}
+    - {x: -.161691964, y: 2.58299994}
+    - {x: -.350691974, y: 2.24099994}
+    - {x: .279308081, y: 1.98000002}
+    - {x: .594307959, y: 2.24099994}
+    - {x: 2.43787193, y: 1.52999997}
+    - {x: 2.78787184, y: 1.12}
+    - {x: 2.65530777, y: .720000446}
+    - {x: 2.94787192, y: .349999964}
+    - {x: 2.94787192, y: -.350000024}
+    - {x: 2.65530777, y: -.720000446}
+    - {x: 2.78787184, y: -1.12}
+    - {x: 2.43787193, y: -1.52999997}
+    - {x: .594307959, y: -2.24099994}
+    - {x: .279308081, y: -1.98000002}
+    - {x: -.350691974, y: -2.24099994}
+    - {x: -.161691964, y: -2.58299994}
+    - {x: -2.51069212, y: -2.38499999}
+    - {x: -3.44669199, y: -1.65600002}
+    - {x: -2.15969181, y: -1.45799983}
+    - {x: -1.98869193, y: -1.11599994}
+    - {x: -2.07869196, y: -.882000446}
+    - {x: -1.92569208, y: -.396000355}
+    - {x: -1.25069237, y: -.423000187}
+    upgradeIndex: 0
+  - name: Bat 3
+    price: 10
+    reward: 0
+    color: {r: 0, g: .0482757092, b: 1, a: 1}
+    physical:
+      density: 2
+      healthModifier: 27
+      collisionDefence: .219999999
+      collisionAttackModifier: 3
+    ai: 0
+    mobility:
+      thrust: 34
+      maxSpeed: 42
+      turnSpeed: 240
+      brake: 15
+      passiveBrake: 2
+      stability: .600000024
+      shootAngle: 15
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 25
+      rechargeRate: 3
+      rechargeDelay: 1
+    guns:
+    - place:
+        pos: {x: 2.23000002, y: .940000057}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 13
+    - place:
+        pos: {x: 2.23000002, y: -.939999938}
+        dir: {x: 1, y: 0}
+      type: 1
+      index: 13
+    - place:
+        pos: {x: -1.30999982, y: -2.57999992}
+        dir: {x: .950948596, y: -.30934903}
+      type: 2
+      index: 3
+    - place:
+        pos: {x: -1.30999982, y: 2.57999992}
+        dir: {x: .950948477, y: .309349298}
+      type: 2
+      index: 4
+    linkedGuns: 
+    thrusters:
+    - place:
+        pos: {x: -1.20000005, y: .400000006}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19816438, guid: 89e193ef048432645abbbf3a7178f96c, type: 2}
+    - place:
+        pos: {x: -1.20000005, y: -.400000006}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 19816438, guid: 89e193ef048432645abbbf3a7178f96c, type: 2}
+    turrets: []
+    verts:
+    - {x: 2.49425316, y: -.218700022}
+    - {x: 2.20265317, y: -.583199859}
+    - {x: 2.66921329, y: -1.20284975}
+    - {x: 1.99853349, y: -1.72043967}
+    - {x: .54782331, y: -2.47859979}
+    - {x: -1.06326652, y: -2.83580971}
+    - {x: -1.58814645, y: -2.67542982}
+    - {x: -3.13362646, y: -2.80664968}
+    - {x: -2.22237635, y: -1.90268958}
+    - {x: -2.09844661, y: -1.36322975}
+    - {x: -1.5006665, y: -1.26116967}
+    - {x: -1.37673652, y: -.976859689}
+    - {x: -1.63188636, y: -.714419842}
+    - {x: -1.50795662, y: -.32076031}
+    - {x: -.961206734, y: -.342630178}
+    - {x: -.961206734, y: .342630118}
+    - {x: -1.50795662, y: .32076025}
+    - {x: -1.63188636, y: .714419842}
+    - {x: -1.37673652, y: .976859689}
+    - {x: -1.5006665, y: 1.26116967}
+    - {x: -2.09844661, y: 1.36322975}
+    - {x: -2.22237635, y: 1.90268958}
+    - {x: -3.13362646, y: 2.80664968}
+    - {x: -1.58814645, y: 2.67542982}
+    - {x: -1.06326652, y: 2.83580971}
+    - {x: .54782331, y: 2.47859979}
+    - {x: 1.99853349, y: 1.72043967}
+    - {x: 2.66921329, y: 1.20284975}
+    - {x: 2.20265317, y: .583199859}
+    - {x: 2.49425316, y: .218699992}
     upgradeIndex: 0
   - name: alien3
     price: -1
@@ -1242,6 +1464,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1305,6 +1528,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1360,6 +1584,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1429,6 +1654,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1501,6 +1727,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1573,6 +1800,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1645,6 +1873,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1701,6 +1930,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1766,6 +1996,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1823,6 +2054,84 @@ MonoBehaviour:
     - {x: 1.01547229, y: .992199898}
     - {x: 2.17707253, y: .592899978}
     upgradeIndex: 0
+  - name: 
+    price: -1
+    reward: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
+    physical:
+      density: 1
+      healthModifier: 1
+      collisionDefence: 0
+      collisionAttackModifier: 1
+    ai: 0
+    mobility:
+      thrust: 45
+      maxSpeed: 20
+      turnSpeed: 220
+      brake: 15
+      passiveBrake: 2
+      stability: .5
+      shootAngle: 15
+    accuracy:
+      startingAccuracy: 0
+      isDynamic: 1
+      checkDtime: .5
+      add: .150000006
+      sub: .400000006
+      bounds: {x: 0, y: 1}
+    shield:
+      capacity: 0
+      rechargeRate: 0
+      rechargeDelay: 0
+    guns:
+    - place:
+        pos: {x: .278739035, y: -1.53670001}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    - place:
+        pos: {x: .278739035, y: 1.53670001}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    - place:
+        pos: {x: 3.0007391, y: -.0100000352}
+        dir: {x: 1, y: 0}
+      type: 0
+      index: 0
+    linkedGuns: 
+    thrusters:
+    - place:
+        pos: {x: -.619260848, y: -.0400000364}
+        dir: {x: 1, y: 0}
+      thrusterPrefab: {fileID: 0}
+    turrets: []
+    verts:
+    - {x: 2.61546659, y: -.200000003}
+    - {x: 2.01546669, y: -.558899999}
+    - {x: 1.27093887, y: -.80368197}
+    - {x: .555466652, y: -1.47420001}
+    - {x: 1.1054666, y: -1.89999998}
+    - {x: 1.72546673, y: -1.53999996}
+    - {x: 1.72546673, y: -2.3900001}
+    - {x: -.00453335047, y: -3.41000009}
+    - {x: -1.98453331, y: -3.17000008}
+    - {x: -1.12453341, y: -1.96019983}
+    - {x: -2.05453324, y: -.639999866}
+    - {x: -.955461323, y: -.40184164}
+    - {x: -.955461323, y: .40184164}
+    - {x: -2.05453324, y: .639999866}
+    - {x: -1.12453341, y: 1.96019983}
+    - {x: -1.98453331, y: 3.17000008}
+    - {x: -.00453335047, y: 3.41000009}
+    - {x: 1.72546673, y: 2.3900001}
+    - {x: 1.72546673, y: 1.53999996}
+    - {x: 1.1054666, y: 1.89999998}
+    - {x: .555466652, y: 1.47420001}
+    - {x: 1.27093887, y: .80368197}
+    - {x: 2.01546669, y: .558899999}
+    - {x: 2.61546659, y: .200000003}
+    upgradeIndex: 0
   - name: (31) cool ship clone
     price: -1
     reward: 0
@@ -1840,6 +2149,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1914,6 +2224,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -1981,6 +2292,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2061,6 +2373,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2127,6 +2440,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2194,6 +2508,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2260,6 +2575,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2326,6 +2642,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2418,6 +2735,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2497,6 +2815,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2562,6 +2881,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2628,6 +2948,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2693,6 +3014,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2768,6 +3090,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2849,6 +3172,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -2934,6 +3258,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -3017,6 +3342,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -3096,6 +3422,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -3182,6 +3509,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -3263,6 +3591,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -3366,6 +3695,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -3453,6 +3783,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -3540,6 +3871,7 @@ MonoBehaviour:
       brake: 15
       passiveBrake: 2
       stability: .5
+      shootAngle: 15
     accuracy:
       startingAccuracy: 0
       isDynamic: 1
@@ -3576,7 +3908,7 @@ MonoBehaviour:
     - {x: 1.03853798, y: .149999991}
     upgradeIndex: 0
   turrets:
-  - name: turret
+  - name: lvl 3 boss turret
     color: {r: .235294104, g: .235294104, b: .235294104, a: 1}
     rotationSpeed: 50
     restrictionAngle: 180
@@ -3593,16 +3925,16 @@ MonoBehaviour:
       index: 0
     linkedGuns: 
     verts:
-    - {x: .0149907367, y: -.396134704}
-    - {x: 1.63302231, y: -.719999611}
+    - {x: .0149906334, y: -.396134943}
+    - {x: 1.63302231, y: -.719999492}
     - {x: 1.62782788, y: -1.58454108}
     - {x: -1.12697768, y: -1.78799999}
-    - {x: -1.28659618, y: -.622497916}
-    - {x: -1.28659618, y: .622498751}
+    - {x: -1.28659618, y: -.622497797}
+    - {x: -1.28659618, y: .62249887}
     - {x: -1.12697768, y: 1.78800023}
     - {x: 1.62782788, y: 1.58454132}
-    - {x: 1.63302231, y: .720000446}
-    - {x: .0149907367, y: .396135777}
+    - {x: 1.63302231, y: .720000565}
+    - {x: .0149906334, y: .396135539}
   - name: (1) turret lazer
     color: {r: .235294104, g: .235294104, b: .235294104, a: 1}
     rotationSpeed: 70
@@ -3744,6 +4076,7 @@ MonoBehaviour:
       collisionDefence: 0
       collisionAttackModifier: 1
     color: {r: .602619052, g: .0538494959, b: .610294104, a: 1}
+    shootAngle: 20
     rotationSpeed: 30
     accuracy:
       startingAccuracy: 0
@@ -3781,6 +4114,7 @@ MonoBehaviour:
       collisionDefence: 0
       collisionAttackModifier: 1
     color: {r: .838235259, g: .265030265, b: .265030265, a: 1}
+    shootAngle: 20
     rotationSpeed: 50
     accuracy:
       startingAccuracy: 0
@@ -3831,6 +4165,7 @@ MonoBehaviour:
       collisionDefence: 0
       collisionAttackModifier: 1
     color: {r: .838235259, g: .265030265, b: .265030265, a: 1}
+    shootAngle: 20
     rotationSpeed: 15
     accuracy:
       startingAccuracy: 0
@@ -3882,6 +4217,7 @@ MonoBehaviour:
       collisionDefence: 0
       collisionAttackModifier: 1
     color: {r: .823529422, g: .448096901, b: .448096901, a: 1}
+    shootAngle: 20
     rotationSpeed: 50
     accuracy:
       startingAccuracy: 0

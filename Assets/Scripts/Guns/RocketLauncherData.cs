@@ -7,6 +7,7 @@ public class RocketLauncherData : IClonable<RocketLauncherData>, IGun, IGotShape
 	public string name;
 	public GunData baseData;
 	public SpaceshipData missleParameters;
+	public float accuracy = 0.5f;
 	public ParticleSystem thrusterEffect;
 	public Vector3 thrusterPos;
 
@@ -23,6 +24,7 @@ public class RocketLauncherData : IClonable<RocketLauncherData>, IGun, IGotShape
 		RocketLauncherData r = new RocketLauncherData ();
 		r.baseData = baseData.Clone ();
 		r.missleParameters = missleParameters.Clone ();
+		r.accuracy = accuracy;
 		r.thrusterEffect = thrusterEffect; 
 		r.thrusterPos = thrusterPos;
 		r.launchDirection = launchDirection;

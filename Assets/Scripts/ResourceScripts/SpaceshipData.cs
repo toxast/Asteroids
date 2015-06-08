@@ -10,12 +10,13 @@ public class SpaceshipData : IClonable<SpaceshipData>
 	public float brake = 15f;
 	public float passiveBrake = 2f;
 	public float stability = 0.5f;
+	public float shootAngle = 15f;
 
 	public SpaceshipData()
 	{
 	}
 
-	public SpaceshipData(float thrust, float maxSpeed, float turnSpeed, float brake, float passiveBrake, float stability)
+	public SpaceshipData(float thrust, float maxSpeed, float turnSpeed, float brake, float passiveBrake, float stability, float shootAngle)
 	{
 		this.thrust = thrust;
 		this.maxSpeed = maxSpeed;
@@ -23,10 +24,11 @@ public class SpaceshipData : IClonable<SpaceshipData>
 		this.brake = brake;
 		this.passiveBrake = passiveBrake;
 		this.stability = stability;
+		this.shootAngle = shootAngle;
 	}
 
 	public SpaceshipData Clone()
 	{
-		return new SpaceshipData(thrust, maxSpeed, turnSpeed, brake, passiveBrake, stability);
+		return new SpaceshipData(thrust, maxSpeed, turnSpeed, brake, passiveBrake, stability, shootAngle);
 	}
 }

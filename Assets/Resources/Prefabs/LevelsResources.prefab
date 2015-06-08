@@ -738,7 +738,7 @@ MonoBehaviour:
         count: 1
         overrideAmount: 0
         keepEnemiesAmount: 1
-        spawnRange: {x: 100, y: 100}
+        spawnRange: {x: 80, y: 80}
         spawnInterval: 5
         teleportDuration: 3
         teleportRingSize: 20

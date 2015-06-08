@@ -10,6 +10,7 @@ public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IG
 	public int reward;
 	public PhysicalData physical;
 	public Color color = Color.white;
+	public float shootAngle = 20;
 	public float rotationSpeed = 50;
 	public AccuracyData accuracy;
 	public ShieldData shield;
@@ -30,6 +31,7 @@ public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IG
 		r.reward = reward;
 		r.physical = physical.Clone(); 
 		r.color = color; 
+		r.shootAngle = shootAngle;
 		r.rotationSpeed = rotationSpeed;
 		r.accuracy = accuracy.Clone ();
 		r.shield = shield.Clone();

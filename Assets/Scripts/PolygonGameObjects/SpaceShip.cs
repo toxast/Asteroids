@@ -6,6 +6,7 @@ using System.Linq;
 
 public class SpaceShip : PolygonGameObject 
 {
+	public float shootAngle = 15f;
 	public float turnSpeed = 220f;
 	public float maxSpeed = 20f;
 
@@ -49,6 +50,7 @@ public class SpaceShip : PolygonGameObject
 	{
 		InitPolygonGameObject (physical);
 
+		shootAngle = data.shootAngle;
 		turnSpeed = data.turnSpeed;
 		//passiveBrake = data.passiveBrake;
 		thrust = data.thrust;

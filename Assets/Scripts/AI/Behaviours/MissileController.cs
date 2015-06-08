@@ -14,10 +14,11 @@ public class MissileController : InputController, IGotTarget
 	float maxVelocity;
 	float accuracy = 0.5f; //TODO
 
-	public MissileController(SpaceShip thisShip, float maxVelocity)
+	public MissileController(SpaceShip thisShip, float maxVelocity, float accuracy)
 	{
 		this.maxVelocity = maxVelocity;
 		this.thisShip = thisShip;
+		this.accuracy = accuracy;
 	}
 
 	public void SetTarget(IPolygonGameObject target)

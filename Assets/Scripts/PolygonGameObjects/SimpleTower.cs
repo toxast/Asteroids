@@ -1,12 +1,13 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Linq;
 
 public class SimpleTower : PolygonGameObject
 {
 	public static Vector2[] vertices = PolygonCreator.CreateTowerVertices2(1, 6);
 	
-	private float rangeAngle = 20f; //if angle to target bigger than this - dont even try to shoot
+	private float shootAngle = 20f; //if angle to target bigger than this - dont even try to shoot
 	//private float cannonsRotatingSpeed = 0;
 	
 	private float currentAimAngle = 0;
@@ -14,9 +15,11 @@ public class SimpleTower : PolygonGameObject
 	Rotaitor cannonsRotaitor;
 	float accuracy;
 
-	public void InitSimpleTower(PhysicalData physical, float cannonsRotatingSpeed, AccuracyData accData)
+	public void InitSimpleTower(PhysicalData physical, float cannonsRotatingSpeed, AccuracyData accData, float shootAngle)
 	{
 		InitPolygonGameObject (physical);
+
+		this.shootAngle = shootAngle;
 
 		accuracy = accData.startingAccuracy;
 		if(accData.isDynamic)
@@ -37,9 +40,19 @@ public class SimpleTower : PolygonGameObject
 
 		if(!Main.IsNull(target))
 		{
-			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < rangeAngle)
+			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < shootAngle)
 			{
 				Shoot();
+			}
+
+			//hack
+			//spawner guns should shoot if there is a target
+			if(spawnerGuns.Any())
+			{
+				for (int i = 0; i < spawnerGuns.Count; i++) 
+				{
+					guns[spawnerGuns[i]].ShootIfReady();
+				}
 			}
 		}
 	}

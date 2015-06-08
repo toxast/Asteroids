@@ -30,7 +30,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 		if(a.canShoot)
 		{
 			turnDirection = a.direction;
-			this.shooting = (Math2d.ClosestAngleBetweenNormalizedDegAbs(turnDirection.normalized, thisShip.cacheTransform.right) < 15f);
+			this.shooting = (Math2d.ClosestAngleBetweenNormalizedDegAbs(turnDirection.normalized, thisShip.cacheTransform.right) < thisShip.shootAngle);
 		}
 		else
 		{
