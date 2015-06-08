@@ -595,9 +595,9 @@ MonoBehaviour:
       - name: mantas
         type: 2
         indx: 12
-        count: 4
+        count: 2
         overrideAmount: 1
-        keepEnemiesAmount: 4
+        keepEnemiesAmount: 5
         spawnRange: {x: 70, y: 70}
         spawnInterval: 0
         teleportDuration: 1.5
@@ -608,6 +608,22 @@ MonoBehaviour:
           angle2ShipRange: 180
           angleFromShip: -90
           angleFromShipRange: 45
+      - name: 2 backHead
+        type: 2
+        indx: 13
+        count: 2
+        overrideAmount: 1
+        keepEnemiesAmount: 8
+        spawnRange: {x: 70, y: 70}
+        spawnInterval: 0
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: 0
+          angleFromShipRange: 180
       doneWhenLeft: 0
     - name: (3) asteroids
       objects:
@@ -649,7 +665,7 @@ MonoBehaviour:
       - name: rocket tower
         type: 5
         indx: 1
-        count: 1
+        count: 2
         overrideAmount: 1
         keepEnemiesAmount: 4
         spawnRange: {x: 70, y: 100}
@@ -662,12 +678,28 @@ MonoBehaviour:
           angle2ShipRange: 180
           angleFromShip: 0
           angleFromShipRange: 180
-      - name: rocket tower
+      - name: mantas
         type: 2
         indx: 12
         count: 4
-        overrideAmount: 0
-        keepEnemiesAmount: 4
+        overrideAmount: 1
+        keepEnemiesAmount: 10
+        spawnRange: {x: 50, y: 80}
+        spawnInterval: 1
+        teleportDuration: 1.5
+        teleportRingSize: 12
+        teleportationColor: {r: .996078432, g: .678431392, b: 0, a: 1}
+        positioning:
+          angle2Ship: 0
+          angle2ShipRange: 180
+          angleFromShip: 0
+          angleFromShipRange: 180
+      - name: mantas
+        type: 2
+        indx: 3
+        count: 5
+        overrideAmount: 1
+        keepEnemiesAmount: 20
         spawnRange: {x: 50, y: 80}
         spawnInterval: 1
         teleportDuration: 1.5
@@ -694,6 +726,25 @@ MonoBehaviour:
         teleportationColor: {r: .823529422, g: .329738259, b: .0121106897, a: 1}
         positioning:
           angle2Ship: 0
+          angle2ShipRange: 0
+          angleFromShip: 0
+          angleFromShipRange: 180
+      doneWhenLeft: 0
+    - name: (6) boss
+      objects:
+      - name: 
+        type: 2
+        indx: 16
+        count: 1
+        overrideAmount: 0
+        keepEnemiesAmount: 1
+        spawnRange: {x: 100, y: 100}
+        spawnInterval: 5
+        teleportDuration: 3
+        teleportRingSize: 20
+        teleportationColor: {r: 1, g: 0, b: 0, a: 1}
+        positioning:
+          angle2Ship: 45
           angle2ShipRange: 0
           angleFromShip: 0
           angleFromShipRange: 180

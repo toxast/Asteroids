@@ -236,13 +236,13 @@ MonoBehaviour:
     repeatInterval: 0
     vertices:
     - {x: 1.03853798, y: -.149999857}
-    - {x: .718537867, y: -.459999979}
-    - {x: -.0114629241, y: -.579999983}
-    - {x: -1.12146211, y: -.49999997}
-    - {x: -.621462107, y: 2.64928445e-07}
-    - {x: -1.12146211, y: .5}
-    - {x: -.0114629241, y: .579999983}
-    - {x: .718537867, y: .460000038}
+    - {x: .718537867, y: -.460000008}
+    - {x: -.0114630116, y: -.579999983}
+    - {x: -1.12146211, y: -.5}
+    - {x: -.621462107, y: 2.8472931e-07}
+    - {x: -1.12146211, y: .49999997}
+    - {x: -.0114630116, y: .579999983}
+    - {x: .718537867, y: .460000008}
     - {x: 1.03853798, y: .150000185}
     color: {r: .977941155, g: .685947418, b: .0575259477, a: 1}
     fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
@@ -361,13 +361,13 @@ MonoBehaviour:
       repeatCount: 0
       repeatInterval: 0
       vertices:
-      - {x: 1.62130022, y: 6.6120748e-08}
-      - {x: .728029132, y: -.557999969}
-      - {x: -.371970892, y: -.467999965}
+      - {x: 1.62130022, y: 6.61263826e-08}
+      - {x: .728029191, y: -.557999969}
+      - {x: -.371970862, y: -.467999965}
       - {x: -1.24097085, y: -.557999969}
       - {x: -1.24097085, y: .557999969}
-      - {x: -.371970892, y: .467999965}
-      - {x: .728029132, y: .557999969}
+      - {x: -.371970862, y: .467999965}
+      - {x: .728029191, y: .557999969}
       color: {r: .735294104, g: .480103821, b: .0973183438, a: 1}
       fireEffect: {fileID: 0}
     missleParameters:
@@ -562,7 +562,7 @@ MonoBehaviour:
       damage: 0
       lifeTime: 0
       bulletSpeed: 15
-      fireInterval: 5
+      fireInterval: 10
       physical:
         density: 1
         healthModifier: 1
@@ -580,7 +580,7 @@ MonoBehaviour:
     spaceshipIndex: 14
     maxSpawn: 4
     startSpawn: 2
-    startSpawnInterval: 2
+    startSpawnInterval: 1
   - name: (1 jaw spawner gun
     baseData:
       name: Spawner
@@ -588,7 +588,7 @@ MonoBehaviour:
       damage: 0
       lifeTime: 0
       bulletSpeed: 15
-      fireInterval: 3
+      fireInterval: 5
       physical:
         density: 1
         healthModifier: 1
@@ -604,9 +604,9 @@ MonoBehaviour:
       color: {r: 1, g: 0, b: 0, a: 1}
       fireEffect: {fileID: 0}
     spaceshipIndex: 15
-    maxSpawn: 2
-    startSpawn: 2
-    startSpawnInterval: .5
+    maxSpawn: 3
+    startSpawn: 0
+    startSpawnInterval: 2
   lazerGuns:
   - name: (0) user jaw gun 0
     baseData:
@@ -668,6 +668,46 @@ MonoBehaviour:
       fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
     distance: 40
     width: .5
+  - name: (3) jaw spawn lazer gun
+    baseData:
+      name: 
+      price: 0
+      damage: 8
+      lifeTime: 1
+      bulletSpeed: 0
+      fireInterval: 2
+      physical:
+        density: 1
+        healthModifier: 1
+        collisionDefence: 0
+        collisionAttackModifier: 1
+      repeatCount: 0
+      repeatInterval: 0
+      vertices: []
+      color: {r: 0, g: .867647052, b: .0418864824, a: 1}
+      fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
+    distance: 35
+    width: .5
+  - name: (4) boss lazer gun
+    baseData:
+      name: 
+      price: 0
+      damage: 30
+      lifeTime: 5
+      bulletSpeed: 0
+      fireInterval: 10
+      physical:
+        density: 1
+        healthModifier: 1
+        collisionDefence: 0
+        collisionAttackModifier: 1
+      repeatCount: 0
+      repeatInterval: 0
+      vertices: []
+      color: {r: .944828033, g: 0, b: 1, a: 1}
+      fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
+    distance: 100
+    width: 1
   - name: 
     baseData:
       name: Lazer 2
