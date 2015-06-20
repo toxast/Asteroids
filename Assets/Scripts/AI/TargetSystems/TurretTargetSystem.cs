@@ -8,7 +8,7 @@ using System;
 public class TurretTargetSystem : ITickable
 {
 	PolygonGameObject thisObj;
-	private float repeatTargetCheck = 2f;
+	private float repeatTargetCheck = 1f;
 	private float leftUntilTargetCheck;
 	
 	float enemyDetectionRSqr;
@@ -17,13 +17,13 @@ public class TurretTargetSystem : ITickable
 	float rotationSpeed;
 	Func<Vector3> angelsRestriction;
 
-	public TurretTargetSystem(PolygonGameObject thisObj, float rotationSpeed, Func<Vector3> angelsRestriction)
+	public TurretTargetSystem(PolygonGameObject thisObj, float rotationSpeed, Func<Vector3> angelsRestriction, float repeatTargetCheck)
 	{
 		this.thisObj = thisObj;
 		this.rotationSpeed = rotationSpeed;
 		this.angelsRestriction = angelsRestriction;
-
-		enemyDetectionRSqr = thisObj.guns [0].Range;
+		this.repeatTargetCheck = repeatTargetCheck;
+		enemyDetectionRSqr = 1.2f * thisObj.guns [0].Range;
 		enemyDetectionRSqr *= enemyDetectionRSqr;
 
 		leftUntilTargetCheck = 0;

@@ -20,8 +20,8 @@ public class UIShipsScroll : MonoBehaviour
 		{
 			int index = i;
 			var data = elemsData [index];
-			if(data.price <= 0)
-				continue;
+//			if(data.price <= 0)
+//				continue;
 
 			var shipElem = Instantiate(prefab) as BuyShipElem;
 			shipElem.transform.SetParent(elementsHolder, false);

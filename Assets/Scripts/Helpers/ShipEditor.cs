@@ -30,6 +30,8 @@ public class ShipEditor : MonoBehaviour
 	[SerializeField] bool duplicate = false;
 	[SerializeField] bool reverse = false;
 
+	[SerializeField] bool scaleUp = false;
+	[SerializeField] bool scaleDown = false;
 	[SerializeField] bool doScale = false;
 	[SerializeField] Vector2 scaleBy = Vector2.one;
 	[SerializeField] int saveANDloadIndx = -1;
@@ -167,7 +169,14 @@ public class ShipEditor : MonoBehaviour
 		fullArray = full.ToArray ();
 		var pivot = Math2d.GetMassCenter (fullArray);
 		Math2d.ShiftVertices(fullArray, -pivot);
-		
+
+		for (int i = 0; i < fullArray.Length; i++) {
+			if(Mathf.Abs(fullArray[i].y) < 0.01f)
+			{
+				fullArray[i].y = 0;
+			}
+		}
+
 		gunsData = new List<GunSetupData> ();
 		foreach(var g in guns)
 		{
@@ -355,6 +364,14 @@ public class ShipEditor : MonoBehaviour
 		return handle;
 	}
 
+	private void Scale(Vector2 vscale)
+	{
+		foreach (var h in handles) 
+		{
+			h.transform.localPosition = new Vector3(h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
+		}
+	}
+
 	void Update()
 	{
 		if(handles == null || handles.Count < 2)
@@ -369,10 +386,19 @@ public class ShipEditor : MonoBehaviour
 		if(doScale)
 		{
 			doScale = false;
-			foreach (var h in handles) 
-			{
-				h.transform.localPosition = new Vector3(h.transform.localPosition.x * scaleBy.x, h.transform.localPosition.y * scaleBy.y, 0);
-			}
+			Scale(scaleBy);
+		}
+
+		if(scaleUp)
+		{
+			scaleUp = false;
+			Scale(new Vector2(1.08f, 1.08f));
+		}
+
+		if(scaleDown)
+		{
+			scaleDown = false;
+			Scale(new Vector2(0.92f, 0.92f));
 		}
 
 

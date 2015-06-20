@@ -88,7 +88,7 @@ public class ObjectsCreator
 		}
 		turret.SetGuns (guns, data.linkedGuns);
 
-		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction);
+		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction, data.repeatTargetCheck);
 		parent.AddTurret(pos.place, turret);
 	}
 
@@ -236,7 +236,7 @@ public class ObjectsCreator
 			guns.Add (gun);
 		}
 		turret.SetGuns (guns, data.linkedGuns);
-		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction);
+		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction, data.repeatTargetCheck);
 		DeathAnimation.MakeDeathForThatFellaYo (turret);
 
 		if (data.shield != null && data.shield.capacity > 0)

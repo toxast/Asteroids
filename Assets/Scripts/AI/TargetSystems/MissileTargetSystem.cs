@@ -7,7 +7,7 @@ using System.Collections;
 public class MissileTargetSystem : ITickable
 {
 	SpaceShip thisObj;
-	private float repeatTargetCheck = 2f;
+	private float repeatTargetCheck = 0.5f;
 	private float leftUntilTargetCheck;
 	
 	float enemyDetectionRSqr = 150 * 150;  //todo: pass as parameter? based on guns?
@@ -125,7 +125,7 @@ public class MissileTargetSystem : ITickable
 	private float GetCloseValue(SpaceShip s, Vector2 dir)
 	{
 		var angle = Math2d.DeltaAngleDeg( Math2d.GetRotationDg(dir), Math2d.GetRotationDg(s.cacheTransform.right));
-		float time2rotate = Mathf.Abs(angle) / s.turnSpeed;
+		float time2rotate = 0.2f + Mathf.Abs(angle) / s.turnSpeed;
 		return 1000f / (dir.magnitude * time2rotate);
 	}
 }
