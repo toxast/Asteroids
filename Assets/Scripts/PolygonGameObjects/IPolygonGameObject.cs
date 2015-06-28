@@ -51,6 +51,9 @@ public interface IPolygonGameObject : IGotTarget, ITickable
 	DropID dropID{get; set;}
 	
 	DeathAnimation deathAnimation{get; set;}
+	float overrideExplosionDamage {get;}
+	float overrideExplosionRange {get;}
+
 
 	List<Vector2[]> Split();
 	List<PolygonGameObject> turrets{get; set;}

@@ -10,6 +10,7 @@ public class RocketLauncher : Gun
 	private Vector2 launchDirection;
 	private float launchSpeed;
 	private float accuracy;
+	private float overrideExplosionRadius;
 
 	public RocketLauncher(Place place, RocketLauncherData data, IPolygonGameObject parent):base(place, data.baseData, parent)
 	{
@@ -20,6 +21,7 @@ public class RocketLauncher : Gun
 		launchDirection = data.launchDirection;
 		launchSpeed = data.launchSpeed;
 		accuracy = data.accuracy;
+		overrideExplosionRadius = data.overrideExplosionRadius;
 	}
 
 	protected override IBullet CreateBullet()
@@ -37,7 +39,7 @@ public class RocketLauncher : Gun
 
 		missile.gameObject.name = "missile";
 		var controller = new MissileController (missile, missleParameters.maxSpeed, accuracy);
-		missile.InitMissile(1f, missleParameters, damage, lifeTime);
+		missile.InitMissile(1f, missleParameters, damage, overrideExplosionRadius, lifeTime);
 		missile.destroyOnBoundsTeleport = true;
 		missile.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 		missile.SetController (controller);

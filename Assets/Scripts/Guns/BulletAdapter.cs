@@ -91,7 +91,9 @@ public class BulletAdapter : IBullet
 	public DropID dropID{get{return go.dropID;} set{go.dropID = value;}}
 	
 	public DeathAnimation deathAnimation{get{return go.deathAnimation;} set{go.deathAnimation = value;}}
-	
+	public float overrideExplosionDamage { get { return go.overrideExplosionDamage; } }
+	public float overrideExplosionRange { get { return go.overrideExplosionRange; } }
+
 	public List<Vector2[]> Split()
 	{
 		return go.Split();

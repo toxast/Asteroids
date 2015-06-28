@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PhExplosion
 {
-	public PhExplosion(Vector2 pos, float radius, float power, List<IPolygonGameObject> objs)
+	public PhExplosion(Vector2 pos, float radius, float power, List<IPolygonGameObject> objs, int collision = -1)
 	{
 		//Debug.LogWarning (pos + " " + radius + " " + power);
 		float rsqr = radius * radius;
@@ -16,15 +16,20 @@ public class PhExplosion
 				continue;
 			}
 
-			Vector2 dist = obj.position - pos;
-			if(Math2d.ApproximatelySame(dist, Vector2.zero))
+			if((obj.layer & collision) == 0)
 			{
-				//TODO: self obj
 				continue;
 			}
 
-			float sqrMagnitude = dist.sqrMagnitude;
-			if(sqrMagnitude < rsqr) 
+			Vector2 distCenters = obj.position - pos;
+			if(Math2d.ApproximatelySame(distCenters, Vector2.zero))
+			{
+				//TODO: pass self obj
+				continue;
+			}
+
+			float distCentersSqr = distCenters.sqrMagnitude;
+			if(distCentersSqr < rsqr + obj.polygon.Rsqr + 2 * radius * obj.polygon.R) 
 			{
 //				var polygon = PolygonCollision.GetPolygonInGlobalCoordinates(obj);
 //				int closestVertex = -1;
@@ -42,14 +47,16 @@ public class PhExplosion
 //				PolygonCollision.ApplyImpulse(obj, pos, impulse * (polygon.vertices[closestVertex] - pos));
 //				obj.Hit(impulse / (obj.mass * 15f)); //TODO: unify impule hits or add passive damage?
 
-				float magnitude = Mathf.Sqrt(sqrMagnitude);
-				float p = Mathf.Pow(Mathf.Abs(1f - (magnitude/radius)), 1.5f);
-				Vector2 normalizedDist = dist/magnitude;
+				float distCentersMagnitude = distCenters.magnitude;
+				float dist2edgeOfObject = Mathf.Max(0, distCentersMagnitude - obj.polygon.R);
+				float p = Mathf.Sqrt(Mathf.Max(0, 1f - (dist2edgeOfObject/radius)));
+				Vector2 normalizedDist = distCenters / distCentersMagnitude;
 
 				float impulse = p * power;
 				var dVelocity = normalizedDist * impulse / obj.mass;
 				obj.velocity += dVelocity;
-				obj.Hit(Singleton<GlobalConfig>.inst.ExplosionDamageKff * impulse * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier);
+				Debug.LogWarning(impulse);
+				obj.Hit(impulse);
 			}
 		}
 	}

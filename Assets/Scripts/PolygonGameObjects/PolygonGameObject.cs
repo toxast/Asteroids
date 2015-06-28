@@ -74,12 +74,16 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public DropID dropID{get; set;}
 
 	public DeathAnimation deathAnimation{get; set;}
+	public float overrideExplosionDamage { get; protected set;}
+	public float overrideExplosionRange {get; protected set;}
 
 	protected virtual void Awake () 
 	{
 		cacheTransform = transform;
 		guns = new List<Gun>();
 		turrets = new List<PolygonGameObject> ();
+		overrideExplosionDamage = -1;
+		overrideExplosionRange = -1;
 	}
 
 	public void SetPolygon(Polygon polygon)

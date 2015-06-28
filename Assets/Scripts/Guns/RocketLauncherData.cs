@@ -6,6 +6,7 @@ public class RocketLauncherData : IClonable<RocketLauncherData>, IGun, IGotShape
 {
 	public string name;
 	public GunData baseData;
+	public float overrideExplosionRadius = -1;
 	public SpaceshipData missleParameters;
 	public float accuracy = 0.5f;
 	public ParticleSystem thrusterEffect;
@@ -24,6 +25,7 @@ public class RocketLauncherData : IClonable<RocketLauncherData>, IGun, IGotShape
 		RocketLauncherData r = new RocketLauncherData ();
 		r.baseData = baseData.Clone ();
 		r.missleParameters = missleParameters.Clone ();
+		r.overrideExplosionRadius = overrideExplosionRadius;
 		r.accuracy = accuracy;
 		r.thrusterEffect = thrusterEffect; 
 		r.thrusterPos = thrusterPos;
