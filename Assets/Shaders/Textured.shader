@@ -48,7 +48,7 @@
  
          float4 frag(vertexOutput input) : COLOR
          {
-         	float4 rgbcolor = tex2D(_MainTex, float2(input.tex.xy)); 
+         	float4 rgbcolor = tex2D(_MainTex, input.tex.xy); 
             return rgbcolor * input.col;
          }
  

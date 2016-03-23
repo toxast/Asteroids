@@ -93,10 +93,9 @@ public class Main : MonoBehaviour
 		return ship.velocity * 0.5f;
 	}
 
-	public void CreatePhysicalExplosion(Vector2 pos, float r)
+	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
 	{
-		float power = 3 * r;
-		new PhExplosion(pos, r, power, gobjects);
+		new PhExplosion(pos, r, dmgMax, gobjects, collision);
 	}
 
 	LevelSpawner spawner;
@@ -278,7 +277,7 @@ public class Main : MonoBehaviour
 	float maxCameraY;
 	private void CalculateBounds(float screensNumHeight, float screensNumWidth)
 	{
-		float camHeight = 2f * mainCamera.orthographicSize;
+		float camHeight = 2f * mainCamera.GetComponent<Camera>().orthographicSize;
 		float camWidth = camHeight * (Screen.width / (float)Screen.height);
 		float height = screensNumHeight * camHeight;  
 		float width = screensNumWidth * camWidth;
@@ -600,8 +599,16 @@ public class Main : MonoBehaviour
 				}
 			}
 
-			float radius = gobject.deathAnimation.explosionSize;
-			CreatePhysicalExplosion(gobject.position, radius);//radius = 6f*Mathf.Sqrt(obj.polygon.area) = 6a , 1.5aa = x 
+			float radius = gobject.overrideExplosionRange >= 0 ? gobject.overrideExplosionRange : gobject.deathAnimation.explosionSize;
+			float damage = gobject.overrideExplosionDamage >= 0 ? gobject.overrideExplosionDamage : 2f * Mathf.Pow(radius, 0.65f);
+
+			Debug.LogError("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
+			int collision = -1;
+			if(gobject is Missile)
+			{
+				collision = gobject.collision;
+			}
+			CreatePhysicalExplosion(gobject.position, radius, damage, collision);//radius = 6f*Mathf.Sqrt(obj.polygon.area) = 6a , 1.5aa = x 
 			//1.5f*gobject.polygon.area
 		}
 

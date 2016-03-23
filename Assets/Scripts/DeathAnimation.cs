@@ -89,8 +89,7 @@ public class DeathAnimation
 
 			if(duration <= 0)
 			{
-
-				explosionSize = 6f*Mathf.Sqrt(obj.polygon.area) * finalExplosionPowerKoeff;
+				explosionSize =  obj.overrideExplosionRange >= 0 ? obj.overrideExplosionRange : 6f*Mathf.Sqrt(obj.polygon.area) * finalExplosionPowerKoeff;
 				{
 					for (int k = 0; k < finishExplosions.Count; k++) {
 						var e = GameObject.Instantiate(finishExplosions[k]) as ParticleSystem;
