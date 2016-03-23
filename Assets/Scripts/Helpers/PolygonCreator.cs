@@ -117,7 +117,7 @@ public static class PolygonCreator
 		filter.mesh = msh;
 		gamePolygon.mat = mat;
 		renderer.sharedMaterial = mat;
-		renderer.castShadows = false;
+		renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 		renderer.receiveShadows = false;
 		gamePolygon.mesh = filter.mesh;
 	}
@@ -147,7 +147,7 @@ public static class PolygonCreator
 		filter.mesh = msh;
 //		gamePgolygon.mat = mat;
 		renderer.sharedMaterial = mat;
-		renderer.castShadows = false;
+		renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 		renderer.receiveShadows = false;
 //		gamePolygon.mesh = filter.mesh;
 

@@ -278,7 +278,7 @@ public class Main : MonoBehaviour
 	float maxCameraY;
 	private void CalculateBounds(float screensNumHeight, float screensNumWidth)
 	{
-		float camHeight = 2f * mainCamera.camera.orthographicSize;
+		float camHeight = 2f * mainCamera.orthographicSize;
 		float camWidth = camHeight * (Screen.width / (float)Screen.height);
 		float height = screensNumHeight * camHeight;  
 		float width = screensNumWidth * camWidth;

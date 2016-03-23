@@ -49,7 +49,7 @@ Shader "Custom/Diffuse"
  
          float4 frag(vertexOutput input) : COLOR
          {
-         	float4 rgbcolor = tex2D(_MainTex, float2(input.tex)); 
+         	float4 rgbcolor = tex2D(_MainTex, float2(input.tex.xy)); 
             return rgbcolor.a * _Color + (1 - rgbcolor.a) * input.col;
          }
  
