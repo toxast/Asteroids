@@ -30,24 +30,64 @@ public class LazerGun : Gun
 	Transform lTransform;
 	float distance;
 	float width;
+	float attackDuration;
+	float pauseDuration;
+	float damage;
+	Color color;
+	ParticleSystem fireEffect;
 
-	float leftDuration = 0;
+	float attackLeftDuration = 0;
+	float timeToNextShot;
 
 	int layer = 0;
 
-	public LazerGun(Place place, LazerGunData data, IPolygonGameObject parent):base(place, data.baseData, parent)
+	public LazerGun(Place place, MLazerGunData data, IPolygonGameObject parent):base(place, data, parent)
 	{
 		distance = data.distance;
 		width = data.width;
-		bulletSpeed = Mathf.Infinity;
+		//bulletSpeed = Mathf.Infinity;
+		color = data.color;
+		attackDuration = data.attackDuration;
+		pauseDuration = data.pauseDuration;
+
+		if(data.fireEffect != null)
+		{
+			fireEffect = GameObject.Instantiate(data.fireEffect) as ParticleSystem;
+			Math2d.PositionOnParent(fireEffect.transform, place, parent.cacheTransform, true, -1);
+		}
+
+		fireEffect = data.fireEffect;
+		damage = data.damage;
 	}
+
+	public override float BulletSpeedForAim{ get { return Mathf.Infinity; } }
 
 	public override float Range
 	{
 		get{return distance;}
 	}
 
-	protected override IBullet CreateBullet ()
+	public override bool ReadyToShoot()
+	{
+		return timeToNextShot <= 0;
+	}
+
+	public override void ShootIfReady()
+	{
+		if(ReadyToShoot())
+		{
+			CreateLazerGo();
+			ResetTime();
+		}
+	}
+
+	public override void ResetTime()
+	{
+		timeToNextShot = pauseDuration;
+		attackLeftDuration = attackDuration;
+	}
+
+	protected void CreateLazerGo ()
 	{
 		if(lazer == null)
 		{
@@ -57,25 +97,23 @@ public class LazerGun : Gun
 			Math2d.PositionOnParent (lTransform, place, parent.cacheTransform, true);
 			layer = 1 << CollisionLayers.GetBulletLayerNum(parent.layer);
 		}
-		leftDuration = lifeTime;
-		return null;
 	}
 
 	public override void Tick (float delta)
 	{
-		base.Tick (delta);
-
 		if(lazer != null)
-			lazer.SetActive (leftDuration > 0);
+			lazer.SetActive (attackLeftDuration > 0);
 		
-		if(leftDuration > 0)
+		if (attackLeftDuration > 0) 
 		{
-			leftDuration -= delta;
-			Fire(delta);
+			attackLeftDuration -= delta;
+			Fire (delta);
+		} 
+		else if(timeToNextShot > 0)
+		{
+			timeToNextShot -= delta;
 		}
 	}
-
-	protected override void Fire (IBullet b){}
 
 	private void Fire(float delta)
 	{

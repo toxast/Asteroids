@@ -10,22 +10,39 @@ public class ObjectsCreator
 	public static T CreateSpaceShip<T>(int dataIndex)
 		where T:SpaceShip
 	{
-		var sdata = SpaceshipsResources.Instance.spaceships [dataIndex];
-		var sp =  CreateSpaceShip<T> (sdata);
+		var sdata = MSpaceShipResources.Instance.spaceships [dataIndex];
+		var sp =  CreateSpaceShipOld<T> (sdata);
 		var bullets = Singleton<Main>.inst.bullets;
 		switch(sdata.ai)
 		{
-			case  FullSpaceShipSetupData.AIType.eCommon:
+			case  AIType.eCommon:
 				sp.SetController (new CommonController (sp, bullets, sp.guns[0], sdata.accuracy));
 				break;
-			case  FullSpaceShipSetupData.AIType.eSuicide:
+			case  AIType.eSuicide:
 				sp.SetController (new SuicideController(sp, bullets, sdata.accuracy));
 				break;
 		}
 		return sp;
 	}
 
-	public static T CreateSpaceShip<T>(FullSpaceShipSetupData sdata)
+	public static T MCreateSpaceShip<T>(MSpaceshipData sdata)
+		where T:SpaceShip
+	{
+		var sp =  CreateSpaceShipOld<T> (sdata);
+		var bullets = Singleton<Main>.inst.bullets;
+		switch(sdata.ai)
+		{
+		case  AIType.eCommon:
+			sp.SetController (new CommonController (sp, bullets, sp.guns[0], sdata.accuracy));
+			break;
+		case  AIType.eSuicide:
+			sp.SetController (new SuicideController(sp, bullets, sdata.accuracy));
+			break;
+		}
+		return sp;
+	}
+
+	private static T CreateSpaceShipOld<T>(MSpaceshipData sdata)
 		where T:SpaceShip
 	{
 		T spaceship = PolygonCreator.CreatePolygonGOByMassCenter<T> (sdata.verts, sdata.color);
@@ -49,15 +66,15 @@ public class ObjectsCreator
 
 		foreach (var item in sdata.turrets) 
 		{
-			CreateTurret(spaceship, item, SpaceshipsResources.Instance.turrets[item.index]);
+			CreateTurret(spaceship, item);
 		}
 
 		return spaceship;
 	}
 
-	public static UserSpaceShip CreateSpaceShip(InputController contorller, FullSpaceShipSetupData data)
+	public static UserSpaceShip CreateSpaceShip(InputController contorller, MSpaceshipData data)
 	{
-		var spaceship = ObjectsCreator.CreateSpaceShip<UserSpaceShip> (data);
+		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data);
 		spaceship.SetCollisionLayerNum (CollisionLayers.ilayerUser);
 		spaceship.collector = new DropCollector (0.15f, 20f);
 		spaceship.SetColor (Color.blue);
@@ -66,8 +83,9 @@ public class ObjectsCreator
 		return spaceship;
 	}
 
-	private static void CreateTurret(PolygonGameObject parent, TurretReferenceData pos, TurretSetupData data)
+	private static void CreateTurret(PolygonGameObject parent, MTurretReferenceData pos)
 	{
+		MTurretData data = pos.turret;
 		var copyAngle = data.restrictionAngle * 0.5f;
 		var copyDir = pos.place.dir;
 		System.Func<Vector3> anglesRestriction = () =>
@@ -103,7 +121,24 @@ public class ObjectsCreator
 		return enemy;
 	}
 
+	public static Asteroid CreateAsteroid(MAsteroidData mdata)
+	{
+		float size = Random(mdata.size);
+		int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size*3);
+		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
+		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Singleton<GlobalConfig>.inst.AsteroidColor, ObjectsCreator.GetAsteroidMaterial(mdata.commonData.asteroidMaterialIndex));
 
+		//todo: include physical into asteroids?
+		var ph = new PhysicalData ();
+		ph.density = mdata.commonData.density;
+		ph.healthModifier = mdata.commonData.density;
+
+		asteroid.InitAsteroid (ph, mdata.speed, mdata.rotation); 
+		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
+		asteroid.gameObject.name = "asteroid";
+
+		return asteroid;
+	}
 
 	public static Asteroid CreateAsteroid(AsteroidSetupData dataPh, AsteroidData data, Material mat)
 	{
@@ -211,12 +246,12 @@ public class ObjectsCreator
 			gunplaces.Add(place);
 		}
 
-		InitGuns (tower, gunplaces, GunsData.RocketLauncher);
+		InitGuns (tower, gunplaces, GunsData.RocketLauncher());
 		
 		return tower;
 	}
 
-	public static SimpleTower CreateSimpleTower(TowerSetupData data)
+	public static SimpleTower CreateSimpleTower(MTowerData data)
 	{
 		System.Func<Vector3> anglesRestriction = () =>
 		{
@@ -244,7 +279,7 @@ public class ObjectsCreator
 
 		foreach (var item in data.turrets) 
 		{
-			CreateTurret(turret, item, SpaceshipsResources.Instance.turrets[item.index]);
+			CreateTurret(turret, item);
 		}
 
 		return turret;
@@ -257,7 +292,7 @@ public class ObjectsCreator
 		enemy.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
 		enemy.gameObject.name = "evade enemy";
 		DeathAnimation.MakeDeathForThatFellaYo (enemy);
-		InitGuns (enemy, EvadeEnemy.gunplaces, GunsData.SimpleGun2);
+		InitGuns (enemy, EvadeEnemy.gunplaces, GunsData.SimpleGun2());
 
 		return enemy;
 	}
@@ -275,7 +310,7 @@ public class ObjectsCreator
 			new Place(new Vector2(1.5f, -0.75f), new Vector2(1.0f, 0f)),
 		};
 
-		InitGuns (enemy, gunplaces, GunsData.TankGun);
+		InitGuns (enemy, gunplaces, GunsData.TankGun());
 		DeathAnimation.MakeDeathForThatFellaYo (enemy);
 		enemy.gameObject.name = "tank enemy";
 		
@@ -316,11 +351,11 @@ public class ObjectsCreator
 		return drop;
 	}
 
-	private static void InitGuns(PolygonGameObject enemy, List<Place> gunplaces, System.Func<Place, IPolygonGameObject, Gun> gunsGetter)
+	private static void InitGuns(PolygonGameObject enemy, List<Place> gunplaces, MGunBaseData gunData)
 	{
 		foreach (var gunplace in gunplaces) 
 		{
-			var gun = gunsGetter(gunplace, enemy);
+			var gun = gunData.GetGun (gunplace, enemy);
 			enemy.guns.Add (gun);
 		}
 	}

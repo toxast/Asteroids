@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &161048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400362}
+  - 114: {fileID: 11463948}
+  m_Layer: 0
+  m_Name: Ship38_manta
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400362
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161048}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11463948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: -1
+  reward: 0
+  color: {r: 0.35300094, g: 0.13851647, b: 0.89705884, a: 1}
+  physical:
+    density: 1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  ai: 0
+  mobility:
+    thrust: 45
+    maxSpeed: 20
+    turnSpeed: 220
+    brake: 15
+    passiveBrake: 2
+    stability: 0.5
+    shootAngle: 15
+  accuracy:
+    startingAccuracy: 0
+    isDynamic: 1
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 10
+    rechargeRate: 1
+    rechargeDelay: 10
+  guns:
+  - place:
+      pos: {x: 2.0646832, y: 0.79}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11408126, guid: 69b36a083f473a549a347e4100895042, type: 2}
+  - place:
+      pos: {x: 2.0646832, y: -0.79}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11408126, guid: 69b36a083f473a549a347e4100895042, type: 2}
+  linkedGuns: 
+  thrusters:
+  - place:
+      pos: {x: -0.64531684, y: -0.09999999}
+      dir: {x: 1, y: 0}
+    thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+  turrets: []
+  verts:
+  - {x: 2.083118, y: -0.9129974}
+  - {x: 1.3246832, y: -2.21}
+  - {x: 1.6146832, y: -4.21}
+  - {x: -0.46531686, y: -3.34}
+  - {x: -1.1053169, y: -2.19}
+  - {x: -3.3799834, y: -1.3446151}
+  - {x: -4.276393, y: -0.6625639}
+  - {x: -1.6261373, y: -1.2276919}
+  - {x: -0.8076759, y: -0.5846152}
+  - {x: -0.8076759, y: 0.5846153}
+  - {x: -1.6261373, y: 1.2276919}
+  - {x: -4.276393, y: 0.66256404}
+  - {x: -3.3799834, y: 1.3446151}
+  - {x: -1.1053169, y: 2.19}
+  - {x: -0.46531686, y: 3.34}
+  - {x: 1.6146832, y: 4.21}
+  - {x: 1.3246832, y: 2.21}
+  - {x: 2.083118, y: 0.91299754}
+  upgradeIndex: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 161048}
+  m_IsPrefabParent: 1

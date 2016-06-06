@@ -14,11 +14,11 @@ public interface IGotThrusters
 
 public interface IGotGuns
 {
-	List<GunSetupData> iguns {get; set;}
+	List<MGunSetupData> iguns {get; set;}
 }
 
 public interface IGotTurrets
 {
-	List<TurretReferenceData> iturrets {get; set;}
+	List<MTurretReferenceData> iturrets {get; set;}
 }
 

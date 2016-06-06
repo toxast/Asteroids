@@ -2,14 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 3
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: asteroidMaterial
   m_Shader: {fileID: 4800000, guid: 724a323545676b54ab21a120a62dcf6f, type: 3}
-  m_ShaderKeywords: []
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -43,14 +45,14 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _ParallaxMap
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _ParallaxMap
+          name: _Cube
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -66,23 +68,23 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
+      data:
+        first:
+          name: _Shininess
+        second: 0.078125
       data:
         first:
           name: PixelSnap
         second: 0
       data:
         first:
-          name: _Shininess
-        second: .078125
+          name: _Parallax
+        second: 0.02
       data:
         first:
           name: _InvFade
-        second: 1.48053575
-      data:
-        first:
-          name: _Parallax
-        second: .0199999996
+        second: 1.4805357
       data:
         first:
           name: _EmissionLM
@@ -95,7 +97,11 @@ Material:
       data:
         first:
           name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      data:
+        first:
+          name: _TintColor
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
       data:
         first:
           name: _Emission
@@ -103,8 +109,4 @@ Material:
       data:
         first:
           name: _ReflectColor
-        second: {r: 1, g: 1, b: 1, a: .5}
-      data:
-        first:
-          name: _TintColor
-        second: {r: .5, g: .5, b: .5, a: .5}
+        second: {r: 1, g: 1, b: 1, a: 0.5}

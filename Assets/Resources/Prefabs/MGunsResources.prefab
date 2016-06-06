@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &114356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 495282}
+  - 114: {fileID: 11439776}
+  m_Layer: 0
+  m_Name: MGunsResources
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &495282
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11439776
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd5524cf418ecf94f86e6da27c303b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guns:
+  - {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
+  - {fileID: 11458226, guid: 0fdfd4a41a1950c479a097090c44ab5e, type: 2}
+  - {fileID: 11408126, guid: 69b36a083f473a549a347e4100895042, type: 2}
+  - {fileID: 11445298, guid: 9e59e696b0a209245abbc52df4e8087f, type: 2}
+  - {fileID: 11411428, guid: 209ea5d7408c1c64e94e70b8e0c6b70f, type: 2}
+  - {fileID: 11405498, guid: ac11cd3a8d193cc4b9d8cee68274d8eb, type: 2}
+  - {fileID: 11456942, guid: d50425da7db2b98488d712854eec4540, type: 2}
+  - {fileID: 11440780, guid: 0dbadbc9f8d8d344491a36f68cc9d934, type: 2}
+  - {fileID: 11414980, guid: 2028278bc914d354184ac2b24e424271, type: 2}
+  - {fileID: 11481636, guid: 3715ed9b5c645b747b853e74a8e4987e, type: 2}
+  - {fileID: 11480548, guid: 3c24cf2f0e45500468c85b6bb644058a, type: 2}
+  - {fileID: 11425260, guid: b7fcaa38176f78b43b71d90751875d3f, type: 2}
+  - {fileID: 11498400, guid: 729ab35c2143bc046bd92f1bd12b0abf, type: 2}
+  - {fileID: 11491334, guid: 1abae0d84e5222245a47a4ea12dc6fc6, type: 2}
+  - {fileID: 11478534, guid: e7e4c12ca97d79346bb8f9e1a09c16de, type: 2}
+  - {fileID: 11422270, guid: 260895e1d7b8cbb4dbe9ce1e64156cc3, type: 2}
+  rocketLaunchers:
+  - {fileID: 11493992, guid: 50aefcc3f44d6bf43a2c55096e135dcb, type: 2}
+  - {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
+  - {fileID: 11420944, guid: f74655788b070a64a87cd90acbb4d841, type: 2}
+  - {fileID: 11421116, guid: 26cde68fc1dbc8641952c06da367f18b, type: 2}
+  - {fileID: 11424670, guid: 4f6e9207ec8c5e64a8241f924d53e229, type: 2}
+  - {fileID: 11484608, guid: 91b255ce1a0555e4aa2a99824688756c, type: 2}
+  spawnerGuns:
+  - {fileID: 11427436, guid: 446d4a580b44ca1409763e63ace05ecb, type: 2}
+  - {fileID: 11477998, guid: 7ff5f877a70cac84681dd09d59fc0ba2, type: 2}
+  - {fileID: 11446378, guid: 6a2a0681d0df15246879b77128d367ce, type: 2}
+  lazerGuns:
+  - {fileID: 11419668, guid: 2f4f9afc2594dc449bbc0935474775ba, type: 2}
+  - {fileID: 11458072, guid: 0eeac937898ef4b4bb8cac3252d53f0f, type: 2}
+  - {fileID: 11425338, guid: 1339663d686193848a41144762d355a1, type: 2}
+  - {fileID: 11434366, guid: 71bedc6bf01fd4547a67be15a4874aa9, type: 2}
+  - {fileID: 11421854, guid: b32dc99750a4c0a419fd79257ff80134, type: 2}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 114356}
+  m_IsPrefabParent: 1

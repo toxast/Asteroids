@@ -12,8 +12,8 @@ public class GUIHangar : MonoBehaviour
 	[SerializeField] UIGunsScroll gunsScroll;
 	[SerializeField] Button startButton;
 
-	FullSpaceShipSetupData currentShipData = null;
-	public event Action<FullSpaceShipSetupData> startTheGame;
+	MSpaceshipData currentShipData = null;
+	public event Action<MSpaceshipData> startTheGame;
 
 	void Awake()
 	{
@@ -22,7 +22,7 @@ public class GUIHangar : MonoBehaviour
 
 	void Start ()
 	{
-		shipsScroll.Show (SpaceshipsResources.Instance.spaceships, Create);
+		shipsScroll.Show (MSpaceShipResources.Instance.spaceships, Create);
 	}
 
 	void StartGame()
@@ -34,10 +34,10 @@ public class GUIHangar : MonoBehaviour
 		}
 	}
 
-	private void Create(int shipIndx, int dataIndx, FullSpaceShipSetupData data)
+	private void Create(int shipIndx, int dataIndx, MSpaceshipData data)
 	{
 		shipsScroll.Select (shipIndx);
-		currentShipData = data.Clone();
+		currentShipData = data;
 		uiShip.Create (dataIndx, data, SelectCannonClicked);
 
 		gunsScroll.Clear ();
@@ -45,27 +45,27 @@ public class GUIHangar : MonoBehaviour
 
 	private void SelectCannonClicked(int cannonNum)
 	{
-		var guns = GetAvaliableGuns (currentShipData, cannonNum);
-		Action<int, GUIHangar.GunIndexWarpper> act = (indx, gun) =>
-		{
-			gunsScroll.Select(indx);
-			currentShipData.guns [cannonNum].type = gun.itype;
-			currentShipData.guns [cannonNum].index = gun.index;
-		};
-
-		gunsScroll.Show (guns, act);
-
-		var currentGun = currentShipData.guns [cannonNum];
-		if(currentGun.type != GunSetupData.eGuns.None)
-		{
-			var i = guns.FindIndex( g => g.gun.itype == currentGun.type && g.index == currentGun.index);
-
-			if(i >= 0)
-				gunsScroll.Select(i);
-		}
+//		var guns = GetAvaliableGuns (currentShipData, cannonNum);
+//		Action<int, GUIHangar.GunIndexWarpper> act = (indx, gun) =>
+//		{
+//			gunsScroll.Select(indx);
+//			currentShipData.guns [cannonNum].type = gun.itype;
+//			currentShipData.guns [cannonNum].index = gun.index;
+//		};
+//
+//		gunsScroll.Show (guns, act);
+//
+//		var currentGun = currentShipData.guns [cannonNum];
+//		if(currentGun.type != GunSetupData.eGuns.None)
+//		{
+//			var i = guns.FindIndex( g => g.gun.itype == currentGun.type && g.index == currentGun.index);
+//
+//			if(i >= 0)
+//				gunsScroll.Select(i);
+//		}
 	}
 
-	private List<GunIndexWarpper> GetAvaliableGuns(FullSpaceShipSetupData spaceship, int cannonNum)
+	private List<GunIndexWarpper> GetAvaliableGuns(MSpaceshipData spaceship, int cannonNum)
 	{
 		//var cannon = spaceship.guns [cannonNum];
 		List<GunIndexWarpper> guns = new List<GunIndexWarpper> ();

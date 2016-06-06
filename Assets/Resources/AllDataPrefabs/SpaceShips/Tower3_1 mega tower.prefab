@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &135076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 442272}
+  - 114: {fileID: 11465478}
+  m_Layer: 0
+  m_Name: Tower3_1 mega tower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &442272
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135076}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11465478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a60402e96396aa4c904a8a98ee32481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reward: 0
+  physical:
+    density: 1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  color: {r: 0.8235294, g: 0.4480969, b: 0.4480969, a: 1}
+  shootAngle: 20
+  rotationSpeed: 50
+  repeatTargetCheck: 1
+  accuracy:
+    startingAccuracy: 0
+    isDynamic: 1
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 20
+    rechargeRate: 10
+    rechargeDelay: 2
+  guns:
+  - place:
+      pos: {x: 1.42, y: 0.73999995}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
+  - place:
+      pos: {x: 1.4200001, y: -0.74000007}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
+  linkedGuns: 
+  turrets:
+  - place:
+      pos: {x: 0.6900001, y: -3.52}
+      dir: {x: 0.74314475, y: -0.6691307}
+    turret: {fileID: 11474834, guid: fc74d2664ddb2c94eb6c954f1550eb9b, type: 2}
+  - place:
+      pos: {x: 0.69000006, y: 3.52}
+      dir: {x: 0.74314475, y: 0.6691307}
+    turret: {fileID: 11474834, guid: fc74d2664ddb2c94eb6c954f1550eb9b, type: 2}
+  verts:
+  - {x: 1.7649473, y: -1.2867583}
+  - {x: 3.6866717, y: -3.210613}
+  - {x: 1.960535, y: -4.8331814}
+  - {x: -0.24891914, y: -6.006954}
+  - {x: -1.5782356, y: -3.6441023}
+  - {x: -3.143056, y: -2.4865637}
+  - {x: -3.143056, y: 2.4865632}
+  - {x: -1.5782356, y: 3.6441019}
+  - {x: -0.24891914, y: 6.006954}
+  - {x: 1.960535, y: 4.8331814}
+  - {x: 3.6866717, y: 3.2106125}
+  - {x: 1.7649473, y: 1.2867545}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 135076}
+  m_IsPrefabParent: 1

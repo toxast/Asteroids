@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &190564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 456698}
+  - 114: {fileID: 11455892}
+  m_Layer: 0
+  m_Name: Ship52_
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &456698
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190564}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11455892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: -1
+  reward: 0
+  color: {r: 0.15960208, g: 0.41949052, b: 0.60294116, a: 1}
+  physical:
+    density: 1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  ai: 0
+  mobility:
+    thrust: 45
+    maxSpeed: 20
+    turnSpeed: 220
+    brake: 15
+    passiveBrake: 2
+    stability: 0.5
+    shootAngle: 15
+  accuracy:
+    startingAccuracy: 0
+    isDynamic: 1
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 0
+    rechargeRate: 0
+    rechargeDelay: 0
+  guns:
+  - place:
+      pos: {x: 4.0457287, y: 0.6699999}
+      dir: {x: 0.9794819, y: 0.20153238}
+    gun: {fileID: 11458226, guid: 0fdfd4a41a1950c479a097090c44ab5e, type: 2}
+  - place:
+      pos: {x: 4.0457287, y: -0.00000009266925}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11458226, guid: 0fdfd4a41a1950c479a097090c44ab5e, type: 2}
+  - place:
+      pos: {x: 4.0457287, y: -0.67000014}
+      dir: {x: 0.9794819, y: -0.20153217}
+    gun: {fileID: 11458226, guid: 0fdfd4a41a1950c479a097090c44ab5e, type: 2}
+  linkedGuns: 
+  thrusters:
+  - place:
+      pos: {x: -4.5, y: -4.77}
+      dir: {x: 1, y: 0}
+    thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+  - place:
+      pos: {x: -4.5, y: 4.77}
+      dir: {x: 1, y: 0}
+    thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+  turrets: []
+  verts:
+  - {x: 4.0394316, y: -1.217701}
+  - {x: 5.6333313, y: -1.762201}
+  - {x: 4.682932, y: -3.2570999}
+  - {x: 2.8514314, y: -4.4946003}
+  - {x: 3.9227815, y: -7.155616}
+  - {x: 1.3169303, y: -6.2964005}
+  - {x: -0.45516932, y: -6.791401}
+  - {x: 1.8218312, y: -9.5139}
+  - {x: 4.88093, y: -9.801}
+  - {x: 10.362844, y: -8.146394}
+  - {x: 8.276632, y: -12.177}
+  - {x: 0.78233093, y: -12.8898}
+  - {x: -6.5535693, y: -7.702201}
+  - {x: -4.227069, y: -6.791401}
+  - {x: -7.3455687, y: -3.2570999}
+  - {x: -7.3455687, y: 3.2570999}
+  - {x: -4.227069, y: 6.7914}
+  - {x: -6.5535693, y: 7.7022}
+  - {x: 0.78233093, y: 12.8898}
+  - {x: 8.276632, y: 12.177}
+  - {x: 10.362844, y: 8.146394}
+  - {x: 4.88093, y: 9.801}
+  - {x: 1.8218312, y: 9.5139}
+  - {x: -0.45516932, y: 6.7914}
+  - {x: 1.3169303, y: 6.2963996}
+  - {x: 3.9227815, y: 7.155615}
+  - {x: 2.8514314, y: 4.4945993}
+  - {x: 4.682932, y: 3.2570999}
+  - {x: 5.6333313, y: 1.762199}
+  - {x: 4.0394316, y: 1.217699}
+  upgradeIndex: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 190564}
+  m_IsPrefabParent: 1

@@ -3,27 +3,27 @@ using System.Collections;
 
 public class GunPlaceholder : Gun
 {
-	protected override void Fire (IBullet b)
-	{
-	}
+	public GunPlaceholder () : base (null, null, null)
+	{}
 
-	public override void Tick (float delta)
-	{
-	}
-
-	public override float Range {
+	public override float BulletSpeedForAim {
 		get {
-			return 0;
+			return Mathf.Infinity;
 		}
 	}
 
-	protected override IBullet CreateBullet ()
+	public override void ResetTime ()
 	{
-		return null;
+		
 	}
 
-	public override bool ReadyToShoot ()
+	public override bool ReadyToShoot()
 	{
 		return false;
+	}
+
+	public override void ShootIfReady()
+	{
+		
 	}
 }

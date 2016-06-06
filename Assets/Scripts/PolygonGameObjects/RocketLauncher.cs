@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-public class RocketLauncher : Gun
+public class RocketLauncher : GunShooterBase
 {
 	public ParticleSystem thrusterEffect;
 	private SpaceshipData missleParameters;
@@ -11,18 +11,33 @@ public class RocketLauncher : Gun
 	private float launchSpeed;
 	private float accuracy;
 	private float overrideExplosionRadius;
+	public Vector2[] vertices; 
+	public float lifeTime;
+	public Color color;
+	public float damage;
 
-	public RocketLauncher(Place place, RocketLauncherData data, IPolygonGameObject parent):base(place, data.baseData, parent)
-	{
+	public RocketLauncher(Place place, MRocketGunData data, IPolygonGameObject parent)
+		:base(place, data, parent, data.repeatCount, data.repeatInterval, data.fireInterval, data.fireEffect)
+	{ 
+		vertices = data.vertices;
 		missleParameters = data.missleParameters;
 		thrusterEffect = data.thrusterEffect;
 		thrusterPos = data.thrusterPos;
-		bulletSpeed = data.missleParameters.maxSpeed;
 		launchDirection = data.launchDirection;
 		launchSpeed = data.launchSpeed;
 		accuracy = data.accuracy;
 		overrideExplosionRadius = data.overrideExplosionRadius;
+		lifeTime = data.lifeTime;
+		this.color = data.color;
+		this.damage = data.damage;
 	}
+
+	public override float Range
+	{
+		get{return missleParameters.maxSpeed*lifeTime;}
+	}
+
+	public override float BulletSpeedForAim{ get { return missleParameters.maxSpeed; } }
 
 	protected override IBullet CreateBullet()
 	{
@@ -32,7 +47,7 @@ public class RocketLauncher : Gun
 		{
 			ParticleSystem e = GameObject.Instantiate(thrusterEffect) as ParticleSystem;
 			e.transform.parent = missile.cacheTransform;
-			e.transform.localPosition = thrusterPos;//new Vector3(-1,0,-1);
+			e.transform.localPosition = thrusterPos;
 		}
 
 		Math2d.PositionOnParent (missile.cacheTransform, place, parent.cacheTransform);
@@ -52,23 +67,6 @@ public class RocketLauncher : Gun
 		}
 		return missile;
 	}
-
-//	protected override void SetBulletTarget (IBullet b)
-//	{
-//		base.SetBulletTarget (b);
-//		if(Main.IsNull(target))
-//		{
-//			var t = Singleton<Main>.inst.GetNewTarget(b as Missile);
-//			if(t != null)
-//			{
-//				b.SetTarget (t);
-//			}
-//		}
-//		else
-//		{
-//			b.SetTarget (target);
-//		}
-//	}
 
 	public static Vector2[] missileVertices = PolygonCreator.GetCompleteVertexes(
 		new Vector2[]

@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &196040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 434110}
+  - 114: {fileID: 11462700}
+  m_Layer: 0
+  m_Name: Ship51_Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &434110
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196040}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11462700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: -1
+  reward: 0
+  color: {r: 0.66176474, g: 0.16544119, b: 0.16544119, a: 1}
+  physical:
+    density: 1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  ai: 0
+  mobility:
+    thrust: 45
+    maxSpeed: 20
+    turnSpeed: 220
+    brake: 15
+    passiveBrake: 2
+    stability: 0.5
+    shootAngle: 15
+  accuracy:
+    startingAccuracy: 0
+    isDynamic: 1
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 20
+    rechargeRate: 5
+    rechargeDelay: 6
+  guns:
+  - place:
+      pos: {x: 3.4372625, y: 0.00000010640417}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11427436, guid: 446d4a580b44ca1409763e63ace05ecb, type: 2}
+  - place:
+      pos: {x: 3.0672617, y: -7.31}
+      dir: {x: 0.93599695, y: -0.35200813}
+    gun: {fileID: 11427436, guid: 446d4a580b44ca1409763e63ace05ecb, type: 2}
+  - place:
+      pos: {x: 3.0672617, y: 7.31}
+      dir: {x: 0.9359967, y: 0.3520088}
+    gun: {fileID: 11427436, guid: 446d4a580b44ca1409763e63ace05ecb, type: 2}
+  linkedGuns: 
+  thrusters:
+  - place:
+      pos: {x: -7.372738, y: 0.00000010640417}
+      dir: {x: 1, y: 0}
+    thrusterPrefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+  turrets:
+  - place:
+      pos: {x: 5.02, y: 3.9700003}
+      dir: {x: 0.9579946, y: 0.2867863}
+    turret: {fileID: 11454034, guid: a8e6ef9fe64ac564e8807c4dc0444997, type: 2}
+  - place:
+      pos: {x: 5.02, y: -3.97}
+      dir: {x: 0.9579946, y: -0.28678623}
+    turret: {fileID: 11454034, guid: a8e6ef9fe64ac564e8807c4dc0444997, type: 2}
+  verts:
+  - {x: 4.2755256, y: -2.0985737}
+  - {x: 5.8789306, y: -1.2261331}
+  - {x: 7.293699, y: -1.9335176}
+  - {x: 6.1854644, y: -7.5454335}
+  - {x: 4.322684, y: -5.847711}
+  - {x: 3.0493922, y: -9.337476}
+  - {x: 5.501659, y: -9.408213}
+  - {x: 4.06331, y: -11.954797}
+  - {x: -0.86480117, y: -11.553946}
+  - {x: -1.7608213, y: -9.950541}
+  - {x: -3.293488, y: -9.384633}
+  - {x: -4.0480313, y: -8.724408}
+  - {x: -5.2034264, y: -4.55084}
+  - {x: -6.8539896, y: -3.7491374}
+  - {x: -9.211937, y: -0.8488613}
+  - {x: -6.877569, y: -2.1928916}
+  - {x: -7.844328, y: -0.8488613}
+  - {x: -7.844328, y: 0.84886104}
+  - {x: -6.877569, y: 2.1928916}
+  - {x: -9.211937, y: 0.84886104}
+  - {x: -6.8539896, y: 3.7491374}
+  - {x: -5.2034264, y: 4.55084}
+  - {x: -4.0480313, y: 8.724408}
+  - {x: -3.293488, y: 9.384633}
+  - {x: -1.7608213, y: 9.950541}
+  - {x: -0.86480117, y: 11.553946}
+  - {x: 4.06331, y: 11.954797}
+  - {x: 5.501659, y: 9.408213}
+  - {x: 3.0493922, y: 9.337476}
+  - {x: 4.322684, y: 5.847711}
+  - {x: 6.1854644, y: 7.5454335}
+  - {x: 7.293699, y: 1.9335171}
+  - {x: 5.8789306, y: 1.2261326}
+  - {x: 4.2755256, y: 2.0985737}
+  upgradeIndex: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 196040}
+  m_IsPrefabParent: 1

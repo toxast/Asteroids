@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [System.Serializable]
-public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
+public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotShape, IGotThrusters
 {
 	public string name;
 	public int price = -1;
@@ -24,7 +24,6 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 
 	//interfaces
 	public Vector2[] iverts {get {return verts;} set{verts = value;}}
-	public List<GunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<ThrusterSetupData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<TurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
@@ -49,9 +48,5 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 		return r;
 	}
 
-	public enum AIType
-	{
-		eCommon = 0,
-		eSuicide = 1,
-	}
+
 }

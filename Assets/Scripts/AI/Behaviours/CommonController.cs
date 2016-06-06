@@ -17,7 +17,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 
 	public CommonController (SpaceShip thisShip, List<IBullet> bullets, Gun gun, AccuracyData accData) : base(thisShip)
 	{
-		this.bulletsSpeed = gun.bulletSpeed;
+		this.bulletsSpeed = gun.BulletSpeedForAim;
 		this.bullets = bullets;
 		thisShip.StartCoroutine (Logic ());
 

@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &172088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 479860}
+  - 114: {fileID: 11443740}
+  m_Layer: 0
+  m_Name: Ship19_(19) Bat 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &479860
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 172088}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11443740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 172088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: 10
+  reward: 0
+  color: {r: 0, g: 0.04827571, b: 1, a: 1}
+  physical:
+    density: 2
+    healthModifier: 27
+    collisionDefence: 0.22
+    collisionAttackModifier: 3
+  ai: 0
+  mobility:
+    thrust: 34
+    maxSpeed: 42
+    turnSpeed: 240
+    brake: 15
+    passiveBrake: 2
+    stability: 0.6
+    shootAngle: 15
+  accuracy:
+    startingAccuracy: 0
+    isDynamic: 1
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 25
+    rechargeRate: 3
+    rechargeDelay: 1
+  guns:
+  - place:
+      pos: {x: 2.23, y: 0.94000006}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11491334, guid: 1abae0d84e5222245a47a4ea12dc6fc6, type: 2}
+  - place:
+      pos: {x: 2.23, y: -0.93999994}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11491334, guid: 1abae0d84e5222245a47a4ea12dc6fc6, type: 2}
+  - place:
+      pos: {x: -1.3099998, y: -2.58}
+      dir: {x: 0.9509486, y: -0.30934903}
+    gun: {fileID: 11421116, guid: 26cde68fc1dbc8641952c06da367f18b, type: 2}
+  - place:
+      pos: {x: -1.3099998, y: 2.58}
+      dir: {x: 0.9509485, y: 0.3093493}
+    gun: {fileID: 11424670, guid: 4f6e9207ec8c5e64a8241f924d53e229, type: 2}
+  linkedGuns: 0000000001000000
+  thrusters:
+  - place:
+      pos: {x: -1.2, y: 0.4}
+      dir: {x: 1, y: 0}
+    thrusterPrefab: {fileID: 19816438, guid: 89e193ef048432645abbbf3a7178f96c, type: 2}
+  - place:
+      pos: {x: -1.2, y: -0.4}
+      dir: {x: 1, y: 0}
+    thrusterPrefab: {fileID: 19816438, guid: 89e193ef048432645abbbf3a7178f96c, type: 2}
+  turrets: []
+  verts:
+  - {x: 2.4942532, y: -0.21870002}
+  - {x: 2.2026532, y: -0.58319986}
+  - {x: 2.6692133, y: -1.2028497}
+  - {x: 1.9985335, y: -1.7204397}
+  - {x: 0.5478233, y: -2.4785998}
+  - {x: -1.0632665, y: -2.8358097}
+  - {x: -1.5881464, y: -2.6754298}
+  - {x: -3.1336265, y: -2.8066497}
+  - {x: -2.2223763, y: -1.9026896}
+  - {x: -2.0984466, y: -1.3632298}
+  - {x: -1.5006665, y: -1.2611697}
+  - {x: -1.3767365, y: -0.9768597}
+  - {x: -1.6318864, y: -0.71441984}
+  - {x: -1.5079566, y: -0.3207603}
+  - {x: -0.96120673, y: -0.34263018}
+  - {x: -0.96120673, y: 0.34263012}
+  - {x: -1.5079566, y: 0.32076025}
+  - {x: -1.6318864, y: 0.71441984}
+  - {x: -1.3767365, y: 0.9768597}
+  - {x: -1.5006665, y: 1.2611697}
+  - {x: -2.0984466, y: 1.3632298}
+  - {x: -2.2223763, y: 1.9026896}
+  - {x: -3.1336265, y: 2.8066497}
+  - {x: -1.5881464, y: 2.6754298}
+  - {x: -1.0632665, y: 2.8358097}
+  - {x: 0.5478233, y: 2.4785998}
+  - {x: 1.9985335, y: 1.7204397}
+  - {x: 2.6692133, y: 1.2028497}
+  - {x: 2.2026532, y: 0.58319986}
+  - {x: 2.4942532, y: 0.21869999}
+  upgradeIndex: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 172088}
+  m_IsPrefabParent: 1

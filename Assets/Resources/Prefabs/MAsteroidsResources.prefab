@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &165940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 465940}
+  - 114: {fileID: 11427354}
+  m_Layer: 0
+  m_Name: MAsteroidsResources
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &465940
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165940}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11427354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079a7373153521f4b87ba132ffc7d7fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asteroidsData:
+  - {fileID: 11429188, guid: 62a1bb067d2ee294d933909d353103b2, type: 2}
+  - {fileID: 11429188, guid: 6e846a35844c9cd4296c78341d17b438, type: 2}
+  - {fileID: 11429188, guid: 608185eb9f5281d489276a76819a6780, type: 2}
+  - {fileID: 11429188, guid: 5b3b81358baa0a345827a4b48a1f0782, type: 2}
+  - {fileID: 11429188, guid: 296530080cbac254f910587fd6d3fbee, type: 2}
+  - {fileID: 11429188, guid: 1695a14b9c599ee4cb3178fc6947b1f9, type: 2}
+  spikyData:
+  - {fileID: 11492862, guid: 08968eae98d50db4191cbf591c021ccc, type: 2}
+  - {fileID: 11403458, guid: c62a6425a8ddb1a41a18a3c6b80cddff, type: 2}
+  - {fileID: 11451364, guid: f87f0fab6a398d7499eabe36336a2f22, type: 2}
+  sawData:
+  - {fileID: 11498302, guid: 0c6ec146093d38949863d6e638ef1b93, type: 2}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 165940}
+  m_IsPrefabParent: 1

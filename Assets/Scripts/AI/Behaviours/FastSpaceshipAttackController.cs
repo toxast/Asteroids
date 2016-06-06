@@ -27,7 +27,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 
 	public FastSpaceshipAttackController(SpaceShip thisShip, List<IBullet> bullets, Gun gun)
 	{
-		this.bulletsSpeed = gun.bulletSpeed;
+		this.bulletsSpeed = gun.BulletSpeedForAim;
 //		this.bulletLifeTime = gun.lifeTime;
 		this.bullets = bullets;
 		this.thisShip = thisShip;

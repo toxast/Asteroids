@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &165036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 492754}
+  - 114: {fileID: 11492684}
+  m_Layer: 0
+  m_Name: Tower2_(2) spawner tower with lazer turret
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &492754
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165036}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11492684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a60402e96396aa4c904a8a98ee32481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reward: 400
+  physical:
+    density: 2
+    healthModifier: 10
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  color: {r: 0.83823526, g: 0.26503026, b: 0.26503026, a: 1}
+  shootAngle: 20
+  rotationSpeed: 15
+  repeatTargetCheck: 1
+  accuracy:
+    startingAccuracy: 0
+    isDynamic: 1
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 0.5}
+  shield:
+    capacity: 30
+    rechargeRate: 2
+    rechargeDelay: 3
+  guns:
+  - place:
+      pos: {x: 0.34432197, y: -0.00000003215212}
+      dir: {x: -1, y: 0}
+    gun: {fileID: 11477998, guid: 7ff5f877a70cac84681dd09d59fc0ba2, type: 2}
+  linkedGuns: 
+  turrets:
+  - place:
+      pos: {x: -0.00000006174081, y: -0.00000003215212}
+      dir: {x: 1, y: 0}
+    turret: {fileID: 11474834, guid: fc74d2664ddb2c94eb6c954f1550eb9b, type: 2}
+  verts:
+  - {x: 4.294322, y: -0.6000007}
+  - {x: 3.8043222, y: -2.72}
+  - {x: 2.4723222, y: -4.24}
+  - {x: 0.9943217, y: -4.87}
+  - {x: -2.1356778, y: -5.64}
+  - {x: -4.815678, y: -3.65}
+  - {x: -4.006678, y: -2.41}
+  - {x: -1.9826784, y: -1.7100003}
+  - {x: -2.257678, y: -0.52000064}
+  - {x: -2.257678, y: 0.51999944}
+  - {x: -1.9826784, y: 1.71}
+  - {x: -4.006678, y: 2.41}
+  - {x: -4.815678, y: 3.65}
+  - {x: -2.1356778, y: 5.64}
+  - {x: 0.9943217, y: 4.87}
+  - {x: 2.4723222, y: 4.24}
+  - {x: 3.8043222, y: 2.72}
+  - {x: 4.294322, y: 0.5999995}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 165036}
+  m_IsPrefabParent: 1

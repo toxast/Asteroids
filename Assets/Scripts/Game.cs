@@ -49,7 +49,7 @@ public class Game : MonoBehaviour
 		main.Clear ();
 	}
 
-	void HandleStartTheGame (FullSpaceShipSetupData data)
+	void HandleStartTheGame (MSpaceshipData data)
 	{
 		hangarObjects.ForEach (h => h.SetActive (false));
 		gameObjects.ForEach (h => h.SetActive (true));

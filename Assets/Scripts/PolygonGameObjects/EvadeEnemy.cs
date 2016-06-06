@@ -152,7 +152,7 @@ public class EvadeEnemy : PolygonGameObject
 		{
 			if(!Main.IsNull(target))
 			{
-				AimSystem aim = new AimSystem(target.position, target.velocity, position, guns[0].bulletSpeed);
+				AimSystem aim = new AimSystem(target.position, target.velocity, position, guns[0].BulletSpeedForAim);
 				if(aim.canShoot)
 				{
 					currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;

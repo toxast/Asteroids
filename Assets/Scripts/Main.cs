@@ -99,7 +99,7 @@ public class Main : MonoBehaviour
 	}
 
 	LevelSpawner spawner;
-	public void StartTheGame(FullSpaceShipSetupData spaceshipData, int level = 0, int waveNum = 0)
+	public void StartTheGame(MSpaceshipData spaceshipData, int level = 0, int waveNum = 0)
 	{
 		#if UNITY_STANDALONE
 		if (cursorTexture != null)
@@ -1049,7 +1049,7 @@ public class Main : MonoBehaviour
 	}
 
 
-	public void CreateSpaceShip(FullSpaceShipSetupData data)
+	public void CreateSpaceShip(MSpaceshipData data)
 	{
 		InputController controller = null; 
 		#if UNITY_STANDALONE
@@ -1152,7 +1152,7 @@ public class Main : MonoBehaviour
 
 	public SimpleTower CreateSimpleTower(int indx)
 	{
-		var turretData = SpaceshipsResources.Instance.towers [indx];
+		var turretData = MSpaceShipResources.Instance.towers [indx];
 		var enemy = ObjectsCreator.CreateSimpleTower(turretData);
 		return enemy;
 	}

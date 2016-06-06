@@ -17,3 +17,12 @@ public class TurretReferenceData : IClonable<TurretReferenceData>, IGotPlace
 		return r;
 	}
 }
+
+[System.Serializable]
+public class MTurretReferenceData : IGotPlace
+{
+	public Place place;
+	public MTurretData turret;
+
+	public Place pos {get {return place;} set{place = value;}}
+}

@@ -12,7 +12,7 @@ public class UIShipsScroll : MonoBehaviour
 	BuyShipElem selected = null;
 	List<BuyShipElem> list = new List<BuyShipElem>();
 
-	public void Show(List<FullSpaceShipSetupData> elemsData, Action<int, int, FullSpaceShipSetupData> onClick)
+	public void Show(List<MSpaceshipData> elemsData, Action<int, int, MSpaceshipData> onClick)
 	{
 		Clear ();
 

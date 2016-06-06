@@ -145,5 +145,10 @@ public static class AIHelper
 		accuracy = Mathf.Clamp(accuracy, data.bounds.x, data.bounds.y);
 		lastDir = target.velocity;
 	}
+}
 
+public enum AIType
+{
+	eCommon = 0,
+	eSuicide = 1,
 }

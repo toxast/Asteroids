@@ -13,7 +13,7 @@ public class UIShip : MonoBehaviour
 	SpaceShip spaceship;
 	List<Button> cannons = new List<Button> ();
 
-	public void Create(int shipIndx, FullSpaceShipSetupData data, Action<int> cannonClicked)
+	public void Create(int shipIndx, MSpaceshipData data, Action<int> cannonClicked)
 	{
 		Clear ();
 		

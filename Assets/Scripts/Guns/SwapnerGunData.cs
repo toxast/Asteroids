@@ -11,6 +11,7 @@ public class SwapnerGunData : IClonable<SwapnerGunData>, IGun
 	public int startSpawn = 1;
 	public float startSpawnInterval = 2f;
 
+
 	public string iname{ get {return baseData.name;}}
 	public int iprice{ get {return baseData.price;}}
 	public GunSetupData.eGuns itype{ get {return GunSetupData.eGuns.SPAWNER;}}

@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &161642
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 472706}
+  - 114: {fileID: 11493992}
+  m_Layer: 0
+  m_Name: RocketGun0_old school rocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &472706
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161642}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11493992
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b4a78513600bd4293c806f2d55eb81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storeName: old school rocket
+  price: 0
+  etype: 2
+  damage: 5
+  lifeTime: 3.5
+  bulletSpeed: 0
+  fireInterval: 2.7
+  physical:
+    density: 1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  repeatCount: 0
+  repeatInterval: 0
+  vertices:
+  - {x: 1.1400497, y: 8.642673e-10}
+  - {x: 0.64004976, y: -0.2}
+  - {x: -0.55995023, y: -0.15}
+  - {x: -0.85995024, y: -0.35}
+  - {x: -0.85995024, y: 0.35}
+  - {x: -0.55995023, y: 0.15}
+  - {x: 0.64004976, y: 0.2}
+  color: {r: 0.9191176, g: 0.7990544, b: 0.29736158, a: 1}
+  fireEffect: {fileID: 0}
+  overrideExplosionRadius: 20
+  missleParameters:
+    thrust: 35
+    maxSpeed: 40
+    turnSpeed: 200
+    brake: 8
+    passiveBrake: 2
+    stability: 0.5
+    shootAngle: 15
+  accuracy: 0.5
+  thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
+  thrusterPos: {x: -0.8599502, y: 0, z: 1}
+  launchDirection: {x: 1, y: 0}
+  launchSpeed: 20
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 161642}
+  m_IsPrefabParent: 1

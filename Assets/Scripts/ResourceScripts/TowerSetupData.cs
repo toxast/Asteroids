@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [System.Serializable]
-public class TowerSetupData : IClonable<TowerSetupData>, IGotShape, IGotGuns, IGotTurrets
+public class TowerSetupData : IClonable<TowerSetupData>, IGotShape
 {
 	public string name = "tower";
 	public int reward;

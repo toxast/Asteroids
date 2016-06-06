@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [System.Serializable]
-public class TurretSetupData : IClonable<TurretSetupData>, IGotShape, IGotGuns
+public class TurretSetupData : IClonable<TurretSetupData>, IGotShape
 {
 	public string name = "turret";
 	public Color color = Color.white;

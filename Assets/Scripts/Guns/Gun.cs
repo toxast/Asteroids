@@ -2,56 +2,23 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class Gun : IGotTarget, ITickable
+public abstract class Gun : IGotTarget, ITickable
 {
 	protected IPolygonGameObject target;
 	public Place place;
 	public IPolygonGameObject parent;
 
-	public float damage;
-	public float lifeTime;
-	public float bulletSpeed;
-	public float fireInterval;
-	public Vector2[] vertices; 
-	public PhysicalData physical;
-	public Color color;
-	public ParticleSystem fireEffect;
-
-	public int repeatCount = 0;
-	public float repeatInterval = 0;
-	private int currentRepeat = 0;
-
-	public float timeToNextShot = 0f;
-
 	public event Action<IBullet> onFire;
+
+	public Gun(Place place, MGunBaseData basedata, IPolygonGameObject parent)
+	{
+		this.place = place;
+		this.parent = parent;
+	}
 
 	public virtual float Range
 	{
-		get{return bulletSpeed*lifeTime;}
-	}
-
-	public Gun(){}
-
-	public Gun(Place place, GunData data, IPolygonGameObject parent)
-	{
-		this.place = place;
-		this.damage = data.damage;
-		this.lifeTime = data.lifeTime;
-		this.bulletSpeed = data.bulletSpeed;
-		this.fireInterval = data.fireInterval;
-		this.physical = data.physical;
-		this.vertices = data.vertices;
-		this.color = data.color;
-		this.repeatCount = data.repeatCount;
-		this.repeatInterval = data.repeatInterval;
-		this.parent = parent;
-
-
-		if(data.fireEffect != null)
-		{
-			fireEffect = GameObject.Instantiate(data.fireEffect) as ParticleSystem;
-			Math2d.PositionOnParent(fireEffect.transform, place, parent.cacheTransform, true, -1);
-		}
+		get{return 0;}
 	}
 
 	public void SetTarget(IPolygonGameObject target)
@@ -59,20 +26,60 @@ public class Gun : IGotTarget, ITickable
 		this.target = target;
 	}
 
-	public virtual void Tick(float delta)
+	protected void CallFire(IBullet b)
+	{
+		if (onFire != null)
+			onFire (b);
+	}
+
+	public virtual void Tick(float delta){}
+
+	public abstract float BulletSpeedForAim{ get;}
+
+	public abstract void ResetTime();
+
+	public abstract void ShootIfReady();
+
+	public abstract bool ReadyToShoot();
+}
+
+
+public abstract class GunShooterBase : Gun
+{
+	public float fireInterval;
+	public ParticleSystem fireEffect;
+	public int repeatCount = 0;
+	public float repeatInterval = 0;
+	private int currentRepeat = 0;
+	public float timeToNextShot = 0f;
+
+	public GunShooterBase(Place place, MGunBaseData basedata, IPolygonGameObject parent, int repeatCount, float repeatInterval, float fireInterval, ParticleSystem pfireEffect): base(place, basedata, parent)
+	{
+		this.fireInterval = fireInterval;
+		this.repeatCount = repeatCount;
+		this.repeatInterval = repeatInterval;
+
+		if(pfireEffect != null)
+		{
+			fireEffect = GameObject.Instantiate(pfireEffect) as ParticleSystem;
+			Math2d.PositionOnParent(fireEffect.transform, place, parent.cacheTransform, true, -1);
+		}
+	}
+
+	public override void Tick(float delta)
 	{
 		if(timeToNextShot > 0)
 		{
 			timeToNextShot -= delta;
 		}
 	}
-	
-	public virtual bool ReadyToShoot()
+
+	public override bool ReadyToShoot()
 	{
 		return timeToNextShot <= 0;
 	}
-	
-	public void ResetTime()
+
+	public override void ResetTime()
 	{
 		if(repeatCount > 0)
 		{
@@ -89,7 +96,7 @@ public class Gun : IGotTarget, ITickable
 		currentRepeat ++;
 		if(currentRepeat >= repeatCount)
 			currentRepeat = 0;
-		
+
 		if(currentRepeat == 0)
 		{
 			timeToNextShot = fireInterval;
@@ -99,8 +106,8 @@ public class Gun : IGotTarget, ITickable
 			timeToNextShot = repeatInterval;
 		}
 	}
-	
-	public virtual void ShootIfReady()
+
+	public override void ShootIfReady()
 	{
 		if(ReadyToShoot())
 		{
@@ -119,19 +126,12 @@ public class Gun : IGotTarget, ITickable
 		b.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
 	}
 
-//	protected virtual void SetBulletTarget(IBullet b)
-//	{
-//
-//	}
-
 	protected virtual void Fire(IBullet b)
 	{
 		b.velocity += Main.AddShipSpeed2TheBullet(parent);
 		SetBulletLayer (b);
-//		SetBulletTarget (b);
 
-		if(onFire != null)
-			onFire(b);
+		CallFire(b);
 
 		if (fireEffect != null)
 			fireEffect.Emit (1);
