@@ -13,12 +13,12 @@ public class DeathAnimation
 	List<ParticleSystem> explosionPrefabs;
 	List<ParticleSystem> finishExplosions;
 	public List<ParticleSystem> instantiatedExplosions;
-	IPolygonGameObject obj;
+	PolygonGameObject obj;
 
 	public float finalExplosionPowerKoeff = 1f;
 	public float explosionSize;
 
-	public static void MakeDeathForThatFellaYo(IPolygonGameObject g, bool instant = false)
+	public static void MakeDeathForThatFellaYo(PolygonGameObject g, bool instant = false)
 	{
 		var config = Singleton<GlobalConfig>.inst;
 		float duration = (instant)? 0 : Mathf.Pow(g.polygon.area, 0.4f) / 4f;
@@ -59,7 +59,7 @@ public class DeathAnimation
 		this.finishExplosions = finishExplosion;
 	}
 
-	public void AnimateDeath(IPolygonGameObject obj)
+	public void AnimateDeath(PolygonGameObject obj)
 	{
 		this.obj = obj;
 		started = true;

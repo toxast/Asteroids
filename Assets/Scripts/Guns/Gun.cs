@@ -4,13 +4,11 @@ using System;
 
 public abstract class Gun : IGotTarget, ITickable
 {
-	protected IPolygonGameObject target;
+	protected PolygonGameObject target;
 	public Place place;
-	public IPolygonGameObject parent;
+	public PolygonGameObject parent;
 
-	public event Action<IBullet> onFire;
-
-	public Gun(Place place, MGunBaseData basedata, IPolygonGameObject parent)
+	public Gun(Place place, MGunBaseData basedata, PolygonGameObject parent)
 	{
 		this.place = place;
 		this.parent = parent;
@@ -21,15 +19,9 @@ public abstract class Gun : IGotTarget, ITickable
 		get{return 0;}
 	}
 
-	public void SetTarget(IPolygonGameObject target)
+	public void SetTarget(PolygonGameObject target)
 	{
 		this.target = target;
-	}
-
-	protected void CallFire(IBullet b)
-	{
-		if (onFire != null)
-			onFire (b);
 	}
 
 	public virtual void Tick(float delta){}
@@ -53,7 +45,7 @@ public abstract class GunShooterBase : Gun
 	private int currentRepeat = 0;
 	public float timeToNextShot = 0f;
 
-	public GunShooterBase(Place place, MGunBaseData basedata, IPolygonGameObject parent, int repeatCount, float repeatInterval, float fireInterval, ParticleSystem pfireEffect): base(place, basedata, parent)
+	public GunShooterBase(Place place, MGunBaseData basedata, PolygonGameObject parent, int repeatCount, float repeatInterval, float fireInterval, ParticleSystem pfireEffect): base(place, basedata, parent)
 	{
 		this.fireInterval = fireInterval;
 		this.repeatCount = repeatCount;
@@ -111,29 +103,12 @@ public abstract class GunShooterBase : Gun
 	{
 		if(ReadyToShoot())
 		{
-			Fire(CreateBullet());
+			Fire();
 			ResetTime();
 		}
 	}
 
-	protected virtual IBullet CreateBullet()
-	{
-		throw new System.NotImplementedException ();
-	}
+	protected abstract void Fire ();
 
-	protected virtual void SetBulletLayer(IBullet b)
-	{
-		b.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
-	}
-
-	protected virtual void Fire(IBullet b)
-	{
-		b.velocity += Main.AddShipSpeed2TheBullet(parent);
-		SetBulletLayer (b);
-
-		CallFire(b);
-
-		if (fireEffect != null)
-			fireEffect.Emit (1);
-	}
 }
+

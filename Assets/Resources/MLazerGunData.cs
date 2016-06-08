@@ -11,7 +11,7 @@ public class MLazerGunData : MGunBaseData
 	public float distance = 50f;
 	public float width = 0.5f;
 
-	public override Gun GetGun(Place place, IPolygonGameObject t)
+	public override Gun GetGun(Place place, PolygonGameObject t)
 	{
 		return new LazerGun(place, this, t);
 	}

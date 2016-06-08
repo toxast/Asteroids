@@ -4,7 +4,7 @@ using System.Collections;
 public class BaseSpaceshipController : InputController, IGotTarget
 {
 	protected SpaceShip thisShip;
-	protected IPolygonGameObject target;
+	protected PolygonGameObject target;
 
 	public bool shooting{ get; protected set; }
 	public bool accelerating{ get; protected set; }
@@ -16,7 +16,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 		this.thisShip = thisShip;
 	}
 
-	public void SetTarget(IPolygonGameObject target)
+	public void SetTarget(PolygonGameObject target)
 	{
 		this.target = target;
 	}

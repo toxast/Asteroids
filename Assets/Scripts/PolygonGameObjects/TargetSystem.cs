@@ -6,7 +6,7 @@ using System.Collections;
 
 public class TargetSystem : ITickable
 {
-	IPolygonGameObject thisObj;
+	PolygonGameObject thisObj;
 	private float repeatTargetCheck = 2f;
 	private float leftUntilTargetCheck;
 
@@ -14,7 +14,7 @@ public class TargetSystem : ITickable
 	float enemyLostRSqr = 150 * 150; //todo: pass as parameter? based on guns?
 
 
-	public TargetSystem(IPolygonGameObject thisObj)
+	public TargetSystem(PolygonGameObject thisObj)
 	{
 		this.thisObj = thisObj;
 
@@ -91,22 +91,22 @@ public class TargetSystem : ITickable
 		}
 	}
 
-	private bool IsSqrDistLess(IPolygonGameObject t, float Rsqr)
+	private bool IsSqrDistLess(PolygonGameObject t, float Rsqr)
 	{
 		return SqrDist(t) < Rsqr;
 	}
 
-	private bool IsSqrDistMore(IPolygonGameObject t, float Rsqr)
+	private bool IsSqrDistMore(PolygonGameObject t, float Rsqr)
 	{
 		return SqrDist(t) >= Rsqr;
 	}
 
-	private float SqrDist(IPolygonGameObject t)
+	private float SqrDist(PolygonGameObject t)
 	{
 		return (thisObj.position - t.position).sqrMagnitude;
 	}
 
-	private IPolygonGameObject GetClosestTarget()
+	private PolygonGameObject GetClosestTarget()
 	{
 		//TODO: pass desired layer
 		int enemyLayer = CollisionLayers.GetEnemyLayer (thisObj.layer);

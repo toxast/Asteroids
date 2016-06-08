@@ -4,7 +4,7 @@ using System.Collections;
 public class GunsData 
 {
 
-	public static Gun GetGun(MGunSetupData gdata, IPolygonGameObject t)
+	public static Gun GetGun(MGunSetupData gdata, PolygonGameObject t)
 	{
 		if (gdata == null) 
 		{

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PhExplosion
 {
-	public PhExplosion(Vector2 pos, float radius, float power, List<IPolygonGameObject> objs, int collision = -1)
+	public PhExplosion(Vector2 pos, float radius, float power, List<PolygonGameObject> objs, int collision = -1)
 	{
 		//Debug.LogWarning (pos + " " + radius + " " + power);
 		float rsqr = radius * radius;

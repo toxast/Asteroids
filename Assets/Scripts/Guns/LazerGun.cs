@@ -41,7 +41,7 @@ public class LazerGun : Gun
 
 	int layer = 0;
 
-	public LazerGun(Place place, MLazerGunData data, IPolygonGameObject parent):base(place, data, parent)
+	public LazerGun(Place place, MLazerGunData data, PolygonGameObject parent):base(place, data, parent)
 	{
 		distance = data.distance;
 		width = data.width;
@@ -122,7 +122,7 @@ public class LazerGun : Gun
 		Vector2 perp = lTransform.up;
 		var lazerEdge = new Edge (lpos, lpos + lazerDir * distance);
 		
-		IPolygonGameObject hitObject = null;
+		PolygonGameObject hitObject = null;
 		Vector2 hitPlace = Vector2.zero;
 		float hitDistance = distance;
 		

@@ -15,7 +15,7 @@ public static class AIHelper
 		public float vprojTarget;
 		public float evadeSign;
 		
-		public void Refresh(IPolygonGameObject thisShip, IPolygonGameObject target)
+		public void Refresh(PolygonGameObject thisShip, PolygonGameObject target)
 		{
 			dir = target.position - thisShip.position;
 			distCenter2Center = dir.magnitude;
@@ -28,7 +28,7 @@ public static class AIHelper
 	}
 
 
-	public static bool EvadeTarget(SpaceShip ship, IPolygonGameObject target, Data tickData, out float duration, out Vector2 newDir)
+	public static bool EvadeTarget(SpaceShip ship, PolygonGameObject target, Data tickData, out float duration, out Vector2 newDir)
 	{ 
 		newDir = Vector2.zero;
 		duration = 0f;
@@ -88,7 +88,7 @@ public static class AIHelper
 		return Math2d.RotateVertex(dir, angle*Mathf.Deg2Rad);
 	}
 
-	public static bool BulletDanger(IPolygonGameObject go, IBullet b)
+	public static bool BulletDanger(PolygonGameObject go, PolygonGameObject b)
 	{
 		if (b == null)
 			return false;
@@ -109,7 +109,7 @@ public static class AIHelper
 		return false;
 	}
 
-	public static bool EvadeBullets(SpaceShip ship, List<IBullet> bullets, out float duration, out Vector2 newDir)
+	public static bool EvadeBullets(SpaceShip ship, List<PolygonGameObject> bullets, out float duration, out Vector2 newDir)
 	{
 		newDir = Vector2.zero;
 		duration = 0f;
@@ -129,7 +129,7 @@ public static class AIHelper
 	}
 
 	
-	public static void ChangeAccuracy(ref float accuracy, ref Vector2 lastDir, IPolygonGameObject target, AccuracyData data)
+	public static void ChangeAccuracy(ref float accuracy, ref Vector2 lastDir, PolygonGameObject target, AccuracyData data)
 	{
 		float sameVelocityMesure = 0;
 		if(Math2d.ApproximatelySame(target.velocity, Vector2.zero) || Math2d.ApproximatelySame(lastDir, Vector2.zero))

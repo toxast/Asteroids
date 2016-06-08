@@ -285,7 +285,7 @@ public class ObjectsCreator
 		return turret;
 	}
 
-	public static EvadeEnemy CreateEvadeEnemy(List<IBullet> bullets)
+	public static EvadeEnemy CreateEvadeEnemy(List<PolygonGameObject> bullets)
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		enemy.InitEvadeEnemy (new PhysicalData(), bullets);
@@ -299,7 +299,7 @@ public class ObjectsCreator
 
 
 
-	public static EvadeEnemy CreateTankEnemy(List<IBullet> bullets)
+	public static EvadeEnemy CreateTankEnemy(List<PolygonGameObject> bullets)
 	{
 		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(TankEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
 		enemy.InitEvadeEnemy (new PhysicalData(), bullets);

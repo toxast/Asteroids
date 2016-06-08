@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class CommonController : BaseSpaceshipController, IGotTarget
 {
-	List<IBullet> bullets;
+	List<PolygonGameObject> bullets;
 	float bulletsSpeed;
 	float comformDistanceMin, comformDistanceMax;
 	float accuracy = 0f;
@@ -15,7 +15,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 
 	AIHelper.Data tickData = new AIHelper.Data();
 
-	public CommonController (SpaceShip thisShip, List<IBullet> bullets, Gun gun, AccuracyData accData) : base(thisShip)
+	public CommonController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData) : base(thisShip)
 	{
 		this.bulletsSpeed = gun.BulletSpeedForAim;
 		this.bullets = bullets;

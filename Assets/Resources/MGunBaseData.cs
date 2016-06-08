@@ -11,7 +11,7 @@ public class MGunBaseData : MonoBehaviour, IGun
 	public int iprice{ get {return price;}}
 	public virtual GunSetupData.eGuns itype{ get {return etype;}}
 
-	public virtual Gun GetGun(Place setupData, IPolygonGameObject t)
+	public virtual Gun GetGun(Place setupData, PolygonGameObject t)
 	{
 		return null;
 	}

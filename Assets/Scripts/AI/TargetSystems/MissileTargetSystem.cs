@@ -60,24 +60,24 @@ public class MissileTargetSystem : ITickable
 	}
 
 	//TODO: common
-	private bool IsSqrDistLess(IPolygonGameObject t, float Rsqr)
+	private bool IsSqrDistLess(PolygonGameObject t, float Rsqr)
 	{
 		return SqrDist(t) < Rsqr;
 	}
 
 	//TODO: common
-	private bool IsSqrDistMore(IPolygonGameObject t, float Rsqr)
+	private bool IsSqrDistMore(PolygonGameObject t, float Rsqr)
 	{
 		return SqrDist(t) >= Rsqr;
 	}
 
 	//TODO: common
-	private float SqrDist(IPolygonGameObject t)
+	private float SqrDist(PolygonGameObject t)
 	{
 		return (thisObj.position - t.position).sqrMagnitude;
 	}
 	
-	public IPolygonGameObject GetClosestTarget()
+	public PolygonGameObject GetClosestTarget()
 	{
 		var g = thisObj;
 

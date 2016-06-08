@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class MissileController : InputController, IGotTarget
 {
 	SpaceShip thisShip;
-	IPolygonGameObject target;
+	PolygonGameObject target;
 	public bool shooting{ get; private set; }
 	public bool accelerating{ get; private set; }
 	public bool braking{ get; private set; }
@@ -21,7 +21,7 @@ public class MissileController : InputController, IGotTarget
 		this.accuracy = accuracy;
 	}
 
-	public void SetTarget(IPolygonGameObject target)
+	public void SetTarget(PolygonGameObject target)
 	{
 		this.target = target;
 	}

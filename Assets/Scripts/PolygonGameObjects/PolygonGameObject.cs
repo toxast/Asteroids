@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
+public class PolygonGameObject : MonoBehaviour
 {
 	//basic
 	public GameObject gameObj{get{return gameObject;}}
@@ -14,33 +14,37 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	public Transform cacheTransform{ get; private set;}
 	public Mesh mesh;
 	public PolygonCreator.MeshDataUV meshUV{ get; set;}
-	public Material mat{get; set;}
+	public Material mat;
 
 	//collision
-	public int layerNum{ get; set;}
-	public int layer{ get; set;}
-	public int collision{ get; set;}
+	public int layerNum;
+	public int layer;
+	public int collision;
 
 	//physical
-	public float density{ get; set;}
-	public float healthModifier{ get; set;}
-	public float collisionDefence{ get; set;}
-	public float collisionAttackModifier{ get; set;}
+	public float density;
+	public float healthModifier;
+	public float collisionDefence;
+	public float collisionAttackModifier;
 
 	//calculated
-	public float mass{ get; private set;}
-	public float inertiaMoment{ get; private set;}
+	public float mass;
+	public float inertiaMoment;
 
-	public int reward{ get; set;}
+	public int reward;
 
 	//momentum
-	public Vector2 velocity{ get; set;}
-	public float rotation{ get; set;}
+	public Vector2 velocity;
+	public float rotation;
 	public Vector2 position
 	{
 		get{return cacheTransform.position;}
 		set{cacheTransform.position = ((Vector3)value).SetZ(cacheTransform.position.z);}
 	}
+
+	public float damageOnCollision;
+	public float startinglifeTime;
+	protected float leftlifeTime;
 
 	public enum DestructionType
 	{
@@ -48,8 +52,8 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		eComplete,
 		eJustDestroy,
 	}
-	public DestructionType destructionType{get; set;}
-	public bool destroyOnBoundsTeleport{get; set;}
+	public DestructionType destructionType;
+	public bool destroyOnBoundsTeleport;
 
 	public float fullHealth{ protected set; get;}
 	[SerializeField] protected float currentHealth;
@@ -61,21 +65,21 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 	protected List<int> notLinkedGuns = new List<int>();
 	protected List<int> spawnerGuns = new List<int>();
 
-	public IPolygonGameObject target{ get; private set;}
+	public PolygonGameObject target{ get; private set;}
 	public ITickable targetSystem;
 
 	protected Shield shield = null;
 	[SerializeField] private PolygonGameObject shieldGO;
 
-	public PolygonGameObject minimapIndicator { get; set;}
+	public PolygonGameObject minimapIndicator;
 
-	public List<PolygonGameObject> turrets { get; set;}
+	public List<PolygonGameObject> turrets;
 
-	public DropID dropID{get; set;}
+	public DropID dropID;
 
-	public DeathAnimation deathAnimation{get; set;}
-	public float overrideExplosionDamage { get; protected set;}
-	public float overrideExplosionRange {get; protected set;}
+	public DeathAnimation deathAnimation;
+	public float overrideExplosionDamage;
+	public float overrideExplosionRange;
 
 	protected virtual void Awake () 
 	{
@@ -109,6 +113,12 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		currentHealth = fullHealth;
 	}
 
+	public void InitLifetime(float lifeTime)
+	{
+		this.startinglifeTime = lifeTime;
+		this.leftlifeTime = lifeTime;
+	}
+
 	public void SetGuns(List<Gun> guns, List<int> linked = null)
 	{
 		this.spawnerGuns = new List<int> ();
@@ -134,7 +144,12 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		}
 	}
 
-	public virtual void SetTarget(IPolygonGameObject target)
+	public bool Expired()
+	{
+		return HasLifetime && leftlifeTime < 0;
+	}
+
+	public virtual void SetTarget(PolygonGameObject target)
 	{
 		this.target = target;
 		guns.ForEach(g => g.SetTarget(target));
@@ -294,8 +309,13 @@ public class PolygonGameObject : MonoBehaviour, IPolygonGameObject
 		shield.SetShieldGO (shieldGO);
 	}
 
+	public bool HasLifetime {get { return startinglifeTime > 0;}}
+
 	public virtual void Tick(float delta)
 	{
+		if(HasLifetime)
+			leftlifeTime -= delta; 
+
 		if(targetSystem != null)
 			targetSystem.Tick (delta);
 

@@ -8,7 +8,7 @@ public class MGunSetupData : IGotPlace
 	public MGunBaseData gun;
 	public Place pos {get {return place;} set{place = value;}}
 
-	public Gun GetGun(IPolygonGameObject t)
+	public Gun GetGun(PolygonGameObject t)
 	{
 		return gun.GetGun(place, t);
 	}

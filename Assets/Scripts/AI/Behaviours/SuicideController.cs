@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class SuicideController : BaseSpaceshipController
 {
-	List<IBullet> bullets;
+	List<PolygonGameObject> bullets;
 
 	AIHelper.Data tickData = new AIHelper.Data();
 	
@@ -20,7 +20,7 @@ public class SuicideController : BaseSpaceshipController
 	float untilBulletsEvadeMin = 1f;
 	float accuracy;
 
-	public SuicideController (SpaceShip thisShip, List<IBullet> bullets, AccuracyData accData) : base(thisShip)
+	public SuicideController (SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData) : base(thisShip)
 	{
 		this.bullets = bullets;
 

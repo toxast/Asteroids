@@ -5,7 +5,7 @@ using System.Linq;
 
 public class SpawnerGun : GunShooterBase 
 {
-	public MSpaceshipData spaceshipRef;
+	public MSpaceshipData spaceshipRef; //TODO: not only spaceship
 	public int maxSpawn;
 
 	private int startSpawnLeft;
@@ -13,9 +13,9 @@ public class SpawnerGun : GunShooterBase
 	private float regularInterval;
 	private float spawnFireSpeed;
 
-	private List<BulletAdapter> spawned = new List<BulletAdapter>();
+	private List<PolygonGameObject> spawned = new List<PolygonGameObject>();
 
-	public SpawnerGun(Place place, MSpawnerGunData data, IPolygonGameObject parent)
+	public SpawnerGun(Place place, MSpawnerGunData data, PolygonGameObject parent)
 		:base(place, data, parent, 0, 0, data.fireInterval, data.fireEffect)
 	{
 		this.spaceshipRef = data.spaceshipRef;
@@ -38,16 +38,11 @@ public class SpawnerGun : GunShooterBase
 
 	public override bool ReadyToShoot ()
 	{
-		spawned = spawned.Where (b => !Main.IsNull(b.go)).ToList ();
+		spawned = spawned.Where (s => !Main.IsNull(s)).ToList ();
 		return base.ReadyToShoot () &&  spawned.Count < maxSpawn; //TODO optimize
 	}
 
-	protected override void SetBulletLayer (IBullet b)
-	{
-		b.SetCollisionLayerNum(CollisionLayers.GetSpawnedLayer(parent.layer));
-	}
-
-	protected override IBullet CreateBullet()
+	protected PolygonGameObject Spawn()
 	{
 		if (startSpawnLeft > 0)
 		{
@@ -59,7 +54,8 @@ public class SpawnerGun : GunShooterBase
 			}
 		}
 
-		var obj = ObjectsCreator.MCreateSpaceShip<SpaceShip> (spaceshipRef);
+		PolygonGameObject obj = ObjectsCreator.MCreateSpaceShip<SpaceShip> (spaceshipRef);
+		obj.gameObject.name += "_spawn";
 		obj.reward = 0;
 
 		if(target != null)
@@ -67,11 +63,22 @@ public class SpawnerGun : GunShooterBase
 
 		Math2d.PositionOnParent (obj.cacheTransform, place, parent.cacheTransform);
 		obj.cacheTransform.position += new Vector3 (0, 0, 1);
-		obj.gameObject.name += "_spawn";
 		obj.velocity += (Vector2)(spawnFireSpeed * obj.cacheTransform.right);
 		obj.targetSystem = new TargetSystem (obj);
-		var adapted =  new BulletAdapter(obj);
-		spawned.Add (adapted);
-		return adapted;
+		spawned.Add (obj);
+		return obj;
+	}
+
+	protected override void Fire()
+	{
+		var spawn = Spawn ();
+
+		spawn.velocity += Main.AddShipSpeed2TheBullet(parent);
+		spawn.SetCollisionLayerNum(CollisionLayers.GetSpawnedLayer(parent.layer));
+
+		Singleton<Main>.inst.HandleSpawnFire(spawn);
+
+		if (fireEffect != null)
+			fireEffect.Emit (1);
 	}
 }

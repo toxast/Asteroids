@@ -15,7 +15,7 @@ public class MSpawnerGunData : MGunBaseData
 	public float startSpawnInterval = 2f;
 
 
-	public override Gun GetGun(Place place, IPolygonGameObject t)
+	public override Gun GetGun(Place place, PolygonGameObject t)
 	{
 		return new SpawnerGun(place, this, t);
 	}

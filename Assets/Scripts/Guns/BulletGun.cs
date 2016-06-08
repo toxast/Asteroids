@@ -11,7 +11,7 @@ public class BulletGun : GunShooterBase
 	public Color color;
 	public float damage;
 
-	public BulletGun(Place place, MGunData data, IPolygonGameObject parent)
+	public BulletGun(Place place, MGunData data, PolygonGameObject parent)
 		:base(place, data, parent, data.repeatCount, data.repeatInterval, data.fireInterval, data.fireEffect)
 	{
 		this.vertices = data.vertices;
@@ -29,17 +29,33 @@ public class BulletGun : GunShooterBase
 
 	public override float BulletSpeedForAim{ get { return bulletSpeed; } }
 
-	protected override IBullet CreateBullet()
+	private PolygonGameObject CreateBullet()
 	{
-		Bullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<Bullet>(vertices, color);
+		PolygonGameObject bullet = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(vertices, color);
+		bullet.gameObject.name = "bullet";
 
 		Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform);
-		//PositionOnShooterPlace (bullet.cacheTransform);
-		bullet.destroyOnBoundsTeleport = true;
+
+		bullet.InitPolygonGameObject (physical);
+		bullet.InitLifetime (lifeTime);
+		bullet.damageOnCollision = damage;
+		bullet.velocity = bullet.cacheTransform.right * bulletSpeed;
 		bullet.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
-		bullet.gameObject.name = "bullet";
-		bullet.InitBullet(bulletSpeed, damage, lifeTime, physical); 
-		
+		bullet.destroyOnBoundsTeleport = true;
+
 		return bullet;
+	}
+
+	protected override void Fire()
+	{
+		var b = CreateBullet ();
+
+		b.velocity += Main.AddShipSpeed2TheBullet(parent);
+		b.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
+
+		Singleton<Main>.inst.HandleGunFire (b);
+
+		if (fireEffect != null)
+			fireEffect.Emit (1);
 	}
 }

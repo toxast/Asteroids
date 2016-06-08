@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class EnemySpaceShipController : InputController, IGotTarget
 {
 	PolygonGameObject thisShip;
-	IPolygonGameObject target;
-	List<IBullet> bullets;
+	PolygonGameObject target;
+	List<PolygonGameObject> bullets;
 	public bool shooting{ get; private set; }
 	public bool accelerating{ get; private set; }
 	public bool braking{ get; private set; }
@@ -24,7 +24,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 //		NO_ACCELERATION_ATTACK,
 //	}
 
-	public EnemySpaceShipController(PolygonGameObject thisShip, List<IBullet> bullets, float bulletsSpeed)
+	public EnemySpaceShipController(PolygonGameObject thisShip, List<PolygonGameObject> bullets, float bulletsSpeed)
 	{
 		this.bulletsSpeed = bulletsSpeed;
 		this.bullets = bullets;
@@ -32,7 +32,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		thisShip.StartCoroutine (Logic ());
 	}
 
-	public void SetTarget(IPolygonGameObject target)
+	public void SetTarget(PolygonGameObject target)
 	{
 		this.target = target;
 	}
@@ -126,7 +126,7 @@ public class EnemySpaceShipController : InputController, IGotTarget
 		}
 	}
 
-	private bool CheckForBulletCollision(IBullet b)
+	private bool CheckForBulletCollision(PolygonGameObject b)
 	{
 		if (b == null)
 			return false;

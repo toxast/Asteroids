@@ -4,13 +4,13 @@ using System.Collections;
 public static class PolygonCollision 
 {
 
-	static public bool IsCollides(IPolygonGameObject a, IPolygonGameObject b)
+	static public bool IsCollides(PolygonGameObject a, PolygonGameObject b)
 	{
 		int indxa, indxb;
 		return IsCollides(a, b, out indxa, out indxb);
 	}
 
-	static public bool IsCollides(IPolygonGameObject a, IPolygonGameObject b, out int indxa, out int indxb)
+	static public bool IsCollides(PolygonGameObject a, PolygonGameObject b, out int indxa, out int indxb)
 	{
 		indxa = -1;
 		indxb = -1;
@@ -41,7 +41,7 @@ public static class PolygonCollision
 		return collides;
 	}
 
-	static public Polygon GetPolygonInGlobalCoordinates(IPolygonGameObject a)
+	static public Polygon GetPolygonInGlobalCoordinates(PolygonGameObject a)
 	{
 		float angle = a.cacheTransform.rotation.eulerAngles.z*Mathf.Deg2Rad;
 		Vector2[] verticesA = Math2d.RotateVerticesRad(a.polygon.vertices, angle);
@@ -80,7 +80,7 @@ public static class PolygonCollision
 
 
 	//returns impulse of collision
-	static public float ApplyCollision(IPolygonGameObject aobj, IPolygonGameObject bobj, int aVertex, int bVertex)
+	static public float ApplyCollision(PolygonGameObject aobj, PolygonGameObject bobj, int aVertex, int bVertex)
 	{
 //		Polygon a = GetPolygonInGlobalCoordinates(aobj);
 //		Polygon b = GetPolygonInGlobalCoordinates(bobj);
@@ -97,8 +97,8 @@ public static class PolygonCollision
 		return 0;
 	}
 
-	static private float ApplyCollision(IPolygonGameObject aobj, Polygon a, int aVertex,
-	                                    IPolygonGameObject bobj, Polygon b)
+	static private float ApplyCollision(PolygonGameObject aobj, Polygon a, int aVertex,
+	                                    PolygonGameObject bobj, Polygon b)
 	{
 
 		if(a.IsIneriorVertex(aVertex))
@@ -173,7 +173,7 @@ public static class PolygonCollision
 		return j;
 	}
 
-	static public void ApplyImpulse(IPolygonGameObject p, Vector2 Ppos, Vector2 P)
+	static public void ApplyImpulse(PolygonGameObject p, Vector2 Ppos, Vector2 P)
 	{
 //		Polygon a = GetPolygonInGlobalCoordinates(p);
 		Vector2 dir2p = p.position - Ppos;

@@ -11,8 +11,8 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 	public bool braking{ get; private set; }
 	public Vector2 turnDirection{ get; private set; }
 
-	IPolygonGameObject target;
-	List<IBullet> bullets;
+	PolygonGameObject target;
+	List<PolygonGameObject> bullets;
 	float bulletsSpeed;
 //	float bulletLifeTime;
 
@@ -25,7 +25,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 
     bool evadeBullets = true;
 
-	public FastSpaceshipAttackController(SpaceShip thisShip, List<IBullet> bullets, Gun gun)
+	public FastSpaceshipAttackController(SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun)
 	{
 		this.bulletsSpeed = gun.BulletSpeedForAim;
 //		this.bulletLifeTime = gun.lifeTime;
@@ -42,7 +42,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
         evadeBullets = evadeDuration < 1.5f;
 	}
 
-	public void SetTarget(IPolygonGameObject target)
+	public void SetTarget(PolygonGameObject target)
 	{
 		this.target = target;
 	}
@@ -300,7 +300,7 @@ public class FastSpaceshipAttackController : InputController, IGotTarget
 		}
 	}
 
-	private bool BulletDanger(IBullet b)
+	private bool BulletDanger(PolygonGameObject b)
 	{
 		if (b == null)
 			return false;

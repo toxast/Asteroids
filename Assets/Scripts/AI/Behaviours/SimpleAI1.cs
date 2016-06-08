@@ -9,7 +9,7 @@ using System.Collections.Generic;
 public class SimpleAI1 : InputController, IGotTarget
 {
 	PolygonGameObject thisShip;
-	IPolygonGameObject target;
+	PolygonGameObject target;
 	public bool shooting{ get; private set; }
 	public bool accelerating{ get; private set; }
 	public bool braking{ get; private set; }
@@ -26,7 +26,7 @@ public class SimpleAI1 : InputController, IGotTarget
 		thisShip.StartCoroutine (Logic ());
 	}
 	
-	public void SetTarget(IPolygonGameObject target)
+	public void SetTarget(PolygonGameObject target)
 	{
 		this.target = target;
 	}

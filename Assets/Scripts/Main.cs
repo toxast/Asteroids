@@ -14,9 +14,9 @@ public class Main : MonoBehaviour
 	[SerializeField] TabletInputController tabletController;
 	[SerializeField] oldGUI oldGUI;
  	UserSpaceShip spaceship;
-	List <IPolygonGameObject> gobjects = new List<IPolygonGameObject>();
+	List <PolygonGameObject> gobjects = new List<PolygonGameObject>();
 	List <polygonGO.Drop> drops = new List<polygonGO.Drop>();
-	public List<IBullet> bullets = new List<IBullet>();
+	public List<PolygonGameObject> bullets = new List<PolygonGameObject>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
 	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
@@ -31,8 +31,8 @@ public class Main : MonoBehaviour
 	Rect screenBounds;
 	Rect flyZoneBounds;
 
-	public List <IPolygonGameObject> gObjects{get {return gobjects;}}
-	public List <IBullet> pBullets{get {return bullets;}}
+	public List <PolygonGameObject> gObjects{get {return gobjects;}}
+	public List <PolygonGameObject> pBullets{get {return bullets;}}
 
 	[SerializeField] private float starsDensity = 5f;
 
@@ -88,7 +88,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	static public Vector2 AddShipSpeed2TheBullet(IPolygonGameObject ship)
+	static public Vector2 AddShipSpeed2TheBullet(PolygonGameObject ship)
 	{
 		return ship.velocity * 0.5f;
 	}
@@ -517,7 +517,7 @@ public class Main : MonoBehaviour
 
 
 	private void CalculateGlobalPolygons<T> (List<T> objs)
-		where T: IPolygonGameObject
+		where T: PolygonGameObject
 	{
 		for (int k = objs.Count - 1; k >= 0; k--)
 		{
@@ -530,7 +530,7 @@ public class Main : MonoBehaviour
 	}
 
 	private void CheckDeadObjects<T> (List<T> objs, bool nullCheck = false)
-		where T: IPolygonGameObject
+		where T: PolygonGameObject
 	{
 		for (int k = objs.Count - 1; k >= 0; k--)
 		{
@@ -561,7 +561,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void ObjectDeath(IPolygonGameObject gobject)
+	private void ObjectDeath(PolygonGameObject gobject)
 	{
 		switch (gobject.destructionType) {
 		case PolygonGameObject.DestructionType.eNormal:
@@ -604,7 +604,7 @@ public class Main : MonoBehaviour
 
 			Debug.LogError("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
 			int collision = -1;
-			if(gobject is Missile)
+			if(gobject is SpaceShip)
 			{
 				collision = gobject.collision;
 			}
@@ -622,7 +622,7 @@ public class Main : MonoBehaviour
 		PutOnFirstNullPlace(goDestructors, d); 
 	}
 
-	private void ObjectsCollide(IPolygonGameObject a, IPolygonGameObject b)
+	private void ObjectsCollide(PolygonGameObject a, PolygonGameObject b)
 	{
 		if((a.collision & b.layer) == 0)
 			return;
@@ -637,7 +637,7 @@ public class Main : MonoBehaviour
 	}
 
 	//TODO: ckecks
-	private void BulletsHitObjects(List<IPolygonGameObject> objs, List<IBullet> pbullets)
+	private void BulletsHitObjects(List<PolygonGameObject> objs, List<PolygonGameObject> pbullets)
 	{
 		for (int i = objs.Count - 1; i >= 0; i--) 
 		{
@@ -645,7 +645,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void CleanBulletsList(List<IBullet> pbullets)
+	private void CleanBulletsList(List<PolygonGameObject> pbullets)
 	{
 		if (pbullets.Count == 0)
 			return;
@@ -666,7 +666,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void BulletsHitObject(IPolygonGameObject obj,  List<IBullet> pbullets)
+	private void BulletsHitObject(PolygonGameObject obj,  List<PolygonGameObject> pbullets)
 	{
 
 		for (int k = pbullets.Count - 1; k >= 0; k--)
@@ -685,7 +685,7 @@ public class Main : MonoBehaviour
 
 				if(!bullet.IsKilled())
 				{
-					obj.Hit(bullet.damage + GetCollisionDamage(impulse, obj, bullet));
+					obj.Hit(bullet.damageOnCollision + GetCollisionDamage(impulse, obj, bullet));
 				} 
 
 				if(bullet.destructionType == PolygonGameObject.DestructionType.eJustDestroy)
@@ -734,17 +734,17 @@ public class Main : MonoBehaviour
 		p.velocity += (Time.deltaTime * f) / p.mass ;
 	}
 
-	private void SplitIntoAsteroidsAndMarkForDestuctionSmallParts(IPolygonGameObject obj)
+	private void SplitIntoAsteroidsAndMarkForDestuctionSmallParts(PolygonGameObject obj)
 	{
 		SplitAndDestroyThresholdParts (obj, DestroyAfterSplitTreshold);
 	}
 
-	private void SplitAndMarkForDestructionAllParts(IPolygonGameObject obj)
+	private void SplitAndMarkForDestructionAllParts(PolygonGameObject obj)
 	{
 		SplitAndDestroyThresholdParts (obj, Mathf.Infinity);
 	}
 
-	private void SplitAndDestroyThresholdParts(IPolygonGameObject obj, float threshold)
+	private void SplitAndDestroyThresholdParts(PolygonGameObject obj, float threshold)
 	{
 		DropData drop = null;
 		if(obj.dropID != null)
@@ -784,7 +784,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void CheckReward(IPolygonGameObject go)
+	private void CheckReward(PolygonGameObject go)
 	{
 		if (go.reward <= 0)
 			return;
@@ -815,7 +815,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void CheckDrop(DropData drop, IPolygonGameObject destroyingPart)
+	private void CheckDrop(DropData drop, PolygonGameObject destroyingPart)
 	{
 		int lastDrops = (int)((drop.areaLeft/drop.startingArea) * drop.dropsCount);
 		drop.areaLeft -= destroyingPart.polygon.area;
@@ -854,21 +854,21 @@ public class Main : MonoBehaviour
 		drops.Add(dropObj);
 	}
 
-	public void Add2Objects(IPolygonGameObject p)
+	public void Add2Objects(PolygonGameObject p)
 	{
-		p.guns.ForEach( g => g.onFire += HandleGunFire);
+		/*p.guns.ForEach( g => g.onFire += HandleGunFire);
 		
 		foreach (var t in p.turrets)
 		{
 			t.guns.ForEach( g => g.onFire += HandleGunFire);
-		}
+		}*/
 
 		p.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates (p);
 		CreateMinimapIndicatorForObject (p);
 		gobjects.Add (p);
 	}
 
-	static public float GetCollisionDamage(float impulse, IPolygonGameObject a,  IPolygonGameObject from)
+	static public float GetCollisionDamage(float impulse, PolygonGameObject a,  PolygonGameObject from)
 	{
 		var dmg = Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier;
 		return (1f - a.collisionDefence) * from.collisionAttackModifier * dmg;
@@ -876,7 +876,7 @@ public class Main : MonoBehaviour
 
 
 	private void TickObjects<T>(List<T> list, float dtime)
-		where T: IPolygonGameObject
+		where T: PolygonGameObject
 	{
 		for (int i = 0; i < list.Count ; i++)
 		{
@@ -885,7 +885,7 @@ public class Main : MonoBehaviour
 	}
 
 	private void CheckBounds<T>(List<T> list, bool nullCheck)
-		where T: IPolygonGameObject
+		where T: PolygonGameObject
 	{
 		if(!nullCheck)
 		{
@@ -918,7 +918,7 @@ public class Main : MonoBehaviour
 
 
 	private void Reposition<T>(List<T> list, Vector2 delta, bool nullCheck)
-		where T: IPolygonGameObject
+		where T: PolygonGameObject
 	{
 		if(!nullCheck)
 		{
@@ -938,7 +938,7 @@ public class Main : MonoBehaviour
 	}
 
 	private void Wrap<T>(List<T> list, bool nullCheck)
-		where T: IPolygonGameObject
+		where T: PolygonGameObject
 	{
 		if(!nullCheck)
 		{
@@ -970,7 +970,7 @@ public class Main : MonoBehaviour
 	}
 
 	private void TickBullets<T>(List<T> list, float dtime)
-		where T: IBullet
+		where T: PolygonGameObject
 	{
 		for (int i = 0; i < list.Count ; i++)
 		{
@@ -986,7 +986,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private bool CheckBounds(IPolygonGameObject p)
+	private bool CheckBounds(PolygonGameObject p)
 	{
 		Vector3 pos = p.position;
 		float R = p.polygon.R;
@@ -1063,19 +1063,15 @@ public class Main : MonoBehaviour
 		spaceship.cacheTransform.position = mainCamera.transform.position.SetZ (0);
 	}
 
-	void HandleGunFire (IBullet bullet)
+
+	public void HandleGunFire (PolygonGameObject bullet)
 	{
-		var layer = (CollisionLayers.eLayer)bullet.layer;
-		switch (layer) {
-		case CollisionLayers.eLayer.BULLETS_ENEMIES:
-		case CollisionLayers.eLayer.BULLETS_USER:
-			PutOnFirstNullPlace<IBullet>(bullets, bullet);
-		break;
-		case CollisionLayers.eLayer.TEAM_USER:
-		case CollisionLayers.eLayer.TEAM_ENEMIES:
-			Add2Objects(bullet);
-			break;
-		}
+		PutOnFirstNullPlace<PolygonGameObject>(bullets, bullet);
+	}
+
+	public void HandleSpawnFire (PolygonGameObject spawn)
+	{
+		Add2Objects(spawn);
 	}
 
 	public Asteroid CreateAsteroid(int i)
@@ -1184,7 +1180,7 @@ public class Main : MonoBehaviour
 	
 
 
-	public void CreateDropForObject(IPolygonGameObject obj, AsteroidData aData) //TODO: color + value data
+	public void CreateDropForObject(PolygonGameObject obj, AsteroidData aData) //TODO: color + value data
 	{
 		obj.dropID = new DropID ();
 		DropData dropData = new DropData
@@ -1212,7 +1208,7 @@ public class Main : MonoBehaviour
 //		Add2Objects(enemy);
 //	}
 
-	private void CreateMinimapIndicatorForObject(IPolygonGameObject obj)
+	private void CreateMinimapIndicatorForObject(PolygonGameObject obj)
 	{
 		if(obj.minimapIndicator != null)
 		{
@@ -1303,12 +1299,12 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	public static bool IsNull(IPolygonGameObject target)
+	public static bool IsNull(PolygonGameObject target)
 	{
 		return target == null || target.cacheTransform == null;
 	}
 
-//	public IPolygonGameObject GetNewTarget(IPolygonGameObject g)
+//	public PolygonGameObject GetNewTarget(PolygonGameObject g)
 //	{
 //		if(g is SpaceShip)
 //		{
@@ -1351,6 +1347,7 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * make destroyed spaceship parts realy easy to break
 	 * turrets
 	 * lazer fix when target destroyed
 	 * destroy shaceship wrecks on bounds check?

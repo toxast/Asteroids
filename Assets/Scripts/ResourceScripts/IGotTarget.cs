@@ -3,5 +3,5 @@ using System.Collections;
 
 public interface IGotTarget 
 {
-	void SetTarget(IPolygonGameObject target);
+	void SetTarget(PolygonGameObject target);
 }

@@ -59,7 +59,7 @@ public class SpaceShip : PolygonGameObject
 		maxSpeedSqr = maxSpeed*maxSpeed;
 	}
 
-	public override void SetTarget(IPolygonGameObject target)
+	public override void SetTarget(PolygonGameObject target)
 	{
 		base.SetTarget (target);
 
