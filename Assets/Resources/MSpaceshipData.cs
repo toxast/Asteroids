@@ -25,4 +25,23 @@ public class MSpaceshipData : MonoBehaviour, IGotShape, IGotThrusters, IGotGuns,
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<ThrusterSetupData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
+
+    void Awake()
+    {
+        if (Application.isPlaying && Application.isEditor) {
+            var obj = Create ();
+            obj.cacheTransform.position = gameObject.transform.position;
+
+            if(obj.layerNum != CollisionLayers.ilayerAsteroids)
+                obj.targetSystem = new TargetSystem (obj);
+
+            obj.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+            Singleton<Main>.inst.Add2Objects(obj);
+        }
+    }
+
+    public PolygonGameObject Create()
+    {
+        return ObjectsCreator.MCreateSpaceShip<SpaceShip> (this);
+    }
 }

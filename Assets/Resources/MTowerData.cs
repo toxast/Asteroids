@@ -21,4 +21,22 @@ public class MTowerData : MonoBehaviour, IGotShape, IGotGuns, IGotTurrets
 	public Vector2[] iverts {get {return verts;} set{verts = value;}}
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
+
+    void Awake()
+    {
+        if (Application.isPlaying && Application.isEditor) {
+            var obj = Create ();
+            obj.cacheTransform.position = gameObject.transform.position;
+
+            if(obj.layerNum != CollisionLayers.ilayerAsteroids)
+                obj.targetSystem = new TargetSystem (obj);
+
+            Singleton<Main>.inst.Add2Objects(obj);
+        }
+    }
+
+    public PolygonGameObject Create()
+    {
+        return ObjectsCreator.CreateSimpleTower(this);
+    }
 }
