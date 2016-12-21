@@ -94,8 +94,6 @@ public class Spliter
 			
 			Vector2 perpendecular = new Vector2(direction.y, -direction.x);
 			part.velocity += perpendecular.normalized * rotationSign * Mathf.Sqrt( 2f * velocityEnegryFromRotation / part.mass );
-			
-			part.velocity = part.velocity.SetZ(0);//TODO: z system*/
 		}
 	}
 }
