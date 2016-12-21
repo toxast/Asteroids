@@ -34,53 +34,58 @@ public class ShipEditor : MonoBehaviour
 	[SerializeField] bool scaleDown = false;
 	[SerializeField] bool doScale = false;
 	[SerializeField] Vector2 scaleBy = Vector2.one;
-	[SerializeField] int saveANDloadIndx = -1;
-	[SerializeField] eSaveLoadType editType;
+//	[SerializeField] int saveANDloadIndx = -1;
+//	[SerializeField] eSaveLoadType editType;
 
 	Vector2 vright = new Vector2(1,0);
 
+
+    [SerializeField] MonoBehaviour prefab;
+
 	void OnEnable()
 	{
+        Clear ();
+
+        if (Application.isPlaying) {
+            Debug.LogWarning ("editor should be closed at runtime");
+            gameObject.SetActive (false);
+            return;
+        }
+
 		duplicateIndx = 0;
 		duplicate = false;
 		
 		mesh = GetComponent<MeshFilter>().sharedMesh;
 		var verts = mesh.vertices;
-		if(saveANDloadIndx >= 0)
+        if(prefab != null)
 		{
-			object obj = GetObjByType(editType, saveANDloadIndx);
+//			object obj = GetObjByType(editType, saveANDloadIndx);
 
-			verts = (obj as IGotShape).iverts.ToList().ConvertAll( v => (Vector3)v).ToArray();
+            verts = (prefab as IGotShape).iverts.ToList().ConvertAll( v => (Vector3)v).ToArray();
 
-			var oIGotThrusters = obj as IGotThrusters;
-			if(oIGotThrusters != null)
-			{
-				var dataThrusters = oIGotThrusters.ithrusters.ConvertAll( t => t.place);
-				for (int i = 0; i < dataThrusters.Count; i++) 
-				{
-					CreatePosition(dataThrusters[i].pos, dataThrusters[i].dir, "truster ", thrusters);
-				}
-			}
+            var oIGotThrusters = prefab as IGotThrusters;
+            if (oIGotThrusters != null) {
+                var dataThrusters = oIGotThrusters.ithrusters.ConvertAll (t => t.place);
+                for (int i = 0; i < dataThrusters.Count; i++) {
+                    CreatePosition (dataThrusters [i].pos, dataThrusters [i].dir, "truster ", thrusters);
+                }
+            }
 
-			var oIGotGuns = obj as IGotGuns;
-			if(oIGotGuns != null)
-			{
-				var dataGuns = oIGotGuns.iguns.ConvertAll( t => t.place);
-				for (int i = 0; i < dataGuns.Count; i++) 
-				{
-					CreatePosition(dataGuns[i].pos, dataGuns[i].dir, "gun ", guns);
-				}
-			}
+            var oIGotGuns = prefab as IGotGuns;
+            if (oIGotGuns != null) {
+                var dataGuns = oIGotGuns.iguns.ConvertAll (t => t.place);
+                for (int i = 0; i < dataGuns.Count; i++) {
+                    CreatePosition (dataGuns [i].pos, dataGuns [i].dir, "gun ", guns);
+                }
+            }
 
-			var oIGotTurrets = obj as IGotTurrets;
-			if(oIGotTurrets != null)
-			{
-				var dataGuns = oIGotTurrets.iturrets.ConvertAll( t => t.place);
-				for (int i = 0; i < dataGuns.Count; i++) 
-				{
-					CreatePosition(dataGuns[i].pos, dataGuns[i].dir, "turret ", turrets);
-				}
-			}
+            var oIGotTurrets = prefab as IGotTurrets;
+            if (oIGotTurrets != null) {
+                var dataGuns = oIGotTurrets.iturrets.ConvertAll (t => t.place);
+                for (int i = 0; i < dataGuns.Count; i++) {
+                    CreatePosition (dataGuns [i].pos, dataGuns [i].dir, "turret ", turrets);
+                }
+            }
 		}
 
 		foreach(var vert in verts)
@@ -92,39 +97,39 @@ public class ShipEditor : MonoBehaviour
 		}
 	}
 
-	[ContextMenu ("Custom init action")]
-	private void CustomInitAction()
-	{
-		mesh = GetComponent<MeshFilter>().sharedMesh;
-		var verts = mesh.vertices;
-		verts = MGunsResources.Instance.guns[6].vertices.ToList().ConvertAll( v => (Vector3)v).ToArray();
-		foreach(var vert in verts)
-		{
-			if(vert.y <= 0)
-			{
-				CreatePosition(vert,  vright, "handle ", handles);
-			}
-		}
-	}
-
-	[ContextMenu ("Custom save action")]
-	private void CustomSaveAction()
-	{
-		Vector2[] v2 = new Vector2[handles.Count];    
-		for(int i = 0; i < handles.Count; i++)
-		{
-			v2[i] = handles[i].transform.localPosition;    
-		}
-		
-		var verts = PolygonCreator.GetCompleteVertexes (v2, 1).ToArray();
-		var pivot = Math2d.GetMassCenter (verts);
-		Math2d.ShiftVertices(verts, -pivot);
-		MGunsResources.Instance.guns[6].vertices = verts;
-
-		#if UNITY_EDITOR
-		EditorUtility.SetDirty (MGunsResources.Instance);
-		#endif
-	}
+//	[ContextMenu ("Custom init action")]
+//	private void CustomInitAction()
+//	{
+//		mesh = GetComponent<MeshFilter>().sharedMesh;
+//		var verts = mesh.vertices;
+//		verts = MGunsResources.Instance.guns[6].vertices.ToList().ConvertAll( v => (Vector3)v).ToArray();
+//		foreach(var vert in verts)
+//		{
+//			if(vert.y <= 0)
+//			{
+//				CreatePosition(vert,  vright, "handle ", handles);
+//			}
+//		}
+//	}
+//
+//	[ContextMenu ("Custom save action")]
+//	private void CustomSaveAction()
+//	{
+//		Vector2[] v2 = new Vector2[handles.Count];    
+//		for(int i = 0; i < handles.Count; i++)
+//		{
+//			v2[i] = handles[i].transform.localPosition;    
+//		}
+//		
+//		var verts = PolygonCreator.GetCompleteVertexes (v2, 1).ToArray();
+//		var pivot = Math2d.GetMassCenter (verts);
+//		Math2d.ShiftVertices(verts, -pivot);
+//		MGunsResources.Instance.guns[6].vertices = verts;
+//
+//		#if UNITY_EDITOR
+//		EditorUtility.SetDirty (MGunsResources.Instance);
+//		#endif
+//	}
 
 	[ContextMenu ("Create Gun Position")]
 	private void CreateGunPosition()
@@ -150,66 +155,66 @@ public class ShipEditor : MonoBehaviour
 	}
 
 	private void GetCurrentData(out Vector2[] fullArray, 
-	                            out List<GunSetupData> gunsData,
+	                            out List<MGunSetupData> gunsData,
 	                            out List<ThrusterSetupData> thrustersData,
-	                            out List<TurretReferenceData> turretsData)
+	                            out List<MTurretReferenceData> turretsData)
 	{
 		fullArray = new Vector2[1];
-		gunsData = new List<GunSetupData> ();
+        gunsData = new List<MGunSetupData> ();
 		thrustersData = new List<ThrusterSetupData> ();
-		turretsData = new List<TurretReferenceData> ();
+        turretsData = new List<MTurretReferenceData> ();
 
-//		Vector2[] v2 = new Vector2[handles.Count];    
-//		for(int i = 0; i < handles.Count; i++)
-//		{
-//			v2[i] = handles[i].transform.localPosition;    
-//		}
-//		
-//		var full = PolygonCreator.GetCompleteVertexes (v2, 1);
-//		if(reverse)
-//		{
-//			full.Reverse();
-//		}
-//		
-//		fullArray = full.ToArray ();
-//		var pivot = Math2d.GetMassCenter (fullArray);
-//		Math2d.ShiftVertices(fullArray, -pivot);
-//
-//		for (int i = 0; i < fullArray.Length; i++) {
-//			if(Mathf.Abs(fullArray[i].y) < 0.01f)
-//			{
-//				fullArray[i].y = 0;
-//			}
-//		}
-//
-//		gunsData = new List<GunSetupData> ();
-//		foreach(var g in guns)
-//		{
-//			GunSetupData gd = new GunSetupData();
-//			gd.place = new Place((Vector2)g.transform.localPosition - pivot, g.transform.right);
-//			gunsData.Add(gd);
-//		}
-//		
-//		thrustersData = new List<ThrusterSetupData> ();
-//		foreach(var t in thrusters)
-//		{
-//			ThrusterSetupData td = new ThrusterSetupData();
-//			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
-//			thrustersData.Add(td);
-//		}
-//		
-//		turretsData = new List<TurretReferenceData> ();
-//		foreach(var t in turrets)
-//		{
-//			TurretReferenceData td = new TurretReferenceData();
-//			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
-//			turretsData.Add(td);
-//		}
+		Vector2[] v2 = new Vector2[handles.Count];    
+		for(int i = 0; i < handles.Count; i++)
+		{
+			v2[i] = handles[i].transform.localPosition;    
+		}
+		
+		var full = PolygonCreator.GetCompleteVertexes (v2, 1);
+		if(reverse)
+		{
+			full.Reverse();
+		}
+		
+		fullArray = full.ToArray ();
+		var pivot = Math2d.GetMassCenter (fullArray);
+		Math2d.ShiftVertices(fullArray, -pivot);
+
+		for (int i = 0; i < fullArray.Length; i++) {
+			if(Mathf.Abs(fullArray[i].y) < 0.01f)
+			{
+				fullArray[i].y = 0;
+			}
+		}
+
+		gunsData = new List<MGunSetupData> ();
+		foreach(var g in guns)
+		{
+            MGunSetupData gd = new MGunSetupData();
+			gd.place = new Place((Vector2)g.transform.localPosition - pivot, g.transform.right);
+			gunsData.Add(gd);
+		}
+		
+		thrustersData = new List<ThrusterSetupData> ();
+		foreach(var t in thrusters)
+		{
+			ThrusterSetupData td = new ThrusterSetupData();
+			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
+			thrustersData.Add(td);
+		}
+		
+		turretsData = new List<MTurretReferenceData> ();
+		foreach(var t in turrets)
+		{
+            MTurretReferenceData td = new MTurretReferenceData();
+			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
+			turretsData.Add(td);
+		}
 	}
 
-	[ContextMenu ("Insert")]
-	private void Insert()
-	{
+//	[ContextMenu ("Insert")]
+//	private void Insert()
+//	{
 //		Vector2[] fullArray;
 //		List<GunSetupData> gunsData;
 //		List<ThrusterSetupData> thrustersData;
@@ -247,28 +252,64 @@ public class ShipEditor : MonoBehaviour
 //		EditorUtility.SetDirty (MSpaceShipResources.Instance);
 //		EditorUtility.SetDirty (MGunsResources.Instance);
 //		#endif
-	}
+//	}
 
-	private object GetObjByType(eSaveLoadType type, int indx)
-	{
-		object obj = null;
-		if(type == eSaveLoadType.SpaceShip)
-			obj = MSpaceShipResources.Instance.spaceships[indx];
-		else if(type == eSaveLoadType.Turret)
-			obj = MSpaceShipResources.Instance.turrets[indx];
-		else if(type == eSaveLoadType.Tower)
-			obj = MSpaceShipResources.Instance.towers[indx];
-		else if(type == eSaveLoadType.BulletGun)
-			obj = MGunsResources.Instance.guns[indx];
-		else if(type == eSaveLoadType.RocketGun)
-			obj = MGunsResources.Instance.rocketLaunchers[indx];
+//	private object GetObjByType(eSaveLoadType type, int indx)
+//	{
+//		object obj = null;
+//		if(type == eSaveLoadType.SpaceShip)
+//			obj = MSpaceShipResources.Instance.spaceships[indx];
+//		else if(type == eSaveLoadType.Turret)
+//			obj = MSpaceShipResources.Instance.turrets[indx];
+//		else if(type == eSaveLoadType.Tower)
+//			obj = MSpaceShipResources.Instance.towers[indx];
+//		else if(type == eSaveLoadType.BulletGun)
+//			obj = MGunsResources.Instance.guns[indx];
+//		else if(type == eSaveLoadType.RocketGun)
+//			obj = MGunsResources.Instance.rocketLaunchers[indx];
+//
+//		return obj;
+//	}
 
-		return obj;
-	}
 
-	[ContextMenu ("Save On")]
-	private void SaveOn()
-	{
+    [ContextMenu ("Save into prefab")]
+    private void SaveOn()
+    {
+        if (prefab == null) {
+        Debug.LogError ("no prefab is set");
+        return;
+        }
+
+        Vector2[] fullArray;
+        List<MGunSetupData> gunsData;
+        List<ThrusterSetupData> thrustersData;
+        List<MTurretReferenceData> turretsData;
+        GetCurrentData (out fullArray, out gunsData, out thrustersData, out turretsData);
+
+        (prefab as IGotShape).iverts = fullArray;
+
+        if (prefab is IGotGuns) {
+            FillPlaces<MGunSetupData> (gunsData, (prefab as IGotGuns).iguns);
+        }
+
+        if (prefab is IGotThrusters) {
+            FillPlaces<ThrusterSetupData> (thrustersData, (prefab as IGotThrusters).ithrusters);
+        }
+
+        if (prefab is IGotTurrets) {
+            FillPlaces<MTurretReferenceData> (turretsData, (prefab as IGotTurrets).iturrets);
+        }
+
+//        #if UNITY_EDITOR
+//        EditorUtility.SetDirty (MSpaceShipResources.Instance);
+//        EditorUtility.SetDirty (MGunsResources.Instance);
+//        #endif
+    }   
+
+
+//	[ContextMenu ("Save On")]
+//	private void SaveOn()
+//	{
 //		Vector2[] fullArray;
 //		List<GunSetupData> gunsData;
 //		List<ThrusterSetupData> thrustersData;
@@ -298,7 +339,7 @@ public class ShipEditor : MonoBehaviour
 //		{
 //			Debug.LogWarning("index is not valid");
 //		}
-	}
+//	}
 
 	private void FillPlaces<T>(List<T> newPlaces, List<T> oldPlaces)
 		where T : IGotPlace
@@ -322,31 +363,36 @@ public class ShipEditor : MonoBehaviour
 
 	void OnDisable()
 	{
-		foreach(GameObject go in handles)
-		{
-			DestroyImmediate(go);    
-		}
-		handles.Clear ();
-
-		foreach(GameObject go in guns)
-		{
-			DestroyImmediate(go);    
-		}
-		guns.Clear ();
-
-
-		foreach(GameObject go in turrets)
-		{
-			DestroyImmediate(go);    
-		}
-		turrets.Clear ();
-
-		foreach(GameObject go in thrusters)
-		{
-			DestroyImmediate(go);    
-		}
-		thrusters.Clear ();
+        Clear ();
 	}
+
+    private void Clear()
+    {
+        foreach(GameObject go in handles)
+        {
+            DestroyImmediate(go);    
+        }
+        handles.Clear ();
+
+        foreach(GameObject go in guns)
+        {
+            DestroyImmediate(go);    
+        }
+        guns.Clear ();
+
+
+        foreach(GameObject go in turrets)
+        {
+            DestroyImmediate(go);    
+        }
+        turrets.Clear ();
+
+        foreach(GameObject go in thrusters)
+        {
+            DestroyImmediate(go);    
+        }
+        thrusters.Clear ();
+    }
 
 	private void DuplicateHandler(int dindx)
 	{

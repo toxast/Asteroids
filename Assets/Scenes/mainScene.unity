@@ -3782,7 +3782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1922263268
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3827,7 +3827,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 770184ef69a49ac4dbc497db7c357d32, type: 3}
   m_Name: 
@@ -3843,8 +3843,7 @@ MonoBehaviour:
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 1.2, y: 1}
-  saveANDloadIndx: -1
-  editType: 0
+  prefab: {fileID: 11411960, guid: 6f11fba070797694281df244854c2083, type: 2}
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0
