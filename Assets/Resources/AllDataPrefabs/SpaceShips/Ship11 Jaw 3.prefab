@@ -5,12 +5,12 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 472832}
-  - 114: {fileID: 11442276}
+  - component: {fileID: 472832}
+  - component: {fileID: 11442276}
   m_Layer: 0
-  m_Name: Ship11_(11) Jaw 3
+  m_Name: Ship11 Jaw 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,10 +25,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11442276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,8 +85,8 @@ MonoBehaviour:
     thrusterPrefab: {fileID: 19867060, guid: af21db030d86f1f4f96e657d579bb1f3, type: 2}
   turrets: []
   verts:
-  - {x: 0.30788356, y: -0.12999962}
-  - {x: 0.027883325, y: -0.83}
+  - {x: 0.30788356, y: -0.12999964}
+  - {x: 0.027883315, y: -0.83}
   - {x: 0.51788354, y: -1.15}
   - {x: 1.0960995, y: -1.13}
   - {x: 1.2160995, y: -0.52}
@@ -111,8 +111,8 @@ MonoBehaviour:
   - {x: 1.2160995, y: 0.52}
   - {x: 1.0960995, y: 1.13}
   - {x: 0.51788354, y: 1.15}
-  - {x: 0.027883325, y: 0.83}
-  - {x: 0.30788356, y: 0.13000037}
+  - {x: 0.027883315, y: 0.83}
+  - {x: 0.30788356, y: 0.13000035}
   upgradeIndex: 0
 --- !u!1001 &100100000
 Prefab:

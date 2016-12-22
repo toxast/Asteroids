@@ -312,7 +312,6 @@ public static class Math2d
 	{
 		return new Vector2(v.x, y);
 	}
-	
 
 
 	public static Vector3 SetX(this Vector3 v, float x)
