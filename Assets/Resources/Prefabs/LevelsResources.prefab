@@ -46,8 +46,6 @@ MonoBehaviour:
     - name: wave 0 (asteroids)
       objects:
       - name: spawns
-        type: 1
-        indx: 0
         prefab: {fileID: 11429188, guid: 62a1bb067d2ee294d933909d353103b2, type: 2}
         count: 3
         overrideAmount: 0
@@ -63,8 +61,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: spawns
-        type: 1
-        indx: 1
         prefab: {fileID: 11429188, guid: 6e846a35844c9cd4296c78341d17b438, type: 2}
         count: 2
         overrideAmount: 0
@@ -83,8 +79,6 @@ MonoBehaviour:
     - name: wave 1 (1 spiky)
       objects:
       - name: spawns
-        type: 3
-        indx: 0
         prefab: {fileID: 11492862, guid: 08968eae98d50db4191cbf591c021ccc, type: 2}
         count: 1
         overrideAmount: 0
@@ -103,8 +97,6 @@ MonoBehaviour:
     - name: wave 2 (green asteroid)
       objects:
       - name: spawns
-        type: 1
-        indx: 2
         prefab: {fileID: 11429188, guid: 608185eb9f5281d489276a76819a6780, type: 2}
         count: 1
         overrideAmount: 0
@@ -123,8 +115,6 @@ MonoBehaviour:
     - name: wave 3 (spiky)
       objects:
       - name: spawns
-        type: 3
-        indx: 0
         prefab: {fileID: 11492862, guid: 08968eae98d50db4191cbf591c021ccc, type: 2}
         count: 5
         overrideAmount: 0
@@ -143,8 +133,6 @@ MonoBehaviour:
     - name: wave 4 (asteroids)
       objects:
       - name: asteroids
-        type: 1
-        indx: 0
         prefab: {fileID: 11429188, guid: 62a1bb067d2ee294d933909d353103b2, type: 2}
         count: 2
         overrideAmount: 0
@@ -160,8 +148,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: asteroids
-        type: 1
-        indx: 1
         prefab: {fileID: 11429188, guid: 6e846a35844c9cd4296c78341d17b438, type: 2}
         count: 1
         overrideAmount: 0
@@ -177,8 +163,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: asteroids
-        type: 1
-        indx: 2
         prefab: {fileID: 11429188, guid: 608185eb9f5281d489276a76819a6780, type: 2}
         count: 1
         overrideAmount: 0
@@ -197,8 +181,6 @@ MonoBehaviour:
     - name: wave 5 (towers)
       objects:
       - name: asteroids
-        type: 5
-        indx: 0
         prefab: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
         count: 7
         overrideAmount: 0
@@ -217,8 +199,6 @@ MonoBehaviour:
     - name: wave 6 mega-spiky
       objects:
       - name: 
-        type: 3
-        indx: 1
         prefab: {fileID: 11451364, guid: f87f0fab6a398d7499eabe36336a2f22, type: 2}
         count: 1
         overrideAmount: 0
@@ -239,8 +219,6 @@ MonoBehaviour:
     - name: wave 0 (asteroids)
       objects:
       - name: spawns
-        type: 1
-        indx: 2
         prefab: {fileID: 11429188, guid: 608185eb9f5281d489276a76819a6780, type: 2}
         count: 2
         overrideAmount: 1
@@ -256,8 +234,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: spawns
-        type: 1
-        indx: 3
         prefab: {fileID: 11429188, guid: 5b3b81358baa0a345827a4b48a1f0782, type: 2}
         count: 3
         overrideAmount: 0
@@ -276,8 +252,6 @@ MonoBehaviour:
     - name: wave 1 (suisides)
       objects:
       - name: spawns
-        type: 2
-        indx: 3
         prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
         count: 4
         overrideAmount: 1
@@ -296,8 +270,6 @@ MonoBehaviour:
     - name: wave 2 (more suisides)
       objects:
       - name: suiside
-        type: 2
-        indx: 3
         prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
         count: 5
         overrideAmount: 1
@@ -313,8 +285,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: saw
-        type: 4
-        indx: 0
         prefab: {fileID: 11498302, guid: 0c6ec146093d38949863d6e638ef1b93, type: 2}
         count: 2
         overrideAmount: 0
@@ -330,8 +300,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: suiside
-        type: 2
-        indx: 3
         prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
         count: 3
         overrideAmount: 0
@@ -347,8 +315,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: saw
-        type: 4
-        indx: 0
         prefab: {fileID: 11498302, guid: 0c6ec146093d38949863d6e638ef1b93, type: 2}
         count: 2
         overrideAmount: 0
@@ -364,8 +330,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: suiside
-        type: 2
-        indx: 3
         prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
         count: 2
         overrideAmount: 0
@@ -384,8 +348,6 @@ MonoBehaviour:
     - name: wave 3 (saws)
       objects:
       - name: spawns
-        type: 4
-        indx: 0
         prefab: {fileID: 11498302, guid: 0c6ec146093d38949863d6e638ef1b93, type: 2}
         count: 5
         overrideAmount: 0
@@ -404,8 +366,6 @@ MonoBehaviour:
     - name: wave 4 (asteroids)
       objects:
       - name: asteroids
-        type: 1
-        indx: 2
         prefab: {fileID: 11429188, guid: 608185eb9f5281d489276a76819a6780, type: 2}
         count: 1
         overrideAmount: 1
@@ -421,8 +381,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: asteroids
-        type: 1
-        indx: 3
         prefab: {fileID: 11429188, guid: 5b3b81358baa0a345827a4b48a1f0782, type: 2}
         count: 3
         overrideAmount: 0
@@ -441,8 +399,6 @@ MonoBehaviour:
     - name: wave 5 (spikes and saws)
       objects:
       - name: spikes
-        type: 3
-        indx: 2
         prefab: {fileID: 11403458, guid: c62a6425a8ddb1a41a18a3c6b80cddff, type: 2}
         count: 4
         overrideAmount: 1
@@ -458,8 +414,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: saws
-        type: 4
-        indx: 0
         prefab: {fileID: 11498302, guid: 0c6ec146093d38949863d6e638ef1b93, type: 2}
         count: 3
         overrideAmount: 0
@@ -475,8 +429,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: suisides
-        type: 2
-        indx: 3
         prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
         count: 3
         overrideAmount: 0
@@ -495,8 +447,6 @@ MonoBehaviour:
     - name: wave 6 (boss)
       objects:
       - name: Boss
-        type: 2
-        indx: 7
         prefab: {fileID: 11401504, guid: d0fc7d4a888612746b037d825071b239, type: 2}
         count: 1
         overrideAmount: 1
@@ -517,8 +467,6 @@ MonoBehaviour:
     - name: (0) wave asteroids
       objects:
       - name: green asteroids
-        type: 1
-        indx: 4
         prefab: {fileID: 11429188, guid: 296530080cbac254f910587fd6d3fbee, type: 2}
         count: 5
         overrideAmount: 0
@@ -534,8 +482,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: yellow asteroids
-        type: 1
-        indx: 5
         prefab: {fileID: 11429188, guid: 1695a14b9c599ee4cb3178fc6947b1f9, type: 2}
         count: 2
         overrideAmount: 0
@@ -554,8 +500,6 @@ MonoBehaviour:
     - name: (1) wave small manta
       objects:
       - name: mantas
-        type: 2
-        indx: 12
         prefab: {fileID: 11421222, guid: 95c6c873fad05ae4cb1f68d4dae2542a, type: 2}
         count: 5
         overrideAmount: 0
@@ -574,8 +518,6 @@ MonoBehaviour:
     - name: (2) mantas + backhead
       objects:
       - name: mantas
-        type: 2
-        indx: 12
         prefab: {fileID: 11421222, guid: 95c6c873fad05ae4cb1f68d4dae2542a, type: 2}
         count: 1
         overrideAmount: 0
@@ -591,8 +533,6 @@ MonoBehaviour:
           angleFromShip: 80
           angleFromShipRange: 0
       - name: mantas
-        type: 2
-        indx: 12
         prefab: {fileID: 11421222, guid: 95c6c873fad05ae4cb1f68d4dae2542a, type: 2}
         count: 1
         overrideAmount: 0
@@ -608,8 +548,6 @@ MonoBehaviour:
           angleFromShip: 100
           angleFromShipRange: 0
       - name: backhead
-        type: 2
-        indx: 13
         prefab: {fileID: 11457850, guid: 8040854425c23f043a0f8e54b505e26b, type: 2}
         count: 1
         overrideAmount: 0
@@ -625,8 +563,6 @@ MonoBehaviour:
           angleFromShip: 90
           angleFromShipRange: 0
       - name: mantas
-        type: 2
-        indx: 12
         prefab: {fileID: 11421222, guid: 95c6c873fad05ae4cb1f68d4dae2542a, type: 2}
         count: 2
         overrideAmount: 1
@@ -642,8 +578,6 @@ MonoBehaviour:
           angleFromShip: -90
           angleFromShipRange: 45
       - name: 2 backHead
-        type: 2
-        indx: 13
         prefab: {fileID: 11457850, guid: 8040854425c23f043a0f8e54b505e26b, type: 2}
         count: 2
         overrideAmount: 1
@@ -662,8 +596,6 @@ MonoBehaviour:
     - name: (3) asteroids
       objects:
       - name: green
-        type: 1
-        indx: 4
         prefab: {fileID: 11429188, guid: 296530080cbac254f910587fd6d3fbee, type: 2}
         count: 4
         overrideAmount: 0
@@ -682,8 +614,6 @@ MonoBehaviour:
     - name: (4) towers
       objects:
       - name: rocket tower
-        type: 5
-        indx: 1
         prefab: {fileID: 11439306, guid: b9ef018c98e40f248811f65c7887dcbf, type: 2}
         count: 2
         overrideAmount: 0
@@ -699,8 +629,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: rocket tower
-        type: 5
-        indx: 1
         prefab: {fileID: 11439306, guid: b9ef018c98e40f248811f65c7887dcbf, type: 2}
         count: 2
         overrideAmount: 1
@@ -716,8 +644,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: mantas
-        type: 2
-        indx: 12
         prefab: {fileID: 11421222, guid: 95c6c873fad05ae4cb1f68d4dae2542a, type: 2}
         count: 4
         overrideAmount: 1
@@ -733,8 +659,6 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: mantas
-        type: 2
-        indx: 3
         prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
         count: 5
         overrideAmount: 1
@@ -753,8 +677,6 @@ MonoBehaviour:
     - name: (5) test fighters
       objects:
       - name: 
-        type: 5
-        indx: 2
         prefab: {fileID: 11492684, guid: 6917eb54c58a4604bbc07f03edca21fe, type: 2}
         count: 3
         overrideAmount: 0
@@ -773,8 +695,6 @@ MonoBehaviour:
     - name: (6) boss
       objects:
       - name: 
-        type: 2
-        indx: 16
         prefab: {fileID: 11449282, guid: 2abc741db0c3b694eaae5f6a2260adac, type: 2}
         count: 1
         overrideAmount: 0
