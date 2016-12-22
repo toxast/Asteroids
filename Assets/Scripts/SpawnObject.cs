@@ -248,8 +248,26 @@ public class SpawnWaves
 	public List<SpawnWave> list;
 }
 
+public interface ILevelSpawner
+{
+	bool Done ();
+	void Tick ();
+}
+
+public class EmptyTestSceneSpawner : ILevelSpawner
+{
+	public bool Done()
+	{
+		return false;
+	}
+
+	public void Tick()
+	{
+	}
+}
+
 [Serializable]
-public class LevelSpawner
+public class LevelSpawner : ILevelSpawner
 {
 	public SpawnWaves waves;
 	[NonSerialized] int currentQueue = 0;

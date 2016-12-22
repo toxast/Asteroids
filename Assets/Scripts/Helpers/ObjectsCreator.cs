@@ -7,42 +7,38 @@ public class ObjectsCreator
 
 	public static Color defaultEnemyColor = new Color (0.5f, 0.5f, 0.5f);
 
-	public static T CreateSpaceShip<T>(int dataIndex)
+	public static T CreateSpaceship<T>(MSpaceshipData sdata, int layerNum)
 		where T:SpaceShip
 	{
-		var sdata = MSpaceShipResources.Instance.spaceships [dataIndex];
-		var sp =  CreateSpaceShipOld<T> (sdata);
-		var bullets = Singleton<Main>.inst.bullets;
-		switch(sdata.ai)
-		{
-			case  AIType.eCommon:
-				sp.SetController (new CommonController (sp, bullets, sp.guns[0], sdata.accuracy));
-				break;
-			case  AIType.eSuicide:
-				sp.SetController (new SuicideController(sp, bullets, sdata.accuracy));
-				break;
-		}
-		return sp;
-	}
+		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 
-	public static T MCreateSpaceShip<T>(MSpaceshipData sdata)
-		where T:SpaceShip
-	{
-		var sp =  CreateSpaceShipOld<T> (sdata);
 		var bullets = Singleton<Main>.inst.bullets;
+		InputController controller = null;
 		switch(sdata.ai)
 		{
 		case  AIType.eCommon:
-			sp.SetController (new CommonController (sp, bullets, sp.guns[0], sdata.accuracy));
+			controller = new CommonController (spaceship, bullets, spaceship.guns[0], sdata.accuracy);
 			break;
 		case  AIType.eSuicide:
-			sp.SetController (new SuicideController(sp, bullets, sdata.accuracy));
+			controller = new SuicideController(spaceship, bullets, sdata.accuracy);
 			break;
 		}
-		return sp;
+		spaceship.SetController (controller);
+
+		return spaceship;
 	}
 
-	private static T CreateSpaceShipOld<T>(MSpaceshipData sdata)
+	public static UserSpaceShip CreateSpaceShip(InputController contorller, MSpaceshipData data)
+	{
+		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data, CollisionLayers.ilayerUser);
+		spaceship.collector = new DropCollector (0.15f, 20f);
+		spaceship.SetColor (Color.blue);
+		spaceship.gameObject.name = "User_Spaceship";
+		spaceship.SetController (contorller);
+		return spaceship;
+	}
+
+	private static T MCreateSpaceShip<T>(MSpaceshipData sdata, int layer)
 		where T:SpaceShip
 	{
 		T spaceship = PolygonCreator.CreatePolygonGOByMassCenter<T> (sdata.verts, sdata.color);
@@ -55,7 +51,7 @@ public class ObjectsCreator
 
 		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
 		spaceship.gameObject.name = sdata.name; 
-		
+
 		var guns = new List<Gun> ();
 		foreach (var gunplace in sdata.guns) 
 		{
@@ -68,20 +64,12 @@ public class ObjectsCreator
 		{
 			CreateTurret(spaceship, item);
 		}
+		spaceship.SetCollisionLayerNum (layer);
 
 		return spaceship;
 	}
 
-	public static UserSpaceShip CreateSpaceShip(InputController contorller, MSpaceshipData data)
-	{
-		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data);
-		spaceship.SetCollisionLayerNum (CollisionLayers.ilayerUser);
-		spaceship.collector = new DropCollector (0.15f, 20f);
-		spaceship.SetColor (Color.blue);
-		spaceship.gameObject.name = "Spaceship";
-		spaceship.SetController (contorller);
-		return spaceship;
-	}
+
 
 	private static void CreateTurret(PolygonGameObject parent, MTurretReferenceData pos)
 	{
@@ -159,8 +147,9 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
-	public static SawEnemy CreateSawEnemy(SawInitData initData)
+	public static SawEnemy CreateSawEnemy(MSawData data)
 	{
+		var initData = data.mdata;
 		float rInner = Random(initData.size);
 		float spikeLength = Random(initData.spikeSize);
 		float rOuter = rInner + spikeLength;
@@ -177,8 +166,9 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
-	public static SpikyAsteroid CreateSpikyAsteroid(SpikeShooterInitData initData)
+	public static SpikyAsteroid CreateSpikyAsteroid(MSpikyData data)
 	{
+		var initData = data.mdata;
 		float rInner = Random(initData.size);
 		float spikeLength = Random(initData.spikeSize);
 		float rOuter = rInner + spikeLength;
@@ -325,17 +315,17 @@ public class ObjectsCreator
 		if(_asteroidsMaterials == null)
 		{
 			_asteroidsMaterials = new List<Material>();
-			for (int i = 0; i < AsteroidsResources.Instance.asteroidsData.Count; i++) 
+			for (int i = 0; i < MAsteroidsResources.Instance.asteroidsData.Count; i++) 
 			{
 				var mat = GameObject.Instantiate (PolygonCreator.texturedMaterial) as Material;
-				mat.color = AsteroidsResources.Instance.asteroidsData[i].color;
+				mat.color = MAsteroidsResources.Instance.asteroidsCommonData[i].color;
 				_asteroidsMaterials.Add(mat);
 			}
 		}
 		return _asteroidsMaterials[n];
 	}
 
-	public static polygonGO.Drop CreateDrop(AsteroidData data)
+	public static polygonGO.Drop CreateDrop(MAsteroidCommonData data)
 	{
 		float size = 0.7f;//Random.Range(1f, 2f);
 		int vcount = 5;//Random.Range(5, 5 + (int)size*3);

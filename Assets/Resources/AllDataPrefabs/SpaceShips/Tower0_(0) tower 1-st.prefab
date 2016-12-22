@@ -52,8 +52,9 @@ MonoBehaviour:
   repeatTargetCheck: 1
   accuracy:
     startingAccuracy: 0
+    thresholdDistance: 10
     isDynamic: 1
-    checkDtime: 0.5
+    checkDtime: 1
     add: 0.1
     sub: 0.6
     bounds: {x: 0, y: 1}

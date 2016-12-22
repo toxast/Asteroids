@@ -69,8 +69,9 @@ public class SpikyInitData
 public class AccuracyData: IClonable<AccuracyData>
 {
 	public float startingAccuracy = 0f;
+	public float thresholdDistance = 10f;
 	public bool isDynamic = true;
-	public float checkDtime = 0.5f;
+	public float checkDtime = 1f;
 	public float add = 0.15f;
 	public float sub = 0.4f;
 	public Vector2 bounds = new Vector2 (0, 1); 
@@ -79,6 +80,7 @@ public class AccuracyData: IClonable<AccuracyData>
 	{
 		AccuracyData c = new AccuracyData ();
 		c.startingAccuracy = startingAccuracy;
+		c.thresholdDistance = thresholdDistance;
 		c.isDynamic = isDynamic;
 		c.checkDtime = checkDtime;
 		c.add = add;
@@ -93,14 +95,17 @@ public class SpikeShooterInitData : SpikyInitData
 {
 	public float spikeVelocity = 45f;
 	public float growSpeed = 0.1f;
-	public float checkForTargetdTime = 0.2f;
+	//public float checkForTargetdTime = 0.2f;
 }
 
 [System.Serializable]
 public class SawInitData : SpikyInitData
 {
-	public float chargeDuration = 3f;
+	public float prepareTime = 2f;
+
 	public float chargeSpeed = 50f;
 	public float chargeRotation = 300f;
-	public float prepareTime = 2f;
+	public float chargeDuration = 3f;
+
+	public float slowingDuration = 2f;
 }

@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MSpikyData : MonoBehaviour 
+public class MSpikyData : MSpawnData<SpikyAsteroid>
 {
 	public SpikeShooterInitData mdata;
+
+	public override SpikyAsteroid Create()
+	{
+		return ObjectsCreator.CreateSpikyAsteroid(this);
+	}
 }

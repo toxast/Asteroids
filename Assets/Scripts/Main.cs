@@ -98,7 +98,7 @@ public class Main : MonoBehaviour
 		new PhExplosion(pos, r, dmgMax, gobjects, collision);
 	}
 
-	LevelSpawner spawner;
+	ILevelSpawner spawner;
 	public void StartTheGame(MSpaceshipData spaceshipData, int level = 0, int waveNum = 0)
 	{
 		#if UNITY_STANDALONE
@@ -117,7 +117,10 @@ public class Main : MonoBehaviour
 		CreateSpaceShip (spaceshipData);
 		spaceship.destroyed += HandleUserDestroyed;
 
-		spawner = new LevelSpawner (LevelsResources.Instance.levels [level], waveNum);
+		if (level < 0)
+			spawner = new EmptyTestSceneSpawner();
+		else
+			spawner = new LevelSpawner (LevelsResources.Instance.levels [level], waveNum);
 
 		repositionCoroutine = StartCoroutine(RepositionAll());
 		wrapStarsCoroutine = StartCoroutine(WrapStars());
@@ -791,7 +794,7 @@ public class Main : MonoBehaviour
 
 		int rewardLeft = go.reward;
 
-		var	datas = AsteroidsResources.Instance.asteroidsData;
+		var	datas = MAsteroidsResources.Instance.asteroidsCommonData;
 		int dataIndex = datas.Count - 1;
 		int maxLoops = 3;
 
@@ -840,7 +843,7 @@ public class Main : MonoBehaviour
 		return anim;
 	}
 
-	private void CreateDrop(AsteroidData drop, Vector3 position, float R)
+	private void CreateDrop(MAsteroidCommonData drop, Vector3 position, float R)
 	{
 		Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-R, R), UnityEngine.Random.Range(-R, R), 0);
 		var dropObj = ObjectsCreator.CreateDrop(drop);
@@ -1076,74 +1079,51 @@ public class Main : MonoBehaviour
 
 	public Asteroid CreateAsteroid(int i)
 	{
-		var sdata = AsteroidsResources.Instance.asteroids [i];
-		var data = AsteroidsResources.Instance.asteroidsData [sdata.densityIndx];
-		var asteroid = ObjectsCreator.CreateAsteroid (sdata, data, ObjectsCreator.GetAsteroidMaterial(sdata.densityIndx));
-		CreateDropForObject (asteroid, data); 
+		var data = MAsteroidsResources.Instance.asteroidsData [i];
+		var asteroid = ObjectsCreator.CreateAsteroid (data);
+		CreateDropForObject (asteroid, data.commonData); 
 		return asteroid; 
 	}
 
 	public SpaceShip CreateEnemySpaceShip(int indx)
 	{
-		return CreateSpaceship (indx, CollisionLayers.ilayerTeamEnemies);
+		return ObjectsCreator.CreateSpaceship<SpaceShip> (MSpaceShipResources.Instance.spaceships[indx], CollisionLayers.ilayerTeamEnemies);
 	}
 
 	public SpaceShip CreateFriendSpaceShip(int indx)
 	{
-		return CreateSpaceship (indx, CollisionLayers.ilayerTeamUser);
+		return ObjectsCreator.CreateSpaceship<SpaceShip> (MSpaceShipResources.Instance.spaceships[indx], CollisionLayers.ilayerTeamUser);
 	}
 
-	private SpaceShip CreateSpaceship(int indx, int layerNum)
-	{
-		var enemy = ObjectsCreator.CreateSpaceShip<SpaceShip>(indx);
-		enemy.SetCollisionLayerNum (layerNum);
-		return enemy;
-	}
+
 	
-	public RogueEnemy CreateRogueEnemy()
-	{
-		return ObjectsCreator.CreateRogueEnemy();
-	}
+//	public RogueEnemy CreateRogueEnemy()
+//	{
+//		return ObjectsCreator.CreateRogueEnemy();
+//	}
 
-	public Asteroid CreateGasteroid()
-	{
-		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.asteroids.Count);
-		var initData = AsteroidsResources.Instance.asteroids[indxInit];
-		var asteroid = ObjectsCreator.CreateGasteroid (initData);
-		return asteroid;
-	}
+//	public Asteroid CreateGasteroid()
+//	{
+//		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.asteroids.Count);
+//		var initData = MAsteroidsResources.Instance.asteroidsData[indxInit];
+//		var asteroid = ObjectsCreator.CreateGasteroid (initData);
+//		return asteroid;
 
-	public SawEnemy CreateSawEnemy()
-	{
-		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.sawData.Count);
-		return CreateSawEnemy (indxInit);
-	}
+//		return null;
+//	}
 
 	public SawEnemy CreateSawEnemy(int indxInit)
 	{
-		var initData = AsteroidsResources.Instance.sawData[indxInit];
+		var initData = MAsteroidsResources.Instance.sawData[indxInit];
 		var enemy = ObjectsCreator.CreateSawEnemy(initData);
 		return enemy;
 	}
 	
-	public SpikyAsteroid CreateSpikyAsteroid()
-	{
-		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.spikyData.Count);
-		return CreateSpikyAsteroid (indxInit);
-	}
-
 	public SpikyAsteroid CreateSpikyAsteroid(int indxInit)
 	{
-		var initData = AsteroidsResources.Instance.spikyData[indxInit];
+		var initData = MAsteroidsResources.Instance.spikyData[indxInit];
 		var enemy = ObjectsCreator.CreateSpikyAsteroid(initData);
-		enemy.SpikeAttack += HandleSpikeAttack;
 		return enemy;
-	}
-
-	public SimpleTower CreateSimpleTower()
-	{
-		int indx = UnityEngine.Random.Range (0,  SpaceshipsResources.Instance.towers.Count);
-		return CreateSimpleTower (indx);
 	}
 
 	public SimpleTower CreateSimpleTower(int indx)
@@ -1153,34 +1133,34 @@ public class Main : MonoBehaviour
 		return enemy;
 	}
 	
-	public TowerEnemy CreateTower()
-	{
-		var enemy = ObjectsCreator.CreateTower();
-		return enemy;
-	}
+//	public TowerEnemy CreateTower()
+//	{
+//		var enemy = ObjectsCreator.CreateTower();
+//		return enemy;
+//	}
+//	
+//	public EvadeEnemy CreateEvadeEnemy()
+//	{
+//		EvadeEnemy enemy = ObjectsCreator.CreateEvadeEnemy (bullets);
+//		return enemy;
+//	}
+//	
+//	public EvadeEnemy CreateTankEnemy()
+//	{
+//		var enemy = ObjectsCreator.CreateTankEnemy(bullets);
+//		return enemy;
+//	}
 	
-	public EvadeEnemy CreateEvadeEnemy()
-	{
-		EvadeEnemy enemy = ObjectsCreator.CreateEvadeEnemy (bullets);
-		return enemy;
-	}
-	
-	public EvadeEnemy CreateTankEnemy()
-	{
-		var enemy = ObjectsCreator.CreateTankEnemy(bullets);
-		return enemy;
-	}
-	
-	public void CreateFight()
-	{
-		CreateEnemySpaceShip (3);
-		var e2 = CreateEnemySpaceShip (5);
-		e2.SetCollisionLayerNum (CollisionLayers.ilayerTeamUser);
-	}
+//	public void CreateFight()
+//	{
+//		CreateEnemySpaceShip (3);
+//		var e2 = CreateEnemySpaceShip (5);
+//		e2.SetCollisionLayerNum (CollisionLayers.ilayerTeamUser);
+//	}
 	
 
 
-	public void CreateDropForObject(PolygonGameObject obj, AsteroidData aData) //TODO: color + value data
+	public void CreateDropForObject(PolygonGameObject obj, MAsteroidCommonData aData) //TODO: color + value data
 	{
 		obj.dropID = new DropID ();
 		DropData dropData = new DropData
@@ -1347,6 +1327,7 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
+	 * stop toers from flowing after hit
 	 * make destroyed spaceship parts realy easy to break
 	 * turrets
 	 * lazer fix when target destroyed

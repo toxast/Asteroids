@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class MSpaceshipData : MonoBehaviour, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
+public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
 {
 	public int price = -1;
 	public int reward = 0;
@@ -25,4 +25,9 @@ public class MSpaceshipData : MonoBehaviour, IGotShape, IGotThrusters, IGotGuns,
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<ThrusterSetupData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
+
+	public override SpaceShip Create()
+	{
+		return ObjectsCreator.CreateSpaceship<SpaceShip>(this, CollisionLayers.ilayerTeamEnemies);
+	}
 }

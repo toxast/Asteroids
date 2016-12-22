@@ -64,10 +64,11 @@ MonoBehaviour:
     spikesCount:
       min: 7
       max: 10
-    chargeDuration: 3
+    prepareTime: 1.5
     chargeSpeed: 30
     chargeRotation: 200
-    prepareTime: 1.5
+    chargeDuration: 3
+    slowingDuration: 1.5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

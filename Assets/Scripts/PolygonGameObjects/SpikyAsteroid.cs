@@ -14,6 +14,7 @@ public class SpikyAsteroid : Asteroid
 		public int index;
 		public Edge a;
 		public Edge b;
+		public float lastCos = 0;
 
 		public Spike(Edge e1, Edge e2, int index)
 		{
@@ -45,30 +46,41 @@ public class SpikyAsteroid : Asteroid
 			spikesLeft.Add(spike);
 		}
 
-		StartCoroutine (CheckForTarget (data.checkForTargetdTime));
+		StartCoroutine (CheckForTarget ());//data.checkForTargetdTime));
 	}
 
-	IEnumerator CheckForTarget(float checkInterval)
+	IEnumerator CheckForTarget()
 	{
+		float longRefreshInterval = 0.2f;
+		float currentRefreshInterval = longRefreshInterval;
+
 		while(true)
 		{
+			bool anySpikeNearShootingPlace = false;
+
 			if(!Main.IsNull(target))
 			{
 				float angle = cacheTransform.rotation.eulerAngles.z * Mathf.Deg2Rad;
 				float cosA = Mathf.Cos(angle);
 				float sinA = Mathf.Sin(angle);
 
-				AimSystem aim = new AimSystem(target.position, target.velocity, position, spikeSpeed * 1.1f);
+				AimSystem aim = new AimSystem(target.position, target.velocity, position, spikeSpeed * 1.05f);
 				if(aim.canShoot && aim.time < 3f)
 				{
 					for (int i = spikesLeft.Count - 1; i >= 0; i--) 
 					{
 						Spike spike = spikesLeft[i];
-						
+
 						Edge e1  = Math2d.RotateEdge(spike.a, cosA, sinA); 
 						Vector2 spikeDirection = e1.p2;
 					
-						bool inFrontOfSpike = Math2d.Cos(spikeDirection, aim.direction) > 0.98f;
+						var oldCos = spike.lastCos;
+						var newCos = Math2d.Cos (spikeDirection, aim.direction);
+						spike.lastCos = newCos;
+
+						anySpikeNearShootingPlace |= newCos > 0.98;
+
+						bool inFrontOfSpike = oldCos > 0.98f &&  newCos > 0.98f && newCos < oldCos;
 						
 						if(inFrontOfSpike)
 						{
@@ -87,13 +99,16 @@ public class SpikyAsteroid : Asteroid
 							
 							//change mesh and polygon
 							ChangeVertex(spike.index, (spike.a.p1 + spike.b.p2) / 2f);
-							
-							SpikeAttack(spikeAsteroid);
+
+							Singleton<Main>.inst.HandleSpikeAttack (spikeAsteroid);
 						}
 					}
 				}
 			}
-			yield return new WaitForSeconds(checkInterval);
+
+			currentRefreshInterval = anySpikeNearShootingPlace ? 0 : longRefreshInterval;
+
+			yield return new WaitForSeconds(currentRefreshInterval);
 		}
 	}
 
@@ -107,14 +122,20 @@ public class SpikyAsteroid : Asteroid
 		while(!growFinished)
 		{
 			Vector3 v = mesh.vertices[indx];
-			v =  v.normalized * (v.magnitude + growSpeed);
-			ChangeVertex(indx, new Vector2(v.x, v.y));
+			var magnitude = v.magnitude;
 
-			if(v.magnitude > length)
+			if (magnitude + growSpeed < length) 
 			{
-				int previous = polygon.Previous(indx);
-				Spike spike = new Spike(polygon.edges[previous], polygon.edges[indx], indx);
-				spikesLeft.Add(spike);
+				v = v.normalized * (magnitude + growSpeed);
+				ChangeVertex (indx, new Vector2 (v.x, v.y));
+			} 
+			else 
+			{
+				v = v.normalized * length;
+				ChangeVertex (indx, new Vector2 (v.x, v.y));
+				int previous = polygon.Previous (indx);
+				Spike spike = new Spike (polygon.edges [previous], polygon.edges [indx], indx);
+				spikesLeft.Add (spike);
 
 				growFinished = true;
 			}

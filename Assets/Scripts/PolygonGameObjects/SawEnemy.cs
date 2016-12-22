@@ -6,35 +6,36 @@ public class SawEnemy : Asteroid
 	private float initialRotation;
 	private float initialVelocity;
 
-	private float rotationChargingSpeed;
+	private float rotationChargingRate;
+	private float rotationSlowingRate;
 	private float chargeRotation;
-	private float chargeSpeed;
-	private float brakes;
+	private float veloityChargeRate;
+	private float velocityslowingRate;
 	private float chargeDuration;
+	private float chargeSpeed;
 
-	private float initialVelocitySqr;
+	//private float initialVelocitySqr;
 
-	public void InitSawEnemy(SawInitData data) //300
+	public void InitSawEnemy(SawInitData data) 
 	{
 		this.reward = data.reward;
 		this.InitAsteroid (data.physical, data.speed, data.rotation);
 
 		initialRotation = rotation;
 		initialVelocity = velocity.magnitude;
-		initialVelocitySqr = initialVelocity * initialVelocity;
+		//initialVelocitySqr = initialVelocity;
 
-		this.chargeSpeed = data.chargeSpeed;
 		this.chargeRotation = data.chargeRotation;
-		this.brakes = data.chargeSpeed / data.prepareTime;
-		this.rotationChargingSpeed = data.chargeRotation / data.prepareTime;
+		this.chargeSpeed = data.chargeSpeed;
+
+		this.rotationChargingRate = (data.chargeRotation - initialRotation) / data.prepareTime;
+		this.veloityChargeRate = (data.chargeSpeed - initialVelocity) / data.prepareTime;
+
+		this.rotationSlowingRate = (data.chargeRotation - initialRotation) / data.slowingDuration;
+		this.velocityslowingRate = (data.chargeSpeed - initialVelocity) / data.slowingDuration;
+
 		this.chargeDuration = data.chargeDuration;
 	}
-
-//	protected override float healthModifier {
-//		get {
-//			return base.healthModifier * 3;
-//		}
-//	}
 
 	void Start () 
 	{
@@ -58,7 +59,7 @@ public class SawEnemy : Asteroid
 				}
 				else
 				{
-					rotation += Mathf.Sign(rotation) * rotationChargingSpeed * deltaTime;
+					rotation += Mathf.Sign(rotation) * rotationChargingRate * deltaTime;
 				}
 			}
 			else
@@ -88,16 +89,31 @@ public class SawEnemy : Asteroid
 
 	private bool Slow(float deltaTime)
 	{
-		bool slowingRotation = Mathf.Abs(rotation) > Mathf.Abs(initialRotation);
+		float diff = Mathf.Abs (rotation) - Mathf.Abs (initialRotation);
+		float delta = rotationSlowingRate * deltaTime;
+		bool slowingRotation = diff > 0;
 		if(slowingRotation)
 		{
-			rotation -= Mathf.Sign(rotation) * rotationChargingSpeed * deltaTime;
+			if (delta < diff) {
+				rotation -= Mathf.Sign (rotation) * delta;
+			} else {
+				rotation = Mathf.Sign (rotation) * initialRotation;
+				slowingRotation = false;
+			}
 		}
-		
-		bool slowingVelocity = velocity.sqrMagnitude > initialVelocitySqr;
+
+		var vmag = velocity.magnitude;
+		diff = vmag - initialVelocity;
+		delta = velocityslowingRate * deltaTime;
+		bool slowingVelocity = diff > 0;
 		if(slowingVelocity)
 		{
-			velocity -= velocity.normalized * brakes * deltaTime;
+			if (delta < diff) {
+				velocity = (velocity / vmag) * (vmag - delta);
+			} else {
+				velocity = (velocity / vmag) * initialVelocity;
+				slowingVelocity = false;
+			}
 		}
 		
 		return slowingVelocity || slowingRotation;
@@ -105,7 +121,7 @@ public class SawEnemy : Asteroid
 	
 	IEnumerator Slow()
 	{
-		float deltaTime = 0.3f;
+		float deltaTime = 0.15f;
 		
 		bool slowing = true;
 		while(slowing)

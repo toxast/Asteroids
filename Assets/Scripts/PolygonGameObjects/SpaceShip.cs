@@ -124,15 +124,6 @@ public class SpaceShip : PolygonGameObject
 		acceleratedThisTick = true;
 	}
 
-	private void Brake(float delta, float pBrake)
-	{
-		var newMagnitude = velocity.magnitude - delta * pBrake; 
-		if (newMagnitude < 0)
-			newMagnitude = 0;
-
-		velocity = velocity.normalized * newMagnitude;
-	}
-
 	public override void Tick(float delta)
 	{
 		base.Tick (delta);
@@ -193,17 +184,17 @@ public class SpaceShip : PolygonGameObject
 	private void TurnByDirection(Vector3 dir, float delta)
 	{
 		bool turnLeft = Mathf.Sign(Math2d.Cross2(dir, cacheTransform.right)) < 0;
-		var drot = turnSpeed * delta;
+		var deltaRotation = turnSpeed * delta;
 		var r = Mathf.Abs (rotation);
 		if(r > turnSpeed)
 		{
-			if(r < turnSpeed + drot)
+			if(r < turnSpeed + deltaRotation)
 			{
 				rotation = Mathf.Clamp(rotation, -turnSpeed, turnSpeed);
 			}
 			else
 			{
-				rotation = Mathf.Sign(rotation) * (r - drot);
+				rotation = Mathf.Sign(rotation) * (r - deltaRotation);
 			}
 			base.ApplyRotation(delta);
 		}

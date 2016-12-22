@@ -40,6 +40,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079a7373153521f4b87ba132ffc7d7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asteroidsCommonData:
+  - {fileID: 11470908, guid: bc5903adf955ce94f972ce53b408b01a, type: 2}
+  - {fileID: 11470908, guid: 2445d3f399d3f7f48b70b62df9e0fd10, type: 2}
+  - {fileID: 11470908, guid: c34b6a1824830bc4da0b2330bf4eb2bd, type: 2}
+  - {fileID: 11470908, guid: e05addcc207b48e499bbb14edbdc8da8, type: 2}
+  - {fileID: 11470908, guid: 9db1f4ebd6b5e224bbba705fee1a1ef1, type: 2}
+  - {fileID: 11470908, guid: 4f19281850bc9f548a4e2137033e21da, type: 2}
+  - {fileID: 11470908, guid: 927c04937629dd1429bbd72f1fa54385, type: 2}
   asteroidsData:
   - {fileID: 11429188, guid: 62a1bb067d2ee294d933909d353103b2, type: 2}
   - {fileID: 11429188, guid: 6e846a35844c9cd4296c78341d17b438, type: 2}
@@ -49,8 +57,8 @@ MonoBehaviour:
   - {fileID: 11429188, guid: 1695a14b9c599ee4cb3178fc6947b1f9, type: 2}
   spikyData:
   - {fileID: 11492862, guid: 08968eae98d50db4191cbf591c021ccc, type: 2}
-  - {fileID: 11403458, guid: c62a6425a8ddb1a41a18a3c6b80cddff, type: 2}
   - {fileID: 11451364, guid: f87f0fab6a398d7499eabe36336a2f22, type: 2}
+  - {fileID: 11403458, guid: c62a6425a8ddb1a41a18a3c6b80cddff, type: 2}
   sawData:
   - {fileID: 11498302, guid: 0c6ec146093d38949863d6e638ef1b93, type: 2}
 --- !u!1001 &100100000

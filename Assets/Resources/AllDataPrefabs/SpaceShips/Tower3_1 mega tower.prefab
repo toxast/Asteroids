@@ -43,7 +43,7 @@ MonoBehaviour:
   reward: 0
   physical:
     density: 1
-    healthModifier: 1
+    healthModifier: 7
     collisionDefence: 0
     collisionAttackModifier: 1
   color: {r: 0.8235294, g: 0.4480969, b: 0.4480969, a: 1}

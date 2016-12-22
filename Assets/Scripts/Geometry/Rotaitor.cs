@@ -5,7 +5,7 @@ using System.Collections;
 public class Rotaitor
 {
 	private Transform transform;
-	private float rotatingSpeed;
+	public float rotatingSpeed{ private set; get;}
 
 	/// <summary>
 	/// rotatingSpeed in angles/second

@@ -54,7 +54,7 @@ public class SpawnerGun : GunShooterBase
 			}
 		}
 
-		PolygonGameObject obj = ObjectsCreator.MCreateSpaceShip<SpaceShip> (spaceshipRef);
+		PolygonGameObject obj = ObjectsCreator.CreateSpaceship<SpaceShip> (spaceshipRef, CollisionLayers.GetSpawnedLayer(parent.layer));
 		obj.gameObject.name += "_spawn";
 		obj.reward = 0;
 
@@ -74,7 +74,6 @@ public class SpawnerGun : GunShooterBase
 		var spawn = Spawn ();
 
 		spawn.velocity += Main.AddShipSpeed2TheBullet(parent);
-		spawn.SetCollisionLayerNum(CollisionLayers.GetSpawnedLayer(parent.layer));
 
 		Singleton<Main>.inst.HandleSpawnFire(spawn);
 

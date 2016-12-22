@@ -170,10 +170,22 @@ public class PolygonGameObject : MonoBehaviour
 		turrets.ForEach (t => t.SetCollisionLayerNum (layerNum));
 	}
 
-//	protected virtual float healthModifier
-//	{
-//		get{return Singleton<GlobalConfig>.inst.GlobalHealthModifier;}
-//	}
+	protected void Brake(float delta, float pBrake)
+	{
+		if (velocity == Vector2.zero)
+			return;
+
+		var newMagnitude = velocity.magnitude - delta * pBrake; 
+		if (newMagnitude < 0)
+		{
+			newMagnitude = 0;
+			velocity = Vector2.zero;
+		} 
+		else
+		{
+			velocity = velocity.normalized * newMagnitude;
+		}
+	}
 
 	public Color GetColor()
 	{

@@ -6,7 +6,7 @@ namespace polygonGO
 	public class Drop : PolygonGameObject 
 	{
 		public float lifetime;
-		public AsteroidData data;
+		public MAsteroidCommonData data;
 		bool moneyAdded = false;
 
 		public override void Tick (float delta)

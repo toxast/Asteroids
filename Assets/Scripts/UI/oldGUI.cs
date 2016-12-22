@@ -23,37 +23,31 @@ public class oldGUI : MonoBehaviour {
 		
 		if(GUI.Button(new Rect(x, y, width+20, height), "asteroid"))
 		{
-			main.CreateAsteroid(0);
 		}
 		y += height + margine;
 		
 		if(GUI.Button(new Rect(x, y, width, height), "saw"))
 		{
-			main.CreateSawEnemy();
 		}
 		y += height + margine;
 		
 		if(GUI.Button(new Rect(x, y, width, height), "spiky"))
 		{
-			main.CreateSpikyAsteroid();
 		}
 		y += height + margine;
 		
 		if(GUI.Button(new Rect(x, y, width, height), "tank"))
 		{
-			main.CreateTankEnemy();
 		}
 		y += height + margine;
 		
 		if(GUI.Button(new Rect(x, y, width, height), "scout"))
 		{
-			main.CreateEvadeEnemy();
 		}
 		y += height + margine;
 		
 		if(GUI.Button(new Rect(x, y, width, height), "rogue"))
 		{
-			main.CreateRogueEnemy();
 		}
 		y += height + margine;
 		
@@ -63,13 +57,12 @@ public class oldGUI : MonoBehaviour {
 
 		if(GUI.Button(new Rect(x, y, width, height), "simple tower"))
 		{
-			main.CreateSimpleTower();
 		}
 		y += height + margine;
 
 		if(GUI.Button(new Rect(x, y, width, height), "block post"))
 		{
-			main.CreateTower();
+			//main.CreateTower();
 		}
 		y += height + margine;
 
@@ -77,14 +70,12 @@ public class oldGUI : MonoBehaviour {
 		shipNum = GUI.TextField (new Rect (x + 200, y, width - 20, height), shipNum);
 		if(GUI.Button(new Rect(x, y, width+30, height), "enemy spaceship"))
 		{
-			main.CreateEnemySpaceShip(int.Parse(shipNum));
 		}
 		y += height + margine;
 
 		shipNum2 = GUI.TextField (new Rect (x + 200, y, width - 20, height), shipNum2);
 		if(GUI.Button(new Rect(x, y, width+30, height), "friend spaceship"))
 		{
-			main.CreateFriendSpaceShip(int.Parse(shipNum2));
 		}
 	
 		y += height + margine;
@@ -103,13 +94,11 @@ public class oldGUI : MonoBehaviour {
 		
 		if(GUI.Button(new Rect(x, y, width+20, height), "gasteroid"))
 		{
-			main.CreateGasteroid();
 		}
 		y += height + margine;
 
 		if(GUI.Button(new Rect(x, y, width+20, height), "Fighters"))
 		{
-			main.CreateFight();
 		}
 		y += height + margine;
 		
