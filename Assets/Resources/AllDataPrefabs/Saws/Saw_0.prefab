@@ -1,60 +1,74 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &197182
+--- !u!1 &109020
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 464140}
-  - 114: {fileID: 11454034}
+  - component: {fileID: 466262}
+  - component: {fileID: 11498302}
   m_Layer: 0
-  m_Name: Turret_2_(2) turret assasin rocket
+  m_Name: Saw_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &464140
+--- !u!4 &466262
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 197182}
+  m_GameObject: {fileID: 109020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11454034
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11498302
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 197182}
+  m_GameObject: {fileID: 109020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab4086c90c01bf54baa09e8bc75a58b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 66c90fb949572fb4b8058b4f155a2eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0.37383384, b: 0.5588235, a: 1}
-  rotationSpeed: 500
-  restrictionAngle: 20
-  repeatTargetCheck: 0.1
-  guns:
-  - place:
-      pos: {x: 0.042063415, y: -0.01}
-      dir: {x: 1, y: 0}
-    gun: {fileID: 11484608, guid: 91b255ce1a0555e4aa2a99824688756c, type: 2}
-  linkedGuns: 
-  verts:
-  - {x: 0.0920635, y: -0.13}
-  - {x: -0.10793652, y: -0.08}
-  - {x: -0.10793652, y: 0.08}
-  - {x: 0.0920635, y: 0.13}
+  mdata:
+    name: 0
+    color: {r: 0.77205884, g: 0.26113757, b: 0.26113757, a: 1}
+    reward: 70
+    physical:
+      density: 0.6
+      healthModifier: 2
+      collisionDefence: 0.5
+      collisionAttackModifier: 1.222222
+    speed:
+      min: 2
+      max: 6
+    rotation:
+      min: 30
+      max: 90
+    size:
+      min: 2.4
+      max: 2.8
+    spikeSize:
+      min: 0.5
+      max: 1
+    spikesCount:
+      min: 7
+      max: 10
+    prepareTime: 1.5
+    chargeSpeed: 30
+    chargeRotation: 200
+    chargeDuration: 3
+    slowingDuration: 1.5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -64,5 +78,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 197182}
+  m_RootGameObject: {fileID: 109020}
   m_IsPrefabParent: 1

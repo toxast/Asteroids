@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MGunData : MGunBaseData, IGotShape
-{
+public class MGunData : MGunBaseData, IGotShape {
 	public float damage = 3;
 	public float lifeTime = 2;
 	public float bulletSpeed = 35;

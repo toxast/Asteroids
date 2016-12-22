@@ -51,6 +51,7 @@
      <Compile Include="Assets\Resources\EditorPrefabsCreator.cs" />
      <Compile Include="Assets\Resources\MAsteroidCommonData.cs" />
      <Compile Include="Assets\Resources\MAsteroidData.cs" />
+     <Compile Include="Assets\Resources\MGasteroidData.cs" />
      <Compile Include="Assets\Resources\MGunBaseData.cs" />
      <Compile Include="Assets\Resources\MGunData.cs" />
      <Compile Include="Assets\Resources\MGunSetupData.cs" />

@@ -1,70 +1,60 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &183316
+--- !u!1 &197182
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 477936}
-  - 114: {fileID: 11413798}
+  - component: {fileID: 464140}
+  - component: {fileID: 11454034}
   m_Layer: 0
-  m_Name: Turret_0_(0) lvl 3 boss turret
+  m_Name: Turret_2_(2) turret assasin rocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &477936
+--- !u!4 &464140
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183316}
+  m_GameObject: {fileID: 197182}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11413798
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11454034
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183316}
+  m_GameObject: {fileID: 197182}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab4086c90c01bf54baa09e8bc75a58b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.2352941, g: 0.2352941, b: 0.2352941, a: 1}
-  rotationSpeed: 50
-  restrictionAngle: 180
-  repeatTargetCheck: 1
+  color: {r: 0, g: 0.37383384, b: 0.5588235, a: 1}
+  rotationSpeed: 500
+  restrictionAngle: 20
+  repeatTargetCheck: 0.1
   guns:
   - place:
-      pos: {x: 1.39, y: 1.18}
+      pos: {x: 0.042063415, y: -0.01}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
-  - place:
-      pos: {x: 1.39, y: -1.18}
-      dir: {x: 1, y: 0}
-    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
+    gun: {fileID: 11484608, guid: 91b255ce1a0555e4aa2a99824688756c, type: 2}
   linkedGuns: 
   verts:
-  - {x: 0.0149905775, y: -0.39613485}
-  - {x: 1.6330223, y: -0.71999943}
-  - {x: 1.6278279, y: -1.5845412}
-  - {x: -1.1269777, y: -1.7880001}
-  - {x: -1.2865962, y: -0.62249774}
-  - {x: -1.2865962, y: 0.6224989}
-  - {x: -1.1269777, y: 1.7880001}
-  - {x: 1.6278279, y: 1.5845412}
-  - {x: 1.6330223, y: 0.7200006}
-  - {x: 0.0149905775, y: 0.39613563}
+  - {x: 0.0920635, y: -0.13}
+  - {x: -0.10793652, y: -0.08}
+  - {x: -0.10793652, y: 0.08}
+  - {x: 0.0920635, y: 0.13}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -74,5 +64,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 183316}
+  m_RootGameObject: {fileID: 197182}
   m_IsPrefabParent: 1

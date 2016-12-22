@@ -33,7 +33,7 @@ public class ObjectsCreator
 		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data, CollisionLayers.ilayerUser);
 		spaceship.collector = new DropCollector (0.15f, 20f);
 		spaceship.SetColor (Color.blue);
-		spaceship.gameObject.name = "User_Spaceship";
+        spaceship.gameObject.name = "User_Spaceship " + data.name;
 		spaceship.SetController (contorller);
 		return spaceship;
 	}
@@ -69,8 +69,6 @@ public class ObjectsCreator
 		return spaceship;
 	}
 
-
-
 	private static void CreateTurret(PolygonGameObject parent, MTurretReferenceData pos)
 	{
 		MTurretData data = pos.turret;
@@ -98,17 +96,7 @@ public class ObjectsCreator
 		parent.AddTurret(pos.place, turret);
 	}
 
-	public static RogueEnemy CreateRogueEnemy()
-	{ 
-		RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-		enemy.Init ();
-		enemy.gameObject.name = "RogueEnemy";
-		enemy.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
-		DeathAnimation.MakeDeathForThatFellaYo (enemy);
-
-		return enemy;
-	}
-
+	
 	public static Asteroid CreateAsteroid(MAsteroidData mdata)
 	{
 		float size = Random(mdata.size);
@@ -123,29 +111,29 @@ public class ObjectsCreator
 
 		asteroid.InitAsteroid (ph, mdata.speed, mdata.rotation); 
 		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
-		asteroid.gameObject.name = "asteroid";
+        asteroid.gameObject.name = mdata.name;
 
 		return asteroid;
 	}
 
-	public static Asteroid CreateAsteroid(AsteroidSetupData dataPh, AsteroidData data, Material mat)
-	{
-		float size = Random(dataPh.size);
-		int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size*3);
-		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
-		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Singleton<GlobalConfig>.inst.AsteroidColor, mat);
+    public static Gasteroid CreateGasteroid(MGasteroidData initData)
+    {
+        float size = Random (initData.size);
+        int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size*3);
+        Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 
-		//todo: include physical into asteroids?
-		var ph = new PhysicalData ();
-		ph.density = data.density;
-		ph.healthModifier = data.density;
+        Gasteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Gasteroid>(vertices, Singleton<GlobalConfig>.inst.GasteroidColor);
+        asteroid.InitAsteroid (initData.physical, initData.speed, initData.rotation);
+        asteroid.destructionType = PolygonGameObject.DestructionType.eComplete;
+        DeathAnimation.MakeDeathForThatFellaYo (asteroid, true);
+        asteroid.deathAnimation.finalExplosionPowerKoeff = 1.3f;
+        asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
+        asteroid.gameObject.name = initData.name;
 
-		asteroid.InitAsteroid (ph, dataPh.speed, dataPh.rotation); 
-		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
-		asteroid.gameObject.name = "asteroid";
-		
-		return asteroid;
-	}
+        return asteroid;
+    }
+
+
 
 	public static SawEnemy CreateSawEnemy(MSawData data)
 	{
@@ -161,7 +149,7 @@ public class ObjectsCreator
 		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, initData.color);
 		asteroid.InitSawEnemy (initData);
 		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
-		asteroid.gameObject.name = "SawEnemy";
+        asteroid.gameObject.name = data.name;
 
 		return asteroid;
 	}
@@ -180,42 +168,15 @@ public class ObjectsCreator
 		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, initData.color);
 		asteroid.InitSpikyAsteroid (spikes, initData);
 		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
-		asteroid.gameObject.name = "spiked asteroid";
+        asteroid.gameObject.name = data.name;
 
 		return asteroid;
-	}
-
-	public static Gasteroid CreateGasteroid(AsteroidSetupData initData)
-	{
-		float size = Random (initData.size);
-		int vcount = UnityEngine.Random.Range(5, 5 + (int)size);
-		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
-		
-		Gasteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Gasteroid>(vertices, Singleton<GlobalConfig>.inst.GasteroidColor);
-		asteroid.InitAsteroid (new PhysicalData(), initData.speed, initData.rotation);
-		asteroid.destructionType = PolygonGameObject.DestructionType.eComplete;
-		DeathAnimation.MakeDeathForThatFellaYo (asteroid, true);
-		asteroid.deathAnimation.finalExplosionPowerKoeff = 1.3f;
-		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
-		asteroid.gameObject.name = "gasteroid";
-		
-		return asteroid;
-	}
-
-	private static float Random(RandomFloat r)
-	{
-		return UnityEngine.Random.Range(r.min, r.max);
-	}
-
-	private static int Random(RandomInt r)
-	{
-		return UnityEngine.Random.Range(r.min, r.max);
 	}
 
     public static TowerEnemy CreateStationTower(MStationTowerData data)
 	{
-        float r = data.size.RandomValue;    //UnityEngine.Random.Range(7f, 12f);
-        int sides = data.sidesCount.RandomValue; // UnityEngine.Random.Range(5, 8);
+        float r = data.size.RandomValue;  
+        int sides = data.sidesCount.RandomValue;
 		
 		int[] cannons;
 		Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/7f, sides, out cannons);
@@ -231,12 +192,10 @@ public class ObjectsCreator
 			Place place = new Place();
 			place.pos = vertices[cannons[i]];
 			place.dir = place.pos.normalized;
-			//float angle = Math2d.AngleRAD2 (new Vector2 (1, 0), place.pos);
-			//place.vertices = Math2d.RotateVerticesRAD(place.vertices, angle);
 			gunplaces.Add(place);
 		}
 
-        InitGuns (tower, gunplaces, data.gun);//GunsData.RocketLauncher());
+        InitGuns (tower, gunplaces, data.gun);
 		
 		return tower;
 	}
@@ -274,40 +233,6 @@ public class ObjectsCreator
 
 		return turret;
 	}
-
-	public static EvadeEnemy CreateEvadeEnemy(List<PolygonGameObject> bullets)
-	{
-		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-		enemy.InitEvadeEnemy (new PhysicalData(), bullets);
-		enemy.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
-		enemy.gameObject.name = "evade enemy";
-		DeathAnimation.MakeDeathForThatFellaYo (enemy);
-		InitGuns (enemy, EvadeEnemy.gunplaces, GunsData.SimpleGun2());
-
-		return enemy;
-	}
-
-
-
-	public static EvadeEnemy CreateTankEnemy(List<PolygonGameObject> bullets)
-	{
-		EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(TankEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-		enemy.InitEvadeEnemy (new PhysicalData(), bullets);
-		enemy.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
-		List<Place> gunplaces = new List<Place>
-		{
-			new Place(new Vector2(1.5f, 0.75f), new Vector2(1.0f, 0f)),
-			new Place(new Vector2(1.5f, -0.75f), new Vector2(1.0f, 0f)),
-		};
-
-		InitGuns (enemy, gunplaces, GunsData.TankGun());
-		DeathAnimation.MakeDeathForThatFellaYo (enemy);
-		enemy.gameObject.name = "tank enemy";
-		
-		return enemy;
-	}
-
-
 
 	private static List<Material> _asteroidsMaterials;
 	public static Material GetAsteroidMaterial(int n)
@@ -350,4 +275,79 @@ public class ObjectsCreator
 		}
 	}
 
+    private static float Random(RandomFloat r)
+    {
+        return UnityEngine.Random.Range(r.min, r.max);
+    }
+
+    private static int Random(RandomInt r)
+    {
+        return UnityEngine.Random.Range(r.min, r.max);
+    }
+
+    #region deprecated
+    //this guys are not used currently
+    public static EvadeEnemy CreateEvadeEnemy(List<PolygonGameObject> bullets)
+    {
+        EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
+        enemy.InitEvadeEnemy (new PhysicalData(), bullets);
+        enemy.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+        enemy.gameObject.name = "evade enemy";
+        DeathAnimation.MakeDeathForThatFellaYo (enemy);
+        InitGuns (enemy, EvadeEnemy.gunplaces, GunsData.SimpleGun2());
+
+        return enemy;
+    }
+
+    //this guys are not used currently
+    public static EvadeEnemy CreateTankEnemy(List<PolygonGameObject> bullets)
+    {
+        EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(TankEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
+        enemy.InitEvadeEnemy (new PhysicalData(), bullets);
+        enemy.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+        List<Place> gunplaces = new List<Place>
+        {
+            new Place(new Vector2(1.5f, 0.75f), new Vector2(1.0f, 0f)),
+            new Place(new Vector2(1.5f, -0.75f), new Vector2(1.0f, 0f)),
+        };
+
+        InitGuns (enemy, gunplaces, GunsData.TankGun());
+        DeathAnimation.MakeDeathForThatFellaYo (enemy);
+        enemy.gameObject.name = "tank enemy";
+
+        return enemy;
+    }
+
+    //this guys are not used currently
+    public static RogueEnemy CreateRogueEnemy()
+    { 
+        RogueEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<RogueEnemy>(RogueEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
+        enemy.Init ();
+        enemy.gameObject.name = "RogueEnemy";
+        enemy.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+        DeathAnimation.MakeDeathForThatFellaYo (enemy);
+
+        return enemy;
+    }
+
+    //deprecated
+    //  public static Asteroid CreateAsteroid(AsteroidSetupData dataPh, AsteroidData data, Material mat)
+    //  {
+    //      float size = Random(dataPh.size);
+    //      int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size*3);
+    //      Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
+    //      Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Singleton<GlobalConfig>.inst.AsteroidColor, mat);
+    //
+    //      //todo: include physical into asteroids?
+    //      var ph = new PhysicalData ();
+    //      ph.density = data.density;
+    //      ph.healthModifier = data.density;
+    //
+    //      asteroid.InitAsteroid (ph, dataPh.speed, dataPh.rotation); 
+    //      asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
+    //      asteroid.gameObject.name = "asteroid";
+    //      
+    //      return asteroid;
+    //  }
+    #endregion
 }
