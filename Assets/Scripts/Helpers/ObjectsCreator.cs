@@ -212,18 +212,18 @@ public class ObjectsCreator
 		return UnityEngine.Random.Range(r.min, r.max);
 	}
 
-	public static TowerEnemy CreateTower()
+    public static TowerEnemy CreateStationTower(MStationTowerData data)
 	{
-		float r = UnityEngine.Random.Range(7f, 12f);
-		int sides = UnityEngine.Random.Range(5, 8);
+        float r = data.size.RandomValue;    //UnityEngine.Random.Range(7f, 12f);
+        int sides = data.sidesCount.RandomValue; // UnityEngine.Random.Range(5, 8);
 		
 		int[] cannons;
 		Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/7f, sides, out cannons);
 		
-		var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy>(vertices, Singleton<GlobalConfig>.inst.towerEnemiesColor);
-		tower.InitTowerEnemy ();
+        var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy> (vertices, data.color);//Singleton<GlobalConfig>.inst.towerEnemiesColor);
+        tower.Init (data);
 		tower.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
-		tower.gameObject.name = "tower";
+        tower.gameObject.name = data.name;
 		DeathAnimation.MakeDeathForThatFellaYo (tower);
 		List<Place> gunplaces = new List<Place> ();
 		for (int i = 0; i < cannons.Length; i++) 
@@ -236,7 +236,7 @@ public class ObjectsCreator
 			gunplaces.Add(place);
 		}
 
-		InitGuns (tower, gunplaces, GunsData.RocketLauncher());
+        InitGuns (tower, gunplaces, data.gun);//GunsData.RocketLauncher());
 		
 		return tower;
 	}

@@ -32,6 +32,8 @@ public class RandomFloat
 {
 	public float min = 1;
 	public float max = 2;
+
+    public float RandomValue { get{ return UnityEngine.Random.Range (min, max); }}
 }
 
 [System.Serializable]
@@ -39,6 +41,8 @@ public class RandomInt
 {
 	public int min = 1;
 	public int max = 2;
+
+    public int RandomValue { get{ return UnityEngine.Random.Range (min, max); }}
 }
 
 [System.Serializable]

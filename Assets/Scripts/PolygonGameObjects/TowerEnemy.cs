@@ -4,20 +4,18 @@ using System.Collections.Generic;
 
 public class TowerEnemy : PolygonGameObject
 {
-	private float detectionDistanceSqr;
+	float detectionDistanceSqr;
+	float rotationSpeed;
+    Rotaitor cannonsRotaitor;
 
-	private float rotationSpeed = 30f;
+    //changable
+    Gun closestGun = null;
+    float currentAimAngle;
 
-	Gun closestGun = null;
-	float currentAimAngle;
-	Rotaitor cannonsRotaitor;
-
-	public void InitTowerEnemy()
-	{
-		InitPolygonGameObject(new PhysicalData()); 
-
+    public void Init(MStationTowerData data) {
+        rotationSpeed = data.rotationSpeed.RandomValue;
+        InitPolygonGameObject(data.physical); 
 		cannonsRotaitor = new Rotaitor (cacheTransform, rotationSpeed);
-
 		StartCoroutine(Aim());
 	}
 
