@@ -11,6 +11,8 @@ public class MAsteroidData : MSpawnData<Asteroid>
 
 	public override Asteroid Create()
 	{
-		return ObjectsCreator.CreateAsteroid (this);
+        var spawn = ObjectsCreator.CreateAsteroid (this);
+        Singleton<Main>.inst.CreateDropForObject(spawn, commonData); 
+        return spawn;
 	}
 }

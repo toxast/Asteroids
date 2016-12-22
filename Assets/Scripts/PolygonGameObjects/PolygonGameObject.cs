@@ -57,7 +57,7 @@ public class PolygonGameObject : MonoBehaviour
 
 	public float fullHealth{ protected set; get;}
 	[SerializeField] protected float currentHealth;
-	public event Action<float> healthChanged;
+//	public event Action<float> healthChanged;
 
 	public List<Gun> guns { get; private set;}
 	protected int linkedGunTick = 0;

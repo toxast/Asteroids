@@ -9,7 +9,7 @@ public class SawEnemy : Asteroid
 	private float rotationChargingRate;
 	private float rotationSlowingRate;
 	private float chargeRotation;
-	private float veloityChargeRate;
+//	private float veloityChargeRate;
 	private float velocityslowingRate;
 	private float chargeDuration;
 	private float chargeSpeed;
@@ -29,7 +29,7 @@ public class SawEnemy : Asteroid
 		this.chargeSpeed = data.chargeSpeed;
 
 		this.rotationChargingRate = (data.chargeRotation - initialRotation) / data.prepareTime;
-		this.veloityChargeRate = (data.chargeSpeed - initialVelocity) / data.prepareTime;
+//		this.veloityChargeRate = (data.chargeSpeed - initialVelocity) / data.prepareTime;
 
 		this.rotationSlowingRate = (data.chargeRotation - initialRotation) / data.slowingDuration;
 		this.velocityslowingRate = (data.chargeSpeed - initialVelocity) / data.slowingDuration;

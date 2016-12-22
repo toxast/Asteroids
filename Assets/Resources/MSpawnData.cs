@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MSpawnData<T> : MonoBehaviour 
+public class MSpawnData<T> : MonoBehaviour, ISwanable
 	where T: PolygonGameObject
 {
-
 	public virtual void Awake()
 	{
 		if (Application.isPlaying && Application.isEditor) 
@@ -25,6 +24,13 @@ public class MSpawnData<T> : MonoBehaviour
 			Singleton<Main>.inst.Add2Objects(obj);
 		}
 	}
+    public PolygonGameObject CreatePolygonGO() {
+        return Create ();
+    }
 
 	public virtual T Create (){return null;}
+}
+
+public interface ISwanable {
+    PolygonGameObject CreatePolygonGO ();
 }

@@ -2,15 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[ExecuteInEditMode]
 public class LevelsResources : ResourceSingleton<LevelsResources> {
 	[SerializeField] public List<SpawnWaves> levels;
 
-    public bool runUpdate = false;
-    void Update()
-    {
-        if (runUpdate) {
-            runUpdate = false;
-        }
-    }
+//    [ContextMenu ("ReplaceDataWithPrefabs")]
+//    private void ReplaceDataWithPrefabs (){
+//        foreach (var lvl in levels) {
+//            foreach (var wave in lvl.list) {
+//                foreach (var obj in wave.objects) {
+//                    obj.PlacePrefab ();
+//                }
+//            }
+//        }
+//    }
 }

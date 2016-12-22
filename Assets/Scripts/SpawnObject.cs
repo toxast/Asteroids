@@ -28,8 +28,7 @@ public class SpawnPositioning
 public class SpawnObject 
 {
 	public string name = "spawns";
-	public ObjectType type = ObjectType.eAsteroid;
-	public int indx;
+    public MonoBehaviour prefab;
 	public int count = 1;
 	public bool overrideAmount = false;
 	public int keepEnemiesAmount;
@@ -40,39 +39,22 @@ public class SpawnObject
 	public Color teleportationColor = new Color (1, 174f / 255f, 0);
 	public SpawnPositioning positioning;
 
-
 	public PolygonGameObject Spawn(Vector2 pos, float lookAngle)
 	{
 		PolygonGameObject obj = null;
 		var main = Singleton<Main>.inst;
 		//TODO: spawn and save for count
-		switch (type) 
-		{
-		case ObjectType.eAsteroid:
-			obj = main.CreateAsteroid(indx);
-			break;
-		case ObjectType.eSpaceship:
-			obj = main.CreateEnemySpaceShip(indx);
-			break;
-		case ObjectType.eSpiky:
-			obj = main.CreateSpikyAsteroid(indx);
-			break;
-		case ObjectType.eSaw:
-			obj = main.CreateSawEnemy(indx);
-			break;
-		case ObjectType.eTurretTower:
-			obj = main.CreateSimpleTower(indx);
-			break;
-			//gasteroid
-			//blockpost
 
-		default:
-			break;
-		}
+        if (prefab != null) {
+            var mdata  = prefab as ISwanable;
+            if (mdata != null) {
+                obj = mdata.CreatePolygonGO ();
+            }
+        }
 
 		if(obj == null)
 		{
-			Debug.LogWarning("null " + type + " " + indx);
+            Debug.LogError("null spawn");
 		}
 		else
 		{
@@ -224,10 +206,11 @@ public class SpawnWave
 	{
 		var anim = Singleton<Main>.inst.CreateTeleportationRing(pos);
 
-		if (item.type != ObjectType.eAsteroid)
-			anim.startColor = item.teleportationColor;
-		else
-			anim.startColor = Color.gray;
+        if (item.prefab is MAsteroidData) {
+            anim.startColor = Color.gray;
+        } else {
+            anim.startColor = item.teleportationColor;
+        }
 
 		anim.startSize = item.teleportRingSize;
 		yield return new WaitForSeconds(item.teleportDuration);

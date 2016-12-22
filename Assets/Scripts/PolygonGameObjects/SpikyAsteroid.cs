@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class SpikyAsteroid : Asteroid
 {
-	public event System.Action<Asteroid> SpikeAttack;
+//	public event System.Action<Asteroid> SpikeAttack;
 
 	private class Spike
 	{

@@ -58,6 +58,7 @@
      <Compile Include="Assets\Resources\MRocketGunData.cs" />
      <Compile Include="Assets\Resources\MSawData.cs" />
      <Compile Include="Assets\Resources\MSpaceshipData.cs" />
+     <Compile Include="Assets\Resources\MSpawnData.cs" />
      <Compile Include="Assets\Resources\MSpawnerGunData.cs" />
      <Compile Include="Assets\Resources\MSpikyData.cs" />
      <Compile Include="Assets\Resources\MTowerData.cs" />
