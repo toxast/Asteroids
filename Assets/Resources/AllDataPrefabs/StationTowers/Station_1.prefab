@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4770759188356310}
   - component: {fileID: 114374702242948724}
   m_Layer: 0
-  m_Name: Station_0
+  m_Name: Station_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,18 +52,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size:
-    min: 9
-    max: 12
+    min: 6
+    max: 7
   sidesCount:
-    min: 7
-    max: 9
-  color: {r: 0.2984429, g: 0.44117647, b: 0.33486456, a: 1}
+    min: 5
+    max: 6
+  color: {r: 0.40906143, g: 0.5735294, b: 0.45102906, a: 1}
   physical:
-    density: 3
-    healthModifier: 10
+    density: 2
+    healthModifier: 5
     collisionDefence: 0
     collisionAttackModifier: 1
   rotationSpeed:
     min: 25
     max: 35
-  gun: {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
+  gun: {fileID: 11408126, guid: b850126c41d32b0438376a2a12b4a336, type: 2}
