@@ -151,4 +151,5 @@ public enum AIType
 {
 	eCommon = 0,
 	eSuicide = 1,
+    eInvisible = 2,
 }

@@ -22,6 +22,9 @@ public class ObjectsCreator
 		case  AIType.eSuicide:
 			controller = new SuicideController(spaceship, bullets, sdata.accuracy);
 			break;
+        case AIType.eInvisible:
+            controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy);
+            break;
 		}
 		spaceship.SetController (controller);
 

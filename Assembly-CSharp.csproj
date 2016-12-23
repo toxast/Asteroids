@@ -74,6 +74,7 @@
      <Compile Include="Assets\Scripts\AI\Behaviours\EnemySpaceShipController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\FastSpaceshipAttackController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\InputController.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\InvisibleSpaceshipController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\Joystick.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\MissileController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\SimpleAI1.cs" />

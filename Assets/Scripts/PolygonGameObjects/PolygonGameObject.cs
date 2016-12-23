@@ -213,6 +213,10 @@ public class PolygonGameObject : MonoBehaviour
 		mesh.colors = colors;
 	}
 
+    public float GetAlpha() {
+        return mesh.colors [0].a;
+    }
+
 	public List<Vector2[]> Split()
 	{
 		List<Vector2[]> parts = polygon.SplitByInteriorVertex ();
