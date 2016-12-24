@@ -62,24 +62,25 @@ public static class CollisionLayers
 		}
 	}
 	
-	
-	static public int GetEnemyLayer(int layer)
+	//first is one with most priority
+	static public List<int> GetEnemyLayersInPriority(int layer)
 	{
-		int enemyLayer = 0;
+		List<int> enemyLayers = new List<int>();
 		if ((layer & (1 << CollisionLayers.ilayerBulletsUser | 1 << CollisionLayers.ilayerTeamUser | 1 << CollisionLayers.ilayerUser)) != 0 )
 		{
-			enemyLayer = 1 << CollisionLayers.ilayerTeamEnemies;
+			enemyLayers.Add (1 << CollisionLayers.ilayerTeamEnemies);
+			enemyLayers.Add (1 << CollisionLayers.ilayerAsteroids);
 		}
 		else if((layer & (1 << CollisionLayers.ilayerBulletsEnemies | 1 << CollisionLayers.ilayerTeamEnemies)) != 0)
 		{
-			enemyLayer = 1 << CollisionLayers.ilayerTeamUser | 1 << CollisionLayers.ilayerUser;
+			enemyLayers.Add(1 << CollisionLayers.ilayerTeamUser | 1 << CollisionLayers.ilayerUser);
 		}
 		else if((layer & (1 << CollisionLayers.ilayerAsteroids)) != 0)
 		{
-			enemyLayer =  1 << CollisionLayers.ilayerUser;
+			enemyLayers.Add(1 << CollisionLayers.ilayerUser);
 		}
 		
-		return enemyLayer;
+		return enemyLayers;
 	}
 
 	

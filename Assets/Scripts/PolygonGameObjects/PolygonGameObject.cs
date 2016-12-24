@@ -217,6 +217,10 @@ public class PolygonGameObject : MonoBehaviour
         return mesh.colors [0].a;
     }
 
+	public bool IsInvisible() {
+		return GetAlpha () == 0;
+	}
+
 	public List<Vector2[]> Split()
 	{
 		List<Vector2[]> parts = polygon.SplitByInteriorVertex ();

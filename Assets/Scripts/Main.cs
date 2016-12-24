@@ -60,16 +60,10 @@ public class Main : MonoBehaviour
 		cameraTransform = mainCamera.transform;
 		minimapCamera = GameObject.FindGameObjectWithTag ("MinimapCamera").GetComponent<Camera>();
 
-
-
-		if(boundsMode)
-		{
+		if (boundsMode) {
 			moveCameraAction += MoveCameraBoundsMode;
-		}
-		else
-		{
+		} else {
 			moveCameraAction += MoveCameraWarpMode;
-
 		}
 	}
 
@@ -133,7 +127,7 @@ public class Main : MonoBehaviour
 	public event Action levelCleared;
 	private void HandleUserDestroyed()
 	{
-		gameOver ();
+//		gameOver ();
 	}
 
 	public void Clear()
