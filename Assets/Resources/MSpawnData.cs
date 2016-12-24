@@ -4,8 +4,12 @@ using System.Collections;
 public class MSpawnData<T> : MonoBehaviour, ISwanable
 	where T: PolygonGameObject
 {
+	[Header("editor fields")]
 	public int spawnCount = 1;
 	public bool spawn = true;
+	public int editorSpawnLayer = CollisionLayers.ilayerTeamEnemies;
+	[Space(20)]
+	public int _spaceField;
 
 	#if UNITY_EDITOR
 	void Update() {

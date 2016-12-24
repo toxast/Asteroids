@@ -6,7 +6,8 @@ using System.Collections;
 public class PhysicalData : IClonable<PhysicalData>
 {
 	public float density = 1f;
-	public float healthModifier = 1f;
+	public float health = -1;
+	public float healthModifier = 1f; //not used if health is >= 0
 	public float collisionDefence = 0f;
 	public float collisionAttackModifier = 1f;
 

@@ -15,14 +15,19 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 
     bool evadeTime = true;
     float attackDutation = 5f;
-    float evadeDuration = 8f;
+    float invisibleDuration = 8f;
     float canTurnInvisibleAfterShootingTime = 1.7f;
     float fadeSpeedPerSecond = 2f; 
 
     AIHelper.Data tickData = new AIHelper.Data();
 
-    public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData) : base(thisShip)
+	public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData, InvisibleData invisData) : base(thisShip)
     {
+		attackDutation = invisData.attackDutation;
+		invisibleDuration = invisData.invisibleDuration;
+		canTurnInvisibleAfterShootingTime = invisData.canTurnInvisibleAfterShootingTime;
+		fadeSpeedPerSecond = invisData.fadeSpeedPerSecond;
+		
         this.bulletsSpeed = gun.BulletSpeedForAim;
         this.bullets = bullets;
         thisShip.StartCoroutine (ChangeEvadeAttckState ());
@@ -188,7 +193,7 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
     {
         while (true) {
             evadeTime = true;
-            yield return new WaitForSeconds (evadeDuration);
+			yield return new WaitForSeconds (invisibleDuration);
             evadeTime = false;
             yield return new WaitForSeconds (attackDutation);
         }
@@ -196,19 +201,25 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 
     private IEnumerator ControlInvisibility()
     {
+		bool gotInvisible = false;
         float timeUntilCanGoInvisble = 0;
         while (true) {
             var currentAlpha = thisShip.GetAlpha();
             if (shooting) {
                 timeUntilCanGoInvisble = canTurnInvisibleAfterShootingTime;
                 if (currentAlpha < 1) {
+					gotInvisible = false;
                     float newAlpha = Mathf.Clamp(currentAlpha + fadeSpeedPerSecond * Time.deltaTime, 0f, 1f);
                     thisShip.SetAlpha(newAlpha);
                 }
             } else {
                 timeUntilCanGoInvisble -= Time.deltaTime;
                 if (timeUntilCanGoInvisble <= 0 && currentAlpha != 0) {
-                    float newAlpha = Mathf.Clamp(currentAlpha - fadeSpeedPerSecond * Time.deltaTime, 0f, 1f);
+					float fadeSpeed = gotInvisible ? fadeSpeedPerSecond/5f : fadeSpeedPerSecond; //if she ship was already invisible then after hit it fadeOut speed is decreased.
+					float newAlpha = Mathf.Clamp(currentAlpha - fadeSpeed * Time.deltaTime, 0f, 1f);
+					if (newAlpha == 0) {
+						gotInvisible = true;
+					}
                     thisShip.SetAlpha(newAlpha);
                 }
             }

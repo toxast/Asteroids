@@ -20,9 +20,6 @@ public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, I
 	public Vector2[] verts;
 	public int upgradeIndex;
 
-	[Space]
-	public int EditorLayer = CollisionLayers.ilayerTeamEnemies;
-
 
 	//interfaces
 	public Vector2[] iverts {get {return verts;} set{verts = value;}}
@@ -32,6 +29,6 @@ public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, I
 
 	public override SpaceShip Create()
 	{
-		return ObjectsCreator.CreateSpaceship<SpaceShip>(this, EditorLayer);
+		return ObjectsCreator.CreateSpaceship<SpaceShip>(this, editorSpawnLayer);
 	}
 }

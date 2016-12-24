@@ -20,6 +20,7 @@ public class SpaceShip : PolygonGameObject
 	{
 		public ParticleSystem thrust; 
 		public float defaultLifetime;
+		public float startingColorAlpha;
 	}
 	List<Thruster> thrusters = new List<Thruster> ();
 
@@ -36,6 +37,17 @@ public class SpaceShip : PolygonGameObject
 	{
 		foreach (var th in thrusters) {
 			th.thrust.startLifetime = th.defaultLifetime;
+		}
+	}
+
+	public override void SetAlpha (float a)
+	{
+		base.SetAlpha (a);
+
+		foreach (var item in thrusters) {
+			var tcolor = item.thrust.startColor;
+			tcolor.a = item.startingColorAlpha * a;
+			item.thrust.startColor = tcolor;
 		}
 	}
 
@@ -89,6 +101,7 @@ public class SpaceShip : PolygonGameObject
 				Thruster newThruster = new Thruster();
 				newThruster.defaultLifetime = thrusterInstance.startLifetime;
 				newThruster.thrust = thrusterInstance;
+				newThruster.startingColorAlpha = thrusterInstance.startColor.a;
 				thrusterInstance.startLifetime = newThruster.defaultLifetime / 3f;
 				thrusters.Add(newThruster);
 			}

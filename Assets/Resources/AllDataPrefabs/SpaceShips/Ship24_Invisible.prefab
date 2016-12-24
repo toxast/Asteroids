@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 448270}
-  - component: {fileID: 11455536}
+  - component: {fileID: 114194171828006078}
   m_Layer: 0
   m_Name: Ship24_Invisible
   m_TagString: Untagged
@@ -29,7 +29,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11455536
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 193010}
+  m_IsPrefabParent: 1
+--- !u!114 &114194171828006078
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -37,15 +48,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 193010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Script: {fileID: 11500000, guid: e3764fa56333aa44cbce8c9e6099c9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
   price: -1
   reward: 0
   color: {r: 0.38894895, g: 0.4852941, b: 0.40157348, a: 1}
   physical:
     density: 1
-    healthModifier: 1
+    healthModifier: 100
     collisionDefence: 0
     collisionAttackModifier: 1
   ai: 2
@@ -103,14 +116,10 @@ MonoBehaviour:
   - {x: 1.6356713, y: 0.990338}
   - {x: 0.2916409, y: 0.3301127}
   upgradeIndex: 0
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 193010}
-  m_IsPrefabParent: 1
+  EditorLayer: 2
+  invisibleData:
+    attackDutation: 3
+    invisibleDuration: 4
+    canTurnInvisibleAfterShootingTime: 2
+    fadeSpeedPerSecond: 1.5
+  fillFrom: {fileID: 0}

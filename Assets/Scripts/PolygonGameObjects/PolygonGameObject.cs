@@ -108,8 +108,12 @@ public class PolygonGameObject : MonoBehaviour
 		mass = polygon.area * density;
 		float approximationR = polygon.R * 4f / 5f;
 		inertiaMoment = mass * approximationR * approximationR / 2f;
-		fullHealth = Mathf.Pow(polygon.area, 0.8f) * healthModifier / 2f;//  polygon.R * Mathf.Sqrt(polygon.R) / 3f;
-//		Debug.LogWarning (mass + " " + fullHealth);
+
+		if (physics.health >= 0) {
+			fullHealth = physics.health;
+		} else {
+			fullHealth = Mathf.Pow(polygon.area, 0.8f) * healthModifier / 2f;
+		}
 		currentHealth = fullHealth;
 	}
 
@@ -203,7 +207,7 @@ public class PolygonGameObject : MonoBehaviour
 		mesh.colors = colors;
 	}
 
-	public void SetAlpha(float a)
+	public virtual void SetAlpha(float a)
 	{
 		Color [] colors = mesh.colors;
 		for (int i = 0; i < colors.Length; i++) 
@@ -297,6 +301,11 @@ public class PolygonGameObject : MonoBehaviour
 
 	public virtual void Hit(float dmg)
 	{
+		float alpha = GetAlpha ();
+		if (alpha < 1) {
+			SetAlpha(Mathf.Min(1, alpha + 0.65f));
+		}
+
 		if(shield != null)
 		{
 			dmg = shield.Deflect(dmg);

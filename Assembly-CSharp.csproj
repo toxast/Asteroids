@@ -55,6 +55,7 @@
      <Compile Include="Assets\Resources\MGunBaseData.cs" />
      <Compile Include="Assets\Resources\MGunData.cs" />
      <Compile Include="Assets\Resources\MGunSetupData.cs" />
+     <Compile Include="Assets\Resources\MInvisibleSpaceshipData.cs" />
      <Compile Include="Assets\Resources\MLazerGunData.cs" />
      <Compile Include="Assets\Resources\MRocketGunData.cs" />
      <Compile Include="Assets\Resources\MSawData.cs" />

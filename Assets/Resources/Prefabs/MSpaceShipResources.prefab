@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 486618}
-  - 114: {fileID: 11417534}
+  - component: {fileID: 486618}
+  - component: {fileID: 11417534}
   m_Layer: 0
   m_Name: MSpaceShipResources
   m_TagString: Untagged
@@ -25,10 +25,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11417534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -65,7 +65,7 @@ MonoBehaviour:
   - {fileID: 11480600, guid: b1234ce6f2073884a997309e2ca933a5, type: 2}
   - {fileID: 11422658, guid: d2aadb06ed649b043a8db4ab907f6b73, type: 2}
   - {fileID: 11428446, guid: 519c2274837e3844fabfae3a47d9e44c, type: 2}
-  - {fileID: 11455536, guid: 7772650069f53cd4793dbcd1e59e85ea, type: 2}
+  - {fileID: 114194171828006078, guid: 7772650069f53cd4793dbcd1e59e85ea, type: 2}
   - {fileID: 11475772, guid: aedeee97d4550504786911a00f443c7f, type: 2}
   - {fileID: 11474988, guid: a7b63a90fe13f6e46b2afa5e495b1e80, type: 2}
   - {fileID: 11447630, guid: 846c677c62f6ce947ab302bc8569f25f, type: 2}

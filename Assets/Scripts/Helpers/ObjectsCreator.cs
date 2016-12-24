@@ -22,12 +22,19 @@ public class ObjectsCreator
 		case  AIType.eSuicide:
 			controller = new SuicideController(spaceship, bullets, sdata.accuracy);
 			break;
-        case AIType.eInvisible:
-            controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy);
-            break;
 		}
 		spaceship.SetController (controller);
 
+		return spaceship;
+	}
+
+	public static T CreateInvisibleSpaceship<T>(MInvisibleSpaceshipData sdata, int layerNum)
+		where T:SpaceShip
+	{
+		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
+		var bullets = Singleton<Main>.inst.bullets;
+		InputController controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy, sdata.invisibleData);
+		spaceship.SetController(controller);
 		return spaceship;
 	}
 

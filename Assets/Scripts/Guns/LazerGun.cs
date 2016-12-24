@@ -56,7 +56,6 @@ public class LazerGun : Gun
 			Math2d.PositionOnParent(fireEffect.transform, place, parent.cacheTransform, true, -1);
 		}
 
-		fireEffect = data.fireEffect;
 		damage = data.damage;
 	}
 
