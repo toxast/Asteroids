@@ -55,6 +55,7 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   _spaceField: 0
+  effect: 1
   speed:
     min: 15
     max: 20
@@ -66,7 +67,7 @@ MonoBehaviour:
     max: 1.8
   physical:
     density: 3
-    health: 30
+    health: 2
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1

@@ -3,34 +3,31 @@ using System.Collections;
 
 namespace polygonGO
 {
-	public class Drop : PolygonGameObject 
+	public class Drop : DropBase 
 	{
-		public float lifetime;
-		public MAsteroidCommonData data;
+		public int value;
 		bool moneyAdded = false;
 
-		public override void Tick (float delta)
-		{
-			base.Tick (delta);
-			lifetime -= delta;
-			if(lifetime < 0)
-			{
-				if(!moneyAdded)
-				{
-					GameResources.AddMoney(data.value);
-					moneyAdded = true;
-				}
-				currentHealth = 0;
-			}
-		}
+        private void AddMoneyIfNotYet() {
+            if (!moneyAdded) {
+                moneyAdded = true;
+                GameResources.AddMoney(value);
+            }
+        }
 
-		public void Collect()
-		{
-			if(!moneyAdded)
-			{
-				GameResources.AddMoney(data.value);
-				moneyAdded = true;
-			}
-		}
+        public override void OnUserInteracted() {
+            if (!moneyAdded) {
+                moneyAdded = true;
+                Singleton<Main>.inst.AddMoneyOnDropInterated(value);
+            }
+        }
+
+        public override void OnLifeTimeEnd() {
+            AddMoneyIfNotYet();
+        }
+
+        public override void OnGameEnd() {
+            AddMoneyIfNotYet();
+        }
 	}
 }

@@ -15,7 +15,7 @@ public class Main : MonoBehaviour
 	[SerializeField] oldGUI oldGUI;
  	UserSpaceShip spaceship;
 	List <PolygonGameObject> gobjects = new List<PolygonGameObject>();
-	List <polygonGO.Drop> drops = new List<polygonGO.Drop>();
+    List<polygonGO.DropBase> drops = new List<polygonGO.DropBase>();
 	public List<PolygonGameObject> bullets = new List<PolygonGameObject>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
@@ -163,7 +163,7 @@ public class Main : MonoBehaviour
 		}
 
 		foreach (var drop in drops) {
-			drop.Collect();
+			drop.OnGameEnd();
 			Destroy(drop.gameObject);
 		}
 		drops.Clear ();
@@ -354,33 +354,26 @@ public class Main : MonoBehaviour
 	bool gameIsOn = false;
 	void Update()
 	{
-		if (!gameIsOn)
-			return;
+        if (!gameIsOn) {
+            return;
+        }
 
-//		doTick = !doTick;
-//		if(!doTick)
-//		{
-//			return;
-//		}
 
-		if (IsNull (spaceship))
-			spaceship = null;
+        if (IsNull(spaceship)) {
+            spaceship = null;
+        }
 
-		if (spawner != null)
-		{
-			if(!spawner.Done())
-			{
-				spawner.Tick ();
-			}
-			else
-			{
-				if(levelEndRoutine == null)
-				{
-					levelEndRoutine = StartCoroutine(CheckLevelEndRoutine());
-					spawner = null;
-				}
-			}
-		}
+
+        if (spawner != null) {
+            if (!spawner.Done()) {
+                spawner.Tick();
+            } else {
+                if (levelEndRoutine == null) {
+                    levelEndRoutine = StartCoroutine(CheckLevelEndRoutine());
+                    spawner = null;
+                }
+            }
+        }
 
 		float dtime = Time.deltaTime;
 
@@ -453,7 +446,7 @@ public class Main : MonoBehaviour
 				var drop = drops[i];
 				if(PolygonCollision.IsCollides(spaceship, drop, out indxa, out indxb))
 				{
-					GameResources.AddMoney((int)(drop.data.value * addMoneyKff));
+                    drop.OnUserInteracted();
 					Destroy(drop.gameObject);
 					drops.RemoveAt(i);
 				}
@@ -468,7 +461,7 @@ public class Main : MonoBehaviour
 					ObjectsCollide(gobjects[i], gobjects[k]);
 			}
 		}
-
+/*
 		//TODO: refactor
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
 		{
@@ -501,7 +494,7 @@ public class Main : MonoBehaviour
 				}	
 			}
 		}
-
+        */
 //		if(powerUpsCreator != null)
 //			powerUpsCreator.Tick(Time.deltaTime);
 
@@ -511,6 +504,28 @@ public class Main : MonoBehaviour
 		CheckDeadObjects (drops);
 		CheckDeadObjects (bullets, true);
 	}
+
+    //TODO: unlock ability to score persantage of non-collected drops (Call it "Dust Collector")
+    //TODO: unlock ability to increase addMoneyKff (Call it "Businessman")
+    public void AddMoneyOnDropInterated(int value) {
+        GameResources.AddMoney((int)(value * addMoneyKff));
+    }
+
+    public void ApplyPowerUP(EffectType effect) {
+        switch (effect) {
+            //				case EffectType.IncreasedShootingSpeed:
+            //					spaceship.ChangeFiringSpeed(3f, 10f);
+            //				break;
+
+            case EffectType.PenetrationBullet:
+                penetrationTimeLeft = 10f;
+                break;
+
+            case EffectType.SlowAsteroids:
+                //slowTimeLeft = 10f;
+                break;
+        }	
+    }
 
 
 	private void CalculateGlobalPolygons<T> (List<T> objs)
@@ -609,9 +624,14 @@ public class Main : MonoBehaviour
 			//1.5f*gobject.polygon.area
 		}
 
-		Destroy(gobject.gameObj);
+        DestroyPolygonGameObject(gobject);
 		gobject = null;
 	}
+
+    private void DestroyPolygonGameObject(PolygonGameObject gobject) {
+        gobject.OnDestroing();
+        Destroy(gobject.gameObj);
+    }
 
 	public void PutObjectOnDestructionQueue(GameObject obj, float duration)
 	{
@@ -840,7 +860,7 @@ public class Main : MonoBehaviour
 	private void CreateDrop(MAsteroidCommonData drop, Vector3 position, float R)
 	{
 		Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-R, R), UnityEngine.Random.Range(-R, R), 0);
-		var dropObj = ObjectsCreator.CreateDrop(drop);
+		var dropObj = ObjectsCreator.CreateDrop(drop.color, drop.value);
 		var anim = Instantiate(dropAnimationPrefab) as ParticleSystem;
 		anim.startColor = drop.color;
 		anim.transform.parent = dropObj.transform;
@@ -850,6 +870,13 @@ public class Main : MonoBehaviour
 		dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f,1f));
 		drops.Add(dropObj);
 	}
+
+    public void CreatePowerUp(EffectType effect, Vector3 position) {
+        var powerup = ObjectsCreator.CreatePowerUpDrop(effect);
+        powerup.cacheTransform.position = position + new Vector3(0, 0, 2);
+        powerup.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f, 1f));
+        drops.Add(powerup);
+    }
 
 	public void Add2Objects(PolygonGameObject p)
 	{
@@ -881,107 +908,81 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void CheckBounds<T>(List<T> list, bool nullCheck)
-		where T: PolygonGameObject
-	{
-		if(!nullCheck)
-		{
-			for (int i = 0; i < list.Count ; i++)
-			{
-				var wrapped = CheckBounds(list[i]);
-				if(wrapped && list[i].destroyOnBoundsTeleport)
-				{
-					list[i].Kill();
-					list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
-				}
-			}
-		}
-		else
-		{
-			for (int i = 0; i < list.Count ; i++)
-			{
-				if(list[i] != null)
-				{
-					var wrapped = CheckBounds(list[i]);
-					if(wrapped && list[i].destroyOnBoundsTeleport)
-					{
-						list[i].Kill();
-						list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
-					}
-				}
-			}
-		}
-	}
+    private void CheckBounds<T>(List<T> list, bool nullCheck)
+        where T : PolygonGameObject {
+        if (!nullCheck) {
+            for (int i = 0; i < list.Count; i++) {
+                var wrapped = CheckBounds(list[i]);
+                if (wrapped && list[i].destroyOnBoundsTeleport) {
+                    list[i].Kill();
+                    list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+                }
+            }
+        } else {
+            for (int i = 0; i < list.Count; i++) {
+                if (list[i] != null) {
+                    var wrapped = CheckBounds(list[i]);
+                    if (wrapped && list[i].destroyOnBoundsTeleport) {
+                        list[i].Kill();
+                        list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+                    }
+                }
+            }
+        }
+    }
 
 
-	private void Reposition<T>(List<T> list, Vector2 delta, bool nullCheck)
-		where T: PolygonGameObject
-	{
-		if(!nullCheck)
-		{
-			for (int i = 0; i < list.Count ; i++)
-			{
-				list[i].position -= delta;
-			}
-		}
-		else
-		{
-			for (int i = 0; i < list.Count ; i++)
-			{
-				if(list[i] != null)
-					list[i].position -= delta;
-			}
-		}
-	}
+    private void Reposition<T>(List<T> list, Vector2 delta, bool nullCheck)
+        where T : PolygonGameObject {
+        if (!nullCheck) {
+            for (int i = 0; i < list.Count; i++) {
+                list[i].position -= delta;
+            }
+        } else {
+            for (int i = 0; i < list.Count; i++) {
+                if (list[i] != null)
+                    list[i].position -= delta;
+            }
+        }
+    }
 
-	private void Wrap<T>(List<T> list, bool nullCheck)
-		where T: PolygonGameObject
-	{
-		if(!nullCheck)
-		{
-			for (int i = 0; i < list.Count ; i++)
-			{
-				var wrapped = Wrap(list[i].cacheTransform);
-				if(wrapped && list[i].destroyOnBoundsTeleport)
-				{
-					list[i].Kill();
-					list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
-				}
-			}
-		}
-		else
-		{
-			for (int i = 0; i < list.Count ; i++)
-			{
-				if(list[i] != null)
-				{
-					var wrapped = Wrap(list[i].cacheTransform);
-					if(wrapped && list[i].destroyOnBoundsTeleport)
-					{
-						list[i].Kill();
-						list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
-					}
-				}
-			}
-		}
-	}
+    private void Wrap<T>(List<T> list, bool nullCheck)
+        where T : PolygonGameObject {
+        if (!nullCheck) {
+            for (int i = 0; i < list.Count; i++) {
+                var wrapped = Wrap(list[i].cacheTransform);
+                if (wrapped && list[i].destroyOnBoundsTeleport) {
+                    list[i].Kill();
+                    list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+                }
+            }
+        } else {
+            for (int i = 0; i < list.Count; i++) {
+                if (list[i] != null) {
+                    var wrapped = Wrap(list[i].cacheTransform);
+                    if (wrapped && list[i].destroyOnBoundsTeleport) {
+                        list[i].Kill();
+                        list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+                    }
+                }
+            }
+        }
+    }
 
-	private void TickBullets<T>(List<T> list, float dtime)
-		where T: PolygonGameObject
-	{
-		for (int i = 0; i < list.Count ; i++)
-		{
-			var b = list[i];
-			if(b == null)
-				continue;
+    private void TickBullets<T>(List<T> list, float dtime)
+        where T : PolygonGameObject {
+        for (int i = 0; i < list.Count; i++) {
+            var b = list[i];
+            if (b == null) {
+                continue;
+            }
 
-			b.Tick(dtime);
-			if(b.Expired())
-			{
-				b.Kill();
-			}
-		}
-	}
+            b.Tick(dtime);
+            if (b.Expired()) {
+                b.Kill();
+            }
+        }
+    }
 
 	private bool CheckBounds(PolygonGameObject p)
 	{
@@ -1089,23 +1090,6 @@ public class Main : MonoBehaviour
 		return ObjectsCreator.CreateSpaceship<SpaceShip> (MSpaceShipResources.Instance.spaceships[indx], CollisionLayers.ilayerTeamUser);
 	}
 
-
-	
-//	public RogueEnemy CreateRogueEnemy()
-//	{
-//		return ObjectsCreator.CreateRogueEnemy();
-//	}
-
-//	public Asteroid CreateGasteroid()
-//	{
-//		int indxInit = UnityEngine.Random.Range (0, AsteroidsResources.Instance.asteroids.Count);
-//		var initData = MAsteroidsResources.Instance.asteroidsData[indxInit];
-//		var asteroid = ObjectsCreator.CreateGasteroid (initData);
-//		return asteroid;
-
-//		return null;
-//	}
-
 	public SawEnemy CreateSawEnemy(int indxInit)
 	{
 		var initData = MAsteroidsResources.Instance.sawData[indxInit];
@@ -1126,35 +1110,8 @@ public class Main : MonoBehaviour
 		var enemy = ObjectsCreator.CreateSimpleTower(turretData);
 		return enemy;
 	}
-	
-//	public TowerEnemy CreateTower()
-//	{
-//		var enemy = ObjectsCreator.CreateTower();
-//		return enemy;
-//	}
-//	
-//	public EvadeEnemy CreateEvadeEnemy()
-//	{
-//		EvadeEnemy enemy = ObjectsCreator.CreateEvadeEnemy (bullets);
-//		return enemy;
-//	}
-//	
-//	public EvadeEnemy CreateTankEnemy()
-//	{
-//		var enemy = ObjectsCreator.CreateTankEnemy(bullets);
-//		return enemy;
-//	}
-	
-//	public void CreateFight()
-//	{
-//		CreateEnemySpaceShip (3);
-//		var e2 = CreateEnemySpaceShip (5);
-//		e2.SetCollisionLayerNum (CollisionLayers.ilayerTeamUser);
-//	}
-	
 
-
-	public void CreateDropForObject(PolygonGameObject obj, MAsteroidCommonData aData) //TODO: color + value data
+    public void CreateDropForObject(PolygonGameObject obj, MAsteroidCommonData aData) //TODO: color + value data
 	{
 		obj.dropID = new DropID ();
 		DropData dropData = new DropData
@@ -1168,20 +1125,6 @@ public class Main : MonoBehaviour
 		id2drops [obj.dropID] = dropData;
 	}
 	
-//	public void InitNewEnemy(PolygonGameObject enemy)
-//	{
-//		InitNewEnemy(enemy, new Vector2(50f, 150f));
-//	}
-//
-//	public void InitNewEnemy(PolygonGameObject enemy, Vector2 spawnRange)
-//	{
-//		if(enemy.layerNum != CollisionLayers.ilayerAsteroids)
-//			enemy.targetSystem = new TargetSystem (enemy);
-//
-//		SetRandomPosition(enemy, spawnRange);
-//		Add2Objects(enemy);
-//	}
-
 	private void CreateMinimapIndicatorForObject(PolygonGameObject obj)
 	{
 		if(obj.minimapIndicator != null)
@@ -1324,6 +1267,7 @@ public class Main : MonoBehaviour
 	 * stop toers from flowing after hit
 	 * make destroyed spaceship parts realy easy to break
 	 * turrets
+     * explosion on turrets
 	 * lazer fix when target destroyed
 	 * destroy shaceship wrecks on bounds check?
 	 * faster rocket parts fade on hit?

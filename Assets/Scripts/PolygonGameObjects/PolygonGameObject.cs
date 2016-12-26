@@ -415,4 +415,9 @@ public class PolygonGameObject : MonoBehaviour
 		polygon.ChangeVertex(indx, v);
 	}
 
+
+    //not called on game end destructions
+    public virtual void OnDestroing() {
+
+    }
 }

@@ -64,7 +64,7 @@ public class PowerUpsCreator
 		
 		PowerUp powerup = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, color);
 		powerup.gameObject.name = "powerup";
-		powerup.InitAsteroid(type);
+		powerup.InitPowerUp(type);
 		
 		return powerup;
 	}

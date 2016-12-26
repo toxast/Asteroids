@@ -1,21 +1,17 @@
 using UnityEngine;
 using System.Collections;
 
-public class PowerUp : PolygonGameObject 
+public class PowerUp : polygonGO.DropBase 
 {
 	public EffectType effect;
-	public float lived = 0;
-
-	public void InitAsteroid(EffectType effect)
+	public void InitPowerUp(EffectType effect)
 	{
 		this.effect = effect;
 	}
 
-	public override void Tick (float delta)
-	{
-		base.Tick (delta);
-		lived += delta;
-	}
+    public override void OnUserInteracted() {
+        Singleton<Main>.inst.ApplyPowerUP(effect);
+    }
 }
 
 public enum EffectType

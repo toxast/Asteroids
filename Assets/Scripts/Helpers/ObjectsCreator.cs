@@ -126,16 +126,18 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
-    public static Asteroid CreateComet(MCometData mdata) {
+    public static Comet CreateComet(MCometData mdata) {
         float size = Random(mdata.size);
         int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size * 3);
         Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size / 2f, vcount);
-        Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, mdata.color);
+        Comet asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
         asteroid.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
+        asteroid.InitComet(mdata.effect, 30f);
         var ps = GameObject.Instantiate<ParticleSystem>(mdata.particleSystem, asteroid.transform);
         ps.transform.localPosition = new Vector3(0, 0, -1);
-        asteroid.SetCollisionLayerNum(CollisionLayers.ilayerAsteroids);
+        asteroid.SetCollisionLayerNum(CollisionLayers.ilayerTeamEnemies);
         asteroid.gameObject.name = mdata.name;
+        asteroid.destructionType = PolygonGameObject.DestructionType.eComplete;
         return asteroid;
     }
 
@@ -273,21 +275,34 @@ public class ObjectsCreator
 		return _asteroidsMaterials[n];
 	}
 
-	public static polygonGO.Drop CreateDrop(MAsteroidCommonData data)
+	public static polygonGO.Drop CreateDrop(Color color, int value)
 	{
-		float size = 0.7f;//Random.Range(1f, 2f);
-		int vcount = 5;//Random.Range(5, 5 + (int)size*3);
+		float size = 0.7f;
+		int vcount = 5;
 		Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(size, vcount);
-		
-		var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, data.color);
+
+        var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, color);
 		drop.InitPolygonGameObject (new PhysicalData());
 		drop.SetCollisionLayerNum (CollisionLayers.ilayerMisc);
-		drop.data = data;
+		drop.value = value;
 		drop.gameObject.name = "drop";
 		drop.lifetime = 10f;
 		
 		return drop;
 	}
+
+    //TODO: powerup data : lifetime, color, verts
+    public static PowerUp CreatePowerUpDrop(EffectType type) {
+        float size = 1f;
+        int vcount = 7;
+        Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(size, vcount);
+        var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, Color.cyan);
+        drop.InitPolygonGameObject(new PhysicalData());
+        drop.SetCollisionLayerNum(CollisionLayers.ilayerMisc);
+        drop.gameObject.name = "DropPowerUp " + type.ToString();
+        drop.lifetime = 30f;
+        return drop;
+    }
 
 	private static void InitGuns(PolygonGameObject enemy, List<Place> gunplaces, MGunBaseData gunData)
 	{
