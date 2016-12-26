@@ -55,7 +55,10 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   _spaceField: 0
-  effect: 1
+  powerupData:
+    effect: 0
+    lifeTime: 30
+    color: {r: 0.24913491, g: 0.7058823, b: 0.4412838, a: 1}
   speed:
     min: 15
     max: 20
@@ -71,6 +74,7 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  color: {r: 0.114186615, g: 0.087802745, b: 0.85294116, a: 1}
+  lifeTime: 5
+  color: {r: 0.2509804, g: 0.7058824, b: 0.4431373, a: 1}
   particleSystem: {fileID: 198328997085036626, guid: 72c85ce4b5d5ceb4eb95a4c3ba6cbee4,
     type: 2}

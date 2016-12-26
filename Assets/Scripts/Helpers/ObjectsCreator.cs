@@ -132,7 +132,7 @@ public class ObjectsCreator
         Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size / 2f, vcount);
         Comet asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
         asteroid.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
-        asteroid.InitComet(mdata.effect, 30f);
+        asteroid.InitComet(mdata.powerupData, mdata.lifeTime);
         var ps = GameObject.Instantiate<ParticleSystem>(mdata.particleSystem, asteroid.transform);
         ps.transform.localPosition = new Vector3(0, 0, -1);
         asteroid.SetCollisionLayerNum(CollisionLayers.ilayerTeamEnemies);
@@ -291,16 +291,16 @@ public class ObjectsCreator
 		return drop;
 	}
 
-    //TODO: powerup data : lifetime, color, verts
-    public static PowerUp CreatePowerUpDrop(EffectType type) {
+    public static PowerUp CreatePowerUpDrop(PowerupData data) {
         float size = 1f;
         int vcount = 7;
         Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(size, vcount);
-        var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, Color.cyan);
+        var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, data.color);
         drop.InitPolygonGameObject(new PhysicalData());
+        drop.InitPowerUp(data.effect);
         drop.SetCollisionLayerNum(CollisionLayers.ilayerMisc);
-        drop.gameObject.name = "DropPowerUp " + type.ToString();
-        drop.lifetime = 30f;
+        drop.gameObject.name = "DropPowerUp " + data.effect.ToString();
+        drop.lifetime = data.lifeTime;
         return drop;
     }
 
