@@ -403,26 +403,22 @@ public class Main : MonoBehaviour
 
 		TickBullets (bullets, dtime);
 		TickObjects (gobjects, enemyDtime);
-		TickObjects (powerUps, enemyDtime);
 		TickObjects (drops, enemyDtime);
 
 		CalculateGlobalPolygons (bullets);
 		CalculateGlobalPolygons (gobjects);
-		CalculateGlobalPolygons (powerUps);
 		CalculateGlobalPolygons (drops);
 
 		if(boundsMode)
 		{
 			CheckBounds(bullets, true);
 			CheckBounds (gobjects, false); //TODO: spaceship in gobjects!!!
-			CheckBounds(powerUps, false);
 			CheckBounds(drops, false);
 		}
 		else
 		{
 			Wrap(bullets, true);
 			Wrap(gobjects, true);
-			Wrap(powerUps, false);
 			Wrap(drops, false);
 		}
 
@@ -871,8 +867,8 @@ public class Main : MonoBehaviour
 		drops.Add(dropObj);
 	}
 
-    public void CreatePowerUp(EffectType effect, Vector3 position) {
-        var powerup = ObjectsCreator.CreatePowerUpDrop(effect);
+    public void CreatePowerUp(PowerupData data, Vector3 position) {
+        var powerup = ObjectsCreator.CreatePowerUpDrop(data);
         powerup.cacheTransform.position = position + new Vector3(0, 0, 2);
         powerup.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f, 1f));
         drops.Add(powerup);
@@ -904,7 +900,11 @@ public class Main : MonoBehaviour
 	{
 		for (int i = 0; i < list.Count ; i++)
 		{
-			list[i].Tick(dtime);
+            var go = list[i];
+            go.Tick(dtime);
+            if (go.Expired()) {
+                go.Kill();
+            }
 		}
 	}
 

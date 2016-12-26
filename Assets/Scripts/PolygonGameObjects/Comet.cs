@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Comet : Asteroid {
-
-    EffectType powerupEffect;
-
-    public void InitComet(EffectType powerupEffect, float lifeTime) {
-        this.powerupEffect = powerupEffect;
+    PowerupData data;
+    public void InitComet(PowerupData data, float lifeTime) {
+        this.data = data;
         InitLifetime(lifeTime);
     }
 
     public override void OnDestroing() {
-        Singleton<Main>.inst.CreatePowerUp(powerupEffect, this.position);
+        if (leftlifeTime > 0) {
+            Singleton<Main>.inst.CreatePowerUp(data, this.position);
+        } else {
+
+        }
     }
 }

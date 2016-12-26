@@ -8,7 +8,7 @@ public class PowerUp : polygonGO.DropBase
 	{
 		this.effect = effect;
 	}
-
+    
     public override void OnUserInteracted() {
         Singleton<Main>.inst.ApplyPowerUP(effect);
     }
