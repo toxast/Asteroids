@@ -126,6 +126,19 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
+    public static Asteroid CreateComet(MCometData mdata) {
+        float size = Random(mdata.size);
+        int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size * 3);
+        Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size / 2f, vcount);
+        Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, mdata.color);
+        asteroid.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
+        var ps = GameObject.Instantiate<ParticleSystem>(mdata.particleSystem, asteroid.transform);
+        ps.transform.localPosition = new Vector3(0, 0, -1);
+        asteroid.SetCollisionLayerNum(CollisionLayers.ilayerAsteroids);
+        asteroid.gameObject.name = mdata.name;
+        return asteroid;
+    }
+
     public static Gasteroid CreateGasteroid(MGasteroidData initData)
     {
         float size = Random (initData.size);
