@@ -133,7 +133,7 @@ public class ObjectsCreator
         Comet asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
         asteroid.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
         asteroid.InitComet(mdata.powerupData, mdata.lifeTime);
-        var ps = GameObject.Instantiate<ParticleSystem>(mdata.particleSystem, asteroid.transform);
+        var ps = GameObject.Instantiate<ParticleSystem>(mdata.particles, asteroid.transform);
         ps.startColor = mdata.particleSystemColor;
         ps.transform.localPosition = new Vector3(0, 0, -1);
         asteroid.SetCollisionLayerNum(CollisionLayers.ilayerTeamEnemies);
@@ -299,7 +299,7 @@ public class ObjectsCreator
         var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, data.color);
         drop.InitPolygonGameObject(new PhysicalData());
         drop.InitPowerUp(data.effect);
-        var ps = GameObject.Instantiate<ParticleSystem> (data.particleSystem, drop.transform);
+        var ps = GameObject.Instantiate<ParticleSystem> (data.particles, drop.transform);
         ps.startColor = data.particleSystemColor;
         ps.transform.localPosition = new Vector3(0, 0, 1);
         drop.SetCollisionLayerNum(CollisionLayers.ilayerMisc);

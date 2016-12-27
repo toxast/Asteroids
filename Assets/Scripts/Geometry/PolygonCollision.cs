@@ -173,16 +173,16 @@ public static class PolygonCollision
 		return j;
 	}
 
-	static public void ApplyImpulse(PolygonGameObject p, Vector2 Ppos, Vector2 P)
+	static public void ApplyForce(PolygonGameObject p, Vector2 applyPosition, Vector2 F)
 	{
 //		Polygon a = GetPolygonInGlobalCoordinates(p);
-		Vector2 dir2p = p.position - Ppos;
+		Vector2 dir2p = p.position - applyPosition;
 		dir2p.Normalize ();
-		float Pvelocity = Math2d.DotProduct (ref dir2p, ref P);
-		Vector3 up = Vector3.Cross (P, dir2p);
+		float Pvelocity = Math2d.DotProduct (ref dir2p, ref F);
+		Vector3 up = Vector3.Cross (F, dir2p);
 		Vector2 PRotation = Vector3.Cross (dir2p, up);
 		p.velocity += dir2p * (Pvelocity / p.mass); 
-		p.rotation -= PRotation.magnitude / p.inertiaMoment;
+        p.rotation -= PRotation.magnitude / (p.inertiaMoment * Mathf.Deg2Rad);
 	}
 
 	static private Vector2 makeRight(Vector2 v)

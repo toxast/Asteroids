@@ -301,6 +301,7 @@ public class PolygonGameObject : MonoBehaviour
 
 	public virtual void Hit(float dmg)
 	{
+//        Debug.LogError ("hit " + dmg);
 		float alpha = GetAlpha ();
 		if (alpha < 1) {
 			SetAlpha(Mathf.Min(1, alpha + 0.65f));
