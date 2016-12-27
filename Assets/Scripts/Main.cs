@@ -89,7 +89,7 @@ public class Main : MonoBehaviour
 
 	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
 	{
-		new PhExplosion(pos, r, dmgMax, gobjects, collision);
+        new PhExplosion(pos, r, dmgMax, dmgMax, gobjects, collision);
 	}
 
 	ILevelSpawner spawner;

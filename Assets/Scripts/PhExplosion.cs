@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PhExplosion
 {
-	public PhExplosion(Vector2 pos, float radius, float maxDamage, List<PolygonGameObject> objs, int collision = -1)
+    public PhExplosion(Vector2 pos, float radius, float maxDamage, float maxForce, List<PolygonGameObject> objs, int collision = -1)
 	{
 		//Debug.LogWarning (pos + " " + radius + " " + power);
 		float rsqr = radius * radius;
@@ -44,10 +44,11 @@ public class PhExplosion
 					}
 				}
                 var closesVertex = polygon.vertices [closestVertexIndx];
-                float force = maxDamage * (1f - Mathf.Sqrt(minDist)/radius);
+                float force = maxForce * (1f - Mathf.Sqrt(minDist)/radius);
+                float dmg = maxDamage* (1f - Mathf.Sqrt(minDist)/radius);
                 PolygonCollision.ApplyForce(obj, closesVertex, force * (closesVertex - pos).normalized);
-                Debug.LogWarning("explosion hit: " + force);
-                obj.Hit(force); //TODO: unify impule hits or add passive damage?
+                Debug.LogWarning("explosion hit: " + dmg);
+                obj.Hit(dmg); //TODO: unify impule hits or add passive damage?
 
 //				float distCentersMagnitude = distCenters.magnitude;
 //				float dist2edgeOfObject = Mathf.Max(0, distCentersMagnitude - obj.polygon.R);

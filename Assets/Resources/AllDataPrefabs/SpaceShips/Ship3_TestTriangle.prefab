@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 445990}
   - component: {fileID: 11441248}
   m_Layer: 0
-  m_Name: TestTriangle
+  m_Name: Ship3_TestTriangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,7 +49,7 @@ MonoBehaviour:
   color: {r: 0, g: 0.30065933, b: 0.8897059, a: 1}
   physical:
     density: 1
-    health: -1
+    health: 1000
     healthModifier: 10
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -78,7 +78,7 @@ MonoBehaviour:
   - place:
       pos: {x: 2.1293771, y: -0.000000014152583}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
+    gun: {fileID: 114901556800314170, guid: 90e0c7e9eb5492c4a873ef9b4a31af05, type: 2}
   linkedGuns: 
   thrusters:
   - place:
@@ -87,7 +87,7 @@ MonoBehaviour:
     thrusterPrefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
   turrets: []
   verts:
-  - {x: 2.5449984, y: -0.0000000085037195}
+  - {x: 2.5449984, y: -0.000000019917495}
   - {x: -1.2724992, y: -1.268}
   - {x: -1.2724992, y: 1.268}
   upgradeIndex: 1
