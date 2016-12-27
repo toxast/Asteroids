@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public interface IGotShape
 {
 	Vector2[] iverts{ get; set;}
+    bool isymmetric {get; set;}
 }
 
 public interface IGotThrusters

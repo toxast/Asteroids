@@ -19,12 +19,14 @@ public class MSpaceshipData : MonoBehaviour, IGotShape, IGotThrusters, IGotGuns,
 	public List<MTurretReferenceData> turrets;
 	public Vector2[] verts;
 	public int upgradeIndex;
+    public bool symmetric;
 
 	//interfaces
 	public Vector2[] iverts {get {return verts;} set{verts = value;}}
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<ThrusterSetupData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
+    public bool isymmetric { get { return symmetric; } set { symmetric = value; } }
 
     void Awake()
     {
