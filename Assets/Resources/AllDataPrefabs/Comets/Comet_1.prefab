@@ -58,7 +58,10 @@ MonoBehaviour:
   powerupData:
     effect: 0
     lifeTime: 30
-    color: {r: 0.24913491, g: 0.7058823, b: 0.4412838, a: 1}
+    color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
+    particleSystem: {fileID: 198790583922292200, guid: 226bd5cb1953ecd46adca2b21c81e272,
+      type: 2}
+    particleSystemColor: {r: 0.96470594, g: 0.7019608, b: 0.14117648, a: 1}
   speed:
     min: 15
     max: 20
@@ -75,6 +78,7 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   lifeTime: 120
-  color: {r: 0.2509804, g: 0.7058824, b: 0.4431373, a: 1}
+  color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
   particleSystem: {fileID: 198328997085036626, guid: 72c85ce4b5d5ceb4eb95a4c3ba6cbee4,
     type: 2}
+  particleSystemColor: {r: 0.96470594, g: 0.7019608, b: 0.14117648, a: 1}

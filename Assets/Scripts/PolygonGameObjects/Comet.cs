@@ -13,7 +13,7 @@ public class Comet : Asteroid {
         if (leftlifeTime > 0) {
             Singleton<Main>.inst.CreatePowerUp(data, this.position);
         } else {
-
+            //TODO: create power up if corresponding ability bought in store
         }
     }
 }

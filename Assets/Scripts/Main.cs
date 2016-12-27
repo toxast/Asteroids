@@ -870,19 +870,12 @@ public class Main : MonoBehaviour
     public void CreatePowerUp(PowerupData data, Vector3 position) {
         var powerup = ObjectsCreator.CreatePowerUpDrop(data);
         powerup.cacheTransform.position = position + new Vector3(0, 0, 2);
-        powerup.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f, 1f));
+        //powerup.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f, 1f));
         drops.Add(powerup);
     }
 
 	public void Add2Objects(PolygonGameObject p)
 	{
-		/*p.guns.ForEach( g => g.onFire += HandleGunFire);
-		
-		foreach (var t in p.turrets)
-		{
-			t.guns.ForEach( g => g.onFire += HandleGunFire);
-		}*/
-
 		p.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates (p);
 		CreateMinimapIndicatorForObject (p);
 		gobjects.Add (p);
@@ -893,7 +886,6 @@ public class Main : MonoBehaviour
 		var dmg = Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier;
 		return (1f - a.collisionDefence) * from.collisionAttackModifier * dmg;
 	}
-
 
 	private void TickObjects<T>(List<T> list, float dtime)
 		where T: PolygonGameObject

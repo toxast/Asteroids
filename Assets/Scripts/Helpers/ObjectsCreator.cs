@@ -134,6 +134,7 @@ public class ObjectsCreator
         asteroid.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
         asteroid.InitComet(mdata.powerupData, mdata.lifeTime);
         var ps = GameObject.Instantiate<ParticleSystem>(mdata.particleSystem, asteroid.transform);
+        ps.startColor = mdata.particleSystemColor;
         ps.transform.localPosition = new Vector3(0, 0, -1);
         asteroid.SetCollisionLayerNum(CollisionLayers.ilayerTeamEnemies);
         asteroid.gameObject.name = mdata.name;
@@ -298,6 +299,9 @@ public class ObjectsCreator
         var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, data.color);
         drop.InitPolygonGameObject(new PhysicalData());
         drop.InitPowerUp(data.effect);
+        var ps = GameObject.Instantiate<ParticleSystem> (data.particleSystem, drop.transform);
+        ps.startColor = data.particleSystemColor;
+        ps.transform.localPosition = new Vector3(0, 0, 1);
         drop.SetCollisionLayerNum(CollisionLayers.ilayerMisc);
         drop.gameObject.name = "DropPowerUp " + data.effect.ToString();
         drop.lifetime = data.lifeTime;

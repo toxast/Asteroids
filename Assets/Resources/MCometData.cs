@@ -11,6 +11,7 @@ public class MCometData : MSpawnData<Asteroid> {
     public float lifeTime;
     public Color color;
     public ParticleSystem particleSystem;
+    public Color particleSystemColor;
     public override Asteroid Create() {
         var spawn = ObjectsCreator.CreateComet(this);
         return spawn;
@@ -22,4 +23,6 @@ public class PowerupData {
     public EffectType effect;
     public float lifeTime;
     public Color color;
+    public ParticleSystem particleSystem;
+    public Color particleSystemColor;
 }
