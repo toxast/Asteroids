@@ -13,7 +13,7 @@ public class MTurretData : MonoBehaviour , IGotShape, IGotGuns
 	public List<int> linkedGuns;
 	public Vector2[] verts;
 
-	//interfaces
-	public Vector2[] iverts {get {return verts;} set{verts = value;}}
+    //interfaces
+    public Vector2[] iverts {get {return verts;} set{verts = value;}}
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 }

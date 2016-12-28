@@ -29,8 +29,9 @@ public class ShipEditor : MonoBehaviour
 	[SerializeField] int duplicateIndx = 0;
 	[SerializeField] bool duplicate = false;
 	[SerializeField] bool reverse = false;
+    [SerializeField] bool symmetric = true;
 
-	[SerializeField] bool scaleUp = false;
+    [SerializeField] bool scaleUp = false;
 	[SerializeField] bool scaleDown = false;
 	[SerializeField] bool doScale = false;
 	[SerializeField] Vector2 scaleBy = Vector2.one;
@@ -39,7 +40,7 @@ public class ShipEditor : MonoBehaviour
 
 	Vector2 vright = new Vector2(1,0);
 
-
+    bool symmetricState = true;
     [SerializeField] MonoBehaviour prefab;
 
 	void OnEnable()
@@ -59,9 +60,12 @@ public class ShipEditor : MonoBehaviour
 		var verts = mesh.vertices;
         if(prefab != null)
 		{
-//			object obj = GetObjByType(editType, saveANDloadIndx);
+            //			object obj = GetObjByType(editType, saveANDloadIndx);
 
-            verts = (prefab as IGotShape).iverts.ToList().ConvertAll( v => (Vector3)v).ToArray();
+            var shape = prefab as IGotShape;
+            verts = shape.iverts.ToList().ConvertAll( v => (Vector3)v).ToArray();
+
+            symmetric = symmetricState = CheckIsSymmetric(verts);
 
             var oIGotThrusters = prefab as IGotThrusters;
             if (oIGotThrusters != null) {
@@ -170,7 +174,7 @@ public class ShipEditor : MonoBehaviour
 			v2[i] = handles[i].transform.localPosition;    
 		}
 		
-		var full = PolygonCreator.GetCompleteVertexes (v2, 1);
+		var full = symmetricState ? PolygonCreator.GetCompleteVertexes (v2, 1) : new List<Vector2>(v2);
 		if(reverse)
 		{
 			full.Reverse();
@@ -286,7 +290,8 @@ public class ShipEditor : MonoBehaviour
         List<MTurretReferenceData> turretsData;
         GetCurrentData (out fullArray, out gunsData, out thrustersData, out turretsData);
 
-        (prefab as IGotShape).iverts = fullArray;
+        var shape = prefab as IGotShape;
+        shape.iverts = fullArray;
 
         if (prefab is IGotGuns) {
             FillPlaces<MGunSetupData> (gunsData, (prefab as IGotGuns).iguns);
@@ -415,7 +420,25 @@ public class ShipEditor : MonoBehaviour
 		return handle;
 	}
 
-	private void Scale(Vector2 vscale)
+    private bool CheckIsSymmetric( Vector3[] verts )
+    {
+        if (verts.Length % 2 == 1)
+            return false;
+
+        var len = verts.Length;
+        for ( int i = 0, cnt = len / 2; i < cnt; i++)
+        {
+            var v = verts[len - i - 1];
+            v.y = -v.y;
+            if (Math2d.ApproximatelySame(v, verts[i]) == false)
+                return false;
+        }
+
+        return true;
+    }
+
+
+    private void Scale(Vector2 vscale)
 	{
 		foreach (var h in handles) 
 		{
@@ -452,6 +475,31 @@ public class ShipEditor : MonoBehaviour
 			Scale(new Vector2(0.92f, 0.92f));
 		}
 
+        if(symmetric != symmetricState)
+        {
+            symmetricState = symmetric;
+
+            if (symmetric == false)
+            {
+                for (int i = handles.Count - 1; i >= 0; i--)
+                {
+                    var pos = handles[i].transform.localPosition;
+                    pos.y = -pos.y;
+                    CreatePosition(pos, vright, "handle ", handles);
+                }
+            }
+            else
+            {
+                var newHandlesCnt = handles.Count / 2;
+                while (handles.Count > newHandlesCnt)
+                {
+                    var last = handles.Count - 1;
+                    DestroyImmediate(handles[last]);
+                    handles.RemoveAt(last);
+                }
+            }
+        }
+
 
 		Vector2[] v2 = new Vector2[handles.Count];    
 		handles = handles.Where (h => h != null).ToList ();
@@ -460,7 +508,7 @@ public class ShipEditor : MonoBehaviour
 			v2[i] = handles[i].transform.localPosition;    
 		}
 
-		var full = PolygonCreator.GetCompleteVertexes (v2, 1);
+		var full = symmetricState ? PolygonCreator.GetCompleteVertexes (v2, 1) : new List<Vector2>(v2);
 		Vector3[] v3 = new Vector3[full.Count];    
 		for(int i = 0; i < full.Count; i++)
 		{

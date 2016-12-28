@@ -24,7 +24,7 @@ public class MRocketGunData : MGunBaseData, IGotShape
 
 	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}
 
-	public override Gun GetGun(Place place, PolygonGameObject t)
+    public override Gun GetGun(Place place, PolygonGameObject t)
 	{
 		return new RocketLauncher(place, this, t);
 	}

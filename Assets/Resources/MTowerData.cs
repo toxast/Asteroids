@@ -17,8 +17,8 @@ public class MTowerData : MSpawnData<SimpleTower>, IGotShape, IGotGuns, IGotTurr
 	public List<MTurretReferenceData> turrets;
 	public Vector2[] verts;
 
-	//interfaces
-	public Vector2[] iverts {get {return verts;} set{verts = value;}}
+    //interfaces
+    public Vector2[] iverts {get {return verts;} set{verts = value;}}
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
