@@ -65,7 +65,7 @@ public class ShipEditor : MonoBehaviour
             var shape = prefab as IGotShape;
             verts = shape.iverts.ToList().ConvertAll( v => (Vector3)v).ToArray();
 
-            symmetric = symmetricState = shape.isymmetric;
+            symmetric = symmetricState = CheckIsSymmetric(verts);
 
             var oIGotThrusters = prefab as IGotThrusters;
             if (oIGotThrusters != null) {
@@ -292,7 +292,6 @@ public class ShipEditor : MonoBehaviour
 
         var shape = prefab as IGotShape;
         shape.iverts = fullArray;
-        shape.isymmetric = symmetricState;
 
         if (prefab is IGotGuns) {
             FillPlaces<MGunSetupData> (gunsData, (prefab as IGotGuns).iguns);
@@ -421,7 +420,25 @@ public class ShipEditor : MonoBehaviour
 		return handle;
 	}
 
-	private void Scale(Vector2 vscale)
+    private bool CheckIsSymmetric( Vector3[] verts )
+    {
+        if (verts.Length % 2 == 1)
+            return false;
+
+        var len = verts.Length;
+        for ( int i = 0, cnt = len / 2; i < cnt; i++)
+        {
+            var v = verts[len - i - 1];
+            v.y = -v.y;
+            if (Math2d.ApproximatelySame(v, verts[i]) == false)
+                return false;
+        }
+
+        return true;
+    }
+
+
+    private void Scale(Vector2 vscale)
 	{
 		foreach (var h in handles) 
 		{
@@ -464,9 +481,8 @@ public class ShipEditor : MonoBehaviour
 
             if (symmetric == false)
             {
-                for (int i = 0, cnt = handles.Count; i < cnt; i++)
+                for (int i = handles.Count - 1; i >= 0; i--)
                 {
-
                     var pos = handles[i].transform.localPosition;
                     pos.y = -pos.y;
                     CreatePosition(pos, vright, "handle ", handles);

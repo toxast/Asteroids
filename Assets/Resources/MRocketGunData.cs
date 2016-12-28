@@ -23,7 +23,6 @@ public class MRocketGunData : MGunBaseData, IGotShape
 	public float launchSpeed;
 
 	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}
-    public bool isymmetric { get; set; }
 
     public override Gun GetGun(Place place, PolygonGameObject t)
 	{
