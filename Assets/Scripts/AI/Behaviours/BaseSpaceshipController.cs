@@ -25,12 +25,14 @@ public class BaseSpaceshipController : InputController, IGotTarget
 
 	protected void Shoot(float accuracy, float bulletsSpeed)
 	{
-		Vector2 relativeVelocity = (target.velocity - Main.AddShipSpeed2TheBullet(thisShip));
-		AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity, thisShip.position, bulletsSpeed);
+		Vector2 relativeVelocity = (target.velocity);
+		AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity - Main.AddShipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
 		if(a.canShoot)
 		{
 			turnDirection = a.direction;
-			this.shooting = (Math2d.ClosestAngleBetweenNormalizedDegAbs(turnDirection.normalized, thisShip.cacheTransform.right) < thisShip.shootAngle);
+			var angleToRotate = Math2d.ClosestAngleBetweenNormalizedDegAbs (turnDirection.normalized, thisShip.cacheTransform.right);
+//			Debug.DrawLine(thisShip.position, thisShip.position + turnDirection*100f, Color.red, 10f);
+			this.shooting = (angleToRotate < thisShip.shootAngle);
 		}
 		else
 		{

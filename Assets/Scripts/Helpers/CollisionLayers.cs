@@ -111,7 +111,19 @@ public static class CollisionLayers
 		//layerMisc
 		0,
 	};
-	
+
+	public static int GetGravityBulletCollisions(int bulletLayer) {
+		if (bulletLayer == ilayerBulletsUser) {
+			return (int)(eLayer.TEAM_ENEMIES | eLayer.BULLETS_ENEMIES | eLayer.ASTEROIDS); 
+		} else if(bulletLayer == ilayerBulletsEnemies) {
+			return (int)(eLayer.TEAM_USER| eLayer.BULLETS_USER); 
+		} else {
+			Debug.LogError ("unknown gravity Bullet layer " + bulletLayer);
+			return 0;
+		}
+	}
+	 
+
 	public static int GetLayerCollisions(int layerNum)
 	{
 		if(fullCollisions == null)

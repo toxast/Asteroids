@@ -53,15 +53,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
+  editorSpawnLayer: 2
+  _spaceField: 0
   price: -1
   reward: 0
   color: {r: 0.38894895, g: 0.4852941, b: 0.40157348, a: 1}
   physical:
     density: 1
-    healthModifier: 100
+    health: 20
+    healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  ai: 2
+  ai: 0
   mobility:
     thrust: 45
     maxSpeed: 20
@@ -69,11 +72,11 @@ MonoBehaviour:
     brake: 15
     passiveBrake: 2
     stability: 0.5
-    shootAngle: 15
+    shootAngle: 1
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
-    isDynamic: 1
+    isDynamic: 0
     checkDtime: 0.5
     add: 0.15
     sub: 0.4
@@ -90,7 +93,7 @@ MonoBehaviour:
   - place:
       pos: {x: 1.31, y: -1.13}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11493992, guid: 50aefcc3f44d6bf43a2c55096e135dcb, type: 2}
+    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
   linkedGuns: 
   thrusters:
   - place:
@@ -116,10 +119,9 @@ MonoBehaviour:
   - {x: 1.6356713, y: 0.990338}
   - {x: 0.2916409, y: 0.3301127}
   upgradeIndex: 0
-  EditorLayer: 2
   invisibleData:
     attackDutation: 3
-    invisibleDuration: 4
-    canTurnInvisibleAfterShootingTime: 2
-    fadeSpeedPerSecond: 1.5
+    invisibleDuration: 3
+    fadeOutDuration: 2
+    fadeInDuration: 0.5
   fillFrom: {fileID: 0}

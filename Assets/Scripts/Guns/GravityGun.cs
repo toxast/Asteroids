@@ -30,7 +30,7 @@ public class GravityGun : GunShooterBase
 
         Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform);
         //Hack: specific layer so it wont collide with anything
-        int affectLayer = CollisionLayers.GetLayerCollisions (CollisionLayers.GetBulletLayerNum(parent.layer));
+		int affectLayer = CollisionLayers.GetGravityBulletCollisions (CollisionLayers.GetBulletLayerNum(parent.layer));
         bullet.InitPolygonGameObject (new PhysicalData ());
         bullet.InitGravityBullet(affectLayer, data);
         bullet.InitLifetime (lifeTime);

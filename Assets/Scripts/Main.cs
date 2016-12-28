@@ -84,7 +84,7 @@ public class Main : MonoBehaviour
 
 	static public Vector2 AddShipSpeed2TheBullet(PolygonGameObject ship)
 	{
-		return ship.velocity * 0.5f;
+		return ship.velocity * 0.3f;
 	}
 
 	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)

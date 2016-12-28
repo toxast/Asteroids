@@ -9,7 +9,6 @@ public class GravityBullet :PolygonGameObject {
     float damagePerSecond;
     float force;
     List<PolygonGameObject> gobjects = new List<PolygonGameObject> ();
-
     public void InitGravityBullet(int affectLayer, MGravityGunData data) {
         this.affectLayer = affectLayer;
         range = data.range;
@@ -18,9 +17,18 @@ public class GravityBullet :PolygonGameObject {
         gobjects = Singleton<Main>.inst.gObjects;
     }
 
+	const float checkEvery = 0.16f;
+	float timeLeftForCheck = checkEvery;
+	//TODO: every x/second
     public override void Tick (float delta)
     {
         base.Tick (delta);
-        new PhExplosion (position, range, delta * damagePerSecond, delta * force, gobjects, affectLayer);
+
+		timeLeftForCheck -= delta;
+		if (timeLeftForCheck < 0) {
+			timeLeftForCheck += checkEvery;
+			new PhExplosion (position, range, checkEvery * damagePerSecond, checkEvery * force, gobjects, affectLayer);
+			//new PhExplosion (position, range, 0, 							checkEvery * force, Singleton<Main>.inst.bullets, affectLayer);
+		}
     }
 }

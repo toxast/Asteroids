@@ -12,7 +12,6 @@ public class PhExplosion
 		{
 			if(obj == null)
 			{
-				Debug.LogError("null");
 				continue;
 			}
 
@@ -47,7 +46,7 @@ public class PhExplosion
                 float force = maxForce * (1f - Mathf.Sqrt(minDist)/radius);
                 float dmg = maxDamage* (1f - Mathf.Sqrt(minDist)/radius);
                 PolygonCollision.ApplyForce(obj, closesVertex, force * (closesVertex - pos).normalized);
-                Debug.LogWarning("explosion hit: " + dmg);
+                //Debug.LogWarning("explosion hit: " + dmg);
                 obj.Hit(dmg); //TODO: unify impule hits or add passive damage?
 
 //				float distCentersMagnitude = distCenters.magnitude;

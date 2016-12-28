@@ -28,6 +28,11 @@ public class MInvisibleSpaceshipData : MSpaceshipData
 		}
 	}
 
+	public override SpaceShip Create()
+	{
+		return ObjectsCreator.CreateInvisibleSpaceship<SpaceShip>(this, editorSpawnLayer);
+	}
+
 }
 
 [System.Serializable]
@@ -35,6 +40,6 @@ public class InvisibleData
 {
 	public float attackDutation = 3f;
 	public float invisibleDuration = 4f;
-	public float canTurnInvisibleAfterShootingTime = 2f;
-	public float fadeSpeedPerSecond = 1.5f; 
+	public float fadeOutDuration = 1f; 
+	public float fadeInDuration = 0.6f; 
 }
