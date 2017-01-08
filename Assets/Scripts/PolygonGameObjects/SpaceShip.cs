@@ -85,17 +85,17 @@ public class SpaceShip : PolygonGameObject
 		inputController = iController;
 	}
 
-	public void SetThrusters(List<ThrusterSetupData> tdatas)
+	public void SetThrusters(List<ParticleSystemsData> tdatas)
 	{
 		foreach (var t in tdatas) 
 		{
-			if(t.thrusterPrefab == null)
+			if(t.prefab == null)
 			{
 				Debug.LogError("null thruster");
 			}
 			else
 			{
-				var thrusterInstance  = Instantiate(t.thrusterPrefab) as ParticleSystem;
+				var thrusterInstance  = Instantiate(t.prefab) as ParticleSystem;
 				Math2d.PositionOnParent (thrusterInstance.transform, t.place, cacheTransform, true, 1);
 
 				Thruster newThruster = new Thruster();
@@ -115,10 +115,10 @@ public class SpaceShip : PolygonGameObject
 			dir = new Vector2(1,0),
 			pos = pos,
 		};
-		ThrusterSetupData d = new ThrusterSetupData ();
+		ParticleSystemsData d = new ParticleSystemsData ();
 		d.place = place;
-		d.thrusterPrefab = p;
-		List<ThrusterSetupData> tdatas = new List<ThrusterSetupData> ();
+		d.prefab = p;
+		List<ParticleSystemsData> tdatas = new List<ParticleSystemsData> ();
 		tdatas.Add (d);
 		SetThrusters (tdatas);
 	}

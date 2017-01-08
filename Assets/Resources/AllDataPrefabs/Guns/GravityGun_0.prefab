@@ -57,7 +57,7 @@ MonoBehaviour:
   damagePerSecond: 30
   force: -1000
   range: 20
-  lifeTime: 5
+  lifeTime: 4
   bulletSpeed: 20
   fireInterval: 1
   repeatCount: 0

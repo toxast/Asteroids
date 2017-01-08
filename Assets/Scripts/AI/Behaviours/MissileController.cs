@@ -12,7 +12,7 @@ public class MissileController : InputController, IGotTarget
 	public Vector2 turnDirection{ get; private set; }
 
 	float maxVelocity;
-	float accuracy = 0.5f; //TODO
+	float accuracy = 0.5f;
 
 	public MissileController(SpaceShip thisShip, float maxVelocity, float accuracy)
 	{

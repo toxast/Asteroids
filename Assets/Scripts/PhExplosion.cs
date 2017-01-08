@@ -6,7 +6,6 @@ public class PhExplosion
 {
     public PhExplosion(Vector2 pos, float radius, float maxDamage, float maxForce, List<PolygonGameObject> objs, int collision = -1)
 	{
-		//Debug.LogWarning (pos + " " + radius + " " + power);
 		float rsqr = radius * radius;
 		foreach(var obj in objs)
 		{
@@ -23,7 +22,6 @@ public class PhExplosion
 			Vector2 distCenters = obj.position - pos;
 			if(Math2d.ApproximatelySame(distCenters, Vector2.zero))
 			{
-				//TODO: pass self obj
 				continue;
 			}
 
@@ -46,21 +44,8 @@ public class PhExplosion
                 float force = maxForce * (1f - Mathf.Sqrt(minDist)/radius);
                 float dmg = maxDamage* (1f - Mathf.Sqrt(minDist)/radius);
                 PolygonCollision.ApplyForce(obj, closesVertex, force * (closesVertex - pos).normalized);
-                //Debug.LogWarning("explosion hit: " + dmg);
-                obj.Hit(dmg); //TODO: unify impule hits or add passive damage?
-
-//				float distCentersMagnitude = distCenters.magnitude;
-//				float dist2edgeOfObject = Mathf.Max(0, distCentersMagnitude - obj.polygon.R);
-//				float p = Mathf.Sqrt(Mathf.Max(0, 1f - (dist2edgeOfObject/radius)));
-//				Vector2 normalizedDist = distCenters / distCentersMagnitude;
-//
-//				float impulse = p * power;
-//				var dVelocity = normalizedDist * impulse / obj.mass;
-//				obj.velocity += dVelocity;
-//				Debug.LogWarning(impulse);
-//				obj.Hit(impulse);
+				obj.Hit (dmg); 
 			}
 		}
 	}
-
 }

@@ -2022,7 +2022,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1543549236}
   m_HandleRect: {fileID: 1543549235}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3837,11 +3837,12 @@ MonoBehaviour:
   duplicateIndx: 0
   duplicate: 0
   reverse: 0
+  symmetric: 1
   scaleUp: 0
   scaleDown: 0
   doScale: 0
-  scaleBy: {x: 1.2, y: 1}
-  prefab: {fileID: 11411960, guid: 6f11fba070797694281df244854c2083, type: 2}
+  scaleBy: {x: 1.2, y: 1.2}
+  prefab: {fileID: 11493992, guid: 23a24ca28642f564aaabba35c348ae7d, type: 2}
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0

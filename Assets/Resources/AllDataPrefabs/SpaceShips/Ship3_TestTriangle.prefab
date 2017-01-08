@@ -78,16 +78,16 @@ MonoBehaviour:
   - place:
       pos: {x: 2.1293771, y: -0.000000014152583}
       dir: {x: 1, y: 0}
-    gun: {fileID: 114901556800314170, guid: 90e0c7e9eb5492c4a873ef9b4a31af05, type: 2}
+    gun: {fileID: 11493992, guid: 23a24ca28642f564aaabba35c348ae7d, type: 2}
   linkedGuns: 
   thrusters:
   - place:
       pos: {x: -0.7006227, y: -0.000000014152583}
       dir: {x: 1, y: 0}
-    thrusterPrefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
+    prefab: {fileID: 19871822, guid: 88c58e46015860349b466fa73565cc32, type: 2}
   turrets: []
   verts:
-  - {x: 2.5449984, y: -0.000000019917495}
+  - {x: 2.5449984, y: -0.000000022621986}
   - {x: -1.2724992, y: -1.268}
   - {x: -1.2724992, y: 1.268}
   upgradeIndex: 1

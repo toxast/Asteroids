@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class CommonController : BaseSpaceshipController, IGotTarget
 {
+	public PolygonGameObject defendObject;
 	List<PolygonGameObject> bullets;
 	float bulletsSpeed;
 	float comformDistanceMin, comformDistanceMax;
@@ -158,10 +159,27 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 			}
 			else
 			{
-				Brake();
-				shooting = false;
-				yield return new WaitForSeconds(0.5f); 
-				checkBehTime -= 0.5f;
+				if (!Main.IsNull(defendObject)) {
+					float actDuration = 1.5f;
+					float dist = defendObject.polygon.R + thisShip.polygon.R + 15f;
+					float angle = UnityEngine.Random.Range (1, 360) * Mathf.Deg2Rad;
+					Vector2 defPosition = defendObject.position + dist * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+					if ((thisShip.position - defPosition).sqrMagnitude < thisShip.maxSpeed * actDuration) {
+						Brake ();
+						shooting = false;
+						yield return new WaitForSeconds (0.5f);
+						checkBehTime -= 0.5f;
+					} else {
+						newDir = defPosition - thisShip.position;
+						yield return thisShip.StartCoroutine(SetFlyDir(newDir, actDuration)); 
+						checkBehTime -= actDuration;
+					}
+				} else {
+					Brake ();
+					shooting = false;
+					yield return new WaitForSeconds (0.5f); 
+					checkBehTime -= 0.5f;
+				}
 			}
 		}
 	}

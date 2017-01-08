@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 408318}
-  - 114: {fileID: 11480600}
+  - component: {fileID: 408318}
+  - component: {fileID: 11480600}
   m_Layer: 0
   m_Name: Ship21_(21) assasin
   m_TagString: Untagged
@@ -25,10 +25,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11480600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -40,11 +40,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  _spaceField: 0
   price: 10
   reward: 0
   color: {r: 0, g: 0.04827571, b: 1, a: 1}
   physical:
     density: 2
+    health: -1
     healthModifier: 22
     collisionDefence: 0.22
     collisionAttackModifier: 3
@@ -59,6 +64,7 @@ MonoBehaviour:
     shootAngle: 15
   accuracy:
     startingAccuracy: 0
+    thresholdDistance: 10
     isDynamic: 1
     checkDtime: 0.5
     add: 0.15
@@ -82,6 +88,7 @@ MonoBehaviour:
   - place:
       pos: {x: -0.7542533, y: 0.00000013800712}
       dir: {x: 1, y: 0}
+    prefab: {fileID: 19816438, guid: 89e193ef048432645abbbf3a7178f96c, type: 2}
     thrusterPrefab: {fileID: 19816438, guid: 89e193ef048432645abbbf3a7178f96c, type: 2}
   turrets:
   - place:

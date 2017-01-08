@@ -7,7 +7,7 @@ public class ObjectsCreator
 
 	public static Color defaultEnemyColor = new Color (0.5f, 0.5f, 0.5f);
 
-	public static T CreateSpaceship<T>(MSpaceshipData sdata, int layerNum)
+	public static T CreateSpaceship<T>(MSpaceshipData sdata, int layerNum, PolygonGameObject parent = null)
 		where T:SpaceShip
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
@@ -17,7 +17,11 @@ public class ObjectsCreator
 		switch(sdata.ai)
 		{
 		case  AIType.eCommon:
-			controller = new CommonController (spaceship, bullets, spaceship.guns[0], sdata.accuracy);
+			var ctrl = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
+			if(parent != null) {
+				ctrl.defendObject = parent;
+			}
+			controller = ctrl;
 			break;
 		case  AIType.eSuicide:
 			controller = new SuicideController(spaceship, bullets, sdata.accuracy);

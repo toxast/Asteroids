@@ -99,10 +99,12 @@ MonoBehaviour:
   - place:
       pos: {x: -1.23, y: -0.81}
       dir: {x: 0.93539584, y: -0.35360238}
+    prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
     thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
   - place:
       pos: {x: -1.18, y: 0.73}
       dir: {x: 0.93539566, y: 0.35360286}
+    prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
     thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
   turrets: []
   verts:

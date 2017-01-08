@@ -3,11 +3,11 @@ using System.Collections;
 
 public class TimeDestuctor
 {
-	public Asteroid a;
+	public PolygonGameObject a;
 	public float initialTime;
 	public float timeLeft;
 
-	public TimeDestuctor(Asteroid a, float timeLeft)
+	public TimeDestuctor(PolygonGameObject a, float timeLeft)
 	{
 		this.a = a;
 		this.initialTime = timeLeft;

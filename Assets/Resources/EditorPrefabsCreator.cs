@@ -52,7 +52,7 @@ public class EditorPrefabsCreator : MonoBehaviour
 			newComp.price = dataObj.iprice;
 			newComp.etype = dataObj.itype;
 
-			newComp.damage = dataObj.baseData.damage;
+			newComp.overrideExplosionDamage = dataObj.baseData.damage;
 			newComp.lifeTime = dataObj.baseData.lifeTime;
 			newComp.fireInterval = dataObj.baseData.fireInterval;
 			newComp.physical = dataObj.baseData.physical.Clone();
@@ -64,8 +64,8 @@ public class EditorPrefabsCreator : MonoBehaviour
 			newComp.overrideExplosionRadius = dataObj.overrideExplosionRadius;
 			newComp.missleParameters = dataObj.missleParameters;
 			newComp.accuracy = dataObj.accuracy;
-			newComp.thrusterEffect = dataObj.thrusterEffect;
-			newComp.thrusterPos = dataObj.thrusterPos;
+//			newComp.thrusterEffect = dataObj.thrusterEffect;
+//			newComp.thrusterPos = dataObj.thrusterPos;
 			newComp.launchDirection = dataObj.launchDirection;
 			newComp.launchSpeed = dataObj.launchSpeed;
 

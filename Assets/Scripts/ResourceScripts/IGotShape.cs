@@ -9,7 +9,7 @@ public interface IGotShape
 
 public interface IGotThrusters
 {
-	List<ThrusterSetupData> ithrusters {get; set;}
+	List<ParticleSystemsData> ithrusters {get; set;}
 }
 
 public interface IGotGuns

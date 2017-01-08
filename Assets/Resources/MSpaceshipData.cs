@@ -15,7 +15,7 @@ public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, I
 	public ShieldData shield;
 	public List<MGunSetupData> guns;
 	public List<int> linkedGuns;
-	public List<ThrusterSetupData> thrusters;
+	public List<ParticleSystemsData> thrusters;
 	public List<MTurretReferenceData> turrets;
 	public Vector2[] verts;
 	public int upgradeIndex;
@@ -24,7 +24,7 @@ public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, I
 	//interfaces
 	public Vector2[] iverts {get {return verts;} set{verts = value;}}
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
-	public List<ThrusterSetupData> ithrusters {get {return thrusters;} set{thrusters = value;}}
+	public List<ParticleSystemsData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
 	public override SpaceShip Create()

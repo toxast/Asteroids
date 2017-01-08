@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_0;UNITY_5_5;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VIDEO;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_0;UNITY_5_5;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VIDEO;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;CROSS_PLATFORM_INPUT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -53,6 +53,7 @@
      <Compile Include="Assets\Resources\MAsteroidData.cs" />
      <Compile Include="Assets\Resources\MCometData.cs" />
      <Compile Include="Assets\Resources\MGasteroidData.cs" />
+     <Compile Include="Assets\Resources\MGravityGunData.cs" />
      <Compile Include="Assets\Resources\MGunBaseData.cs" />
      <Compile Include="Assets\Resources\MGunData.cs" />
      <Compile Include="Assets\Resources\MGunSetupData.cs" />
@@ -73,13 +74,10 @@
      <Compile Include="Assets\Scripts\AI\Behaviours\AIHelper.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\BaseSpaceshipController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\CommonController.cs" />
-     <Compile Include="Assets\Scripts\AI\Behaviours\EnemySpaceShipController.cs" />
-     <Compile Include="Assets\Scripts\AI\Behaviours\FastSpaceshipAttackController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\InputController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\InvisibleSpaceshipController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\Joystick.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\MissileController.cs" />
-     <Compile Include="Assets\Scripts\AI\Behaviours\SimpleAI1.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\StandaloneInputController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\SuicideController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\TabletInputController.cs" />
@@ -101,6 +99,8 @@
      <Compile Include="Assets\Scripts\Geometry\Rotaitor.cs" />
      <Compile Include="Assets\Scripts\Geometry\Triangulator.cs" />
      <Compile Include="Assets\Scripts\Guns\BulletGun.cs" />
+     <Compile Include="Assets\Scripts\Guns\GravityBullet.cs" />
+     <Compile Include="Assets\Scripts\Guns\GravityGun.cs" />
      <Compile Include="Assets\Scripts\Guns\Gun.cs" />
      <Compile Include="Assets\Scripts\Guns\GunData.cs" />
      <Compile Include="Assets\Scripts\Guns\GunPlaceholder.cs" />
@@ -158,11 +158,11 @@
      <Compile Include="Assets\Scripts\ResourceScripts\IGotShape.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\IGotTarget.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\LevelsResources.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\ParticleSystemsData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\ResourceSingleton.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\SpaceshipData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\SpaceshipsData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\SpaceshipsResources.cs" />
-     <Compile Include="Assets\Scripts\ResourceScripts\ThrusterSetupData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\TowerSetupData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\TurretReferenceData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\TurretSetupData.cs" />
@@ -184,11 +184,13 @@
      <Compile Include="Assets\SimpleParticlePack\Scripts\ParticleTester.cs" />
      <None Include="Assets\Shaders\Color.shader" />
      <None Include="Assets\Depth Mask Example\DepthMask.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Shaders\Textured.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
      <None Include="Assets\Shaders\Diffuse.shader" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
+     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -204,12 +206,13 @@
  <Reference Include="UnityEngine.HoloLens">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{4D96A5E1-1C80-F9F1-67E5-3D2632204CE9}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

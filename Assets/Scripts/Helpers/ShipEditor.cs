@@ -160,12 +160,12 @@ public class ShipEditor : MonoBehaviour
 
 	private void GetCurrentData(out Vector2[] fullArray, 
 	                            out List<MGunSetupData> gunsData,
-	                            out List<ThrusterSetupData> thrustersData,
+	                            out List<ParticleSystemsData> thrustersData,
 	                            out List<MTurretReferenceData> turretsData)
 	{
 		fullArray = new Vector2[1];
         gunsData = new List<MGunSetupData> ();
-		thrustersData = new List<ThrusterSetupData> ();
+		thrustersData = new List<ParticleSystemsData> ();
         turretsData = new List<MTurretReferenceData> ();
 
 		Vector2[] v2 = new Vector2[handles.Count];    
@@ -199,10 +199,10 @@ public class ShipEditor : MonoBehaviour
 			gunsData.Add(gd);
 		}
 		
-		thrustersData = new List<ThrusterSetupData> ();
+		thrustersData = new List<ParticleSystemsData> ();
 		foreach(var t in thrusters)
 		{
-			ThrusterSetupData td = new ThrusterSetupData();
+			ParticleSystemsData td = new ParticleSystemsData();
 			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
 			thrustersData.Add(td);
 		}
@@ -286,7 +286,7 @@ public class ShipEditor : MonoBehaviour
 
         Vector2[] fullArray;
         List<MGunSetupData> gunsData;
-        List<ThrusterSetupData> thrustersData;
+        List<ParticleSystemsData> thrustersData;
         List<MTurretReferenceData> turretsData;
         GetCurrentData (out fullArray, out gunsData, out thrustersData, out turretsData);
 
@@ -298,7 +298,7 @@ public class ShipEditor : MonoBehaviour
         }
 
         if (prefab is IGotThrusters) {
-            FillPlaces<ThrusterSetupData> (thrustersData, (prefab as IGotThrusters).ithrusters);
+            FillPlaces<ParticleSystemsData> (thrustersData, (prefab as IGotThrusters).ithrusters);
         }
 
         if (prefab is IGotTurrets) {
@@ -422,17 +422,17 @@ public class ShipEditor : MonoBehaviour
 
     private bool CheckIsSymmetric( Vector3[] verts )
     {
-        if (verts.Length % 2 == 1)
-            return false;
-
-        var len = verts.Length;
-        for ( int i = 0, cnt = len / 2; i < cnt; i++)
-        {
-            var v = verts[len - i - 1];
-            v.y = -v.y;
-            if (Math2d.ApproximatelySame(v, verts[i]) == false)
-                return false;
-        }
+//        if (verts.Length % 2 == 1)
+//            return false;
+//
+//        var len = verts.Length;
+//        for ( int i = 0, cnt = len / 2; i < cnt; i++)
+//        {
+//            var v = verts[len - i - 1];
+//            v.y = -v.y;
+//            if (Math2d.ApproximatelySame(v, verts[i]) == false)
+//                return false;
+//        }
 
         return true;
     }
@@ -533,5 +533,49 @@ public class ShipEditor : MonoBehaviour
 		mesh.colors = c3;
 		mesh.SetIndices (indx, MeshTopology.LineStrip, 0);
 		mesh.RecalculateBounds();
+	}
+
+
+	public static string[] GetAllPrefabPaths () {
+		string[] temp = AssetDatabase.GetAllAssetPaths();
+		List<string> result = new List<string>();
+		foreach ( string s in temp ) {
+			if ( s.Contains( ".prefab" ) ) result.Add( s );
+		}
+		return result.ToArray();
+	}
+
+	public static List<T> LoadPrefabsContaining<T>() where T : UnityEngine.Component
+	{
+		List<T> result = new List<T>();
+		var allPrefabs = GetAllPrefabPaths ();
+		foreach (var path in allPrefabs)
+		{
+			int resIndx = path.IndexOf ("Resources");
+			if (resIndx < 0)
+				continue;
+			
+			string newpath = path.Substring (resIndx + "Resources/".Length );
+			newpath = newpath.Substring (0, newpath.Length - ".prefab".Length);
+
+			var cmp = Resources.Load<T>(newpath);
+			if (cmp != null)
+			{
+				Debug.LogWarning (newpath);
+				result.Add(cmp);
+			}
+		}
+		return result;
+	}
+
+	[ContextMenu ("CustomAction")]
+	public void MyCustomAction() {
+		var rocketGuns = LoadPrefabsContaining<MRocketGunData> ();
+		foreach (var item in rocketGuns) {
+			item.overrideExplosionDamage = item.overrideExplosionDamage;
+//			item.thrusters.ForEach (p => p.prefab = p.thrusterPrefab);
+			EditorUtility.SetDirty (item.gameObject);
+		}
+		AssetDatabase.SaveAssets();
 	}
 }

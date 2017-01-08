@@ -33,27 +33,9 @@ public class GravityGun : GunShooterBase
 		int affectLayer = CollisionLayers.GetGravityBulletCollisions (CollisionLayers.GetBulletLayerNum(parent.layer));
         bullet.InitPolygonGameObject (new PhysicalData ());
         bullet.InitGravityBullet(affectLayer, data);
-        bullet.InitLifetime (lifeTime);
         bullet.velocity = bullet.cacheTransform.right * bulletSpeed;
-        bullet.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+        bullet.destructionType = PolygonGameObject.DestructionType.eDisappear;
         bullet.destroyOnBoundsTeleport = true;
-
-        if (data.bulletEffect != null) {
-            var ps = GameObject.Instantiate (data.bulletEffect, bullet.transform);
-//            ps.velocityOverLifetime.
-//            var shape = ps.shape.radius.my;
-            var shape = ps.shape;
-            shape.radius = data.range;
-            var main = ps.main;
-            main.startSpeed = -data.range * 2;
-            var em = ps.emission;
-            em.rateOverTime = Mathf.PI * data.range * data.range / 2f;
-//              ps.shape.radius = data.range;
-//            ps.main.startSpeed = data.range;
-               
-//            ps.set
-            ps.transform.localPosition = new Vector3 (0, 0, -1);
-        }
 
         return bullet;
     }

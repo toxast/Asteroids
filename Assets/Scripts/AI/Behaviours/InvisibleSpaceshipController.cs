@@ -15,7 +15,6 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 
     float attackDutation = 5f;
     float invisibleDuration = 8f;
-    float canTurnInvisibleAfterShootingTime = 1.7f;
 	float fadeOutSpeedPerSecond = 2f; 
 	float fadeOutAfterHitSpeedPerSecond = 2f; 
 	float fadeInSpeedPerSecond = 2f; 
@@ -96,8 +95,6 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 
 	bool invisibleBehaviour = true;
 	bool shouldBeInvisible = true;
-	float goneInvisibleTime = Time.time;
-	float goneVisibleTime = 0;
 
 	private IEnumerator BehaviourChangeLogic()
 	{

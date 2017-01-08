@@ -40,7 +40,7 @@ public class BulletGun : GunShooterBase
 		bullet.InitLifetime (lifeTime);
 		bullet.damageOnCollision = damage;
 		bullet.velocity = bullet.cacheTransform.right * bulletSpeed;
-		bullet.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+		bullet.destructionType = PolygonGameObject.DestructionType.eSptilOnlyOnHit;
 		bullet.destroyOnBoundsTeleport = true;
 
 		return bullet;

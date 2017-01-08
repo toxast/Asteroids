@@ -40,11 +40,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  _spaceField: 0
   price: 6000
   reward: 0
   color: {r: 0, g: 0.29803923, b: 0.99607843, a: 1}
   physical:
     density: 1.3
+    health: -1
     healthModifier: 21
     collisionDefence: 0.15
     collisionAttackModifier: 1
@@ -59,6 +64,7 @@ MonoBehaviour:
     shootAngle: 15
   accuracy:
     startingAccuracy: 0
+    thresholdDistance: 10
     isDynamic: 1
     checkDtime: 0.5
     add: 0.15
@@ -78,10 +84,12 @@ MonoBehaviour:
   - place:
       pos: {x: -1.1, y: 0.5}
       dir: {x: 1, y: 0}
+    prefab: {fileID: 19871822, guid: e7967024cfe556a44adc0ac5ee27fefc, type: 2}
     thrusterPrefab: {fileID: 19871822, guid: e7967024cfe556a44adc0ac5ee27fefc, type: 2}
   - place:
       pos: {x: -1.1, y: -0.5}
       dir: {x: 1, y: 0}
+    prefab: {fileID: 19871822, guid: e7967024cfe556a44adc0ac5ee27fefc, type: 2}
     thrusterPrefab: {fileID: 19871822, guid: e7967024cfe556a44adc0ac5ee27fefc, type: 2}
   turrets: []
   verts:

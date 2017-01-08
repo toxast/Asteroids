@@ -17,14 +17,14 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 	public ShieldData shield;
 	public List<GunSetupData> guns;
 	public List<int> linkedGuns;
-	public List<ThrusterSetupData> thrusters;
+	public List<ParticleSystemsData> thrusters;
 	public List<TurretReferenceData> turrets;
 	public Vector2[] verts;
 	public int upgradeIndex;
 
 	//interfaces
 	public Vector2[] iverts {get {return verts;} set{verts = value;}}
-	public List<ThrusterSetupData> ithrusters {get {return thrusters;} set{thrusters = value;}}
+	public List<ParticleSystemsData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<TurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
 	public FullSpaceShipSetupData Clone()

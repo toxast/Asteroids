@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class RocketLauncher : GunShooterBase
 {
@@ -14,24 +15,31 @@ public class RocketLauncher : GunShooterBase
 	public Vector2[] vertices; 
 	public float lifeTime;
 	public Color color;
-	public float damage;
+	public float overrideExplosionDamage;
 	public PhysicalData physical;
+	List<ParticleSystemsData> thrusters;
+	List<ParticleSystemsData> partcles;
+
+	MRocketGunData data;
 
 	public RocketLauncher(Place place, MRocketGunData data, PolygonGameObject parent)
 		:base(place, data, parent, data.repeatCount, data.repeatInterval, data.fireInterval, data.fireEffect)
 	{ 
+		this.data = data;
 		vertices = data.vertices;
 		missleParameters = data.missleParameters;
 		physical = data.physical;
-		thrusterEffect = data.thrusterEffect;
-		thrusterPos = data.thrusterPos;
+//		thrusterEffect = data.thrusterEffect;
+//		thrusterPos = data.thrusterPos;
+		thrusters = new List<ParticleSystemsData>(data.thrusters);
+		partcles = new List<ParticleSystemsData> (data.particles);
 		launchDirection = data.launchDirection;
 		launchSpeed = data.launchSpeed;
 		accuracy = data.accuracy;
 		overrideExplosionRadius = data.overrideExplosionRadius;
 		lifeTime = data.lifeTime;
 		color = data.color;
-		damage = data.damage;
+		overrideExplosionDamage = data.overrideExplosionDamage;
 	}
 
 	public override float Range
@@ -45,12 +53,7 @@ public class RocketLauncher : GunShooterBase
 	{
 		SpaceShip missile = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, color);
 
-		if(thrusterEffect != null)
-		{
-			ParticleSystem e = GameObject.Instantiate(thrusterEffect) as ParticleSystem;
-			e.transform.parent = missile.cacheTransform;
-			e.transform.localPosition = thrusterPos;
-		}
+
 
 		Math2d.PositionOnParent (missile.cacheTransform, place, parent.cacheTransform);
 
@@ -58,16 +61,24 @@ public class RocketLauncher : GunShooterBase
 		missile.InitSpaceShip(physical, missleParameters);
 		missile.InitLifetime (lifeTime);
 
+		missile.damageOnCollision = data.damageOnCollision;
 		missile.destroyOnBoundsTeleport = true;
-		missile.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
-		missile.overrideExplosionDamage = damage; 
+		missile.destructionType = PolygonGameObject.DestructionType.eDisappear;
+		missile.overrideExplosionDamage = overrideExplosionDamage; 
 		missile.overrideExplosionRange = overrideExplosionRadius;
+		if(thrusters != null) {
+			missile.SetThrusters (thrusters);
+		}
+		missile.SetParticles (partcles);
+		missile.SetDestroyAnimationParticles (data.destructionEffects);
 
 		var controller = new MissileController (missile, missleParameters.maxSpeed, accuracy);
 		missile.SetController (controller);
 		missile.targetSystem = new MissileTargetSystem (missile);
 
-		DeathAnimation.MakeDeathForThatFellaYo (missile, true);
+		if (data.explosionOnDestruction) {
+			DeathAnimation.MakeDeathForThatFellaYo (missile, true);
+		}
 
 		if(launchDirection != Vector2.zero)
 		{

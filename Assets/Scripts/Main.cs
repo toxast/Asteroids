@@ -84,7 +84,7 @@ public class Main : MonoBehaviour
 
 	static public Vector2 AddShipSpeed2TheBullet(PolygonGameObject ship)
 	{
-		return ship.velocity * 0.3f;
+		return ship.velocity; //* 0.3f;
 	}
 
 	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
@@ -158,7 +158,7 @@ public class Main : MonoBehaviour
 
 		if (!IsNull (spaceship))
 		{
-			Destroy (spaceship.gameObject);
+			Destroy(spaceship.gameObject);
 			spaceship = null;
 		}
 
@@ -578,7 +578,8 @@ public class Main : MonoBehaviour
 		case PolygonGameObject.DestructionType.eComplete:
 			SplitAndMarkForDestructionAllParts(gobject);
 			break;
-		case PolygonGameObject.DestructionType.eJustDestroy:
+		case PolygonGameObject.DestructionType.eDisappear:
+		case PolygonGameObject.DestructionType.eSptilOnlyOnHit:
 			break;
 		default:
 			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
@@ -625,7 +626,7 @@ public class Main : MonoBehaviour
 	}
 
     private void DestroyPolygonGameObject(PolygonGameObject gobject) {
-        gobject.OnDestroing();
+		gobject.OnDestroying ();
         Destroy(gobject.gameObj);
     }
 
@@ -701,7 +702,7 @@ public class Main : MonoBehaviour
 					obj.Hit(bullet.damageOnCollision + GetCollisionDamage(impulse, obj, bullet));
 				} 
 
-				if(bullet.destructionType == PolygonGameObject.DestructionType.eJustDestroy)
+				if(bullet.destructionType == PolygonGameObject.DestructionType.eSptilOnlyOnHit)
 				{
 					bullet.destructionType = PolygonGameObject.DestructionType.eComplete;
 				}
@@ -778,8 +779,7 @@ public class Main : MonoBehaviour
 					CheckDrop(drop, part);
 				}
 
-				TimeDestuctor d = new TimeDestuctor(part, 0.7f + UnityEngine.Random.Range(0f, 1f));
-				PutOnFirstNullPlace(destructors, d); 
+				AddToAlphaDetructor (part, 0.7f + UnityEngine.Random.Range (0f, 1f));
 			}
 			else
 			{
@@ -826,6 +826,11 @@ public class Main : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void AddToAlphaDetructor(PolygonGameObject p, float time) {
+		TimeDestuctor d = new TimeDestuctor(p, time);
+		PutOnFirstNullPlace(destructors, d); 
 	}
 
 	private void CheckDrop(DropData drop, PolygonGameObject destroyingPart)
@@ -907,7 +912,7 @@ public class Main : MonoBehaviour
                 var wrapped = CheckBounds(list[i]);
                 if (wrapped && list[i].destroyOnBoundsTeleport) {
                     list[i].Kill();
-                    list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+                    list[i].destructionType = PolygonGameObject.DestructionType.eDisappear;
                 }
             }
         } else {
@@ -916,7 +921,7 @@ public class Main : MonoBehaviour
                     var wrapped = CheckBounds(list[i]);
                     if (wrapped && list[i].destroyOnBoundsTeleport) {
                         list[i].Kill();
-                        list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+                        list[i].destructionType = PolygonGameObject.DestructionType.eDisappear;
                     }
                 }
             }
@@ -945,7 +950,7 @@ public class Main : MonoBehaviour
                 var wrapped = Wrap(list[i].cacheTransform);
                 if (wrapped && list[i].destroyOnBoundsTeleport) {
                     list[i].Kill();
-                    list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+                    list[i].destructionType = PolygonGameObject.DestructionType.eDisappear;
                 }
             }
         } else {
@@ -954,7 +959,7 @@ public class Main : MonoBehaviour
                     var wrapped = Wrap(list[i].cacheTransform);
                     if (wrapped && list[i].destroyOnBoundsTeleport) {
                         list[i].Kill();
-                        list[i].destructionType = PolygonGameObject.DestructionType.eJustDestroy;
+                        list[i].destructionType = PolygonGameObject.DestructionType.eDisappear;
                     }
                 }
             }
@@ -1213,43 +1218,7 @@ public class Main : MonoBehaviour
 		return target == null || target.cacheTransform == null;
 	}
 
-//	public PolygonGameObject GetNewTarget(PolygonGameObject g)
-//	{
-//		if(g is SpaceShip)
-//		{
-//			return GetNewTarget(g as SpaceShip);
-//		}
-//		var pos = g.position;
-//		float minDist = float.MaxValue;
-//		int indx = -1;
-//		for (int i = 0; i < gobjects.Count; i++)
-//		{
-//			var obj = gobjects[i];
-//			if(((g.collision & obj.layer) != 0))
-//			{
-//				var distSqr = (obj.position - pos).sqrMagnitude;
-//				if(distSqr < minDist)
-//				{
-//					minDist = distSqr;
-//					indx = i;
-//				}
-//			}
-//		}
-//
-//		if(indx >= 0)
-//		{
-//			return gobjects[indx];
-//		}
-//		else
-//		{
-//			if(!IsNull(spaceship) && (g.collision & spaceship.layer) != 0)
-//			{
-//				return spaceship;
-//			}
-//			//Debug.LogWarning("no target");
-//			return null;
-//		}
-//	}
+
 
 
 

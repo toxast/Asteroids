@@ -50,7 +50,8 @@ public class PolygonGameObject : MonoBehaviour
 	{
 		eNormal,
 		eComplete,
-		eJustDestroy,
+		eDisappear,
+		eSptilOnlyOnHit,//if hit - destroy, if not - just disappear
 	}
 	public DestructionType destructionType;
 	public bool destroyOnBoundsTeleport;
@@ -416,9 +417,35 @@ public class PolygonGameObject : MonoBehaviour
 		polygon.ChangeVertex(indx, v);
 	}
 
+	public void SetParticles(List<ParticleSystemsData> datas)
+	{
+		foreach (var setup in datas) 
+		{
+			if(setup.prefab == null)
+			{
+				Debug.LogError("null particle system");
+			}
+			else
+			{
+				var thrusterInstance  = Instantiate(setup.prefab) as ParticleSystem;
+				Math2d.PositionOnParent (thrusterInstance.transform, setup.place, cacheTransform, true, 1);
+			}
+		}
+	}
 
-    //not called on game end destructions
-    public virtual void OnDestroing() {
+	List<ParticleSystemsData> destroyEffects;
+	public void SetDestroyAnimationParticles(List<ParticleSystemsData> datas)
+	{
+		destroyEffects = new List<ParticleSystemsData>(datas);
+	}
 
-    }
+	public virtual void OnDestroying() {
+		if (destroyEffects != null) {
+			foreach (var item in destroyEffects) {
+				var inst  = Instantiate(item.prefab) as ParticleSystem;
+				Math2d.PositionOnParent (inst.transform, item.place, cacheTransform, false, -1);
+				Destroy (inst, 5f);
+			}
+		}
+	}
 }

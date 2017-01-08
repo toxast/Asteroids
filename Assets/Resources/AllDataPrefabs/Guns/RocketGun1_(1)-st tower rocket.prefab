@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 497450}
-  - 114: {fileID: 11428948}
+  - component: {fileID: 497450}
+  - component: {fileID: 11428948}
   m_Layer: 0
   m_Name: RocketGun1_(1)-st tower rocket
   m_TagString: Untagged
@@ -25,10 +25,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11428948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -44,11 +44,13 @@ MonoBehaviour:
   price: 0
   etype: 2
   damage: 6
+  overrideExplosionDamage: 6
+  overrideExplosionRadius: 23
   lifeTime: 4
-  bulletSpeed: 0
   fireInterval: 3
   physical:
     density: 1
+    health: -1
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -64,7 +66,7 @@ MonoBehaviour:
   - {x: 0.72802913, y: 0.55799997}
   color: {r: 0.7352941, g: 0.48010382, b: 0.097318344, a: 1}
   fireEffect: {fileID: 0}
-  overrideExplosionRadius: 23
+  explosionOnDestruction: 1
   missleParameters:
     thrust: 35
     maxSpeed: 40
@@ -74,8 +76,12 @@ MonoBehaviour:
     stability: 1
     shootAngle: 15
   accuracy: 0.5
-  thrusterEffect: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
-  thrusterPos: {x: -1.117935, y: 0, z: 1}
+  thrusters: []
+  particles:
+  - place:
+      pos: {x: -1.117935, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
   launchDirection: {x: 1, y: 0}
   launchSpeed: 15
 --- !u!1001 &100100000

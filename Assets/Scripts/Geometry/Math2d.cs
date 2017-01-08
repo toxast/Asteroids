@@ -257,11 +257,10 @@ public static class Math2d
 		objTransform.RotateAround(Vector3.zero, Vector3.back, -angle*Mathf.Rad2Deg);
 		objTransform.position += parentTransform.position;
 
-		if(makeParent)
-		{
+		if(makeParent) {
 			objTransform.parent = parentTransform;
-			objTransform.position +=  new Vector3(0,0,zOffset);
 		}
+		objTransform.position +=  new Vector3(0,0,zOffset);
 	}
 
 	static public Edge RotateEdge(Edge e, float cosA, float sinA)
