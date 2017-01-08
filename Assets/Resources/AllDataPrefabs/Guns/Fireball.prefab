@@ -80,16 +80,16 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
-    prefab: {fileID: 198451757444820078, guid: 76d7d89819899084ab8f11e077e5adaa, type: 2}
+    prefab: {fileID: 198451757444820078, guid: a3e0ba2116c2f2946b8c788e3505d84a, type: 2}
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
-    prefab: {fileID: 198265202451026640, guid: 4c63c806bb9cfb544b1de01119ca8094, type: 2}
+    prefab: {fileID: 198265202451026640, guid: b534f5cf459db8b40ba396d53b5184b2, type: 2}
   destructionEffects:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
-    prefab: {fileID: 198991140418863546, guid: ce9d928506e94ff4190aa2f86315de37, type: 2}
+    prefab: {fileID: 198991140418863546, guid: bd27b16a685294d4bafeebfff7baecce, type: 2}
   launchDirection: {x: 1, y: 0}
   launchSpeed: 20
 --- !u!1001 &100100000

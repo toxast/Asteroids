@@ -444,7 +444,7 @@ public class PolygonGameObject : MonoBehaviour
 			foreach (var item in destroyEffects) {
 				var inst  = Instantiate(item.prefab) as ParticleSystem;
 				Math2d.PositionOnParent (inst.transform, item.place, cacheTransform, false, -1);
-				Destroy (inst, 5f);
+				Destroy (inst.gameObject, 5f);
 			}
 		}
 	}
