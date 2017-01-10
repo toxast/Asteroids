@@ -94,7 +94,7 @@ public class ShipEditor : MonoBehaviour
 
 		foreach(var vert in verts)
 		{
-			if(vert.y <= 0)
+			if(symmetric == false || vert.y <= 0)
 			{
 				CreatePosition(vert,  vright, "handle ", handles);
 			}
@@ -422,17 +422,16 @@ public class ShipEditor : MonoBehaviour
 
     private bool CheckIsSymmetric( Vector3[] verts )
     {
-//        if (verts.Length % 2 == 1)
-//            return false;
-//
-//        var len = verts.Length;
-//        for ( int i = 0, cnt = len / 2; i < cnt; i++)
-//        {
-//            var v = verts[len - i - 1];
-//            v.y = -v.y;
-//            if (Math2d.ApproximatelySame(v, verts[i]) == false)
-//                return false;
-//        }
+        var len = verts.Length;
+        for ( int idx = 0, cnt = (len + 1) / 2, idxReverse = len - 1; idx < cnt; idx++)
+        {
+            if (Mathf.Abs(verts[idx].y) < 0.001)
+                continue;
+
+            var v = verts[idxReverse--];
+            if ( Mathf.Abs(v.x - verts[idx].x) > 0.001 || Mathf.Abs(v.y + verts[idx].y) > 0.001)
+                return false;
+        }
 
         return true;
     }

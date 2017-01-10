@@ -96,6 +96,7 @@ MonoBehaviour:
   - {fileID: 11455892, guid: 754bfb790d4cee449ad09c4b32b2fd4f, type: 2}
   - {fileID: 11478010, guid: 0b78802253b218c4394d81467690a344, type: 2}
   - {fileID: 11420622, guid: 0fec168b3243d874e8df64266354f775, type: 2}
+  - {fileID: 11480350, guid: 512785105d70c8b43bd6401105624cad, type: 2}
   turrets:
   - {fileID: 11413798, guid: 9fdf19e4856e42040bf72d9e6fe0a73a, type: 2}
   - {fileID: 11474834, guid: fc74d2664ddb2c94eb6c954f1550eb9b, type: 2}
