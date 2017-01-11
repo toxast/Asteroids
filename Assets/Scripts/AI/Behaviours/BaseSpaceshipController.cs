@@ -75,4 +75,11 @@ public class BaseSpaceshipController : InputController, IGotTarget
 		accelerating = false;
 		braking = true;
 	}
+
+	protected bool logs = false;
+	protected void LogWarning(string str) {
+		if (logs) {
+			Debug.LogWarning (str);
+		}
+	}
 }
