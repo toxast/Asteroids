@@ -25,7 +25,8 @@ public class AimSystem
 
 	public AimSystem(Vector2 targetPosition, Vector2 targetSpeed, Vector2 selfPosition, float bulletSpeed)
 	{
-		if(bulletSpeed == Mathf.Infinity)
+        direction = targetPosition - selfPosition;
+        if (bulletSpeed == Mathf.Infinity)
 		{
 			canShoot = true;
 			direction = targetPosition - selfPosition;

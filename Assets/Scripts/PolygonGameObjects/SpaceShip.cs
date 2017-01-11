@@ -8,12 +8,20 @@ public class SpaceShip : PolygonGameObject
 {
 	public float shootAngle = 15f;
 	public float turnSpeed = 220f;
-	public float maxSpeed = 20f;
+
+    float _maxSpeed = 0;
+	float maxSpeedSqr;
+	public float maxSpeed {
+        get { return _maxSpeed; }
+        set {
+            _maxSpeed = value;
+            maxSpeedSqr = _maxSpeed * _maxSpeed;
+        }
+    }
 
 	//float passiveBrake = 2f;
 	float brake = 15f;
-	float thrust = 45f;
-	float maxSpeedSqr;
+    public float thrust = 45f;
 	float stability = 0.5f;
 
 	private class Thruster
@@ -54,7 +62,6 @@ public class SpaceShip : PolygonGameObject
 	protected override void Awake()
 	{
 		base.Awake ();
-		maxSpeedSqr = maxSpeed*maxSpeed;
 		velocity = Vector2.zero;
 	}
 
@@ -68,7 +75,6 @@ public class SpaceShip : PolygonGameObject
 		thrust = data.thrust;
 		maxSpeed = data.maxSpeed;
 		stability = data.stability;
-		maxSpeedSqr = maxSpeed*maxSpeed;
 	}
 
 	public override void SetTarget(PolygonGameObject target)
@@ -194,7 +200,23 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-	private void TurnByDirection(Vector3 dir, float delta)
+
+    public void TurnRight(float delta) {
+        TurnDirection(true, delta);
+    }
+
+    public void TurnLeft(float delta) {
+        TurnDirection(false, delta);
+    }
+
+    private void TurnDirection(bool right, float delta) {
+        float angle = 90f * (right ? -1 : 1);
+        var newDir = Math2d.RotateVertex(cacheTransform.right, angle * Mathf.Deg2Rad);
+        TurnByDirection(newDir, delta);
+    }
+
+    public bool lastRotationDirLeft = false;
+    private void TurnByDirection(Vector3 dir, float delta)
 	{
 		bool turnLeft = Mathf.Sign(Math2d.Cross2(dir, cacheTransform.right)) < 0;
 		var deltaRotation = turnSpeed * delta;
@@ -220,7 +242,9 @@ public class SpaceShip : PolygonGameObject
 			if(reachedAngle)
 				rotation = 0;
 		}
-	}
+        lastRotationDirLeft = turnLeft;
+
+    }
 
 	protected override void ApplyRotation (float dtime)
 	{

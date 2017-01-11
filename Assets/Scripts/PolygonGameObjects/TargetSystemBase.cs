@@ -41,12 +41,19 @@ public class TargetSystemBase<T> : ITickable
 			if (curTarget == null) {
 				newTarget = GetTheClosestTarget ();
 				if (newTarget != null) {
-					thisObj.SetTarget (newTarget);
+                    //string newstr = newTarget != null ? newTarget.name : "null";
+                    //Debug.LogError("target gained: " + newstr);
+                    thisObj.SetTarget (newTarget);
 				}
 			} else {
 				newTarget = IsShouldLooseTheTargetForTheOther ();
 				if (newTarget != curTarget) {
-					thisObj.SetTarget (newTarget);
+
+                    //string curstr = curTarget != null ? curTarget.name : "null";
+                    //string newstr = newTarget != null ? newTarget.name : "null";
+                    //Debug.LogError("target change: " + curstr + " " + newstr);
+
+                    thisObj.SetTarget (newTarget);
 				}
 			}
 		}

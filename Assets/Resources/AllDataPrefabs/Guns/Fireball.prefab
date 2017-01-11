@@ -43,38 +43,38 @@ MonoBehaviour:
   storeName: old school rocket
   price: 0
   etype: 2
-  damageOnCollision: 5
-  overrideExplosionDamage: 5
+  damageOnCollision: 10
+  explosionOnDestruction: 0
+  overrideExplosionDamage: -1
   overrideExplosionRadius: -1
   lifeTime: 3.5
   fireInterval: 0.5
+  repeatCount: 0
+  repeatInterval: 0
   physical:
-    density: 0.01
+    density: 0.2
     health: -1
     healthModifier: 1
     collisionDefence: 0
-    collisionAttackModifier: 1
-  repeatCount: 0
-  repeatInterval: 0
+    collisionAttackModifier: 0.1
   vertices:
   - {x: 0.7516801, y: -0.34704003}
-  - {x: 0.000000046689316, y: -0.7632}
+  - {x: 0.000000039266407, y: -0.7632}
   - {x: -0.7516801, y: -0.34704003}
   - {x: -0.7516801, y: 0.34704003}
-  - {x: 0.000000046689316, y: 0.7632}
+  - {x: 0.000000039266407, y: 0.7632}
   - {x: 0.7516801, y: 0.34704003}
   color: {r: 1, g: 0, b: 0, a: 0.128}
   fireEffect: {fileID: 0}
-  explosionOnDestruction: 0
   missleParameters:
     thrust: 35
     maxSpeed: 40
-    turnSpeed: 10
+    turnSpeed: 100
     brake: 8
     passiveBrake: 2
     stability: 0.5
     shootAngle: 1
-  accuracy: 1
+  accuracy: 0
   thrusters: []
   particles:
   - place:

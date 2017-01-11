@@ -17,6 +17,9 @@ public static class AIHelper
 		
 		public void Refresh(PolygonGameObject thisShip, PolygonGameObject target)
 		{
+            if (Main.IsNull(thisShip) || Main.IsNull(target))
+                return;
+
 			dir = target.position - thisShip.position;
 			distCenter2Center = dir.magnitude;
 			distEdge2Edge = distCenter2Center - (thisShip.polygon.R + target.polygon.R);

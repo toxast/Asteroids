@@ -55,8 +55,8 @@ MonoBehaviour:
     collisionAttackModifier: 1.5
   ai: 1
   mobility:
-    thrust: 30
-    maxSpeed: 30
+    thrust: 20
+    maxSpeed: 20
     turnSpeed: 160
     brake: 15
     passiveBrake: 2
@@ -81,7 +81,6 @@ MonoBehaviour:
       pos: {x: -0.55117786, y: 0.000000020427592}
       dir: {x: 1, y: 0}
     prefab: {fileID: 19817912, guid: d70207a7d5c351949a8989c8c1febc96, type: 2}
-    thrusterPrefab: {fileID: 19817912, guid: d70207a7d5c351949a8989c8c1febc96, type: 2}
   turrets: []
   verts:
   - {x: 0.7788221, y: -0.54999995}
