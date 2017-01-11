@@ -56,16 +56,16 @@ MonoBehaviour:
   ai: 1
   mobility:
     thrust: 20
-    maxSpeed: 20
+    maxSpeed: 30
     turnSpeed: 160
-    brake: 15
-    passiveBrake: 2
+    brake: 10000
+    passiveBrake: 10
     stability: 0.3
     shootAngle: 15
   accuracy:
-    startingAccuracy: 0
+    startingAccuracy: 1
     thresholdDistance: 10
-    isDynamic: 1
+    isDynamic: 0
     checkDtime: 0.5
     add: 0.2
     sub: 0.4

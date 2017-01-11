@@ -19,7 +19,7 @@ public class SpaceShip : PolygonGameObject
         }
     }
 
-	//float passiveBrake = 2f;
+	float passiveBrake = 2f;
 	float brake = 15f;
     public float thrust = 45f;
 	float stability = 0.5f;
@@ -71,8 +71,9 @@ public class SpaceShip : PolygonGameObject
 
 		shootAngle = data.shootAngle;
 		turnSpeed = data.turnSpeed;
-		//passiveBrake = data.passiveBrake;
-		thrust = data.thrust;
+        brake = data.brake;
+        passiveBrake = data.passiveBrake;
+        thrust = data.thrust;
 		maxSpeed = data.maxSpeed;
 		stability = data.stability;
 	}
@@ -189,15 +190,13 @@ public class SpaceShip : PolygonGameObject
 			}
 		}
 
-		if(inputController.accelerating)
-		{
-			Accelerate(delta);
-		}
-
-		if(inputController.braking)
-		{
-			Brake(delta, brake);
-		}
+        if (inputController.accelerating) {
+            Accelerate(delta);
+        } else if (inputController.braking) {
+            Brake(delta, brake);
+        } else {
+            Brake(delta, passiveBrake);
+        }
 	}
 
 

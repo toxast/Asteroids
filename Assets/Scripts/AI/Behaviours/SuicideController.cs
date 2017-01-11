@@ -43,6 +43,8 @@ public class SuicideController : BaseSpaceshipController
         float chargeToMaxDuration = thisShip.maxSpeed * speedMultiplier / (thisShip.thrust * thrustMultiplier);
         chargingDist = thisShip.thrust * chargeToMaxDuration * chargeToMaxDuration * 0.5f;
 
+        chargeDuration = chargeToMaxDuration + 1f;
+
         agility = 360f / thisShip.turnSpeed + 80f / thisShip.maxSpeed; 
     }
 
@@ -74,27 +76,29 @@ public class SuicideController : BaseSpaceshipController
                 //fly to charge position
 				tickData.Refresh(thisShip, target);
                 if(tickData.distEdge2Edge > chargingDist * 1.2f) {
-                    float angle = Random.Range(0, 35) * Mathf.Sign(Random.Range(-1f, 1f));
+                    float angle = Random.Range(0f, 35f) * Mathf.Sign(Random.Range(-1f, 1f));
                     newDir = Math2d.RotateVertex(tickData.dirNorm, angle * Mathf.Deg2Rad);
                 } else if(tickData.distEdge2Edge < chargingDist * 0.8f) {
-                    float angle = Random.Range(0, 35) * Mathf.Sign(Random.Range(-1f, 1f));
+                    float angle = Random.Range(0f, 35f) * Mathf.Sign(Random.Range(-1f, 1f));
                     newDir = Math2d.RotateVertex(-tickData.dirNorm, angle * Mathf.Deg2Rad);
                 } else {
-                    float angle = Random.Range(70, 110) * Mathf.Sign(Random.Range(-1f, 1f));
+                    float angle = Random.Range(70f, 110f) * Mathf.Sign(Random.Range(-1f, 1f));
                     newDir = Math2d.RotateVertex(tickData.dirNorm, angle * Mathf.Deg2Rad);
                 }
-                duration = agility * 0.25f;
+                duration = agility * 0.4f;
+                duration = Random.Range(duration * 0.8f, duration * 1.2f);
                 Debug.LogWarning("fly to charge position " + duration);
                 yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration, accelerating: true));
 
                 if (!Main.IsNull(target)) {
                     tickData.Refresh(thisShip, target);
-
-                    if (Math2d.Chance(0.5f)) {
+                    //if (IsBetterToStop())
+                    {
                         Brake();
+                        Debug.LogWarning("brake");
                     }
                     //rotate on target
-                    duration = 180f / thisShip.turnSpeed;
+                    duration = Random.Range(180f - 30f, 180f + 30f) / thisShip.turnSpeed;
                     Debug.LogWarning("rotate on target " + duration);
                     while (duration > 0 && !Main.IsNull(target)) {
                         turnDirection = getAimDiraction();
@@ -108,9 +112,12 @@ public class SuicideController : BaseSpaceshipController
 
                     //rotate uncontrollable for few seconds
                     SetAcceleration(false);
-                    float uncontrollableRotateDuration = 270f / thisShip.turnSpeed;
+                    if (IsBetterToStop()) {
+                        Debug.LogWarning("brake");
+                        Brake();
+                    }
+                    float uncontrollableRotateDuration = Random.Range(200f, 320f) / thisShip.turnSpeed;
                     Debug.LogWarning("rotate uncontrollable " + uncontrollableRotateDuration);
-                    Debug.LogWarning("thisShip.rotation " + thisShip.rotation);
                     turnDirection = Vector2.zero;
                     while (uncontrollableRotateDuration > 0) {
                         uncontrollableRotateDuration -= Time.deltaTime;
@@ -130,16 +137,28 @@ public class SuicideController : BaseSpaceshipController
 			}
 		}
 	}
+
+    private bool IsBetterToStop() {
+        float deltaSecond = 0.01f;
+        float sqrDistInOneSecond = (target.position + deltaSecond * target.velocity - (thisShip.position + deltaSecond * thisShip.velocity)).sqrMagnitude;
+        float sqrDistInOneSecondIfStop = (target.position + deltaSecond * target.velocity - thisShip.position).sqrMagnitude;
+        return sqrDistInOneSecondIfStop < sqrDistInOneSecond;
+    }
     
     private IEnumerator ChargeAttack(float duration) {
         
         SetAcceleration(true);
         thisShip.maxSpeed *= speedMultiplier;
         thisShip.thrust *= thrustMultiplier;
-
+        float startingDuration = duration;
         while (duration > 0 && !Main.IsNull(target)) {
             turnDirection = getAimDiraction();
             duration -= Time.deltaTime;
+            if (duration < startingDuration * 0.5f && IsBetterToStop()) {
+                Debug.LogWarning("break charge");
+                break;
+            }
+                
             yield return null;
         }
 
@@ -148,7 +167,7 @@ public class SuicideController : BaseSpaceshipController
     }
 
     private Vector2 getAimDiraction() {
-        var aimVelocity = (target.velocity - thisShip.velocity) * accuracy;
+        var aimVelocity = accuracy * (1.3f * target.velocity - thisShip.velocity);
         AimSystem aim = new AimSystem(target.position, aimVelocity, thisShip.position, thisShip.maxSpeed);
         return aim.direction;
     }
