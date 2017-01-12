@@ -4,47 +4,28 @@ using System.Collections;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
-public class SuicideController : BaseSpaceshipController
+public class ChargerController : BaseSpaceshipController
 {
-	List<PolygonGameObject> bullets;
-
 	AIHelper.Data tickData = new AIHelper.Data();
 
-
-    float chargeDuration = 2.5f;
-    float speedMultiplier = 2;
-    float thrustMultiplier = 2;
+    float speedMultiplier;
+    float thrustMultiplier;
+    float chargeDuration;
     float chargingDist;
-
- //   bool timeForTurnAction = false;
-	//float untilTurn = 0f;
-	//float untilTurnMax = 3.5f;
-	//float untilTurnMin = 1.5f;
-	
-	//bool checkBulletsAction = false;
-	//float untilBulletsEvade = 1f;
-	//float untilBulletsEvadeMax = 3f;
-	//float untilBulletsEvadeMin = 1f;
 	float accuracy;
 
-    float agility;
-
-    public SuicideController (SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData) : base(thisShip)
+    public ChargerController (SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData, ChargerData chData) : base(thisShip)
 	{
-		this.bullets = bullets;
-
 		accuracy = accData.startingAccuracy;
-		if(accData.isDynamic)
-			thisShip.StartCoroutine (AccuracyChanger (accData));
-
-		thisShip.StartCoroutine (Logic ());
-
+        speedMultiplier = chData.speedMultiplier;
+        thrustMultiplier = chData.thrustMultiplier;
         float chargeToMaxDuration = thisShip.maxSpeed * speedMultiplier / (thisShip.thrust * thrustMultiplier);
         chargingDist = thisShip.thrust * chargeToMaxDuration * chargeToMaxDuration * 0.5f;
-
         chargeDuration = chargeToMaxDuration + 1f;
-
-        agility = 360f / thisShip.turnSpeed + 80f / thisShip.maxSpeed; 
+        if (accData.isDynamic) {
+            thisShip.StartCoroutine(AccuracyChanger(accData));
+        }
+        thisShip.StartCoroutine (Logic ());
     }
 
 	private IEnumerator Logic()
@@ -86,7 +67,7 @@ public class SuicideController : BaseSpaceshipController
 			durations = new List<float>{0, 1.7f, 1.4f * (chargingDist - tickData.distEdge2Edge) / thisShip.maxSpeed };
 		} else {
 			weights  = new List<float>{ 1, 3, 1 };
-			durations = new List<float>{1.7f, 2f, 1.7f };
+			durations = new List<float>{1.7f, 2.2f, 1.7f };
 		}
 
 		var indx = Math2d.Roll (weights);

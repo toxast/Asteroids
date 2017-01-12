@@ -251,11 +251,20 @@ public class SpaceShip : PolygonGameObject
 	}
 
 
-//	private float firingSpeedPUpKoeff = 1f;
-//	private float firingSpeedPUpTimeLeft = 0f;
-//	public void ChangeFiringSpeed(float koeff, float duration)
-//	{
-//		firingSpeedPUpKoeff = koeff;
-//		firingSpeedPUpTimeLeft = duration;
-//	}
+    //	private float firingSpeedPUpKoeff = 1f;
+    //	private float firingSpeedPUpTimeLeft = 0f;
+    //	public void ChangeFiringSpeed(float koeff, float duration)
+    //	{
+    //		firingSpeedPUpKoeff = koeff;
+    //		firingSpeedPUpTimeLeft = duration;
+    //	}
+
+    public override void SetSpawnParent(PolygonGameObject prnt) {
+        base.SetSpawnParent(prnt);
+        if (inputController != null) {
+            inputController.SetSpawnParent(prnt);
+        } else {
+            Debug.LogError("inputController is null when SetSpawnParent");
+        }
+    }
 }

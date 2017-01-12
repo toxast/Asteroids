@@ -630,88 +630,72 @@ public class Main : MonoBehaviour
         Destroy(gobject.gameObj);
     }
 
-	public void PutObjectOnDestructionQueue(GameObject obj, float duration)
-	{
-		ObjectsDestructor d = new ObjectsDestructor(obj, duration);
-		PutOnFirstNullPlace(goDestructors, d); 
-	}
+    public void PutObjectOnDestructionQueue(GameObject obj, float duration) {
+        ObjectsDestructor d = new ObjectsDestructor(obj, duration);
+        PutOnFirstNullPlace(goDestructors, d);
+    }
 
-	private void ObjectsCollide(PolygonGameObject a, PolygonGameObject b)
-	{
-		if((a.collision & b.layer) == 0)
-			return;
+    private void ObjectsCollide(PolygonGameObject a, PolygonGameObject b) {
+        if ((a.collision & b.layer) == 0)
+            return;
 
-		int indxa, indxb;
-		if(PolygonCollision.IsCollides(a, b, out indxa, out indxb))
-		{
-			var impulse = PolygonCollision.ApplyCollision(a, b, indxa, indxb);
-			a.Hit(GetCollisionDamage(impulse, a, b));
-			b.Hit(GetCollisionDamage(impulse, b, a));
-		}
-	}
+        int indxa, indxb;
+        if (PolygonCollision.IsCollides(a, b, out indxa, out indxb)) {
+            var impulse = PolygonCollision.ApplyCollision(a, b, indxa, indxb);
+            a.Hit(GetCollisionDamage(impulse, a, b));
+            b.Hit(GetCollisionDamage(impulse, b, a));
+        }
+    }
 
-	//TODO: ckecks
-	private void BulletsHitObjects(List<PolygonGameObject> objs, List<PolygonGameObject> pbullets)
-	{
-		for (int i = objs.Count - 1; i >= 0; i--) 
-		{
-			BulletsHitObject(objs[i], pbullets);
-		}
-	}
+    //TODO: ckecks
+    private void BulletsHitObjects(List<PolygonGameObject> objs, List<PolygonGameObject> pbullets) {
+        for (int i = objs.Count - 1; i >= 0; i--) {
+            BulletsHitObject(objs[i], pbullets);
+        }
+    }
 
-	private void CleanBulletsList(List<PolygonGameObject> pbullets)
-	{
-		if (pbullets.Count == 0)
-			return;
+    private void CleanBulletsList(List<PolygonGameObject> pbullets) {
+        if (pbullets.Count == 0)
+            return;
 
-		int fisrtNull = 0;
-		for (int k = pbullets.Count - 1; k >= 0; k--)
-		{
-			if(pbullets[k] != null)
-			{
-				fisrtNull = k+1;
-				break;
-			}
-		}
+        int fisrtNull = 0;
+        for (int k = pbullets.Count - 1; k >= 0; k--) {
+            if (pbullets[k] != null) {
+                fisrtNull = k + 1;
+                break;
+            }
+        }
 
-		if(fisrtNull >= 0 && fisrtNull < pbullets.Count)
-		{
-			pbullets.RemoveRange (fisrtNull, pbullets.Count - fisrtNull);
-		}
-	}
+        if (fisrtNull >= 0 && fisrtNull < pbullets.Count) {
+            pbullets.RemoveRange(fisrtNull, pbullets.Count - fisrtNull);
+        }
+    }
 
-	private void BulletsHitObject(PolygonGameObject obj,  List<PolygonGameObject> pbullets)
-	{
+    private void BulletsHitObject(PolygonGameObject obj, List<PolygonGameObject> pbullets) {
 
-		for (int k = pbullets.Count - 1; k >= 0; k--)
-		{
-			var bullet = pbullets[k];
-			if(bullet == null)
-				continue;
+        for (int k = pbullets.Count - 1; k >= 0; k--) {
+            var bullet = pbullets[k];
+            if (bullet == null)
+                continue;
 
-			if((obj.collision & bullet.layer) == 0)
-				continue;
+            if ((obj.collision & bullet.layer) == 0)
+                continue;
 
-			int indxa, indxb;
-			if(PolygonCollision.IsCollides(obj, bullet, out indxa, out indxb))
-			{
-				var impulse = PolygonCollision.ApplyCollision(obj, bullet, indxa, indxb);
+            int indxa, indxb;
+            if (PolygonCollision.IsCollides(obj, bullet, out indxa, out indxb)) {
+                var impulse = PolygonCollision.ApplyCollision(obj, bullet, indxa, indxb);
 
-				if(!bullet.IsKilled())
-				{
-					obj.Hit(bullet.damageOnCollision + GetCollisionDamage(impulse, obj, bullet));
-				} 
+                if (!bullet.IsKilled()) {
+                    obj.Hit(bullet.damageOnCollision + GetCollisionDamage(impulse, obj, bullet));
+                }
 
-				if(bullet.destructionType == PolygonGameObject.DestructionType.eSptilOnlyOnHit)
-				{
-					bullet.destructionType = PolygonGameObject.DestructionType.eComplete;
-				}
-				bullet.Kill();
-			}
-		}
-	}
-
-
+                if (bullet.destructionType == PolygonGameObject.DestructionType.eSptilOnlyOnHit) {
+                    bullet.destructionType = PolygonGameObject.DestructionType.eComplete;
+                }
+                bullet.Kill();
+            }
+        }
+    }
 
 	private void ApplyBoundsForce(PolygonGameObject p)
 	{
@@ -1067,45 +1051,6 @@ public class Main : MonoBehaviour
 	public void HandleSpawnFire (PolygonGameObject spawn)
 	{
 		Add2Objects(spawn);
-	}
-
-	public Asteroid CreateAsteroid(int i)
-	{
-		var data = MAsteroidsResources.Instance.asteroidsData [i];
-		var asteroid = ObjectsCreator.CreateAsteroid (data);
-		CreateDropForObject (asteroid, data.commonData); 
-		return asteroid; 
-	}
-
-	public SpaceShip CreateEnemySpaceShip(int indx)
-	{
-		return ObjectsCreator.CreateSpaceship<SpaceShip> (MSpaceShipResources.Instance.spaceships[indx], CollisionLayers.ilayerTeamEnemies);
-	}
-
-	public SpaceShip CreateFriendSpaceShip(int indx)
-	{
-		return ObjectsCreator.CreateSpaceship<SpaceShip> (MSpaceShipResources.Instance.spaceships[indx], CollisionLayers.ilayerTeamUser);
-	}
-
-	public SawEnemy CreateSawEnemy(int indxInit)
-	{
-		var initData = MAsteroidsResources.Instance.sawData[indxInit];
-		var enemy = ObjectsCreator.CreateSawEnemy(initData);
-		return enemy;
-	}
-	
-	public SpikyAsteroid CreateSpikyAsteroid(int indxInit)
-	{
-		var initData = MAsteroidsResources.Instance.spikyData[indxInit];
-		var enemy = ObjectsCreator.CreateSpikyAsteroid(initData);
-		return enemy;
-	}
-
-	public SimpleTower CreateSimpleTower(int indx)
-	{
-		var turretData = MSpaceShipResources.Instance.towers [indx];
-		var enemy = ObjectsCreator.CreateSimpleTower(turretData);
-		return enemy;
 	}
 
     public void CreateDropForObject(PolygonGameObject obj, MAsteroidCommonData aData) //TODO: color + value data

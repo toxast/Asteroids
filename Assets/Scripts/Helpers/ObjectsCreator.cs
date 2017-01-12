@@ -7,27 +7,14 @@ public class ObjectsCreator
 
 	public static Color defaultEnemyColor = new Color (0.5f, 0.5f, 0.5f);
 
-	public static T CreateSpaceship<T>(MSpaceshipData sdata, int layerNum, PolygonGameObject parent = null)
+	public static T CreateSpaceship<T>(MSpaceshipData sdata, int layerNum)
 		where T:SpaceShip
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
-
 		var bullets = Singleton<Main>.inst.bullets;
 		InputController controller = null;
-		switch(sdata.ai)
-		{
-		case  AIType.eCommon:
-			var ctrl = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
-			if(parent != null) {
-				ctrl.defendObject = parent;
-			}
-			controller = ctrl;
-			break;
-		case  AIType.eSuicide:
-			controller = new SuicideController(spaceship, bullets, sdata.accuracy);
-			break;
-		}
-		spaceship.SetController (controller);
+		var ctrl = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
+        spaceship.SetController (controller);
 
 		return spaceship;
 	}
@@ -37,12 +24,21 @@ public class ObjectsCreator
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 		var bullets = Singleton<Main>.inst.bullets;
-		InputController controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy, sdata.invisibleData);
+        InvisibleSpaceshipController controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy, sdata.invisibleData);
 		spaceship.SetController(controller);
 		return spaceship;
 	}
 
-	public static UserSpaceShip CreateSpaceShip(InputController contorller, MSpaceshipData data)
+    public static T CreateChargerSpaceship<T>(MChargerSpaseshipData sdata, int layerNum)
+        where T : SpaceShip {
+        var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
+        var bullets = Singleton<Main>.inst.bullets;
+        ChargerController controller = new ChargerController(spaceship, bullets, sdata.accuracy, sdata.chargerData);
+        spaceship.SetController(controller);
+        return spaceship;
+    }
+
+    public static UserSpaceShip CreateSpaceShip(InputController contorller, MSpaceshipData data)
 	{
 		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data, CollisionLayers.ilayerUser);
 		spaceship.collector = new DropCollector (0.15f, 20f);
@@ -165,7 +161,7 @@ public class ObjectsCreator
 
 
 
-	public static SawEnemy CreateSawEnemy(MSawData data)
+	public static SawEnemy CreateSawEnemy(MSawData data, int layer)
 	{
 		var initData = data.mdata;
 		float rInner = Random(initData.size);
@@ -178,13 +174,13 @@ public class ObjectsCreator
 		
 		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, initData.color);
 		asteroid.InitSawEnemy (initData);
-		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+		asteroid.SetCollisionLayerNum (layer);
         asteroid.gameObject.name = data.name;
 
 		return asteroid;
 	}
 
-	public static SpikyAsteroid CreateSpikyAsteroid(MSpikyData data)
+	public static SpikyAsteroid CreateSpikyAsteroid(MSpikyData data, int layer)
 	{
 		var initData = data.mdata;
 		float rInner = Random(initData.size);
@@ -197,13 +193,13 @@ public class ObjectsCreator
 		
 		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, initData.color);
 		asteroid.InitSpikyAsteroid (spikes, initData);
-		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+		asteroid.SetCollisionLayerNum (layer);
         asteroid.gameObject.name = data.name;
 
 		return asteroid;
 	}
 
-    public static TowerEnemy CreateStationTower(MStationTowerData data)
+    public static TowerEnemy CreateStationTower(MStationTowerData data, int layer)
 	{
         float r = data.size.RandomValue;  
         int sides = data.sidesCount.RandomValue;
@@ -213,7 +209,7 @@ public class ObjectsCreator
 		
         var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy> (vertices, data.color);//Singleton<GlobalConfig>.inst.towerEnemiesColor);
         tower.Init (data);
-		tower.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+		tower.SetCollisionLayerNum (layer);
         tower.gameObject.name = data.name;
 		DeathAnimation.MakeDeathForThatFellaYo (tower);
 		List<Place> gunplaces = new List<Place> ();
@@ -230,7 +226,7 @@ public class ObjectsCreator
 		return tower;
 	}
 
-	public static SimpleTower CreateSimpleTower(MTowerData data)
+	public static SimpleTower CreateSimpleTower(MTowerData data, int layer)
 	{
 		System.Func<Vector3> anglesRestriction = () =>
 		{
@@ -242,7 +238,7 @@ public class ObjectsCreator
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
 		turret.InitSimpleTower (data.physical, data.rotationSpeed, data.accuracy, data.shootAngle);
 		turret.reward = data.reward;
-		turret.SetCollisionLayerNum (CollisionLayers.ilayerTeamEnemies);
+		turret.SetCollisionLayerNum (layer);
 		var guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) 
 		{

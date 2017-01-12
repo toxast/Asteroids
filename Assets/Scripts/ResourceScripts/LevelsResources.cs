@@ -11,7 +11,7 @@ public class LevelsResources : ResourceSingleton<LevelsResources> {
         foreach (var lvl in levels) {
             foreach (var wave in lvl.list) {
                 foreach (var obj in wave.objects) {
-                    if (obj.prefab == null || !(obj.prefab is ISwanable)) {
+                    if (obj.prefab == null || !(obj.prefab is ISpawnable)) {
                         Debug.LogError ("LevelsResources: prefab " + lvl.name + " " + wave.name + " " + obj.name + " is bad");
                         errors = true;
                     }

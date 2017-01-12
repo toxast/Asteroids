@@ -54,8 +54,9 @@ public class SpawnerGun : GunShooterBase
 			}
 		}
 
-		PolygonGameObject obj = ObjectsCreator.CreateSpaceship<SpaceShip> (spaceshipRef, CollisionLayers.GetSpawnedLayer(parent.layer), parent);
-		obj.gameObject.name += "_spawn";
+        var obj = spaceshipRef.Create(CollisionLayers.GetSpawnedLayer(parent.layer));
+        obj.SetSpawnParent(parent);
+        obj.gameObject.name += "_spawn";
 		obj.reward = 0;
 
 		if(target != null)

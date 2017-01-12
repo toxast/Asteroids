@@ -22,8 +22,8 @@ public class MTowerData : MSpawnData<SimpleTower>, IGotShape, IGotGuns, IGotTurr
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
-	public override SimpleTower Create()
+	public override SimpleTower Create(int layer)
 	{
-		return ObjectsCreator.CreateSimpleTower(this);
+		return ObjectsCreator.CreateSimpleTower(this, layer);
 	}
 }

@@ -10,8 +10,8 @@ public class MStationTowerData : MSpawnData<TowerEnemy> {
     public RandomFloat rotationSpeed;
     public MGunBaseData gun;
 
-    public override TowerEnemy Create()
+    public override TowerEnemy Create(int layer)
     {
-        return ObjectsCreator.CreateStationTower(this);
+        return ObjectsCreator.CreateStationTower(this, layer);
     }
 }

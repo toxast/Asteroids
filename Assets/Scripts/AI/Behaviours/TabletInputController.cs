@@ -52,6 +52,6 @@ public class TabletInputController : MonoBehaviour, InputController
 			}
 		}
 	}
-	
 
+    public void SetSpawnParent(PolygonGameObject prnt) { }
 }

@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 404516}
-  - 114: {fileID: 11427436}
+  - component: {fileID: 404516}
+  - component: {fileID: 11427436}
   m_Layer: 0
   m_Name: SpawnGun0_(0) level 1 boss spawner gun
   m_TagString: Untagged
@@ -25,10 +25,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11427436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -46,7 +46,8 @@ MonoBehaviour:
   bulletSpeed: 20
   fireInterval: 6
   fireEffect: {fileID: 0}
-  spaceshipRef: {fileID: 11448992, guid: 8ca1236a6cc68b4488dabfccb2e9f328, type: 2}
+  spaceshipRef: {fileID: 114913661651274198, guid: 8ca1236a6cc68b4488dabfccb2e9f328,
+    type: 2}
   maxSpawn: 6
   startSpawn: 3
   startSpawnInterval: 2

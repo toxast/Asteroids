@@ -5,8 +5,8 @@ public class MSpikyData : MSpawnData<SpikyAsteroid>
 {
 	public SpikeShooterInitData mdata;
 
-	public override SpikyAsteroid Create()
+	public override SpikyAsteroid Create(int layer)
 	{
-		return ObjectsCreator.CreateSpikyAsteroid(this);
+		return ObjectsCreator.CreateSpikyAsteroid(this, layer);
 	}
 }

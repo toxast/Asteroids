@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 405056}
-  - component: {fileID: 11448992}
+  - component: {fileID: 114913661651274198}
   m_Layer: 0
   m_Name: Ship8_(8) Boss spawn
   m_TagString: Untagged
@@ -29,7 +29,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11448992
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 149244}
+  m_IsPrefabParent: 1
+--- !u!114 &114913661651274198
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -37,13 +48,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 149244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e6dde16848dc7c4285542f86a05aba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  _spaceField: 0
+  gameSpawnLayer: 2
   price: -1
   reward: 30
   color: {r: 0.59838027, g: 0.6838235, b: 0.40224913, a: 1}
@@ -53,7 +64,6 @@ MonoBehaviour:
     healthModifier: 2
     collisionDefence: 0.5
     collisionAttackModifier: 1.7
-  ai: 1
   mobility:
     thrust: 30
     maxSpeed: 35
@@ -81,7 +91,6 @@ MonoBehaviour:
       pos: {x: -0.49542627, y: 0.000000018794918}
       dir: {x: 1, y: 0}
     prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
-    thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
   turrets: []
   verts:
   - {x: 1.3345737, y: -0.010000513}
@@ -103,14 +112,7 @@ MonoBehaviour:
   - {x: 0.56631327, y: 0.5040002}
   - {x: 1.3345737, y: 0.009999487}
   upgradeIndex: 0
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 149244}
-  m_IsPrefabParent: 1
+  chargerData:
+    speedMultiplier: 2
+    thrustMultiplier: 2
+  fillFrom: {fileID: 0}

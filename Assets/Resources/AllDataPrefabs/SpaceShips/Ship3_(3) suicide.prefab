@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 493064}
-  - component: {fileID: 11418308}
+  - component: {fileID: 114006690424570016}
   m_Layer: 0
   m_Name: Ship3_(3) suicide
   m_TagString: Untagged
@@ -29,7 +29,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11418308
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 107444}
+  m_IsPrefabParent: 1
+--- !u!114 &114006690424570016
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -37,13 +48,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 107444}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e6dde16848dc7c4285542f86a05aba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  _spaceField: 0
+  gameSpawnLayer: 2
   price: -1
   reward: 60
   color: {r: 0.44852942, g: 0.31319726, b: 0.16819853, a: 1}
@@ -53,7 +64,6 @@ MonoBehaviour:
     healthModifier: 3
     collisionDefence: 0.5
     collisionAttackModifier: 1.5
-  ai: 1
   mobility:
     thrust: 20
     maxSpeed: 30
@@ -96,14 +106,7 @@ MonoBehaviour:
   - {x: 1.4288222, y: 0.82000005}
   - {x: 0.7788221, y: 0.5500001}
   upgradeIndex: 0
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 107444}
-  m_IsPrefabParent: 1
+  chargerData:
+    speedMultiplier: 2
+    thrustMultiplier: 2
+  fillFrom: {fileID: 0}

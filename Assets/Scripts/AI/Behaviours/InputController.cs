@@ -8,4 +8,5 @@ public interface InputController
 	bool shooting{get;}
 	bool accelerating{ get;}
 	bool braking{get;}
+    void SetSpawnParent(PolygonGameObject prnt);
 }

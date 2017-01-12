@@ -28,9 +28,9 @@ public class MInvisibleSpaceshipData : MSpaceshipData
 		}
 	}
 
-	public override SpaceShip Create()
+	public override SpaceShip Create(int layer)
 	{
-		return ObjectsCreator.CreateInvisibleSpaceship<SpaceShip>(this, editorSpawnLayer);
+		return ObjectsCreator.CreateInvisibleSpaceship<SpaceShip>(this, layer);
 	}
 
 }

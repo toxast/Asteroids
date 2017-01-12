@@ -9,7 +9,6 @@ public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, I
 	public int reward = 0;
 	public Color color = Color.white;
 	public PhysicalData physical;
-	public AIType ai = AIType.eCommon;
 	public SpaceshipData mobility;
 	public AccuracyData accuracy;
 	public ShieldData shield;
@@ -27,8 +26,8 @@ public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, I
 	public List<ParticleSystemsData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
-	public override SpaceShip Create()
+	public override SpaceShip Create(int layer)
 	{
-		return ObjectsCreator.CreateSpaceship<SpaceShip>(this, editorSpawnLayer);
+		return ObjectsCreator.CreateSpaceship<SpaceShip>(this, layer);
 	}
 }

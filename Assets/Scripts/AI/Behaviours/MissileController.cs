@@ -46,4 +46,6 @@ public class MissileController : InputController, IGotTarget
             turnDirection = target.position - thisShip.position;
         }
     }
+
+    public void SetSpawnParent(PolygonGameObject prnt) { }
 }

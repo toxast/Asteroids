@@ -12,7 +12,7 @@ public class MCometData : MSpawnData<Asteroid> {
     public ParticleSystem particles;
     public Color particleSystemColor;
     public PowerupData powerupData;
-    public override Asteroid Create() {
+    public override Asteroid Create(int layer) {
         var spawn = ObjectsCreator.CreateComet(this);
         return spawn;
     }

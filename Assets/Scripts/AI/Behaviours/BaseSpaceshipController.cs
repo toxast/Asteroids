@@ -3,7 +3,8 @@ using System.Collections;
 
 public class BaseSpaceshipController : InputController, IGotTarget
 {
-	protected SpaceShip thisShip;
+    protected PolygonGameObject defendObject;
+    protected SpaceShip thisShip;
 	protected PolygonGameObject target;
 
 	public bool shooting{ get; protected set; }
@@ -21,7 +22,11 @@ public class BaseSpaceshipController : InputController, IGotTarget
 		this.target = target;
 	}
 
-	public void Tick(PolygonGameObject p){}
+    public void SetSpawnParent(PolygonGameObject prnt) {
+        defendObject = prnt;
+    }
+
+    public void Tick(PolygonGameObject p){}
 
 	protected void Shoot(float accuracy, float bulletsSpeed)
 	{

@@ -448,4 +448,6 @@ public class PolygonGameObject : MonoBehaviour
 			}
 		}
 	}
+
+    public virtual void SetSpawnParent(PolygonGameObject prnt) { }
 }

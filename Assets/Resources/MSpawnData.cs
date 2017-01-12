@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MSpawnData<T> : MonoBehaviour, ISwanable
+public class MSpawnData<T> : MonoBehaviour, ISpawnable
 	where T: PolygonGameObject
 {
 	[Header("editor fields")]
 	public int spawnCount = 1;
 	public bool spawn = true;
 	public int editorSpawnLayer = CollisionLayers.ilayerTeamEnemies;
-	[Space(20)]
-	public int _spaceField;
+    [Space(20)]
+    public int gameSpawnLayer = CollisionLayers.ilayerTeamEnemies;
 
 	#if UNITY_EDITOR
 	void Update() {
@@ -23,11 +23,11 @@ public class MSpawnData<T> : MonoBehaviour, ISwanable
 	#endif
 
     public PolygonGameObject CreatePolygonGO() {
-        return Create ();
+        return Create (gameSpawnLayer);
     }
 
 	private void Spawn() {
-		var obj = Create ();
+		var obj = Create (editorSpawnLayer);
 
 		if(obj.layerNum != CollisionLayers.ilayerAsteroids)
 			obj.targetSystem = new TargetSystem (obj);
@@ -43,9 +43,9 @@ public class MSpawnData<T> : MonoBehaviour, ISwanable
 		Singleton<Main>.inst.Add2Objects(obj);
 	}
 
-	public virtual T Create (){return null;}
+	public virtual T Create (int layer){return null;}
 }
 
-public interface ISwanable {
+public interface ISpawnable {
     PolygonGameObject CreatePolygonGO ();
 }

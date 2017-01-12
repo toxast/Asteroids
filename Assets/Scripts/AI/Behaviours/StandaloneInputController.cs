@@ -24,5 +24,6 @@ public class StandaloneInputController : InputController
 		turnDirection = moveTo - p.position;
 	}
 
+    public void SetSpawnParent(PolygonGameObject prnt) { }
 
 }

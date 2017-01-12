@@ -46,7 +46,7 @@ public class SpawnObject
 		//TODO: spawn and save for count
 
         if (prefab != null) {
-            var mdata  = prefab as ISwanable;
+            var mdata  = prefab as ISpawnable;
             if (mdata != null) {
                 obj = mdata.CreatePolygonGO ();
             }

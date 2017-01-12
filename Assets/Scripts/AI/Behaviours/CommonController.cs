@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class CommonController : BaseSpaceshipController, IGotTarget
 {
-	public PolygonGameObject defendObject;
 	List<PolygonGameObject> bullets;
 	float bulletsSpeed;
 	float comformDistanceMin, comformDistanceMax;

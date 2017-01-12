@@ -11,7 +11,7 @@ public class MGasteroidData : MSpawnData<Gasteroid>
     public PhysicalData physical;
 //    public MAsteroidCommonData commonData;
 
-    public override Gasteroid Create()
+    public override Gasteroid Create(int layer)
     {
         var spawn = ObjectsCreator.CreateGasteroid (this);
         return spawn;
