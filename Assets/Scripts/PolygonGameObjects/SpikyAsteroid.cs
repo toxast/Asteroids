@@ -75,7 +75,7 @@ public class SpikyAsteroid : Asteroid
 						Vector2 spikeDirection = e1.p2;
 					
 						var oldCos = spike.lastCos;
-						var newCos = Math2d.Cos (spikeDirection, aim.direction);
+						var newCos = Math2d.Cos (spikeDirection, aim.directionDist);
 						spike.lastCos = newCos;
 
 						anySpikeNearShootingPlace |= newCos > 0.98;

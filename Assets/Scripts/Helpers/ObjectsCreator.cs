@@ -38,6 +38,15 @@ public class ObjectsCreator
         return spaceship;
     }
 
+    public static T CreateSuisideBombSpaceship<T>(MSuicideBombSpaceshipData sdata, int layerNum)
+       where T : SpaceShip {
+        var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
+        var bullets = Singleton<Main>.inst.bullets;
+        MSuicideBombController controller = new MSuicideBombController(spaceship, bullets, sdata.accuracy);
+        spaceship.SetController(controller);
+        return spaceship;
+    }
+
     public static UserSpaceShip CreateSpaceShip(InputController contorller, MSpaceshipData data)
 	{
 		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data, CollisionLayers.ilayerUser);
@@ -56,10 +65,17 @@ public class ObjectsCreator
 		spaceship.InitSpaceShip(sdata.physical, sdata.mobility);
 		spaceship.SetThrusters (sdata.thrusters);
 
-		if (sdata.shield != null && sdata.shield.capacity > 0)
+        if (sdata.shield != null && sdata.shield.capacity > 0)
 			spaceship.SetShield (sdata.shield);
 
-		DeathAnimation.MakeDeathForThatFellaYo (spaceship);
+        var deathData = sdata.deathData;
+        spaceship.destructionType = deathData.destructionType;
+        spaceship.overrideExplosionDamage = deathData.overrideExplosionDamage;
+        spaceship.overrideExplosionRange = deathData.overrideExplosionRange;
+        if (deathData.createExplosionOnDeath) {
+            DeathAnimation.MakeDeathForThatFellaYo(spaceship, deathData.instantExplosion);
+        }
+
 		spaceship.gameObject.name = sdata.name; 
 
 		var guns = new List<Gun> ();
@@ -151,8 +167,7 @@ public class ObjectsCreator
         Gasteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Gasteroid>(vertices, Singleton<GlobalConfig>.inst.GasteroidColor);
         asteroid.InitAsteroid (initData.physical, initData.speed, initData.rotation);
         asteroid.destructionType = PolygonGameObject.DestructionType.eComplete;
-        DeathAnimation.MakeDeathForThatFellaYo (asteroid, true);
-        asteroid.deathAnimation.finalExplosionPowerKoeff = 1.3f;
+        DeathAnimation.MakeDeathForThatFellaYo (asteroid, true, 1.3f);
         asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
         asteroid.gameObject.name = initData.name;
 

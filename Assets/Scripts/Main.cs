@@ -549,7 +549,7 @@ public class Main : MonoBehaviour
 				{
 					if(!obj.deathAnimation.started)
 					{
-						obj.deathAnimation.AnimateDeath(obj);
+						obj.deathAnimation.AnimateDeath();
 					}
 				}
 
@@ -608,7 +608,7 @@ public class Main : MonoBehaviour
 				}
 			}
 
-			float radius = gobject.overrideExplosionRange >= 0 ? gobject.overrideExplosionRange : gobject.deathAnimation.explosionSize;
+			float radius = gobject.deathAnimation.GetFinalExplosionRadius();
 			float damage = gobject.overrideExplosionDamage >= 0 ? gobject.overrideExplosionDamage : 2f * Mathf.Pow(radius, 0.65f);
 
 			Debug.LogError("explosion " + gobject.gameObj.name + " " + radius + " " + damage);

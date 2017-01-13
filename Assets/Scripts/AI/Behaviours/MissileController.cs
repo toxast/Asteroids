@@ -41,7 +41,7 @@ public class MissileController : InputController, IGotTarget
 	{
         AimSystem aim = new AimSystem(target.position, accuracy * (1.3f * target.velocity - thisShip.velocity), thisShip.position, maxVelocity);
         if (aim.canShoot) {
-            turnDirection = aim.direction;
+            turnDirection = aim.directionDist;
         } else {
             turnDirection = target.position - thisShip.position;
         }

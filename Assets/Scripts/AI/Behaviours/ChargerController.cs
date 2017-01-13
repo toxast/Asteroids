@@ -151,7 +151,7 @@ public class ChargerController : BaseSpaceshipController
     private Vector2 getAimDiraction() {
         var aimVelocity = accuracy * (1.3f * target.velocity - thisShip.velocity);
         AimSystem aim = new AimSystem(target.position, aimVelocity, thisShip.position, thisShip.maxSpeed);
-        return aim.direction;
+        return aim.directionDist;
     }
 
 	private IEnumerator AccuracyChanger(AccuracyData data)

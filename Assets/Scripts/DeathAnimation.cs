@@ -15,53 +15,54 @@ public class DeathAnimation
 	public List<ParticleSystem> instantiatedExplosions;
 	PolygonGameObject obj;
 
-	public float finalExplosionPowerKoeff = 1f;
+    public float finalExplosionPowerKoeff = 1f;
 	public float explosionSize;
 
-	public static void MakeDeathForThatFellaYo(PolygonGameObject g, bool instant = false)
+	public static void MakeDeathForThatFellaYo(PolygonGameObject go, bool instant = false, float finalExplosionPowerKoeff = 1f)
 	{
-		var config = Singleton<GlobalConfig>.inst;
-		float duration = (instant)? 0 : Mathf.Pow(g.polygon.area, 0.4f) / 4f;
+        var config = Singleton<GlobalConfig>.inst;
+		float duration = (instant)? 0 : Mathf.Pow(go.polygon.area, 0.4f) / 4f;
 		DeathAnimation anim;
-		int minExplosions = (int)(2*Mathf.Pow(g.polygon.R, 0.5f));
-		int maxExplosions = (int)(2*Mathf.Pow(g.polygon.R, 0.8f));
+		int minExplosions = (int)(2*Mathf.Pow(go.polygon.R, 0.5f));
+		int maxExplosions = (int)(2*Mathf.Pow(go.polygon.R, 0.8f));
 		//Debug.LogWarning (minExplosions + " - " + maxExplosions);
 		int explosionsCount = UnityEngine.Random.Range(minExplosions,maxExplosions);
 		//Debug.LogWarning (g.polygon.area);
-		if(g.polygon.area < 5f)
+		if(go.polygon.area < 5f)
 		{
 			//int explosionsCount = UnityEngine.Random.Range(1,4);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.smallDeathExplosionEffects);
-			anim = new DeathAnimation(duration, explosionsCount, explosions, config.smallFinalDeathExplosionEffects);
+			anim = new DeathAnimation(go, duration, explosionsCount, explosions, config.smallFinalDeathExplosionEffects);
 		}
-		else if(g.polygon.area < 50f)
+		else if(go.polygon.area < 50f)
 		{
 			//int explosionsCount = UnityEngine.Random.Range(2,5);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.smallDeathExplosionEffects);
 			explosions.AddRange(config.mediumDeathExplosionEffects);
-			anim = new DeathAnimation(duration, explosionsCount, explosions, config.mediumFinalDeathExplosionEffects);
+			anim = new DeathAnimation(go, duration, explosionsCount, explosions, config.mediumFinalDeathExplosionEffects);
 		}
 		else
 		{
  			//int explosionsCount = UnityEngine.Random.Range(4,7);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.mediumDeathExplosionEffects);
 			explosions.AddRange(config.largeDeathExplosionEffects);
-			anim = new DeathAnimation(duration, explosionsCount, explosions, config.largeFinalDeathExplosionEffects);
+			anim = new DeathAnimation(go, duration, explosionsCount, explosions, config.largeFinalDeathExplosionEffects);
 		}
-		g.deathAnimation = anim; //rest in pieces!
+		go.deathAnimation = anim; //rest in pieces!
 	}
 
-	public DeathAnimation(float duration, int explosionsCount, List<ParticleSystem> explosionPrefabs, List<ParticleSystem> finishExplosion)
+	public DeathAnimation(PolygonGameObject obj, float duration, int explosionsCount, List<ParticleSystem> explosionPrefabs, List<ParticleSystem> finishExplosion, float finalExplosionPowerKoeff = 1f)
 	{
 		this.duration = duration;
 		this.explosionsCount = explosionsCount;
 		this.explosionPrefabs = explosionPrefabs;
 		this.finishExplosions = finishExplosion;
-	}
+        this.finalExplosionPowerKoeff = finalExplosionPowerKoeff;
+        this.obj = obj;
+    }
 
-	public void AnimateDeath(PolygonGameObject obj)
+	public void AnimateDeath()
 	{
-		this.obj = obj;
 		started = true;
 		instantiatedExplosions = new List<ParticleSystem> ();
 		if(duration > 0)
@@ -81,7 +82,13 @@ public class DeathAnimation
 		}
 	}
 
-	public void Tick(float delta)
+    public float GetFinalExplosionRadius() {
+        float overrideR = obj.overrideExplosionRange;
+        return overrideR >= 0 ? overrideR : (6f * Mathf.Sqrt(obj.polygon.area) * finalExplosionPowerKoeff);
+    }
+
+
+    public void Tick(float delta)
 	{
 		if(started && !finished)
 		{
@@ -89,7 +96,7 @@ public class DeathAnimation
 
 			if(duration <= 0)
 			{
-				explosionSize =  obj.overrideExplosionRange >= 0 ? obj.overrideExplosionRange : 6f*Mathf.Sqrt(obj.polygon.area) * finalExplosionPowerKoeff;
+				explosionSize = GetFinalExplosionRadius();
 				{
 					for (int k = 0; k < finishExplosions.Count; k++) {
 						var e = GameObject.Instantiate(finishExplosions[k]) as ParticleSystem;
@@ -113,3 +120,13 @@ public class DeathAnimation
 		}
 	}
 }
+
+[System.Serializable]
+public class DeathData {
+    public bool createExplosionOnDeath = true;
+    public bool instantExplosion = false;
+    public PolygonGameObject.DestructionType destructionType = PolygonGameObject.DestructionType.eNormal;
+    public float overrideExplosionRange = -1;
+    public float overrideExplosionDamage = -1;
+}
+

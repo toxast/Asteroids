@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+[System.Serializable]
 public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
 {
 	public int price = -1;
@@ -18,10 +19,10 @@ public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, I
 	public List<MTurretReferenceData> turrets;
 	public Vector2[] verts;
 	public int upgradeIndex;
+    [SerializeField] public DeathData deathData;
 
-
-	//interfaces
-	public Vector2[] iverts {get {return verts;} set{verts = value;}}
+    //interfaces
+    public Vector2[] iverts {get {return verts;} set{verts = value;}}
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<ParticleSystemsData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}

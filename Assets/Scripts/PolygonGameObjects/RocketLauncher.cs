@@ -53,8 +53,6 @@ public class RocketLauncher : GunShooterBase
 	{
 		SpaceShip missile = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, color);
 
-
-
 		Math2d.PositionOnParent (missile.cacheTransform, place, parent.cacheTransform);
 
 		missile.gameObject.name = "missile";
