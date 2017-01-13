@@ -1714,6 +1714,8 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 695584446}
+  iOSLayoutAnchor: {fileID: 0}
+  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 590276174}
   m_Placeholder: {fileID: 15193681}
   m_ContentType: 2
@@ -3842,7 +3844,7 @@ MonoBehaviour:
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 1.2, y: 1.2}
-  prefab: {fileID: 11493992, guid: 23a24ca28642f564aaabba35c348ae7d, type: 2}
+  prefab: {fileID: 114215934559348506, guid: 582a5a0877689cf49b901f9c11c69b4f, type: 2}
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0
@@ -4129,6 +4131,8 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2008446757}
+  iOSLayoutAnchor: {fileID: 0}
+  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 910516205}
   m_Placeholder: {fileID: 377514020}
   m_ContentType: 2

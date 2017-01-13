@@ -67,7 +67,7 @@ MonoBehaviour:
   mobility:
     thrust: 30
     maxSpeed: 50
-    turnSpeed: 150
+    turnSpeed: 100
     brake: 20
     passiveBrake: 2
     stability: 0.2

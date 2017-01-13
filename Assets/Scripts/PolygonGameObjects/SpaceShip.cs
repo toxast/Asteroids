@@ -20,7 +20,7 @@ public class SpaceShip : PolygonGameObject
     }
 
 	float passiveBrake = 2f;
-	float brake = 15f;
+    public float brake = 15f;
     public float thrust = 45f;
 	float stability = 0.5f;
 
