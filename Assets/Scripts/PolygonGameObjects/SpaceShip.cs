@@ -130,17 +130,8 @@ public class SpaceShip : PolygonGameObject
 		SetThrusters (tdatas);
 	}
 
-	public void Accelerate(float delta)
-	{
-		float deltaV = delta * thrust;
-		velocity -= stability * velocity.normalized * deltaV;
-		velocity += (Vector2)((1 + stability)*cacheTransform.right * deltaV);
-
-		if(velocity.sqrMagnitude > maxSpeedSqr)
-		{
-			velocity = velocity.normalized*(Mathf.Clamp(velocity.magnitude - deltaV, maxSpeed, Mathf.Infinity));
-		}
-
+	public void Accelerate(float delta)	{
+		base.Accelerate(delta, thrust, stability, maxSpeed, maxSpeedSqr, cacheTransform.right);
 		acceleratedThisTick = true;
 	}
 

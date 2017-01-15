@@ -12,7 +12,7 @@ public class ObjectsCreator
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 		var bullets = Singleton<Main>.inst.bullets;
-		InputController controller = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
+		var controller = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
         spaceship.SetController (controller);
 
 		return spaceship;
@@ -23,7 +23,17 @@ public class ObjectsCreator
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 		var bullets = Singleton<Main>.inst.bullets;
-        InvisibleSpaceshipController controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy, sdata.invisibleData);
+        var controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy, sdata.invisibleData);
+		spaceship.SetController(controller);
+		return spaceship;
+	}
+
+	public static T CreateEarthSpaceship<T>(MEarthSpaceshipData sdata, int layerNum)
+		where T:SpaceShip
+	{
+		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
+		var bullets = Singleton<Main>.inst.bullets;
+		var controller = new EarthSpaceshipController(spaceship, bullets, sdata);
 		spaceship.SetController(controller);
 		return spaceship;
 	}
@@ -32,7 +42,7 @@ public class ObjectsCreator
         where T : SpaceShip {
         var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
         var bullets = Singleton<Main>.inst.bullets;
-        ChargerController controller = new ChargerController(spaceship, bullets, sdata.accuracy, sdata.chargerData);
+        var controller = new ChargerController(spaceship, bullets, sdata.accuracy, sdata.chargerData);
         spaceship.SetController(controller);
         return spaceship;
     }
@@ -41,7 +51,7 @@ public class ObjectsCreator
        where T : SpaceShip {
         var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
         var bullets = Singleton<Main>.inst.bullets;
-        MSuicideBombController controller = new MSuicideBombController(spaceship, bullets, sdata);
+        var controller = new MSuicideBombController(spaceship, bullets, sdata);
         spaceship.SetController(controller);
         return spaceship;
     }

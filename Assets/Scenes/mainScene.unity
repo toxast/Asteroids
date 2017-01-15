@@ -3842,7 +3842,7 @@ MonoBehaviour:
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 0.9, y: 0.9}
-  prefab: {fileID: 114215934559348506, guid: 582a5a0877689cf49b901f9c11c69b4f, type: 2}
+  prefab: {fileID: 11408478, guid: d43ce7dc8cdf02b429648ed1d8e47b84, type: 2}
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0

@@ -130,10 +130,12 @@ public class SuicideAim
 		AimSystem aim = new AimSystem(targetPosition, aimVelocity, selfPosition, selfSpeedMagnitude);
 		aimTime = aim.time;
 		//transform perfect speed accordingly to current speed
-		Vector2 perfectSpeedDir = aim.directionDist.normalized;
-		Vector2 rightPerfect = Math2d.MakeRight(perfectSpeedDir);
-		var vProj = Vector2.Dot(rightPerfect, selfSpeed);
-		direction = perfectSpeedDir * selfSpeedMagnitude - vProj * rightPerfect;
+		direction = aim.directionDist.normalized;
+		if (selfSpeedMagnitude != 0) {
+			Vector2 rightPerfect = Math2d.MakeRight (direction);
+			var vProj = Vector2.Dot (rightPerfect, selfSpeed);
+			direction = direction * selfSpeedMagnitude - vProj * rightPerfect;
+		}
 	}
 
 	void CalculateFullData() {

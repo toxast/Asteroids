@@ -175,7 +175,26 @@ public class PolygonGameObject : MonoBehaviour
 		turrets.ForEach (t => t.SetCollisionLayerNum (layerNum));
 	}
 
-	protected void Brake(float delta, float pBrake)
+	public void Accelerate(float delta, float thrust, float stability, float maxSpeed, float maxSpeedSqr, Vector2 dirNormalized)
+	{
+		#if UNITY_EDITOR
+		if(Mathf.Abs(dirNormalized.magnitude - 1f) > 0.1f)
+		{
+			Debug.LogError("normalize the value!");
+		}
+		#endif
+
+		float deltaV = delta * thrust;
+		velocity -= stability * velocity.normalized * deltaV;
+		velocity += (1 + stability)* dirNormalized * deltaV;
+
+		if(velocity.sqrMagnitude > maxSpeedSqr)
+		{
+			velocity = velocity.normalized*(Mathf.Min(velocity.magnitude - deltaV, maxSpeed));
+		}
+	} 
+
+	public void Brake(float delta, float pBrake)
 	{
 		if (velocity == Vector2.zero)
 			return;
