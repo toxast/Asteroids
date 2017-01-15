@@ -12,8 +12,7 @@ public class ObjectsCreator
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 		var bullets = Singleton<Main>.inst.bullets;
-		InputController controller = null;
-		var ctrl = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
+		InputController controller = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
         spaceship.SetController (controller);
 
 		return spaceship;
@@ -42,7 +41,7 @@ public class ObjectsCreator
        where T : SpaceShip {
         var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
         var bullets = Singleton<Main>.inst.bullets;
-        MSuicideBombController controller = new MSuicideBombController(spaceship, bullets, sdata.accuracy);
+        MSuicideBombController controller = new MSuicideBombController(spaceship, bullets, sdata);
         spaceship.SetController(controller);
         return spaceship;
     }

@@ -46,6 +46,10 @@ public static class Math2d
 		}
 	}
 
+	static public Vector2 MakeRight(Vector2 v) {
+		return new Vector2(v.y, -v.x);
+	}
+
 	static public float ClosestAngleBetweenNormalizedDegAbs(Vector2 vn1, Vector2 vn2)
 	{
 		var rad = ClosestAngleBetweenNormalizedRad (vn1, vn2);
@@ -55,7 +59,7 @@ public static class Math2d
 	static public float ClosestAngleBetweenNormalizedRad(Vector2 vn1, Vector2 vn2)
 	{
 		var cos = DotProduct (ref vn1, ref vn2);
-		var rad = Mathf.Acos (cos);
+		var rad = Mathf.Acos (Mathf.Clamp(cos, -1, 1));
 		return rad;
 	}
 

@@ -613,10 +613,10 @@ public class Main : MonoBehaviour
 
 			Debug.LogError("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
 			int collision = -1;
-			if(gobject is SpaceShip)
-			{
-				collision = gobject.collision;
-			}
+//			if(gobject is SpaceShip)
+//			{
+//				collision = gobject.collision;
+//			}
 			CreatePhysicalExplosion(gobject.position, radius, damage, collision);//radius = 6f*Mathf.Sqrt(obj.polygon.area) = 6a , 1.5aa = x 
 			//1.5f*gobject.polygon.area
 		}

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MSuicideBombSpaceshipData : MSpaceshipData {
+	public float delayBeforeExplode = 1f;
+
     [Header("editor field")]
     [SerializeField]
     MSpaceshipData fillFrom;

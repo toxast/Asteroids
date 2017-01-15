@@ -42,7 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
-  editorSpawnLayer: 1
+  editorSpawnLayer: 2
   gameSpawnLayer: 2
   price: 200
   reward: 0

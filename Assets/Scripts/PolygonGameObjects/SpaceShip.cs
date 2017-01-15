@@ -72,7 +72,7 @@ public class SpaceShip : PolygonGameObject
 		shootAngle = data.shootAngle;
 		turnSpeed = data.turnSpeed;
         brake = data.brake;
-        passiveBrake = data.passiveBrake;
+		passiveBrake = 2;//data.passiveBrake;
         thrust = data.thrust;
 		maxSpeed = data.maxSpeed;
 		stability = data.stability;

@@ -66,3 +66,83 @@ public class AimSystem
         }
 	}
 }
+
+
+public class SuicideAim
+{
+	//shot direction, valid only if canShoot is true
+	public Vector2 direction{get; private set;} 
+
+	bool fullDataCalculated = false;
+
+	//if target reachable
+	bool _canShoot;
+	public bool canShoot{
+		get
+		{ 
+			if (!fullDataCalculated) {
+				CalculateFullData ();
+			}
+			return _canShoot;
+		} 
+		private set{ _canShoot = value;}
+	}
+
+	//time utill collision, valid only if canShoot is true
+	float _time;
+	public float time{
+		get
+		{ 
+			if (!fullDataCalculated) {
+				CalculateFullData ();
+			}
+			return _time;
+		} 
+		private set{ _time = value;}
+	}
+
+	float _angleBetweenCurrentAndBestSpeed;
+	public float angleBetweenCurrentAndBestSpeed{
+		get
+		{ 
+			if (!fullDataCalculated) {
+				CalculateFullData ();
+			}
+			return _angleBetweenCurrentAndBestSpeed;
+		} 
+		private set{ _angleBetweenCurrentAndBestSpeed = value;}
+	}
+
+	Vector2 selfSpeed;
+	float selfSpeedMagnitude;
+	float aimTime;
+//	float turnSpeed;
+
+	public SuicideAim(PolygonGameObject target, SpaceShip thisShip, float accuracy) : 
+	this(target.position, target.velocity, thisShip.position, thisShip.velocity, thisShip.turnSpeed, accuracy)
+	{}
+	
+	public SuicideAim(Vector2 targetPosition, Vector2 targetSpeed, Vector2 selfPosition, Vector2 selfSpeed, float turnSpeed, float accuracy) {
+		this.selfSpeed = selfSpeed;
+//		this.turnSpeed = turnSpeed;
+		var aimVelocity = accuracy * targetSpeed;
+		selfSpeedMagnitude = selfSpeed.magnitude;
+		AimSystem aim = new AimSystem(targetPosition, aimVelocity, selfPosition, selfSpeedMagnitude);
+		aimTime = aim.time;
+		//transform perfect speed accordingly to current speed
+		Vector2 perfectSpeedDir = aim.directionDist.normalized;
+		Vector2 rightPerfect = Math2d.MakeRight(perfectSpeedDir);
+		var vProj = Vector2.Dot(rightPerfect, selfSpeed);
+		direction = perfectSpeedDir * selfSpeedMagnitude - vProj * rightPerfect;
+	}
+
+	void CalculateFullData() {
+		var angleBetweenCurrentAndBestSpeed = Math2d.ClosestAngleBetweenNormalizedRad(selfSpeed/selfSpeedMagnitude, direction.normalized) * Mathf.Rad2Deg;
+		if(angleBetweenCurrentAndBestSpeed < 50f) {
+			time = aimTime; //+ angleBetweenCurrentAndBestSpeed / turnSpeed;
+			canShoot = true;
+		} else {
+			canShoot = false;
+		}
+	}
+}

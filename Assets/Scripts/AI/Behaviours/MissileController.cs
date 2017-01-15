@@ -39,12 +39,8 @@ public class MissileController : InputController, IGotTarget
 
 	private void RotateOnTarget()
 	{
-        AimSystem aim = new AimSystem(target.position, accuracy * (1.3f * target.velocity - thisShip.velocity), thisShip.position, maxVelocity);
-        if (aim.canShoot) {
-            turnDirection = aim.directionDist;
-        } else {
-            turnDirection = target.position - thisShip.position;
-        }
+		var aim = new SuicideAim(target, thisShip, accuracy);
+		turnDirection = aim.direction;
     }
 
     public void SetSpawnParent(PolygonGameObject prnt) { }
