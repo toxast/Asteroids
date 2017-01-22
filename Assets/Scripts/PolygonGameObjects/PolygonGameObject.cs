@@ -82,6 +82,8 @@ public class PolygonGameObject : MonoBehaviour
 	public float overrideExplosionDamage;
 	public float overrideExplosionRange;
 
+	public bool capturedByEarthSpaceship = false;
+
 	protected virtual void Awake () 
 	{
 		cacheTransform = transform;

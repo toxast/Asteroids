@@ -11,6 +11,8 @@ public class MEarthSpaceshipData : MSpaceshipData
 	public float shootInterval = 5f;
 	public float applyShootingForceDuration = 5f;
 	public MAsteroidData asteroidData;
+	public List<ParticleSystemsData> asteroidAttackByForceAnimations;
+	public List<ParticleSystemsData> asteroidGrabByForceAnimations;
 
 	public override SpaceShip Create(int layer)
 	{

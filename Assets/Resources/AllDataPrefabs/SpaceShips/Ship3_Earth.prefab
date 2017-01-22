@@ -60,7 +60,7 @@ MonoBehaviour:
   color: {r: 1, g: 1, b: 1, a: 1}
   physical:
     density: 1
-    health: -1
+    health: 50
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -124,6 +124,21 @@ MonoBehaviour:
     destructionType: 0
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
-  maxShields: 1
+  elementsCount: 8
+  shieldRadius: 17
+  shieldRotationSpeed: 30
+  respawnShieldObjDuration: 3
+  shootInterval: 6
+  applyShootingForceDuration: 3
   asteroidData: {fileID: 11429188, guid: 6e846a35844c9cd4296c78341d17b438, type: 2}
+  asteroidAttackByForceAnimations:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198218863638088158, guid: 7a4e72253d9b48948b2e9b22d7a3a4fe, type: 2}
+  asteroidGrabByForceAnimations:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198218863638088158, guid: c8db4048d0c821c43ad0150fb2c515e3, type: 2}
   fillFrom: {fileID: 0}

@@ -21,7 +21,8 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 	float respawnShieldObjDuration;
 	float shootInterval;
 	float applyShootingForceDuration;
-
+	List<ParticleSystemsData> asteroidAttackByForceAnimations;
+	List<ParticleSystemsData> asteroidGrabByForceAnimations;
 	List<PolygonGameObject> shields = new List<PolygonGameObject>(); //can contain null objects
 	List<BrokenShieldObj> brokenShields = new List<BrokenShieldObj>(); //can contain null objects
 	List<Vector2> targetPositions = new List<Vector2>();
@@ -43,6 +44,8 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 
 	public EarthSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> objects, MEarthSpaceshipData data) : base(thisShip)
 	{
+		asteroidAttackByForceAnimations = data.asteroidAttackByForceAnimations;
+		asteroidGrabByForceAnimations = data.asteroidGrabByForceAnimations;
 		asteroidShieldRadius = data.shieldRadius;
 		shieldRotationSpeed = data.shieldRotationSpeed;
 		maxShieldsCount = data.elementsCount;
@@ -113,6 +116,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		var shieldObj = ObjectsCreator.CreateAsteroid (ast);
 		shieldObj.position = thisShip.position;
 		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(thisShip.cacheTransform.position.z + 1f);
+		shieldObj.capturedByEarthSpaceship = true;
 		Singleton<Main>.inst.Add2Objects (shieldObj);
 		return shieldObj;
 	}
@@ -154,7 +158,14 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 							break;
 						}
 					}
+					foreach (var ps in asteroidAttackByForceAnimations) {
+						var pmain = ps.prefab.main;
+						pmain.startSizeMultiplier = 2 * obj.polygon.R;
+						pmain.duration = applyShootingForceDuration;
+					}
+					obj.SetParticles (asteroidAttackByForceAnimations);
 					obj.destroyOnBoundsTeleport = true;
+					obj.capturedByEarthSpaceship = true;
 					Main.PutOnFirstNullPlace (objectShootingWith, new BulletObj{ obj = obj, startTime = Time.time }); ;
 				}
 				yield return new WaitForSeconds (shootInterval);
@@ -202,7 +213,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 
 			for (int i = 0; i < objects.Count; i++) {
 				var obj = objects [i];
-				if (Main.IsNull (obj) || obj.layerNum != CollisionLayers.ilayerAsteroids) {
+				if (Main.IsNull (obj) || obj.layerNum != CollisionLayers.ilayerAsteroids || obj.capturedByEarthSpaceship) {
 					continue;
 				}
 
@@ -214,13 +225,20 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 					continue;
 				}
 
-				if (shields.Contains (obj) || brokenShields.Exists(s => s!= null && s.obj == obj) || objectShootingWith.Exists(b => b!= null && b.obj == obj)) {
-					continue;
-				}
+				//capturedByEarthSpaceship check does that
+//				if (shields.Contains (obj) || brokenShields.Exists(s => s!= null && s.obj == obj) || objectShootingWith.Exists(b => b!= null && b.obj == obj)) {
+//					continue;
+//				}
 
 				Debug.LogWarning ("add " + obj.name);
 				var angle = Math2d.AngleRad (new Vector2 (1, 0), (obj.position - thisShip.position).normalized) * Mathf.Rad2Deg;
 				var newBroken = new BrokenShieldObj{ obj = obj, angleDeg = angle};
+				obj.capturedByEarthSpaceship = true;
+				foreach (var ps in asteroidGrabByForceAnimations) {
+					var pmain = ps.prefab.main;
+					pmain.startSizeMultiplier = 2 * obj.polygon.R;
+				}
+				obj.SetParticles (asteroidGrabByForceAnimations);
 				Main.PutOnFirstNullPlace (brokenShields,  newBroken);
 			}
 
