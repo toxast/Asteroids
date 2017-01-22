@@ -148,3 +148,42 @@ public class SuicideAim
 		}
 	}
 }
+
+
+public class FollowAim
+{
+	public Vector2 forceDir {get; private set;} 
+
+	public FollowAim(Vector2 targetPosition, Vector2 targetSpeed, Vector2 selfPosition, Vector2 selfSpeed, float force) {
+		float selfSpeedMagnitude = selfSpeed.magnitude;
+		if (selfSpeedMagnitude == 0) {
+			forceDir = 10 * (targetPosition - selfPosition);
+		} else {
+			if ((targetPosition - selfPosition).sqrMagnitude < 3f * 3f) {
+				forceDir = targetSpeed - selfSpeed* 0.9f;
+			} else {
+				var aim = new AimSystem (targetPosition, targetSpeed, selfPosition, selfSpeedMagnitude);
+				Vector2 aimNormalized = aim.directionDist.normalized;
+				if (!aim.canShoot) {
+					aim = new AimSystem (targetPosition, targetSpeed, selfPosition, targetSpeed.magnitude * 1.1f);
+					forceDir = aim.directionDist;
+				} else {
+					var angleBetweenCurrentAndBestSpeed = Math2d.ClosestAngleBetweenNormalizedRad (selfSpeed / selfSpeedMagnitude, aimNormalized) * Mathf.Rad2Deg;
+					float timeToChangeSpeedToTarget = TimeToChangeSpeed (selfSpeed, targetSpeed, force);
+					float timeToChangeSpeedToOptimal = TimeToChangeSpeed (selfSpeed, aimNormalized * selfSpeedMagnitude, force);
+					if (aim.time + timeToChangeSpeedToOptimal < timeToChangeSpeedToTarget) {
+						forceDir = targetSpeed - selfSpeed* 0.9f;
+					} else {
+						forceDir = aimNormalized * selfSpeedMagnitude - selfSpeed * 0.9f;
+					}
+				} 
+			}
+		}
+	}
+
+	float TimeToChangeSpeed(Vector2 current, Vector2 target, float force){
+		return (target - current).magnitude / force + 0.1f;
+	}
+
+
+}

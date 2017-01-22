@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class MEarthSpaceshipData : MSpaceshipData
 {
-	public int maxShields = 8;
+	public int elementsCount = 8;
+	public float shieldRadius = 20f;
+	public float shieldRotationSpeed = 30f;
+	public float respawnShieldObjDuration = 3f;
+	public float shootInterval = 5f;
+	public float applyShootingForceDuration = 5f;
 	public MAsteroidData asteroidData;
 
 	public override SpaceShip Create(int layer)

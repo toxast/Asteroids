@@ -180,7 +180,7 @@ public class PolygonGameObject : MonoBehaviour
 		#if UNITY_EDITOR
 		if(Mathf.Abs(dirNormalized.magnitude - 1f) > 0.1f)
 		{
-			Debug.LogError("normalize the value!");
+			Debug.LogError("normalize the value! " + dirNormalized + " " + dirNormalized.magnitude);
 		}
 		#endif
 

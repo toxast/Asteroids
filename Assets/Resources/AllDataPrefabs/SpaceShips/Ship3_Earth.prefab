@@ -65,7 +65,7 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   mobility:
-    thrust: 45
+    thrust: 5
     maxSpeed: 20
     turnSpeed: 220
     brake: 15

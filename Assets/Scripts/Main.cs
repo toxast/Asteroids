@@ -336,7 +336,7 @@ public class Main : MonoBehaviour
 //		powerUps.Add(powerUp);
 	}
 
-	private void PutOnFirstNullPlace<T>(List<T> list, T obj)
+	public static void PutOnFirstNullPlace<T>(List<T> list, T obj)
 	{
 		for (int i = 0; i < list.Count; i++) 
 		{
