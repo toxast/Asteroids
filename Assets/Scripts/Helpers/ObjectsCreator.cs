@@ -32,8 +32,7 @@ public class ObjectsCreator
 		where T:SpaceShip
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
-		var bullets = Singleton<Main>.inst.bullets;
-		var controller = new EarthSpaceshipController(spaceship, bullets, sdata);
+		var controller = new EarthSpaceshipController(spaceship, Singleton<Main>.inst.gObjects, sdata);
 		spaceship.SetController(controller);
 		return spaceship;
 	}
