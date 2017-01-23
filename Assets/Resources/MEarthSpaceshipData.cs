@@ -10,11 +10,15 @@ public class MEarthSpaceshipData : MSpaceshipData
 	public float respawnShieldObjDuration = 3f;
 	public float shootInterval = 5f;
 	public float applyShootingForceDuration = 5f;
-	public MAsteroidData asteroidData;
+    public bool collectBrokenObjects = true;
+    public int attackWithBrokenWhenCount = 8;
+    public int attackWithBrokenCount = 4;
+    public MAsteroidData asteroidData;
 	public List<ParticleSystemsData> asteroidAttackByForceAnimations;
 	public List<ParticleSystemsData> asteroidGrabByForceAnimations;
 
-	public override SpaceShip Create(int layer)
+
+    public override SpaceShip Create(int layer)
 	{
 		return ObjectsCreator.CreateEarthSpaceship<SpaceShip>(this, layer);
 	}

@@ -27,17 +27,27 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 	List<BrokenShieldObj> brokenShields = new List<BrokenShieldObj>(); //can contain null objects
 	List<Vector2> targetPositions = new List<Vector2>();
 	MAsteroidData ast;
-	float currentAngle = 0;
+    int attackWithBrokenWhenCount;
+    int attackWithBrokenCount;
+
+    float currentAngle = 0;
 	float deltaAngle;
 	float rotationSpeed; 
 	List<BulletObj> objectShootingWith = new List<BulletObj>(); //can contain null objects
+    List<BrokenBulletObj> brokenObjectShootingWith = new List<BrokenBulletObj>();
 
-	class BulletObj{
+    class BulletObj{
 		public PolygonGameObject obj;
 		public float startTime;
 	}
 
-	class BrokenShieldObj{
+    class BrokenBulletObj {
+        public PolygonGameObject obj;
+        public float startTime;
+        public Vector2 accelerateDir;
+    }
+
+    class BrokenShieldObj{
 		public PolygonGameObject obj;
 		public float angleDeg;
 	}
@@ -46,7 +56,9 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 
 	public EarthSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> objects, MEarthSpaceshipData data) : base(thisShip)
 	{
-		asteroidAttackByForceAnimations = data.asteroidAttackByForceAnimations;
+        attackWithBrokenWhenCount = data.attackWithBrokenWhenCount;
+        attackWithBrokenCount = data.attackWithBrokenCount;
+        asteroidAttackByForceAnimations = data.asteroidAttackByForceAnimations;
 		asteroidGrabByForceAnimations = data.asteroidGrabByForceAnimations;
 		asteroidShieldRadius = data.shieldRadius;
 		shieldRotationSpeed = data.shieldRotationSpeed;
@@ -68,15 +80,20 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		comformDistanceMax = 50;
 		comformDistanceMin = 30;
 
+		thisShip.StartCoroutine (LogicShip ());
 		thisShip.StartCoroutine (SpawnShieldObjects ());
 		thisShip.StartCoroutine (RotateShields ());
-		thisShip.StartCoroutine (LogicShip ());
 		thisShip.StartCoroutine (LogicShoot ());
 		thisShip.StartCoroutine (AimShootingObjects ());
-		thisShip.StartCoroutine (CollectBrokenObjects ());
-		thisShip.StartCoroutine (RotateBrokenShields ());
 
-		var accData = data.accuracy;
+        if (data.collectBrokenObjects) {
+            thisShip.StartCoroutine(CollectBrokenObjects());
+            thisShip.StartCoroutine(RotateBrokenShields());
+            thisShip.StartCoroutine(ShootBrokenObjects());
+            thisShip.StartCoroutine(AimBrokenObjects());
+        }
+
+        var accData = data.accuracy;
 		accuracy = accData.startingAccuracy;
 		if(accData.isDynamic)
 			thisShip.StartCoroutine (AccuracyChanger (accData));
@@ -229,8 +246,40 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		}
 	}
 
-	//TODO: force animation
-	private IEnumerator AimShootingObjects() 
+    private IEnumerator ShootBrokenObjects() {
+        while (true) {
+            if (target != null) {
+                var notNull = brokenShields.FindAll(a => a!= null && !Main.IsNull(a.obj));
+                if (notNull.Count >= attackWithBrokenWhenCount) {
+                    for (int i = 0; i < attackWithBrokenCount; i++) {
+                        notNull = brokenShields.FindAll(a => a != null && !Main.IsNull(a.obj));
+                        if(notNull.Count == 0) {
+                            break;
+                        }
+                        int rnd = Random.Range(0, notNull.Count);
+                        var bobj = notNull[rnd];
+                        var obj = bobj.obj;
+                        brokenShields.Remove(bobj);
+                        foreach (var ps in asteroidAttackByForceAnimations) {
+                            var pmain = ps.prefab.main;
+                            pmain.startSizeMultiplier = 2 * obj.polygon.R;
+                            pmain.duration = applyShootingForceDuration;
+                        }
+                        obj.SetParticles(asteroidAttackByForceAnimations);
+                        obj.capturedByEarthSpaceship = true;
+                        AimSystem aim = new AimSystem(target.position, target.velocity, obj.position, maxSpeed * 0.8f);
+                        float randomAngle = Random.Range(-20, 20) * Mathf.Deg2Rad;
+                        obj.velocity = Vector2.zero;
+                        Vector2 randomDir = Math2d.RotateVertex(aim.directionDist, randomAngle);
+                        Main.PutOnFirstNullPlace(brokenObjectShootingWith, new BrokenBulletObj { obj = obj, startTime = Time.time, accelerateDir = randomDir }); ;
+                    }
+                }
+            } 
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private IEnumerator AimShootingObjects() 
 	{
 		while (true) {
 			if (target != null) {
@@ -255,8 +304,30 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		}
 	}
 
-	//TODO: force animation
-	private IEnumerator CollectBrokenObjects() 
+    private IEnumerator AimBrokenObjects() {
+        while (true) {
+            if (target != null) {
+                for (int i = 0; i < brokenObjectShootingWith.Count; i++) {
+                    var bulletObj = brokenObjectShootingWith[i];
+                    if (bulletObj != null) {
+                        if (Main.IsNull(bulletObj.obj)) {
+                            brokenObjectShootingWith[i] = null;
+                        } else {
+                            if (Time.time - bulletObj.startTime > applyShootingForceDuration) {
+                                brokenObjectShootingWith[i] = null;
+                            } else {
+                                var item = bulletObj.obj;
+                                item.Accelerate(Time.deltaTime, force, 0.5f, maxSpeed, maxSpeedSqr, bulletObj.accelerateDir.normalized);
+                            }
+                        }
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator CollectBrokenObjects() 
 	{
 		float checkDistSqr = (2 * asteroidShieldRadius);
 		checkDistSqr = checkDistSqr * checkDistSqr;

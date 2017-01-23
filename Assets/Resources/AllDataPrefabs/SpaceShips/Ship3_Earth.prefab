@@ -130,6 +130,9 @@ MonoBehaviour:
   respawnShieldObjDuration: 3
   shootInterval: 6
   applyShootingForceDuration: 3
+  collectBrokenObjects: 1
+  attackWithBrokenWhenCount: 8
+  attackWithBrokenCount: 4
   asteroidData: {fileID: 11429188, guid: 6e846a35844c9cd4296c78341d17b438, type: 2}
   asteroidAttackByForceAnimations:
   - place:
