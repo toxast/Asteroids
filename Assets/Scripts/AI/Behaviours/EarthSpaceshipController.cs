@@ -42,6 +42,8 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		public float angleDeg;
 	}
 
+    float teleportDistanceSqr = 120f * 120f; 
+
 	public EarthSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> objects, MEarthSpaceshipData data) : base(thisShip)
 	{
 		asteroidAttackByForceAnimations = data.asteroidAttackByForceAnimations;
@@ -80,14 +82,39 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 			thisShip.StartCoroutine (AccuracyChanger (accData));
 	}
 
-	private IEnumerator LogicShip() 
-	{
-		yield return null;
-		while (true) {
-			
-			yield return null;
-		}
-	}
+    private IEnumerator LogicShip() {
+        float checkBehTimeInterval = 0.1f;
+        float checkBehTime = 0;
+        bool behaviourChosen = false;
+        float duration;
+        Vector2 newDir;
+        while (true) {
+            if (!Main.IsNull(target)) {
+                behaviourChosen = false;
+                checkBehTime -= Time.deltaTime;
+
+                if (checkBehTime <= 0) {
+                    checkBehTime = checkBehTimeInterval;
+
+                    comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.7f); // TODO on target change
+                                                                                                                      //Debug.LogWarning(comformDistanceMin + " " + comformDistanceMax);
+                    tickData.Refresh(thisShip, target);
+
+                    if (!behaviourChosen) {
+                        behaviourChosen = true;
+                        if (tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin) {
+                            AIHelper.OutOfComformTurn(thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+                            yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
+                        } else {
+                            AIHelper.ComfortTurn(comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+                            yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
+                        }
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
 
 	private IEnumerator SpawnShieldObjects() 
 	{
@@ -131,12 +158,14 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 				if (Main.IsNull (item)) {
 					shields [i] = null;
 				} else {
-					var radAngle = angle * Mathf.Deg2Rad;
-					Vector2 targetPos = thisShip.position + asteroidShieldRadius * new Vector2 (Mathf.Cos (radAngle), Mathf.Sin (radAngle));
-					Vector2 targetVelocity = thisShip.velocity + rotationSpeed * (-Math2d.MakeRight (targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
-					targetPositions [i] = targetPos;
-					FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force);
-					item.Accelerate (Time.deltaTime, force, 0.5f, maxSpeed, maxSpeedSqr, aim.forceDir.normalized); 
+                    if ((item.position - thisShip.position).sqrMagnitude < teleportDistanceSqr) { //hack for bounds teleport
+                        var radAngle = angle * Mathf.Deg2Rad;
+                        Vector2 targetPos = thisShip.position + asteroidShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
+                        Vector2 targetVelocity = thisShip.velocity + rotationSpeed * (-Math2d.MakeRight(targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
+                        targetPositions[i] = targetPos;
+                        FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force);
+                        item.Accelerate(Time.deltaTime, force, 0.5f, maxSpeed, maxSpeedSqr, aim.forceDir.normalized);
+                    }
 				}
 				angle += deltaAngle;
 			}
@@ -144,7 +173,32 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		}
 	}
 
-	private IEnumerator LogicShoot() {
+    private IEnumerator RotateBrokenShields() {
+        while (true) {
+            float deltaAngle = -shieldRotationSpeed * Time.deltaTime;
+            for (int i = 0; i < brokenShields.Count; i++) {
+                var item = brokenShields[i];
+                if (item != null) {
+                    if (Main.IsNull(item.obj)) {
+                        brokenShields[i] = null;
+                    } else {
+                        item.angleDeg += deltaAngle;
+                        if ((item.obj.position - thisShip.position).sqrMagnitude < teleportDistanceSqr) { //hack for bounds teleport
+                            var bObj = item.obj;
+                            var radAngle = item.angleDeg * Mathf.Deg2Rad;
+                            Vector2 targetPos = thisShip.position + asteroidShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
+                            Vector2 targetVelocity = thisShip.velocity - rotationSpeed * (-Math2d.MakeRight(targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
+                            FollowAim aim = new FollowAim(targetPos, targetVelocity, bObj.position, bObj.velocity, force);
+                            bObj.Accelerate(Time.deltaTime, force, 0.5f, maxSpeed, maxSpeedSqr, aim.forceDir.normalized);
+                        }
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator LogicShoot() {
 		yield return new WaitForSeconds (shootInterval/2f);
 		while (true) {
 			if (target != null) {
@@ -243,30 +297,6 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 			}
 
 			yield return new WaitForSeconds(2f);
-		}
-	}
-
-	private IEnumerator RotateBrokenShields()
-	{
-		while (true) {
-			float deltaAngle = - shieldRotationSpeed * Time.deltaTime;
-			for (int i = 0; i < brokenShields.Count; i++) {
-				var item = brokenShields [i];
-				if (item != null) {
-					if (Main.IsNull (item.obj)) {
-						brokenShields [i] = null;
-					} else {
-						item.angleDeg += deltaAngle;
-						var bObj = item.obj;
-						var radAngle = item.angleDeg * Mathf.Deg2Rad;
-						Vector2 targetPos = thisShip.position + asteroidShieldRadius * new Vector2 (Mathf.Cos (radAngle), Mathf.Sin (radAngle));
-						Vector2 targetVelocity = thisShip.velocity - rotationSpeed * (-Math2d.MakeRight (targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
-						FollowAim aim = new FollowAim(targetPos, targetVelocity, bObj.position, bObj.velocity, force);
-						bObj.Accelerate (Time.deltaTime, force, 0.5f, maxSpeed, maxSpeedSqr, aim.forceDir.normalized); 
-					}
-				}
-			}
-			yield return null;
 		}
 	}
 
