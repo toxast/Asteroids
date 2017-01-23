@@ -8,7 +8,8 @@ public class MSpawnData<T> : MonoBehaviour, ISpawnable
 	public int spawnCount = 1;
 	public bool spawn = true;
 	public int editorSpawnLayer = CollisionLayers.ilayerTeamEnemies;
-    [Space(20)]
+    [Space(10)]
+	[Header("game fields")]
     public int gameSpawnLayer = CollisionLayers.ilayerTeamEnemies;
 
 	#if UNITY_EDITOR
