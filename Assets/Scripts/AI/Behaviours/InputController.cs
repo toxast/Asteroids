@@ -10,3 +10,13 @@ public interface InputController
 	bool braking{get;}
     void SetSpawnParent(PolygonGameObject prnt);
 }
+
+public class EmptyInputController : InputController
+{
+	public void Tick (PolygonGameObject p){}
+	public Vector2 turnDirection{ get { return Vector2.zero;}}
+	public bool shooting{get { return false;}}
+	public bool accelerating{get { return false;}}
+	public bool braking{get { return false;}}
+	public void SetSpawnParent(PolygonGameObject prnt){}
+}

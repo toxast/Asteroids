@@ -66,18 +66,15 @@ public static class CollisionLayers
 	static public List<int> GetEnemyLayersInPriority(int layer)
 	{
 		List<int> enemyLayers = new List<int>();
-		if ((layer & (1 << CollisionLayers.ilayerBulletsUser | 1 << CollisionLayers.ilayerTeamUser | 1 << CollisionLayers.ilayerUser)) != 0 )
-		{
+		if ((layer & (1 << CollisionLayers.ilayerBulletsUser | 1 << CollisionLayers.ilayerTeamUser | 1 << CollisionLayers.ilayerUser)) != 0) {
 			enemyLayers.Add (1 << CollisionLayers.ilayerTeamEnemies);
 			enemyLayers.Add (1 << CollisionLayers.ilayerAsteroids);
-		}
-		else if((layer & (1 << CollisionLayers.ilayerBulletsEnemies | 1 << CollisionLayers.ilayerTeamEnemies)) != 0)
-		{
-			enemyLayers.Add(1 << CollisionLayers.ilayerTeamUser | 1 << CollisionLayers.ilayerUser);
-		}
-		else if((layer & (1 << CollisionLayers.ilayerAsteroids)) != 0)
-		{
-			enemyLayers.Add(1 << CollisionLayers.ilayerUser);
+		} else if ((layer & (1 << CollisionLayers.ilayerBulletsEnemies | 1 << CollisionLayers.ilayerTeamEnemies)) != 0) {
+			enemyLayers.Add (1 << CollisionLayers.ilayerTeamUser | 1 << CollisionLayers.ilayerUser);
+		} else if ((layer & (1 << CollisionLayers.ilayerAsteroids)) != 0) {
+			enemyLayers.Add (1 << CollisionLayers.ilayerUser);
+		} else {
+			Debug.LogError ("no enemies with layer: " + layer);
 		}
 		
 		return enemyLayers;

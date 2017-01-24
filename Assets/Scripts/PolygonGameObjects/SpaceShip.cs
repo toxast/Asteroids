@@ -10,7 +10,7 @@ public class SpaceShip : PolygonGameObject
 	public float turnSpeed = 220f;
 
     float _maxSpeed = 0;
-	float maxSpeedSqr;
+	public float maxSpeedSqr{ get; private set; }
 	public float maxSpeed {
         get { return _maxSpeed; }
         set {

@@ -46,9 +46,9 @@ public class GravityBullet : PolygonGameObject {
 		}
     }
 
-	public override void OnDestroying ()
+	public override void HandleDestroying ()
 	{
-		base.OnDestroying ();
+		base.HandleDestroying ();
 
 		Color c = Color.black;
 		c.a = 0;

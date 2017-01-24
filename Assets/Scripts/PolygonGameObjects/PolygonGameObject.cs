@@ -460,13 +460,18 @@ public class PolygonGameObject : MonoBehaviour
 		destroyEffects = new List<ParticleSystemsData>(datas);
 	}
 
-	public virtual void OnDestroying() {
+	public Action OnDestroying;
+	public virtual void HandleDestroying() {
 		if (destroyEffects != null) {
 			foreach (var item in destroyEffects) {
 				var inst  = Instantiate(item.prefab) as ParticleSystem;
 				Math2d.PositionOnParent (inst.transform, item.place, cacheTransform, false, -1);
 				Destroy (inst.gameObject, 5f);
 			}
+		}
+
+		if (OnDestroying != null) {
+			OnDestroying ();
 		}
 	}
 

@@ -1,27 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &193010
+--- !u!1 &105732
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 448270}
-  - component: {fileID: 114194171828006078}
+  - component: {fileID: 426060}
+  - component: {fileID: 114678630890248248}
   m_Layer: 0
-  m_Name: Ship24_Invisible
+  m_Name: Ship3_Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &448270
+--- !u!4 &426060
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 193010}
+  m_GameObject: {fileID: 105732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -38,44 +38,44 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 193010}
+  m_RootGameObject: {fileID: 105732}
   m_IsPrefabParent: 1
---- !u!114 &114194171828006078
+--- !u!114 &114678630890248248
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 193010}
+  m_GameObject: {fileID: 105732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3764fa56333aa44cbce8c9e6099c9fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 533f029e3ee358c40b1fd9ab33dd3ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
-  spawn: 0
+  spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
   price: -1
   reward: 0
-  color: {r: 0.38894895, g: 0.4852941, b: 0.40157348, a: 1}
+  color: {r: 0.9485294, g: 0.70302767, b: 0.33477506, a: 1}
   physical:
     density: 1
-    health: 20
+    health: 70
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
   mobility:
     thrust: 45
-    maxSpeed: 20
-    turnSpeed: 220
+    maxSpeed: 30
+    turnSpeed: 150
     brake: 15
     passiveBrake: 2
-    stability: 0.5
-    shootAngle: 1
+    stability: 0.7
+    shootAngle: 5
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
-    isDynamic: 0
+    isDynamic: 1
     checkDtime: 0.5
     add: 0.15
     sub: 0.4
@@ -84,39 +84,43 @@ MonoBehaviour:
     capacity: 0
     rechargeRate: 0
     rechargeDelay: 0
-  guns:
-  - place:
-      pos: {x: 1.31, y: 1.13}
-      dir: {x: 1, y: 0}
-    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
-  - place:
-      pos: {x: 1.31, y: -1.13}
-      dir: {x: 1, y: 0}
-    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
+  guns: []
   linkedGuns: 
   thrusters:
   - place:
-      pos: {x: -1.23, y: -0.81}
-      dir: {x: 0.93539584, y: -0.35360238}
-    prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
-  - place:
-      pos: {x: -1.18, y: 0.73}
-      dir: {x: 0.93539566, y: 0.35360286}
-    prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+      pos: {x: -0.71749985, y: 0.000000016474736}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
   turrets: []
   verts:
-  - {x: 0.2916409, y: -0.3301127}
-  - {x: 1.6356713, y: -0.990338}
-  - {x: 1.6356713, y: -1.3204509}
-  - {x: -0.88733315, y: -1.4855072}
-  - {x: -1.5475588, y: -1.1082357}
-  - {x: -0.79301536, y: -0.5187486}
-  - {x: -0.79301536, y: 0.5187486}
-  - {x: -1.5475588, y: 1.1082357}
-  - {x: -0.88733315, y: 1.4855072}
-  - {x: 1.6356713, y: 1.3204509}
-  - {x: 1.6356713, y: 0.990338}
-  - {x: 0.2916409, y: 0.3301127}
+  - {x: 2.8225002, y: -0.7200001}
+  - {x: 1.7325001, y: -1.4500002}
+  - {x: 2.0525, y: -2.37}
+  - {x: 2.1425, y: -2.57}
+  - {x: 3.7224998, y: -3.41}
+  - {x: 3.7325, y: -5.15}
+  - {x: 2.7825, y: -6.67}
+  - {x: 0.87250084, y: -6.98}
+  - {x: -1.3974999, y: -7.07}
+  - {x: -5.3374996, y: -4.85}
+  - {x: -3.2974997, y: -4.16}
+  - {x: -2.6574998, y: -3}
+  - {x: -1.9374999, y: -1.7600001}
+  - {x: -1.4975001, y: -0.7200001}
+  - {x: -1.4975001, y: 0.71999997}
+  - {x: -1.9374999, y: 1.7599999}
+  - {x: -2.6574998, y: 3}
+  - {x: -3.2974997, y: 4.16}
+  - {x: -5.3374996, y: 4.85}
+  - {x: -1.3974999, y: 7.07}
+  - {x: 0.87250084, y: 6.98}
+  - {x: 2.7825, y: 6.67}
+  - {x: 3.7325, y: 5.15}
+  - {x: 3.7224998, y: 3.41}
+  - {x: 2.1425, y: 2.57}
+  - {x: 2.0525, y: 2.37}
+  - {x: 1.7325001, y: 1.4499999}
+  - {x: 2.8225002, y: 0.71999997}
   upgradeIndex: 0
   deathData:
     createExplosionOnDeath: 1
@@ -124,9 +128,10 @@ MonoBehaviour:
     destructionType: 0
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
-  invisibleData:
-    attackDutation: 3
-    invisibleDuration: 3
-    fadeOutDuration: 2
-    fadeInDuration: 0.5
+  startFireballs: 3
+  fireballCount: 4
+  respawnFireballDuration: 2
+  radius: 15
+  shootInterval: 0.5
+  fireballData: {fileID: 11493992, guid: 23a24ca28642f564aaabba35c348ae7d, type: 2}
   fillFrom: {fileID: 0}

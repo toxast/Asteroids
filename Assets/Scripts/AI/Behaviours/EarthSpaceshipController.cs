@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
+
+//TODO custom collision layer for asteroids, which will leave them not primary target
 public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 {
 	List<PolygonGameObject> objects;
@@ -359,6 +361,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 				Debug.LogWarning ("add " + obj.name);
 				var angle = Math2d.AngleRad (new Vector2 (1, 0), (obj.position - thisShip.position).normalized) * Mathf.Rad2Deg;
 				var newBroken = new BrokenShieldObj{ obj = obj, angleDeg = angle};
+				obj.SetCollisionLayerNum (CollisionLayers.GetSpawnedLayer (thisShip.layer));
 				obj.capturedByEarthSpaceship = true;
 				foreach (var ps in asteroidGrabByForceAnimations) {
 					var pmain = ps.prefab.main;

@@ -4,16 +4,9 @@ using UnityEngine;
 
 public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 
-    public class FData {
-        public int startFireballs = 2;
-        public int fireballCount = 3;
-        public float respawnFireballDuration = 2;
-        public float radius = 15f;
-        public float shootInterval = 0.5f;
-        public MRocketGunData fireballData;
-    }
-
-    FData data;
+	//TODO better bound teleport check
+	MFireShip1Data data;
+	float accuracy = 0f;
 
     float force;
     float deltaAngle;
@@ -23,12 +16,26 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
     float comformDistanceMax = 50f;
     AIHelper.Data tickData = new AIHelper.Data();
 
-    public Fire1SpaceshipController(SpaceShip thisShip, List<PolygonGameObject> objects, FData data) : base(thisShip) {
+	bool shootBeh = false;
+
+	public Fire1SpaceshipController(SpaceShip thisShip, List<PolygonGameObject> objects, MFireShip1Data data) : base(thisShip) {
         this.data = data;
         force = thisShip.thrust;
         deltaAngle = 360f / data.fireballCount;
-    }
 
+		thisShip.StartCoroutine (LogicShip ());
+		thisShip.StartCoroutine (SpawnFireballs ());
+		thisShip.StartCoroutine (KeepFireballs ());
+		thisShip.StartCoroutine (LogicShoot ());
+
+		var accData = data.accuracy;
+		accuracy = accData.startingAccuracy;
+		if (accData.isDynamic) {
+			thisShip.StartCoroutine (AccuracyChanger (accData));
+		}
+
+		thisShip.OnDestroying += HandleDestroying;
+    }
 
     private IEnumerator LogicShip() {
         float checkBehTimeInterval = 0.1f;
@@ -38,27 +45,29 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
         Vector2 newDir;
         while (true) {
             if (!Main.IsNull(target)) {
-                behaviourChosen = false;
-                checkBehTime -= Time.deltaTime;
+				if (!shootBeh) {
+					behaviourChosen = false;
+					checkBehTime -= Time.deltaTime;
 
-                if (checkBehTime <= 0) {
-                    checkBehTime = checkBehTimeInterval;
+					if (checkBehTime <= 0) {
+						checkBehTime = checkBehTimeInterval;
 
-                    comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.7f); // TODO on target change
-                                                                                                                      //Debug.LogWarning(comformDistanceMin + " " + comformDistanceMax);
-                    tickData.Refresh(thisShip, target);
+						comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.7f); // TODO on target change
+						//Debug.LogWarning(comformDistanceMin + " " + comformDistanceMax);
+						tickData.Refresh(thisShip, target);
 
-                    if (!behaviourChosen) {
-                        behaviourChosen = true;
-                        if (tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin) {
-                            AIHelper.OutOfComformTurn(thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-                            yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
-                        } else {
-                            AIHelper.ComfortTurn(comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-                            yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
-                        }
-                    }
-                }
+						if (!behaviourChosen) {
+							behaviourChosen = true;
+							if (tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin) {
+								AIHelper.OutOfComformTurn(thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+								yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
+							} else {
+								AIHelper.ComfortTurn(comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+								yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
+							}
+						}
+					}
+				}
             }
             yield return null;
         }
@@ -78,7 +87,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 
         while (true) {
             bool hasEmpty = fireballs.Exists(a => a == null);
-            if (hasEmpty) {
+			if (hasEmpty && !shootBeh) {
                 yield return new WaitForSeconds(data.respawnFireballDuration);
                 int indx = fireballs.FindIndex(a => a == null);
                 if (indx >= 0) {
@@ -118,18 +127,34 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
             if (target != null) {
                 bool fireballsFull = !fireballs.Exists(a => Main.IsNull(a));
                 if (fireballsFull) {
+					shootBeh = true;
+					Brake ();
+					float time = 1f;
+					while (time > 0) {
+						turnDirection = target.position - thisShip.position;
+						yield return null;
+						time -= Time.deltaTime;
+					}
+
                     for (int i = 0; i < fireballs.Count; i++) {
+						turnDirection = target.position - thisShip.position;
                         var obj = fireballs[i];
                         if (!Main.IsNull(obj)) {
                             fireballs[i] = null;
                             var controller = new MissileController(obj, data.fireballData.missleParameters.maxSpeed, data.fireballData.accuracy);
-                            obj.velocity = Vector2.zero;
                             obj.SetController(controller);
                             obj.SetTarget(target);
+							if (obj.velocity.magnitude > 5f) {
+								obj.cacheTransform.right = obj.velocity.normalized;
+							} else {
+								obj.cacheTransform.right = (target.position - obj.position).normalized; //TODO randomize angle by param
+							}
+							obj.InitLifetime (5f); //TODO param
                             obj.destroyOnBoundsTeleport = true;
                         }
                         yield return new WaitForSeconds(data.shootInterval);
                     }
+					shootBeh = false;
                 }
             }
             yield return null;
@@ -143,12 +168,37 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
         fireball.gameObject.name = "fireball";
         fireball.InitSpaceShip(rd.physical, rd.missleParameters);
         fireball.damageOnCollision = rd.damageOnCollision;
-        fireball.destroyOnBoundsTeleport = true;
         fireball.destructionType = PolygonGameObject.DestructionType.eDisappear;
         fireball.SetParticles(rd.particles);
         fireball.SetDestroyAnimationParticles(rd.destructionEffects);
-        
-
+		fireball.SetController (new EmptyInputController ());
+		fireball.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(thisShip.layer));
+		Singleton<Main>.inst.HandleGunFire (fireball);
         return fireball;
     }
+
+	private IEnumerator AccuracyChanger(AccuracyData data)
+	{
+		Vector2 lastDir = Vector2.one; //just not zero
+		float dtime = data.checkDtime;
+		while(true)
+		{
+			if(!Main.IsNull(target))
+			{
+				AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, target, data);
+			}
+			yield return new WaitForSeconds(dtime);
+		}
+	}
+
+	void HandleDestroying() {
+		for (int i = 0; i < fireballs.Count; i++) {
+			var obj = fireballs[i];
+			if (!Main.IsNull(obj)) {
+				obj.InitLifetime (5f);
+				obj.destroyOnBoundsTeleport = true;
+			}
+		}
+	}
+
 }

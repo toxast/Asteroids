@@ -37,6 +37,15 @@ public class ObjectsCreator
 		return spaceship;
 	}
 
+	public static T CreateFireSpaceship1<T>(MFireShip1Data sdata, int layerNum)
+		where T:SpaceShip
+	{
+		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
+		var controller = new Fire1SpaceshipController(spaceship, Singleton<Main>.inst.gObjects, sdata);
+		spaceship.SetController(controller);
+		return spaceship;
+	}
+
     public static T CreateChargerSpaceship<T>(MChargerSpaseshipData sdata, int layerNum)
         where T : SpaceShip {
         var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
