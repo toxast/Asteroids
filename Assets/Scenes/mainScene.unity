@@ -2122,7 +2122,7 @@ MonoBehaviour:
   - {fileID: 19865136, guid: 32a56795e0ea01c49833667061fcfb66, type: 2}
   - {fileID: 19813558, guid: e436eec92287d144ca55f9ddf5450191, type: 2}
   smallFinalDeathExplosionEffects:
-  - {fileID: 19833408, guid: 32e2b9ed35848c84fbd974b65d2a504c, type: 2}
+  - {fileID: 19842648, guid: f213e3a2e64ec354fb873ab263836f4f, type: 2}
   - {fileID: 19855540, guid: f9054a1ae825a6348ab7dccd7d1c9731, type: 2}
   mediumFinalDeathExplosionEffects:
   - {fileID: 19833408, guid: 32e2b9ed35848c84fbd974b65d2a504c, type: 2}

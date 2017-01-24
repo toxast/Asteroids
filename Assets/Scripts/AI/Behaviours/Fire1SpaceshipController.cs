@@ -141,7 +141,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
                         var obj = fireballs[i];
                         if (!Main.IsNull(obj)) {
                             fireballs[i] = null;
-                            var controller = new MissileController(obj, data.fireballData.missleParameters.maxSpeed, data.fireballData.accuracy);
+                            var controller = new MissileController(obj, data.fireballData.accuracy);
                             obj.SetController(controller);
                             obj.SetTarget(target);
 							if (obj.velocity.magnitude > 5f) {

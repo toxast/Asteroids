@@ -41,9 +41,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
-  spawn: 1
+  spawn: 0
   editorSpawnLayer: 2
-  _spaceField: 0
+  gameSpawnLayer: 2
   price: 10
   reward: 0
   color: {r: 0, g: 0.30065933, b: 0.8897059, a: 1}
@@ -53,7 +53,6 @@ MonoBehaviour:
     healthModifier: 10
     collisionDefence: 0
     collisionAttackModifier: 1
-  ai: 0
   mobility:
     thrust: 20
     maxSpeed: 20
@@ -85,7 +84,6 @@ MonoBehaviour:
       pos: {x: -1.0981234, y: -0.000000010210249}
       dir: {x: 1, y: 0}
     prefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
-    thrusterPrefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
   turrets: []
   verts:
   - {x: 2.1474977, y: -0.27019304}
@@ -99,6 +97,12 @@ MonoBehaviour:
   - {x: 0.48187643, y: 1.176604}
   - {x: 2.1474977, y: 0.27019304}
   upgradeIndex: 1
+  deathData:
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    destructionType: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

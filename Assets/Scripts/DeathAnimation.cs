@@ -28,13 +28,13 @@ public class DeathAnimation
 		//Debug.LogWarning (minExplosions + " - " + maxExplosions);
 		int explosionsCount = UnityEngine.Random.Range(minExplosions,maxExplosions);
 		//Debug.LogWarning (g.polygon.area);
-		if(go.polygon.area < 5f)
+		if(go.polygon.area < 10f)
 		{
 			//int explosionsCount = UnityEngine.Random.Range(1,4);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.smallDeathExplosionEffects);
 			anim = new DeathAnimation(go, duration, explosionsCount, explosions, config.smallFinalDeathExplosionEffects);
 		}
-		else if(go.polygon.area < 50f)
+		else if(go.polygon.area < 20f)
 		{
 			//int explosionsCount = UnityEngine.Random.Range(2,5);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.smallDeathExplosionEffects);
@@ -70,7 +70,10 @@ public class DeathAnimation
 			for (int k = 0; k < explosionsCount; k++) {
 				int i = UnityEngine.Random.Range(0, explosionPrefabs.Count);
 				var e = GameObject.Instantiate(explosionPrefabs[i]) as ParticleSystem;
-				e.startDelay = ((float)(k)/explosionPrefabs.Count) * duration;
+				var pmain = e.main;
+				pmain.startDelay = ((float)(k)/explosionPrefabs.Count) * duration;
+				pmain.duration = duration - e.startDelay;
+
 				e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
 				var r = 2f*obj.polygon.R/3f;
 				e.transform.position += new Vector3(UnityEngine.Random.Range(-r, r),

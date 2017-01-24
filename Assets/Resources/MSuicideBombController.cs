@@ -6,28 +6,26 @@ using Random = UnityEngine.Random;
 
 //TODO: randomize behaviour a bit
 public class MSuicideBombController : BaseSpaceshipController {
-    AIHelper.Data tickData = new AIHelper.Data();
+    //AIHelper.Data tickData = new AIHelper.Data();
 
     float chargeDuration;
     float chargingDist;
     float accuracy;
-    float explosionRange = 30f;
-    List<PolygonGameObject> bullets;
+    //float explosionRange = 30f;
 	float delayBeforeExplode;
 
-	public MSuicideBombController(SpaceShip thisShip, List<PolygonGameObject> bullets, MSuicideBombSpaceshipData data) : base(thisShip) {
+	public MSuicideBombController(SpaceShip thisShip, MSuicideBombSpaceshipData data) : base(thisShip) {
         if (thisShip.deathAnimation == null) {
             Debug.LogError("MSuicideBombController has to have explosion death");
-            explosionRange = 30f;
+            //explosionRange = 30f;
         } else {
-            explosionRange = thisShip.deathAnimation.GetFinalExplosionRadius();
+            //explosionRange = thisShip.deathAnimation.GetFinalExplosionRadius();
         }
 
 		delayBeforeExplode = data.delayBeforeExplode;
 
 		var accData = data.accuracy;
         accuracy = accData.startingAccuracy;
-        this.bullets = bullets;
         if (accData.isDynamic) {
             thisShip.StartCoroutine(AccuracyChanger(accData));
         }
@@ -37,8 +35,6 @@ public class MSuicideBombController : BaseSpaceshipController {
     private IEnumerator Logic() {
         shooting = false;
         accelerating = true;
-        float duration;
-        Vector2 newDir;
         while (true) {
             if (!Main.IsNull(target)) {
 				var aim2 = new SuicideAim (target, thisShip, accuracy);
@@ -46,7 +42,7 @@ public class MSuicideBombController : BaseSpaceshipController {
 				turnDirection = aim2.direction;
 				if(aim2.canShoot) {
                     SetAcceleration(true);
-                    float dtime = 0.5f;
+					float dtime = delayBeforeExplode;
 					float approximateTime = aim2.time;
 //                    Debug.LogWarning("approximateTime " + approximateTime + " " + angle);
                     if (approximateTime < dtime) {

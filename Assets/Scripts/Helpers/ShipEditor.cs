@@ -571,7 +571,7 @@ public class ShipEditor : MonoBehaviour
 	public void MyCustomAction() {
 		var rocketGuns = LoadPrefabsContaining<MRocketGunData> ();
 		foreach (var item in rocketGuns) {
-			item.overrideExplosionDamage = item.overrideExplosionDamage;
+			//item.overrideExplosionDamage = item.overrideExplosionDamage;
 //			item.thrusters.ForEach (p => p.prefab = p.thrusterPrefab);
 			EditorUtility.SetDirty (item.gameObject);
 		}

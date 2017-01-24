@@ -70,7 +70,7 @@ public class RocketLauncher : GunShooterBase
 		missile.SetParticles (partcles);
 		missile.SetDestroyAnimationParticles (data.destructionEffects);
 
-		var controller = new MissileController (missile, missleParameters.maxSpeed, accuracy);
+		var controller = new MissileController (missile, accuracy);
 		missile.SetController (controller);
 		missile.targetSystem = new MissileTargetSystem (missile);
 

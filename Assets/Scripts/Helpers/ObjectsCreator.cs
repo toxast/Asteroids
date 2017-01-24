@@ -12,9 +12,13 @@ public class ObjectsCreator
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 		var bullets = Singleton<Main>.inst.bullets;
-		var controller = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
-        spaceship.SetController (controller);
-
+		if (spaceship.guns.Count > 0) {
+			var controller = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
+			spaceship.SetController (controller);
+		} else {
+			Debug.LogError ("ship data should have gun!");
+			spaceship.SetController (new EmptyInputController());
+		}
 		return spaceship;
 	}
 
@@ -58,8 +62,7 @@ public class ObjectsCreator
     public static T CreateSuisideBombSpaceship<T>(MSuicideBombSpaceshipData sdata, int layerNum)
        where T : SpaceShip {
         var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
-        var bullets = Singleton<Main>.inst.bullets;
-        var controller = new MSuicideBombController(spaceship, bullets, sdata);
+        var controller = new MSuicideBombController(spaceship, sdata);
         spaceship.SetController(controller);
         return spaceship;
     }

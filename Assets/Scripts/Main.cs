@@ -745,38 +745,28 @@ public class Main : MonoBehaviour
 	private void SplitAndDestroyThresholdParts(PolygonGameObject obj, float threshold)
 	{
 		DropData drop = null;
-		if(obj.dropID != null)
-		{
-			id2drops.TryGetValue(obj.dropID, out drop);
+		if (obj.dropID != null) {
+			id2drops.TryGetValue (obj.dropID, out drop);
 		}
 
 		CheckReward (obj);
 
-		List<Asteroid> parts = Spliter.SplitIntoAsteroids(obj);
-		foreach(var part in parts)
-		{
-			if(part.polygon.area < threshold)
-			{
+		List<Asteroid> parts = Spliter.SplitIntoAsteroids (obj);
+		foreach (var part in parts) {
+			if (part.polygon.area < threshold) {
 				//refactor
-				if(drop != null)
-				{
-					CheckDrop(drop, part);
+				if (drop != null) {
+					CheckDrop (drop, part);
 				}
 
 				AddToAlphaDetructor (part, 0.7f + UnityEngine.Random.Range (0f, 1f));
-			}
-			else
-			{
-				if(obj.dropID != null)
-				{
+			} else {
+				if (obj.dropID != null) {
 					part.dropID = obj.dropID;
-				}
-				else
-				{
+				} else {
 					part.destroyOnBoundsTeleport = true;
-//					part.destructionType = PolygonGameObject.DestructionType.eJustDestroy;
 				}
-				Add2Objects(part);
+				Add2Objects (part);
 			}
 		}
 	}
