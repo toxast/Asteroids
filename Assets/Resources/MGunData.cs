@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class MGunData : MGunBaseData, IGotShape {
 	public float damage = 3;
@@ -11,7 +11,8 @@ public class MGunData : MGunBaseData, IGotShape {
 	public float repeatInterval = 0;
 	public Vector2[] vertices = PolygonCreator.GetRectShape(0.4f, 0.2f); 
 	public Color color = Color.red;
-	public ParticleSystem fireEffect;
+    public List<ParticleSystemsData> effects;
+    public ParticleSystem fireEffect;
 
 	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}
 

@@ -10,10 +10,12 @@ public class BulletGun : GunShooterBase
 	public float bulletSpeed;
 	public Color color;
 	public float damage;
+    public MGunData data;
 
-	public BulletGun(Place place, MGunData data, PolygonGameObject parent)
+    public BulletGun(Place place, MGunData data, PolygonGameObject parent)
 		:base(place, data, parent, data.repeatCount, data.repeatInterval, data.fireInterval, data.fireEffect)
 	{
+        this.data = data;
 		this.vertices = data.vertices;
 		this.physical = data.physical;
 		this.lifeTime = data.lifeTime;
@@ -29,9 +31,10 @@ public class BulletGun : GunShooterBase
 
 	public override float BulletSpeedForAim{ get { return bulletSpeed; } }
 
-	private PolygonGameObject CreateBullet()
-	{
-		PolygonGameObject bullet = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(vertices, color);
+    protected T CreateBullet<T>()
+        where T : PolygonGameObject
+    {
+        T bullet = PolygonCreator.CreatePolygonGOByMassCenter<T>(vertices, color);
 		bullet.gameObject.name = "bullet";
 
 		Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform);
@@ -42,13 +45,14 @@ public class BulletGun : GunShooterBase
 		bullet.velocity = bullet.cacheTransform.right * bulletSpeed;
 		bullet.destructionType = PolygonGameObject.DestructionType.eSptilOnlyOnHit;
 		bullet.destroyOnBoundsTeleport = true;
+        bullet.SetParticles(data.effects);
 
-		return bullet;
+        return bullet;
 	}
 
 	protected override void Fire()
 	{
-		var b = CreateBullet ();
+		var b = CreateBullet<PolygonGameObject>();
 
 		b.velocity += Main.AddShipSpeed2TheBullet(parent);
 		b.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
@@ -58,4 +62,28 @@ public class BulletGun : GunShooterBase
 		if (fireEffect != null)
 			fireEffect.Emit (1);
 	}
+}
+
+
+public class ForcedBulletGun : BulletGun 
+{
+    MForcedBulletGun fdata;
+
+    public ForcedBulletGun(Place place, MForcedBulletGun fdata, PolygonGameObject parent)
+        : base(place, fdata, parent) {
+        this.fdata = fdata;
+    }
+
+    protected override void Fire() {
+        var bullet = CreateBullet<ForcedBullet>();
+        var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layer));
+        var forceDir = Math2d.MakeRight(bullet.cacheTransform.right);
+        bullet.velocity += forceDir * fdata.forceDuration * fdata.force;
+        bullet.InitForcedBullet(fdata, -forceDir, affectedLayer);
+        //bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
+        Singleton<Main>.inst.HandleGunFire(bullet);
+        if (fireEffect != null) {
+            fireEffect.Emit(1);
+        }
+    }
 }

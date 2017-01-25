@@ -922,7 +922,7 @@ public class Main : MonoBehaviour
         Vector2 oldPos = Vector2.zero;
         for (int i = 0; i < list.Count; i++) {
             PolygonGameObject item = list[i];
-            if (!item.ignoreBounds && item != null) {
+            if (item != null && !item.ignoreBounds) {
                 oldPos = item.position;
                 var wrapped = Wrap(item.cacheTransform);
                 if(wrapped && item.teleportWithMe != null) {
@@ -1160,25 +1160,23 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
-	 * stop toers from flowing after hit
+     * missile that sticks and applies force
+     * frozen storms weapon like diablo 2
+     * gravity shield
+     * teleporting enemy
+	 * duplicating enemy and illusions enemy?
+	 * stop towers from flowing after hit
 	 * make destroyed spaceship parts realy easy to break
-	 * turrets
      * explosion on turrets
 	 * lazer fix when target destroyed
-	 * destroy shaceship wrecks on bounds check?
-	 * faster rocket parts fade on hit?
 	 * ipad trampolines (2 if i recall correctly, about interfaces)
 	 * poison asteroids
 	 * camera shake on explosions
 	 * sky texture?
-	 * duplicating enemy and illusions enemy?
-	 * gravity shield
 	 * death refactor && missiles explosion on death
 	 * explision by vertex
 	 * gravity misiles
-	 * change rotation (thruster attach) missiles?
 	 * mine missiles
-	 * bullets shoot missiles?
 	 * shoot place levels
 	 * deflect shields
 	 * more efficeient stars render
