@@ -842,7 +842,7 @@ public class Main : MonoBehaviour
 		anim.transform.localPosition = new Vector3(0, 0, UnityEngine.Random.Range(1f, 1.1f));
 		dropObj.cacheTransform.position =
 			position + randomOffset + new Vector3(0,0,2);
-		dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f,1f));
+		dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Math2d.RandomSign();
 		drops.Add(dropObj);
 	}
 
@@ -919,22 +919,22 @@ public class Main : MonoBehaviour
 
     private void Wrap<T>(List<T> list, bool nullCheck)
         where T : PolygonGameObject {
-        if (!nullCheck) {
-            for (int i = 0; i < list.Count; i++) {
-                var wrapped = Wrap(list[i].cacheTransform);
-                if (wrapped && list[i].destroyOnBoundsTeleport) {
-                    list[i].Kill();
-                    list[i].destructionType = PolygonGameObject.DestructionType.eDisappear;
-                }
-            }
-        } else {
-            for (int i = 0; i < list.Count; i++) {
-                if (list[i] != null) {
-                    var wrapped = Wrap(list[i].cacheTransform);
-                    if (wrapped && list[i].destroyOnBoundsTeleport) {
-                        list[i].Kill();
-                        list[i].destructionType = PolygonGameObject.DestructionType.eDisappear;
+        Vector2 oldPos = Vector2.zero;
+        for (int i = 0; i < list.Count; i++) {
+            PolygonGameObject item = list[i];
+            if (!item.ignoreBounds && item != null) {
+                oldPos = item.position;
+                var wrapped = Wrap(item.cacheTransform);
+                if(wrapped && item.teleportWithMe != null) {
+                    Vector2 delta = item.position - oldPos;
+                    foreach (var controllable in item.teleportWithMe) {
+                        controllable.position += delta;
                     }
+                }
+
+                if (wrapped && item.destroyOnBoundsTeleport) {
+                    item.Kill();
+                    item.destructionType = PolygonGameObject.DestructionType.eDisappear;
                 }
             }
         }

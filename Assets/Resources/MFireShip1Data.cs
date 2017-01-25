@@ -9,8 +9,9 @@ public class MFireShip1Data : MSpaceshipData
 	public int fireballCount = 3;
 	public float respawnFireballDuration = 2;
 	public float radius = 15f;
-	public float shootInterval = 0.5f;
-	public MRocketGunData fireballData;
+    public float shootInterval = 0.5f;
+    public float randomizeAimAngle = 15f;
+    public MRocketGunData fireballData;
 
 	public override SpaceShip Create(int layer)
 	{

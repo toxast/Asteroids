@@ -2327,7 +2327,7 @@ MonoBehaviour:
   tabletController: {fileID: 1381619135}
   oldGUI: {fileID: 2053336190}
   bullets: []
-  borderWidth: 40
+  borderWidth: 80
   starsDensity: 4
   sceneSizeInCameras: {x: 1.2, y: 1.2}
   boundsMode: 0

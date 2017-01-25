@@ -251,9 +251,11 @@ public static class Math2d
 		return verticesRotated;
 	}
 
+    static public Vector2 RotateVertexDeg(Vector2 v, float alpha) {
+        return RotateVertex(v, alpha * Mathf.Deg2Rad);
+    }
 
-
-	static public Vector2 RotateVertex(Vector2 v, float alpha)
+    static public Vector2 RotateVertex(Vector2 v, float alpha)
 	{
 		var cosA = Mathf.Cos (alpha);
 		var sinA = Mathf.Sin (alpha);
@@ -291,6 +293,10 @@ public static class Math2d
 	{
 		return new Edge (RotateVertex (e.p1, cosA, sinA), RotateVertex (e.p2, cosA, sinA));
 	}
+
+    static public float RandomSign() {
+        return Mathf.Sign(UnityEngine.Random.Range(-1f, 1f));
+    }
 
 	/*
 	static public void TestRefDotProduct()

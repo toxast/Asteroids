@@ -56,7 +56,10 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 
 	public EarthSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> objects, MEarthSpaceshipData data) : base(thisShip)
 	{
-		this.data = data;
+        if (thisShip.teleportWithMe == null) {
+            thisShip.teleportWithMe = new List<PolygonGameObject>();
+        }
+        this.data = data;
 		asteroidsStability = data.asteroidsStability;
         asteroidAttackByForceAnimations = data.asteroidAttackByForceAnimations;
 		asteroidGrabByForceAnimations = data.asteroidGrabByForceAnimations;
@@ -157,12 +160,15 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		}
 	}
 
-	private PolygonGameObject CreateShieldObj() {
+   
+
+    private PolygonGameObject CreateShieldObj() {
 		var shieldObj = ObjectsCreator.CreateAsteroid (ast);
 		shieldObj.SetCollisionLayerNum (CollisionLayers.GetSpawnedLayer (thisShip.layer));
 		shieldObj.position = thisShip.position;
 		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(thisShip.cacheTransform.position.z + 1f);
 		shieldObj.capturedByEarthSpaceship = true;
+        thisShip.AddObjectAsFollower(shieldObj);
 		Singleton<Main>.inst.Add2Objects (shieldObj);
 		return shieldObj;
 	}
@@ -363,7 +369,8 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 				var newBroken = new BrokenShieldObj{ obj = obj, angleDeg = angle};
 				obj.SetCollisionLayerNum (CollisionLayers.GetSpawnedLayer (thisShip.layer));
 				obj.capturedByEarthSpaceship = true;
-				foreach (var ps in asteroidGrabByForceAnimations) {
+                thisShip.AddObjectAsFollower(obj);
+                foreach (var ps in asteroidGrabByForceAnimations) {
 					var pmain = ps.prefab.main;
 					pmain.startSizeMultiplier = 2 * obj.polygon.R;
 				}

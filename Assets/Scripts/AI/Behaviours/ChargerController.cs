@@ -72,14 +72,14 @@ public class ChargerController : BaseSpaceshipController
 
 		var indx = Math2d.Roll (weights);
 		if(indx == 0) {
-			float angle = Random.Range(0f, 35f) * Mathf.Sign(Random.Range(-1f, 1f));
-			dir = Math2d.RotateVertex(tickData.dirNorm, angle * Mathf.Deg2Rad);
+			float angle = Random.Range(0f, 35f) * Math2d.RandomSign();
+			dir = Math2d.RotateVertexDeg(tickData.dirNorm, angle);
 		} else if( indx == 2) {
-			float angle = Random.Range(0f, 35f) * Mathf.Sign(Random.Range(-1f, 1f));
-			dir = Math2d.RotateVertex(-tickData.dirNorm, angle * Mathf.Deg2Rad);
+			float angle = Random.Range(0f, 35f) * Math2d.RandomSign();
+			dir = Math2d.RotateVertexDeg(-tickData.dirNorm, angle);
 		} else {
-			float angle = Random.Range(70f, 110f) * Mathf.Sign(Random.Range(-1f, 1f));
-			dir = Math2d.RotateVertex(tickData.dirNorm, angle * Mathf.Deg2Rad);
+			float angle = Random.Range(70f, 110f) * Math2d.RandomSign();
+			dir = Math2d.RotateVertexDeg(tickData.dirNorm, angle);
 		}
 
 		time = Random.Range(durations[indx] * 0.7f, durations[indx] * 1.3f);

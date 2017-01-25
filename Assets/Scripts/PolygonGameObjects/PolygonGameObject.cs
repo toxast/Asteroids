@@ -56,6 +56,9 @@ public class PolygonGameObject : MonoBehaviour
 	public DestructionType destructionType;
 	public bool destroyOnBoundsTeleport;
 
+    public bool ignoreBounds = false; //when object is controlled by other positioning logic
+    public List<PolygonGameObject> teleportWithMe;
+
 	public float fullHealth{ protected set; get;}
 	[SerializeField] protected float currentHealth;
 //	public event Action<float> healthChanged;
@@ -460,7 +463,12 @@ public class PolygonGameObject : MonoBehaviour
 		destroyEffects = new List<ParticleSystemsData>(datas);
 	}
 
-	public Action OnDestroying;
+    public void AddObjectAsFollower(PolygonGameObject obj) {
+        obj.ignoreBounds = true;
+        Main.PutOnFirstNullPlace(teleportWithMe, obj);
+    }
+
+    public Action OnDestroying;
 	public virtual void HandleDestroying() {
 		if (destroyEffects != null) {
 			foreach (var item in destroyEffects) {
@@ -470,7 +478,18 @@ public class PolygonGameObject : MonoBehaviour
 			}
 		}
 
-		if (OnDestroying != null) {
+        if (teleportWithMe != null) {
+            for (int i = teleportWithMe.Count - 1; i >= 0; i--) {
+                var item = teleportWithMe[i];
+                if (!Main.IsNull(item)) {
+                    item.ignoreBounds = false;
+                }
+                teleportWithMe[i] = null;
+            }
+            teleportWithMe.Clear();
+        }
+        
+        if (OnDestroying != null) {
 			OnDestroying ();
 		}
 	}

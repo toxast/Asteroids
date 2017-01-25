@@ -57,7 +57,7 @@ MonoBehaviour:
   gameSpawnLayer: 2
   price: -1
   reward: 0
-  color: {r: 1, g: 1, b: 1, a: 1}
+  color: {r: 0.27676892, g: 0.4705882, b: 0.017301025, a: 1}
   physical:
     density: 1
     health: 50
@@ -90,7 +90,7 @@ MonoBehaviour:
   - place:
       pos: {x: -1.6921363, y: -0.040000062}
       dir: {x: 1, y: 0}
-    prefab: {fileID: 0}
+    prefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
   turrets: []
   verts:
   - {x: 3.398288, y: -0.46834835}
@@ -128,14 +128,16 @@ MonoBehaviour:
   shieldRadius: 17
   shieldRotationSpeed: 30
   respawnShieldObjDuration: 3
-  shootInterval: 6
+  shootInterval: 5
   applyShootingForceDuration: 3
   collectBrokenObjects: 1
+  brokenShieldRadius: 20
   attackWithBrokenWhenCount: 8
   attackWithBrokenCount: 4
+  collectBrokenObjectsInterval: 2
+  minDeltaShootBrokenObjects: 1
   overrideMaxPartSpeed: -1
   asteroidsStability: 0.5
-  minDeltaShootBrokenObjects: 1
   asteroidData: {fileID: 11429188, guid: 6e846a35844c9cd4296c78341d17b438, type: 2}
   asteroidAttackByForceAnimations:
   - place:

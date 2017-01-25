@@ -22,8 +22,10 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
         this.data = data;
         force = thisShip.thrust;
         deltaAngle = 360f / data.fireballCount;
+        //comformDistanceMax = data.fireballData.lifeTime
 
-		thisShip.StartCoroutine (LogicShip ());
+        comformDistanceMax = data.fireballData.lifeTime * data.fireballData.missleParameters.maxSpeed * 0.8f;
+        thisShip.StartCoroutine (LogicShip ());
 		thisShip.StartCoroutine (SpawnFireballs ());
 		thisShip.StartCoroutine (KeepFireballs ());
 		thisShip.StartCoroutine (LogicShoot ());
@@ -52,7 +54,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 					if (checkBehTime <= 0) {
 						checkBehTime = checkBehTimeInterval;
 
-						comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.7f); // TODO on target change
+						comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R + 20f, comformDistanceMax * 0.7f); // TODO on target change
 						//Debug.LogWarning(comformDistanceMin + " " + comformDistanceMax);
 						tickData.Refresh(thisShip, target);
 
@@ -112,7 +114,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
                         Vector2 targetPos = thisShip.position + data.radius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
                         Vector2 targetVelocity = thisShip.velocity;// + rotationSpeed * (-Math2d.MakeRight(targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
                         FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force);
-                        item.Accelerate(Time.deltaTime, force, 0.5f, item.maxSpeed, item.maxSpeedSqr, aim.forceDir.normalized);
+                        item.Accelerate(Time.deltaTime, force, item.stability, item.maxSpeed, item.maxSpeedSqr, aim.forceDir.normalized);
                     }
                 }
                 angle += deltaAngle;
@@ -144,12 +146,11 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
                             var controller = new MissileController(obj, data.fireballData.accuracy);
                             obj.SetController(controller);
                             obj.SetTarget(target);
-							if (obj.velocity.magnitude > 5f) {
-								obj.cacheTransform.right = obj.velocity.normalized;
-							} else {
-								obj.cacheTransform.right = (target.position - obj.position).normalized; //TODO randomize angle by param
-							}
-							obj.InitLifetime (5f); //TODO param
+                            float rndAngle = Random.Range(-data.randomizeAimAngle, data.randomizeAimAngle);
+                            var dir = thisShip.cacheTransform.right;
+                            dir = Math2d.RotateVertexDeg(dir, rndAngle);
+                            obj.cacheTransform.right = dir; 
+							obj.InitLifetime (data.fireballData.lifeTime); 
                             obj.destroyOnBoundsTeleport = true;
                         }
                         yield return new WaitForSeconds(data.shootInterval);
@@ -173,6 +174,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
         fireball.SetDestroyAnimationParticles(rd.destructionEffects);
 		fireball.SetController (new EmptyInputController ());
 		fireball.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(thisShip.layer));
+        thisShip.AddObjectAsFollower(fireball);
 		Singleton<Main>.inst.HandleGunFire (fireball);
         return fireball;
     }

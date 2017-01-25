@@ -22,7 +22,7 @@ public class SpaceShip : PolygonGameObject
 	float passiveBrake = 2f;
     public float brake = 15f;
     public float thrust = 45f;
-	float stability = 0.5f;
+    public float stability = 0.5f;
 
 	private class Thruster
 	{
@@ -201,7 +201,7 @@ public class SpaceShip : PolygonGameObject
 
     private void TurnDirection(bool right, float delta) {
         float angle = 90f * (right ? -1 : 1);
-        var newDir = Math2d.RotateVertex(cacheTransform.right, angle * Mathf.Deg2Rad);
+        var newDir = Math2d.RotateVertexDeg(cacheTransform.right, angle);
         TurnByDirection(newDir, delta);
     }
 
