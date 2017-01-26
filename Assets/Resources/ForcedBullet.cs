@@ -9,24 +9,23 @@ public class ForcedBullet : PolygonGameObject {
     Vector2 forceDir;
     MForcedBulletGun data;
     List<PolygonGameObject> gobjects = new List<PolygonGameObject>();
-    float maxSpeed;
-    float maxSppedSqr;
      
-    public void InitForcedBullet(MForcedBulletGun data, Vector2 firstForceDir, int affectLayer) {
+    public void InitForcedBullet(MForcedBulletGun data, int affectLayer) {
         this.data = data;
-        this.forceDir = firstForceDir.normalized;
         this.affectLayer = affectLayer;
-        maxSpeed = 10f * data.bulletSpeed; //TODO: by force
-        maxSppedSqr = maxSpeed * maxSpeed;
+        forceDir = Math2d.RandomSign() * Math2d.MakeRight(cacheTransform.right);
+        //velocity -= forceDir * data.forceDuration * data.force;
         gobjects = Singleton<Main>.inst.gObjects;
         StartCoroutine(ForceChange());
-        Debug.LogError("start " + velocity.magnitude);
     }
 
     const float checkEvery = 0.16f;
     float timeLeftForCheck = checkEvery;
     public override void Tick(float delta) {
         base.Tick(delta);
+
+        velocity += forceDir * delta * data.force;
+
         timeLeftForCheck -= delta;
         if (timeLeftForCheck < 0) {
             timeLeftForCheck += checkEvery;
@@ -35,15 +34,18 @@ public class ForcedBullet : PolygonGameObject {
     }
 
     IEnumerator ForceChange() {
+        yield return new WaitForSeconds(data.forceDuration / Mathf.Sqrt(2));
+        forceDir = -forceDir;
+        yield return new WaitForSeconds(data.forceDuration / Mathf.Sqrt(2));
+        yield return new WaitForSeconds(data.forceDuration);
         while (true) {
-            yield return new WaitForSeconds(2f * data.forceDuration);
-            Debug.LogError("change force " + velocity.magnitude);
             forceDir = -forceDir;
+            yield return new WaitForSeconds(2f * data.forceDuration);
         }
     }
 
     private void TickEvery(float sec) {
-        Accelerate(sec, data.force, 0, maxSpeed, maxSppedSqr, forceDir);
+        
         new PhExplosion(position, data.range, sec * data.damagePerSecond, 0, gobjects, affectLayer);
     }
 }

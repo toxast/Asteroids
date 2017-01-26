@@ -77,10 +77,8 @@ public class ForcedBulletGun : BulletGun
     protected override void Fire() {
         var bullet = CreateBullet<ForcedBullet>();
         var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layer));
-        var forceDir = Math2d.MakeRight(bullet.cacheTransform.right);
-        bullet.velocity += forceDir * fdata.forceDuration * fdata.force;
-        bullet.InitForcedBullet(fdata, -forceDir, affectedLayer);
-        //bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
+        bullet.InitForcedBullet(fdata, affectedLayer);
+        bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
         Singleton<Main>.inst.HandleGunFire(bullet);
         if (fireEffect != null) {
             fireEffect.Emit(1);
