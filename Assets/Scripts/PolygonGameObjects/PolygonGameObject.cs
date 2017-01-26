@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 public class PolygonGameObject : MonoBehaviour
 {
+	[SerializeField] bool destroy = false;
+
 	//basic
 	public GameObject gameObj{get{return gameObject;}}
 	public Polygon polygon{ get; private set;}
@@ -378,23 +380,25 @@ public class PolygonGameObject : MonoBehaviour
 
 	public virtual void Tick(float delta)
 	{
-		if(HasLifetime)
+		if (destroy) {
+			destroy = false;
+			Kill ();
+		}
+		if (HasLifetime) {
 			leftlifeTime -= delta; 
-
-		if(targetSystem != null)
+		}
+		if (targetSystem != null) {
 			targetSystem.Tick (delta);
-
+		}
 		position += velocity * delta;
 		ApplyRotation (delta);
 
-		if (deathAnimation != null)
+		if (deathAnimation != null) {
 			deathAnimation.Tick (delta);
-
+		}
 		ShieldsTick (delta);
-
-		foreach (var t in turrets)
-		{
-			t.Tick(delta);
+		foreach (var t in turrets) {
+			t.Tick (delta);
 		}
 	}
 	

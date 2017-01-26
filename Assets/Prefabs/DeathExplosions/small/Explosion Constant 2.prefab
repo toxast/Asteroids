@@ -37,14 +37,14 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131234}
   serializedVersion: 5
-  lengthInSec: 0.48972365
+  lengthInSec: 0.60322976
   simulationSpeed: 1
   looping: 0
   prewarm: 0
   playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
-    scalar: 0.08162061
+    scalar: 0.05483907
     maxCurve:
       serializedVersion: 2
       m_Curve:
