@@ -17,7 +17,7 @@ public class ObjectsCreator
 			spaceship.SetController (controller);
 		} else {
 			Debug.LogError ("ship data should have gun!");
-			spaceship.SetController (new EmptyInputController());
+			spaceship.SetController (new StaticInputController());
 		}
 		return spaceship;
 	}

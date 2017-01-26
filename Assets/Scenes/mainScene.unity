@@ -2130,6 +2130,8 @@ MonoBehaviour:
   largeFinalDeathExplosionEffects:
   - {fileID: 19855540, guid: f9054a1ae825a6348ab7dccd7d1c9731, type: 2}
   - {fileID: 19833408, guid: 32e2b9ed35848c84fbd974b65d2a504c, type: 2}
+  burningParticleEffect: {fileID: 198732008161831254, guid: 5bbb9bfa339c9ee49850394cb95dd828,
+    type: 2}
 --- !u!4 &898100672
 Transform:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public class DeathAnimation
 {
@@ -16,7 +17,7 @@ public class DeathAnimation
 	PolygonGameObject obj;
 
     public float finalExplosionPowerKoeff = 1f;
-	public float explosionSize;
+	public float explosionRadius;
 
 	public static void MakeDeathForThatFellaYo(PolygonGameObject go, bool instant = false, float finalExplosionPowerKoeff = 1f)
 	{
@@ -26,24 +27,24 @@ public class DeathAnimation
 		int minExplosions = (int)(2*Mathf.Pow(go.polygon.R, 0.5f));
 		int maxExplosions = (int)(2*Mathf.Pow(go.polygon.R, 0.8f));
 		//Debug.LogWarning (minExplosions + " - " + maxExplosions);
-		int explosionsCount = UnityEngine.Random.Range(minExplosions,maxExplosions);
+		int explosionsCount = Random.Range(minExplosions,maxExplosions);
 		//Debug.LogWarning (g.polygon.area);
 		if(go.polygon.area < 10f)
 		{
-			//int explosionsCount = UnityEngine.Random.Range(1,4);
+			//int explosionsCount = Random.Range(1,4);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.smallDeathExplosionEffects);
 			anim = new DeathAnimation(go, duration, explosionsCount, explosions, config.smallFinalDeathExplosionEffects);
 		}
 		else if(go.polygon.area < 20f)
 		{
-			//int explosionsCount = UnityEngine.Random.Range(2,5);
+			//int explosionsCount = Random.Range(2,5);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.smallDeathExplosionEffects);
 			explosions.AddRange(config.mediumDeathExplosionEffects);
 			anim = new DeathAnimation(go, duration, explosionsCount, explosions, config.mediumFinalDeathExplosionEffects);
 		}
 		else
 		{
- 			//int explosionsCount = UnityEngine.Random.Range(4,7);
+ 			//int explosionsCount = Random.Range(4,7);
 			List<ParticleSystem> explosions = new List<ParticleSystem>(config.mediumDeathExplosionEffects);
 			explosions.AddRange(config.largeDeathExplosionEffects);
 			anim = new DeathAnimation(go, duration, explosionsCount, explosions, config.largeFinalDeathExplosionEffects);
@@ -68,26 +69,28 @@ public class DeathAnimation
 		if(duration > 0)
 		{
 			for (int k = 0; k < explosionsCount; k++) {
-				int i = UnityEngine.Random.Range(0, explosionPrefabs.Count);
-				var e = GameObject.Instantiate(explosionPrefabs[i]) as ParticleSystem;
-				var pmain = e.main;
-				pmain.startDelay = ((float)(k)/explosionPrefabs.Count) * duration;
-				pmain.duration = duration - e.startDelay;
-
+				int i = Random.Range(0, explosionPrefabs.Count);
+                var eprefab = explosionPrefabs[i];
+                var pMain = eprefab.main;
+                pMain.startDelayMultiplier = ((float)(k) / explosionPrefabs.Count) * duration;
+                pMain.duration = duration - pMain.startDelayMultiplier;
+                var e = GameObject.Instantiate(explosionPrefabs[i]) as ParticleSystem;
 				e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
 				var r = 2f*obj.polygon.R/3f;
-				e.transform.position += new Vector3(UnityEngine.Random.Range(-r, r),
-				                                    UnityEngine.Random.Range(-r, r), 0);
+				e.transform.position += new Vector3(Random.Range(-r, r),
+				                                    Random.Range(-r, r), 0);
 				e.transform.parent = obj.cacheTransform;
 				e.Play();
 				instantiatedExplosions.Add(e);
-			}
+
+                CreateBurningPart(0.5f, 1f, 6f, e.transform.position, pMain.startDelayMultiplier);
+            }
 		}
 	}
 
     public float GetFinalExplosionRadius() {
         float overrideR = obj.overrideExplosionRange;
-        return overrideR >= 0 ? overrideR : (6f * Mathf.Sqrt(obj.polygon.area) * finalExplosionPowerKoeff);
+        return overrideR >= 0 ? overrideR : (3f * Mathf.Sqrt(obj.polygon.area) * finalExplosionPowerKoeff);
     }
 
 
@@ -99,19 +102,33 @@ public class DeathAnimation
 
 			if(duration <= 0)
 			{
-				explosionSize = GetFinalExplosionRadius();
+                explosionRadius = GetFinalExplosionRadius();
+                float lifetime = Mathf.Pow(explosionRadius, 0.33f) * 0.5f;
+
 				{
 					for (int k = 0; k < finishExplosions.Count; k++) {
 						var e = GameObject.Instantiate(finishExplosions[k]) as ParticleSystem;
-						e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
-						e.startSize = explosionSize;
-						e.startLifetime =  Mathf.Pow(e.startSize, 0.33f) * 0.5f;
+                        var emain = e.main;
+                        emain.startSizeMultiplier = 2 * explosionRadius;
+                        emain.startLifetimeMultiplier = lifetime;
+                        e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
 						e.Play();
 						instantiatedExplosions.Add(e);
 					}
 				}
 
-				finished = true;
+                int minExplosions = (int)(3 * Mathf.Pow(obj.polygon.R, 0.3f));
+                int maxExplosions = (int)(3 * Mathf.Pow(obj.polygon.R, 0.7f));
+                int explosionsCount = Random.Range(minExplosions, maxExplosions);
+                for (int i = 0; i < explosionsCount; i++) {
+                    float duration = lifetime + Random.Range(-0.3f, 1.5f);
+                    float r = Random.Range(1f, obj.polygon.R / 3f);
+                    var speed = 0.5f * explosionRadius / duration;
+                    var pos = obj.cacheTransform.position - new Vector3(0, 0, 1);
+                    CreateBurningPart(duration, r, speed, pos, 0f);
+                }
+
+                finished = true;
 				if(instantiatedExplosions != null)
 				{
 					instantiatedExplosions.ForEach (e => 
@@ -122,6 +139,39 @@ public class DeathAnimation
 			}
 		}
 	}
+
+    private void CreateBurningPart(float duration, float r, float speed, Vector3 pos, float delay) {
+        int vcount = 4;
+        Color b = Color.black;
+        Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(r, vcount);
+        var firepart = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, b);
+        firepart.SetAlpha(0);
+        var eprefab = Singleton<GlobalConfig>.inst.burningParticleEffect;
+        var pmain = eprefab.main;
+        pmain.duration = duration;
+        pmain.startSizeMultiplier = 2 * r;
+        pmain.startDelayMultiplier = delay;
+        var eff = GameObject.Instantiate(eprefab) as ParticleSystem;
+        eff.transform.parent = firepart.cacheTransform;
+        eff.transform.localPosition = new Vector3(0, 0, -1);
+
+        var controller = new StaticInputController();
+        controller.turnDirection = Math2d.RotateVertex(new Vector2(1, 0), Random.Range(0f, 6f));
+        //controller.accelerating = true;
+        controller.braking = true;
+        firepart.SetController(controller);
+
+        var spData = new SpaceshipData();
+        spData.turnSpeed = Random.Range(10, 30);
+        spData.maxSpeed = speed;
+        spData.brake = 4f;
+        firepart.InitSpaceShip(new PhysicalData(), spData);
+        var VelocityDir = Math2d.RotateVertex(new Vector2(1, 0), Random.Range(0f, 6f));
+        firepart.velocity = speed * VelocityDir + obj.velocity;
+        firepart.cacheTransform.right = firepart.velocity.normalized;
+        firepart.position = pos;
+        Singleton<Main>.inst.AddToAlphaDetructor(firepart, pmain.duration + 1f);
+    }
 }
 
 [System.Serializable]

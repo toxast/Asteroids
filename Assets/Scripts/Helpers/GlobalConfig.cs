@@ -24,4 +24,6 @@ public class GlobalConfig : MonoBehaviour
 	[SerializeField] public List<ParticleSystem> smallFinalDeathExplosionEffects;
 	[SerializeField] public List<ParticleSystem> mediumFinalDeathExplosionEffects;
 	[SerializeField] public List<ParticleSystem> largeFinalDeathExplosionEffects;
+
+    [SerializeField] public ParticleSystem burningParticleEffect;
 }

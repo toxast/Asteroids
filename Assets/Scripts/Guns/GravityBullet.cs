@@ -8,8 +8,9 @@ public class GravityBullet : PolygonGameObject {
     float range;
     float damagePerSecond;
     float force;
-    List<PolygonGameObject> gobjects = new List<PolygonGameObject> ();
-	ParticleSystem effect;
+    List<PolygonGameObject> gobjects;
+    List<PolygonGameObject> bullets;
+    ParticleSystem effect;
 
     public void InitGravityBullet(int affectLayer, MGravityGunData data) {
 		
@@ -18,9 +19,9 @@ public class GravityBullet : PolygonGameObject {
         damagePerSecond = data.damagePerSecond;
         force = data.force;
         gobjects = Singleton<Main>.inst.gObjects;
-
-		//effect
-		effect = GameObject.Instantiate (data.bulletEffect, transform);
+        bullets = Singleton<Main>.inst.bullets;
+        //effect
+        effect = GameObject.Instantiate (data.bulletEffect, transform);
 		var shape = effect.shape;
 		shape.radius = data.range;
 		var main = effect.main;
@@ -41,8 +42,8 @@ public class GravityBullet : PolygonGameObject {
 		timeLeftForCheck -= delta;
 		if (timeLeftForCheck < 0) {
 			timeLeftForCheck += checkEvery;
-			new PhExplosion (position, range, checkEvery * damagePerSecond, checkEvery * force, gobjects, affectLayer);
-			new PhExplosion (position, range, checkEvery * damagePerSecond * 0.5f, checkEvery * force * 0.5f, Singleton<Main>.inst.bullets, affectLayer);
+			new GravityForceExplosion(position, range, checkEvery * damagePerSecond, checkEvery * force, gobjects, affectLayer);
+			new GravityForceExplosion(position, range, checkEvery * damagePerSecond * 0.5f, checkEvery * force, bullets, affectLayer);
 		}
     }
 

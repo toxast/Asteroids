@@ -172,7 +172,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
         fireball.destructionType = PolygonGameObject.DestructionType.eDisappear;
         fireball.SetParticles(rd.particles);
         fireball.SetDestroyAnimationParticles(rd.destructionEffects);
-		fireball.SetController (new EmptyInputController ());
+		fireball.SetController (new StaticInputController ());
 		fireball.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(thisShip.layer));
         thisShip.AddObjectAsFollower(fireball);
 		Singleton<Main>.inst.HandleGunFire (fireball);

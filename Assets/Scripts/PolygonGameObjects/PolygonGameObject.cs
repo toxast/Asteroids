@@ -27,9 +27,19 @@ public class PolygonGameObject : MonoBehaviour
 	public float collisionDefence;
 	public float collisionAttackModifier;
 
-	//calculated
-	public float mass;
+    //calculated
 	public float inertiaMoment;
+    float _mass;
+    public float mass { get { return _mass; } set { _mass = value; massSqrtCalculated = false; } }
+    bool massSqrtCalculated = false;
+    float _massSqrt;
+    public float massSqrt {
+        get {
+            if (!massSqrtCalculated) { _massSqrt = Mathf.Sqrt(mass); }
+            return _massSqrt;
+        }
+    }
+
 
 	public int reward;
 

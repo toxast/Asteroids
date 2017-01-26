@@ -1164,8 +1164,11 @@ public class Main : MonoBehaviour
      * frozen storms weapon like diablo 2
      * gravity shield
      * teleporting enemy
+     * smoking parts on explosion, add random burning parts
 	 * duplicating enemy and illusions enemy?
 	 * stop towers from flowing after hit
+     * posessed ships
+     * necromancer-ship (throws pieces, then assembles them into ship until area threshold )
 	 * make destroyed spaceship parts realy easy to break
      * explosion on turrets
 	 * lazer fix when target destroyed

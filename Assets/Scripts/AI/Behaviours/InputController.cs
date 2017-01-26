@@ -11,12 +11,13 @@ public interface InputController
     void SetSpawnParent(PolygonGameObject prnt);
 }
 
-public class EmptyInputController : InputController
+public class StaticInputController : InputController
 {
-	public void Tick (PolygonGameObject p){}
-	public Vector2 turnDirection{ get { return Vector2.zero;}}
-	public bool shooting{get { return false;}}
-	public bool accelerating{get { return false;}}
-	public bool braking{get { return false;}}
+    Vector2 turnDir = Vector2.zero;
+    public void Tick (PolygonGameObject p){}
+	public Vector2 turnDirection{ get { return turnDir; } set { turnDir = value; } }
+	public bool shooting{ get; set; }
+	public bool accelerating{ get; set; }
+	public bool braking{ get; set; }
 	public void SetSpawnParent(PolygonGameObject prnt){}
 }
