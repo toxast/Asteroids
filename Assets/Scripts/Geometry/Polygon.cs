@@ -18,11 +18,9 @@ public class Polygon
 	public Vector2 massCenter {get; private set;}
 	public float area;
 
-	//private static double CosCutTreshold = Math.Cos((130f * Math.PI) / 180f);
+    //private static double CosCutTreshold = Math.Cos((130f * Math.PI) / 180f);
 
-	public Polygon (Vector2[] vertices):this(vertices, Vector2.zero)
-	{
-	}
+    public Polygon(Vector2[] vertices) : this(vertices, Vector2.zero) { }
 
 	public Polygon(Vector2[] vertices, Vector2 massCenter)
 	{
@@ -74,6 +72,36 @@ public class Polygon
 		edges[indx].p1 = v;
 	}
 
+    int[] triangles;
+    public void SetTriangles(int[] indices) {
+        triangles = new int[indices.Length];
+        indices.CopyTo(triangles, 0);
+    }
+
+    public Vector2 GetRandomAreaVertex() {
+        if(triangles == null) {
+            Triangulator tr = new Triangulator(vertices);
+            triangles = tr.Triangulate();
+            Debug.LogError("manual triangulation");
+        }
+
+        if (triangles != null) {
+            int rnd = UnityEngine.Random.Range(0, triangles.Length / 3);
+            var indx = 3 * rnd;
+            var A = vertices[triangles[indx]];
+            var B = vertices[triangles[indx + 1]];
+            var C = vertices[triangles[indx + 2]];
+            var AB = B - A;
+            var AC = C - A;
+            float rnd2 = UnityEngine.Random.Range(0f, 1f);
+            var AX = AB * rnd2 + AC * (1f - rnd2);
+            float rnd3 = UnityEngine.Random.Range(0f, 1f);
+            return A + AX * rnd3;
+        }
+        Debug.LogError("no triangles");
+        return Vector2.zero;
+    }
+
 //	public void SetMassCenter(Vector2 center)
 //	{
 //		massCenter = center;
@@ -118,31 +146,21 @@ public class Polygon
 		return Distance(i1, i2) <= 1;
 	}
 
-	public int Next(int i)
-	{
-		if(i == vcount - 1)
-		{
-			return 0;
-		}
-		else
-		{
-			return i+1;
-		}
-	}
+    public int Next(int i) {
+        if (i == vcount - 1) {
+            return 0;
+        } else {
+            return i + 1;
+        }
+    }
 
-	public int Previous(int i)
-	{
-		if(i == 0)
-		{
-			return vcount - 1;
-		}
-		else
-		{
-			return i-1;
-		}
-	}
-
-
+    public int Previous(int i) {
+        if (i == 0) {
+            return vcount - 1;
+        } else {
+            return i - 1;
+        }
+    }
 
 	public bool IsCanCutByVertices(int i1, int i2)
 	{
@@ -180,192 +198,161 @@ public class Polygon
 		return !IsVerticesAdjacent(i1, i2) && IsEdgeLiesInsideOfPolygon(i1, i2);
 	}
 
-	/// <summary>
-	/// Determines whether edge (vertices[a] -> vertices[b]) lies inside of polygon specified by vertices2D.
-	/// </summary>
-	public bool IsEdgeLiesInsideOfPolygon(int a, int b)
-	{
-		if (vcount <= 3)
-		{
-			return true;
-		}
-		
-		//Debug.LogWarning ("IsEdgeLiesInsideOfPolygon: " + a + "->" + b);
-		if (IsVerticesAdjacent(a, b))
-		{
-			//Debug.Log("adjacent edges " + a + " " + b);
-			return true;
-		}
-		
-		bool inside = false;
-		
-		//TODO: refactor edges without a and b vertexes
-		List<Edge> edgesWithoutAB = new List<Edge>(vcount);
-		for(int i=0; i < vcount - 1; i++)
-		{
-			if(i != a && i != b && i+1 != a && i+1 != b)
-				edgesWithoutAB.Add(new Edge(vertices[i], vertices[i+1]));
-		}
-		if((vcount - 1 != a) && (vcount - 1 != b) && (0 != a) && (0 != b))
-			edgesWithoutAB.Add(new Edge(vertices[vcount - 1], vertices[0]));
-		
-		
-		Vector2 p1 = vertices[a];
-		Vector2 p2 = vertices[b];
-		
-		//check if there are no intersections with no adjacent edges
-		foreach (var edge in edgesWithoutAB)
-		{
-			Intersection isc = new Intersection(p1, p2, edge.p1, edge.p2);
-			//Debug.Log(p1 + " " + p2 + " with " + edge.p1 + " " +  edge.p2 + " : " + isc.haveIntersection);
-			if(isc.haveIntersection)
-			{
-				return false;
-			}
-		}
-		
-		//check that at least one point of segment lies inside of polygon
-		//i picked the center one
-		Vector2 center = (p2 + p1)/2f;
-		
-		inside = IsPointInside(center);
-		
-		return inside;
-	}
+    /// <summary>
+    /// Determines whether edge (vertices[a] -> vertices[b]) lies inside of polygon specified by vertices2D.
+    /// </summary>
+    public bool IsEdgeLiesInsideOfPolygon(int a, int b) {
+        if (vcount <= 3) {
+            return true;
+        }
 
-	//check that v is inside
-	public bool IsEdgeLiesInsideOfPolygon(Vector2 v, int b)
-	{
-		bool inside = false;
-		
-		//TODO: refactor edges without a vertexes
-		List<Edge> edgesWithoutAB = new List<Edge>(vcount);
-		for(int i=0; i < vcount - 1; i++)
-		{
-			if(i != b && i+1 != b)
-				edgesWithoutAB.Add(new Edge(vertices[i], vertices[i+1]));
-		}
-		if((vcount - 1 != b) && (0 != b))
-			edgesWithoutAB.Add(new Edge(vertices[vcount - 1], vertices[0]));
-		
-		
-		Vector2 p1 = v;
-		Vector2 p2 = vertices[b];
-		
-		//check if there are no intersections with no adjacent edges
-		foreach (var edge in edgesWithoutAB)
-		{
-			Intersection isc = new Intersection(p1, p2, edge.p1, edge.p2);
-			//Debug.Log(p1 + " " + p2 + " with " + edge.p1 + " " +  edge.p2 + " : " + isc.haveIntersection);
-			if(isc.haveIntersection)
-			{
-				return false;
-			}
-		}
-		
-		//check that at least one point of segment lies inside of polygon
-		//i picked the center one
-		Vector2 center = (p2 + p1)/2f;
-		
-		inside = IsPointInside(center);
-		
-		return inside;
-	}
+        //Debug.LogWarning ("IsEdgeLiesInsideOfPolygon: " + a + "->" + b);
+        if (IsVerticesAdjacent(a, b)) {
+            //Debug.Log("adjacent edges " + a + " " + b);
+            return true;
+        }
 
-	//TODO: count vertexes
-	public bool IsPointInside(Vector2 point)
-	{
-		if((point - massCenter).sqrMagnitude > Rsqr)
-		{
-			//Debug.LogWarning("saved");
-			return false;
-		}
-		//Debug.LogWarning ("IsPointInsideOfPolygon " + point);
-		//cast a ray from polygon bounding box to point: (Xmin - e, point.y) to (point.x, point.y)
-		//if it gives even numbers of intersections - the point is inside of a polygon
-		bool inside = false;
+        bool inside = false;
 
-		Vector2 bound = new Vector2(xMin-1, point.y); //let e = 1
-		int intersectionsCount = Intersection.GetDifferentIntersections (new Edge(bound, point), edges).Count();
-		//Debug.LogWarning("intersections: " + intersectionsCount);
-		inside = intersectionsCount%2 == 1;
-		//Debug.LogWarning ("inside: " + inside);
-		return inside;
-	}
-	
-	public List<Vector2[]> SplitByInteriorVertex()
-	{
-		//Debug.Log("SplitByInteriorVertex, vcount:" + vcount);
-		List<Vector2[]> parts = new List<Vector2[]> ();
-		int interiorVertex = GetRandomInteriorVertex();
-		if(interiorVertex >= 0)
-		{
-			//Debug.Log("SplitByInteriorVertex: got vertex");
-			parts = SplitByInteriorVertex(interiorVertex);
-		}
-		else
-		{
-			//Debug.Log("SplitByInteriorVertex: no vertex");
-			parts.Add(vertices);
-		}
-		//Debug.Log("SplitByInteriorVertex parts: " + parts.Count);
-		return parts;
-	}
+        //TODO: refactor edges without a and b vertexes
+        List<Edge> edgesWithoutAB = new List<Edge>(vcount);
+        for (int i = 0; i < vcount - 1; i++) {
+            if (i != a && i != b && i + 1 != a && i + 1 != b)
+                edgesWithoutAB.Add(new Edge(vertices[i], vertices[i + 1]));
+        }
+        if ((vcount - 1 != a) && (vcount - 1 != b) && (0 != a) && (0 != b))
+            edgesWithoutAB.Add(new Edge(vertices[vcount - 1], vertices[0]));
 
-	private int GetRandomInteriorVertex()
-	{
-		List<int> interiors = GetInteriorVertices();
-		if(!interiors.Any())
-		{
-			return -1;
-		}
-		else
-		{
-			return interiors[UnityEngine.Random.Range(0, interiors.Count)];
-		}
-	}
+
+        Vector2 p1 = vertices[a];
+        Vector2 p2 = vertices[b];
+
+        //check if there are no intersections with no adjacent edges
+        foreach (var edge in edgesWithoutAB) {
+            Intersection isc = new Intersection(p1, p2, edge.p1, edge.p2);
+            //Debug.Log(p1 + " " + p2 + " with " + edge.p1 + " " +  edge.p2 + " : " + isc.haveIntersection);
+            if (isc.haveIntersection) {
+                return false;
+            }
+        }
+
+        //check that at least one point of segment lies inside of polygon
+        //i picked the center one
+        Vector2 center = (p2 + p1) / 2f;
+
+        inside = IsPointInside(center);
+
+        return inside;
+    }
+
+    //check that v is inside
+    public bool IsEdgeLiesInsideOfPolygon(Vector2 v, int b) {
+        bool inside = false;
+
+        //TODO: refactor edges without a vertexes
+        List<Edge> edgesWithoutAB = new List<Edge>(vcount);
+        for (int i = 0; i < vcount - 1; i++) {
+            if (i != b && i + 1 != b)
+                edgesWithoutAB.Add(new Edge(vertices[i], vertices[i + 1]));
+        }
+        if ((vcount - 1 != b) && (0 != b))
+            edgesWithoutAB.Add(new Edge(vertices[vcount - 1], vertices[0]));
+
+
+        Vector2 p1 = v;
+        Vector2 p2 = vertices[b];
+
+        //check if there are no intersections with no adjacent edges
+        foreach (var edge in edgesWithoutAB) {
+            Intersection isc = new Intersection(p1, p2, edge.p1, edge.p2);
+            //Debug.Log(p1 + " " + p2 + " with " + edge.p1 + " " +  edge.p2 + " : " + isc.haveIntersection);
+            if (isc.haveIntersection) {
+                return false;
+            }
+        }
+
+        //check that at least one point of segment lies inside of polygon
+        //i picked the center one
+        Vector2 center = (p2 + p1) / 2f;
+
+        inside = IsPointInside(center);
+
+        return inside;
+    }
+
+    //TODO: count vertexes
+    public bool IsPointInside(Vector2 point) {
+        if ((point - massCenter).sqrMagnitude > Rsqr) {
+            //Debug.LogWarning("saved");
+            return false;
+        }
+        //Debug.LogWarning ("IsPointInsideOfPolygon " + point);
+        //cast a ray from polygon bounding box to point: (Xmin - e, point.y) to (point.x, point.y)
+        //if it gives even numbers of intersections - the point is inside of a polygon
+        bool inside = false;
+
+        Vector2 bound = new Vector2(xMin - 1, point.y); //let e = 1
+        int intersectionsCount = Intersection.GetDifferentIntersections(new Edge(bound, point), edges).Count();
+        //Debug.LogWarning("intersections: " + intersectionsCount);
+        inside = intersectionsCount % 2 == 1;
+        //Debug.LogWarning ("inside: " + inside);
+        return inside;
+    }
+
+    public List<Vector2[]> SplitByConcaveVertex() {
+        //Debug.Log("SplitByInteriorVertex, vcount:" + vcount);
+        List<Vector2[]> parts = new List<Vector2[]>();
+        int interiorVertex = GetRandomConcaveVertex();
+        if (interiorVertex >= 0) {
+            //Debug.Log("SplitByInteriorVertex: got vertex");
+            parts = SplitByInteriorVertex(interiorVertex);
+        } else {
+            //Debug.Log("SplitByInteriorVertex: no vertex");
+            parts.Add(vertices);
+        }
+        //Debug.Log("SplitByInteriorVertex parts: " + parts.Count);
+        return parts;
+    }
+
+    private int GetRandomConcaveVertex() {
+        List<int> interiors = GetConcaveVertices();
+        if (!interiors.Any()) {
+            return -1;
+        } else {
+            return interiors[UnityEngine.Random.Range(0, interiors.Count)];
+        }
+    }
 
 	int interiorVerticesCount = -1;
-	public int GetInteriorVerticesCount()
-	{
-		if(interiorVerticesCount < 0)
-		{
-			interiorVerticesCount = GetInteriorVertices().Count;
-		}
-		return interiorVerticesCount;
-	}
+    public int GetInteriorVerticesCount() {
+        if (interiorVerticesCount < 0) {
+            interiorVerticesCount = GetConcaveVertices().Count;
+        }
+        return interiorVerticesCount;
+    }
 
-	private List<int> GetInteriorVertices()
-	{
-		List<int> interiors = new List<int>();
-		
-		if(vcount <= 3)
-		{
-			return interiors;
-		}
-		
-		//find vertex
-		for (int i = 0; i < vertices.Length; i++) 
-		{
-			if(IsIneriorVertex(i))
-			{
-				interiors.Add(i);
-			}
-		}
+    private List<int> GetConcaveVertices() {
+        List<int> concaves = new List<int>();
+        if (vcount <= 3) {
+            return concaves;
+        }
+        //find vertex
+        for (int i = 0; i < vertices.Length; i++) {
+            if (IsConcaveVertex(i)) {
+                concaves.Add(i);
+            }
+        }
+        //caching
+        interiorVerticesCount = concaves.Count;
+        return concaves;
+    }
 
-		//caching
-		interiorVerticesCount = interiors.Count;
-
-		return interiors;
-	}
-
-	public bool IsIneriorVertex(int i)
-	{
-		Vector2 a = circulatedVertices[i+1] - circulatedVertices[i];
-		Vector2 b = circulatedVertices[i+2] - circulatedVertices[i+1];
-		float rotate = Math2d.Cross(ref a, ref b);
-		return (rotate > 0);
-	}
+    public bool IsConcaveVertex(int i) {
+        Vector2 a = circulatedVertices[i + 1] - circulatedVertices[i];
+        Vector2 b = circulatedVertices[i + 2] - circulatedVertices[i + 1];
+        float rotate = Math2d.Cross(ref a, ref b);
+        return (rotate > 0);
+    }
 
 	private List<Vector2[]> SplitByInteriorVertex(int interiorIndx)
 	{

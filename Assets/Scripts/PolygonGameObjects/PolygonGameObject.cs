@@ -15,7 +15,8 @@ public class PolygonGameObject : MonoBehaviour
 	public Polygon globalPolygon{get; set;}
 	public Transform cacheTransform{ get; private set;}
 	public Mesh mesh;
-	public PolygonCreator.MeshDataUV meshUV{ get; set;}
+    public int[] triangulationIndices;
+    public PolygonCreator.MeshDataUV meshUV{ get; set;}
 	public Material mat;
 
 	//collision
@@ -267,7 +268,7 @@ public class PolygonGameObject : MonoBehaviour
         List<Vector2[]> parts = new List<Vector2[]>();
         Polygon p = new Polygon(verts);
         if (p.GetInteriorVerticesCount() > threshold) {
-            var toTest = p.SplitByInteriorVertex();
+            var toTest = p.SplitByConcaveVertex();
             foreach (var item in toTest) {
                 parts.AddRange(SplitUntilInteriorThreshold(item, threshold));
             }
@@ -280,7 +281,7 @@ public class PolygonGameObject : MonoBehaviour
 
 	public List<Vector2[]> Split()
 	{
-		List<Vector2[]> parts = polygon.SplitByInteriorVertex ();
+		List<Vector2[]> parts = polygon.SplitByConcaveVertex ();
 
 		{
 			List<Vector2[]> parts2 = new List<Vector2[]>();
@@ -289,9 +290,9 @@ public class PolygonGameObject : MonoBehaviour
 				Polygon p = new Polygon(part);
 				if(p.GetInteriorVerticesCount() > 3)
 				{
-                    var toTest = p.SplitByInteriorVertex();
+                    var toTest = p.SplitByConcaveVertex();
                     foreach (var item in toTest) {
-                        parts2.AddRange(SplitUntilInteriorThreshold(item, 0));
+                        parts2.AddRange(SplitUntilInteriorThreshold(item, 2));
                     }
 				}
 				else
@@ -318,7 +319,7 @@ public class PolygonGameObject : MonoBehaviour
 					foreach (var part in parts) 
 					{
 						Polygon p = new Polygon(part);
-						parts2.AddRange(p.SplitByInteriorVertex ());
+						parts2.AddRange(p.SplitByConcaveVertex ());
 					}
 					parts = parts2;
 				}
@@ -336,7 +337,7 @@ public class PolygonGameObject : MonoBehaviour
 			else
 			{
 				Polygon p = new Polygon(part);
-				deepestParts.AddRange(p.SplitByInteriorVertex ());
+				deepestParts.AddRange(p.SplitByConcaveVertex ());
 			}
 		}
 

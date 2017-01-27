@@ -101,7 +101,7 @@ public static class PolygonCollision
 	                                    PolygonGameObject bobj, Polygon b)
 	{
 
-		if(a.IsIneriorVertex(aVertex))
+		if(a.IsConcaveVertex(aVertex))
 		{
 			//Debug.LogError("IsIneriorVertex");
 			return 0f;

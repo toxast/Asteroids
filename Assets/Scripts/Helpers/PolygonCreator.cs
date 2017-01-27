@@ -109,10 +109,12 @@ public static class PolygonCreator
 	public static void AddRenderComponents(PolygonGameObject gamePolygon, Color color, Material mat)
 	{
 		MeshDataUV newMeshUV;
-		Mesh msh = CreatePolygonMesh(gamePolygon.polygon.vertices, color, gamePolygon.meshUV, out newMeshUV);
-		gamePolygon.meshUV = newMeshUV;
-		// Set up game object with mesh;
-		MeshRenderer renderer = gamePolygon.gameObject.AddComponent<MeshRenderer>();
+        int[] indices;
+        Mesh msh = CreatePolygonMesh(gamePolygon.polygon.vertices, color, gamePolygon.meshUV, out newMeshUV, out indices);
+        gamePolygon.polygon.SetTriangles(indices);
+        gamePolygon.meshUV = newMeshUV;
+        // Set up game object with mesh;
+        MeshRenderer renderer = gamePolygon.gameObject.AddComponent<MeshRenderer>();
 		MeshFilter filter = gamePolygon.gameObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
 		filter.mesh = msh;
 		gamePolygon.mat = mat;
@@ -167,11 +169,15 @@ public static class PolygonCreator
 		m.RecalculateBounds ();
 	}
 
-	public static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color, MeshDataUV meshD, out MeshDataUV newMeshUV)
-	{
+    public static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color, MeshDataUV meshD, out MeshDataUV newMeshUV) {
+        int[] indices;
+        return CreatePolygonMesh(vertices2D, color, meshD, out newMeshUV, out indices);
+    }
+
+    public static Mesh CreatePolygonMesh(Vector2[] vertices2D, Color color, MeshDataUV meshD, out MeshDataUV newMeshUV, out int[] indices) {
 		// Use the triangulator to get indices for creating triangles
 		Triangulator tr = new Triangulator(vertices2D);
-		int[] indices = tr.Triangulate();
+		indices = tr.Triangulate();
 		
 		
 		Vector3[] vertices = new Vector3[vertices2D.Length];
