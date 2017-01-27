@@ -32,9 +32,8 @@ public abstract class TickableEffect : ITickable
 }
 
 
-public class DOTEffect : TickableEffect 
+public abstract class DOTEffect : TickableEffect 
 {
-	protected override eType etype { get { return eType.Burning; } }
 	Data data;
 	float timeLeft;
 	float currentDps;
@@ -88,6 +87,11 @@ public class DOTEffect : TickableEffect
 		public float maxBuildUpDuration = 5;
 		//TODO: add effect particle system here
 	}
+}
+
+public class BurningEffect : DOTEffect {
+	protected override eType etype { get { return eType.Burning; } }
+	public BurningEffect (Data data) : base (data){}
 }
 
 //public class GravityShieldEffect : TickableEffect 
