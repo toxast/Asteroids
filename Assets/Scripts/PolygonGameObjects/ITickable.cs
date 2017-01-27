@@ -53,7 +53,7 @@ public abstract class DOTEffect : TickableEffect
 		}
 	}
 
-	public virtual bool IsFinished() {
+	public override bool IsFinished() {
 		return timeLeft <= 0;
 	}
 

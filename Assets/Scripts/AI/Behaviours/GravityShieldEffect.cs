@@ -30,7 +30,7 @@ public class GravityShieldEffect : TickableEffect
 		}
 	}
 
-	public virtual bool IsFinished() {
+	public override bool IsFinished() {
 		return timeLeft <= 0;
 	}
 
