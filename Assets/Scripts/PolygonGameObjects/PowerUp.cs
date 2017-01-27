@@ -16,9 +16,5 @@ public class PowerUp : polygonGO.DropBase
 
 public enum EffectType
 {
-	Min,
-	SlowAsteroids,
-	IncreasedShootingSpeed,
-	PenetrationBullet,
-	Max,
+	GravityShield,
 }

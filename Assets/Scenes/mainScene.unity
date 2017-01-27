@@ -2335,6 +2335,18 @@ MonoBehaviour:
   boundsMode: 0
   mainCamera: {fileID: 0}
   minimapCamera: {fileID: 0}
+  cometData: {fileID: 114935688868597546, guid: 164284c7e17bb3c4094b0d3942efd747,
+    type: 2}
+  gravityShieldPowerUpData:
+    duration: 7
+    range: 15
+    force: 200
+    particles:
+    - place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 198159519111888470, guid: b23f62bccbb84ed44a1707c769ff9067,
+        type: 2}
 --- !u!4 &1045239090
 Transform:
   m_ObjectHideFlags: 0

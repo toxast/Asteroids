@@ -21,8 +21,8 @@ public class Main : MonoBehaviour
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
 	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
 
-	PowerUpsCreator powerUpsCreator;
-	List<PowerUp> powerUps = new List<PowerUp> ();
+//	PowerUpsCreator powerUpsCreator;
+//	List<PowerUp> powerUps = new List<PowerUp> ();
 
 	private float DestroyAfterSplitTreshold = 5f;
 	private float addMoneyKff = 1.2f;
@@ -49,10 +49,14 @@ public class Main : MonoBehaviour
 	[SerializeField] Camera mainCamera;
 	Transform cameraTransform;
 	[SerializeField] Camera minimapCamera;
+	[SerializeField] MCometData cometData;
+
+	[SerializeField] GravityShieldEffect.Data gravityShieldPowerUpData;
 
 	Coroutine repositionCoroutine;
 	Coroutine wrapStarsCoroutine;
 	Coroutine levelEndRoutine;
+	Coroutine spawnCometsCoroutine;
 
 	void Awake()
 	{
@@ -67,6 +71,19 @@ public class Main : MonoBehaviour
 		}
 	}
 
+
+	IEnumerator SpawnComets()
+	{
+		while (true) {
+			if (!IsNull (spaceship)) {
+				var comet = cometData.Create (cometData.gameSpawnLayer);
+				var angle = UnityEngine.Random.Range (0, 360);
+				comet.position = spaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
+				Add2Objects (comet);
+			}
+			yield return new WaitForSeconds (10f);
+		}
+	}
 
 	IEnumerator WrapStars()
 	{
@@ -118,6 +135,7 @@ public class Main : MonoBehaviour
 
 		repositionCoroutine = StartCoroutine(RepositionAll());
 		wrapStarsCoroutine = StartCoroutine(WrapStars());
+		spawnCometsCoroutine = StartCoroutine (SpawnComets());
 
 //		powerUpsCreator = new PowerUpsCreator(5f, 10f);
 //		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
@@ -147,6 +165,11 @@ public class Main : MonoBehaviour
 		if (wrapStarsCoroutine != null) {
 			StopCoroutine (wrapStarsCoroutine);
 			wrapStarsCoroutine = null;
+		}
+
+		if (spawnCometsCoroutine != null) {
+			StopCoroutine (spawnCometsCoroutine);
+			spawnCometsCoroutine = null;
 		}
 
 		if (levelEndRoutine != null) {
@@ -207,7 +230,7 @@ public class Main : MonoBehaviour
 			{
 				Reposition(drops, pos, false);
 				Reposition(gobjects, pos, false);
-				Reposition(powerUps, pos, false);
+//				Reposition(powerUps, pos, false);
 				Reposition(bullets, pos, true);
 
 				var stars = starsGenerator.stars;
@@ -330,11 +353,11 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	void HandlePowerUpCreated (PowerUp powerUp)
-	{
+//	void HandlePowerUpCreated (PowerUp powerUp)
+//	{
 //		SetRandomPosition(powerUp, new Vector2(50, 100), new SpawnPositioning());
 //		powerUps.Add(powerUp);
-	}
+//	}
 
 	public static void PutOnFirstNullPlace<T>(List<T> list, T obj)
 	{
@@ -509,17 +532,20 @@ public class Main : MonoBehaviour
 
     public void ApplyPowerUP(EffectType effect) {
         switch (effect) {
-            //				case EffectType.IncreasedShootingSpeed:
-            //					spaceship.ChangeFiringSpeed(3f, 10f);
-            //				break;
+        //				case EffectType.IncreasedShootingSpeed:
+        //					spaceship.ChangeFiringSpeed(3f, 10f);
+        //				break;
 
-            case EffectType.PenetrationBullet:
-                penetrationTimeLeft = 10f;
-                break;
+//        case EffectType.PenetrationBullet:
+//            penetrationTimeLeft = 10f;
+//            break;
 
-            case EffectType.SlowAsteroids:
-                //slowTimeLeft = 10f;
-                break;
+//        case EffectType.SlowAsteroids:
+//            //slowTimeLeft = 10f;
+//            break;
+		case EffectType.GravityShield:
+			spaceship.AddEffect (new GravityShieldEffect (gravityShieldPowerUpData));
+			break;
         }	
     }
 

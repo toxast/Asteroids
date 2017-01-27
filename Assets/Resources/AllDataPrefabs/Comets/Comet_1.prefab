@@ -54,7 +54,7 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  _spaceField: 0
+  gameSpawnLayer: 2
   speed:
     min: 15
     max: 20

@@ -252,7 +252,8 @@ MonoBehaviour:
     - name: wave 1 (suisides)
       objects:
       - name: spawns
-        prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
+        prefab: {fileID: 114006690424570016, guid: 97122820dcbee684b87f5f301e49b66e,
+          type: 2}
         count: 4
         overrideAmount: 1
         keepEnemiesAmount: 2
@@ -270,7 +271,7 @@ MonoBehaviour:
     - name: wave 2 (more suisides)
       objects:
       - name: suiside
-        prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
+        prefab: {fileID: 0}
         count: 5
         overrideAmount: 1
         keepEnemiesAmount: 5
@@ -300,7 +301,7 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: suiside
-        prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
+        prefab: {fileID: 0}
         count: 3
         overrideAmount: 0
         keepEnemiesAmount: 5
@@ -330,7 +331,7 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: suiside
-        prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
+        prefab: {fileID: 0}
         count: 2
         overrideAmount: 0
         keepEnemiesAmount: 6
@@ -429,7 +430,7 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: suisides
-        prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
+        prefab: {fileID: 0}
         count: 3
         overrideAmount: 0
         keepEnemiesAmount: 5
@@ -659,7 +660,7 @@ MonoBehaviour:
           angleFromShip: 0
           angleFromShipRange: 180
       - name: mantas
-        prefab: {fileID: 11418308, guid: 97122820dcbee684b87f5f301e49b66e, type: 2}
+        prefab: {fileID: 0}
         count: 5
         overrideAmount: 1
         keepEnemiesAmount: 20

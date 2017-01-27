@@ -266,13 +266,17 @@ public class PolygonGameObject : MonoBehaviour
 
 	public void AddEffect(TickableEffect effect) 
 	{
-		effect.SetHolder (this);
+		bool updated = false;
 		if (effect.CanBeUpdatedWithSameEffect) {
 			var same = effects.Find (e =>  e.IsTheSameEffect(effect));
 			if (same != null) {
 				same.UpdateBy (effect);
+				updated = true;
 			}
-		} else {
+		} 
+
+		if (!updated) {
+			effect.SetHolder (this);
 			effects.Add (effect);
 		}
 	}
@@ -496,8 +500,10 @@ public class PolygonGameObject : MonoBehaviour
 		polygon.ChangeVertex(indx, v);
 	}
 
-	public void SetParticles(List<ParticleSystemsData> datas)
+	//TODO: refactor this somehow, i need a lot of parametes and control over the particles
+	public List<ParticleSystem> SetParticles(List<ParticleSystemsData> datas)
 	{
+		List<ParticleSystem> result = new List<ParticleSystem> ();
 		foreach (var setup in datas) 
 		{
 			if(setup.prefab == null)
@@ -508,8 +514,10 @@ public class PolygonGameObject : MonoBehaviour
 			{
 				var thrusterInstance  = Instantiate(setup.prefab) as ParticleSystem;
 				Math2d.PositionOnParent (thrusterInstance.transform, setup.place, cacheTransform, true, 1);
+				result.Add (thrusterInstance);
 			}
 		}
+		return result;
 	}
 
 	List<ParticleSystemsData> destroyEffects;

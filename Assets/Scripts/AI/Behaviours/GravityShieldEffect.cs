@@ -11,6 +11,7 @@ public class GravityShieldEffect : TickableEffect
 	float currentForce;
 	List<PolygonGameObject> gobjects;
 	List<PolygonGameObject> bullets;
+	List<ParticleSystem> spawnedEffects = new List<ParticleSystem> ();
 
 	public GravityShieldEffect(Data data) {
 		this.data = data;
@@ -20,13 +21,35 @@ public class GravityShieldEffect : TickableEffect
 		bullets = Singleton<Main>.inst.bullets;
 	}
 
+	public override void SetHolder (PolygonGameObject holder) {
+		base.SetHolder (holder);
+		spawnedEffects = holder.SetParticles (data.particles);
+		foreach (var effect in spawnedEffects) {
+			var emain = effect.main;
+			emain.startSizeMultiplier = data.range * 2f;
+		}
+	}
+
 	public override void Tick (float delta) {
 		base.Tick (delta);
+		bool wasFinished = IsFinished ();
 
 		if (!IsFinished ()) {
 			timeLeft -= delta;
 			new GravityForceExplosion (holder.position, data.range, 0, delta * currentForce, gobjects, holder.collision);
 			new GravityForceExplosion (holder.position, data.range, 0, delta * currentForce, bullets, holder.collision);
+		}
+
+		if (!wasFinished && IsFinished ()) {
+			foreach (var effect in spawnedEffects) {
+				effect.Stop ();
+			}
+		}
+	}
+
+	public override bool CanBeUpdatedWithSameEffect {
+		get {
+			return true;
 		}
 	}
 
@@ -50,6 +73,7 @@ public class GravityShieldEffect : TickableEffect
 		public float duration = 30;
 		public float range = 20;
 		public float force = 20;
+		public List<ParticleSystemsData> particles;
 		//TODO: add effect particle system here
 	}
 }
