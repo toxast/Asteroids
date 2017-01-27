@@ -262,6 +262,22 @@ public class PolygonGameObject : MonoBehaviour
 		return GetAlpha () == 0;
 	}
 
+    //threshold >= 0
+    private List<Vector2[]> SplitUntilInteriorThreshold(Vector2[] verts, int threshold) {
+        List<Vector2[]> parts = new List<Vector2[]>();
+        Polygon p = new Polygon(verts);
+        if (p.GetInteriorVerticesCount() > threshold) {
+            var toTest = p.SplitByInteriorVertex();
+            foreach (var item in toTest) {
+                parts.AddRange(SplitUntilInteriorThreshold(item, threshold));
+            }
+        } else {
+            parts.Add(p.vertices);
+        }
+        return parts;
+    }
+
+
 	public List<Vector2[]> Split()
 	{
 		List<Vector2[]> parts = polygon.SplitByInteriorVertex ();
@@ -273,7 +289,10 @@ public class PolygonGameObject : MonoBehaviour
 				Polygon p = new Polygon(part);
 				if(p.GetInteriorVerticesCount() > 3)
 				{
-					parts2.AddRange(p.SplitByInteriorVertex ());
+                    var toTest = p.SplitByInteriorVertex();
+                    foreach (var item in toTest) {
+                        parts2.AddRange(SplitUntilInteriorThreshold(item, 0));
+                    }
 				}
 				else
 				{

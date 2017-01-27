@@ -13,12 +13,18 @@ public class Spliter
 		{
 			Debug.LogError("couldnt split asteroid");
 		}
-		
-		foreach(var vertices in polys)
+
+        float overrideHealthModifier = polygonGo.healthModifier;
+        //make spaceship parts weak after explosion
+        if(polygonGo is SpaceShip) {
+            overrideHealthModifier /= 2f * polygonGo.density;
+        }
+
+        foreach (var vertices in polys)
 		{
 			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.GetColor(), polygonGo.mat, polygonGo.meshUV);
 
-			asteroidPart.InitPolygonGameObject(new PhysicalData(polygonGo.density, polygonGo.healthModifier, polygonGo.collisionDefence, polygonGo.collisionAttackModifier));
+			asteroidPart.InitPolygonGameObject(new PhysicalData(polygonGo.density, overrideHealthModifier, polygonGo.collisionDefence, polygonGo.collisionAttackModifier));
 			asteroidPart.SetCollisionLayerNum(CollisionLayers.ilayerAsteroids);
 			asteroidPart.cacheTransform.Translate(polygonGo.position);
 			asteroidPart.cacheTransform.RotateAround(polygonGo.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
