@@ -82,6 +82,7 @@ public class PolygonGameObject : MonoBehaviour
 	protected List<int> notLinkedGuns = new List<int>();
 	protected List<int> spawnerGuns = new List<int>();
 
+	protected List<TickableEffect> effects = new List<TickableEffect> ();
 	public PolygonGameObject target{ get; private set;}
 	public ITickable targetSystem;
 
@@ -263,6 +264,19 @@ public class PolygonGameObject : MonoBehaviour
 		return GetAlpha () == 0;
 	}
 
+	public void AddEffect(TickableEffect effect) 
+	{
+		effect.SetHolder (this);
+		if (effect.CanBeUpdatedWithSameEffect) {
+			var same = effects.Find (e =>  e.IsTheSameEffect(effect));
+			if (same != null) {
+				same.UpdateBy (effect);
+			}
+		} else {
+			effects.Add (effect);
+		}
+	}
+
     //threshold >= 0
     private List<Vector2[]> SplitUntilInteriorThreshold(Vector2[] verts, int threshold) {
         List<Vector2[]> parts = new List<Vector2[]>();
@@ -419,6 +433,13 @@ public class PolygonGameObject : MonoBehaviour
 		ShieldsTick (delta);
 		foreach (var t in turrets) {
 			t.Tick (delta);
+		}
+
+		for (int i = effects.Count - 1; i >= 0; i--) {
+			effects [i].Tick (delta);
+			if (effects [i].IsFinished ()) {
+				effects.RemoveAt (i);
+			}
 		}
 	}
 	
