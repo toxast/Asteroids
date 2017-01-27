@@ -47,7 +47,10 @@ public class DOTEffect : TickableEffect
 
 	public override void Tick (float delta) {
 		base.Tick (delta);
-		timeLeft -= delta;
+		if (!IsFinished ()) {
+			timeLeft -= delta;
+			holder.Hit (currentDps * delta);
+		}
 	}
 
 	public virtual bool IsFinished() {
