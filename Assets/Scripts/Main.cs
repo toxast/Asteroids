@@ -81,7 +81,7 @@ public class Main : MonoBehaviour
 				comet.position = spaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
 				Add2Objects (comet);
 			}
-			yield return new WaitForSeconds (10f);
+			yield return new WaitForSeconds (25f);
 		}
 	}
 

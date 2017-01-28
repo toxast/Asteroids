@@ -237,12 +237,15 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 							break;
 						}
 					}
-					foreach (var ps in asteroidAttackByForceAnimations) {
-						var pmain = ps.prefab.main;
+
+					var spawnedEffects = obj.SetParticles (asteroidAttackByForceAnimations);
+					foreach (var effect in spawnedEffects) {
+						var pmain = effect.main;
 						pmain.startSizeMultiplier = 2 * obj.polygon.R;
 						pmain.duration = applyShootingForceDuration;
+						effect.Play ();
 					}
-					obj.SetParticles (asteroidAttackByForceAnimations);
+
 					obj.destroyOnBoundsTeleport = true;
 					obj.capturedByEarthSpaceship = true;
 					Main.PutOnFirstNullPlace (objectShootingWith, new BulletObj{ obj = obj, startTime = Time.time }); ;
@@ -269,12 +272,15 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                         var bobj = notNull[rnd];
                         var obj = bobj.obj;
                         brokenShields.Remove(bobj);
-                        foreach (var ps in asteroidAttackByForceAnimations) {
-                            var pmain = ps.prefab.main;
-                            pmain.startSizeMultiplier = 2 * obj.polygon.R;
-                            pmain.duration = applyShootingForceDuration;
-                        }
-                        obj.SetParticles(asteroidAttackByForceAnimations);
+                       
+                        var spwnedEffects = obj.SetParticles(asteroidAttackByForceAnimations);
+						foreach (var ps in spwnedEffects) {
+							var pmain = ps.main;
+							pmain.startSizeMultiplier = 2 * obj.polygon.R;
+							pmain.duration = applyShootingForceDuration;
+							ps.Play ();
+						}
+
                         obj.capturedByEarthSpaceship = true;
                         AimSystem aim = new AimSystem(target.position, target.velocity, obj.position, partMaxSpeed * 0.8f);
 						//float angleRange =  Mathf.Min(80f, (attackWithBrokenWhenCount - 1) * 3f);
@@ -370,11 +376,13 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 				obj.SetCollisionLayerNum (CollisionLayers.GetSpawnedLayer (thisShip.layer));
 				obj.capturedByEarthSpaceship = true;
                 thisShip.AddObjectAsFollower(obj);
-                foreach (var ps in asteroidGrabByForceAnimations) {
-					var pmain = ps.prefab.main;
+				var spawnedEffects = obj.SetParticles (asteroidGrabByForceAnimations);
+				foreach (var ps in spawnedEffects) {
+					var pmain = ps.main;
 					pmain.startSizeMultiplier = 2 * obj.polygon.R;
+					ps.Play ();
 				}
-				obj.SetParticles (asteroidGrabByForceAnimations);
+
 				Main.PutOnFirstNullPlace (brokenShields,  newBroken);
 			}
 

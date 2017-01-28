@@ -27,6 +27,7 @@ public class GravityShieldEffect : TickableEffect
 		foreach (var effect in spawnedEffects) {
 			var emain = effect.main;
 			emain.startSizeMultiplier = data.range * 2f;
+			effect.Play ();
 		}
 	}
 

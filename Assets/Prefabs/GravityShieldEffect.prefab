@@ -52,7 +52,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     scalar: 0
@@ -933,7 +933,7 @@ ParticleSystem:
           rgba: 15532287
         key1:
           serializedVersion: 2
-          rgba: 2362185766
+          rgba: 1741428774
         key2:
           serializedVersion: 2
           rgba: 13375526

@@ -172,6 +172,7 @@ public class ObjectsCreator
         var ps = GameObject.Instantiate<ParticleSystem>(mdata.particles, asteroid.transform);
         ps.startColor = mdata.particleSystemColor;
         ps.transform.localPosition = new Vector3(0, 0, -1);
+		ps.Play ();
         asteroid.SetCollisionLayerNum(CollisionLayers.ilayerTeamEnemies);
         asteroid.gameObject.name = mdata.name;
         asteroid.destructionType = PolygonGameObject.DestructionType.eComplete;

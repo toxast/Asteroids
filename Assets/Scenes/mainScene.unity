@@ -2338,7 +2338,7 @@ MonoBehaviour:
   cometData: {fileID: 114935688868597546, guid: 164284c7e17bb3c4094b0d3942efd747,
     type: 2}
   gravityShieldPowerUpData:
-    duration: 7
+    duration: 27
     range: 15
     force: 200
     particles:

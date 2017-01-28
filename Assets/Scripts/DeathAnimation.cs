@@ -24,7 +24,7 @@ public class DeathAnimation
 	public static void MakeDeathForThatFellaYo(PolygonGameObject go, bool instant = false, float finalExplosionPowerKoeff = 1f)
 	{
         var config = Singleton<GlobalConfig>.inst;
-		float duration = (instant)? 0 : 5 *  Mathf.Pow(go.polygon.area, 0.4f) / 4f;
+		float duration = (instant)? 0 :  Mathf.Pow(go.polygon.area, 0.4f) / 4f;
 		DeathAnimation anim;
 		int minExplosions = (int)(2*Mathf.Pow(go.polygon.R, 0.5f));
 		int maxExplosions = (int)(2*Mathf.Pow(go.polygon.R, 0.8f));
