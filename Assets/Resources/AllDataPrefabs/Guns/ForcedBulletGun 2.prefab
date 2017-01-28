@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4250243256977174}
   - component: {fileID: 114256884597087828}
   m_Layer: 0
-  m_Name: ForcedBulletGun
+  m_Name: ForcedBulletGun 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
   damage: 0
   lifeTime: 10
   bulletSpeed: 25
-  fireInterval: 1
+  fireInterval: 0.5
   physical:
     density: 1
     health: -1
@@ -76,9 +76,9 @@ MonoBehaviour:
   fireEffect: {fileID: 0}
   force: 20
   forceDuration: 0.7
-  range: 13
+  range: 7
   fieldForce: -1000
-  damagePerSecond: 100
+  damagePerSecond: 50
   effectsForcedBullet:
   - place:
       pos: {x: 0, y: 0}

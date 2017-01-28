@@ -1186,16 +1186,14 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
-     * missile that sticks and applies force
-     * frozen storms weapon like diablo 2
-     * gravity shield
+	* frozen storms weapon like diablo 2
      * teleporting enemy
-     * smoking parts on explosion, add random burning parts
+     * explosion better force direction
+	* missile that sticks and applies force
 	 * duplicating enemy and illusions enemy?
 	 * stop towers from flowing after hit
      * posessed ships
      * necromancer-ship (throws pieces, then assembles them into ship until area threshold )
-	 * make destroyed spaceship parts realy easy to break
      * explosion on turrets
 	 * lazer fix when target destroyed
 	 * ipad trampolines (2 if i recall correctly, about interfaces)
@@ -1211,7 +1209,6 @@ public class Main : MonoBehaviour
 	 * more efficeient stars render
 	 * fire enimies
 	 * cold enemies
-	 * cool ships explosion (not so circled)
 	 * gravity enemies
 	 * texture on asteroids?
 	 * joystick position fixed
@@ -1222,7 +1219,6 @@ public class Main : MonoBehaviour
 	 * dissolve bullet and shader
 	 * bad effects on power-up destroy. Monster spawn, tough emeny, rocket launch, spawn of new very PoweR up! 
 	 * bosses (arcanoid?)
-	 * drops from enemies
 	 * 
 	 * 
 	 * 

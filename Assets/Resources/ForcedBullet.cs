@@ -9,7 +9,8 @@ public class ForcedBullet : PolygonGameObject {
     Vector2 forceDir;
     MForcedBulletGun data;
     List<PolygonGameObject> gobjects = new List<PolygonGameObject>();
-     
+	List<ParticleSystem> spawnedEffects;
+
     public void InitForcedBullet(MForcedBulletGun data, int affectLayer) {
         this.data = data;
         this.affectLayer = affectLayer;
@@ -17,6 +18,23 @@ public class ForcedBullet : PolygonGameObject {
         //velocity -= forceDir * data.forceDuration * data.force;
         gobjects = Singleton<Main>.inst.gObjects;
         StartCoroutine(ForceChange());
+
+		spawnedEffects = SetParticles (data.effectsForcedBullet);
+		foreach (var ps in spawnedEffects) {
+			var pmain = ps.main;
+			pmain.startSizeMultiplier = 2 * data.range;
+			pmain.loop = true;
+			ps.Play ();
+		}
+		//effect
+//		effect = GameObject.Instantiate (data.bulletEffect, transform);
+//		var shape = effect.shape;
+//		shape.radius = data.range;
+//		var main = effect.main;
+//		main.startSpeed = -data.range * 2;
+//		var em = effect.emission;
+//		em.rateOverTime = Mathf.PI * data.range * data.range / 2.5f;
+//		effect.transform.localPosition = new Vector3 (0, 0, -1);
     }
 
     const float checkEvery = 0.16f;
@@ -46,6 +64,6 @@ public class ForcedBullet : PolygonGameObject {
 
     private void TickEvery(float sec) {
         
-        new PhExplosion(position, data.range, sec * data.damagePerSecond, 0, gobjects, affectLayer);
+		new PhExplosion(position, data.range, sec * data.damagePerSecond, sec * data.fieldForce, gobjects, affectLayer);
     }
 }

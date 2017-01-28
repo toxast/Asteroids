@@ -9,7 +9,9 @@ public class MForcedBulletGun : MGunData {
 
     [Header ("damage field")]
     public float range = 20;
+	public float fieldForce = -1000f;
     public float damagePerSecond = 3;
+	public List<ParticleSystemsData> effectsForcedBullet;
 
     public override Gun GetGun(Place place, PolygonGameObject t) {
         return new ForcedBulletGun(place, this, t);
