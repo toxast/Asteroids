@@ -785,7 +785,7 @@ public class Main : MonoBehaviour
 					CheckDrop (drop, part);
 				}
 
-				AddToAlphaDetructor (part, 0.7f + UnityEngine.Random.Range (0f, 1f));
+				AddToDetructor (part, 0.7f + UnityEngine.Random.Range (0f, 1f));
 			} else {
 				if (obj.dropID != null) {
 					part.dropID = obj.dropID;
@@ -828,8 +828,8 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	public void AddToAlphaDetructor(PolygonGameObject p, float time) {
-		TimeDestuctor d = new TimeDestuctor(p, time);
+	public void AddToDetructor(PolygonGameObject p, float time, bool lowerAlphaTo0 = true) {
+		TimeDestuctor d = new TimeDestuctor(p, time, lowerAlphaTo0);
 		PutOnFirstNullPlace(destructors, d); 
 	}
 

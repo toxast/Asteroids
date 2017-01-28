@@ -66,7 +66,7 @@ public class GravityBullet : PolygonGameObject {
 		effect.transform.SetParent(holder.cacheTransform, true);
 //		effect.transform.localPosition = pos;
 //		effect.transform.localRotation = rot;
-		Singleton<Main>.inst.AddToAlphaDetructor(holder, 5f);
+		Singleton<Main>.inst.AddToDetructor(holder, 5f);
 
 	}
 }

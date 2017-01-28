@@ -8,19 +8,23 @@ public class TimeDestuctor
 	public float timeLeft;
 
 	float alphaLeft = 1f;
+	bool animateAlpha;
 
-	public TimeDestuctor(PolygonGameObject a, float timeLeft)
+	public TimeDestuctor(PolygonGameObject a, float timeLeft, bool lowerAlphato0)
 	{
 		this.a = a;
 		this.initialTime = timeLeft;
 		this.timeLeft = initialTime;
+		animateAlpha = lowerAlphato0;
 		alphaLeft = a.GetAlpha ();
 	}
 
 	public void Tick(float dtime)
 	{
 		timeLeft -= dtime;
-		a.SetAlpha (alphaLeft * Mathf.Clamp01 (timeLeft / initialTime));
+		if (animateAlpha) {
+			a.SetAlpha (alphaLeft * Mathf.Clamp01 (timeLeft / initialTime));
+		}
 		a.Tick (dtime);
 	}
 

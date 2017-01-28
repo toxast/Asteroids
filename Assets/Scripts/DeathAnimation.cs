@@ -24,7 +24,7 @@ public class DeathAnimation
 	public static void MakeDeathForThatFellaYo(PolygonGameObject go, bool instant = false, float finalExplosionPowerKoeff = 1f)
 	{
         var config = Singleton<GlobalConfig>.inst;
-		float duration = (instant)? 0 : Mathf.Pow(go.polygon.area, 0.4f) / 4f;
+		float duration = (instant)? 0 : 5 *  Mathf.Pow(go.polygon.area, 0.4f) / 4f;
 		DeathAnimation anim;
 		int minExplosions = (int)(2*Mathf.Pow(go.polygon.R, 0.5f));
 		int maxExplosions = (int)(2*Mathf.Pow(go.polygon.R, 0.8f));
@@ -81,10 +81,10 @@ public class DeathAnimation
 			for (int k = 0; k < explosionsCount; k++) {
 				int i = Random.Range(0, explosionPrefabs.Count);
                 var eprefab = explosionPrefabs[i];
-                var pMain = eprefab.main;
-                pMain.startDelayMultiplier = ((float)(k) / explosionPrefabs.Count) * duration;
-                pMain.duration = duration - pMain.startDelayMultiplier;
                 var e = GameObject.Instantiate(explosionPrefabs[i]) as ParticleSystem;
+				var emain = e.main;
+				emain.startDelayMultiplier = ((float)(k) / explosionPrefabs.Count) * duration;
+				emain.duration = duration - emain.startDelayMultiplier;
 				e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
 				var r = 2f*obj.polygon.R/3f;
 				var offset = new Vector3(Random.Range(-r, r), Random.Range(-r, r), 0);
@@ -92,7 +92,7 @@ public class DeathAnimation
 				e.transform.parent = obj.cacheTransform;
 				e.Play();
 				instantiatedExplosions.Add(e);
-				delayedExplosions.Add (new DelayedExplosion{ delay = pMain.startDelayMultiplier, localPos = offset });
+				delayedExplosions.Add (new DelayedExplosion{ delay = emain.startDelayMultiplier, localPos = offset });
             }
 		}
 	}
@@ -166,13 +166,16 @@ public class DeathAnimation
         Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(r, vcount);
         var firepart = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, b);
         firepart.SetAlpha(0);
+		firepart.name = "burning part";
+
         var eprefab = Singleton<GlobalConfig>.inst.burningParticleEffect;
-        var pmain = eprefab.main;
-        pmain.duration = duration;
-        pmain.startSizeMultiplier = 2 * r;
         var eff = GameObject.Instantiate(eprefab) as ParticleSystem;
+		var pmain = eff.main;
+		pmain.duration = duration;
+		pmain.startSizeMultiplier = 2 * r;
         eff.transform.parent = firepart.cacheTransform;
         eff.transform.localPosition = new Vector3(0, 0, -1);
+		eff.Play ();
 
         var controller = new StaticInputController();
         controller.turnDirection = Math2d.RotateVertex(new Vector2(1, 0), Random.Range(0f, 6f));
@@ -181,7 +184,7 @@ public class DeathAnimation
         firepart.SetController(controller);
 
         var spData = new SpaceshipData();
-        spData.turnSpeed = Random.Range(10, 30);
+        //spData.turnSpeed = Random.Range(10, 30);
         spData.maxSpeed = speed;
 		spData.brake = 0.8f * speed / duration;
         firepart.InitSpaceShip(new PhysicalData(), spData);
@@ -189,7 +192,7 @@ public class DeathAnimation
 		firepart.velocity = speed * VelocityDir + obj.velocity * objSpeedMultipier;
         firepart.cacheTransform.right = firepart.velocity.normalized;
         firepart.position = pos;
-        Singleton<Main>.inst.AddToAlphaDetructor(firepart, pmain.duration + 1f);
+		Singleton<Main>.inst.AddToDetructor(firepart,pmain.duration + 4f, lowerAlphaTo0:false);
     }
 }
 
