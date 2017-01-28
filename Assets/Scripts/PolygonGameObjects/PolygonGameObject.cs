@@ -306,7 +306,7 @@ public class PolygonGameObject : MonoBehaviour
 			foreach (var part in parts) 
 			{
 				Polygon p = new Polygon(part);
-				if(p.GetInteriorVerticesCount() > 3)
+				if(p.GetInteriorVerticesCount() >= 3)
 				{
                     var toTest = p.SplitByConcaveVertex();
                     foreach (var item in toTest) {

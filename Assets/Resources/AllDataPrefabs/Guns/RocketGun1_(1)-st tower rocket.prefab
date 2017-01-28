@@ -43,30 +43,30 @@ MonoBehaviour:
   storeName: (1)-st tower rocket
   price: 0
   etype: 2
-  damage: 6
+  damageOnCollision: 0
+  explosionOnDestruction: 1
   overrideExplosionDamage: 6
   overrideExplosionRadius: 23
   lifeTime: 4
-  fireInterval: 3
+  fireInterval: 10
+  repeatCount: 0
+  repeatInterval: 0
   physical:
     density: 1
     health: -1
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  repeatCount: 0
-  repeatInterval: 0
   vertices:
   - {x: 1.6213002, y: 0.00000006612638}
-  - {x: 0.72802913, y: -0.55799997}
-  - {x: -0.3719709, y: -0.46799996}
+  - {x: 0.7280292, y: -0.55799997}
+  - {x: -0.37197086, y: -0.46799996}
   - {x: -1.2409708, y: -0.55799997}
   - {x: -1.2409708, y: 0.55799997}
-  - {x: -0.3719709, y: 0.46799996}
-  - {x: 0.72802913, y: 0.55799997}
+  - {x: -0.37197086, y: 0.46799996}
+  - {x: 0.7280292, y: 0.55799997}
   color: {r: 0.7352941, g: 0.48010382, b: 0.097318344, a: 1}
   fireEffect: {fileID: 0}
-  explosionOnDestruction: 1
   missleParameters:
     thrust: 35
     maxSpeed: 40
@@ -82,6 +82,7 @@ MonoBehaviour:
       pos: {x: -1.117935, y: 0}
       dir: {x: 1, y: 0}
     prefab: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
+  destructionEffects: []
   launchDirection: {x: 1, y: 0}
   launchSpeed: 15
 --- !u!1001 &100100000
