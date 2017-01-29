@@ -93,4 +93,6 @@ public abstract class DOTEffect : TickableEffect
 public class BurningEffect : DOTEffect {
 	protected override eType etype { get { return eType.Burning; } }
 	public BurningEffect (Data data) : base (data){}
+
+    public override bool CanBeUpdatedWithSameEffect{get{ return true;}}
 }

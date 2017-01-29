@@ -101,6 +101,8 @@ public class PolygonGameObject : MonoBehaviour
 
 	public bool capturedByEarthSpaceship = false;
 
+    public virtual void OnHit(PolygonGameObject other) { }
+
 	protected virtual void Awake () 
 	{
 		cacheTransform = transform;

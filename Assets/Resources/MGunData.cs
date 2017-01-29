@@ -18,6 +18,6 @@ public class MGunData : MGunBaseData, IGotShape {
 
 	public override Gun GetGun(Place place, PolygonGameObject t)
 	{
-		return new BulletGun(place, this, t);
+		return new BulletGun<PolygonGameObject>(place, this, t);
 	}
 }

@@ -713,6 +713,7 @@ public class Main : MonoBehaviour
 
                 if (!bullet.IsKilled()) {
                     obj.Hit(bullet.damageOnCollision + GetCollisionDamage(impulse, obj, bullet));
+                    bullet.OnHit(obj);
                 }
 
                 if (bullet.destructionType == PolygonGameObject.DestructionType.eSptilOnlyOnHit) {

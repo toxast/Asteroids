@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-public class BulletGun : GunShooterBase
+public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 {
 	public Vector2[] vertices; 
 	public PhysicalData physical;
@@ -31,8 +31,7 @@ public class BulletGun : GunShooterBase
 
 	public override float BulletSpeedForAim{ get { return bulletSpeed; } }
 
-    protected T CreateBullet<T>()
-        where T : PolygonGameObject
+    protected T CreateBullet()
     {
         T bullet = PolygonCreator.CreatePolygonGOByMassCenter<T>(vertices, color);
 		bullet.gameObject.name = "bullet";
@@ -50,12 +49,18 @@ public class BulletGun : GunShooterBase
         return bullet;
 	}
 
+    protected virtual void InitBullet(T bullet)
+    {
+        bullet.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
+    }
+
 	protected override void Fire()
 	{
-		var b = CreateBullet<PolygonGameObject>();
+		var b = CreateBullet();
+
+        InitBullet( b );
 
 		b.velocity += Main.AddShipSpeed2TheBullet(parent);
-		b.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
 
 		Singleton<Main>.inst.HandleGunFire (b);
 
@@ -65,23 +70,46 @@ public class BulletGun : GunShooterBase
 }
 
 
-public class ForcedBulletGun : BulletGun 
+public class ForcedBulletGun : BulletGun<ForcedBullet>
 {
     MForcedBulletGun fdata;
-
+    
     public ForcedBulletGun(Place place, MForcedBulletGun fdata, PolygonGameObject parent)
         : base(place, fdata, parent) {
         this.fdata = fdata;
     }
 
-    protected override void Fire() {
-        var bullet = CreateBullet<ForcedBullet>();
+    protected override void InitBullet(ForcedBullet bullet)
+    {
         var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layer));
         bullet.InitForcedBullet(fdata, affectedLayer);
-        bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
-        Singleton<Main>.inst.HandleGunFire(bullet);
-        if (fireEffect != null) {
-            fireEffect.Emit(1);
-        }
+    }
+
+    //protected override void Fire() {
+    //    var bullet = CreateBullet();
+    //    var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layer));
+    //    bullet.InitForcedBullet(fdata, affectedLayer);
+    //    bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
+    //    Singleton<Main>.inst.HandleGunFire(bullet);
+    //    if (fireEffect != null) {
+    //        fireEffect.Emit(1);
+    //    }
+    //}
+}
+
+
+public class SpreadBulletGun<T> : BulletGun<T> where T : PolygonGameObject
+{
+    MSpreadBulletGunData sdata;
+
+    public SpreadBulletGun(Place place, MSpreadBulletGunData data, PolygonGameObject parent)
+        : base(place, data, parent) {
+        this.sdata = data;
+    }
+
+    protected override void InitBullet( T bullet )
+    {
+        base.InitBullet(bullet);
+        bullet.velocity = Math2d.RotateVertex(bullet.velocity, UnityEngine.Random.Range(-sdata.spreadAngle * 0.5f, sdata.spreadAngle * 0.5f));
     }
 }

@@ -12,6 +12,7 @@ public class GunSetupData : IClonable<GunSetupData>, IGotPlace
 		SPAWNER = 3,
 		LAZER = 4,
 		TURRET = 5,
+        FLAME = 6,
 	}
 
 	public Place place;
