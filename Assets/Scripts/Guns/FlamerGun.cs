@@ -32,7 +32,7 @@ public class FlamingBullet : DeceleratingBullet
 
     public override void OnHit(PolygonGameObject other)
     {
-         AddEffect(new BurningEffect(dot));
+        other.AddEffect(new BurningEffect(dot));
     }
 }
 

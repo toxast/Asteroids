@@ -76,9 +76,9 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
-    prefab: {fileID: 198451757444820078, guid: 76d7d89819899084ab8f11e077e5adaa, type: 2}
+    prefab: {fileID: 198265202451026640, guid: b534f5cf459db8b40ba396d53b5184b2, type: 2}
   fireEffect: {fileID: 0}
-  spreadAngle: 1.2
+  spreadAngle: 0.3
   deceleration: 10
   dot:
     duration: 1
