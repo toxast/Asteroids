@@ -2024,7 +2024,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1543549236}
   m_HandleRect: {fileID: 1543549235}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2347,6 +2347,8 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       prefab: {fileID: 198159519111888470, guid: b23f62bccbb84ed44a1707c769ff9067,
         type: 2}
+      overrideSize: -1
+      overrideDuration: -1
 --- !u!4 &1045239090
 Transform:
   m_ObjectHideFlags: 0

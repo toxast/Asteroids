@@ -48,7 +48,12 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
-	public override void SetAlpha (float a)
+    public void SetAlphaAndInvisibility(float alpha) {
+        SetAlpha(alpha);
+        SetInvisible(alpha == 0);
+    }
+
+    public override void SetAlpha (float a)
 	{
 		base.SetAlpha (a);
 

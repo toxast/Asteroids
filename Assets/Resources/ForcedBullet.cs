@@ -9,41 +9,24 @@ public class ForcedBullet : PolygonGameObject {
     Vector2 forceDir;
     MForcedBulletGun data;
     List<PolygonGameObject> gobjects = new List<PolygonGameObject>();
-	List<ParticleSystem> spawnedEffects;
+	List<ParticleSystemsData> effects2;
 
     public void InitForcedBullet(MForcedBulletGun data, int affectLayer) {
         this.data = data;
         this.affectLayer = affectLayer;
         forceDir = Math2d.RandomSign() * Math2d.MakeRight(cacheTransform.right);
-        //velocity -= forceDir * data.forceDuration * data.force;
         gobjects = Singleton<Main>.inst.gObjects;
         StartCoroutine(ForceChange());
-
-		spawnedEffects = SetParticles (data.effectsForcedBullet);
-		foreach (var ps in spawnedEffects) {
-			var pmain = ps.main;
-			pmain.startSizeMultiplier = 2 * data.range;
-			pmain.loop = true;
-			ps.Play ();
-		}
-		//effect
-//		effect = GameObject.Instantiate (data.bulletEffect, transform);
-//		var shape = effect.shape;
-//		shape.radius = data.range;
-//		var main = effect.main;
-//		main.startSpeed = -data.range * 2;
-//		var em = effect.emission;
-//		em.rateOverTime = Mathf.PI * data.range * data.range / 2.5f;
-//		effect.transform.localPosition = new Vector3 (0, 0, -1);
+        effects2 = data.effectsForcedBullet.ConvertAll(e => e.Clone());
+        effects2.ForEach(e => e.overrideSize = 2 * data.range);
+        SetParticles (data.effectsForcedBullet);
     }
 
     const float checkEvery = 0.16f;
     float timeLeftForCheck = checkEvery;
     public override void Tick(float delta) {
         base.Tick(delta);
-
         velocity += forceDir * delta * data.force;
-
         timeLeftForCheck -= delta;
         if (timeLeftForCheck < 0) {
             timeLeftForCheck += checkEvery;
@@ -54,8 +37,7 @@ public class ForcedBullet : PolygonGameObject {
     IEnumerator ForceChange() {
         yield return new WaitForSeconds(data.forceDuration / Mathf.Sqrt(2));
         forceDir = -forceDir;
-        yield return new WaitForSeconds(data.forceDuration / Mathf.Sqrt(2));
-        yield return new WaitForSeconds(data.forceDuration);
+        yield return new WaitForSeconds(data.forceDuration * ( 1f + 1f / Mathf.Sqrt(2)));
         while (true) {
             forceDir = -forceDir;
             yield return new WaitForSeconds(2f * data.forceDuration);

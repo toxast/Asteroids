@@ -23,12 +23,9 @@ public class GravityShieldEffect : TickableEffect
 
 	public override void SetHolder (PolygonGameObject holder) {
 		base.SetHolder (holder);
-		spawnedEffects = holder.SetParticles (data.particles);
-		foreach (var effect in spawnedEffects) {
-			var emain = effect.main;
-			emain.startSizeMultiplier = data.range * 2f;
-			effect.Play ();
-		}
+        var particles = data.particles.Clone();
+        particles.ForEach(e => e.overrideSize = data.range * 2f);
+        spawnedEffects = holder.SetParticles (particles);
 	}
 
 	public override void Tick (float delta) {

@@ -91,6 +91,8 @@ MonoBehaviour:
       pos: {x: -0.71749985, y: 0.000000016474736}
       dir: {x: 1, y: 0}
     prefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    overrideSize: -1
+    overrideDuration: -1
   turrets: []
   verts:
   - {x: 2.8225002, y: -0.7200001}
@@ -128,10 +130,11 @@ MonoBehaviour:
     destructionType: 0
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
-  startFireballs: 3
+  startFireballs: 2
   fireballCount: 4
   respawnFireballDuration: 2
   radius: 15
   shootInterval: 0.5
+  randomizeAimAngle: 15
   fireballData: {fileID: 11493992, guid: 23a24ca28642f564aaabba35c348ae7d, type: 2}
   fillFrom: {fileID: 0}

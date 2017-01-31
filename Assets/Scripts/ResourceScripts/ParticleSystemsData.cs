@@ -6,6 +6,8 @@ public class ParticleSystemsData: IClonable<ParticleSystemsData>, IGotPlace
 {
 	public Place place;
 	public ParticleSystem prefab;
+    public float overrideSize = -1;
+    public float overrideDuration = -1;
 
 	public Place pos {get {return place;} set{place = value;}}
 
@@ -15,6 +17,8 @@ public class ParticleSystemsData: IClonable<ParticleSystemsData>, IGotPlace
 		{
 			place = place.Clone(),
 			prefab = prefab,
-		};
+            overrideSize = overrideSize,
+            overrideDuration = overrideDuration,
+        };
 	}
 }

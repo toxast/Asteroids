@@ -262,9 +262,15 @@ public class PolygonGameObject : MonoBehaviour
         return mesh.colors [0].a;
     }
 
+    public bool increaceAlphaOnHitAndDropInvisibility = false;
+    bool _isInvisible = false;
 	public bool IsInvisible() {
-		return GetAlpha () == 0;
+		return _isInvisible;
 	}
+
+    public void SetInvisible(bool invis) {
+        _isInvisible = invis;
+    }
 
 	public void AddEffect(TickableEffect effect) 
 	{
@@ -379,9 +385,10 @@ public class PolygonGameObject : MonoBehaviour
 	public virtual void Hit(float dmg)
 	{
 //        Debug.LogError ("hit " + dmg);
-		float alpha = GetAlpha ();
-		if (alpha < 1) {
+		if (increaceAlphaOnHitAndDropInvisibility) {
+		    float alpha = GetAlpha ();
 			SetAlpha(Mathf.Min(1, alpha + 0.65f));
+            SetInvisible(false);
 		}
 
 		if(shield != null)
@@ -514,9 +521,18 @@ public class PolygonGameObject : MonoBehaviour
 			}
 			else
 			{
-				var thrusterInstance  = Instantiate(setup.prefab) as ParticleSystem;
-				Math2d.PositionOnParent (thrusterInstance.transform, setup.place, cacheTransform, true, 1);
-				result.Add (thrusterInstance);
+				var inst = Instantiate(setup.prefab) as ParticleSystem;
+                var pmain = inst.main;
+                if (setup.overrideSize > 0) {
+                    pmain.startSizeMultiplier = setup.overrideSize;
+                }
+                if (setup.overrideDuration > 0) {
+                    pmain.duration = setup.overrideDuration;
+                }
+                inst.Play();
+
+                Math2d.PositionOnParent (inst.transform, setup.place, cacheTransform, true, 1);
+				result.Add (inst);
 			}
 		}
 		return result;
@@ -530,7 +546,10 @@ public class PolygonGameObject : MonoBehaviour
 
     public void AddObjectAsFollower(PolygonGameObject obj) {
         obj.ignoreBounds = true;
-        Main.PutOnFirstNullPlace(teleportWithMe, obj);
+        if (teleportWithMe == null) {
+            teleportWithMe = new List<PolygonGameObject>();
+        }
+        Main.PutOnFirstNullOrDestroyedPlace(teleportWithMe, obj);
     }
 
     public Action OnDestroying;

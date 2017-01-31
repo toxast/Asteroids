@@ -26,7 +26,8 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 
 	public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData, InvisibleData invisData) : base(thisShip)
     {
-		attackDutation = invisData.attackDutation;
+        thisShip.increaceAlphaOnHitAndDropInvisibility = true;
+        attackDutation = invisData.attackDutation;
 		invisibleDuration = invisData.invisibleDuration;
 
 		fadeInDuration = invisData.fadeInDuration;
@@ -229,12 +230,12 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 			if (shouldBeInvisible) {
 				if (currentAlpha > 0) {
 					float newAlpha = Mathf.Clamp(currentAlpha - currentfadeOutSpeed * Time.deltaTime, 0f, 1f);
-					thisShip.SetAlpha(newAlpha);
+					thisShip.SetAlphaAndInvisibility(newAlpha);
 				}
             } else {
 				if (currentAlpha < 1) {
 					float newAlpha = Mathf.Clamp(currentAlpha + fadeInSpeedPerSecond * Time.deltaTime, 0f, 1f);
-					thisShip.SetAlpha(newAlpha);
+					thisShip.SetAlphaAndInvisibility(newAlpha);
 				}
             }
             yield return null;

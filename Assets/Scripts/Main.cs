@@ -74,15 +74,15 @@ public class Main : MonoBehaviour
 
 	IEnumerator SpawnComets()
 	{
-		while (true) {
-			if (!IsNull (spaceship)) {
-				var comet = cometData.Create (cometData.gameSpawnLayer);
-				var angle = UnityEngine.Random.Range (0, 360);
-				comet.position = spaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
-				Add2Objects (comet);
-			}
+		//while (true) {
+		//	if (!IsNull (spaceship)) {
+		//		var comet = cometData.Create (cometData.gameSpawnLayer);
+		//		var angle = UnityEngine.Random.Range (0, 360);
+		//		comet.position = spaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
+		//		Add2Objects (comet);
+		//	}
 			yield return new WaitForSeconds (25f);
-		}
+		//}
 	}
 
 	IEnumerator WrapStars()
@@ -353,26 +353,34 @@ public class Main : MonoBehaviour
 		}
 	}
 
-//	void HandlePowerUpCreated (PowerUp powerUp)
-//	{
-//		SetRandomPosition(powerUp, new Vector2(50, 100), new SpawnPositioning());
-//		powerUps.Add(powerUp);
-//	}
+    //	void HandlePowerUpCreated (PowerUp powerUp)
+    //	{
+    //		SetRandomPosition(powerUp, new Vector2(50, 100), new SpawnPositioning());
+    //		powerUps.Add(powerUp);
+    //	}
 
-	public static void PutOnFirstNullPlace<T>(List<T> list, T obj)
-	{
-		for (int i = 0; i < list.Count; i++) 
-		{
-			if(list[i] == null)
-			{
-				list[i] = obj;
-				return;
-			}
-		}
-		list.Add(obj);
-	}
+    public static void PutOnFirstNullPlace<T>(List<T> list, T obj) {
+        for (int i = 0; i < list.Count; i++) {
+            if (list[i] == null) {
+                list[i] = obj;
+                return;
+            }
+        }
+        list.Add(obj);
+    }
 
-	float enemyDtime;
+    public static void PutOnFirstNullOrDestroyedPlace<T>(List<T> list, T obj) where T: PolygonGameObject
+    {
+        for (int i = 0; i < list.Count; i++) {
+            if (Main.IsNull(list[i])) {
+                list[i] = obj;
+                return;
+            }
+        }
+        list.Add(obj);
+    }
+
+    float enemyDtime;
 //	bool doTick = true;
 	bool gameIsOn = false;
 	void Update()
@@ -440,9 +448,9 @@ public class Main : MonoBehaviour
 		}
 		else
 		{
-			Wrap(bullets, true);
-			Wrap(gobjects, true);
-			Wrap(drops, false);
+			Wrap(bullets);
+			Wrap(gobjects);
+			Wrap(drops);
 		}
 
 		TickAlphaDestructors (enemyDtime);
@@ -472,14 +480,13 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		for (int i = gobjects.Count - 1; i >= 0; i--) 
-		{
-			for (int k = gobjects.Count - 1; k >= 0; k--) 
-			{
-				if(i != k)
-					ObjectsCollide(gobjects[i], gobjects[k]);
-			}
-		}
+        for (int i = gobjects.Count - 1; i >= 0; i--) {
+            for (int k = gobjects.Count - 1; k >= 0; k--) {
+                if (i != k) {
+                    ObjectsCollide(gobjects[i], gobjects[k]);
+                }
+            }
+        }
 /*
 		//TODO: refactor
 		for (int i = powerUps.Count - 1; i >= 0; i--) 
@@ -563,37 +570,28 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	private void CheckDeadObjects<T> (List<T> objs, bool nullCheck = false)
-		where T: PolygonGameObject
-	{
-		for (int k = objs.Count - 1; k >= 0; k--)
-		{
-			var obj = objs[k];
-			if(obj != null && obj.IsKilled())
-			{
-				if(obj.deathAnimation != null)
-				{
-					if(!obj.deathAnimation.started)
-					{
-						obj.deathAnimation.AnimateDeath();
-					}
-				}
+    private void CheckDeadObjects<T>(List<T> objs, bool nullCheck = false)
+        where T : PolygonGameObject {
+        for (int k = objs.Count - 1; k >= 0; k--) {
+            var obj = objs[k];
+            if (obj != null && obj.IsKilled()) {
+                if (obj.deathAnimation != null) {
+                    if (!obj.deathAnimation.started) {
+                        obj.deathAnimation.AnimateDeath();
+                    }
+                }
 
-				if(obj.deathAnimation == null || obj.deathAnimation.finished)
-				{
-					ObjectDeath(objs[k]);
-					if(nullCheck)
-					{
-						objs[k] = default(T);
-					}
-					else
-					{
-						objs.RemoveAt(k);
-					}
-				}
-			}
-		}
-	}
+                if (obj.deathAnimation == null || obj.deathAnimation.finished) {
+                    ObjectDeath(objs[k]);
+                    if (nullCheck) {
+                        objs[k] = null;
+                    } else {
+                        objs.RemoveAt(k);
+                    }
+                }
+            }
+        }
+    }
 
 	private void ObjectDeath(PolygonGameObject gobject)
 	{
@@ -652,6 +650,7 @@ public class Main : MonoBehaviour
 	}
 
     private void DestroyPolygonGameObject(PolygonGameObject gobject) {
+        Debug.LogWarning("destroy " + gobject.name);
 		gobject.HandleDestroying ();
         Destroy(gobject.gameObj);
     }
@@ -944,18 +943,20 @@ public class Main : MonoBehaviour
         }
     }
 
-    private void Wrap<T>(List<T> list, bool nullCheck)
+    private void Wrap<T>(List<T> list)
         where T : PolygonGameObject {
         Vector2 oldPos = Vector2.zero;
         for (int i = 0; i < list.Count; i++) {
             PolygonGameObject item = list[i];
-            if (item != null && !item.ignoreBounds) {
+            if (!Main.IsNull(item) && !item.ignoreBounds) {
                 oldPos = item.position;
                 var wrapped = Wrap(item.cacheTransform);
                 if(wrapped && item.teleportWithMe != null) {
                     Vector2 delta = item.position - oldPos;
                     foreach (var controllable in item.teleportWithMe) {
-                        controllable.position += delta;
+                        if (!Main.IsNull(controllable)) {
+                            controllable.position += delta;
+                        }
                     }
                 }
 

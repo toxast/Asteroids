@@ -29,11 +29,10 @@ public class RocketLauncher : GunShooterBase
 		vertices = data.vertices;
 		missleParameters = data.missleParameters;
 		physical = data.physical;
-//		thrusterEffect = data.thrusterEffect;
-//		thrusterPos = data.thrusterPos;
-		thrusters = new List<ParticleSystemsData>(data.thrusters);
-		partcles = new List<ParticleSystemsData> (data.particles);
-		launchDirection = data.launchDirection;
+        thrusters = data.thrusters.Clone();
+        partcles = data.particles.Clone();
+
+        launchDirection = data.launchDirection;
 		launchSpeed = data.launchSpeed;
 		accuracy = data.accuracy;
 		overrideExplosionRadius = data.overrideExplosionRadius;
