@@ -85,11 +85,9 @@ public class DeathAnimation
 				var emain = e.main;
 				emain.startDelayMultiplier = ((float)(k) / explosionPrefabs.Count) * duration;
 				emain.duration = duration - emain.startDelayMultiplier;
-				e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
-				var r = 2f*obj.polygon.R/3f;
-				var offset = new Vector3(Random.Range(-r, r), Random.Range(-r, r), 0);
-				e.transform.position += offset;
+				e.transform.position = (Vector3)obj.globalPolygon.GetRandomAreaVertex() - new Vector3(0,0,1);
 				e.transform.parent = obj.cacheTransform;
+				Vector2 offset = e.transform.localPosition;
 				e.Play();
 				instantiatedExplosions.Add(e);
 				delayedExplosions.Add (new DelayedExplosion{ delay = emain.startDelayMultiplier, localPos = offset });

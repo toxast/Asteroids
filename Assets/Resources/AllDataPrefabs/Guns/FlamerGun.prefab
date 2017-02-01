@@ -77,6 +77,9 @@ MonoBehaviour:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
     prefab: {fileID: 198265202451026640, guid: b534f5cf459db8b40ba396d53b5184b2, type: 2}
+    overrideSize: -1
+    overrideDuration: -1
+    zOffset: -1
   fireEffect: {fileID: 0}
   spreadAngle: 0.3
   deceleration: 10
@@ -84,6 +87,15 @@ MonoBehaviour:
     duration: 1
     dps: 2
     maxBuildUpDuration: 5
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 198732008161831254, guid: 30f37b9af5892bb4387108403b759dec,
+        type: 2}
+      overrideSize: -1
+      overrideDuration: -1
+      zOffset: 1
   timeToFullPower: 2
   timeToCool: 0.5
   range: 5

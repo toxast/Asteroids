@@ -531,7 +531,7 @@ public class PolygonGameObject : MonoBehaviour
                 }
                 inst.Play();
 
-                Math2d.PositionOnParent (inst.transform, setup.place, cacheTransform, true, 1);
+                Math2d.PositionOnParent (inst.transform, setup.place, cacheTransform, true, setup.zOffset);
 				result.Add (inst);
 			}
 		}

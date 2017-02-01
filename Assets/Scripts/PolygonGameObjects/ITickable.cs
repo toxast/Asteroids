@@ -35,10 +35,10 @@ public abstract class TickableEffect : ITickable
 
 public abstract class DOTEffect : TickableEffect 
 {
-	Data data;
-	float timeLeft;
-	float currentDps;
-
+    protected Data data;
+	protected float timeLeft;
+	protected float currentDps;
+    
 	public DOTEffect(Data data) {
 		this.data = data;
 		timeLeft = data.duration;
@@ -51,7 +51,7 @@ public abstract class DOTEffect : TickableEffect
 			timeLeft -= delta;
 			holder.Hit (currentDps * delta);
 		}
-	}
+    }
 
 	public override bool IsFinished() {
 		return timeLeft <= 0;
@@ -70,29 +70,72 @@ public abstract class DOTEffect : TickableEffect
 		if (currentDps > same.data.dps) {
 			maxDps = currentDps;
 			maxDuration = data.maxBuildUpDuration;
-		} else {
+        } else {
 			maxDps = same.data.dps;
 			maxDuration = same.data.maxBuildUpDuration;
-		}
+            data = same.data;
+        }
 
-		float totalDamageToBeDone = timeLeft * currentDps + same.data.dps * same.data.duration;
+        float totalDamageToBeDone = timeLeft * currentDps + same.data.dps * same.data.duration;
 
 		currentDps = maxDps;
 		timeLeft = Mathf.Min(totalDamageToBeDone / maxDps, maxDuration);
-	}
+    }
 
 	[System.Serializable]
 	public class Data{
 		public float duration = 1;
 		public float dps = 3;
 		public float maxBuildUpDuration = 5;
-		//TODO: add effect particle system here
+        public ParticleSystemsData effect;
 	}
 }
 
 public class BurningEffect : DOTEffect {
-	protected override eType etype { get { return eType.Burning; } }
-	public BurningEffect (Data data) : base (data){}
+    protected override eType etype { get { return eType.Burning; } }
+    List<ParticleSystem> spawnedEffects = new List<ParticleSystem>();
+
+    public BurningEffect (Data data) : base (data){}
 
     public override bool CanBeUpdatedWithSameEffect{get{ return true;}}
+
+    public override void Tick(float delta) {
+        base.Tick(delta);
+        UpdateFlamesCount();
+    }
+
+    public override void UpdateBy(TickableEffect sameEffect) {
+        base.UpdateBy(sameEffect);
+        UpdateFlamesCount();
+    }
+
+    private void UpdateFlamesCount() {
+        if (IsFinished()) {
+            foreach (var item in spawnedEffects) {
+                GameObject.Destroy(item.gameObject);
+                spawnedEffects.Clear();
+            }
+        } else {
+            float burningArea = Mathf.Clamp(holder.fullHealth / (10f * currentDps * timeLeft), 0.1f, 0.8f);
+            int burningsCount = Mathf.CeilToInt(holder.polygon.area * burningArea * 0.5f);
+            int diff = burningsCount - spawnedEffects.Count;
+            if (diff != 0) {
+                if (diff > 0) {
+                    Debug.LogError("add burns " + diff);
+                    for (int i = 0; i < diff; i++) {
+                        var effect = data.effect.Clone();
+                        effect.place.pos = holder.globalPolygon.GetRandomAreaVertex() - holder.position;
+                        spawnedEffects.AddRange(holder.SetParticles(new List<ParticleSystemsData> { effect }));
+                    }
+                } else {
+                    Debug.LogError("remove burns " + (-diff));
+                    for (int i = 0; i < -diff; i++) {
+                        int last = spawnedEffects.Count - 1;
+                        GameObject.Destroy(spawnedEffects[last].gameObject);
+                        spawnedEffects.RemoveAt(last);
+                    }
+                }
+            }
+        }
+    }
 }
