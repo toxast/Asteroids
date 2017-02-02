@@ -40,10 +40,8 @@ public class FlamerGun : SpreadBulletGun<FlamingBullet>
 {
     MFlamerGunData flamerData;
 
-    float currentPower;
-    //bool isShooting;
 
-    //int layer;
+    //float currentPower;
 
 	public override float Range
 	{
@@ -53,49 +51,15 @@ public class FlamerGun : SpreadBulletGun<FlamingBullet>
     public FlamerGun(Place place, MFlamerGunData data, PolygonGameObject parent):base(place, data, parent)
 	{
         flamerData = data;
-
-        currentPower = 0.0f;
-        //isShooting = false;
-
-        //layer = 1 << CollisionLayers.GetBulletLayerNum(parent.layer);
+        //currentPower = 0.0f;
 	}
 
     protected override void InitBullet(FlamingBullet b)
     {
         b.Init(flamerData);
         base.InitBullet(b);
+		b.destructionType = PolygonGameObject.DestructionType.eDisappear;
     }
 
-    //public override void Tick(float delta)
-    //{
-    //    if ( isShooting )
-    //    {
-    //        currentPower = Mathf.Min( currentPower + delta / timeToFullpower, 1.0f );
-
-    //        // tick-discrete shooting
-    //        isShooting = false;
-    //    }
-    //    else
-    //    {
-    //        currentPower = Mathf.Max( currentPower - delta / timeToCool, 0.0f );
-
-    //        return;
-    //    }
-
-    //    if (fireEffect != null)
-    //  fireEffect.Emit (1);
-
-    //    var currentRange = range * currentPower;
-    //}
-
     public override float BulletSpeedForAim{ get { return Mathf.Infinity; } }
-
-    //public override void ResetTime() { }
-
-	//public override void ShootIfReady()
- //   {
- //       isShooting = true;
- //   }
-
-	//public override bool ReadyToShoot() { return true; }
 }

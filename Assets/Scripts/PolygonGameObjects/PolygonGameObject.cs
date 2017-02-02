@@ -529,6 +529,9 @@ public class PolygonGameObject : MonoBehaviour
                 if (setup.overrideDuration > 0) {
                     pmain.duration = setup.overrideDuration;
                 }
+				if (setup.overrideDelay > 0) {
+					pmain.startDelayMultiplier = setup.overrideDelay;
+				}
                 inst.Play();
 
                 Math2d.PositionOnParent (inst.transform, setup.place, cacheTransform, true, setup.zOffset);

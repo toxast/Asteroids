@@ -650,7 +650,6 @@ public class Main : MonoBehaviour
 	}
 
     private void DestroyPolygonGameObject(PolygonGameObject gobject) {
-        Debug.LogWarning("destroy " + gobject.name);
 		gobject.HandleDestroying ();
         Destroy(gobject.gameObj);
     }

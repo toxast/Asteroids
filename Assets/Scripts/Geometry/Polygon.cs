@@ -76,6 +76,7 @@ public class Polygon
     public void SetTriangles(int[] indices) {
         triangles = new int[indices.Length];
         indices.CopyTo(triangles, 0);
+		//Debug.LogError("triangles: " + triangles.Length);
     }
 
     public Vector2 GetRandomAreaVertex() {
@@ -96,7 +97,14 @@ public class Polygon
             float rnd2 = UnityEngine.Random.Range(0f, 1f);
             var AX = AB * rnd2 + AC * (1f - rnd2);
             float rnd3 = UnityEngine.Random.Range(0f, 1f);
-            return A + AX * rnd3;
+			var vrtx = A + AX * rnd3;
+			#if UNITY_EDITOR
+			if (!IsPointInside (vrtx)) {
+				Debug.LogError("no an inside point");
+			}
+			#endif
+			return vrtx;
+
         }
         Debug.LogError("no triangles");
         return Vector2.zero;

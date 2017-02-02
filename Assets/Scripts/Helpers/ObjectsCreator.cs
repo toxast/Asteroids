@@ -166,17 +166,18 @@ public class ObjectsCreator
         float size = Random(mdata.size);
         int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size * 3);
         Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size / 2f, vcount);
-        Comet asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
-        asteroid.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
-        asteroid.InitComet(mdata.powerupData, mdata.lifeTime);
-        var ps = GameObject.Instantiate<ParticleSystem>(mdata.particles, asteroid.transform);
+		Comet comet = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
+        comet.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
+        comet.InitComet(mdata.powerupData, mdata.lifeTime);
+		comet.SetCollisionLayerNum(CollisionLayers.ilayerTeamEnemies);
+//		comet.SetParticles(
+        var ps = GameObject.Instantiate<ParticleSystem>(mdata.particles, comet.transform);
         ps.startColor = mdata.particleSystemColor;
         ps.transform.localPosition = new Vector3(0, 0, -1);
 		ps.Play ();
-        asteroid.SetCollisionLayerNum(CollisionLayers.ilayerTeamEnemies);
-        asteroid.gameObject.name = mdata.name;
-        asteroid.destructionType = PolygonGameObject.DestructionType.eComplete;
-        return asteroid;
+        comet.gameObject.name = mdata.name;
+        comet.destructionType = PolygonGameObject.DestructionType.eComplete;
+        return comet;
     }
 
     public static Gasteroid CreateGasteroid(MGasteroidData initData)

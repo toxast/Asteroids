@@ -8,8 +8,8 @@ public class MFlamerGunData : MSpreadBulletGunData
 {
     public DOTEffect.Data dot;
 
-	public float timeToFullPower = 2.0f;
-    public float timeToCool = 0.5f;
+	//public float timeToFullPower = 2.0f;
+    //public float timeToCool = 0.5f;
 
 	public float range = 5f;
 

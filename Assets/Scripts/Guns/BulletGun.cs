@@ -84,17 +84,6 @@ public class ForcedBulletGun : BulletGun<ForcedBullet>
         var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layer));
         bullet.InitForcedBullet(fdata, affectedLayer);
     }
-
-    //protected override void Fire() {
-    //    var bullet = CreateBullet();
-    //    var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layer));
-    //    bullet.InitForcedBullet(fdata, affectedLayer);
-    //    bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
-    //    Singleton<Main>.inst.HandleGunFire(bullet);
-    //    if (fireEffect != null) {
-    //        fireEffect.Emit(1);
-    //    }
-    //}
 }
 
 

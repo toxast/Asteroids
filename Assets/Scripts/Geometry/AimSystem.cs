@@ -168,7 +168,6 @@ public class FollowAim
 					aim = new AimSystem (targetPosition, targetSpeed, selfPosition, targetSpeed.magnitude * 1.1f);
 					forceDir = aim.directionDist;
 				} else {
-					var angleBetweenCurrentAndBestSpeed = Math2d.ClosestAngleBetweenNormalizedRad (selfSpeed / selfSpeedMagnitude, aimNormalized) * Mathf.Rad2Deg;
 					float timeToChangeSpeedToTarget = TimeToChangeSpeed (selfSpeed, targetSpeed, force);
 					float timeToChangeSpeedToOptimal = TimeToChangeSpeed (selfSpeed, aimNormalized * selfSpeedMagnitude, force);
 					if (aim.time + timeToChangeSpeedToOptimal < timeToChangeSpeedToTarget) {

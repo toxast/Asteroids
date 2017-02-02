@@ -79,7 +79,7 @@ public abstract class GunShooterBase : Gun
 		}
 		else
 		{
-			timeToNextShot = fireInterval;
+			timeToNextShot += fireInterval; //not =, this is important for small intervals
 		}
 	}
 
