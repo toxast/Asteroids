@@ -90,6 +90,7 @@ public class Main : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		while(true)
 		{
+			Vector3 pos;
 			var stars = starsGenerator.stars;
 			for (int i = 0; i < stars.Length ; i++)
 			{
@@ -220,7 +221,7 @@ public class Main : MonoBehaviour
 	}
 
 	//TODO: partial objects reposition?
-	IEnumerator RepositionAll()
+	 IEnumerator RepositionAll()
 	{
 		yield return new WaitForSeconds(1f);
 		while(true)
@@ -228,10 +229,9 @@ public class Main : MonoBehaviour
 			Vector2 pos = cameraTransform.position;
 			if(pos.magnitude > screenBounds.width*3)
 			{
-				Reposition(drops, pos, false);
-				Reposition(gobjects, pos, false);
-//				Reposition(powerUps, pos, false);
-				Reposition(bullets, pos, true);
+				Reposition(drops, pos);
+				Reposition(gobjects, pos);
+				Reposition(bullets, pos);
 
 				var stars = starsGenerator.stars;
 				for (int i = 0; i < stars.Length ; i++)
@@ -928,41 +928,29 @@ public class Main : MonoBehaviour
     }
 
 
-    private void Reposition<T>(List<T> list, Vector2 delta, bool nullCheck)
+    private void Reposition<T>(List<T> list, Vector2 delta)
         where T : PolygonGameObject {
-        if (!nullCheck) {
-            for (int i = 0; i < list.Count; i++) {
-                list[i].position -= delta;
-            }
-        } else {
-            for (int i = 0; i < list.Count; i++) {
-                if (list[i] != null)
-                    list[i].position -= delta;
-            }
+        for (int i = 0; i < list.Count; i++) {
+			if (list [i] != null) {
+				list [i].ToggleAllDistanceEmitParticles (false);
+				list [i].position -= delta;
+				list [i].ToggleAllDistanceEmitParticles (true);
+			}
         }
     }
 
     private void Wrap<T>(List<T> list)
         where T : PolygonGameObject {
-        Vector2 oldPos = Vector2.zero;
+		Vector3 newPos;
         for (int i = 0; i < list.Count; i++) {
             PolygonGameObject item = list[i];
             if (!Main.IsNull(item) && !item.ignoreBounds) {
-                oldPos = item.position;
-                var wrapped = Wrap(item.cacheTransform);
-                if(wrapped && item.teleportWithMe != null) {
-                    Vector2 delta = item.position - oldPos;
-                    foreach (var controllable in item.teleportWithMe) {
-                        if (!Main.IsNull(controllable)) {
-                            controllable.position += delta;
-                        }
-                    }
-                }
-
-                if (wrapped && item.destroyOnBoundsTeleport) {
-                    item.Kill();
-                    item.destructionType = PolygonGameObject.DestructionType.eDisappear;
-                }
+				var wrap = Wrap(item.cacheTransform, out newPos);
+				if (wrap) {
+					item.OnBoundsTeleporting (newPos);
+					item.position = newPos;
+					item.OnBoundsTeleported ();
+				}
             }
         }
     }
@@ -1014,31 +1002,42 @@ public class Main : MonoBehaviour
 
 	private bool Wrap(Transform t)
 	{
+		Vector3 newPos;
+		if(Wrap(t, out newPos)){
+			t.position = newPos;
+			return true;
+		}
+		return false;
+	}
+
+	private bool Wrap(Transform t, out Vector3 newPos)
+	{
 		Vector2 center = mainCamera.transform.position;
 		Vector2 pos = t.position;
 		float rHorisontal = screenBounds.width/2;
 		float rVertical = screenBounds.height/2;
 		bool wrapped = false;
 
+		newPos = Vector3.zero;
 		if(pos.x > center.x + rHorisontal)
 		{
-			t.position = t.position.SetX(pos.x - 2*rHorisontal);
+			newPos = t.position.SetX(pos.x - 2*rHorisontal);
 			wrapped = true;
 		}
 		else if(pos.x < center.x - rHorisontal)
 		{
-			t.position = t.position.SetX(pos.x + 2*rHorisontal);
+			newPos = t.position.SetX(pos.x + 2*rHorisontal);
 			wrapped = true;
 		}
 		
 		if(pos.y > center.y + rVertical)
 		{
-			t.position = t.position.SetY(pos.y - 2*rVertical);
+			newPos = t.position.SetY(pos.y - 2*rVertical);
 			wrapped = true;
 		}
 		else if(pos.y < center.y - rVertical)
 		{
-			t.position = t.position.SetY(pos.y + 2*rVertical);
+			newPos = t.position.SetY(pos.y + 2*rVertical);
 			wrapped = true;
 		}
 		return wrapped;

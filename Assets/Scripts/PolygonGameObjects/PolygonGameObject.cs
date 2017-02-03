@@ -295,9 +295,14 @@ public class PolygonGameObject : MonoBehaviour
         Polygon p = new Polygon(verts);
         if (p.GetInteriorVerticesCount() > threshold) {
             var toTest = p.SplitByConcaveVertex();
-            foreach (var item in toTest) {
-                parts.AddRange(SplitUntilInteriorThreshold(item, threshold));
-            }
+			if (toTest.Count > 1) {
+				foreach (var item in toTest) {
+					parts.AddRange (SplitUntilInteriorThreshold (item, threshold));
+				}
+			} else {
+				Debug.LogError ("could not split");
+				parts.AddRange(toTest);
+			}
         } else {
             parts.Add(p.vertices);
         }
@@ -509,6 +514,7 @@ public class PolygonGameObject : MonoBehaviour
 		polygon.ChangeVertex(indx, v);
 	}
 
+	[System.NonSerialized] List<ParticleSystem> particles = new  List<ParticleSystem>();
 	//TODO: refactor this somehow, i need a lot of parametes and control over the particles
 	public List<ParticleSystem> SetParticles(List<ParticleSystemsData> datas)
 	{
@@ -538,7 +544,48 @@ public class PolygonGameObject : MonoBehaviour
 				result.Add (inst);
 			}
 		}
+
+		particles.AddRange (result); 
 		return result;
+	}
+
+	public void OnBoundsTeleporting(Vector2 newPos) {
+		
+		if(teleportWithMe != null) {
+			Vector2 delta = newPos - position;
+			foreach (var controllable in teleportWithMe) {
+				if (!Main.IsNull(controllable)) {
+					controllable.position += delta;
+				}
+			}
+		}
+
+		if (destroyOnBoundsTeleport) {
+			Kill();
+			destructionType = PolygonGameObject.DestructionType.eDisappear;
+		}
+
+		ToggleAllDistanceEmitParticles (false);
+	}
+
+	public void OnBoundsTeleported() {
+		ToggleAllDistanceEmitParticles (true);
+	}
+
+	public void ToggleAllDistanceEmitParticles(bool play){
+		if (play) {
+			foreach (var item in particles) {
+				if (item != null && item.emission.rateOverDistanceMultiplier > 0) {
+					item.Play ();
+				}
+			}
+		} else {
+			foreach (var item in particles) {
+				if (item != null && item.emission.rateOverDistanceMultiplier > 0) {
+					item.Pause ();
+				}
+			}
+		}
 	}
 
 	List<ParticleSystemsData> destroyEffects;

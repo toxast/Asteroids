@@ -2348,7 +2348,9 @@ MonoBehaviour:
       prefab: {fileID: 198159519111888470, guid: b23f62bccbb84ed44a1707c769ff9067,
         type: 2}
       overrideSize: -1
+      overrideDelay: -1
       overrideDuration: -1
+      zOffset: 1
 --- !u!4 &1045239090
 Transform:
   m_ObjectHideFlags: 0

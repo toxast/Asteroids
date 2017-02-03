@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198732008161831254}
   - component: {fileID: 199509568564266916}
   m_Layer: 0
-  m_Name: BurningEffect
+  m_Name: FlamethrowerParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1700224633046130}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_LocalPosition: {x: 3.43, y: -0.17, z: 1.82}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -101,7 +101,7 @@ ParticleSystem:
     serializedVersion: 3
     enabled: 1
     startLifetime:
-      scalar: 0.3
+      scalar: 0.4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -269,10 +269,10 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.42745098}
+      maxColor: {r: 0.9490196, g: 0.6901961, b: 0.22352941, a: 0.42745098}
       minMaxState: 0
     startSize:
-      scalar: 1.9596758
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -578,7 +578,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     rateOverDistance:
-      scalar: 3
+      scalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -638,21 +638,21 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.6807229
-          inSlope: 0.6703738
-          outSlope: 0.6703738
+          value: 1
+          inSlope: -1.0000001
+          outSlope: -1.0000001
           tangentMode: 34
         - serializedVersion: 2
           time: 0.1911411
           value: 0.8088589
-          inSlope: 0.15646471
-          outSlope: 0.15646471
+          inSlope: -0.8994919
+          outSlope: -0.8994919
           tangentMode: 34
         - serializedVersion: 2
           time: 1
-          value: 0.5197368
-          inSlope: -0.35744438
-          outSlope: -0.35744438
+          value: 0.16259381
+          inSlope: -0.7989837
+          outSlope: -0.7989837
           tangentMode: 34
         m_PreInfinity: 2
         m_PostInfinity: 2
