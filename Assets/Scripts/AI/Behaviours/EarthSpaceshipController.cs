@@ -239,6 +239,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                     obj.SetParticles (asteroidAttackByForceAnimations);
 					obj.destroyOnBoundsTeleport = true;
 					obj.capturedByEarthSpaceship = true;
+					thisShip.RemoveFollower (obj);
 					Main.PutOnFirstNullPlace (objectShootingWith, new BulletObj{ obj = obj, startTime = Time.time }); ;
 				}
 				yield return new WaitForSeconds (data.shootInterval);
@@ -267,9 +268,8 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                         asteroidAttackByForceAnimations.ForEach(e => { e.overrideSize = 2 * obj.polygon.R; e.overrideDuration = applyShootingForceDuration; });
                         obj.SetParticles(asteroidAttackByForceAnimations);
                         obj.capturedByEarthSpaceship = true;
+						thisShip.RemoveFollower (obj);
                         AimSystem aim = new AimSystem(target.position, target.velocity, obj.position, partMaxSpeed * 0.8f);
-						//float angleRange =  Mathf.Min(80f, (attackWithBrokenWhenCount - 1) * 3f);
-						//float randomAngle = Random.Range(-angleRange, angleRange) * Mathf.Deg2Rad;
 						Vector2 dir = (aim.directionDist * partMaxSpeed * 0.8f - obj.velocity * 0.15f).normalized;// , randomAngle);
 						Main.PutOnFirstNullPlace(brokenObjectShootingWith, new BrokenBulletObj { obj = obj, startTime = Time.time, accelerateDir = dir }); ;
                     }

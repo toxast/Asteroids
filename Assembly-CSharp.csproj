@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{70261382-45EB-0236-7EA2-855FCD841B8F}</ProjectGuid>
+    <ProjectGuid>{9639EF94-83A5-FA1D-7B88-14467997D87C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -49,9 +49,15 @@
      <Compile Include="Assets\AsteroidInitData.cs" />
      <Compile Include="Assets\Depth Mask Example\SetRenderQueue.cs" />
      <Compile Include="Assets\Resources\EditorPrefabsCreator.cs" />
+     <Compile Include="Assets\Resources\ForcedBullet.cs" />
      <Compile Include="Assets\Resources\MAsteroidCommonData.cs" />
      <Compile Include="Assets\Resources\MAsteroidData.cs" />
+     <Compile Include="Assets\Resources\MChargerSpaseshipData.cs" />
      <Compile Include="Assets\Resources\MCometData.cs" />
+     <Compile Include="Assets\Resources\MEarthSpaceshipData.cs" />
+     <Compile Include="Assets\Resources\MFireShip1Data.cs" />
+     <Compile Include="Assets\Resources\MFlamerGunData.cs" />
+     <Compile Include="Assets\Resources\MForcedBulletGun.cs" />
      <Compile Include="Assets\Resources\MGasteroidData.cs" />
      <Compile Include="Assets\Resources\MGravityGunData.cs" />
      <Compile Include="Assets\Resources\MGunBaseData.cs" />
@@ -66,25 +72,30 @@
      <Compile Include="Assets\Resources\MSpawnerGunData.cs" />
      <Compile Include="Assets\Resources\MSpikyData.cs" />
      <Compile Include="Assets\Resources\MStationTowerData.cs" />
+     <Compile Include="Assets\Resources\MSuicideBombController.cs" />
+     <Compile Include="Assets\Resources\MSuicideBombSpaceshipData.cs" />
      <Compile Include="Assets\Resources\MTowerData.cs" />
      <Compile Include="Assets\Resources\MTurretData.cs" />
      <Compile Include="Assets\Resources\Prefabs\MAsteroidsResources.cs" />
-     <Compile Include="Assets\Resources\Prefabs\MGunsResources.cs" />
+     <Compile Include="Assets\Resources\Prefabs\MLevelsResources.cs" />
      <Compile Include="Assets\Resources\Prefabs\MSpaceShipResources.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\AIHelper.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\BaseSpaceshipController.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\ChargerController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\CommonController.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\EarthSpaceshipController.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Fire1SpaceshipController.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\GravityShieldEffect.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\InputController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\InvisibleSpaceshipController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\Joystick.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\MissileController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\StandaloneInputController.cs" />
-     <Compile Include="Assets\Scripts\AI\Behaviours\SuicideController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\TabletInputController.cs" />
      <Compile Include="Assets\Scripts\AI\TargetSystems\MissileTargetSystem.cs" />
+     <Compile Include="Assets\Scripts\AI\TargetSystems\TargetSystem.cs" />
+     <Compile Include="Assets\Scripts\AI\TargetSystems\TargetSystemBase.cs" />
      <Compile Include="Assets\Scripts\AI\TargetSystems\TurretTargetSystem.cs" />
-     <Compile Include="Assets\Scripts\DeathAnimation.cs" />
-     <Compile Include="Assets\Scripts\DropCollector.cs" />
      <Compile Include="Assets\Scripts\DropID.cs" />
      <Compile Include="Assets\Scripts\EditorFillVerticies.cs" />
      <Compile Include="Assets\Scripts\FireButton.cs" />
@@ -99,75 +110,76 @@
      <Compile Include="Assets\Scripts\Geometry\Rotaitor.cs" />
      <Compile Include="Assets\Scripts\Geometry\Triangulator.cs" />
      <Compile Include="Assets\Scripts\Guns\BulletGun.cs" />
+     <Compile Include="Assets\Scripts\Guns\FlamerGun.cs" />
      <Compile Include="Assets\Scripts\Guns\GravityBullet.cs" />
      <Compile Include="Assets\Scripts\Guns\GravityGun.cs" />
      <Compile Include="Assets\Scripts\Guns\Gun.cs" />
      <Compile Include="Assets\Scripts\Guns\GunData.cs" />
      <Compile Include="Assets\Scripts\Guns\GunPlaceholder.cs" />
      <Compile Include="Assets\Scripts\Guns\GunSetupData.cs" />
-     <Compile Include="Assets\Scripts\Guns\GunsData.cs" />
-     <Compile Include="Assets\Scripts\Guns\GunsResources.cs" />
      <Compile Include="Assets\Scripts\Guns\IGotPlace.cs" />
      <Compile Include="Assets\Scripts\Guns\LazerGun.cs" />
      <Compile Include="Assets\Scripts\Guns\Place.cs" />
+     <Compile Include="Assets\Scripts\Guns\RocketLauncher.cs" />
      <Compile Include="Assets\Scripts\Guns\RocketLauncherData.cs" />
      <Compile Include="Assets\Scripts\Guns\SpawnerGun.cs" />
      <Compile Include="Assets\Scripts\Guns\SwapnerGunData.cs" />
      <Compile Include="Assets\Scripts\Helpers\CollisionLayers.cs" />
+     <Compile Include="Assets\Scripts\Helpers\DeathAnimation.cs" />
+     <Compile Include="Assets\Scripts\Helpers\DropCollector.cs" />
      <Compile Include="Assets\Scripts\Helpers\GlobalConfig.cs" />
+     <Compile Include="Assets\Scripts\Helpers\ITickable.cs" />
      <Compile Include="Assets\Scripts\Helpers\MyExtensions.cs" />
      <Compile Include="Assets\Scripts\Helpers\ObjectsCreator.cs" />
      <Compile Include="Assets\Scripts\Helpers\ObjectsDestructor.cs" />
+     <Compile Include="Assets\Scripts\Helpers\PhExplosion.cs" />
      <Compile Include="Assets\Scripts\Helpers\PolygonCreator.cs" />
      <Compile Include="Assets\Scripts\Helpers\PowerUpsCreator.cs" />
+     <Compile Include="Assets\Scripts\Helpers\ShieldData.cs" />
      <Compile Include="Assets\Scripts\Helpers\ShipEditor.cs" />
      <Compile Include="Assets\Scripts\Helpers\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Helpers\Spliter.cs" />
      <Compile Include="Assets\Scripts\Helpers\StarsGenerator.cs" />
      <Compile Include="Assets\Scripts\Helpers\TimeDestuctor.cs" />
      <Compile Include="Assets\Scripts\Main.cs" />
-     <Compile Include="Assets\Scripts\PhExplosion.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Asteroid.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Comet.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Drop.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\DropBase.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\EvadeEnemy.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Gasteroid.cs" />
-     <Compile Include="Assets\Scripts\PolygonGameObjects\ITickable.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\PolygonGameObject.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\PowerUp.cs" />
-     <Compile Include="Assets\Scripts\PolygonGameObjects\RocketLauncher.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\RogueEnemy.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\SawEnemy.cs" />
-     <Compile Include="Assets\Scripts\PolygonGameObjects\ShieldData.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\SimpleTower.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\SpaceShip.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\SpikyAsteroid.cs" />
-     <Compile Include="Assets\Scripts\PolygonGameObjects\Spliter.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\TankEnemy.cs" />
-     <Compile Include="Assets\Scripts\PolygonGameObjects\TargetSystem.cs" />
-     <Compile Include="Assets\Scripts\PolygonGameObjects\TargetSystemBase.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\TowerEnemy.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\TowerMinigunEnemy.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Turret.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\UserSpaceShip.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\AsteroidData.cs" />
-     <Compile Include="Assets\Scripts\ResourceScripts\AsteroidsResources.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\DropData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\FullSpaceShipSetupData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\IClonable.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\IGotShape.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\IGotTarget.cs" />
-     <Compile Include="Assets\Scripts\ResourceScripts\LevelsResources.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\MLevel.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\MRandomWave.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\MSpawn.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\MSpawnDataBase.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\MWaveBase.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\ParticleSystemsData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\ResourceSingleton.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\SpaceshipData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\SpaceshipsData.cs" />
-     <Compile Include="Assets\Scripts\ResourceScripts\SpaceshipsResources.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\SpawnObject.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\TowerSetupData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\TurretReferenceData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\TurretSetupData.cs" />
      <Compile Include="Assets\Scripts\Shield.cs" />
-     <Compile Include="Assets\Scripts\SpawnObject.cs" />
      <Compile Include="Assets\Scripts\ToggleButton.cs" />
      <Compile Include="Assets\Scripts\UI\BuyShipElem.cs" />
      <Compile Include="Assets\Scripts\UI\GUIHangar.cs" />
@@ -177,7 +189,6 @@
      <Compile Include="Assets\Scripts\UI\MoneyCaption.cs" />
      <Compile Include="Assets\Scripts\UI\ProgressBar.cs" />
      <Compile Include="Assets\Scripts\UI\ShieldsBar.cs" />
-     <Compile Include="Assets\Scripts\UI\UIGunsScroll.cs" />
      <Compile Include="Assets\Scripts\UI\UIShip.cs" />
      <Compile Include="Assets\Scripts\UI\UIShipsScroll.cs" />
      <Compile Include="Assets\Scripts\UI\oldGUI.cs" />
@@ -212,7 +223,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{4D96A5E1-1C80-F9F1-67E5-3D2632204CE9}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{CEF59FB5-E00E-FFB9-85F8-66DA2CE77295}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

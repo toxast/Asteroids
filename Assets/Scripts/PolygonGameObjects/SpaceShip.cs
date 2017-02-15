@@ -44,7 +44,8 @@ public class SpaceShip : PolygonGameObject
 	public void ShowFullThruster()
 	{
 		foreach (var th in thrusters) {
-			th.thrust.startLifetime = th.defaultLifetime;
+			var pmain = th.thrust.main;
+			pmain.startLifetimeMultiplier = th.defaultLifetime;
 		}
 	}
 
@@ -58,9 +59,14 @@ public class SpaceShip : PolygonGameObject
 		base.SetAlpha (a);
 
 		foreach (var item in thrusters) {
-			var tcolor = item.thrust.startColor;
-			tcolor.a = item.startingColorAlpha * a;
-			item.thrust.startColor = tcolor;
+			//fuck new unity particle systems, trying to just set the alpha
+			var ps = item.thrust;
+			var pmain = ps.main;
+			var startCol = pmain.startColor;
+			var colr = startCol.color;
+			colr.a = item.startingColorAlpha * a;
+			startCol.color = colr;
+			pmain.startColor = startCol;
 		}
 	}
 
@@ -108,13 +114,13 @@ public class SpaceShip : PolygonGameObject
 			else
 			{
 				var thrusterInstance  = Instantiate(t.prefab) as ParticleSystem;
+				var pmain = thrusterInstance.main;
 				Math2d.PositionOnParent (thrusterInstance.transform, t.place, cacheTransform, true, 1);
-
 				Thruster newThruster = new Thruster();
-				newThruster.defaultLifetime = thrusterInstance.startLifetime;
+				newThruster.defaultLifetime = pmain.startLifetimeMultiplier;
 				newThruster.thrust = thrusterInstance;
-				newThruster.startingColorAlpha = thrusterInstance.startColor.a;
-				thrusterInstance.startLifetime = newThruster.defaultLifetime / 3f;
+				newThruster.startingColorAlpha = pmain.startColor.color.a;
+				pmain.startLifetime = newThruster.defaultLifetime / 3f;
 				thrusters.Add(newThruster);
 			}
 		}
@@ -154,7 +160,9 @@ public class SpaceShip : PolygonGameObject
 		{
 			float dthrust = th.defaultLifetime * delta * 0.5f;
 			dthrust = (acceleratedThisTick)? dthrust : -dthrust;
-			th.thrust.startLifetime = Mathf.Clamp(th.thrust.startLifetime + dthrust, th.defaultLifetime/2f,  th.defaultLifetime);
+			var pmain = th.thrust.main;
+			var stLifetime = Mathf.Clamp(pmain.startLifetimeMultiplier + dthrust, th.defaultLifetime/2f,  th.defaultLifetime);
+			pmain.startLifetimeMultiplier = stLifetime;
 		}
 	}
 

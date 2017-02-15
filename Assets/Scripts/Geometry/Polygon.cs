@@ -537,13 +537,10 @@ public class Polygon
 		List<Vector2[]> parts = new List<Vector2[]>();
 
 		int edgesToCutBy;
-		if(Math.PI*Rsqr / area > 4f)
-		{
+		if (Math.PI * Rsqr / area > 4f) {
 			edgesToCutBy = 2;
-		}
-		else
-		{
-			edgesToCutBy = UnityEngine.Random.Range(2,4);
+		} else {
+			edgesToCutBy = UnityEngine.Random.Range (2, 4);
 		}
 
 		List<int> edgeIndexes = GetLagestEdges(edgesToCutBy);

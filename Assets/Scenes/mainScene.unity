@@ -1123,7 +1123,6 @@ GameObject:
   - component: {fileID: 519115101}
   - component: {fileID: 519115103}
   - component: {fileID: 519115102}
-  - component: {fileID: 519115104}
   m_Layer: 5
   m_Name: RightScroll
   m_TagString: Untagged
@@ -1185,19 +1184,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 519115100}
---- !u!114 &519115104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 519115100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26158b8039dd113419602f9e1c1e5418, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 11468370, guid: 75aa43c701ccee44d8ab318ed5e8cdfe, type: 2}
-  elementsHolder: {fileID: 1148358173}
 --- !u!1 &565183081
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,7 +1240,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipsScroll: {fileID: 1715262227}
   uiShip: {fileID: 565183086}
-  gunsScroll: {fileID: 519115104}
   startButton: {fileID: 20134837}
 --- !u!114 &565183084
 MonoBehaviour:
@@ -1714,8 +1699,6 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 695584446}
-  iOSLayoutAnchor: {fileID: 0}
-  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 590276174}
   m_Placeholder: {fileID: 15193681}
   m_ContentType: 2
@@ -4149,8 +4132,6 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2008446757}
-  iOSLayoutAnchor: {fileID: 0}
-  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 910516205}
   m_Placeholder: {fileID: 377514020}
   m_ContentType: 2

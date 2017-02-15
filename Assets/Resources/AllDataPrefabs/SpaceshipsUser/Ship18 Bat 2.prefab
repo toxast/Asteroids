@@ -1,0 +1,165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &135090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 465072}
+  - component: {fileID: 11414660}
+  m_Layer: 0
+  m_Name: Ship18 Bat 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &465072
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135090}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11414660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 1
+  difficulty: 10
+  gameSpawnLayer: 2
+  price: 10
+  reward: 0
+  color: {r: 0, g: 0.04827571, b: 1, a: 1}
+  physical:
+    density: 3
+    health: -1
+    healthModifier: 24
+    collisionDefence: 0.22
+    collisionAttackModifier: 3
+  mobility:
+    thrust: 28
+    maxSpeed: 36
+    turnSpeed: 220
+    brake: 15
+    passiveBrake: 2
+    stability: 0.5
+    shootAngle: 15
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 1
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 17
+    rechargeRate: 3
+    rechargeDelay: 1
+  guns:
+  - place:
+      pos: {x: 2.76, y: 0.0000000067805224}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11498400, guid: 729ab35c2143bc046bd92f1bd12b0abf, type: 2}
+  - place:
+      pos: {x: 2.63, y: 0.94}
+      dir: {x: 0.99939084, y: -0.034899496}
+    gun: {fileID: 11478534, guid: e7e4c12ca97d79346bb8f9e1a09c16de, type: 2}
+  - place:
+      pos: {x: 2.63, y: -0.94000006}
+      dir: {x: 0.99939084, y: 0.034899496}
+    gun: {fileID: 11478534, guid: e7e4c12ca97d79346bb8f9e1a09c16de, type: 2}
+  linkedGuns: 0100000002000000
+  thrusters:
+  - place:
+      pos: {x: -1.1663713, y: -0.04000013}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 19873948, guid: 94c9f86025d610c4b892fde11ce8a66c, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+  - place:
+      pos: {x: -1.79, y: 0.96}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 19873948, guid: 94c9f86025d610c4b892fde11ce8a66c, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+  - place:
+      pos: {x: -1.79, y: -0.96}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 19873948, guid: 94c9f86025d610c4b892fde11ce8a66c, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+  turrets: []
+  verts:
+  - {x: 2.947872, y: -0.35000005}
+  - {x: 2.6553078, y: -0.7200005}
+  - {x: 2.7878718, y: -1.12}
+  - {x: 2.437872, y: -1.53}
+  - {x: 0.59430796, y: -2.241}
+  - {x: 0.27930817, y: -1.98}
+  - {x: -0.35069188, y: -2.241}
+  - {x: -0.16169192, y: -2.583}
+  - {x: -2.5106921, y: -2.385}
+  - {x: -3.446692, y: -1.656}
+  - {x: -2.1596918, y: -1.4579998}
+  - {x: -1.9886919, y: -1.1159999}
+  - {x: -2.078692, y: -0.8820005}
+  - {x: -1.9256921, y: -0.3960004}
+  - {x: -1.2506924, y: -0.42300022}
+  - {x: -1.2506924, y: 0.42300022}
+  - {x: -1.9256921, y: 0.3960004}
+  - {x: -2.078692, y: 0.8820005}
+  - {x: -1.9886919, y: 1.1159999}
+  - {x: -2.1596918, y: 1.4579998}
+  - {x: -3.446692, y: 1.656}
+  - {x: -2.5106921, y: 2.385}
+  - {x: -0.16169192, y: 2.583}
+  - {x: -0.35069188, y: 2.241}
+  - {x: 0.27930817, y: 1.98}
+  - {x: 0.59430796, y: 2.241}
+  - {x: 2.437872, y: 1.53}
+  - {x: 2.7878718, y: 1.12}
+  - {x: 2.6553078, y: 0.7200005}
+  - {x: 2.947872, y: 0.35000005}
+  upgradeIndex: 0
+  deathData:
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    destructionType: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 135090}
+  m_IsPrefabParent: 1

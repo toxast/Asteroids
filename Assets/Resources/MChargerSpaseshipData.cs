@@ -23,7 +23,7 @@ public class MChargerSpaseshipData : MSpaceshipData {
         }
     }
 
-    public override SpaceShip Create(int layer) {
+	public override PolygonGameObject Create(int layer) {
         return ObjectsCreator.CreateChargerSpaceship<SpaceShip>(this, layer);
     }
 

@@ -21,6 +21,7 @@ public class TowerEnemy : PolygonGameObject
 
 	public override void Tick(float delta) {
 		base.Tick (delta);
+		Brake (delta, 5f);
 		RotateCannon(delta);
 		TickGunsNew (delta);
 	}

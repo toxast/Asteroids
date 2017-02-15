@@ -9,6 +9,7 @@ public class MGunData : MGunBaseData, IGotShape {
 	public PhysicalData physical;
 	public int repeatCount = 0;
 	public float repeatInterval = 0;
+	public float spreadAngle = 0;
 	public Vector2[] vertices = PolygonCreator.GetRectShape(0.4f, 0.2f); 
 	public Color color = Color.red;
     public List<ParticleSystemsData> effects;

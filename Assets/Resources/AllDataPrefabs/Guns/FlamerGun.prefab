@@ -55,17 +55,18 @@ MonoBehaviour:
   price: 0
   etype: 1
   damage: 0.3
-  lifeTime: 3
+  lifeTime: 10
   bulletSpeed: 40
-  fireInterval: 0.03
+  fireInterval: 3
   physical:
     density: 0.01
     health: -1
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  repeatCount: 0
-  repeatInterval: 0
+  repeatCount: 100
+  repeatInterval: 0.01
+  spreadAngle: 10
   vertices:
   - {x: -1, y: 0}
   - {x: 0, y: 1}
@@ -82,8 +83,6 @@ MonoBehaviour:
     overrideDuration: -1
     zOffset: -1
   fireEffect: {fileID: 0}
-  spreadAngle: 0.4
-  deceleration: 13
   dot:
     duration: 0.5
     dps: 2
@@ -98,4 +97,7 @@ MonoBehaviour:
       overrideDelay: -1
       overrideDuration: -1
       zOffset: -1
-  range: 5
+  deceleration:
+    min: 10
+    max: 15
+  velocityRandomRange: 5

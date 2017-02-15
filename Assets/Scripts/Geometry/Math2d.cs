@@ -8,6 +8,13 @@ public static class Math2d {
 
     static Vector2 right = new Vector2(1, 0);
 
+	public static void SetStartColor(this ParticleSystem ps, Color col){
+		var pmain = ps.main;
+		var stCol = pmain.startColor;
+		stCol.color = col;
+		pmain.startColor = stCol;
+	}
+
     static public float DotProduct(ref Vector2 v1, ref Vector2 v2) {
         return v1.x * v2.x + v1.y * v2.y;
     }

@@ -12,7 +12,7 @@ public class GunPlaceholder : Gun
 		}
 	}
 
-	public override void ResetTime ()
+	public override void SetTimeForNexShot ()
 	{
 		
 	}

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MSawData : MSpawnData<SawEnemy>
+public class MSawData : MSpawnDataBase
 {
 	public SawInitData mdata;
 
-	public override SawEnemy Create(int layer)
+	public override PolygonGameObject Create(int layer)
 	{
 		return ObjectsCreator.CreateSawEnemy(this, layer);
 	}

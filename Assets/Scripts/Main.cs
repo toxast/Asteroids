@@ -55,7 +55,6 @@ public class Main : MonoBehaviour
 
 	Coroutine repositionCoroutine;
 	Coroutine wrapStarsCoroutine;
-	Coroutine levelEndRoutine;
 	Coroutine spawnCometsCoroutine;
 
 	void Awake()
@@ -71,44 +70,6 @@ public class Main : MonoBehaviour
 		}
 	}
 
-
-	IEnumerator SpawnComets()
-	{
-		//while (true) {
-		//	if (!IsNull (spaceship)) {
-		//		var comet = cometData.Create (cometData.gameSpawnLayer);
-		//		var angle = UnityEngine.Random.Range (0, 360);
-		//		comet.position = spaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
-		//		Add2Objects (comet);
-		//	}
-			yield return new WaitForSeconds (25f);
-		//}
-	}
-
-	IEnumerator WrapStars()
-	{
-		yield return new WaitForSeconds(1f);
-		while(true)
-		{
-			Vector3 pos;
-			var stars = starsGenerator.stars;
-			for (int i = 0; i < stars.Length ; i++)
-			{
-				Wrap(stars[i]);
-			}
-			yield return new WaitForSeconds(1f);
-		}
-	}
-
-	static public Vector2 AddShipSpeed2TheBullet(PolygonGameObject ship)
-	{
-		return ship.velocity * 0.5f;
-	}
-
-	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
-	{
-        new PhExplosion(pos, r, dmgMax, dmgMax, gobjects, collision);
-	}
 
 	ILevelSpawner spawner;
 	public void StartTheGame(MSpaceshipData spaceshipData, int level = 0, int waveNum = 0)
@@ -129,10 +90,11 @@ public class Main : MonoBehaviour
 		CreateSpaceShip (spaceshipData);
 		spaceship.destroyed += HandleUserDestroyed;
 
-		if (level < 0)
-			spawner = new EmptyTestSceneSpawner();
-		else
-			spawner = new LevelSpawner (LevelsResources.Instance.levels [level], waveNum);
+		if (level < 0) {
+			spawner = new EmptyTestSceneSpawner ();
+		} else {
+			spawner = Instantiate(MLevelsResources.Instance.levels [level]);
+		}
 
 		repositionCoroutine = StartCoroutine(RepositionAll());
 		wrapStarsCoroutine = StartCoroutine(WrapStars());
@@ -171,11 +133,6 @@ public class Main : MonoBehaviour
 		if (spawnCometsCoroutine != null) {
 			StopCoroutine (spawnCometsCoroutine);
 			spawnCometsCoroutine = null;
-		}
-
-		if (levelEndRoutine != null) {
-			StopCoroutine (levelEndRoutine);
-			levelEndRoutine = null;
 		}
 
 		spawner = null;
@@ -245,29 +202,38 @@ public class Main : MonoBehaviour
 		}
 	}
 
-
-	IEnumerator CheckLevelEndRoutine()
+	IEnumerator SpawnComets()
 	{
-		while(true)
-		{
-			bool finished = true;
-			foreach(var obj in gobjects)
-			{
-				if(obj.layerNum == CollisionLayers.ilayerTeamEnemies)
-				{
-					finished = false;
-					break;
-				}
+		while (true) {
+			if (!IsNull (spaceship)) {
+				var comet = cometData.Create (cometData.gameSpawnLayer);
+				var angle = UnityEngine.Random.Range (0, 360);
+				comet.position = spaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
+				Add2Objects (comet);
 			}
-
-			if(finished)
-			{
-				levelCleared();
-				yield break;
-			}
-
-			yield return new WaitForSeconds(1.5f);
+			yield return new WaitForSeconds (50f);
 		}
+	}
+
+	IEnumerator WrapStars() {
+		yield return new WaitForSeconds (1f);
+		while (true) {
+			var stars = starsGenerator.stars;
+			for (int i = 0; i < stars.Length; i++) {
+				Wrap (stars [i]);
+			}
+			yield return new WaitForSeconds (1f);
+		}
+	}
+
+	static public Vector2 AddShipSpeed2TheBullet(PolygonGameObject ship)
+	{
+		return ship.velocity * 0.5f;
+	}
+
+	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
+	{
+		new PhExplosion(pos, r, dmgMax, dmgMax, gobjects, collision);
 	}
 
 	public IEnumerator Respawn()
@@ -389,20 +355,14 @@ public class Main : MonoBehaviour
             return;
         }
 
-
         if (IsNull(spaceship)) {
             spaceship = null;
         }
 
-
         if (spawner != null) {
-            if (!spawner.Done()) {
-                spawner.Tick();
-            } else {
-                if (levelEndRoutine == null) {
-                    levelEndRoutine = StartCoroutine(CheckLevelEndRoutine());
-                    spawner = null;
-                }
+			spawner.Tick();
+            if (spawner.Done()) {
+                spawner = null;
             }
         }
 
@@ -628,7 +588,7 @@ public class Main : MonoBehaviour
 			{
 				foreach (var e in gobject.deathAnimation.instantiatedExplosions) 
 				{
-					PutObjectOnDestructionQueue(e.gameObject, e.duration);
+					PutObjectOnDestructionQueue(e.gameObject, e.main.duration);
 				}
 			}
 
@@ -857,12 +817,29 @@ public class Main : MonoBehaviour
 		return anim;
 	}
 
+	public ParticleSystem CreateTeleportationRing2(Vector2 pos, MSpawn item)
+	{
+		Color col;
+		if (item.prefab is MAsteroidData) {
+			col = Color.gray;
+		} else {
+			col = item.teleportationColor;
+		}
+		var anim = Instantiate(teleportationRingPrefab) as ParticleSystem;
+		anim.SetStartColor (col);
+		var main = anim.main;
+		main.startSize = item.teleportRingSize;
+		anim.transform.position = (Vector3)pos - new Vector3(0,0,1);
+		anim.Play ();
+		return anim;
+	}
+
 	private void CreateDrop(MAsteroidCommonData drop, Vector3 position, float R)
 	{
 		Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-R, R), UnityEngine.Random.Range(-R, R), 0);
 		var dropObj = ObjectsCreator.CreateDrop(drop.color, drop.value);
 		var anim = Instantiate(dropAnimationPrefab) as ParticleSystem;
-		anim.startColor = drop.color;
+		anim.SetStartColor (drop.color);
 		anim.transform.parent = dropObj.transform;
 		anim.transform.localPosition = new Vector3(0, 0, UnityEngine.Random.Range(1f, 1.1f));
 		dropObj.cacheTransform.position =
@@ -870,6 +847,8 @@ public class Main : MonoBehaviour
 		dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Math2d.RandomSign();
 		drops.Add(dropObj);
 	}
+
+
 
     public void CreatePowerUp(PowerupData data, Vector3 position) {
         var powerup = ObjectsCreator.CreatePowerUpDrop(data);
@@ -1186,8 +1165,12 @@ public class Main : MonoBehaviour
 
 	/*
 	 * FUTURE UPDATES
-	* frozen storms weapon like diablo 2
+	 * split rocket launcher and fireballs
+	 * waves
+	* asteroid storms like earth enemy
+	* fire free-aim towers
      * teleporting enemy
+     * weapons fr charger (flamer, lazers)
      * explosion better force direction
 	* missile that sticks and applies force
 	 * duplicating enemy and illusions enemy?

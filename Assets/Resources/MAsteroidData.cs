@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MAsteroidData : MSpawnData<Asteroid>
+public class MAsteroidData : MSpawnDataBase
 {
 	public RandomFloat speed;
 	public RandomFloat rotation;
@@ -9,7 +9,7 @@ public class MAsteroidData : MSpawnData<Asteroid>
 
 	public MAsteroidCommonData commonData;
 
-	public override Asteroid Create(int layer)
+	public override PolygonGameObject Create(int layer)
 	{
         var spawn = ObjectsCreator.CreateAsteroid (this);
         Singleton<Main>.inst.CreateDropForObject(spawn, commonData); 

@@ -166,7 +166,7 @@ public class PolygonGameObject : MonoBehaviour
 
 		this.linkedGunTick = 0;
 		for (int i = 1; i < linkedGuns.Count; i++) {
-			guns[linkedGuns[i]].ResetTime();
+			guns[linkedGuns[i]].SetTimeForNexShot();
 		}
 	}
 
@@ -198,12 +198,17 @@ public class PolygonGameObject : MonoBehaviour
 
 	public void Accelerate(float delta, float thrust, float stability, float maxSpeed, float maxSpeedSqr, Vector2 dirNormalized)
 	{
-		#if UNITY_EDITOR
-		if(Mathf.Abs(dirNormalized.magnitude - 1f) > 0.1f)
-		{
+		if (dirNormalized == Vector2.zero) {
+#if UNITY_EDITOR
+			Debug.LogError("null dir");
+#endif
+			return;
+		}
+#if UNITY_EDITOR
+		if(Mathf.Abs(dirNormalized.magnitude - 1f) > 0.1f) {
 			Debug.LogError("normalize the value! " + dirNormalized + " " + dirNormalized.magnitude);
 		}
-		#endif
+#endif
 
 		float deltaV = delta * thrust;
 		velocity -= stability * velocity.normalized * deltaV;
@@ -626,6 +631,14 @@ public class PolygonGameObject : MonoBehaviour
         if (OnDestroying != null) {
 			OnDestroying ();
 		}
+	}
+
+	public void RemoveFollower (PolygonGameObject obj) {
+		if (Main.IsNull (obj)) {
+			return;
+		}
+		obj.ignoreBounds = false;
+		teleportWithMe.Remove (obj);
 	}
 
     public virtual void SetSpawnParent(PolygonGameObject prnt) { }

@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4770759188356310}
   - component: {fileID: 114374702242948724}
+  - component: {fileID: 114815797046515768}
   m_Layer: 0
   m_Name: Station_0
   m_TagString: Untagged
@@ -51,6 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dbd519147101b4580cda872f11f7ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  difficulty: 40
+  gameSpawnLayer: 2
   size:
     min: 9
     max: 12
@@ -60,6 +66,7 @@ MonoBehaviour:
   color: {r: 0.2984429, g: 0.44117647, b: 0.33486456, a: 1}
   physical:
     density: 3
+    health: -1
     healthModifier: 10
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -67,3 +74,25 @@ MonoBehaviour:
     min: 25
     max: 35
   gun: {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
+--- !u!114 &114815797046515768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1665662289995266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf3b2edfc3adfad45921661baf8ad6bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 114374702242948724}
+  spawnRange: {x: 40, y: 80}
+  spawnInterval: 0
+  teleportDuration: 1.5
+  teleportRingSize: 10
+  teleportationColor: {r: 1, g: 0.68235296, b: 0, a: 1}
+  positioning:
+    angle2Ship: 0
+    angle2ShipRange: 180
+    angleFromShip: 0
+    angleFromShipRange: 180

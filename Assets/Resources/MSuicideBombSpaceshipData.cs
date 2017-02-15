@@ -23,7 +23,7 @@ public class MSuicideBombSpaceshipData : MSpaceshipData {
         }
     }
 
-    public override SpaceShip Create(int layer) {
+	public override PolygonGameObject Create(int layer) {
         return ObjectsCreator.CreateSuisideBombSpaceship<SpaceShip>(this, layer);
     }
 

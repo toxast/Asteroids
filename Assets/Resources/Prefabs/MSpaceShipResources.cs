@@ -4,11 +4,9 @@ using System.Collections.Generic;
 
 public class MSpaceShipResources : ResourceSingleton<MSpaceShipResources> 
 {
-	[SerializeField] public List<MSpaceshipData> spaceships;
-	[SerializeField] public List<MTurretData> turrets;
-	[SerializeField] public List<MTowerData> towers;
+	[SerializeField] public List<MSpaceshipData> userSpaceships;
 
-	[ContextMenu ("calculate health")] 
+	/*[ContextMenu ("calculate health")] 
 	private void CalculateHealth()
 	{
 		for (int i = 0; i < spaceships.Count; i++) {
@@ -19,5 +17,5 @@ public class MSpaceShipResources : ResourceSingleton<MSpaceShipResources>
 				spaceships [i].physical.health = Mathf.Pow (area, 0.8f) * spaceships [i].physical.healthModifier / 2f;
 			}
 		}
-	}
+	}*/
 }

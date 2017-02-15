@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MGasteroidData : MSpawnData<Gasteroid>
+public class MGasteroidData : MSpawnDataBase
 {
     public RandomFloat speed;
     public RandomFloat rotation;
@@ -11,7 +11,7 @@ public class MGasteroidData : MSpawnData<Gasteroid>
     public PhysicalData physical;
 //    public MAsteroidCommonData commonData;
 
-    public override Gasteroid Create(int layer)
+	public override PolygonGameObject Create(int layer)
     {
         var spawn = ObjectsCreator.CreateGasteroid (this);
         return spawn;

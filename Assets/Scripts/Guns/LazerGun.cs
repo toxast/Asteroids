@@ -76,11 +76,11 @@ public class LazerGun : Gun
 		if(ReadyToShoot())
 		{
 			CreateLazerGo();
-			ResetTime();
+			SetTimeForNexShot();
 		}
 	}
 
-	public override void ResetTime()
+	public override void SetTimeForNexShot()
 	{
 		timeToNextShot = pauseDuration;
 		attackLeftDuration = attackDuration;

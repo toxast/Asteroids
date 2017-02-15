@@ -8,7 +8,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 466262}
-  - component: {fileID: 11498302}
   m_Layer: 0
   m_Name: Saw_0
   m_TagString: Untagged
@@ -29,46 +28,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11498302
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 109020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66c90fb949572fb4b8058b4f155a2eef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mdata:
-    name: 0
-    color: {r: 0.77205884, g: 0.26113757, b: 0.26113757, a: 1}
-    reward: 70
-    physical:
-      density: 0.6
-      healthModifier: 2
-      collisionDefence: 0.5
-      collisionAttackModifier: 1.222222
-    speed:
-      min: 2
-      max: 6
-    rotation:
-      min: 30
-      max: 90
-    size:
-      min: 2.4
-      max: 2.8
-    spikeSize:
-      min: 0.5
-      max: 1
-    spikesCount:
-      min: 7
-      max: 10
-    prepareTime: 1.5
-    chargeSpeed: 30
-    chargeRotation: 200
-    chargeDuration: 3
-    slowingDuration: 1.5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

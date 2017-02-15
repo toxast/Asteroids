@@ -8,7 +8,6 @@ using System.Collections;
 public class EditorFillVerticies : MonoBehaviour 
 {
 	[SerializeField] bool run = false;
-
 	[SerializeField] float scale = 1f;
 
 	void Update()
@@ -25,20 +24,10 @@ public class EditorFillVerticies : MonoBehaviour
 	void Fill()
 	{
 		Debug.LogWarning ("Fill");
-
-
 		var vertices = RocketLauncher.missileVertices;
-
-
 		float area;
 		Math2d.ScaleVertices (vertices, scale);
 		Vector2 pivot = Math2d.GetMassCenter(vertices, out area);
 		Math2d.ShiftVertices(vertices, -pivot);
-
-
-		GunsResources.Instance.rocketLaunchers [1].baseData.vertices = vertices;
-#if UNITY_EDITOR
-		EditorUtility.SetDirty (GunsResources.Instance);
-#endif
 	}
 }

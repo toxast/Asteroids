@@ -11,10 +11,10 @@ public class MFireShip1Data : MSpaceshipData
 	public float radius = 15f;
     public float shootInterval = 0.5f;
     public float randomizeAimAngle = 15f;
-    public MRocketGunData fireballData;
+	public float overrideMaxComfortDist = -1;
+	public MRocketGunData fireballData;
 
-	public override SpaceShip Create(int layer)
-	{
+	public override PolygonGameObject Create(int layer) {
 		return ObjectsCreator.CreateFireSpaceship1<SpaceShip>(this, layer);
 	}
 

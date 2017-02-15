@@ -1,0 +1,155 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &187960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 408318}
+  - component: {fileID: 11480600}
+  m_Layer: 0
+  m_Name: Ship21_(21) assasin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &408318
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187960}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11480600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  difficulty: 10
+  gameSpawnLayer: 2
+  price: 10
+  reward: 0
+  color: {r: 0, g: 0.04827571, b: 1, a: 1}
+  physical:
+    density: 2
+    health: -1
+    healthModifier: 22
+    collisionDefence: 0.22
+    collisionAttackModifier: 3
+  mobility:
+    thrust: 50
+    maxSpeed: 50
+    turnSpeed: 270
+    brake: 15
+    passiveBrake: 2
+    stability: 0.8
+    shootAngle: 15
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 1
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 20
+    rechargeRate: 5
+    rechargeDelay: 1
+  guns:
+  - place:
+      pos: {x: 1.7757466, y: -0.7499998}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11422270, guid: 260895e1d7b8cbb4dbe9ce1e64156cc3, type: 2}
+  - place:
+      pos: {x: 1.7757466, y: 0.7500002}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11422270, guid: 260895e1d7b8cbb4dbe9ce1e64156cc3, type: 2}
+  linkedGuns: 
+  thrusters:
+  - place:
+      pos: {x: -0.7542533, y: 0.00000013800712}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 19816438, guid: 89e193ef048432645abbbf3a7178f96c, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+  turrets:
+  - place:
+      pos: {x: -0.5414904, y: 1.52}
+      dir: {x: -0.98142123, y: 0.19186603}
+    turret: {fileID: 11454034, guid: a8e6ef9fe64ac564e8807c4dc0444997, type: 2}
+  - place:
+      pos: {x: -0.5414904, y: -1.52}
+      dir: {x: -0.98142123, y: -0.19186606}
+    turret: {fileID: 11454034, guid: a8e6ef9fe64ac564e8807c4dc0444997, type: 2}
+  verts:
+  - {x: 2.49851, y: -0.15000013}
+  - {x: 2.1185098, y: -0.71000034}
+  - {x: 2.0185096, y: -1.29}
+  - {x: 1.1040602, y: -2.2627654}
+  - {x: -0.20149037, y: -2.65}
+  - {x: 0.10850959, y: -2.99}
+  - {x: -3.1214902, y: -2.84}
+  - {x: -3.9314904, y: -2.6}
+  - {x: -2.1872356, y: -2.380312}
+  - {x: -0.92149025, y: -1.83}
+  - {x: -0.84149027, y: -1.36}
+  - {x: -0.04201408, y: -1.2342353}
+  - {x: 0.36850953, y: -0.77000034}
+  - {x: -0.37149048, y: -0.51000035}
+  - {x: -1.8814902, y: -0.64000034}
+  - {x: -1.5114903, y: -0.14000012}
+  - {x: -1.5114903, y: 0.13999988}
+  - {x: -1.8814902, y: 0.6399996}
+  - {x: -0.37149048, y: 0.50999963}
+  - {x: 0.36850953, y: 0.7699996}
+  - {x: -0.04201408, y: 1.2342353}
+  - {x: -0.84149027, y: 1.36}
+  - {x: -0.92149025, y: 1.83}
+  - {x: -2.1872356, y: 2.380312}
+  - {x: -3.9314904, y: 2.6}
+  - {x: -3.1214902, y: 2.84}
+  - {x: 0.10850959, y: 2.99}
+  - {x: -0.20149037, y: 2.65}
+  - {x: 1.1040602, y: 2.2627654}
+  - {x: 2.0185096, y: 1.29}
+  - {x: 2.1185098, y: 0.7099996}
+  - {x: 2.49851, y: 0.14999989}
+  upgradeIndex: 0
+  deathData:
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    destructionType: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 187960}
+  m_IsPrefabParent: 1

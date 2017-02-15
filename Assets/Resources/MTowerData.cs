@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MTowerData : MSpawnData<SimpleTower>, IGotShape, IGotGuns, IGotTurrets
+public class MTowerData : MSpawnDataBase, IGotShape, IGotGuns, IGotTurrets
 {
 	public int reward;
 	public PhysicalData physical;
@@ -22,7 +22,7 @@ public class MTowerData : MSpawnData<SimpleTower>, IGotShape, IGotGuns, IGotTurr
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
-	public override SimpleTower Create(int layer)
+	public override PolygonGameObject Create(int layer)
 	{
 		return ObjectsCreator.CreateSimpleTower(this, layer);
 	}

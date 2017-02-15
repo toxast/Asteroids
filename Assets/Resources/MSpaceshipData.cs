@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [System.Serializable]
-public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
+public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
 {
 	public int price = -1;
 	public int reward = 0;
@@ -27,7 +27,7 @@ public class MSpaceshipData : MSpawnData<SpaceShip>, IGotShape, IGotThrusters, I
 	public List<ParticleSystemsData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
-	public override SpaceShip Create(int layer)
+	public override PolygonGameObject Create(int layer)
 	{
 		return ObjectsCreator.CreateSpaceship<SpaceShip>(this, layer);
 	}

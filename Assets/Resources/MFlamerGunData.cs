@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class MFlamerGunData : MSpreadBulletGunData
+[SerializeField]
+public class MFlamerGunData : MGunData
 {
     public DOTEffect.Data dot;
-
-	//public float timeToFullPower = 2.0f;
-    //public float timeToCool = 0.5f;
-
-	public float range = 5f;
+	public RandomFloat deceleration;
+	public float velocityRandomRange = 5;
 
 	public override Gun GetGun(Place place, PolygonGameObject t)
 	{

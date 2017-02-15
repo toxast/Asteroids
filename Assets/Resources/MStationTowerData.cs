@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MStationTowerData : MSpawnData<TowerEnemy> {
+public class MStationTowerData : MSpawnDataBase {
     public RandomFloat size;	
     public RandomInt sidesCount;
     public Color color;
@@ -10,8 +10,7 @@ public class MStationTowerData : MSpawnData<TowerEnemy> {
     public RandomFloat rotationSpeed;
     public MGunBaseData gun;
 
-    public override TowerEnemy Create(int layer)
-    {
+	public override PolygonGameObject Create(int layer) {
         return ObjectsCreator.CreateStationTower(this, layer);
     }
 }

@@ -28,7 +28,7 @@ public abstract class Gun : IGotTarget, ITickable
 
 	public abstract float BulletSpeedForAim{ get;}
 
-	public abstract void ResetTime();
+	public abstract void SetTimeForNexShot();
 
 	public abstract void ShootIfReady();
 
@@ -58,57 +58,46 @@ public abstract class GunShooterBase : Gun
 		}
 	}
 
-	public override void Tick(float delta)
-	{
-		if(timeToNextShot > 0)
-		{
+	public override void Tick(float delta) {
+		if (timeToNextShot > 0) {
 			timeToNextShot -= delta;
+		}
+		if (currentRepeat != 0) {
+			ShootIfReady ();
 		}
 	}
 
-	public override bool ReadyToShoot()
-	{
+	public override bool ReadyToShoot()	{
 		return timeToNextShot <= 0;
 	}
 
-	public override void ResetTime()
-	{
-		if(repeatCount > 0)
-		{
-			SetNextRepeatTime();
+	public override void SetTimeForNexShot() {
+		float shootInterval = fireInterval;
+		if (repeatCount > 0) {
+			currentRepeat++;
+			if (currentRepeat >= repeatCount) {
+				currentRepeat = 0;
+			}
+			if (currentRepeat != 0) {
+				shootInterval = repeatInterval;
+			}
 		}
-		else
-		{
-			timeToNextShot += fireInterval; //not =, this is important for small intervals
+		if (shootInterval <= 0) {
+			shootInterval = 0.1f;
+			Debug.LogError ("wrong shoot interval, infinite loop warning");
 		}
-	}
 
-	private void SetNextRepeatTime()
-	{
-		currentRepeat ++;
-		if(currentRepeat >= repeatCount)
-			currentRepeat = 0;
-
-		if(currentRepeat == 0)
-		{
-			timeToNextShot = fireInterval;
-		}
-		else
-		{
-			timeToNextShot = repeatInterval;
-		}
+		timeToNextShot += shootInterval;
 	}
 
 	public override void ShootIfReady()
 	{
-		if(ReadyToShoot())
-		{
+		while(ReadyToShoot()) {
 			Fire();
-			ResetTime();
+			SetTimeForNexShot();
 		}
 	}
 
 	protected abstract void Fire ();
-
 }
 

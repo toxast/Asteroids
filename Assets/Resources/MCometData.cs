@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MCometData : MSpawnData<Asteroid> {
+public class MCometData : MSpawnDataBase {
     public RandomFloat speed;
     public RandomFloat rotation;
     public RandomFloat size;
@@ -12,7 +12,7 @@ public class MCometData : MSpawnData<Asteroid> {
     public ParticleSystem particles;
     public Color particleSystemColor;
     public PowerupData powerupData;
-    public override Asteroid Create(int layer) {
+	public override PolygonGameObject Create(int layer) {
         var spawn = ObjectsCreator.CreateComet(this);
         return spawn;
     }

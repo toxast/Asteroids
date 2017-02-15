@@ -10,6 +10,7 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 	public float bulletSpeed;
 	public Color color;
 	public float damage;
+	public float spreadAngle;
     public MGunData data;
 
     public BulletGun(Place place, MGunData data, PolygonGameObject parent)
@@ -22,6 +23,7 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 		this.bulletSpeed = data.bulletSpeed;
 		this.color = data.color;
 		this.damage = data.damage;
+		this.spreadAngle = data.spreadAngle;
 	}
 
 	public override float Range
@@ -31,7 +33,7 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 
 	public override float BulletSpeedForAim{ get { return bulletSpeed; } }
 
-    protected T CreateBullet()
+	protected T CreateBullet( )
     {
         T bullet = PolygonCreator.CreatePolygonGOByMassCenter<T>(vertices, color);
 		bullet.gameObject.name = "bullet";
@@ -41,12 +43,24 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 		bullet.InitPolygonGameObject (physical);
 		bullet.InitLifetime (lifeTime);
 		bullet.damageOnCollision = damage;
-		bullet.velocity = bullet.cacheTransform.right * bulletSpeed;
-		bullet.destructionType = PolygonGameObject.DestructionType.eSptilOnlyOnHit;
+		var velocity = bullet.cacheTransform.right * GetBulletVelocity();
+		if (spreadAngle > 0) {
+			velocity = Math2d.RotateVertexDeg (velocity, UnityEngine.Random.Range (-spreadAngle * 0.5f, spreadAngle * 0.5f));
+		}
+		bullet.velocity = velocity;
+		bullet.destructionType = GetBulletDestruction();
 		bullet.destroyOnBoundsTeleport = true;
         bullet.SetParticles(data.effects);
 
         return bullet;
+	}
+
+	protected virtual float GetBulletVelocity(){
+		return bulletSpeed;
+	}
+
+	protected virtual PolygonGameObject.DestructionType GetBulletDestruction(){
+		return PolygonGameObject.DestructionType.eSptilOnlyOnHit;
 	}
 
     protected virtual void InitBullet(T bullet)
@@ -83,22 +97,5 @@ public class ForcedBulletGun : BulletGun<ForcedBullet>
     {
         var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layer));
         bullet.InitForcedBullet(fdata, affectedLayer);
-    }
-}
-
-
-public class SpreadBulletGun<T> : BulletGun<T> where T : PolygonGameObject
-{
-    MSpreadBulletGunData sdata;
-
-    public SpreadBulletGun(Place place, MSpreadBulletGunData data, PolygonGameObject parent)
-        : base(place, data, parent) {
-        this.sdata = data;
-    }
-
-    protected override void InitBullet( T bullet )
-    {
-        base.InitBullet(bullet);
-        bullet.velocity = Math2d.RotateVertex(bullet.velocity, UnityEngine.Random.Range(-sdata.spreadAngle * 0.5f, sdata.spreadAngle * 0.5f));
     }
 }
