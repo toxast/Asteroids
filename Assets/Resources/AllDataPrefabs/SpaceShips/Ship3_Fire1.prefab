@@ -54,6 +54,7 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 0
   editorSpawnLayer: 2
+  difficulty: 10
   gameSpawnLayer: 2
   price: -1
   reward: 0
@@ -139,5 +140,6 @@ MonoBehaviour:
   shootInterval: 0.5
   randomizeAimAngle: 0
   overrideMaxComfortDist: -1
-  fireballData: {fileID: 11493992, guid: 0a9042e3973e52840b86f40e9df592e5, type: 2}
+  fireballData: {fileID: 114811923677609586, guid: 0a11bd3697aab434ab7f18f6afea19c0,
+    type: 2}
   fillFrom: {fileID: 0}

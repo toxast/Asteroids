@@ -183,17 +183,14 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		}
 	}
 
-	private IEnumerator AccuracyChanger(AccuracyData data)
-	{
+	private IEnumerator AccuracyChanger(AccuracyData data) {
 		Vector2 lastDir = Vector2.one; //just not zero
 		float dtime = data.checkDtime;
-		while(true)
-		{
-			if(!Main.IsNull(target))
-			{
-				AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, target, data);
+		while (true) {
+			if (!Main.IsNull (target)) {
+				AIHelper.ChangeAccuracy (ref accuracy, ref lastDir, target, data);
 			}
-			yield return new WaitForSeconds(dtime);
+			yield return new WaitForSeconds (dtime);
 		}
 	}
 

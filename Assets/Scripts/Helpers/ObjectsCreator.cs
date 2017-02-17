@@ -143,7 +143,7 @@ public class ObjectsCreator
 	
 	public static Asteroid CreateAsteroid(MAsteroidData mdata)
 	{
-		float size = Random(mdata.size);
+		float size = mdata.size.RandomValue;
 		int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size*3);
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Singleton<GlobalConfig>.inst.AsteroidColor, ObjectsCreator.GetAsteroidMaterial(mdata.commonData.asteroidMaterialIndex));
@@ -161,7 +161,7 @@ public class ObjectsCreator
 	}
 
     public static Comet CreateComet(MCometData mdata) {
-        float size = Random(mdata.size);
+		float size = mdata.size.RandomValue;
         int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size * 3);
         Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size / 2f, vcount);
 		Comet comet = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
@@ -180,7 +180,7 @@ public class ObjectsCreator
 
     public static Gasteroid CreateGasteroid(MGasteroidData initData)
     {
-        float size = Random (initData.size);
+		float size = initData.size.RandomValue;
         int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size*3);
         Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 
@@ -196,41 +196,36 @@ public class ObjectsCreator
 
 
 
-	public static SawEnemy CreateSawEnemy(MSawData data, int layer)
-	{
-		var initData = data.mdata;
-		float rInner = Random(initData.size);
-		float spikeLength = Random(initData.spikeSize);
-		float rOuter = rInner + spikeLength;
-		int spikesCount = Random (initData.spikesCount);
-		
-		int[] spikes;
-		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
-		
-		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, initData.color);
-		asteroid.InitSawEnemy (initData);
+	public static SawEnemy CreateSawEnemy(MSawData data, int layer)	{
+		Vector2[] vertices;
+		if (data.vertices.Length > 2) {
+			vertices = data.vertices;
+		} else {
+			float rInner = data.size.RandomValue;
+			float spikeLength = data.spikeSize.RandomValue;
+			float rOuter = rInner + spikeLength;
+			int spikesCount = data.spikesCount.RandomValue;
+			int[] spikes;
+			vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
+		}
+		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, data.color);
+		asteroid.InitSawEnemy (data);
 		asteroid.SetCollisionLayerNum (layer);
         asteroid.gameObject.name = data.name;
-
 		return asteroid;
 	}
 
-	public static SpikyAsteroid CreateSpikyAsteroid(MSpikyData data, int layer)
-	{
-		var initData = data.mdata;
-		float rInner = Random(initData.size);
-		float spikeLength = Random(initData.spikeSize);
+	public static SpikyAsteroid CreateSpikyAsteroid(MSpikyData data, int layer)	{
+		float rInner = data.size.RandomValue;
+		float spikeLength = data.spikeSize.RandomValue;
 		float rOuter = rInner + spikeLength;
-		int spikesCount = Random (initData.spikesCount); //UnityEngine.Random.Range((int)(rInner+1), 9);
-		
+		int spikesCount = data.spikesCount.RandomValue; //UnityEngine.Random.Range((int)(rInner+1), 9);
 		int[] spikes;
 		Vector2[] vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
-		
-		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, initData.color);
-		asteroid.InitSpikyAsteroid (spikes, initData);
+		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, data.color);
+		asteroid.InitSpikyAsteroid (spikes, data);
 		asteroid.SetCollisionLayerNum (layer);
         asteroid.gameObject.name = data.name;
-
 		return asteroid;
 	}
 
@@ -350,16 +345,6 @@ public class ObjectsCreator
 			enemy.guns.Add (gun);
 		}
 	}
-
-    private static float Random(RandomFloat r)
-    {
-        return UnityEngine.Random.Range(r.min, r.max);
-    }
-
-    private static int Random(RandomInt r)
-    {
-        return UnityEngine.Random.Range(r.min, r.max);
-    }
 
     #region deprecated
     //this guys are not used currently

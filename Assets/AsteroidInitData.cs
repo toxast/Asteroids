@@ -45,7 +45,7 @@ public class RandomInt
 	public int min = 1;
 	public int max = 2;
 
-    public int RandomValue { get{ return UnityEngine.Random.Range (min, max); }}
+    public int RandomValue { get{ return UnityEngine.Random.Range (min, max + 1); }}
 }
 
 [System.Serializable]
@@ -58,7 +58,7 @@ public class AsteroidSetupData
 	public RandomFloat size;
 }
 
-[System.Serializable]
+/*[System.Serializable]
 public class SpikyInitData
 {
 	public string name;
@@ -70,7 +70,7 @@ public class SpikyInitData
 	public RandomFloat size;
 	public RandomFloat spikeSize;
 	public RandomInt spikesCount;
-}
+}*/
 
 [System.Serializable]
 public class AccuracyData: IClonable<AccuracyData>
@@ -95,24 +95,4 @@ public class AccuracyData: IClonable<AccuracyData>
 		c.bounds = bounds;
 		return c;
 	}
-}
-
-[System.Serializable]
-public class SpikeShooterInitData : SpikyInitData
-{
-	public float spikeVelocity = 45f;
-	public float growSpeed = 0.1f;
-	//public float checkForTargetdTime = 0.2f;
-}
-
-[System.Serializable]
-public class SawInitData : SpikyInitData
-{
-	public float prepareTime = 2f;
-
-	public float chargeSpeed = 50f;
-	public float chargeRotation = 300f;
-	public float chargeDuration = 3f;
-
-	public float slowingDuration = 2f;
 }

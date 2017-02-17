@@ -40,35 +40,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c90fb949572fb4b8058b4f155a2eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mdata:
-    name: 0
-    color: {r: 0.77205884, g: 0.26113757, b: 0.26113757, a: 1}
-    reward: 70
-    physical:
-      density: 0.6
-      healthModifier: 2
-      collisionDefence: 0.5
-      collisionAttackModifier: 1.222222
-    speed:
-      min: 2
-      max: 6
-    rotation:
-      min: 30
-      max: 90
-    size:
-      min: 2.4
-      max: 2.8
-    spikeSize:
-      min: 0.5
-      max: 1
-    spikesCount:
-      min: 7
-      max: 10
-    prepareTime: 1
-    chargeSpeed: 50
-    chargeRotation: 230
-    chargeDuration: 2
-    slowingDuration: 1
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  difficulty: 10
+  gameSpawnLayer: 2
+  prepareTime: 2
+  chargeSpeed: 20
+  chargeRotation: 150
+  chargeDuration: 5
+  slowingDuration: 2
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 1
+    checkDtime: 1
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  vertices:
+  - {x: 2.620926, y: 0}
+  - {x: 3.1782427, y: -2.0819871}
+  - {x: 1.8895636, y: -4.604068}
+  - {x: 1.0273721, y: -2.4571579}
+  - {x: 0.80991083, y: -2.4926484}
+  - {x: -0.9979561, y: -3.6660578}
+  - {x: -3.7948225, y: -3.2198164}
+  - {x: -2.0194204, y: -1.736392}
+  - {x: -2.1203732, y: -1.5405412}
+  - {x: -3.7950134, y: -0.18376118}
+  - {x: -4.234891, y: 2.6141129}
+  - {x: -2.275441, y: 1.3840082}
+  - {x: -2.120373, y: 1.5405416}
+  - {x: -1.347491, y: 3.5524874}
+  - {x: 1.1775149, y: 4.835428}
+  - {x: 0.6131198, y: 2.5917563}
+  - {x: 0.8099111, y: 2.492648}
+  - {x: 2.9622185, y: 2.379318}
+  - {x: 4.9626365, y: 0.37434396}
+  - {x: 2.6543708, y: 0.21778429}
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  reward: 0
+  physical:
+    density: 1
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  speed:
+    min: 1
+    max: 2
+  rotation:
+    min: 1
+    max: 2
+  size:
+    min: 1
+    max: 2
+  spikeSize:
+    min: 1
+    max: 2
+  spikesCount:
+    min: 1
+    max: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

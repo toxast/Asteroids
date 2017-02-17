@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class FlamingBullet : PolygonGameObject {
+public class FlamerBullet : PolygonGameObject {
 	float deceleration;
-	DOTEffect.Data dot;
+
 	float startingSpeedMagnitude;
 
 	float force = 10f;
@@ -21,7 +21,7 @@ public class FlamingBullet : PolygonGameObject {
 
 	public void InitFlamingBullet( MFlamerGunData data, Vector2 startingSpeed ) {
 		this.deceleration = data.deceleration.RandomValue;
-        this.dot = data.dot;
+        this.burnDot = data.dot;
 		forceChangeSign = Math2d.RandomSign();
 		startingSpeedMagnitude = startingSpeed.magnitude;
 		maxVelocity = startingSpeedMagnitude;
@@ -29,11 +29,7 @@ public class FlamingBullet : PolygonGameObject {
 		applyForceThreshold = startingSpeedMagnitude * 0.5f;
 		killThreshold = startingSpeedMagnitude * 0.1f;
     }
-
-	public override void OnHit(PolygonGameObject other) {
-        other.AddEffect(new BurningEffect(dot));
-    }
-
+		
 	public override void Tick(float delta) {
 		base.Tick(delta);
 		var oldVelocity = lastVelocity;
@@ -55,36 +51,3 @@ public class FlamingBullet : PolygonGameObject {
 	}
 }
 
-public class FlamerGun : BulletGun<FlamingBullet>
-{
-	MFlamerGunData fdata;
-
-	public override float Range	{
-		get { 
-			float t =  0.8f * bulletSpeed / fdata.deceleration.Middle ;
-			return t * bulletSpeed - 0.5f * t * t * fdata.deceleration.Middle; 
-		}
-	}
-	public override float BulletSpeedForAim{ get { return fdata.bulletSpeed * 0.8f; } }
-
-    public FlamerGun(Place place, MFlamerGunData data, PolygonGameObject parent):base(place, data, parent)
-	{
-		fdata = data;
-	}
-
-    protected override void InitBullet(FlamingBullet b)
-    {
-		base.InitBullet(b);
-		b.InitFlamingBullet(fdata, b.velocity);
-    }
-
-	protected override PolygonGameObject.DestructionType GetBulletDestruction ()
-	{
-		return PolygonGameObject.DestructionType.eDisappear;
-	}
-
-	protected override float GetBulletVelocity ()
-	{
-		return base.GetBulletVelocity () + UnityEngine.Random.Range(-fdata.velocityRandomRange, fdata.velocityRandomRange);
-	}
-}

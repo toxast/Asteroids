@@ -13,6 +13,7 @@ public class MRandomWave : MWaveBase {
 	{
 		[SerializeField] public MSpawn spawn;
 		[SerializeField] public float weight = 4;
+		[SerializeField] public SpawnPositioning positioning;
 
 		public float difficulty{
 			get{ return spawn.prefab.difficulty;}
@@ -25,13 +26,13 @@ public class MRandomWave : MWaveBase {
 		public PolygonGameObject pgo;
 	}
 
-	public float diffucultyAtOnce = 50f;
-	public float diffucultyTotal = 100f;
-	public float startNextWaveWhenDifficultyLeft = 0f;
-	public List<WeightedSpawn> objects;
+	[SerializeField] float diffucultyAtOnce = 50f;
+	[SerializeField] float diffucultyTotal = 100f;
+	[SerializeField] float startNextWaveWhenDifficultyLeft = 0f;
+	[SerializeField] List<WeightedSpawn> objects;
 
-	[NonSerialized] public bool startedSpawn = false;
-	[NonSerialized] public bool forceDone = false;
+	[NonSerialized] bool startedSpawn = false;
+	[NonSerialized] bool forceDone = false;
 	[NonSerialized] List<MSpawn> spawning = new List<MSpawn>();
 	[NonSerialized] List<SpawnObj> spawned = new List<SpawnObj>();
 	[NonSerialized] Main main;
@@ -100,7 +101,7 @@ public class MRandomWave : MWaveBase {
 
 			if (selectedSpawnsCount.Count == selectedSpawns.Count && preparedDifficulty <= diffucultyAtOnce - CurrentDifficulty ()) {
 				CountInWhatWillBeSpawned (selectedSpawns, selectedSpawnsCount);
-				Spawn (selectedSpawns, selectedSpawnsCount); 
+				StartCoroutine(Spawn (selectedSpawns, selectedSpawnsCount)); 
 				prepareNextSpawnGroup = true;
 			}
 			yield return null;
@@ -135,16 +136,25 @@ public class MRandomWave : MWaveBase {
 		return selectedSpawnsCount;
 	}
 
-	private void Spawn(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount){
+	public enum eSpawnStrategy {
+		Random = -1,
+		ByPositioningAllAtOnce = 1,
+		ByPositioningWithIntervals = 2,
+		FiewGroups = 4,
+
+	}
+
+	private IEnumerator Spawn(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount){
 		for (int i = 0; i < selectedSpawns.Count; i++) {
-			var item = selectedSpawns [i].spawn;
+			var item = selectedSpawns [i];
 			for (int k = 0; k < selectedSpawnsCount[i]; k++) {
 				Vector2 pos;
 				float lookAngle;
-				main.GetRandomPosition (item.spawnRange, item.positioning, out pos, out lookAngle);
-				StartCoroutine(SpawnObjectWithTeleportAnimation(item, pos, lookAngle));
+				main.GetRandomPosition (item.spawn.spawnRange, item.positioning, out pos, out lookAngle);
+				StartCoroutine(SpawnObjectWithTeleportAnimation(item.spawn, pos, lookAngle));
 			}
 		}
+		yield break;
 	}
 
 	private IEnumerator SpawnObjectWithTeleportAnimation(MSpawn item, Vector2 pos, float lookAngle) {

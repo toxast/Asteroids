@@ -40,35 +40,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c90fb949572fb4b8058b4f155a2eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mdata:
-    name: 0
-    color: {r: 0.77205884, g: 0.26113757, b: 0.26113757, a: 1}
-    reward: 70
-    physical:
-      density: 0.6
-      healthModifier: 2
-      collisionDefence: 0.5
-      collisionAttackModifier: 1.222222
-    speed:
-      min: 2
-      max: 6
-    rotation:
-      min: 30
-      max: 90
-    size:
-      min: 2.4
-      max: 2.8
-    spikeSize:
-      min: 0.5
-      max: 1
-    spikesCount:
-      min: 7
-      max: 10
-    prepareTime: 0.1
-    chargeSpeed: 40
-    chargeRotation: 230
-    chargeDuration: 1
-    slowingDuration: 0.1
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  difficulty: 10
+  gameSpawnLayer: 2
+  prepareTime: 2
+  chargeSpeed: 30
+  chargeRotation: 300
+  chargeDuration: 3
+  slowingDuration: 2
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 1
+    checkDtime: 1
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  vertices: []
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  reward: 0
+  physical:
+    density: 1
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  speed:
+    min: 1
+    max: 2
+  rotation:
+    min: 1
+    max: 2
+  size:
+    min: 1
+    max: 2
+  spikeSize:
+    min: 1
+    max: 2
+  spikesCount:
+    min: 1
+    max: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

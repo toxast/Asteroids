@@ -8,9 +8,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 472706}
-  - component: {fileID: 11493992}
+  - component: {fileID: 114811923677609586}
   m_Layer: 0
-  m_Name: Fireball Follower 1
+  m_Name: FireballGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,81 +29,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11493992
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 161642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38b4a78513600bd4293c806f2d55eb81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  storeName: 
-  price: 0
-  etype: 2
-  damageOnCollision: 10
-  explosionOnDestruction: 0
-  overrideExplosionDamage: -1
-  overrideExplosionRadius: -1
-  lifeTime: 3.5
-  fireInterval: 0.5
-  repeatCount: 0
-  repeatInterval: 0
-  physical:
-    density: 0.2
-    health: -1
-    healthModifier: 1
-    collisionDefence: 0
-    collisionAttackModifier: 0.1
-  vertices:
-  - {x: 0.7516801, y: -0.34704003}
-  - {x: 0.000000050489067, y: -0.7632}
-  - {x: -0.7516801, y: -0.34704003}
-  - {x: -0.7516801, y: 0.34704003}
-  - {x: 0.000000050489067, y: 0.7632}
-  - {x: 0.7516801, y: 0.34704003}
-  color: {r: 1, g: 0, b: 0, a: 0.128}
-  fireEffect: {fileID: 0}
-  missleParameters:
-    thrust: 35
-    maxSpeed: 40
-    turnSpeed: 60
-    brake: 8
-    passiveBrake: 2
-    stability: 0.5
-    shootAngle: 1
-  accuracy: 0
-  thrusters: []
-  particles:
-  - place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-    prefab: {fileID: 198451757444820078, guid: a3e0ba2116c2f2946b8c788e3505d84a, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
-  - place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-    prefab: {fileID: 198265202451026640, guid: b534f5cf459db8b40ba396d53b5184b2, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
-  destructionEffects:
-  - place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-    prefab: {fileID: 198991140418863546, guid: bd27b16a685294d4bafeebfff7baecce, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
-  launchDirection: {x: 1, y: 0}
-  launchSpeed: 20
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -115,3 +40,81 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 161642}
   m_IsPrefabParent: 1
+--- !u!114 &114811923677609586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d2ef90a8cffe3e49a1ebf1a5acff37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storeName: 
+  price: 0
+  etype: 0
+  damageOnCollision: 10
+  lifeTime: 3.6
+  fireInterval: 0.5
+  repeatCount: 0
+  repeatInterval: 0
+  physical:
+    density: 1
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  radius: 3
+  fireEffect: {fileID: 0}
+  missleParameters:
+    thrust: 35
+    maxSpeed: 40
+    turnSpeed: 100
+    brake: 15
+    passiveBrake: 2
+    stability: 0.5
+    shootAngle: 1
+  accuracy: 0.5
+  particles:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198451757444820078, guid: a3e0ba2116c2f2946b8c788e3505d84a, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -1
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198265202451026640, guid: b534f5cf459db8b40ba396d53b5184b2, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -1
+  destructionEffects:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198991140418863546, guid: bd27b16a685294d4bafeebfff7baecce, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+  dot:
+    duration: 5
+    dps: 5
+    maxBuildUpDuration: 5
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 198732008161831254, guid: 30f37b9af5892bb4387108403b759dec,
+        type: 2}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: -1
+  launchDirection: {x: 1, y: 0}
+  launchSpeed: 20

@@ -13,11 +13,12 @@ public class SawEnemy : Asteroid
 	private float velocityslowingRate;
 	private float chargeDuration;
 	private float chargeSpeed;
-
+	MSawData data;
 	//private float initialVelocitySqr;
 
-	public void InitSawEnemy(SawInitData data) 
+	public void InitSawEnemy(MSawData data) 
 	{
+		this.data = data;
 		this.reward = data.reward;
 		this.InitAsteroid (data.physical, data.speed, data.rotation);
 
@@ -40,6 +41,12 @@ public class SawEnemy : Asteroid
 	void Start () 
 	{
 		StartCoroutine(CheckDistanceAndCharge());
+
+		var accData = data.accuracy;
+		accuracy = accData.startingAccuracy;
+		if (accData.isDynamic) {
+			StartCoroutine (AccuracyChanger (accData));
+		}
 	}
 
 	IEnumerator CheckDistanceAndCharge()
@@ -124,11 +131,22 @@ public class SawEnemy : Asteroid
 		float deltaTime = 0.15f;
 		
 		bool slowing = true;
-		while(slowing)
-		{
-			slowing = Slow(deltaTime);
+		while (slowing) {
+			slowing = Slow (deltaTime);
 			
-			yield return new WaitForSeconds(deltaTime); 
+			yield return new WaitForSeconds (deltaTime); 
+		}
+	}
+
+	float accuracy = 0;
+	private IEnumerator AccuracyChanger(AccuracyData data) {
+		Vector2 lastDir = Vector2.one; //just not zero
+		float dtime = data.checkDtime;
+		while (true) {
+			if (!Main.IsNull (target)) {
+				AIHelper.ChangeAccuracy (ref accuracy, ref lastDir, target, data);
+			}
+			yield return new WaitForSeconds (dtime);
 		}
 	}
 }

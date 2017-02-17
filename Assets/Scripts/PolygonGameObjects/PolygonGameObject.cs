@@ -101,7 +101,12 @@ public class PolygonGameObject : MonoBehaviour
 
 	public bool capturedByEarthSpaceship = false;
 
-    public virtual void OnHit(PolygonGameObject other) { }
+	[NonSerialized] public DOTEffect.Data burnDot;
+    public virtual void OnHit(PolygonGameObject other) {
+		if (burnDot != null) {
+			other.AddEffect (new BurningEffect (burnDot));
+		}
+	}
 
 	protected virtual void Awake () 
 	{
@@ -555,7 +560,6 @@ public class PolygonGameObject : MonoBehaviour
 	}
 
 	public void OnBoundsTeleporting(Vector2 newPos) {
-		
 		if(teleportWithMe != null) {
 			Vector2 delta = newPos - position;
 			foreach (var controllable in teleportWithMe) {
@@ -564,12 +568,10 @@ public class PolygonGameObject : MonoBehaviour
 				}
 			}
 		}
-
 		if (destroyOnBoundsTeleport) {
 			Kill();
 			destructionType = PolygonGameObject.DestructionType.eDisappear;
 		}
-
 		ToggleAllDistanceEmitParticles (false);
 	}
 

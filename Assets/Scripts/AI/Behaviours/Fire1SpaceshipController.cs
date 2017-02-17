@@ -153,6 +153,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 								obj.cacheTransform.right = dir; 
 								obj.velocity = obj.cacheTransform.right * data.fireballData.launchSpeed;
 								obj.InitLifetime (data.fireballData.lifeTime); 
+
 								obj.destroyOnBoundsTeleport = true;
 								thisShip.RemoveFollower (obj);
 							}
@@ -167,8 +168,9 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
     }
 
     private SpaceShip CreateFireball() {
-        MRocketGunData rd = data.fireballData;
-        SpaceShip fireball = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(rd.vertices, rd.color);
+        var rd = data.fireballData;
+		var vertices = PolygonCreator.CreatePerfectPolygonVertices(rd.radius, 6);
+		SpaceShip fireball = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, Color.black);
         fireball.position = thisShip.position;
         fireball.gameObject.name = "fireball";
         fireball.InitSpaceShip(rd.physical, rd.missleParameters);
@@ -178,6 +180,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
         fireball.SetDestroyAnimationParticles(rd.destructionEffects);
 		fireball.SetController (new StaticInputController ());
 		fireball.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(thisShip.layer));
+		fireball.burnDot = rd.dot;
         thisShip.AddObjectAsFollower(fireball);
 		Singleton<Main>.inst.HandleGunFire (fireball);
         return fireball;
@@ -187,13 +190,11 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 	{
 		Vector2 lastDir = Vector2.one; //just not zero
 		float dtime = data.checkDtime;
-		while(true)
-		{
-			if(!Main.IsNull(target))
-			{
-				AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, target, data);
+		while (true) {
+			if (!Main.IsNull (target)) {
+				AIHelper.ChangeAccuracy (ref accuracy, ref lastDir, target, data);
 			}
-			yield return new WaitForSeconds(dtime);
+			yield return new WaitForSeconds (dtime);
 		}
 	}
 
@@ -202,7 +203,6 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 			var obj = fireballs[i];
 			if (!Main.IsNull(obj)) {
 				obj.Kill();
-				obj.destroyOnBoundsTeleport = true;
 			}
 		}
 	}

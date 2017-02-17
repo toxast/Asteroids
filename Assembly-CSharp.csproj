@@ -56,6 +56,7 @@
      <Compile Include="Assets\Resources\MCometData.cs" />
      <Compile Include="Assets\Resources\MEarthSpaceshipData.cs" />
      <Compile Include="Assets\Resources\MFireShip1Data.cs" />
+     <Compile Include="Assets\Resources\MFireballGunData.cs" />
      <Compile Include="Assets\Resources\MFlamerGunData.cs" />
      <Compile Include="Assets\Resources\MForcedBulletGun.cs" />
      <Compile Include="Assets\Resources\MGasteroidData.cs" />
@@ -110,7 +111,7 @@
      <Compile Include="Assets\Scripts\Geometry\Rotaitor.cs" />
      <Compile Include="Assets\Scripts\Geometry\Triangulator.cs" />
      <Compile Include="Assets\Scripts\Guns\BulletGun.cs" />
-     <Compile Include="Assets\Scripts\Guns\FlamerGun.cs" />
+     <Compile Include="Assets\Scripts\Guns\FlamerBullet.cs" />
      <Compile Include="Assets\Scripts\Guns\GravityBullet.cs" />
      <Compile Include="Assets\Scripts\Guns\GravityGun.cs" />
      <Compile Include="Assets\Scripts\Guns\Gun.cs" />
