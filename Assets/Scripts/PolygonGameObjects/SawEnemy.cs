@@ -80,7 +80,7 @@ public class SawEnemy : Asteroid
 	{
 		if(!Main.IsNull(target))
 		{
-			AimSystem aim = new AimSystem(target.position, target.velocity, position, chargeSpeed);
+			AimSystem aim = new AimSystem(target.position, target.velocity * accuracy, position, chargeSpeed);
 			if(aim.canShoot)
 			{
 				velocity = chargeSpeed * aim.directionDist.normalized;

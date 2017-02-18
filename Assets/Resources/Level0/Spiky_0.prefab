@@ -46,33 +46,40 @@ MonoBehaviour:
   editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2
-  mdata:
-    name: lvl 0
-    color: {r: 0.39359862, g: 0.41949052, b: 0.5147059, a: 1}
-    reward: 30
-    physical:
-      density: 1
-      health: -1
-      healthModifier: 1
-      collisionDefence: 0
-      collisionAttackModifier: 1.2
-    speed:
-      min: 2
-      max: 3
-    rotation:
-      min: 40
-      max: 70
-    size:
-      min: 2.5
-      max: 3
-    spikeSize:
-      min: 2
-      max: 3
-    spikesCount:
-      min: 5
-      max: 7
-    spikeVelocity: 25
-    growSpeed: 0.1
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 1
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  spikeVelocity: 45
+  growSpeed: 0.1
+  chanceShootSpikeAtDeath: 0.5
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  reward: 0
+  physical:
+    density: 1
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  speed:
+    min: 1
+    max: 2
+  rotation:
+    min: 1
+    max: 2
+  size:
+    min: 1
+    max: 2
+  spikeSize:
+    min: 5
+    max: 7
+  spikesCount:
+    min: 1
+    max: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -97,12 +104,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 11492862}
   spawnRange: {x: 40, y: 80}
-  spawnInterval: 0
   teleportDuration: 1.5
   teleportRingSize: 10
   teleportationColor: {r: 1, g: 0.68235296, b: 0, a: 1}
-  positioning:
-    angle2Ship: 0
-    angle2ShipRange: 180
-    angleFromShip: 0
-    angleFromShipRange: 180

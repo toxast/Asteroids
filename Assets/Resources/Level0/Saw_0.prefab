@@ -57,36 +57,61 @@ MonoBehaviour:
   editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2
-  mdata:
-    name: 0
-    color: {r: 0.77205884, g: 0.26113757, b: 0.26113757, a: 1}
-    reward: 70
-    physical:
-      density: 0.6
-      health: -1
-      healthModifier: 2
-      collisionDefence: 0.5
-      collisionAttackModifier: 1.222222
-    speed:
-      min: 2
-      max: 6
-    rotation:
-      min: 30
-      max: 90
-    size:
-      min: 2.4
-      max: 2.8
-    spikeSize:
-      min: 0.5
-      max: 1
-    spikesCount:
-      min: 7
-      max: 10
-    prepareTime: 1.5
-    chargeSpeed: 30
-    chargeRotation: 200
-    chargeDuration: 3
-    slowingDuration: 1.5
+  prepareTime: 2
+  chargeSpeed: 50
+  chargeRotation: 300
+  chargeDuration: 3
+  slowingDuration: 2
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 1
+    checkDtime: 1
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  vertices:
+  - {x: 1.790212, y: 0}
+  - {x: 2.2410183, y: -1.3021663}
+  - {x: 2.2519994, y: -2.7671545}
+  - {x: 0.8951057, y: -1.5503691}
+  - {x: -0.007199889, y: -2.5918627}
+  - {x: -1.2704266, y: -3.333867}
+  - {x: -0.89510626, y: -1.5503691}
+  - {x: -2.248219, y: -1.2896957}
+  - {x: -3.5224264, y: -0.56671184}
+  - {x: -1.7902123, y: 0}
+  - {x: -2.2410183, y: 1.3021666}
+  - {x: -2.2519996, y: 2.7671552}
+  - {x: -0.8951059, y: 1.5503691}
+  - {x: 0.0071997354, y: 2.5918627}
+  - {x: 1.2704264, y: 3.333867}
+  - {x: 0.89510566, y: 1.5503691}
+  - {x: 2.248218, y: 1.2896966}
+  - {x: 3.522426, y: 0.5667123}
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  reward: 0
+  physical:
+    density: 1
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  speed:
+    min: 1
+    max: 2
+  rotation:
+    min: 1
+    max: 2
+  size:
+    min: 1
+    max: 2
+  spikeSize:
+    min: 1
+    max: 2
+  spikesCount:
+    min: 5
+    max: 10
 --- !u!114 &114571137283427640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,12 +125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 114018212185065258}
   spawnRange: {x: 40, y: 80}
-  spawnInterval: 0
   teleportDuration: 1.5
   teleportRingSize: 10
   teleportationColor: {r: 1, g: 0.68235296, b: 0, a: 1}
-  positioning:
-    angle2Ship: 0
-    angle2ShipRange: 180
-    angleFromShip: 0
-    angleFromShipRange: 180

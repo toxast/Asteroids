@@ -5,7 +5,7 @@ using System.Linq;
 
 public class SpawnerGun : GunShooterBase 
 {
-	public MSpaceshipData spaceshipRef; //TODO: not only spaceship
+	public MSpawnDataBase spawnRef; //TODO: not only spaceship
 	public int maxSpawn;
 
 	private int startSpawnLeft;
@@ -18,7 +18,7 @@ public class SpawnerGun : GunShooterBase
 	public SpawnerGun(Place place, MSpawnerGunData data, PolygonGameObject parent)
 		:base(place, data, parent, 0, 0, data.fireInterval, data.fireEffect)
 	{
-		this.spaceshipRef = data.spaceshipRef;
+		this.spawnRef = data.spawnRef;
 		this.maxSpawn = data.maxSpawn;
 		this.spawnFireSpeed = data.bulletSpeed;
 		this.regularInterval = data.fireInterval;
@@ -54,7 +54,7 @@ public class SpawnerGun : GunShooterBase
 			}
 		}
 
-        var obj = spaceshipRef.Create(CollisionLayers.GetSpawnedLayer(parent.layer));
+		var obj = spawnRef.Create(CollisionLayers.GetSpawnedLayer(parent.layer));
         obj.SetSpawnParent(parent);
         obj.gameObject.name += "_spawn";
 		obj.reward = 0;

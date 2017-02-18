@@ -591,18 +591,11 @@ public class Main : MonoBehaviour
 					PutObjectOnDestructionQueue(e.gameObject, e.main.duration);
 				}
 			}
-
 			float radius = gobject.deathAnimation.GetFinalExplosionRadius();
 			float damage = gobject.overrideExplosionDamage >= 0 ? gobject.overrideExplosionDamage : 2f * Mathf.Pow(radius, 0.65f);
-
 			Debug.LogError("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
-			int collision = -1;
-//			if(gobject is SpaceShip)
-//			{
-//				collision = gobject.collision;
-//			}
-			CreatePhysicalExplosion(gobject.position, radius, damage, collision);//radius = 6f*Mathf.Sqrt(obj.polygon.area) = 6a , 1.5aa = x 
-			//1.5f*gobject.polygon.area
+			int collision = gobject.collision;
+			CreatePhysicalExplosion(gobject.position, radius, damage, collision);
 		}
 
         DestroyPolygonGameObject(gobject);
@@ -1159,12 +1152,12 @@ public class Main : MonoBehaviour
 	}
 
 
-
-
-
-
 	/*
 	 * FUTURE UPDATES
+	 * side shooting ships
+	 * destroy turrets
+	 * power ups(heavy bullets, fast bullets, missiles around, summon helpers (spaceships, towers))
+	* frozen storms weapon like diablo 2
 	 * split rocket launcher and fireballs
 	 * waves
 	* asteroid storms like earth enemy

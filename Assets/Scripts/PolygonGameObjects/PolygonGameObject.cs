@@ -426,8 +426,6 @@ public class PolygonGameObject : MonoBehaviour
 
 	public void SetShield(ShieldData shieldData)
 	{
-		shield = new Shield (shieldData);
-		
 		Color shCol = Color.green;
 		shCol.a = 0.3f;
 		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.circulatedVertices, 0.3f);
@@ -435,7 +433,7 @@ public class PolygonGameObject : MonoBehaviour
 		shieldGO.name = "shield";
 		shieldGO.cacheTransform.parent = cacheTransform;
 		shieldGO.cacheTransform.localPosition = new Vector3 (0, 0, 1);
-		shield.SetShieldGO (shieldGO);
+		shield = new Shield (shieldData, shieldGO);
 	}
 
 	public bool HasLifetime {get { return startinglifeTime > 0;}}

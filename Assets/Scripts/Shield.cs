@@ -17,80 +17,63 @@ public class Shield
 	private const float SHIELD_ALPHA = 0.3f;
 	private const float SHIELD_HIT_ALPHA = 0.8f;//0.6f;
 
-	public Shield(ShieldData data)
+	public Shield(ShieldData data, PolygonGameObject shieldGo)
 	{
 		this.data = data;
+		this.shieldGo = shieldGo;
 		currentShields = capacity;
 		time2startShieldRecharge = 0;
 	}
 
+	//returns not deflected dmg
 	public float Deflect(float dmg)
 	{
-		time2startShieldRecharge = data.rechargeDelay;
-		if(currentShields > 0)
-		{
+		if (currentShields > 0) {
 			float deflected = 0;
-			deflected = Mathf.Min(dmg, currentShields);
+			deflected = Mathf.Min (dmg, currentShields);
 			currentShields -= deflected;
-			if(currentShields <= 0)
-			{
+			if (currentShields <= 0) {
 				currentShields = 0;
 			}
-			
 			dmg -= deflected;
-
-
-			if(shieldGo != null)
-			{
-				if(currentShields <= 0)
-				{
-					SetAlpha(NO_SHIELD_ALPHA);
-				}
-				else if(deflected > 0)
-				{
-					shieldAnimationCoroutine = shieldGo.StartCoroutine(AnimateHit());
+			if (shieldGo != null) {
+				if (currentShields <= 0) {
+					SetAlpha (NO_SHIELD_ALPHA);
+				} else if (deflected > 0) {
+					shieldAnimationCoroutine = shieldGo.StartCoroutine (AnimateHit ());
 				}
 			}
-
 		}
+
+		time2startShieldRecharge = (currentShields <= 0) ? data.rechargeDelayAfterDestory : data.hitRechargeDelay;
+
 		return dmg;
 	}
 
 	private void SetAlpha(float a)
 	{
-		if (shieldAnimationCoroutine != null)
+		if (shieldAnimationCoroutine != null) {
 			shieldGo.StopCoroutine (shieldAnimationCoroutine);
-
+		}
 		shieldGo.SetAlpha(a);
-	}
-
-	public void SetShieldGO(PolygonGameObject shieldGo)
-	{
-		this.shieldGo = shieldGo;
 	}
 
 	public void Tick(float delta)
 	{
-		if(time2startShieldRecharge > 0)
-		{
+		if (time2startShieldRecharge > 0) {
 			time2startShieldRecharge -= delta;
-			if(shieldGo != null && time2startShieldRecharge <= 0)
-			{
-				shieldAnimationCoroutine = shieldGo.StartCoroutine(FadeTo (shieldGo, SHIELD_ALPHA, FADE_FURATION));
+			if (shieldGo != null && time2startShieldRecharge <= 0) {
+				shieldAnimationCoroutine = shieldGo.StartCoroutine (FadeTo (shieldGo, SHIELD_ALPHA, FADE_FURATION));
 			}
 		}
 		
-		if(time2startShieldRecharge <= 0)
-		{
+		if (time2startShieldRecharge <= 0 && currentShields < capacity) {
 			currentShields += delta * data.rechargeRate;
-			if(currentShields >= capacity)
-			{
+			if (currentShields >= capacity) {
 				currentShields = capacity;
-				time2startShieldRecharge = data.rechargeDelay;
 			}
 		}
 	}
-
 
 	IEnumerator AnimateHit()
 	{
@@ -101,28 +84,21 @@ public class Shield
 
 	IEnumerator FadeTo(PolygonGameObject p, float alpha, float fadeTime)
 	{
-		float currentAlpha =  p.mesh.colors[0].a;
-		
+		float currentAlpha = p.mesh.colors [0].a;
 		bool greater = alpha > currentAlpha;
-		
 		float dAlpha = (alpha - currentAlpha);
-		
-		while(true)
-		{
-			currentAlpha = p.mesh.colors[0].a;
-			float newAlpha = Mathf.Clamp(currentAlpha + (Time.deltaTime/fadeTime) * dAlpha, 0f, 1f);
-			p.SetAlpha(newAlpha);
-			
-			if(greater)
-			{
-				if(newAlpha >= alpha) break;
+		while (true) {
+			currentAlpha = p.mesh.colors [0].a;
+			float newAlpha = Mathf.Clamp (currentAlpha + (Time.deltaTime / fadeTime) * dAlpha, 0f, 1f);
+			p.SetAlpha (newAlpha);
+			if (greater) {
+				if (newAlpha >= alpha)
+					break;
+			} else {
+				if (newAlpha <= alpha)
+					break;
 			}
-			else
-			{
-				if(newAlpha <= alpha) break;
-			}
-			
-			yield return new WaitForSeconds(0f); 
+			yield return new WaitForSeconds (0f); 
 		}
 	}
 }

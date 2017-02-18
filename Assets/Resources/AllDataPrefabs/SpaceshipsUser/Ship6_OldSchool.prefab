@@ -73,7 +73,8 @@ MonoBehaviour:
   shield:
     capacity: 5
     rechargeRate: 1
-    rechargeDelay: 1
+    hitRechargeDelay: 1
+    rechargeDelayAfterDestory: 2
   guns:
   - place:
       pos: {x: 2.19, y: -0.000000010507243}

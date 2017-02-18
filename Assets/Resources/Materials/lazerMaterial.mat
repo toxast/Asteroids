@@ -2,41 +2,45 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 3
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: lazerMaterial
-  m_Shader: {fileID: 4800000, guid: d9b8d218f1d7a6546b36659596d27e2e, type: 3}
-  m_ShaderKeywords: []
+  m_Shader: {fileID: 4800000, guid: 97765923dfcc54246b30e2a5bc72e6a4, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
-      data:
-        first:
-          name: _MainTex
-        second:
-          m_Texture: {fileID: 2800000, guid: f870ff842f4449541b77219126febcc0, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _BumpMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _DecalTex
-        second:
-          m_Texture: {fileID: 2800000, guid: bc2639f18e7c7b24fbc7fbdc021be0f4, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-    m_Floats: {}
+    - first:
+        name: _BumpMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _DecalTex
+      second:
+        m_Texture: {fileID: 2800000, guid: bc2639f18e7c7b24fbc7fbdc021be0f4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _MainTex
+      second:
+        m_Texture: {fileID: 2800000, guid: bb5126976090e654c826fc1021c91ad2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _Mask
+      second:
+        m_Texture: {fileID: 2800000, guid: 1a67699c3d7861e4783fcc0f40323764, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
     m_Colors:
-      data:
-        first:
-          name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _Color
+      second: {r: 1, g: 1, b: 1, a: 1}

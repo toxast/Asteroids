@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
-  spawn: 1
+  spawn: 0
   editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2
@@ -53,17 +53,26 @@ MonoBehaviour:
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
-    isDynamic: 1
+    isDynamic: 0
     checkDtime: 1
     add: 0.15
     sub: 0.4
     bounds: {x: 0, y: 1}
-  vertices: []
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  vertices:
+  - {x: 1.0344698, y: -0.000000070406344}
+  - {x: 1.759912, y: -1.3236098}
+  - {x: 0.9647536, y: -2.9472985}
+  - {x: -0.5172348, y: -0.8958772}
+  - {x: -2.0262356, y: -0.8623237}
+  - {x: -3.0348125, y: 0.63814825}
+  - {x: -0.5172346, y: 0.895877}
+  - {x: 0.26632354, y: 2.1859334}
+  - {x: 2.0700586, y: 2.3091507}
+  color: {r: 0.6691177, g: 0.24599914, b: 0.24599914, a: 1}
   reward: 0
   physical:
     density: 1
-    health: -1
+    health: 30
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -80,8 +89,8 @@ MonoBehaviour:
     min: 1
     max: 2
   spikesCount:
-    min: 1
-    max: 2
+    min: 5
+    max: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

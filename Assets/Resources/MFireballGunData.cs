@@ -45,7 +45,8 @@ public class FireballGun : GunShooterBase
 
 	private SpaceShip CreateFireball() {
 		var vertices = PolygonCreator.CreatePerfectPolygonVertices(data.radius, 6);
-		SpaceShip fireball = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, Color.black);
+		SpaceShip fireball = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, Color.red);
+		fireball.SetAlpha (0);
 		Math2d.PositionOnParent (fireball.cacheTransform, place, parent.cacheTransform);
 		fireball.gameObject.name = "missile";
 		fireball.InitSpaceShip(data.physical, data.missleParameters);

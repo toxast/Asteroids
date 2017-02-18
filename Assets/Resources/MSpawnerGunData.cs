@@ -8,7 +8,7 @@ public class MSpawnerGunData : MGunBaseData
 	public float fireInterval = 0.5f;
 	public ParticleSystem fireEffect;
 
-	public MSpaceshipData spaceshipRef;
+	public MSpawnDataBase spawnRef;
 
 	public int maxSpawn = 1;
 	public int startSpawn = 1;

@@ -161,47 +161,38 @@ public class ShipEditor : MonoBehaviour
 	}
 
 	[Header ("fang menu")]
-	[SerializeField] int sides;
-	[SerializeField] int fangIndxFrom;
-	[SerializeField] int fangIndxTo;
+	[SerializeField] int fangs = 3;
+	[SerializeField] int fangIndxFrom = 0; //fang will be created from existing handles with this indexes
+	[SerializeField] int fangIndxTo = 3;
 
 	[ContextMenu ("Create fang shape")]
 	private void CreateFangedShape() {
-
 		var fangVerts = handles.GetRange (fangIndxFrom, fangIndxTo - fangIndxFrom + 1).ConvertAll(f => (Vector2)f.transform.localPosition);
-			
 		foreach(GameObject go in handles) {
 			DestroyImmediate(go);    
 		}
 		handles.Clear ();
 		symmetric = false;
 		symmetricState = false;
-
 		float fangBase = (fangVerts.Last () - fangVerts.First ()).magnitude;
-		//fangBase*fangBase = r*r ( 2 - 2*Mathf.Cos(angle));
-		float angleBase = (360f / sides) * Mathf.Deg2Rad;
-		float r = fangBase * Mathf.Sqrt (2f - 2f * Mathf.Cos (angleBase));
+		float angleBase = (360f / fangs) * Mathf.Deg2Rad;
+		float r = fangBase / Mathf.Sqrt (2f - 2f * Mathf.Cos (angleBase));
 		var fangRotatedAngle = Math2d.AngleRad (fangVerts.First () - fangVerts.Last (), new Vector2 (0, 1));
-		/*if (fangVerts.Count > 2 && Vector2.Dot (Math2d.MakeRight (fangVerts.First () - fangVerts.Last ()), fangVerts [1]) < 0) {
-			fangRotatedAngle += 180f * Mathf.Deg2Rad;
-		}*/
-
 		var fangVertsNormArray = Math2d.RotateVerticesRad (fangVerts.ToArray(), fangRotatedAngle);
-
-		Vector2[] vertices = new Vector2[sides * (fangVerts.Count-1)];
+		Vector2[] vertices = new Vector2[fangs * (fangVerts.Count-1)];
 		float curAngle = 0;
-		for (int i = 0; i < sides; i++) {
+		for (int i = 0; i < fangs; i++) {
 			int indx = i * (fangVerts.Count - 1);
 			var baseV = r * new Vector2(Mathf.Cos(curAngle), Mathf.Sin(curAngle));
 			vertices [indx] = baseV;
 			for (int k = 0; k < fangVertsNormArray.Length - 2; k++) {
 				var delta = fangVertsNormArray [k + 1] - fangVertsNormArray [k];
+				Debug.Log (delta);
 				delta = Math2d.RotateVertex (delta, curAngle - angleBase/2f);
 				vertices [indx + 1 + k] = vertices [indx + k] + delta;
 			}
 			curAngle -= angleBase;
 		}
-
 		foreach(var vert in vertices) {
 			CreatePosition(vert,  vright, "handle ", handles);
 		}

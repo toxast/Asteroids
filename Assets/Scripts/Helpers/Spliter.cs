@@ -16,19 +16,23 @@ public class Spliter
 
         float overrideHealthModifier = polygonGo.healthModifier;
         //make spaceship parts weak after explosion
-        if(polygonGo is SpaceShip) {
+		if(!(polygonGo is Asteroid)) {
             overrideHealthModifier /= 2f * polygonGo.density;
         }
 
         foreach (var vertices in polys)
 		{
 			Asteroid asteroidPart = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, polygonGo.GetColor(), polygonGo.mat, polygonGo.meshUV);
-
+			string suffix = " destroyed part";
 			asteroidPart.InitPolygonGameObject(new PhysicalData(polygonGo.density, overrideHealthModifier, polygonGo.collisionDefence, polygonGo.collisionAttackModifier));
 			asteroidPart.SetCollisionLayerNum(CollisionLayers.ilayerAsteroids);
 			asteroidPart.cacheTransform.Translate(polygonGo.position);
 			asteroidPart.cacheTransform.RotateAround(polygonGo.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
-			asteroidPart.gameObject.name = "asteroid part";
+			if (!polygonGo.name.Contains (suffix)) {
+				asteroidPart.gameObject.name = polygonGo.name + suffix;
+			} else {
+				asteroidPart.gameObject.name = polygonGo.name + " x";
+			}
 			
 			parts.Add(asteroidPart);
 		}

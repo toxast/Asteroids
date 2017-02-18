@@ -171,6 +171,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
         var rd = data.fireballData;
 		var vertices = PolygonCreator.CreatePerfectPolygonVertices(rd.radius, 6);
 		SpaceShip fireball = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, Color.black);
+		fireball.SetAlpha (0);
         fireball.position = thisShip.position;
         fireball.gameObject.name = "fireball";
         fireball.InitSpaceShip(rd.physical, rd.missleParameters);

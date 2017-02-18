@@ -46,8 +46,7 @@ MonoBehaviour:
   bulletSpeed: 20
   fireInterval: 6
   fireEffect: {fileID: 0}
-  spaceshipRef: {fileID: 114913661651274198, guid: 8ca1236a6cc68b4488dabfccb2e9f328,
-    type: 2}
+  spawnRef: {fileID: 11498302, guid: 2af2035230311744ea6642f1b2312345, type: 2}
   maxSpawn: 6
   startSpawn: 3
   startSpawnInterval: 2

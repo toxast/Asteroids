@@ -85,8 +85,9 @@ public class ObjectsCreator
 		spaceship.InitSpaceShip(sdata.physical, sdata.mobility);
 		spaceship.SetThrusters (sdata.thrusters);
 
-        if (sdata.shield != null && sdata.shield.capacity > 0)
+		if (sdata.shield != null && sdata.shield.capacity > 0) {
 			spaceship.SetShield (sdata.shield);
+		}
 
         var deathData = sdata.deathData;
         spaceship.destructionType = deathData.destructionType;
@@ -278,11 +279,11 @@ public class ObjectsCreator
 		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction, data.repeatTargetCheck);
 		DeathAnimation.MakeDeathForThatFellaYo (turret);
 
-		if (data.shield != null && data.shield.capacity > 0)
+		if (data.shield != null && data.shield.capacity > 0) {
 			turret.SetShield (data.shield);
+		}
 
-		foreach (var item in data.turrets) 
-		{
+		foreach (var item in data.turrets) {
 			CreateTurret(turret, item);
 		}
 

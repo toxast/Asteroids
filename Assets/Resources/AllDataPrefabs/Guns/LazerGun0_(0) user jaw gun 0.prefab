@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 496004}
-  - 114: {fileID: 11419668}
+  - component: {fileID: 496004}
+  - component: {fileID: 11419668}
   m_Layer: 0
   m_Name: LazerGun0_(0) user jaw gun 0
   m_TagString: Untagged
@@ -25,10 +25,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11419668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -49,7 +49,7 @@ MonoBehaviour:
   color: {r: 0.9117647, g: 0.040224895, b: 0.040224895, a: 1}
   fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
   distance: 50
-  width: 0.5
+  width: 2.5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
