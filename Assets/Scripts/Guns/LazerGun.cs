@@ -26,6 +26,7 @@ public class LazerGun : Gun
 	}
 
 	GameObject lazer;
+	Renderer lazerRenderer;
 	Mesh lazerMesh;
 	Transform lTransform;
 	float distance;
@@ -91,25 +92,23 @@ public class LazerGun : Gun
 		if(lazer == null)
 		{
 			lazer = PolygonCreator.CreateLazerGO(color);
+			lazerRenderer = lazer.GetComponent<Renderer> ();
 			lTransform = lazer.transform;
 			lazerMesh = lazer.GetComponent<MeshFilter>().mesh;
 			Math2d.PositionOnParent (lTransform, place, parent.cacheTransform, true);
 			layer = 1 << CollisionLayers.GetBulletLayerNum(parent.layer);
+			PolygonCreator.ChangeLazerMesh (lazerMesh, distance, width);
 		}
 	}
 
-	public override void Tick (float delta)
-	{
-		if(lazer != null)
+	public override void Tick (float delta) {
+		if (lazer != null) {
 			lazer.SetActive (attackLeftDuration > 0);
-		
-		if (attackLeftDuration > 0) 
-		{
+		}
+		if (attackLeftDuration > 0) {
 			attackLeftDuration -= delta;
 			Fire (delta);
-		} 
-		else if(timeToNextShot > 0)
-		{
+		} else if (timeToNextShot > 0) {
 			timeToNextShot -= delta;
 		}
 	}
@@ -178,8 +177,8 @@ public class LazerGun : Gun
 				}
 			}
 		}
-
-		PolygonCreator.ChangeLazerMesh (lazerMesh, hitDistance, width);
+		lazerRenderer.material.SetFloat("_HitCutout", hitDistance/distance);
+		//PolygonCreator.ChangeLazerMesh (lazerMesh, hitDistance, width);
 	}
 
 

@@ -2,7 +2,8 @@
 	Properties      
 	{         
 		_MainTex ("RGBA", 2D) = "white" {} 
-		_Mask ("RGBA", 2D) = "white" {}                   
+		_Mask ("RGBA", 2D) = "white" {}      
+		_HitCutout ("HitCutout", Range (0, 1) ) = 1              
 	}               
 	
    SubShader 
@@ -19,7 +20,7 @@
  
          uniform sampler2D _MainTex;    
          uniform sampler2D _Mask;    
-         //float4 _Color;
+         float _HitCutout;
  
          struct vertexInput 
          {
@@ -49,8 +50,11 @@
          	float2 uv =  input.tex.xy;
          	uv.y -= _Time.y * 2 ;
          	float4 rgbcolor = tex2D(_MainTex, uv); 
-         	float maskAlpha = tex2D(_Mask, input.tex.xy).w; 
-            return rgbcolor * input.col * maskAlpha;
+         	float alpha = 0;
+         	if(input.tex.xy.y <= _HitCutout) {
+         		alpha = tex2D(_Mask, input.tex.xy).w;
+         	}
+            return rgbcolor * input.col * alpha;
          }
  
          ENDCG 
