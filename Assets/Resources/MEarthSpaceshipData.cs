@@ -35,7 +35,11 @@ public class MEarthSpaceshipData : MSpaceshipData
 
 	[Header("editor field")]
 	[SerializeField] MSpaceshipData fillFrom;
-	private void OnValidate() {
+	private void OnValidate() 
+	{
+		asteroidAttackByForceAnimations.SetDefaultValues ();
+		asteroidGrabByForceAnimations.SetDefaultValues ();
+
 		if (fillFrom != null) {
 			System.Type type = fillFrom.GetType();
 			Component copy = this;

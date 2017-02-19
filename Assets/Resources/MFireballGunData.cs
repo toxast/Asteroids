@@ -25,6 +25,12 @@ public class MFireballGunData : MGunBaseData
 	{
 		return new FireballGun(place, this, t);
 	}
+
+	void OnValidate(){
+		particles.SetDefaultValues ();
+		destructionEffects.SetDefaultValues ();
+	}
+
 }
 
 public class FireballGun : GunShooterBase

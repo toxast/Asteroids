@@ -33,4 +33,10 @@ public class MRocketGunData : MGunBaseData, IGotShape
 		return new RocketLauncher(place, this, t);
 	}
 
+	void OnValidate(){
+		thrusters.SetDefaultValues ();
+		particles.SetDefaultValues ();
+		destructionEffects.SetDefaultValues ();
+	}
+
 }

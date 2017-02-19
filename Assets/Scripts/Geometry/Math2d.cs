@@ -15,6 +15,14 @@ public static class Math2d {
 		pmain.startColor = stCol;
 	}
 
+	public static void SetDefaultValues(this List<ParticleSystemsData> effects){
+		for (int i = 0; i < effects.Count; i++) {
+			if (effects [i].prefab == null) {
+				effects [i] = new ParticleSystemsData ();
+			}
+		}
+	}
+
     static public float DotProduct(ref Vector2 v1, ref Vector2 v2) {
         return v1.x * v2.x + v1.y * v2.y;
     }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class MGunData : MGunBaseData, IGotShape {
 	public float damage = 3;
 	public float lifeTime = 2;
@@ -13,9 +14,15 @@ public class MGunData : MGunBaseData, IGotShape {
 	public Vector2[] vertices = PolygonCreator.GetRectShape(0.4f, 0.2f); 
 	public Color color = Color.red;
     public List<ParticleSystemsData> effects;
+	public List<ParticleSystemsData> destructionEffects;
     public ParticleSystem fireEffect;
 
 	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}
+
+	void OnValidate(){
+		effects.SetDefaultValues ();
+		destructionEffects.SetDefaultValues ();
+	}
 
 	public override Gun GetGun(Place place, PolygonGameObject t)
 	{

@@ -51,6 +51,7 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 		bullet.destructionType = GetBulletDestruction();
 		bullet.destroyOnBoundsTeleport = true;
         bullet.SetParticles(data.effects);
+		bullet.SetDestroyAnimationParticles (data.destructionEffects);
 
         return bullet;
 	}

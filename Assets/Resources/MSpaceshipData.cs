@@ -31,4 +31,9 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 	{
 		return ObjectsCreator.CreateSpaceship<SpaceShip>(this, layer);
 	}
+
+	void OnValidate(){
+		thrusters.SetDefaultValues ();
+	}
+
 }

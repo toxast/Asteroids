@@ -6,7 +6,7 @@ public class ParticleSystemsData: IClonable<ParticleSystemsData>, IGotPlace
 {
 	public Place place = new Place();
 	public ParticleSystem prefab;
-    public float overrideSize = -1;
+	public float overrideSize = -1;
 	public float overrideDelay = -1;
     public float overrideDuration = -1;
     public float zOffset = 1;
