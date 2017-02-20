@@ -29,6 +29,7 @@ public abstract class TickableEffect : ITickable
 		None = 0,
 		GravityShield,
 		Burning,
+        GunsShow,
 	}
 }
 
@@ -137,5 +138,45 @@ public class BurningEffect : DOTEffect {
                 }
             }
         }
+    }
+}
+
+public class GunsShowEffect : TickableEffect {
+    MGunsShow data;
+    PolygonGameObject gunsShowObj;
+    protected float timeLeft;
+
+    protected override eType etype { get { return eType.GunsShow; } }
+    public override bool CanBeUpdatedWithSameEffect { get { return false; } }
+
+    public GunsShowEffect(MGunsShow data) {
+        this.data = data;
+        timeLeft = data.duration;
+    }
+
+    public override void SetHolder(PolygonGameObject holder) {
+        base.SetHolder(holder);
+        gunsShowObj = data.Create(holder.layerNum);
+        gunsShowObj.cacheTransform.parent = holder.cacheTransform;
+        gunsShowObj.cacheTransform.localPosition = Vector3.zero;
+    }
+
+    public override void Tick(float delta) {
+        base.Tick(delta);
+        if (!IsFinished()) {
+            timeLeft -= delta;
+            gunsShowObj.Tick(delta);
+            gunsShowObj.TickGuns(delta);
+            gunsShowObj.Shoot();
+        } else {
+            if (gunsShowObj != null) {
+                GameObject.Destroy(gunsShowObj.gameObj);
+                gunsShowObj = null;
+            }
+        }
+    }
+
+    public override bool IsFinished() {
+        return timeLeft <= 0;
     }
 }

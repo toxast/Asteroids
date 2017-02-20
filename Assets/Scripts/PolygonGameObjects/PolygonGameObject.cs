@@ -482,7 +482,7 @@ public class PolygonGameObject : MonoBehaviour
 		}
 	}
 
-	protected void TickGuns(float delta)
+	public void TickGuns(float delta)
 	{
 		if (deathAnimation != null && deathAnimation.started)
 			return;
@@ -497,7 +497,7 @@ public class PolygonGameObject : MonoBehaviour
 			guns [linkedGuns [linkedGunTick]].Tick (d);
 	}
 
-	protected void Shoot()
+    public void Shoot()
 	{
 		for (int i = 0; i < notLinkedGuns.Count; i++) 
 		{
