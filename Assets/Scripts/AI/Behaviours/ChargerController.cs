@@ -7,19 +7,17 @@ using Random = UnityEngine.Random;
 public class ChargerController : BaseSpaceshipController
 {
 	AIHelper.Data tickData = new AIHelper.Data();
+	MChargerSpaseshipData chData;
 
-    float speedMultiplier;
-    float thrustMultiplier;
     float chargeDuration;
     float chargingDist;
 	float accuracy;
 
-    public ChargerController (SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData, ChargerData chData) : base(thisShip)
+	public ChargerController (SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData, MChargerSpaseshipData chData) : base(thisShip)
 	{
+		this.chData = chData;
 		accuracy = accData.startingAccuracy;
-        speedMultiplier = chData.speedMultiplier;
-        thrustMultiplier = chData.thrustMultiplier;
-        float chargeToMaxDuration = thisShip.maxSpeed * speedMultiplier / (thisShip.thrust * thrustMultiplier);
+		float chargeToMaxDuration = thisShip.maxSpeed * chData.chargeEffect.multiplyMaxSpeed / (thisShip.thrust * chData.chargeEffect.multiplyThrust);
         chargingDist = thisShip.thrust * chargeToMaxDuration * chargeToMaxDuration * 0.5f;
         chargeDuration = chargeToMaxDuration + 1f;
         if (accData.isDynamic) {
@@ -120,9 +118,8 @@ public class ChargerController : BaseSpaceshipController
     private IEnumerator ChargeAttack(float duration) {
 		LogWarning("charge attack " + chargeDuration);
         SetAcceleration(true);
-        thisShip.maxSpeed *= speedMultiplier;
-        thisShip.thrust *= thrustMultiplier;
-
+		chData.chargeEffect.duration = duration;
+		thisShip.AddEffect (new PhysicalChangesEffect(chData.chargeEffect));
         float startingDuration = duration;
         while (duration > 0 && !Main.IsNull(target)) {
             turnDirection = getAimDiraction();
@@ -133,9 +130,6 @@ public class ChargerController : BaseSpaceshipController
             }
             yield return null;
         }
-
-        thisShip.maxSpeed /= speedMultiplier;
-        thisShip.thrust /= thrustMultiplier;
     }
 
 	private bool IsBetterToStop() {

@@ -25,15 +25,19 @@ public class PolygonGameObject : MonoBehaviour
 	public int collision;
 
 	//physical
-	public float density;
+	public float density{ get; private set; }
 	public float healthModifier;
-	public float collisionDefence;
-	public float collisionAttackModifier;
+	public float collisionDefence{ get; private set; }
+	public float collisionAttackModifier{ get; private set; }
 
     //calculated
 	public float inertiaMoment;
     float _mass;
-    public float mass { get { return _mass; } set { _mass = value; massSqrtCalculated = false; } }
+    public float mass { get { return _mass; } set { 
+			_mass = value; 
+			massSqrtCalculated = false; 
+			UpdateMassRelatedValues ();
+	}}
     bool massSqrtCalculated = false;
     float _massSqrt;
     public float massSqrt {
@@ -125,6 +129,18 @@ public class PolygonGameObject : MonoBehaviour
 		this.polygon = polygon;
 	}
 
+	public void MultiplyMass(float multiplyBy) {
+		mass *= multiplyBy;
+	}
+
+	public void MultiplyCollisionAttack(float multiplyBy) {
+		collisionAttackModifier *= multiplyBy;
+	}
+
+	public void ChangeCollisionDefence(float def) {
+		collisionDefence = def;
+	}
+
 	public void InitPolygonGameObject(PhysicalData physics)
 	{
 		this.density = physics.density;
@@ -133,8 +149,6 @@ public class PolygonGameObject : MonoBehaviour
 		this.collisionAttackModifier = physics.collisionAttackModifier;
 
 		mass = polygon.area * density;
-		float approximationR = polygon.R * 4f / 5f;
-		inertiaMoment = mass * approximationR * approximationR / 2f;
 
 		if (physics.health >= 0) {
 			fullHealth = physics.health;
@@ -142,6 +156,11 @@ public class PolygonGameObject : MonoBehaviour
 			fullHealth = Mathf.Pow(polygon.area, 0.8f) * healthModifier / 2f;
 		}
 		currentHealth = fullHealth;
+	}
+
+	private void UpdateMassRelatedValues(){
+		float approximationR = polygon.R * 4f / 5f;
+		inertiaMoment = mass * approximationR * approximationR / 2f;
 	}
 
 	public void InitLifetime(float lifeTime)
@@ -615,6 +634,10 @@ public class PolygonGameObject : MonoBehaviour
 				Math2d.PositionOnParent (inst.transform, item.place, cacheTransform, false, -1);
 				Destroy (inst.gameObject, 5f);
 			}
+		}
+
+		foreach (var item in effects) {
+			item.HandleHolderDestroying ();
 		}
 
         if (teleportWithMe != null) {

@@ -13,7 +13,7 @@ public class Main : MonoBehaviour
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
 	[SerializeField] oldGUI oldGUI;
- 	UserSpaceShip spaceship;
+	[NonSerialized] public UserSpaceShip userSpaceship;
 	List <PolygonGameObject> gobjects = new List<PolygonGameObject>();
     List<polygonGO.DropBase> drops = new List<polygonGO.DropBase>();
 	public List<PolygonGameObject> bullets = new List<PolygonGameObject>();
@@ -50,8 +50,10 @@ public class Main : MonoBehaviour
 	Transform cameraTransform;
 	[SerializeField] Camera minimapCamera;
 	[SerializeField] MCometData cometData;
-
+	[SerializeField] MGunsShow gunsShow1;
 	[SerializeField] GravityShieldEffect.Data gravityShieldPowerUpData;
+	[SerializeField] PhysicalChangesEffect.Data testPhysicalPowerup;
+	[SerializeField] SpawnBackupEffect.Data testBackupData;
 
 	Coroutine repositionCoroutine;
 	Coroutine wrapStarsCoroutine;
@@ -88,7 +90,7 @@ public class Main : MonoBehaviour
 		starsGenerator.Generate ((int)(starsDensity*(screenBounds.width * screenBounds.height)/2000f) , screenBounds, 30f);
 		
 		CreateSpaceShip (spaceshipData);
-		spaceship.destroyed += HandleUserDestroyed;
+		userSpaceship.destroyed += HandleUserDestroyed;
 
 		if (level < 0) {
 			spawner = new EmptyTestSceneSpawner ();
@@ -137,10 +139,10 @@ public class Main : MonoBehaviour
 
 		spawner = null;
 
-		if (!IsNull (spaceship))
+		if (!IsNull (userSpaceship))
 		{
-			Destroy(spaceship.gameObject);
-			spaceship = null;
+			Destroy(userSpaceship.gameObject);
+			userSpaceship = null;
 		}
 
 		foreach (var drop in drops) {
@@ -205,10 +207,10 @@ public class Main : MonoBehaviour
 	IEnumerator SpawnComets()
 	{
 		while (true) {
-			if (!IsNull (spaceship)) {
+			if (!IsNull (userSpaceship)) {
 				var comet = cometData.Create (cometData.gameSpawnLayer);
 				var angle = UnityEngine.Random.Range (0, 360);
-				comet.position = spaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
+				comet.position = userSpaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
 				Add2Objects (comet);
 			}
 			yield return new WaitForSeconds (50f);
@@ -297,14 +299,14 @@ public class Main : MonoBehaviour
 
 	private void MoveCameraWarpMode()
 	{
-		Vector3 pos = spaceship.position;
+		Vector3 pos = userSpaceship.position;
 		mainCamera.transform.position = pos.SetZ(mainCamera.transform.position.z);
 		minimapCamera.transform.position = mainCamera.transform.position.SetZ(minimapCamera.transform.position.z);
 	}
 
 	private void MoveCameraBoundsMode()
 	{
-		Vector3 pos = spaceship.position;
+		Vector3 pos = userSpaceship.position;
 		float x = Mathf.Clamp(pos.x, -maxCameraX, maxCameraX);
 		float y = Mathf.Clamp(pos.y, -maxCameraY, maxCameraY);
 		mainCamera.transform.position = new Vector3(x, y, mainCamera.transform.position.z);
@@ -313,7 +315,7 @@ public class Main : MonoBehaviour
 
 	private void MoveCamera()
 	{
-		if(!IsNull(spaceship))
+		if(!IsNull(userSpaceship))
 		{
 			moveCameraAction();
 		}
@@ -355,8 +357,8 @@ public class Main : MonoBehaviour
             return;
         }
 
-        if (IsNull(spaceship)) {
-            spaceship = null;
+        if (IsNull(userSpaceship)) {
+            userSpaceship = null;
         }
 
         if (spawner != null) {
@@ -384,11 +386,11 @@ public class Main : MonoBehaviour
 			penetrationTimeLeft -= dtime;
 		}
 
-		if(spaceship != null)
+		if(userSpaceship != null)
 		{
 			if(boundsMode)
 			{
-				ApplyBoundsForce(spaceship);
+				ApplyBoundsForce(userSpaceship);
 			}
 		}
 
@@ -420,18 +422,18 @@ public class Main : MonoBehaviour
 		CleanBulletsList (bullets);
 		BulletsHitObjects (gobjects, bullets);
 
-		if(spaceship != null)
+		if(userSpaceship != null)
 		{
-			if(spaceship.collector != null)
+			if(userSpaceship.collector != null)
 			{
-				spaceship.collector.Pull(spaceship.position, drops, dtime);
+				userSpaceship.collector.Pull(userSpaceship.position, drops, dtime);
 			}
 
 			for (int i = drops.Count - 1; i >= 0; i--) 
 			{
 				int indxa, indxb;
 				var drop = drops[i];
-				if(PolygonCollision.IsCollides(spaceship, drop, out indxa, out indxb))
+				if(PolygonCollision.IsCollides(userSpaceship, drop, out indxa, out indxb))
 				{
                     drop.OnUserInteracted();
 					Destroy(drop.gameObject);
@@ -498,10 +500,10 @@ public class Main : MonoBehaviour
     }
 
     public void ApplyPowerUP(EffectType effect) {
-        switch (effect) {
-        //				case EffectType.IncreasedShootingSpeed:
-        //					spaceship.ChangeFiringSpeed(3f, 10f);
-        //				break;
+		switch (effect) {
+		//				case EffectType.IncreasedShootingSpeed:
+		//					spaceship.ChangeFiringSpeed(3f, 10f);
+		//				break;
 
 //        case EffectType.PenetrationBullet:
 //            penetrationTimeLeft = 10f;
@@ -511,9 +513,18 @@ public class Main : MonoBehaviour
 //            //slowTimeLeft = 10f;
 //            break;
 		case EffectType.GravityShield:
-			spaceship.AddEffect (new GravityShieldEffect (gravityShieldPowerUpData));
+			userSpaceship.AddEffect (new GravityShieldEffect (gravityShieldPowerUpData));
 			break;
-        }	
+		case EffectType.GunsShow1:
+			userSpaceship.AddEffect (new GunsShowEffect (gunsShow1));
+			break;
+		case EffectType.PhysicalChanges1:
+			userSpaceship.AddEffect (new PhysicalChangesEffect (testPhysicalPowerup));
+			break;
+		case EffectType.BackupTest:
+			userSpaceship.AddEffect (new SpawnBackupEffect (testBackupData));
+			break;
+		}
     }
 
 
@@ -1025,9 +1036,9 @@ public class Main : MonoBehaviour
 		tabletController.Init();
 		controller = tabletController;
 		#endif
-		spaceship = ObjectsCreator.CreateSpaceShip (controller, data);
-		Add2Objects(spaceship);
-		spaceship.cacheTransform.position = mainCamera.transform.position.SetZ (0);
+		userSpaceship = ObjectsCreator.CreateSpaceShip (controller, data);
+		Add2Objects(userSpaceship);
+		userSpaceship.cacheTransform.position = mainCamera.transform.position.SetZ (0);
 	}
 
 
@@ -1156,12 +1167,16 @@ public class Main : MonoBehaviour
 	 * FUTURE UPDATES
 	 * side shooting ships
 	 * destroy turrets
-	 * power ups(heavy bullets, fast bullets, missiles around, summon helpers (spaceships, towers))
+	 * 
+	 * power ups(heavy bullets, fast bullets, missiles around, summon helpers (spaceships, towers),
+	 * permanent powerups, shield as power-up?, health powerup, add gun/turret powerup.
+	 * powerups duration indicators
+	 * start powerup button
+	 * 
 	* frozen storms weapon like diablo 2
-	 * split rocket launcher and fireballs
 	 * waves
 	* asteroid storms like earth enemy
-	* fire free-aim towers
+	* fire, free-aim towers
      * teleporting enemy
      * weapons fr charger (flamer, lazers)
      * explosion better force direction

@@ -1,0 +1,135 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
+public class MGunsShow : MSpawnDataBase {
+	public float duration = 3f;
+	public float rotation = 0f;
+	//TODO: this datas make just a data prefab< instantiate an empty gameobject and make it follower of holder with self rotation
+	public List<MGunsShowElement> elements;
+
+	//to test in editor mode
+	public override PolygonGameObject Create(int layer) {
+		if (Singleton<Main>.inst.userSpaceship != null) {
+			Singleton<Main>.inst.userSpaceship.AddEffect(new GunsShowEffect(this));
+			return null;
+		} else {
+			var verts = PolygonCreator.CreatePerfectPolygonVertices (3, 6);
+			PolygonGameObject holder = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject> (verts, Color.red);
+			var ph = new PhysicalData ();
+			ph.health = 10000;
+			ph.density = 100;
+			holder.InitPolygonGameObject (ph);
+			holder.SetCollisionLayerNum (layer);
+			holder.InitLifetime (duration + 1);
+			holder.destructionType = PolygonGameObject.DestructionType.eDisappear;
+			holder.name = "fake holder";
+			return holder;
+		}
+	}
+
+	public PolygonGameObject CreateObj(int layer){
+		var verts1 = PolygonCreator.CreatePerfectPolygonVertices(3, 6);
+		GunsShowPolygonGO gunsShowObj = PolygonCreator.CreatePolygonGOByMassCenter<GunsShowPolygonGO>(verts1, Color.red);
+		gunsShowObj.SetAlpha (0);
+		gunsShowObj.InitPolygonGameObject (new PhysicalData ());
+		gunsShowObj.SetCollisionLayerNum (layer);
+		gunsShowObj.InitLifetime (duration);
+		gunsShowObj.rotation = rotation;
+		gunsShowObj.name = "guns show";
+		List<PolygonGameObject> gunsObjects = new List<PolygonGameObject> ();
+		for (int i = 0; i < elements.Count; i++) {
+			var verts = PolygonCreator.CreatePerfectPolygonVertices(3, 4);
+			var obj = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(verts, Color.black);
+			obj.SetAlpha(0);
+			var elem = elements [i];
+			var gunsList = new List<Gun>();
+			foreach (var gunplace in elem.guns) {
+				var gun = gunplace.GetGun(obj);
+				gunsList.Add(gun);
+			}
+			obj.InitPolygonGameObject (new PhysicalData ());
+			obj.SetGuns(gunsList, elem.linkedGuns);
+			obj.SetCollisionLayerNum(layer);
+			obj.rotation = elem.rotation;
+			obj.name = "guns element";
+			Math2d.PositionOnParent (obj.cacheTransform, elem.offset, gunsShowObj.cacheTransform, true, 1);
+			gunsObjects.Add (obj);
+		}
+		gunsShowObj.InitGunsShowPolygonGO (gunsObjects);
+		return gunsShowObj;
+	}
+}
+
+
+//TODO: separate class
+public class GunsShowPolygonGO : PolygonGameObject
+{
+	List<PolygonGameObject> gunsObjects;
+	public void InitGunsShowPolygonGO(List<PolygonGameObject> gunsObjects){
+		this.gunsObjects = new List<PolygonGameObject> (gunsObjects);
+	}
+
+	public override void Tick (float delta)
+	{
+		base.Tick (delta);
+		for (int i = 0; i < gunsObjects.Count; i++) {
+			var obj = gunsObjects [i];
+			obj.Tick (delta);
+			obj.TickGuns(delta);
+			obj.Shoot();
+		}
+	}
+}
+
+
+public class GunsShowEffect : TickableEffect {
+	MGunsShow data;
+	PolygonGameObject gunsShowObj;
+
+	protected override eType etype { get { return eType.GunsShow; } }
+	public override bool CanBeUpdatedWithSameEffect { get { return false; } }
+
+	public GunsShowEffect(MGunsShow data) {
+		this.data = data;
+	}
+
+	public override void SetHolder(PolygonGameObject holder) {
+		base.SetHolder(holder);
+		gunsShowObj = data.CreateObj(holder.layerNum);
+		SetPosition ();
+	}
+
+	void SetPosition(){
+		gunsShowObj.position = holder.position;
+	}
+
+	public override void HandleHolderDestroying ()
+	{
+		base.HandleHolderDestroying ();
+		DestroyGunsShowObject ();
+	}
+
+	public override void Tick(float delta) {
+		base.Tick(delta);
+		if (!IsFinished()) {
+			gunsShowObj.Tick(delta);
+			SetPosition ();
+			if (IsFinished ()) {
+				DestroyGunsShowObject ();
+			}
+		} 
+	}
+
+	private void DestroyGunsShowObject(){
+		if (gunsShowObj != null) {
+			GameObject.Destroy(gunsShowObj.gameObj);
+			gunsShowObj = null;
+		}
+	}
+
+	public override bool IsFinished() {
+		return gunsShowObj == null || gunsShowObj.Expired();
+	}
+}

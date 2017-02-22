@@ -126,12 +126,22 @@ public class MRandomWave : MWaveBase {
 		float currentDifficulty = 0;
 		List<int> selectedSpawnsCount = selectedSpawns.ConvertAll (s => 0);
 		List<WeightedSpawn> selectedSpawnsAvaliable = new List<WeightedSpawn> (selectedSpawns); 
-		selectedSpawnsAvaliable = selectedSpawnsAvaliable.FindAll (s => s.difficulty <= difficulty - currentDifficulty);
 		while (selectedSpawnsAvaliable.Count > 0) {
-			var indx = Math2d.Roll (selectedSpawnsAvaliable.ConvertAll (asp => 1f/asp.difficulty));
+			bool anyAvaliable = false;
+			List<float> weights = selectedSpawnsAvaliable.ConvertAll (asp => {
+				if(asp.difficulty <= difficulty - currentDifficulty) {
+					anyAvaliable = true;
+					return 1f; //1f/asp.difficulty));
+				} else {
+					return 0f;
+				}
+			});
+			if (!anyAvaliable) {
+				break;
+			}
+			var indx = Math2d.Roll (weights);
 			currentDifficulty += selectedSpawnsAvaliable [indx].difficulty;
 			selectedSpawnsCount [indx] = selectedSpawnsCount [indx] + 1;
-			selectedSpawnsAvaliable = selectedSpawnsAvaliable.FindAll (s => s.difficulty <= difficulty - currentDifficulty);
 		}
 		return selectedSpawnsCount;
 	}

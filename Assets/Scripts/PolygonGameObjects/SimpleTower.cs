@@ -34,7 +34,7 @@ public class SimpleTower : PolygonGameObject
 
 		Brake (delta, 4f);
 
-		SlowRotation (delta, 7f);
+		SlowRotation (delta, 30f);
 
 		RotateCannon(delta);
 
@@ -86,13 +86,13 @@ public class SimpleTower : PolygonGameObject
 	
 	private void CalculateAim()
 	{
-		if(!Main.IsNull(target))
-		{
-			AimSystem aim = new AimSystem(target.position, accuracy * target.velocity, position, guns[0].BulletSpeedForAim);
-			if(aim.canShoot)
-			{
+		if (!Main.IsNull (target)) {
+			AimSystem aim = new AimSystem (target.position, accuracy * target.velocity, position, guns [0].BulletSpeedForAim);
+			if (aim.canShoot) {
 				currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;
 			}
+		} else {
+			currentAimAngle = cacheTransform.eulerAngles.z;
 		}
 	}
 

@@ -57,8 +57,8 @@ MonoBehaviour:
   spikeVelocity: 45
   growSpeed: 0.1
   chanceShootSpikeAtDeath: 0.5
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  reward: 0
+  color: {r: 0.4742647, g: 0.52114606, b: 0.63235295, a: 1}
+  reward: 40
   physical:
     density: 1
     health: -1
@@ -66,20 +66,20 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   speed:
-    min: 1
-    max: 2
-  rotation:
-    min: 1
-    max: 2
-  size:
-    min: 1
-    max: 2
-  spikeSize:
     min: 5
-    max: 7
+    max: 10
+  rotation:
+    min: 50
+    max: 90
+  size:
+    min: 3
+    max: 4
+  spikeSize:
+    min: 3
+    max: 4
   spikesCount:
-    min: 1
-    max: 2
+    min: 5
+    max: 5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

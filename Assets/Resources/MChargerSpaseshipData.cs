@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MChargerSpaseshipData : MSpaceshipData {
-    public ChargerData chargerData;
+	public PhysicalChangesEffect.Data chargeEffect;
 
     [Header("editor field")]
     [SerializeField]
@@ -29,8 +29,3 @@ public class MChargerSpaseshipData : MSpaceshipData {
 
 }
 
-[System.Serializable]
-public class ChargerData {
-    public float speedMultiplier = 2f;
-    public float thrustMultiplier = 2f;
-}

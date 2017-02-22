@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - component: {fileID: 493064}
   - component: {fileID: 114006690424570016}
-  - component: {fileID: 114738744694288188}
   m_Layer: 0
   m_Name: Ship3_(3) suicide
   m_TagString: Untagged
@@ -55,6 +54,7 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
+  difficulty: 10
   gameSpawnLayer: 2
   price: -1
   reward: 60
@@ -84,7 +84,8 @@ MonoBehaviour:
   shield:
     capacity: 0
     rechargeRate: 0
-    rechargeDelay: 0
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 1
   guns: []
   linkedGuns: 
   thrusters:
@@ -92,6 +93,10 @@ MonoBehaviour:
       pos: {x: -0.55117786, y: 0.000000020427592}
       dir: {x: 1, y: 0}
     prefab: {fileID: 19817912, guid: d70207a7d5c351949a8989c8c1febc96, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
   turrets: []
   verts:
   - {x: 0.7788221, y: -0.54999995}
@@ -109,82 +114,17 @@ MonoBehaviour:
   upgradeIndex: 0
   deathData:
     createExplosionOnDeath: 1
+    instantExplosion: 0
     destructionType: 0
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
-  chargerData:
-    speedMultiplier: 2
-    thrustMultiplier: 2
-  fillFrom: {fileID: 0}
---- !u!114 &114738744694288188
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edc4bb73ff8b75b469c32297282b6fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnCount: 1
-  spawn: 1
-  editorSpawnLayer: 2
-  gameSpawnLayer: 2
-  price: -1
-  reward: 60
-  color: {r: 0.44852942, g: 0.31319726, b: 0.16819853, a: 1}
-  physical:
-    density: 1
-    health: -1
-    healthModifier: 3
-    collisionDefence: 0.5
-    collisionAttackModifier: 1.5
-  mobility:
-    thrust: 20
-    maxSpeed: 30
-    turnSpeed: 160
-    brake: 30
-    passiveBrake: 10
-    stability: 0.3
-    shootAngle: 15
-  accuracy:
-    startingAccuracy: 1
-    thresholdDistance: 10
-    isDynamic: 0
-    checkDtime: 0.5
-    add: 0.2
-    sub: 0.4
-    bounds: {x: 0, y: 1}
-  shield:
-    capacity: 0
-    rechargeRate: 0
-    rechargeDelay: 0
-  guns: []
-  linkedGuns: 
-  thrusters:
-  - place:
-      pos: {x: -0.55117786, y: 0.000000020427592}
-      dir: {x: 1, y: 0}
-    prefab: {fileID: 19817912, guid: d70207a7d5c351949a8989c8c1febc96, type: 2}
-  turrets: []
-  verts:
-  - {x: 0.7788221, y: -0.54999995}
-  - {x: 1.4288222, y: -0.81999993}
-  - {x: 0.26882216, y: -1.23}
-  - {x: 0.19882217, y: -1.72}
-  - {x: -1.1762726, y: -0.7289999}
-  - {x: -0.86127275, y: -0.3779998}
-  - {x: -0.86127275, y: 0.37800017}
-  - {x: -1.1762726, y: 0.72900003}
-  - {x: 0.19882217, y: 1.72}
-  - {x: 0.26882216, y: 1.23}
-  - {x: 1.4288222, y: 0.82000005}
-  - {x: 0.7788221, y: 0.5500001}
-  upgradeIndex: 0
-  deathData:
-    createExplosionOnDeath: 1
-    destructionType: 0
-    overrideExplosionRange: -1
-    overrideExplosionDamage: -1
+  chargeEffect:
+    duration: -1
+    overrideDefence: 1
+    multiplyMass: 100
+    multiplyCollisionAttack: 1
+    multiplyThrust: 2
+    multiplyMaxSpeed: 2
+    multiplyTurnSpeed: 1
+    multiplyStability: 1
   fillFrom: {fileID: 0}

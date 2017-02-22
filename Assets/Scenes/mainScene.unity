@@ -1699,8 +1699,6 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 695584446}
-  iOSLayoutAnchor: {fileID: 0}
-  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 590276174}
   m_Placeholder: {fileID: 15193681}
   m_ContentType: 2
@@ -2009,7 +2007,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1543549236}
   m_HandleRect: {fileID: 1543549235}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2322,6 +2320,8 @@ MonoBehaviour:
   minimapCamera: {fileID: 0}
   cometData: {fileID: 114935688868597546, guid: 164284c7e17bb3c4094b0d3942efd747,
     type: 2}
+  gunsShow1: {fileID: 114718910286998824, guid: 3244b465b7df6ec4eb94addb4c1645bd,
+    type: 2}
   gravityShieldPowerUpData:
     duration: 27
     range: 15
@@ -2336,6 +2336,33 @@ MonoBehaviour:
       overrideDelay: -1
       overrideDuration: -1
       zOffset: 1
+  testPhysicalPowerup:
+    duration: 10
+    overrideDefence: 1
+    multiplyMass: 5
+    multiplyCollisionAttack: 1
+    multiplyThrust: 2
+    multiplyMaxSpeed: 2
+    multiplyTurnSpeed: 2
+    multiplyStability: 2
+  testBackupData:
+    spawns:
+    - spawn: {fileID: 114372623864308318, guid: 6e4047f6a71d3534d8d4c489e5c77c1d,
+        type: 2}
+      weight: 0
+      positioning:
+        angle2Ship: 0
+        angle2ShipRange: 0
+        angleFromShip: 0
+        angleFromShipRange: 0
+    - spawn: {fileID: 114372623864308318, guid: 6e4047f6a71d3534d8d4c489e5c77c1d,
+        type: 2}
+      weight: 0
+      positioning:
+        angle2Ship: 180
+        angle2ShipRange: 0
+        angleFromShip: 180
+        angleFromShipRange: 0
 --- !u!4 &1045239090
 Transform:
   m_ObjectHideFlags: 0
@@ -3830,7 +3857,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 770184ef69a49ac4dbc497db7c357d32, type: 3}
   m_Name: 
@@ -3847,7 +3874,7 @@ MonoBehaviour:
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 1, y: 0.9}
-  prefab: {fileID: 11428446, guid: 731ac131ba6cb724db635af1ab9899ed, type: 2}
+  prefab: {fileID: 0}
   fangs: 3
   fangIndxFrom: 0
   fangIndxTo: 4
@@ -4137,8 +4164,6 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2008446757}
-  iOSLayoutAnchor: {fileID: 0}
-  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 910516205}
   m_Placeholder: {fileID: 377514020}
   m_ContentType: 2

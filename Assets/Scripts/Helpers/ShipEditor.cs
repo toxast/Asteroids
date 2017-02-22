@@ -237,7 +237,11 @@ public class ShipEditor : MonoBehaviour
 		}
 		
 		fullArray = full.ToArray ();
-		var pivot = Math2d.GetMassCenter (fullArray);
+		Vector2 pivot = Vector2.zero;
+		if (fullArray.Length > 2) {
+			pivot = Math2d.GetMassCenter (fullArray);
+		}
+
 		Math2d.ShiftVertices(fullArray, -pivot);
 
 		for (int i = 0; i < fullArray.Length; i++) {
@@ -347,7 +351,9 @@ public class ShipEditor : MonoBehaviour
         GetCurrentData (out fullArray, out gunsData, out thrustersData, out turretsData);
 
         var shape = prefab as IGotShape;
-        shape.iverts = fullArray;
+		if (shape != null) {
+			shape.iverts = fullArray;
+		}
 
         if (prefab is IGotGuns) {
             FillPlaces<MGunSetupData> (gunsData, (prefab as IGotGuns).iguns);
@@ -361,6 +367,7 @@ public class ShipEditor : MonoBehaviour
             FillPlaces<MTurretReferenceData> (turretsData, (prefab as IGotTurrets).iturrets);
         }
 
+		EditorUtility.SetDirty (prefab.gameObject);
 //        #if UNITY_EDITOR
 //        EditorUtility.SetDirty (MSpaceShipResources.Instance);
 //        EditorUtility.SetDirty (MGunsResources.Instance);

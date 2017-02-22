@@ -35,35 +35,5 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 	void OnValidate(){
 		thrusters.SetDefaultValues ();
 	}
-
 }
 
-
-
-//TODO: separate class
-[System.Serializable]
-public class MGunsShow : MSpawnDataBase, IGotGuns {
-    public List<MGunSetupData> guns;
-    public List<int> linkedGuns;
-    public float duration = 3f;
-    public float rotation = 100f;
-    public bool rotationAttachedToObject = false;
-
-    //interfaces
-    public List<MGunSetupData> iguns { get { return guns; } set { guns = value; } }
-
-    public override PolygonGameObject Create(int layer) {
-        var verts = PolygonCreator.CreatePerfectPolygonVertices(3, 4);
-        var obj = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(verts, Color.black);
-        obj.SetAlpha(0);
-        var gunsList = new List<Gun>();
-        foreach (var gunplace in guns) {
-            var gun = gunplace.GetGun(obj);
-            gunsList.Add(gun);
-        }
-        obj.SetGuns(gunsList, linkedGuns);
-        obj.SetCollisionLayerNum(layer);
-        obj.rotation = rotation;
-        return obj;
-    }
-}

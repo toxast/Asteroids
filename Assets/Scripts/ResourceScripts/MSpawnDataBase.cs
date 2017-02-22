@@ -31,6 +31,10 @@ public class MSpawnDataBase : MonoBehaviour, ISpawnable {
 
 	private void Spawn() {
 		var obj = Create (editorSpawnLayer);
+		if (obj == null) {
+			Debug.LogWarning ("Cretae obj is null " + name);
+			return;
+		}
 
 		if(obj.layerNum != CollisionLayers.ilayerAsteroids)
 			obj.targetSystem = new TargetSystem (obj);

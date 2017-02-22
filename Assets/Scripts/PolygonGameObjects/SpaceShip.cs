@@ -7,7 +7,6 @@ using System.Linq;
 public class SpaceShip : PolygonGameObject 
 {
 	public float shootAngle = 15f;
-	public float turnSpeed = 220f;
 
     float _maxSpeed = 0;
 	public float maxSpeedSqr{ get; private set; }
@@ -21,8 +20,15 @@ public class SpaceShip : PolygonGameObject
 
 	float passiveBrake = 2f;
     public float brake = 15f;
-    public float thrust = 45f;
-    public float stability = 0.5f;
+
+	public float thrust { get; private set; }
+	public float turnSpeed { get; private set; }
+	public float stability { get; private set; }
+
+	public void MultiplyThrust(float mul){ thrust *= mul; }
+	public void MultiplyMaxSpeed(float mul){ maxSpeed *= mul; }
+	public void MultiplyTurnSpeed(float mul){ turnSpeed *= mul; }
+	public void MultiplyStability(float mul){ stability *= mul; }
 
 	private class Thruster
 	{

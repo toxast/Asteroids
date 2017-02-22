@@ -17,4 +17,7 @@ public class PowerUp : polygonGO.DropBase
 public enum EffectType
 {
 	GravityShield,
+	GunsShow1,
+	PhysicalChanges1,
+	BackupTest,
 }
