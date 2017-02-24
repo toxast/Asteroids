@@ -814,25 +814,12 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	public ParticleSystem CreateTeleportationRing(Vector2 pos)
+	public ParticleSystem CreateTeleportationRing(Vector2 pos, Color col, float size)
 	{
-		var anim = Instantiate(teleportationRingPrefab) as ParticleSystem;
-		anim.transform.position = (Vector3)pos - new Vector3(0,0,1);
-		return anim;
-	}
-
-	public ParticleSystem CreateTeleportationRing2(Vector2 pos, MSpawn item)
-	{
-		Color col;
-		if (item.prefab is MAsteroidData) {
-			col = Color.gray;
-		} else {
-			col = item.teleportationColor;
-		}
 		var anim = Instantiate(teleportationRingPrefab) as ParticleSystem;
 		anim.SetStartColor (col);
 		var main = anim.main;
-		main.startSize = item.teleportRingSize;
+		main.startSize = size;
 		anim.transform.position = (Vector3)pos - new Vector3(0,0,1);
 		anim.Play ();
 		return anim;
@@ -1106,15 +1093,14 @@ public class Main : MonoBehaviour
 		obj.minimapIndicator.gameObj.layer = LayerMask.NameToLayer("Minimap");
 	}
 
-	public void GetRandomPosition(Vector2 range, SpawnPositioning pos, out Vector2 position, out float lookAngle)
+	public void GetRandomPosition(RandomFloat range, SpawnPositioning pos, out Vector2 position, out float lookAngle)
 	{
-		float angle = UnityEngine.Random.Range(pos.angleFromShip - pos.angleFromShipRange, pos.angleFromShip + pos.angleFromShipRange) * Mathf.Deg2Rad;
-		float len = UnityEngine.Random.Range(range.x, range.y);
+		float angle = UnityEngine.Random.Range(pos.positionAngle - pos.positionAngleRange, pos.positionAngle + pos.positionAngleRange) * Mathf.Deg2Rad;
+		float len = range.RandomValue;
 		var dist = new Vector2 (Mathf.Cos (angle) * len, Mathf.Sin (angle) * len);
 		position = (Vector2)cameraTransform.position + dist;
-		float pangle2Ship = Math2d.GetRotationDg(-dist) + pos.angle2Ship;
-		lookAngle = UnityEngine.Random.Range (pangle2Ship - pos.angle2ShipRange, pangle2Ship + pos.angle2ShipRange);
-//		obj.cacheTransform.rotation = Quaternion.Euler (0, 0, pangle2Ship);
+		float pangle2Ship = Math2d.GetRotationDg(-dist) + pos.lookAngle;
+		lookAngle = UnityEngine.Random.Range (pangle2Ship - pos.lookAngleRange, pangle2Ship + pos.lookAngleRange);
 	}
 
 
@@ -1164,14 +1150,30 @@ public class Main : MonoBehaviour
 
 
 	/*
+	 * 
+	 * spikes dont hit towers!
+	 * 
 	 * FUTURE UPDATES
+	* Refactor Mspawn to spawn fixed objects layout
+	* 
+	* power ups(heavy bullets, fast bullets, missiles around, summon helpers (spaceships, towers),
+	* permanent powerups, shield as power-up?, health powerup, health over time, add gun/turret powerup.
+	* powerups duration indicators
+	* start powerup button
+	* fire hit on self
+	* berzerk with extra gun for next wave with increased difficulty at once and total
+	* burning fire trail
+	* 
+	* explosion better force direction
+	* 
 	 * side shooting ships
 	 * destroy turrets
 	 * 
-	 * power ups(heavy bullets, fast bullets, missiles around, summon helpers (spaceships, towers),
-	 * permanent powerups, shield as power-up?, health powerup, add gun/turret powerup.
-	 * powerups duration indicators
-	 * start powerup button
+	 * EMP
+	 * fixed wave, fix rotation on ship func
+	 * pulse gun (forse on collision, no bullet destruction)
+	 * 
+	 * teleporter enemies backups (spawner)
 	 * 
 	* frozen storms weapon like diablo 2
 	 * waves
@@ -1179,26 +1181,20 @@ public class Main : MonoBehaviour
 	* fire, free-aim towers
      * teleporting enemy
      * weapons fr charger (flamer, lazers)
-     * explosion better force direction
 	* missile that sticks and applies force
 	 * duplicating enemy and illusions enemy?
 	 * stop towers from flowing after hit
      * posessed ships
      * necromancer-ship (throws pieces, then assembles them into ship until area threshold )
      * explosion on turrets
-	 * lazer fix when target destroyed
 	 * ipad trampolines (2 if i recall correctly, about interfaces)
 	 * poison asteroids
 	 * camera shake on explosions
 	 * sky texture?
-	 * death refactor && missiles explosion on death
 	 * explision by vertex
-	 * gravity misiles
 	 * mine missiles
-	 * shoot place levels
 	 * deflect shields
 	 * more efficeient stars render
-	 * fire enimies
 	 * cold enemies
 	 * gravity enemies
 	 * texture on asteroids?

@@ -11,18 +11,19 @@ public class MRandomWave : MWaveBase {
 	[System.Serializable]
 	public class WeightedSpawn
 	{
-		[SerializeField] public MSpawn spawn;
+		[SerializeField] public MSpawnBase spawn;
 		[SerializeField] public float weight = 4;
+		[SerializeField] public RandomFloat range;
 		[SerializeField] public SpawnPositioning positioning;
 
 		public float difficulty{
-			get{ return spawn.prefab.difficulty;}
+			get{ return spawn.difficulty;}
 		}
 	}
 
 	public class SpawnObj
 	{
-		public MSpawn spawnData;
+		public MSpawnDataBase spawnData;
 		public PolygonGameObject pgo;
 	}
 
@@ -33,8 +34,8 @@ public class MRandomWave : MWaveBase {
 
 	[NonSerialized] bool startedSpawn = false;
 	[NonSerialized] bool forceDone = false;
-	[NonSerialized] List<MSpawn> spawning = new List<MSpawn>();
-	[NonSerialized] List<SpawnObj> spawned = new List<SpawnObj>();
+	[NonSerialized] float spawningDifficulty = 0;
+	[NonSerialized] List<MSpawnBase.SpawnedObj> spawned = new List<MSpawnBase.SpawnedObj>();
 	[NonSerialized] Main main;
 	[NonSerialized] float totalDifficulyLeft;
 
@@ -101,7 +102,7 @@ public class MRandomWave : MWaveBase {
 
 			if (selectedSpawnsCount.Count == selectedSpawns.Count && preparedDifficulty <= diffucultyAtOnce - CurrentDifficulty ()) {
 				CountInWhatWillBeSpawned (selectedSpawns, selectedSpawnsCount);
-				StartCoroutine(Spawn (selectedSpawns, selectedSpawnsCount)); 
+				Spawn (selectedSpawns, selectedSpawnsCount); 
 				prepareNextSpawnGroup = true;
 			}
 			yield return null;
@@ -154,28 +155,21 @@ public class MRandomWave : MWaveBase {
 
 	}
 
-	private IEnumerator Spawn(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount){
+	private void Spawn(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount){
 		for (int i = 0; i < selectedSpawns.Count; i++) {
 			var item = selectedSpawns [i];
 			for (int k = 0; k < selectedSpawnsCount[i]; k++) {
 				Vector2 pos;
 				float lookAngle;
-				main.GetRandomPosition (item.spawn.spawnRange, item.positioning, out pos, out lookAngle);
-				StartCoroutine(SpawnObjectWithTeleportAnimation(item.spawn, pos, lookAngle));
+				main.GetRandomPosition (item.range, item.positioning, out pos, out lookAngle);
+				item.spawn.Spawn (pos, lookAngle, OnObjectSpawned);
 			}
 		}
-		yield break;
 	}
 
-	private IEnumerator SpawnObjectWithTeleportAnimation(MSpawn item, Vector2 pos, float lookAngle) {
-		//animation
-		var anim = main.CreateTeleportationRing2(pos, item);
-		yield return new WaitForSeconds(item.teleportDuration);
-		anim.Stop ();
-		main.PutObjectOnDestructionQueue (anim.gameObject, 5f);
-
-		spawning.Remove (item);
-		spawned.Add(new SpawnObj{pgo = item.Spawn(pos, lookAngle), spawnData = item});
+	private void OnObjectSpawned(MSpawnBase.SpawnedObj obj) {
+		spawningDifficulty -= obj.difficulty;
+		spawned.Add(obj);
 	}
 
 	private void CountInWhatWillBeSpawned(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount){
@@ -183,34 +177,17 @@ public class MRandomWave : MWaveBase {
 			var item = selectedSpawns [i].spawn;
 			for (int k = 0; k < selectedSpawnsCount[i]; k++) {
 				totalDifficulyLeft -= item.difficulty;
-				spawning.Add (item);
+				spawningDifficulty += item.difficulty;
 			}
 		}
-	}
-
-	//how many alive spawned and current spawning count
-	private int Left() {
-		int left = spawning.Count;
-		for (int i = spawned.Count - 1; i >= 0; i--) {
-			if (!Main.IsNull (spawned [i].pgo)) {
-				left++;
-			} else {
-				spawned.RemoveAt (i);
-			}
-		} 
-		return left;
 	}
 
 	//difficulty of alive spawned and current spawning
 	private float CurrentDifficulty() {
-		float current = 0;
-		for (int i = 0; i < spawning.Count; i++) {
-			current += spawning [i].difficulty;
-		}
-
+		float current = spawningDifficulty;
 		for (int i = spawned.Count - 1; i >= 0; i--) {
-			if (!Main.IsNull (spawned [i].pgo)) {
-				current += spawned [i].spawnData.difficulty;
+			if (!Main.IsNull (spawned [i].obj)) {
+				current += spawned [i].difficulty;
 			} else {
 				spawned.RemoveAt (i);
 			}

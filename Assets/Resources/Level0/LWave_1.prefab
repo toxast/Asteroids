@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1908703360595952}
+  m_RootGameObject: {fileID: 1414233921822308}
   m_IsPrefabParent: 1
---- !u!1 &1908703360595952
+--- !u!1 &1414233921822308
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4292783225170616}
-  - component: {fileID: 114579945728572404}
+  - component: {fileID: 4031162268806062}
+  - component: {fileID: 114664566910631732}
   m_Layer: 0
-  m_Name: Level_0
+  m_Name: LWave_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4292783225170616
+--- !u!4 &4031162268806062
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1908703360595952}
+  m_GameObject: {fileID: 1414233921822308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,16 +40,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114579945728572404
+--- !u!114 &114664566910631732
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1908703360595952}
+  m_GameObject: {fileID: 1414233921822308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a588f2a546b6bca4492c79c23395b9bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 98890128bdb4f2b4893c920210a82103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves:
-  - {fileID: 114664566910631732, guid: 8616a1118e79b494e948141dd27ae0a3, type: 2}
+  diffucultyAtOnce: 40
+  diffucultyTotal: 150
+  startNextWaveWhenDifficultyLeft: 0
+  objects:
+  - spawn: {fileID: 114529371202508250, guid: ba381844ac705544aa88a826333cc3bf, type: 2}
+    weight: 2
+    range:
+      min: 40
+      max: 50
+    positioning:
+      positionAngle: 0
+      positionAngleRange: 0
+      lookAngle: 0
+      lookAngleRange: 0

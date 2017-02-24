@@ -59,13 +59,13 @@ public class SpawnerGun : GunShooterBase
         obj.gameObject.name += "_spawn";
 		obj.reward = 0;
 
-		if(target != null)
+		if (target != null) {
 			obj.SetTarget (target);
+		}
 
 		Math2d.PositionOnParent (obj.cacheTransform, place, parent.cacheTransform);
 		obj.cacheTransform.position += new Vector3 (0, 0, 1);
 		obj.velocity += (Vector2)(spawnFireSpeed * obj.cacheTransform.right);
-		obj.targetSystem = new TargetSystem (obj);
 		spawned.Add (obj);
 		return obj;
 	}

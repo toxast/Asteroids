@@ -1699,6 +1699,8 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 695584446}
+  iOSLayoutAnchor: {fileID: 0}
+  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 590276174}
   m_Placeholder: {fileID: 15193681}
   m_ContentType: 2
@@ -2007,7 +2009,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1543549236}
   m_HandleRect: {fileID: 1543549235}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2350,19 +2352,25 @@ MonoBehaviour:
     - spawn: {fileID: 114372623864308318, guid: 6e4047f6a71d3534d8d4c489e5c77c1d,
         type: 2}
       weight: 0
+      range:
+        min: 1
+        max: 2
       positioning:
-        angle2Ship: 0
-        angle2ShipRange: 0
-        angleFromShip: 0
-        angleFromShipRange: 0
+        positionAngle: 0
+        positionAngleRange: 0
+        lookAngle: 180
+        lookAngleRange: 0
     - spawn: {fileID: 114372623864308318, guid: 6e4047f6a71d3534d8d4c489e5c77c1d,
         type: 2}
       weight: 0
+      range:
+        min: 1
+        max: 2
       positioning:
-        angle2Ship: 180
-        angle2ShipRange: 0
-        angleFromShip: 180
-        angleFromShipRange: 0
+        positionAngle: 180
+        positionAngleRange: 0
+        lookAngle: 180
+        lookAngleRange: 0
 --- !u!4 &1045239090
 Transform:
   m_ObjectHideFlags: 0
@@ -3812,7 +3820,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &1922263268
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3857,7 +3865,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 770184ef69a49ac4dbc497db7c357d32, type: 3}
   m_Name: 
@@ -3874,10 +3882,10 @@ MonoBehaviour:
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 1, y: 0.9}
-  prefab: {fileID: 0}
-  fangs: 3
+  prefab: {fileID: 11428446, guid: aeb7988563c6a5a4fa00d79ca3992321, type: 2}
+  fangs: 5
   fangIndxFrom: 0
-  fangIndxTo: 4
+  fangIndxTo: 8
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0
@@ -3885,7 +3893,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.96, y: 5.05, z: 0}
+  m_LocalPosition: {x: 2.939, y: 5.064, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4164,6 +4172,8 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2008446757}
+  iOSLayoutAnchor: {fileID: 0}
+  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 910516205}
   m_Placeholder: {fileID: 377514020}
   m_ContentType: 2

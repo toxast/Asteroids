@@ -29,6 +29,10 @@ public class MSpawnDataBase : MonoBehaviour, ISpawnable {
 
 	public virtual PolygonGameObject Create (int layer){return null;}
 
+
+	/// <summary>
+	/// For use in editor
+	/// </summary>
 	private void Spawn() {
 		var obj = Create (editorSpawnLayer);
 		if (obj == null) {
@@ -36,13 +40,10 @@ public class MSpawnDataBase : MonoBehaviour, ISpawnable {
 			return;
 		}
 
-		if(obj.layerNum != CollisionLayers.ilayerAsteroids)
-			obj.targetSystem = new TargetSystem (obj);
-
 		Vector2 pos;
 		float lookAngle;
 		SpawnPositioning positioning = new SpawnPositioning ();
-		Singleton<Main>.inst.GetRandomPosition(new Vector2(40, 50), positioning, out pos, out lookAngle);
+		Singleton<Main>.inst.GetRandomPosition(new RandomFloat(40, 50), positioning, out pos, out lookAngle);
 		obj.cacheTransform.position = pos;
 		obj.cacheTransform.rotation = Quaternion.Euler (0, 0, lookAngle);
 		Singleton<Main>.inst.Add2Objects(obj);

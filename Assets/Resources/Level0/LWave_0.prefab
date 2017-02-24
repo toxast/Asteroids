@@ -51,12 +51,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98890128bdb4f2b4893c920210a82103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diffucultyAtOnce: 50
-  diffucultyTotal: 100
+  diffucultyAtOnce: 60
+  diffucultyTotal: 150
+  startNextWaveWhenDifficultyLeft: 0
   objects:
   - spawn: {fileID: 114571137283427640, guid: 09781f803db67aa4484ae2001ca98716, type: 2}
-    weight: 5
-  - spawn: {fileID: 114918153341501258, guid: b60157c54dc5a6542a34b8c4a7fad6c6, type: 2}
     weight: 2
+    range:
+      min: 40
+      max: 50
+    positioning:
+      positionAngle: 0
+      positionAngleRange: 180
+      lookAngle: 0
+      lookAngleRange: 0
+  - spawn: {fileID: 114529371202508250, guid: ba381844ac705544aa88a826333cc3bf, type: 2}
+    weight: 3
+    range:
+      min: 40
+      max: 50
+    positioning:
+      positionAngle: 0
+      positionAngleRange: 0
+      lookAngle: 0
+      lookAngleRange: 0
   - spawn: {fileID: 114815797046515768, guid: 052e1c854d8fe164a890d8771c5955dc, type: 2}
     weight: 2
+    range:
+      min: 40
+      max: 50
+    positioning:
+      positionAngle: 0
+      positionAngleRange: 180
+      lookAngle: 0
+      lookAngleRange: 0

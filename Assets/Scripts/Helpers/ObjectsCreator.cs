@@ -19,6 +19,7 @@ public class ObjectsCreator
 			Debug.LogError ("ship data should have gun!");
 			spaceship.SetController (new StaticInputController());
 		}
+		spaceship.targetSystem = new TargetSystem (spaceship);
 		return spaceship;
 	}
 
@@ -29,6 +30,7 @@ public class ObjectsCreator
 		var bullets = Singleton<Main>.inst.bullets;
         var controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy, sdata.invisibleData);
 		spaceship.SetController(controller);
+		spaceship.targetSystem = new TargetSystem (spaceship);
 		return spaceship;
 	}
 
@@ -38,6 +40,7 @@ public class ObjectsCreator
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 		var controller = new EarthSpaceshipController(spaceship, Singleton<Main>.inst.gObjects, sdata);
 		spaceship.SetController(controller);
+		spaceship.targetSystem = new TargetSystem (spaceship);
 		return spaceship;
 	}
 
@@ -47,6 +50,7 @@ public class ObjectsCreator
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 		var controller = new Fire1SpaceshipController(spaceship, Singleton<Main>.inst.gObjects, sdata);
 		spaceship.SetController(controller);
+		spaceship.targetSystem = new TargetSystem (spaceship);
 		return spaceship;
 	}
 
@@ -56,6 +60,7 @@ public class ObjectsCreator
         var bullets = Singleton<Main>.inst.bullets;
         var controller = new ChargerController(spaceship, bullets, sdata.accuracy, sdata);
         spaceship.SetController(controller);
+		spaceship.targetSystem = new TargetSystem (spaceship);
         return spaceship;
     }
 
@@ -64,6 +69,7 @@ public class ObjectsCreator
         var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
         var controller = new MSuicideBombController(spaceship, sdata);
         spaceship.SetController(controller);
+		spaceship.targetSystem = new TargetSystem (spaceship);
         return spaceship;
     }
 
@@ -212,6 +218,7 @@ public class ObjectsCreator
 		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, data.color);
 		asteroid.InitSawEnemy (data);
 		asteroid.SetCollisionLayerNum (layer);
+		asteroid.targetSystem = new TargetSystem (asteroid);
         asteroid.gameObject.name = data.name;
 		return asteroid;
 	}
@@ -226,6 +233,7 @@ public class ObjectsCreator
 		SpikyAsteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SpikyAsteroid>(vertices, data.color);
 		asteroid.InitSpikyAsteroid (spikes, data);
 		asteroid.SetCollisionLayerNum (layer);
+		asteroid.targetSystem = new TargetSystem (asteroid);
         asteroid.gameObject.name = data.name;
 		return asteroid;
 	}
@@ -253,7 +261,7 @@ public class ObjectsCreator
 		}
 
         InitGuns (tower, gunplaces, data.gun);
-		
+		tower.targetSystem = new TargetSystem (tower);
 		return tower;
 	}
 

@@ -94,7 +94,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 					checkBehTime = checkBehTimeInterval;
 
 					comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.7f); // TODO on target change
-					//Debug.LogWarning(comformDistanceMin + " " + comformDistanceMax);
+					Debug.LogWarning(thisShip.name + " " +  comformDistanceMin + " " + comformDistanceMax);
 
 					tickData.Refresh(thisShip, target);
 

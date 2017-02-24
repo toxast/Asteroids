@@ -37,6 +37,13 @@ public class RandomFloat
     public float RandomValue { get{ return UnityEngine.Random.Range (min, max); }}
 
 	public float Middle { get{ return 0.5f*(min+max); }}
+
+	public RandomFloat(){}
+
+	public RandomFloat( float min, float max){
+		this.min = min;
+		this.max = max;
+	}
 }
 
 [System.Serializable]
