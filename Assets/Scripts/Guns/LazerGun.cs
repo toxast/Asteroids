@@ -113,6 +113,9 @@ public class LazerGun : Gun
 		}
 	}
 
+	float ApplyHeavvyBulletInterval = 0.2f; //created interval to spaceships wouldn't instantly absord small delta-rotations
+	float timeLeftToApplyHeavvyBullet = 0;
+
 	private void Fire(float delta)
 	{
 		Vector2 lpos = (Vector2)lTransform.position;
@@ -122,6 +125,7 @@ public class LazerGun : Gun
 		
 		PolygonGameObject hitObject = null;
 		Vector2 hitPlace = Vector2.zero;
+		Edge hitEdge = new Edge ();
 		float hitDistance = distance;
 		
 		var objs = Singleton<Main>.inst.gObjects;
@@ -159,6 +163,7 @@ public class LazerGun : Gun
 						hitDistance = idist;
 						hitObject = obj;
 						hitPlace = isc.intersection;
+						hitEdge = isc.edge2;
 					}
 				}
 			}
@@ -169,6 +174,20 @@ public class LazerGun : Gun
 			if(hitDistance <= distance)
 			{
 				hitObject.Hit(damage*delta);
+
+				//heavvy bullet logic
+
+				if (parent.heavyBulletData != null){ 
+					timeLeftToApplyHeavvyBullet -= delta;
+					if (timeLeftToApplyHeavvyBullet <= 0) {
+						timeLeftToApplyHeavvyBullet += ApplyHeavvyBulletInterval;
+						Vector2 egde = hitEdge.p2 - hitEdge.p1;
+						Vector2 egdeRight = Math2d.MakeRight (egde).normalized;
+						float force = 30f * damage * Vector2.Dot (lazerDir, egdeRight) * parent.heavyBulletData.multiplier * ApplyHeavvyBulletInterval;
+						PolygonCollision.ApplyForce (hitObject, hitPlace, force * egdeRight);
+					}
+				}
+
 				if (fireEffect != null)
 				{
 					fireEffect.transform.position = hitPlace;

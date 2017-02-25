@@ -11,13 +11,16 @@ public class Turret : PolygonGameObject
 	Rotaitor cannonsRotaitor;
 	
 	private Func<Vector3> anglesRestriction;
-	
-	public void InitTurret(PhysicalData physical, float cannonsRotatingSpeed, Func<Vector3> angelsRestriction)
+	AIHelper.AccuracyChangerAdvanced accuracyChanger;
+
+	public void InitTurret(PhysicalData physical, float cannonsRotatingSpeed, Func<Vector3> angelsRestriction, AccuracyData accData)
 	{
 		InitPolygonGameObject (physical);
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
 		this.anglesRestriction = angelsRestriction;
+
+		accuracyChanger = new AIHelper.AccuracyChangerAdvanced (accData, this);
 	}
 
 	Vector2 lastRestrictDir = new Vector2(1,0);
@@ -39,7 +42,9 @@ public class Turret : PolygonGameObject
 	public override void Tick(float delta)
 	{
 		base.Tick (delta);
-		
+
+		accuracyChanger.Tick (delta);
+
 		RotateCannonWithRestrictions(delta);
 		
 		CalculateAim ();
@@ -59,7 +64,7 @@ public class Turret : PolygonGameObject
 	{
 		if(!Main.IsNull(target))
 		{
-			AimSystem aim = new AimSystem(target.position, target.velocity, position, guns[0].BulletSpeedForAim);
+			AimSystem aim = new AimSystem(target.position, target.velocity * accuracyChanger.accuracy, position, guns[0].BulletSpeedForAim);
 			if(aim.canShoot)
 			{
 				currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;

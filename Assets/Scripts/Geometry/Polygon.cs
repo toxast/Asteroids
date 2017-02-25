@@ -94,9 +94,9 @@ public class Polygon
             var C = vertices[triangles[indx + 2]];
             var AB = B - A;
             var AC = C - A;
-            float rnd2 = UnityEngine.Random.Range(0f, 1f);
+            float rnd2 = UnityEngine.Random.Range(0.2f, 0.8f);
             var AX = AB * rnd2 + AC * (1f - rnd2);
-            float rnd3 = UnityEngine.Random.Range(0f, 1f);
+            float rnd3 = UnityEngine.Random.Range(0.2f, 0.8f);
 			var vrtx = A + AX * rnd3;
 			#if UNITY_EDITOR
 			if (!IsPointInside (vrtx)) {

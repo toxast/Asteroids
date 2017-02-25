@@ -44,7 +44,7 @@ MonoBehaviour:
   price: 0
   etype: 4
   damage: 25
-  attackDuration: 3
+  attackDuration: 10
   pauseDuration: 1.3
   color: {r: 0.040224895, g: 0.6232552, b: 0.9117647, a: 1}
   fireEffect: {fileID: 19849958, guid: a455dc503a83eac41937c721f9699ba0, type: 2}

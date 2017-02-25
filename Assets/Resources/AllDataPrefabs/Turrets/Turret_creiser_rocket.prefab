@@ -1,27 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &111446
+--- !u!1 &197182
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 439752}
-  - component: {fileID: 11477998}
+  - component: {fileID: 464140}
+  - component: {fileID: 11454034}
   m_Layer: 0
-  m_Name: SpawnGun1_(1) tower spawner gun
+  m_Name: Turret_creiser_rocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &439752
+--- !u!4 &464140
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111446}
+  m_GameObject: {fileID: 197182}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -29,27 +29,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11477998
+--- !u!114 &11454034
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 111446}
+  m_GameObject: {fileID: 197182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d78301b23aa2ff42876e18386519245, type: 3}
+  m_Script: {fileID: 11500000, guid: ab4086c90c01bf54baa09e8bc75a58b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storeName: (1) tower spawner gun
-  price: 0
-  etype: 3
-  bulletSpeed: 15
-  fireInterval: 10
-  fireEffect: {fileID: 0}
-  spawnRef: {fileID: 11422658, guid: d2aadb06ed649b043a8db4ab907f6b73, type: 2}
-  maxSpawn: 4
-  startSpawn: 2
-  startSpawnInterval: 1
+  color: {r: 0, g: 0.37383384, b: 0.5588235, a: 1}
+  rotationSpeed: 300
+  restrictionAngle: 30
+  repeatTargetCheck: 0.1
+  guns:
+  - place:
+      pos: {x: 0.042063415, y: -0.01}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
+  linkedGuns: 
+  verts:
+  - {x: 0.0920635, y: -0.13}
+  - {x: -0.10793652, y: -0.08}
+  - {x: -0.10793652, y: 0.08}
+  - {x: 0.0920635, y: 0.13}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -59,5 +64,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 111446}
+  m_RootGameObject: {fileID: 197182}
   m_IsPrefabParent: 1

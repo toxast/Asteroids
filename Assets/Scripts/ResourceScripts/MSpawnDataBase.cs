@@ -43,6 +43,8 @@ public class MSpawnDataBase : MonoBehaviour, ISpawnable {
 		Vector2 pos;
 		float lookAngle;
 		SpawnPositioning positioning = new SpawnPositioning ();
+		positioning.positionAngleRange = 360;
+		positioning.lookAngleRange = 360;
 		Singleton<Main>.inst.GetRandomPosition(new RandomFloat(40, 50), positioning, out pos, out lookAngle);
 		obj.cacheTransform.position = pos;
 		obj.cacheTransform.rotation = Quaternion.Euler (0, 0, lookAngle);

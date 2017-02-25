@@ -8,15 +8,15 @@ public class TargetSystem : TargetSystemBase<PolygonGameObject>
 	}
 
 	protected override PolygonGameObject IsShouldLooseTheTargetForTheOther () {
-		if (IsSqrDistMore (thisObj.target, enemyLostRSqr)) {
+		if (IsSqrDistMore (curTarget, enemyLostRSqr)) {
 			var t = GetTheClosestTarget ();
-			if (t != null && t != thisObj.target) {
-				if (IsSqrDistLess (t, SqrDist (thisObj.target) / 4f)) {
+			if (t != null && t != curTarget) {
+				if (t.priority > curTarget.priority || IsSqrDistLess (t, SqrDist (curTarget) / 4f)) {
 					return t;
 				}
 			}
 		}
-		return thisObj.target;
+		return curTarget;
 	}
 
 	protected override float GetDistValue (PolygonGameObject obj)

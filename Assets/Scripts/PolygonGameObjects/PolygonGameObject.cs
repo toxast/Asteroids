@@ -73,6 +73,13 @@ public class PolygonGameObject : MonoBehaviour
 	public DestructionType destructionType;
 	public bool destroyOnBoundsTeleport;
 
+	public enum ePriorityLevel{
+		NORMAL = 5,
+		LOW = 3,
+	}
+	public float priorityMultiplier = 1f; //the bigger the value the more like it will be a targrt, DONT set to 0 
+	public ePriorityLevel priority = ePriorityLevel.NORMAL;
+
     public bool ignoreBounds = false; //when object is controlled by other positioning logic
     public List<PolygonGameObject> teleportWithMe;
 
@@ -111,6 +118,8 @@ public class PolygonGameObject : MonoBehaviour
 			other.AddEffect (new BurningEffect (burnDot));
 		}
 	}
+
+	[NonSerialized] public HeavvyBulletEffect.Data heavyBulletData;
 
 	protected virtual void Awake () 
 	{

@@ -177,13 +177,17 @@ public class SpaceShip : PolygonGameObject
 		inputController.Tick (this);
 
 		var dir = inputController.turnDirection;
+		bool shooting = inputController.shooting;
+		if (Mathf.Abs (rotation) > turnSpeed * 1.2f) {
+			shooting = false;
+		}
 
 		if(dir != Vector2.zero)
 		{
 			TurnByDirection (dir, delta);
 		}
 
-		if(inputController.shooting)
+		if(shooting)
 		{
 			Shoot();
 		}

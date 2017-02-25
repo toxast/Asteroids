@@ -1,27 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &145176
+--- !u!1 &183316
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 422096}
-  - component: {fileID: 11409610}
+  - component: {fileID: 477936}
+  - component: {fileID: 11413798}
   m_Layer: 0
-  m_Name: Tower0_(0) tower 1-st
+  m_Name: Turret_creiser_bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &422096
+--- !u!4 &477936
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145176}
+  m_GameObject: {fileID: 183316}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -29,62 +29,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11409610
+--- !u!114 &11413798
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145176}
+  m_GameObject: {fileID: 183316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a60402e96396aa4c904a8a98ee32481, type: 3}
+  m_Script: {fileID: 11500000, guid: ab4086c90c01bf54baa09e8bc75a58b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCount: 1
-  spawn: 1
-  editorSpawnLayer: 2
-  difficulty: 10
-  gameSpawnLayer: 2
-  reward: 20
-  physical:
-    density: 1
-    health: 10
-    healthModifier: -1
-    collisionDefence: 0
-    collisionAttackModifier: 1
-  color: {r: 0.60261905, g: 0.053849496, b: 0.6102941, a: 1}
-  shootAngle: 20
-  rotationSpeed: 30
+  color: {r: 0.9044118, g: 0.844561, b: 0.844561, a: 1}
+  rotationSpeed: 400
+  restrictionAngle: 90
   repeatTargetCheck: 1
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
-    isDynamic: 1
+    isDynamic: 0
     checkDtime: 1
-    add: 0.1
-    sub: 0.6
+    add: 0.15
+    sub: 0.4
     bounds: {x: 0, y: 1}
-  shield:
-    capacity: 0
-    rechargeRate: 0
-    hitRechargeDelay: 0
-    rechargeDelayAfterDestory: 1
   guns:
   - place:
-      pos: {x: 2.6126852, y: -0.000000009916437}
+      pos: {x: 1.5671687, y: 1.18}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11458226, guid: 0fdfd4a41a1950c479a097090c44ab5e, type: 2}
+    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
+  - place:
+      pos: {x: 1.5671687, y: -1.18}
+      dir: {x: 1, y: 0}
+    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
   linkedGuns: 
-  turrets: []
   verts:
-  - {x: 2.2147486, y: -0.36000004}
-  - {x: 0.97474843, y: -0.82}
-  - {x: 0.27474836, y: -2.02}
-  - {x: -1.7144858, y: -0.8602199}
-  - {x: -1.7144858, y: 0.8602199}
-  - {x: 0.27474836, y: 2.02}
-  - {x: 0.97474843, y: 0.82}
-  - {x: 2.2147486, y: 0.35999998}
+  - {x: 1.1171688, y: -0.39613485}
+  - {x: 1.810191, y: -0.71999943}
+  - {x: 1.8049966, y: -1.5845412}
+  - {x: -0.94980896, y: -1.7880001}
+  - {x: -1.7028313, y: -0.88}
+  - {x: -1.7028313, y: 0.88}
+  - {x: -0.94980896, y: 1.7880001}
+  - {x: 1.8049966, y: 1.5845412}
+  - {x: 1.810191, y: 0.71999943}
+  - {x: 1.1171688, y: 0.39613485}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -94,5 +82,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 145176}
+  m_RootGameObject: {fileID: 183316}
   m_IsPrefabParent: 1

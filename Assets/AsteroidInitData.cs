@@ -13,17 +13,18 @@ public class PhysicalData : IClonable<PhysicalData>
 
 	public PhysicalData() : this(1, 1, 0, 1) {}
 
-	public PhysicalData(float density, float healthModifier, float collisionDefence, float collisionAttackModifier)
+	public PhysicalData(float density, float healthModifier, float collisionDefence, float collisionAttackModifier, float health = -1)
 	{
 		this.density = density;
 		this.healthModifier = healthModifier;
+		this.health = health;
 		this.collisionDefence = collisionDefence;
 		this.collisionAttackModifier = collisionAttackModifier;
 	}
 
 	public PhysicalData Clone()
 	{
-		PhysicalData c = new PhysicalData (density, healthModifier, collisionDefence, collisionAttackModifier);
+		PhysicalData c = new PhysicalData (density, healthModifier, collisionDefence, collisionAttackModifier, health);
 		return c;
 	}
 }

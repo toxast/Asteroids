@@ -159,10 +159,7 @@ public class MRandomWave : MWaveBase {
 		for (int i = 0; i < selectedSpawns.Count; i++) {
 			var item = selectedSpawns [i];
 			for (int k = 0; k < selectedSpawnsCount[i]; k++) {
-				Vector2 pos;
-				float lookAngle;
-				main.GetRandomPosition (item.range, item.positioning, out pos, out lookAngle);
-				item.spawn.Spawn (pos, lookAngle, OnObjectSpawned);
+				item.spawn.Spawn (main.GetPositionData(item.range,item.positioning) , OnObjectSpawned);
 			}
 		}
 	}

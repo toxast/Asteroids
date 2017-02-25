@@ -67,25 +67,28 @@ public class TargetSystemBase<T> : ITickable
 
 	protected virtual PolygonGameObject GetTheClosestTarget()
 	{
-		var enemyLayers = CollisionLayers.GetEnemyLayersInPriority (thisObj.layer);
-		foreach (var enemylayer in enemyLayers) {
-			var t = GetClosestObjectFromLayer (enemylayer);
-			if (t != null) {
-				return t;
-			}
+		var enemyLayers = CollisionLayers.GetEnemyLayers (thisObj.layer);
+		var t = GetClosestObjectFromLayer (enemyLayers, PolygonGameObject.ePriorityLevel.NORMAL);
+		if (t != null) {
+			return t;
+		}
+
+		t = GetClosestObjectFromLayer (enemyLayers, PolygonGameObject.ePriorityLevel.LOW);
+		if (t != null) {
+			return t;
 		}
 
 		return null;
 	}
 
-	private PolygonGameObject GetClosestObjectFromLayer(int enemylayer) {
+	private PolygonGameObject GetClosestObjectFromLayer(int enemylayer, PolygonGameObject.ePriorityLevel priority) {
 		float distValue = float.MaxValue;
 		int indx = -1;
 		var gobjects = Singleton<Main>.inst.gObjects;
 		for (int i = 0; i < gobjects.Count; i++) {
 			var obj = gobjects [i];
-			if ((enemylayer & obj.layer) != 0 && ValidTarget(obj)) {
-				float objDistValue = GetDistValue (obj);
+			if ((enemylayer & obj.layer) != 0 && obj.priority == priority && ValidTarget(obj)) {
+				float objDistValue = GetDistValue (obj) / obj.priorityMultiplier;
 				if (objDistValue < distValue) {
 					indx = i;
 					distValue = objDistValue;

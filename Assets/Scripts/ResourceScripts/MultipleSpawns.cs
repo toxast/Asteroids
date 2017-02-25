@@ -15,10 +15,10 @@ public class MultipleSpawns : MSpawnBase {
 			return dif;
 		}}
 
-	public override void Spawn(Vector2 pos, float lookAngle, Action<SpawnedObj> callback) {
+	public override void Spawn(PositionData data, Action<SpawnedObj> callback){
 		var main = Singleton<Main>.inst;
 		for (int k = 0; k < elems.Count; k++) {
-			main.StartCoroutine(SpawnRoutine (elems [k], pos, lookAngle, callback));
+			main.StartCoroutine (SpawnRoutine (elems [k], data, callback));
 		}
 	}
 

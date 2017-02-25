@@ -28,10 +28,7 @@ public class SpawnBackupEffect : TickableEffect{
 		var main = Singleton<Main>.inst;
 		for (int i = 0; i < spawns.Count; i++) {
 			var item = spawns [i];
-			Vector2 pos;
-			float lookAngle;
-			main.GetRandomPosition (item.range, item.positioning, out pos, out lookAngle);
-			item.spawn.Spawn (pos, lookAngle, null);
+			item.spawn.Spawn (main.GetPositionData(item.range,item.positioning) , null);
 		}
 	}
 

@@ -20,4 +20,5 @@ public enum EffectType
 	GunsShow1,
 	PhysicalChanges1,
 	BackupTest,
+	HeavvyBulletTest,
 }

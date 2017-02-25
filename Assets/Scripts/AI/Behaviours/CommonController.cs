@@ -30,7 +30,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 
 		thisShip.StartCoroutine (BehavioursRandomTiming ());
 		comformDistanceMax = gun.Range;
-		comformDistanceMin = 30;
+		comformDistanceMin = comformDistanceMax * 0.5f;
 		
 		float evadeDuration = (90f / thisShip.turnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.maxSpeed * 0.8f);
 		evadeBullets = evadeDuration < 1.2f;
@@ -74,6 +74,8 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		}
 	}
 
+
+
 	private IEnumerator Logic()
 	{
 		float checkBehTimeInterval = 0.1f;
@@ -93,9 +95,6 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 				{
 					checkBehTime = checkBehTimeInterval;
 
-					comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.7f); // TODO on target change
-					Debug.LogWarning(thisShip.name + " " +  comformDistanceMin + " " + comformDistanceMax);
-
 					tickData.Refresh(thisShip, target);
 
 					if(checkAccelerationAction)
@@ -103,9 +102,12 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 						checkAccelerationAction = false;
 						
 						bool iaccelerate = false;
-						if(tickData.distEdge2Edge > (comformDistanceMax + comformDistanceMin)/2f)
+						float comfortDistMiddle = (comformDistanceMax + comformDistanceMin)/2f;
+						if(tickData.distEdge2Edge > comfortDistMiddle)
 						{
-							iaccelerate = (tickData.vprojThis + tickData.vprojTarget) < 0 ;
+							float approachingVelocity = tickData.vprojThis + tickData.vprojTarget;
+							float timeToApproachComfort = (tickData.distEdge2Edge - comfortDistMiddle) / approachingVelocity;
+							iaccelerate = approachingVelocity < 0 || timeToApproachComfort > 0.5f;
 						}
 						SetAcceleration(iaccelerate);
 					}

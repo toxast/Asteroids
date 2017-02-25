@@ -182,7 +182,8 @@ public static class PolygonCollision
 		Vector3 up = Vector3.Cross (F, dir2p);
 		Vector2 PRotation = Vector3.Cross (dir2p, up);
 		p.velocity += dir2p * (Pvelocity / p.mass); 
-        p.rotation -= PRotation.magnitude / (p.inertiaMoment * Mathf.Deg2Rad);
+		float dRot = Mathf.Sign (up.z) * PRotation.magnitude / (p.inertiaMoment * Mathf.Deg2Rad);
+		p.rotation -= dRot;
 	}
 
 	static private Vector2 makeRight(Vector2 v)

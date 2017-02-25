@@ -235,7 +235,7 @@ public class Main : MonoBehaviour
 
 	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
 	{
-		new PhExplosion(pos, r, dmgMax, dmgMax, gobjects, collision);
+		new PhExplosion(pos, r, dmgMax, 10 * dmgMax, gobjects, collision);
 	}
 
 	public IEnumerator Respawn()
@@ -257,7 +257,6 @@ public class Main : MonoBehaviour
 	public void HandleSpikeAttack(Asteroid spikePart)
 	{
 		spikePart.destroyOnBoundsTeleport = true;
-		spikePart.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
 		Add2Objects (spikePart);
 	}
 
@@ -524,6 +523,12 @@ public class Main : MonoBehaviour
 		case EffectType.BackupTest:
 			userSpaceship.AddEffect (new SpawnBackupEffect (testBackupData));
 			break;
+		case EffectType.HeavvyBulletTest:
+			HeavvyBulletEffect.Data data = new HeavvyBulletEffect.Data ();
+			data.duration = 1000f;
+			data.multiplier = 2f;
+			userSpaceship.AddEffect (new HeavvyBulletEffect (data));
+			break;
 		}
     }
 
@@ -588,9 +593,13 @@ public class Main : MonoBehaviour
 			{
 				t.cacheTransform.parent = null;
 				t.velocity += gobject.velocity;
+				Debug.Log(t.inertiaMoment);
 				t.rotation += UnityEngine.Random.Range(-150f, 150f);
-				ObjectDeath(t);
+				DeathAnimation.MakeDeathForThatFellaYo (t, true);
+				Add2Objects (t);
+				t.Kill ();
 			}
+			gobject.turrets.Clear ();
 		}
 
 		if(gobject.deathAnimation != null)
@@ -604,8 +613,9 @@ public class Main : MonoBehaviour
 			}
 			float radius = gobject.deathAnimation.GetFinalExplosionRadius();
 			float damage = gobject.overrideExplosionDamage >= 0 ? gobject.overrideExplosionDamage : 2f * Mathf.Pow(radius, 0.65f);
-			Debug.LogError("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
+			Debug.LogWarning("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
 			int collision = gobject.collision;
+			collision |= (int)CollisionLayers.eLayer.ASTEROIDS;
 			CreatePhysicalExplosion(gobject.position, radius, damage, collision);
 		}
 
@@ -834,7 +844,7 @@ public class Main : MonoBehaviour
 		anim.transform.parent = dropObj.transform;
 		anim.transform.localPosition = new Vector3(0, 0, UnityEngine.Random.Range(1f, 1.1f));
 		dropObj.cacheTransform.position =
-			position + randomOffset + new Vector3(0,0,2);
+			position + randomOffset + new Vector3(0,0,-2);
 		dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Math2d.RandomSign();
 		drops.Add(dropObj);
 	}
@@ -1103,6 +1113,15 @@ public class Main : MonoBehaviour
 		lookAngle = UnityEngine.Random.Range (pangle2Ship - pos.lookAngleRange, pangle2Ship + pos.lookAngleRange);
 	}
 
+	public MSpawnBase.PositionData GetPositionData(RandomFloat range, SpawnPositioning pos) {
+		MSpawnBase.PositionData data = new MSpawnBase.PositionData ();
+		data.origin = (Vector2)cameraTransform.position;
+		data.range = range.RandomValue;
+		data.rangeAngle = UnityEngine.Random.Range(pos.positionAngle - pos.positionAngleRange * 0.5f, pos.positionAngle + pos.positionAngleRange * 0.5f);
+		data.angleLookAtOrigin = UnityEngine.Random.Range (pos.lookAngle - pos.lookAngleRange * 0.5f, pos.lookAngle + pos.lookAngleRange * 0.5f);
+		return data;
+	}
+
 
 	private void Tick_GO_Destructors(float dtime)
 	{
@@ -1150,17 +1169,18 @@ public class Main : MonoBehaviour
 
 
 	/*
-	 * 
-	 * spikes dont hit towers!
+	 * damage self parts on explosion
 	 * 
 	 * FUTURE UPDATES
-	* Refactor Mspawn to spawn fixed objects layout
+	* 
+	* randomize behaviour (common, spiky, saw, bomb)
+	* add effect to bomb ai and others?
 	* 
 	* power ups(heavy bullets, fast bullets, missiles around, summon helpers (spaceships, towers),
 	* permanent powerups, shield as power-up?, health powerup, health over time, add gun/turret powerup.
 	* powerups duration indicators
 	* start powerup button
-	* fire hit on self
+	* burn fire hit on self effect
 	* berzerk with extra gun for next wave with increased difficulty at once and total
 	* burning fire trail
 	* 

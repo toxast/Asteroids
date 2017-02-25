@@ -26,8 +26,9 @@ public class Spliter
 			string suffix = " destroyed part";
 			asteroidPart.InitPolygonGameObject(new PhysicalData(polygonGo.density, overrideHealthModifier, polygonGo.collisionDefence, polygonGo.collisionAttackModifier));
 			asteroidPart.SetCollisionLayerNum(CollisionLayers.ilayerAsteroids);
-			asteroidPart.cacheTransform.Translate(polygonGo.position);
+			asteroidPart.cacheTransform.Translate(polygonGo.cacheTransform.position);
 			asteroidPart.cacheTransform.RotateAround(polygonGo.position, -Vector3.back, polygonGo.cacheTransform.rotation.eulerAngles.z);
+			asteroidPart.priority = PolygonGameObject.ePriorityLevel.LOW;
 			if (!polygonGo.name.Contains (suffix)) {
 				asteroidPart.gameObject.name = polygonGo.name + suffix;
 			} else {

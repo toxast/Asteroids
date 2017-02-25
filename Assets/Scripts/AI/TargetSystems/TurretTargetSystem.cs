@@ -34,6 +34,10 @@ public class TurretTargetSystem : TargetSystemBase<PolygonGameObject>
 			var t = GetTheClosestTarget ();
 			//переключиться если кто-то рядом а старая цель далеко. 
 			if (t != null && t != curTarget) {
+				if (t.priority > curTarget.priority) {
+					return t;
+				}
+
 				Vector2 dirt = t.position - thisObj.position;
 				var curDelta = Vector3.Angle (thisObj.cacheTransform.right, dir);
 				if (curDelta > 5 && 2 * Vector3.Angle (thisObj.cacheTransform.right, dirt) < curDelta) {

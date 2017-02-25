@@ -44,9 +44,9 @@ public class SimpleTower : PolygonGameObject
 
 		if(!Main.IsNull(target))
 		{
-			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < shootAngle)
-			{
-				Shoot();
+			bool fastRotation = Mathf.Abs (rotation) > cannonsRotaitor.rotatingSpeed * 1.2f;
+			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < shootAngle || fastRotation) {
+				Shoot ();
 			}
 
 			//hack

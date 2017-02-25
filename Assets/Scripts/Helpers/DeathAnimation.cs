@@ -21,6 +21,8 @@ public class DeathAnimation
     public float finalExplosionPowerKoeff = 1f;
 	public float explosionRadius;
 
+	const float DeathAnimationZOffset = -3f;
+
 	public static void MakeDeathForThatFellaYo(PolygonGameObject go, bool instant = false, float finalExplosionPowerKoeff = 1f)
 	{
         var config = Singleton<GlobalConfig>.inst;
@@ -85,7 +87,7 @@ public class DeathAnimation
 				var emain = e.main;
 				emain.startDelayMultiplier = ((float)(k) / explosionPrefabs.Count) * duration;
 				emain.duration = duration - emain.startDelayMultiplier;
-				e.transform.position = (Vector3)obj.globalPolygon.GetRandomAreaVertex() - new Vector3(0,0,1);
+				e.transform.position = (Vector3)obj.globalPolygon.GetRandomAreaVertex() + new Vector3(0,0,DeathAnimationZOffset);
 				e.transform.parent = obj.cacheTransform;
 				Vector2 offset = e.transform.localPosition;
 				e.Play();
@@ -93,7 +95,15 @@ public class DeathAnimation
 				delayedExplosions.Add (new DelayedExplosion{ delay = emain.startDelayMultiplier, localPos = offset });
             }
 		}
+
+		turretsDestructionDelays = new List<float> ();
+		foreach(var t in obj.turrets)
+		{
+			turretsDestructionDelays.Add(Random.Range(0, duration));
+		}
 	}
+
+	List<float> turretsDestructionDelays = new List<float>();
 
     public float GetFinalExplosionRadius() {
         float overrideR = obj.overrideExplosionRange;
@@ -109,10 +119,27 @@ public class DeathAnimation
 			if (!instant) {
 				for (int i = delayedExplosions.Count - 1; i >= 0; i--) {
 					if (delayedExplosions [i].delay < duration - timeLeft) {
-						Vector3 pos = obj.cacheTransform.position + (Vector3)delayedExplosions [i].localPos - new Vector3 (0, 0, 1);
+						Vector3 pos = obj.cacheTransform.position + (Vector3)delayedExplosions [i].localPos + new Vector3(0,0,DeathAnimationZOffset);
 						CreateBurningPart (0.5f, 1f, 6f, pos, 1f);
 						delayedExplosions.RemoveAt (i);
 					}
+				}
+			}
+
+			for (int i = obj.turrets.Count - 1; i >= 0; i--) {
+				if (turretsDestructionDelays [i] < duration - timeLeft) {
+					var t = obj.turrets [i];
+					t.cacheTransform.parent = null;
+					t.velocity += obj.velocity;
+					t.cacheTransform.position = t.cacheTransform.position.SetZ(obj.cacheTransform.position.z -0.1f);
+					Debug.Log(t.inertiaMoment);
+					t.rotation += UnityEngine.Random.Range(-150f, 150f);
+					bool instantTurrentExplosion = Math2d.Chance (0.6f);
+					DeathAnimation.MakeDeathForThatFellaYo (t, instantTurrentExplosion);
+					Singleton<Main>.inst.Add2Objects (t);
+					t.Kill ();
+					obj.turrets.RemoveAt (i);
+					turretsDestructionDelays.RemoveAt (i);
 				}
 			}
 
@@ -127,7 +154,7 @@ public class DeathAnimation
                         var emain = e.main;
                         emain.startSizeMultiplier = 2 * explosionRadius;
                         emain.startLifetimeMultiplier = lifetime;
-                        e.transform.position = obj.cacheTransform.position - new Vector3(0,0,1);
+						e.transform.position = obj.cacheTransform.position + new Vector3(0,0,DeathAnimationZOffset);
 						e.Play();
 						instantiatedExplosions.Add(e);
 					}
@@ -141,9 +168,14 @@ public class DeathAnimation
 						float animDuration = Random.Range (0.7f, 1.2f) * lifetime;
 						float r = Random.Range (1f, obj.polygon.R / 3f);
 						var speed = Random.Range (0.5f, 1.5f) * explosionRadius / animDuration;
-						var pos = obj.cacheTransform.position - new Vector3 (0, 0, 1);
+						var pos = obj.cacheTransform.position + new Vector3(0,0,DeathAnimationZOffset);
 						CreateBurningPart (animDuration, r, speed, pos, 0.3f);
 					}
+				}
+
+				if (obj.turrets.Count > 0) {
+					Debug.LogError ("turrets left after death");
+					obj.turrets.Clear ();
 				}
 
                 finished = true;

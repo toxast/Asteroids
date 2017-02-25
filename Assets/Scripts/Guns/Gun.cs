@@ -33,7 +33,20 @@ public abstract class Gun : IGotTarget, ITickable
 	public abstract void ShootIfReady();
 
 	public abstract bool ReadyToShoot();
+
+	protected PhysicalData ApplyHeavvyBulletModifier(PhysicalData physical) {
+		if (parent.heavyBulletData != null) {
+			var phClone = physical.Clone ();
+			phClone.density *= parent.heavyBulletData.multiplier;
+			return phClone;
+		} else {
+			return physical;
+		}
+	}
 }
+
+
+
 
 
 public abstract class GunShooterBase : Gun

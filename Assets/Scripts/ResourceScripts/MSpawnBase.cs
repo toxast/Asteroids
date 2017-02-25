@@ -6,13 +6,16 @@ using UnityEngine;
  public class MSpawnBase : MonoBehaviour {
 
 	public virtual float difficulty{get{return 0;}}
-	public virtual void Spawn(Vector2 pos, float lookAngle, Action<SpawnedObj> callback){}
+	public virtual void Spawn(PositionData data, Action<SpawnedObj> callback){}
 
-	protected IEnumerator SpawnRoutine(SpawnElem elem, Vector2 origin, float range, float rangeAngle, float angleLookAtOrigin, Action<SpawnedObj> callback)
+	protected IEnumerator SpawnRoutine(SpawnElem elem, PositionData data, Action<SpawnedObj> callback)
 	{
 		var main = Singleton<Main>.inst;
-		Vector2 elemPos = origin + Math2d.RotateVertexDeg (new Vector2(range, 0) + elem.place.pos, rangeAngle);
-		float elemRotationAngle = rangeAngle + Math2d.GetRotationDg (elem.place.dir) + (180 + angleLookAtOrigin);
+		Vector2 elemOrigin = data.origin + Math2d.RotateVertexDeg (new Vector2 (data.range, 0), data.rangeAngle);
+		float elemRotationAngle = data.rangeAngle + (180 + data.angleLookAtOrigin);
+		Vector2 elemOffset = Math2d.RotateVertexDeg (elem.place.pos, elemRotationAngle);
+		elemRotationAngle += Math2d.GetRotationDg (elem.place.dir);
+		Vector2 elemPos = elemOrigin + elemOffset;
 
 		//animation
 		var anim = main.CreateTeleportationRing(elemPos, elem.teleportationColor, elem.teleportRingSize);
@@ -56,6 +59,13 @@ using UnityEngine;
 	{
 		public PolygonGameObject obj;
 		public float difficulty;
+	}
+
+	public class PositionData{
+		public Vector2 origin;
+		public float range;
+		public float rangeAngle;
+		public float angleLookAtOrigin;
 	}
 }
 

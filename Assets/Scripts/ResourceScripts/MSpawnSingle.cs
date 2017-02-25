@@ -9,9 +9,9 @@ public class MSpawnSingle : MSpawnBase
 
 	public override float difficulty{ get{ return elem.difficulty; }}
 
-	public override void Spawn(Vector2 pos, float lookAngle, Action<SpawnedObj> callback) {
+	public override void Spawn(PositionData data, Action<SpawnedObj> callback){
 		var main = Singleton<Main>.inst;
-		main.StartCoroutine(SpawnRoutine (elem, pos, lookAngle, callback));
+		main.StartCoroutine(SpawnRoutine (elem, data, callback));
 	}
 }
 

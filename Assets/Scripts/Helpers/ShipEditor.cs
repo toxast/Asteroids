@@ -506,6 +506,21 @@ public class ShipEditor : MonoBehaviour
 		{
 			h.transform.localPosition = new Vector3(h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
 		}
+
+		foreach (var h in turrets) 
+		{
+			h.transform.localPosition = new Vector3(h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
+		}
+
+		foreach (var h in guns) 
+		{
+			h.transform.localPosition = new Vector3(h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
+		}
+
+		foreach (var h in thrusters) 
+		{
+			h.transform.localPosition = new Vector3(h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
+		}
 	}
 
 	void Update()

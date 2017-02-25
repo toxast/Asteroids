@@ -55,7 +55,8 @@ public class RocketLauncher : GunShooterBase
 		Math2d.PositionOnParent (missile.cacheTransform, place, parent.cacheTransform);
 
 		missile.gameObject.name = "missile";
-		missile.InitSpaceShip(physical, missleParameters);
+		var ph = ApplyHeavvyBulletModifier (physical);
+		missile.InitSpaceShip(ph, missleParameters);
 		missile.InitLifetime (lifeTime);
 
 		missile.damageOnCollision = data.damageOnCollision;

@@ -40,7 +40,8 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 
 		Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform);
 
-		bullet.InitPolygonGameObject (physical);
+		var ph = ApplyHeavvyBulletModifier (physical);
+		bullet.InitPolygonGameObject (ph);
 		bullet.InitLifetime (lifeTime);
 		bullet.damageOnCollision = damage;
 		var velocity = bullet.cacheTransform.right * GetBulletVelocity();

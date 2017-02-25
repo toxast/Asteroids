@@ -77,7 +77,7 @@ MonoBehaviour:
     type: 2}
   particleSystemColor: {r: 0.96470594, g: 0.7019608, b: 0.14117648, a: 1}
   powerupData:
-    effect: 3
+    effect: 4
     lifeTime: 30
     color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
     particles: {fileID: 198790583922292200, guid: 226bd5cb1953ecd46adca2b21c81e272,

@@ -27,16 +27,14 @@ public class GravityGun : GunShooterBase
     {
         GravityBullet bullet = PolygonCreator.CreatePolygonGOByMassCenter<GravityBullet>(data.vertices, data.color);
         bullet.gameObject.name = "gravity bullet";
-
         Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform);
-        //Hack: specific layer so it wont collide with anything
-		int affectLayer = CollisionLayers.GetGravityBulletCollisions (CollisionLayers.GetBulletLayerNum(parent.layer));
         bullet.InitPolygonGameObject (new PhysicalData ());
-        bullet.InitGravityBullet(affectLayer, data);
+		float forceMultipier = parent.heavyBulletData != null ? parent.heavyBulletData.multiplier : 1f;
+		int affectLayer = CollisionLayers.GetGravityBulletCollisions (CollisionLayers.GetBulletLayerNum(parent.layer));
+		bullet.InitGravityBullet(affectLayer, data, forceMultipier);
         bullet.velocity = bullet.cacheTransform.right * bulletSpeed;
         bullet.destructionType = PolygonGameObject.DestructionType.eDisappear;
         bullet.destroyOnBoundsTeleport = true;
-
         return bullet;
     }
 

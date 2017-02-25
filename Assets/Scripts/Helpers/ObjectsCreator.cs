@@ -121,21 +121,24 @@ public class ObjectsCreator
 		return spaceship;
 	}
 
-	private static void CreateTurret(PolygonGameObject parent, MTurretReferenceData pos)
+	private static void CreateTurret(PolygonGameObject parent, MTurretReferenceData reference)
 	{
-		MTurretData data = pos.turret;
+		MTurretData data = reference.turret;
 		var copyAngle = data.restrictionAngle * 0.5f;
-		var copyDir = pos.place.dir;
+		var copyDir = reference.place.dir;
 		System.Func<Vector3> anglesRestriction = () =>
 		{
-			float angle = parent.cacheTransform.rotation.eulerAngles.z * Mathf.Deg2Rad;
+			float angle = 0;
+			if(!Main.IsNull(parent)) {
+				angle = parent.cacheTransform.rotation.eulerAngles.z * Mathf.Deg2Rad;
+			}
 			Vector2 dir = Math2d.RotateVertex(copyDir, angle);
 			Vector3 result = dir;
 			result.z = copyAngle;
 			return result;
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<Turret>(data.verts, data.color);
-		turret.InitTurret (new PhysicalData(), data.rotationSpeed, anglesRestriction);
+		turret.InitTurret (new PhysicalData(), data.rotationSpeed, anglesRestriction, data.accuracy);
 		var guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) {
 			var gun = gunplace.GetGun (turret);
@@ -144,7 +147,7 @@ public class ObjectsCreator
 		turret.SetGuns (guns, data.linkedGuns);
 
 		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction, data.repeatTargetCheck);
-		parent.AddTurret(pos.place, turret);
+		parent.AddTurret(reference.place, turret);
 	}
 
 	
@@ -162,6 +165,7 @@ public class ObjectsCreator
 
 		asteroid.InitAsteroid (ph, mdata.speed, mdata.rotation); 
 		asteroid.SetCollisionLayerNum (CollisionLayers.ilayerAsteroids);
+		asteroid.priority = PolygonGameObject.ePriorityLevel.LOW;
         asteroid.gameObject.name = mdata.name;
 
 		return asteroid;
@@ -175,6 +179,7 @@ public class ObjectsCreator
         comet.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
         comet.InitComet(mdata.powerupData, mdata.lifeTime);
 		comet.SetCollisionLayerNum(CollisionLayers.ilayerTeamEnemies);
+		comet.priority = PolygonGameObject.ePriorityLevel.LOW;
 //		comet.SetParticles(
         var ps = GameObject.Instantiate<ParticleSystem>(mdata.particles, comet.transform);
 		ps.SetStartColor (mdata.particleSystemColor);

@@ -116,16 +116,17 @@ public class SpikyAsteroid : Asteroid
 		spikesLeft.RemoveAt(i);
 		StartCoroutine(GrowSpike(spike.index, spike.a.p2));
 
-		Asteroid spikeAsteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, this.GetColor());
-		spikeAsteroid.InitPolygonGameObject(new PhysicalData(this.density, this.healthModifier, this.collisionDefence, this.collisionAttackModifier));
-		spikeAsteroid.position += position;
-		spikeAsteroid.rotation = 0f;
-		spikeAsteroid.velocity = spikeSpeed * spikeDirection.normalized;
-
+		Asteroid spikeGO = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, this.GetColor());
+		spikeGO.InitPolygonGameObject(new PhysicalData(this.density, this.healthModifier, this.collisionDefence, this.collisionAttackModifier));
+		spikeGO.SetCollisionLayerNum (this.layerNum);
+		spikeGO.position += position;
+		spikeGO.rotation = 0f;
+		spikeGO.velocity = spikeSpeed * spikeDirection.normalized;
+		spikeGO.priority = PolygonGameObject.ePriorityLevel.LOW;
 		//change mesh and polygon
 		ChangeVertex(spike.index, (spike.a.p1 + spike.b.p2) / 2f);
 
-		Singleton<Main>.inst.HandleSpikeAttack (spikeAsteroid);
+		Singleton<Main>.inst.HandleSpikeAttack (spikeGO);
 	}
 
 	private IEnumerator GrowSpike(int indx, Vector2 tip)

@@ -55,7 +55,9 @@ public class FireballGun : GunShooterBase
 		fireball.SetAlpha (0);
 		Math2d.PositionOnParent (fireball.cacheTransform, place, parent.cacheTransform);
 		fireball.gameObject.name = "missile";
-		fireball.InitSpaceShip(data.physical, data.missleParameters);
+
+		var ph = ApplyHeavvyBulletModifier (data.physical);
+		fireball.InitSpaceShip(ph, data.missleParameters);
 		fireball.InitLifetime (data.lifeTime);
 		fireball.burnDot = data.dot;
 		fireball.damageOnCollision = data.damageOnCollision;

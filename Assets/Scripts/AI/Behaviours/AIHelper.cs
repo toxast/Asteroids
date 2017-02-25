@@ -22,12 +22,33 @@ public static class AIHelper
 
 			dir = target.position - thisShip.position;
 			distCenter2Center = dir.magnitude;
-			distEdge2Edge = distCenter2Center - (thisShip.polygon.R + target.polygon.R);
+			if (thisShip.polygon.R > 10 || target.polygon.R > 10) {
+				distEdge2Edge = GetDistanceBetweenObjectVerts (thisShip, target);
+			} else {
+				distEdge2Edge = distCenter2Center - (thisShip.polygon.R + target.polygon.R);
+			}
 			dirNorm = dir/distCenter2Center;
 			vprojThis = Vector2.Dot(thisShip.velocity, dirNorm); //+ means towards other ship
 			vprojTarget = Vector2.Dot(target.velocity, -dirNorm); //+ means towards other ship
 			evadeSign = Mathf.Sign(Math2d.Cross2(target.velocity - thisShip.velocity, dir));
 		}
+	}
+
+	public static float GetDistanceBetweenObjectVerts(PolygonGameObject a, PolygonGameObject b){
+		PolygonGameObject big = (a.polygon.R > b.polygon.R) ? a : b;
+		PolygonGameObject small = (big == a) ? b : a;
+
+		Vector2 closetsVert = big.position;
+		float closestDistSqr = float.MaxValue;
+		foreach(var vert in big.globalPolygon.vertices)
+		{
+			var distSqr = (vert - small.position).sqrMagnitude;
+			if(distSqr < closestDistSqr) {
+				closestDistSqr = distSqr;
+				closetsVert = vert;
+			}
+		}
+		return Mathf.Sqrt (closestDistSqr) - small.polygon.R;
 	}
 
 
@@ -148,6 +169,83 @@ public static class AIHelper
 		accuracy = Mathf.Clamp(accuracy, data.bounds.x, data.bounds.y);
 		lastDir = target.velocity;
 	}
+
+	public class AccuracyChangerAdvanced : ITickable
+	{
+		public float accuracy{ private set; get;}
+
+		PolygonGameObject parent;
+		AccuracyData data;
+		float dtime;
+
+		MyRepeatTimer timer;
+		bool hasEstimatedPosition = false;
+		Vector2 estimatedPosition = Vector2.zero;
+		PolygonGameObject lastTarget = null;
+
+		public AccuracyChangerAdvanced(AccuracyData data, PolygonGameObject parent) {
+			this.parent = parent;
+			this.data = data;
+			this.dtime = data.checkDtime;
+			timer = new MyRepeatTimer(dtime, ChangeAccuracy);
+			accuracy = data.startingAccuracy;
+		}
+
+		public void Tick(float delta) {
+			if (data.isDynamic) {
+				timer.Tick (delta);
+			}
+		}
+
+		void ChangeAccuracy() {
+			var target = parent.target;
+			if (lastTarget != target) {
+				hasEstimatedPosition = false;
+				accuracy = data.startingAccuracy;
+			}
+
+			if (!Main.IsNull (target)) {
+				if (!hasEstimatedPosition) {
+					estimatedPosition = target.position + target.velocity * dtime;
+					hasEstimatedPosition = true;
+				} else {
+					float diffDistance = (target.position - estimatedPosition).magnitude;
+					if (diffDistance >= data.thresholdDistance) {
+						accuracy -= dtime * data.sub;
+					} else {
+						accuracy += dtime * data.add;
+					}
+					accuracy = Mathf.Clamp (accuracy, data.bounds.x, data.bounds.y);
+					//Debug.LogWarning (diffDistance);
+					//Debug.LogWarning (accuracy);
+
+					estimatedPosition = target.position + target.velocity * dtime;
+				}
+			}
+			lastTarget = target;
+		}
+	}
+
+
+	public class MyRepeatTimer : ITickable {
+		float timeLeft;
+		float repeatInterval;
+		Action act;
+		public MyRepeatTimer(float repeatInterval, Action act) {
+			this.repeatInterval = repeatInterval;
+			this.act = act;
+			timeLeft = repeatInterval;
+		}
+
+		public void Tick(float delta) {
+			timeLeft -= delta;
+			if (timeLeft <= 0) {
+				timeLeft += repeatInterval;
+				act ();
+			}
+		}
+	}
+
 }
 
 public enum AIType

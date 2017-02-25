@@ -2353,23 +2353,23 @@ MonoBehaviour:
         type: 2}
       weight: 0
       range:
-        min: 1
-        max: 2
+        min: 20
+        max: 20
       positioning:
         positionAngle: 0
         positionAngleRange: 0
-        lookAngle: 180
+        lookAngle: 90
         lookAngleRange: 0
     - spawn: {fileID: 114372623864308318, guid: 6e4047f6a71d3534d8d4c489e5c77c1d,
         type: 2}
       weight: 0
       range:
-        min: 1
-        max: 2
+        min: 20
+        max: 20
       positioning:
         positionAngle: 180
         positionAngleRange: 0
-        lookAngle: 180
+        lookAngle: -90
         lookAngleRange: 0
 --- !u!4 &1045239090
 Transform:
@@ -3820,7 +3820,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1922263268
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3865,7 +3865,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 770184ef69a49ac4dbc497db7c357d32, type: 3}
   m_Name: 
@@ -3882,7 +3882,7 @@ MonoBehaviour:
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 1, y: 0.9}
-  prefab: {fileID: 11428446, guid: aeb7988563c6a5a4fa00d79ca3992321, type: 2}
+  prefab: {fileID: 11442294, guid: fa285c50427b55344b625e6f53f53720, type: 2}
   fangs: 5
   fangIndxFrom: 0
   fangIndxTo: 8

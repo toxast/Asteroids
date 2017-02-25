@@ -9,6 +9,7 @@ public class MTurretData : MonoBehaviour , IGotShape, IGotGuns
 	public float rotationSpeed = 50;
 	public float restrictionAngle = 360;
 	public float repeatTargetCheck = 1f;
+	public AccuracyData accuracy;
 	public List<MGunSetupData> guns;
 	public List<int> linkedGuns;
 	public Vector2[] verts;
