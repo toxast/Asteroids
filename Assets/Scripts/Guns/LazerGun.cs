@@ -42,6 +42,12 @@ public class LazerGun : Gun
 
 	int layer = 0;
 
+	float ApplyHeavvyBulletInterval = 0.2f; //created interval to spaceships wouldn't instantly absord small delta-rotations
+	float timeLeftToApplyHeavvyBullet = 0;
+
+	float lazerAppearDuration = 0.25f;
+	float appearTimeLfet = 0;
+
 	public LazerGun(Place place, MLazerGunData data, PolygonGameObject parent):base(place, data, parent)
 	{
 		distance = data.distance;
@@ -50,6 +56,7 @@ public class LazerGun : Gun
 		color = data.color;
 		attackDuration = data.attackDuration;
 		pauseDuration = data.pauseDuration;
+		appearTimeLfet = lazerAppearDuration;
 
 		if(data.fireEffect != null)
 		{
@@ -77,11 +84,11 @@ public class LazerGun : Gun
 		if(ReadyToShoot())
 		{
 			CreateLazerGo();
-			SetTimeForNexShot();
+			SetTimeForNextShot();
 		}
 	}
 
-	public override void SetTimeForNexShot()
+	public override void SetTimeForNextShot()
 	{
 		timeToNextShot = pauseDuration;
 		attackLeftDuration = attackDuration;
@@ -101,20 +108,36 @@ public class LazerGun : Gun
 		}
 	}
 
+	public override void OnGunRemoving ()
+	{
+		base.OnGunRemoving ();
+		if (lazer != null) {
+			GameObject.Destroy (lazer.gameObject);
+			lazer = null;
+		}
+		if (fireEffect != null) {
+			GameObject.Destroy (fireEffect.gameObject);
+			fireEffect = null;
+		}
+	}
+
 	public override void Tick (float delta) {
 		if (lazer != null) {
 			lazer.SetActive (attackLeftDuration > 0);
 		}
 		if (attackLeftDuration > 0) {
 			attackLeftDuration -= delta;
+			appearTimeLfet -= delta;
 			Fire (delta);
 		} else if (timeToNextShot > 0) {
 			timeToNextShot -= delta;
+			appearTimeLfet = lazerAppearDuration;
 		}
 	}
 
-	float ApplyHeavvyBulletInterval = 0.2f; //created interval to spaceships wouldn't instantly absord small delta-rotations
-	float timeLeftToApplyHeavvyBullet = 0;
+	public bool IsFiring(){
+		return attackLeftDuration > 0;
+	}
 
 	private void Fire(float delta)
 	{
@@ -197,7 +220,14 @@ public class LazerGun : Gun
 			}
 		}
 		lazerRenderer.material.SetFloat("_HitCutout", hitDistance/distance);
-		//PolygonCreator.ChangeLazerMesh (lazerMesh, hitDistance, width);
+
+		float alpha = 1;
+		if (appearTimeLfet >= 0) {
+			alpha = 1f - Mathf.Clamp01 (appearTimeLfet / lazerAppearDuration);
+		} else if(attackLeftDuration <= lazerAppearDuration) {
+			alpha =  Mathf.Clamp01 (attackLeftDuration / lazerAppearDuration);
+		}
+		lazerRenderer.material.SetFloat("_Alpha", alpha);
 	}
 
 
