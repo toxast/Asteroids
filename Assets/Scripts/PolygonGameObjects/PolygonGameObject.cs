@@ -119,7 +119,7 @@ public class PolygonGameObject : MonoBehaviour
 		}
 	}
 
-	[NonSerialized] public HeavvyBulletEffect.Data heavyBulletData;
+	[NonSerialized] public HeavyBulletEffect.Data heavyBulletData;
 
 	protected virtual void Awake () 
 	{
@@ -184,9 +184,9 @@ public class PolygonGameObject : MonoBehaviour
 		this.guns = new List<Gun>(guns);
 		this.notLinkedGuns = new List<int> ();
 		this.linkedGuns = new List<int> ();
-		if (linked == null)
+		if (linked == null) {
 			linked = new List<int> ();
-
+		}
 		for (int i = 0; i < guns.Count; i++) {
 			var addList = (linked.Contains(i)) ? linkedGuns : notLinkedGuns;
 			addList.Add(i);
@@ -199,7 +199,47 @@ public class PolygonGameObject : MonoBehaviour
 
 		this.linkedGunTick = 0;
 		for (int i = 1; i < linkedGuns.Count; i++) {
-			guns[linkedGuns[i]].SetTimeForNexShot();
+			guns[linkedGuns[i]].SetTimeForNextShot();
+		}
+	}
+
+	//no support for linked guns
+	public void AddExtraGuns(List<Gun> newGuns)
+	{
+		for (int i = 0; i < newGuns.Count; i++) {
+			int index = guns.Count + i;
+			notLinkedGuns.Add(index);
+			if(newGuns[i] is SpawnerGun) {
+				spawnerGuns.Add(index);
+			}
+		}
+		this.guns.AddRange(newGuns);
+	}
+
+	//no support for linked guns
+	public void RemoveGuns(List<Gun> gunsToRemove)
+	{
+		for (int i = 0; i < gunsToRemove.Count; i++) {
+			var rgun = gunsToRemove [i];
+			var index = guns.FindIndex (g => g == rgun);
+			if (index >= 0) {
+				notLinkedGuns.Remove (index);
+				spawnerGuns.Remove (index);
+				guns.RemoveAt (index);
+				for (int k = 0; k < notLinkedGuns.Count; k++) {
+					if (notLinkedGuns [k] > index) {
+						notLinkedGuns [k] = notLinkedGuns [k] - 1;
+					}
+				}
+				for (int k = 0; k < spawnerGuns.Count; k++) {
+					if (spawnerGuns [k] > index) {
+						spawnerGuns [k] = spawnerGuns [k] - 1;
+					}
+				}
+				rgun.OnGunRemoving ();
+			} else {
+				Debug.LogError ("gun to remove not found");
+			}
 		}
 	}
 
@@ -516,13 +556,21 @@ public class PolygonGameObject : MonoBehaviour
 			return;
 		
 		var d = delta;
-		for (int i = 0; i < notLinkedGuns.Count; i++) 
-		{
+		for (int i = 0; i < notLinkedGuns.Count; i++) {
 			guns[notLinkedGuns[i]].Tick(d);
 		}
 		
-		if(linkedGuns.Any())
+		if (linkedGuns.Any ()) {
 			guns [linkedGuns [linkedGunTick]].Tick (d);
+		}
+
+		if (!Main.IsNull (target)) {
+			if (spawnerGuns.Any ()) {
+				for (int i = 0; i < spawnerGuns.Count; i++) {
+					guns [spawnerGuns [i]].ShootIfReady ();
+				}
+			}
+		}
 	}
 
     public void Shoot()

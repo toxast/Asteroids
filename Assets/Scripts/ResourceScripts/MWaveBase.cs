@@ -3,14 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class MWaveBase : MonoBehaviour, ILevelSpawner
+public class MWaveBase : MonoBehaviour
 {
-	public virtual bool Done()
-	{
-		return false;
-	}
-
-	public virtual void Tick()
-	{ 
-	}
+	public virtual IWaveSpawner GetWave() { return null; }
 }

@@ -24,16 +24,16 @@ public class SpawnBackupEffect : TickableEffect{
 
 	public override bool IsFinished() {	return spawned; }
 
-	private void Spawn(List<MRandomWave.WeightedSpawn> spawns){
+	private void Spawn(List<WeightedSpawn> spawns){
 		var main = Singleton<Main>.inst;
 		for (int i = 0; i < spawns.Count; i++) {
 			var item = spawns [i];
-			item.spawn.Spawn (main.GetPositionData(item.range,item.positioning) , null);
+			item.spawn.Spawn (main.GetPositionData(item.range, item.positioning) , null);
 		}
 	}
 
 	[System.Serializable]
 	public class Data {
-		public List<MRandomWave.WeightedSpawn> spawns;
+		public List<WeightedSpawn> spawns;
 	}
 }

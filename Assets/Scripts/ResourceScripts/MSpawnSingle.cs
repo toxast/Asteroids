@@ -11,7 +11,7 @@ public class MSpawnSingle : MSpawnBase
 
 	public override void Spawn(PositionData data, Action<SpawnedObj> callback){
 		var main = Singleton<Main>.inst;
-		main.StartCoroutine(SpawnRoutine (elem, data, callback));
+		main.StartCoroutine(SpawnRoutine (elem, data, new Place(), callback));
 	}
 }
 

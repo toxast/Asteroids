@@ -18,6 +18,12 @@ public interface ILevelSpawner
 	bool Done ();
 	void Tick ();
 }
+public interface IWaveSpawner
+{
+	bool Done ();
+	void Tick ();
+}
+
 
 public class EmptyTestSceneSpawner : ILevelSpawner
 {

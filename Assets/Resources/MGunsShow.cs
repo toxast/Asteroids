@@ -6,7 +6,7 @@ using UnityEngine;
 public class MGunsShow : MSpawnDataBase {
 	public float duration = 3f;
 	public float rotation = 0f;
-	//TODO: this datas make just a data prefab< instantiate an empty gameobject and make it follower of holder with self rotation
+	public bool makeChild = false; //will inherit rotation
 	public List<MGunsShowElement> elements;
 
 	//to test in editor mode
@@ -99,6 +99,10 @@ public class GunsShowEffect : TickableEffect {
 		base.SetHolder(holder);
 		gunsShowObj = data.CreateObj(holder.layerNum);
 		SetPosition ();
+		if (data.makeChild) {
+			gunsShowObj.cacheTransform.parent = holder.cacheTransform;
+			gunsShowObj.cacheTransform.localRotation = Quaternion.identity; 
+		}
 	}
 
 	void SetPosition(){
@@ -115,7 +119,9 @@ public class GunsShowEffect : TickableEffect {
 		base.Tick(delta);
 		if (!IsFinished()) {
 			gunsShowObj.Tick(delta);
-			SetPosition ();
+			if (!data.makeChild) {
+				SetPosition ();
+			}
 			if (IsFinished ()) {
 				DestroyGunsShowObject ();
 			}
@@ -123,7 +129,7 @@ public class GunsShowEffect : TickableEffect {
 	}
 
 	private void DestroyGunsShowObject(){
-		if (gunsShowObj != null) {
+		if (!Main.IsNull(gunsShowObj)) {
 			GameObject.Destroy(gunsShowObj.gameObj);
 			gunsShowObj = null;
 		}

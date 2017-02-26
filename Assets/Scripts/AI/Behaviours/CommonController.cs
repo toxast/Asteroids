@@ -13,6 +13,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 	bool evadeBullets = true;
 	bool isLazerShip = false;
 
+	LazerGun lazerGun = null;
 	AIHelper.Data tickData = new AIHelper.Data();
 
 	public CommonController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData) : base(thisShip)
@@ -21,8 +22,10 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		this.bullets = bullets;
 		thisShip.StartCoroutine (Logic ());
 
-		if (gun is LazerGun)
+		if (gun is LazerGun) {
 			isLazerShip = true;
+			lazerGun = gun as LazerGun;
+		}
 
 		accuracy = accData.startingAccuracy;
 		if(accData.isDynamic)
@@ -57,8 +60,8 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 
 	bool checkAccelerationAction = false;
 	float untilCheckAcceleration = 0f;
-	float untilCheckAccelerationMax = 0.1f;
-	float untilCheckAccelerationMin = 0.0f;
+	float untilCheckAccelerationMax = 0.3f;
+	float untilCheckAccelerationMin = 0.1f;
 
 	private IEnumerator BehavioursRandomTiming()
 	{
@@ -84,87 +87,73 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		float duration;
 		Vector2 newDir;
 
-		while(true)
-		{
-			if(!Main.IsNull(target))
-			{
+		while (true) {
+			if (!Main.IsNull (target)) {
 				behaviourChosen = false;
 				checkBehTime -= Time.deltaTime;
 
-				if(checkBehTime <= 0)
-				{
+				if (checkBehTime <= 0) {
 					checkBehTime = checkBehTimeInterval;
 
-					tickData.Refresh(thisShip, target);
+					tickData.Refresh (thisShip, target);
 
-					if(checkAccelerationAction)
-					{
+					if (checkAccelerationAction) {
 						checkAccelerationAction = false;
 						
 						bool iaccelerate = false;
-						float comfortDistMiddle = (comformDistanceMax + comformDistanceMin)/2f;
-						if(tickData.distEdge2Edge > comfortDistMiddle)
-						{
+						float comfortDistMiddle = (comformDistanceMax + comformDistanceMin) / 2f;
+						if (tickData.distEdge2Edge > comfortDistMiddle) {
 							float approachingVelocity = tickData.vprojThis + tickData.vprojTarget;
 							float timeToApproachComfort = (tickData.distEdge2Edge - comfortDistMiddle) / approachingVelocity;
-							iaccelerate = approachingVelocity < 0 || timeToApproachComfort > 0.5f;
+							iaccelerate = approachingVelocity < 0 || timeToApproachComfort > 1f;
+							if (approachingVelocity > 0 && !iaccelerate && Math2d.Chance(0.5f)) {
+								Brake ();
+							}
 						}
-						SetAcceleration(iaccelerate);
+						SetAcceleration (iaccelerate);
 					}
 
-					if(!behaviourChosen)
-					{
-						if(AIHelper.EvadeTarget(thisShip, target, tickData, out duration, out newDir))
-						{
+					if (!behaviourChosen) {
+						if (AIHelper.EvadeTarget (thisShip, target, tickData, out duration, out newDir)) {
 							behaviourChosen = true;
-							yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration)); 
+							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 						}
 					}
 
-					if (!behaviourChosen && evadeBullets && checkBulletsAction)
-					{
-						if(AIHelper.EvadeBullets(thisShip, bullets, out duration, out newDir))
-						{
+					if (!behaviourChosen && evadeBullets && checkBulletsAction) {
+						if (AIHelper.EvadeBullets (thisShip, bullets, out duration, out newDir)) {
 							behaviourChosen = true;
-							yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
+							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration));
 						}
 						checkBulletsAction = false;
-						if(!behaviourChosen)
-						{
+						if (!behaviourChosen) {
 							untilBulletsEvade = untilBulletsEvadeMin;
 						}
 					}
 
-					if(turnBehEnabled && !behaviourChosen && timeForTurnAction && !(isLazerShip && shooting))
-					{
+					if (turnBehEnabled && !behaviourChosen && timeForTurnAction && !(isLazerShip && lazerGun.IsFiring())) {
 						behaviourChosen = true;
-						if(tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin)
-						{
-							AIHelper.OutOfComformTurn(thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-							yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration)); 
-						}
-						else
-						{
-							AIHelper.ComfortTurn(comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-							yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration)); 
+						if (tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin) {
+							AIHelper.OutOfComformTurn (thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
+						} else {
+							AIHelper.ComfortTurn (comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 						}
 						timeForTurnAction = false;
 					}
 				}
 
-				if(!behaviourChosen)
-				{
-					Shoot(accuracy, bulletsSpeed);
+				if (!behaviourChosen) {
+					Shoot (accuracy, bulletsSpeed);
 					yield return null;
 				}
-			}
-			else
-			{
-				if (!Main.IsNull(defendObject)) {
+			} else {
+				if (!Main.IsNull (defendObject)) {
 					float actDuration = 1.5f;
 					float dist = defendObject.polygon.R + thisShip.polygon.R + 15f;
 					float angle = UnityEngine.Random.Range (1, 360) * Mathf.Deg2Rad;
-					Vector2 defPosition = defendObject.position + dist * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+					Vector2 defPosition = defendObject.position + dist * new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle));
 					if ((thisShip.position - defPosition).sqrMagnitude < thisShip.maxSpeed * actDuration) {
 						Brake ();
 						shooting = false;
@@ -172,7 +161,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 						checkBehTime -= 0.5f;
 					} else {
 						newDir = defPosition - thisShip.position;
-						yield return thisShip.StartCoroutine(SetFlyDir(newDir, actDuration)); 
+						yield return thisShip.StartCoroutine (SetFlyDir (newDir, actDuration)); 
 						checkBehTime -= actDuration;
 					}
 				} else {

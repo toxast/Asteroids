@@ -79,7 +79,7 @@ MonoBehaviour:
   - place:
       pos: {x: 2.1293771, y: -0.000000014152583}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11405498, guid: a5b021be1abdda0438689054cf93062b, type: 2}
+    gun: {fileID: 114901556800314170, guid: 90e0c7e9eb5492c4a873ef9b4a31af05, type: 2}
   linkedGuns: 
   thrusters:
   - place:

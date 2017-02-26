@@ -10,6 +10,7 @@ public class MFlamerGunData : MGunData
     public DOTEffect.Data dot;
 	public RandomFloat deceleration;
 	public float velocityRandomRange = 5;
+	public bool forceUseBulletLifetime = false; //for use in flame trail
 
 	public override Gun GetGun(Place place, PolygonGameObject t)
 	{

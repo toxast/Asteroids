@@ -7,7 +7,7 @@ public class Intersection {
 
 	public bool haveIntersection {get; private set;}
 	public Vector2 intersection {get; private set;}
-
+	public Edge edge2;
 	/// <summary>
 	/// Determines intersection of two segments (a1 -> a2) and (b1-> b2)
 	/// If there is an intersection haveIntersection will have the value of true, false - otherwise
@@ -17,6 +17,8 @@ public class Intersection {
 		Vector2 a1, Vector2 a2, 
 		Vector2 b1, Vector2 b2)
 	{
+		edge2 = new Edge (b1, b2);
+
 		float d = (a1.x -a2.x)*(b1.y-b2.y) - (a1.y-a2.y)*(b1.x-b2.x);
 
 	    if (d == 0f) 

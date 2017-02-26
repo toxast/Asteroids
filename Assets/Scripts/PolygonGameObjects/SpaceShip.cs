@@ -155,15 +155,10 @@ public class SpaceShip : PolygonGameObject
 	public override void Tick(float delta)
 	{
 		base.Tick (delta);
-
 		acceleratedThisTick = false;
-
 		InputTick (delta);
-
 		TickGuns (delta);
-
-		foreach(var th in thrusters)
-		{
+		foreach(var th in thrusters) {
 			float dthrust = th.defaultLifetime * delta * 0.5f;
 			dthrust = (acceleratedThisTick)? dthrust : -dthrust;
 			var pmain = th.thrust.main;
@@ -175,42 +170,24 @@ public class SpaceShip : PolygonGameObject
 	void InputTick(float delta)
 	{
 		inputController.Tick (this);
-
 		var dir = inputController.turnDirection;
 		bool shooting = inputController.shooting;
 		if (Mathf.Abs (rotation) > turnSpeed * 1.2f) {
 			shooting = false;
 		}
-
-		if(dir != Vector2.zero)
-		{
+		if (dir != Vector2.zero) {
 			TurnByDirection (dir, delta);
 		}
-
-		if(shooting)
-		{
-			Shoot();
+		if (shooting) {
+			Shoot ();
 		}
-		else
-		{
-			//hack
-			//spawner guns should shoot if there is a target
-			if(!Main.IsNull(target) && spawnerGuns.Any())
-			{
-				for (int i = 0; i < spawnerGuns.Count; i++) 
-				{
-					guns[spawnerGuns[i]].ShootIfReady();
-				}
-			}
+		if (inputController.accelerating) {
+			Accelerate (delta);
+		} else if (inputController.braking) {
+			Brake (delta, brake);
+		} else {
+			Brake (delta, passiveBrake);
 		}
-
-        if (inputController.accelerating) {
-            Accelerate(delta);
-        } else if (inputController.braking) {
-            Brake(delta, brake);
-        } else {
-            Brake(delta, passiveBrake);
-        }
 	}
 
 

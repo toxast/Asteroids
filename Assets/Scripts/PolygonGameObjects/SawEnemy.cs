@@ -11,7 +11,6 @@ public class SawEnemy : Asteroid
 	private float chargeRotation;
 //	private float veloityChargeRate;
 	private float velocityslowingRate;
-	private float chargeDuration;
 	private float chargeSpeed;
 	MSawData data;
 	//private float initialVelocitySqr;
@@ -27,15 +26,12 @@ public class SawEnemy : Asteroid
 		//initialVelocitySqr = initialVelocity;
 
 		this.chargeRotation = data.chargeRotation;
-		this.chargeSpeed = data.chargeSpeed;
 
 		this.rotationChargingRate = (data.chargeRotation - initialRotation) / data.prepareTime;
 //		this.veloityChargeRate = (data.chargeSpeed - initialVelocity) / data.prepareTime;
 
 		this.rotationSlowingRate = (data.chargeRotation - initialRotation) / data.slowingDuration;
-		this.velocityslowingRate = (data.chargeSpeed - initialVelocity) / data.slowingDuration;
-
-		this.chargeDuration = data.chargeDuration;
+		this.velocityslowingRate = (data.chargeSpeed.max - initialVelocity) / data.slowingDuration;
 	}
 
 	void Start () 
@@ -78,20 +74,17 @@ public class SawEnemy : Asteroid
 
 	IEnumerator Charge()
 	{
-		if(!Main.IsNull(target))
-		{
-			AimSystem aim = new AimSystem(target.position, target.velocity * accuracy, position, chargeSpeed);
-			if(aim.canShoot)
-			{
+		if (!Main.IsNull (target)) {
+			chargeSpeed = data.chargeSpeed.RandomValue;
+			AimSystem aim = new AimSystem (target.position, target.velocity * accuracy, position, chargeSpeed);
+			if (aim.canShoot) {
 				velocity = chargeSpeed * aim.directionDist.normalized;
-			}
-			else
-			{
+			} else {
 				Vector2 direction = target.position - position;
 				velocity = chargeSpeed * direction.normalized;
 			}
 		}
-		yield return new WaitForSeconds(chargeDuration); 
+		yield return new WaitForSeconds (data.chargeDuration.RandomValue); 
 	}
 
 	private bool Slow(float deltaTime)
@@ -99,8 +92,7 @@ public class SawEnemy : Asteroid
 		float diff = Mathf.Abs (rotation) - Mathf.Abs (initialRotation);
 		float delta = rotationSlowingRate * deltaTime;
 		bool slowingRotation = diff > 0;
-		if(slowingRotation)
-		{
+		if (slowingRotation) {
 			if (delta < diff) {
 				rotation -= Mathf.Sign (rotation) * delta;
 			} else {
@@ -108,13 +100,11 @@ public class SawEnemy : Asteroid
 				slowingRotation = false;
 			}
 		}
-
 		var vmag = velocity.magnitude;
 		diff = vmag - initialVelocity;
 		delta = velocityslowingRate * deltaTime;
 		bool slowingVelocity = diff > 0;
-		if(slowingVelocity)
-		{
+		if (slowingVelocity) {
 			if (delta < diff) {
 				velocity = (velocity / vmag) * (vmag - delta);
 			} else {
@@ -122,7 +112,6 @@ public class SawEnemy : Asteroid
 				slowingVelocity = false;
 			}
 		}
-		
 		return slowingVelocity || slowingRotation;
 	}
 	

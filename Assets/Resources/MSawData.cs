@@ -5,10 +5,9 @@ using System.Collections;
 public class MSawData : MSpawnDataBase, IGotShape
 {
 	public float prepareTime = 2f;
-
-	public float chargeSpeed = 50f;
 	public float chargeRotation = 300f;
-	public float chargeDuration = 3f;
+	public RandomFloat chargeSpeed = new RandomFloat(30, 40);
+	public RandomFloat chargeDuration = new RandomFloat(2f, 3.5f);
 
 	public float slowingDuration = 2f;
 	public AccuracyData accuracy;

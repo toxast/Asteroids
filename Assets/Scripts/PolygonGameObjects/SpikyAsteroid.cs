@@ -26,7 +26,6 @@ public class SpikyAsteroid : Asteroid
 
 //	private float detectionDistance = 70f;
 //	private float detectionDistanceSqr;
-	private float regrowPause = 2f;
 	private float spikeSpeed;
 	private float growSpeed;
 	MSpikyData  data;
@@ -117,7 +116,10 @@ public class SpikyAsteroid : Asteroid
 		StartCoroutine(GrowSpike(spike.index, spike.a.p2));
 
 		Asteroid spikeGO = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(spikePart, this.GetColor());
-		spikeGO.InitPolygonGameObject(new PhysicalData(this.density, this.healthModifier, this.collisionDefence, this.collisionAttackModifier));
+
+		float collisionMod = data.overrideSpikeCollisionAttack < 0 ? this.collisionAttackModifier : data.overrideSpikeCollisionAttack;
+
+		spikeGO.InitPolygonGameObject(new PhysicalData(this.density, this.healthModifier, this.collisionDefence, collisionMod));
 		spikeGO.SetCollisionLayerNum (this.layerNum);
 		spikeGO.position += position;
 		spikeGO.rotation = 0f;
@@ -131,33 +133,26 @@ public class SpikyAsteroid : Asteroid
 
 	private IEnumerator GrowSpike(int indx, Vector2 tip)
 	{
-		yield return new WaitForSeconds(regrowPause);
-
+		yield return new WaitForSeconds(data.regrowPause.RandomValue);
 		float length = tip.magnitude;
-
 		bool growFinished = false;
-		while(!growFinished)
-		{
-			Vector3 v = mesh.vertices[indx];
+		float interval = 0.1f;
+		while (!growFinished) {
+			float growLegth = growSpeed * interval;
+			Vector3 v = mesh.vertices [indx];
 			var magnitude = v.magnitude;
-
-			if (magnitude + growSpeed < length) 
-			{
-				v = v.normalized * (magnitude + growSpeed);
+			if (magnitude + growLegth < length) {
+				v = v.normalized * (magnitude + growLegth);
 				ChangeVertex (indx, new Vector2 (v.x, v.y));
-			} 
-			else 
-			{
+			} else {
 				v = v.normalized * length;
 				ChangeVertex (indx, new Vector2 (v.x, v.y));
 				int previous = polygon.Previous (indx);
 				Spike spike = new Spike (polygon.edges [previous], polygon.edges [indx], indx);
 				spikesLeft.Add (spike);
-
 				growFinished = true;
 			}
-
-			yield return new WaitForSeconds(0.3f);
+			yield return new WaitForSeconds (interval);
 		}
 	}
 

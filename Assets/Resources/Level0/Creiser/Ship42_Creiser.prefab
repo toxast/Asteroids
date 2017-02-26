@@ -122,7 +122,7 @@ MonoBehaviour:
   - place:
       pos: {x: 1.9159282, y: -4.7798615}
       dir: {x: -0.00000011920929, y: -0.99999994}
-    turret: {fileID: 11413798, guid: 138f816ca6f4e72499a98dc590bc208a, type: 2}
+    turret: {fileID: 11454034, guid: f834433e372fd1b42aad31a296830148, type: 2}
   - place:
       pos: {x: -6.1515465, y: -4.966394}
       dir: {x: -0.00000011920929, y: -0.99999994}
@@ -134,11 +134,11 @@ MonoBehaviour:
   - place:
       pos: {x: -18.649136, y: -8.347271}
       dir: {x: -0.8660253, y: -0.5000001}
-    turret: {fileID: 11413798, guid: 138f816ca6f4e72499a98dc590bc208a, type: 2}
+    turret: {fileID: 11454034, guid: f834433e372fd1b42aad31a296830148, type: 2}
   - place:
       pos: {x: -18.649136, y: 8.347271}
       dir: {x: -0.8660253, y: 0.5000001}
-    turret: {fileID: 11413798, guid: 138f816ca6f4e72499a98dc590bc208a, type: 2}
+    turret: {fileID: 11454034, guid: f834433e372fd1b42aad31a296830148, type: 2}
   - place:
       pos: {x: -13.845959, y: 5.8291006}
       dir: {x: -0.00000011920929, y: 0.99999994}
@@ -150,7 +150,7 @@ MonoBehaviour:
   - place:
       pos: {x: 1.9159282, y: 4.7798615}
       dir: {x: -0.00000011920929, y: 0.99999994}
-    turret: {fileID: 11413798, guid: 138f816ca6f4e72499a98dc590bc208a, type: 2}
+    turret: {fileID: 11454034, guid: f834433e372fd1b42aad31a296830148, type: 2}
   - place:
       pos: {x: 4.4574156, y: 2.3549564}
       dir: {x: 0.50000006, y: 0.8660253}

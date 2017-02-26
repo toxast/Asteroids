@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &181714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 497450}
+  - component: {fileID: 11428948}
+  m_Layer: 0
+  m_Name: RocketGun1_(1)-st tower rocket 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &497450
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181714}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11428948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b4a78513600bd4293c806f2d55eb81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storeName: (1)-st tower rocket
+  price: 0
+  etype: 2
+  damageOnCollision: 0
+  explosionOnDestruction: 1
+  overrideExplosionDamage: 6
+  overrideExplosionRadius: 23
+  lifeTime: 4
+  fireInterval: 3
+  repeatCount: 0
+  repeatInterval: 0
+  physical:
+    density: 1
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  vertices:
+  - {x: 1.6213002, y: 0.00000006612638}
+  - {x: 0.7280292, y: -0.55799997}
+  - {x: -0.37197086, y: -0.46799996}
+  - {x: -1.2409708, y: -0.55799997}
+  - {x: -1.2409708, y: 0.55799997}
+  - {x: -0.37197086, y: 0.46799996}
+  - {x: 0.7280292, y: 0.55799997}
+  color: {r: 0.7352941, g: 0.48010382, b: 0.097318344, a: 1}
+  fireEffect: {fileID: 0}
+  missleParameters:
+    thrust: 35
+    maxSpeed: 40
+    turnSpeed: 65
+    brake: 8
+    passiveBrake: 2
+    stability: 1
+    shootAngle: 15
+  accuracy: 0.5
+  thrusters: []
+  particles:
+  - place:
+      pos: {x: -1.117935, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+  destructionEffects: []
+  launchDirection: {x: 1, y: 0}
+  launchSpeed: 15
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 181714}
+  m_IsPrefabParent: 1

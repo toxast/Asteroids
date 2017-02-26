@@ -28,11 +28,13 @@ public abstract class Gun : IGotTarget, ITickable
 
 	public abstract float BulletSpeedForAim{ get;}
 
-	public abstract void SetTimeForNexShot();
+	public abstract void SetTimeForNextShot();
 
 	public abstract void ShootIfReady();
 
 	public abstract bool ReadyToShoot();
+
+	public virtual void OnGunRemoving(){}
 
 	protected PhysicalData ApplyHeavvyBulletModifier(PhysicalData physical) {
 		if (parent.heavyBulletData != null) {
@@ -84,7 +86,7 @@ public abstract class GunShooterBase : Gun
 		return timeToNextShot <= 0;
 	}
 
-	public override void SetTimeForNexShot() {
+	public override void SetTimeForNextShot() {
 		float shootInterval = fireInterval;
 		if (repeatCount > 0) {
 			currentRepeat++;
@@ -107,7 +109,16 @@ public abstract class GunShooterBase : Gun
 	{
 		while(ReadyToShoot()) {
 			Fire();
-			SetTimeForNexShot();
+			SetTimeForNextShot();
+		}
+	}
+
+	public override void OnGunRemoving ()
+	{
+		base.OnGunRemoving ();
+		if (fireEffect != null) {
+			GameObject.Destroy (fireEffect.gameObject);
+			fireEffect = null;
 		}
 	}
 

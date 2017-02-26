@@ -48,16 +48,6 @@ public class SimpleTower : PolygonGameObject
 			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < shootAngle || fastRotation) {
 				Shoot ();
 			}
-
-			//hack
-			//spawner guns should shoot if there is a target
-			if(spawnerGuns.Any())
-			{
-				for (int i = 0; i < spawnerGuns.Count; i++) 
-				{
-					guns[spawnerGuns[i]].ShootIfReady();
-				}
-			}
 		}
 	}
 

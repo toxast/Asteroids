@@ -42,7 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
-  editorSpawnLayer: 1
+  editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2
   price: 10000
@@ -73,7 +73,8 @@ MonoBehaviour:
   shield:
     capacity: 10
     rechargeRate: 1
-    rechargeDelay: 1
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 1
   guns:
   - place:
       pos: {x: -0.51211643, y: -0.000000032435317}
@@ -95,8 +96,8 @@ MonoBehaviour:
     zOffset: 1
   turrets: []
   verts:
-  - {x: 0.30788356, y: -0.12999968}
-  - {x: 0.027883288, y: -0.83}
+  - {x: 0.30788356, y: -0.12999997}
+  - {x: 0.02788314, y: -0.83}
   - {x: 0.51788354, y: -1.15}
   - {x: 1.0960995, y: -1.13}
   - {x: 1.2160995, y: -0.52}
@@ -121,8 +122,8 @@ MonoBehaviour:
   - {x: 1.2160995, y: 0.52}
   - {x: 1.0960995, y: 1.13}
   - {x: 0.51788354, y: 1.15}
-  - {x: 0.027883288, y: 0.83}
-  - {x: 0.30788356, y: 0.13000031}
+  - {x: 0.02788314, y: 0.83}
+  - {x: 0.30788356, y: 0.13000003}
   upgradeIndex: 0
   deathData:
     createExplosionOnDeath: 1

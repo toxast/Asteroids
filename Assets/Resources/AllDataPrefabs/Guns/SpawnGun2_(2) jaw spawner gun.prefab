@@ -43,13 +43,13 @@ MonoBehaviour:
   storeName: (2) jaw spawner gun
   price: 0
   etype: 3
-  bulletSpeed: 15
-  fireInterval: 5
+  bulletSpeed: 40
+  fireInterval: 1
   fireEffect: {fileID: 0}
   spawnRef: {fileID: 11462292, guid: 157e110dd6491f84aa7dd19d708dab5e, type: 2}
-  maxSpawn: 3
-  startSpawn: 0
-  startSpawnInterval: 2
+  maxSpawn: 10
+  startSpawn: 3
+  startSpawnInterval: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

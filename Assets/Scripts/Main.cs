@@ -54,6 +54,7 @@ public class Main : MonoBehaviour
 	[SerializeField] GravityShieldEffect.Data gravityShieldPowerUpData;
 	[SerializeField] PhysicalChangesEffect.Data testPhysicalPowerup;
 	[SerializeField] SpawnBackupEffect.Data testBackupData;
+	[SerializeField] ExtraGunsEffect.Data extraGunTestData;
 
 	Coroutine repositionCoroutine;
 	Coroutine wrapStarsCoroutine;
@@ -95,7 +96,7 @@ public class Main : MonoBehaviour
 		if (level < 0) {
 			spawner = new EmptyTestSceneSpawner ();
 		} else {
-			spawner = Instantiate(MLevelsResources.Instance.levels [level]);
+			spawner = MLevelsResources.Instance.levels [level].GetLevel();
 		}
 
 		repositionCoroutine = StartCoroutine(RepositionAll());
@@ -524,12 +525,17 @@ public class Main : MonoBehaviour
 			userSpaceship.AddEffect (new SpawnBackupEffect (testBackupData));
 			break;
 		case EffectType.HeavvyBulletTest:
-			HeavvyBulletEffect.Data data = new HeavvyBulletEffect.Data ();
+			HeavyBulletEffect.Data data = new HeavyBulletEffect.Data ();
 			data.duration = 1000f;
 			data.multiplier = 2f;
-			userSpaceship.AddEffect (new HeavvyBulletEffect (data));
+			userSpaceship.AddEffect (new HeavyBulletEffect (data));
+			break;
+		case EffectType.ExtraGunTest:
+			ExtraGunsEffect gunEffect = new ExtraGunsEffect (extraGunTestData);
+			userSpaceship.AddEffect (gunEffect);
 			break;
 		}
+		
     }
 
 
@@ -867,8 +873,8 @@ public class Main : MonoBehaviour
 
 	static public float GetCollisionDamage(float impulse, PolygonGameObject a,  PolygonGameObject from)
 	{
-		var dmg = Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier;
-		return (1f - a.collisionDefence) * from.collisionAttackModifier * dmg;
+		var dmg = (Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier) / 100f;
+		return (1f - a.collisionDefence) * (from.collisionAttackModifier * dmg);
 	}
 
 	private void TickObjects<T>(List<T> list, float dtime)
@@ -1122,7 +1128,6 @@ public class Main : MonoBehaviour
 		return data;
 	}
 
-
 	private void Tick_GO_Destructors(float dtime)
 	{
 		for (int i = goDestructors.Count - 1; i >= 0; i--) 
@@ -1169,19 +1174,24 @@ public class Main : MonoBehaviour
 
 
 	/*
-	 * damage self parts on explosion
 	 * 
 	 * FUTURE UPDATES
-	* 
-	* randomize behaviour (common, spiky, saw, bomb)
-	* add effect to bomb ai and others?
-	* 
-	* power ups(heavy bullets, fast bullets, missiles around, summon helpers (spaceships, towers),
+	 * 
+	* big bullets powerup!
+	* split by two consiquent interior verts, not neighbours, check that mid is inside
+	* randomize behaviour ( spiky, bomb)
+	* add effect to others ai?
+	* increase thrust lifetime on multipliers
+	* refactor thrusters, play with inherit velocity
+	* power ups(fast bullets, missiles around,
 	* permanent powerups, shield as power-up?, health powerup, health over time, add gun/turret powerup.
 	* powerups duration indicators
 	* start powerup button
 	* burn fire hit on self effect
+	* 
+	* add gun/turrets powerup => rage wave(assemble all level spawns with fixed difficulty once/total) and list of wave effects
 	* berzerk with extra gun for next wave with increased difficulty at once and total
+	* 
 	* burning fire trail
 	* 
 	* explosion better force direction

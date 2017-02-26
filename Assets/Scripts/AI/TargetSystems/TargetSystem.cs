@@ -2,18 +2,19 @@
 using System.Collections;
 public class TargetSystem : TargetSystemBase<PolygonGameObject>
 {
-	float enemyLostRSqr = 100 * 100; 
+	float enemyLostRSqr = 30 * 30; 
 	public TargetSystem (PolygonGameObject thisObj) : base (thisObj, 1.5f)
 	{
 	}
 
 	protected override PolygonGameObject IsShouldLooseTheTargetForTheOther () {
-		if (IsSqrDistMore (curTarget, enemyLostRSqr)) {
-			var t = GetTheClosestTarget ();
-			if (t != null && t != curTarget) {
-				if (t.priority > curTarget.priority || IsSqrDistLess (t, SqrDist (curTarget) / 4f)) {
-					return t;
-				}
+		var t = GetTheClosestTarget ();
+		if (t != null && t != curTarget) {
+			if (t.priority > curTarget.priority) {
+				return t;
+			}
+			if(IsSqrDistMore (curTarget, enemyLostRSqr) && IsSqrDistLess (t, SqrDist (curTarget) / 4f)){
+				return t;
 			}
 		}
 		return curTarget;

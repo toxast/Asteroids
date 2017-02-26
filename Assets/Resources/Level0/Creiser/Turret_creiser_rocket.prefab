@@ -42,19 +42,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 0, g: 0.37383384, b: 0.5588235, a: 1}
   rotationSpeed: 300
-  restrictionAngle: 30
+  restrictionAngle: 90
   repeatTargetCheck: 0.1
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 1
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
   guns:
   - place:
-      pos: {x: 0.042063415, y: -0.01}
+      pos: {x: 0.78681666, y: -0.0000000034785164}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
+    gun: {fileID: 11428948, guid: ad72f9c0feb316a46b6afea3bebaa684, type: 2}
   linkedGuns: 
   verts:
-  - {x: 0.0920635, y: -0.13}
-  - {x: -0.10793652, y: -0.08}
-  - {x: -0.10793652, y: 0.08}
-  - {x: 0.0920635, y: 0.13}
+  - {x: 1.0828166, y: -1}
+  - {x: -0.27118328, y: -1.913}
+  - {x: -0.30418336, y: -1.4489999}
+  - {x: -0.45018327, y: -1.051}
+  - {x: -0.9381833, y: -1.052}
+  - {x: -1.2411834, y: -0.31799978}
+  - {x: -1.2411834, y: 0.3179999}
+  - {x: -0.9381833, y: 1.052}
+  - {x: -0.45018327, y: 1.051}
+  - {x: -0.30418336, y: 1.4489999}
+  - {x: -0.27118328, y: 1.913}
+  - {x: 1.0828166, y: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

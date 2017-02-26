@@ -50,7 +50,7 @@ public class SpawnerGun : GunShooterBase
 			if(startSpawnLeft == 0)
 			{
 				this.fireInterval = regularInterval;
-				SetTimeForNexShot();
+				SetTimeForNextShot();
 			}
 		}
 

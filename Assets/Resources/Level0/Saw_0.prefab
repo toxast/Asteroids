@@ -58,9 +58,13 @@ MonoBehaviour:
   difficulty: 10
   gameSpawnLayer: 2
   prepareTime: 2
-  chargeSpeed: 50
   chargeRotation: 300
-  chargeDuration: 3
+  chargeSpeed:
+    min: 20
+    max: 30
+  chargeDuration:
+    min: 2
+    max: 3.5
   slowingDuration: 2
   accuracy:
     startingAccuracy: 0
@@ -98,20 +102,20 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   speed:
-    min: 1
-    max: 2
+    min: 20
+    max: 30
   rotation:
-    min: 1
-    max: 2
+    min: -180
+    max: 180
   size:
-    min: 1
-    max: 2
+    min: 0
+    max: 0
   spikeSize:
-    min: 1
-    max: 2
+    min: 0
+    max: 0
   spikesCount:
-    min: 5
-    max: 10
+    min: 0
+    max: 0
 --- !u!114 &114571137283427640
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -18,16 +18,23 @@ public class FlamerBullet : PolygonGameObject {
 	float maxVelocity;
 	Vector2 forceDir;
 	float lastVelocity = 0;
+	MFlamerGunData data;
 
 	public void InitFlamingBullet( MFlamerGunData data, Vector2 startingSpeed ) {
+		this.data = data;
 		this.deceleration = data.deceleration.RandomValue;
         this.burnDot = data.dot;
 		forceChangeSign = Math2d.RandomSign();
 		startingSpeedMagnitude = startingSpeed.magnitude;
 		maxVelocity = startingSpeedMagnitude;
 		lastVelocity = startingSpeedMagnitude;
-		applyForceThreshold = startingSpeedMagnitude * 0.5f;
-		killThreshold = startingSpeedMagnitude * 0.1f;
+		applyForceThreshold = startingSpeedMagnitude * 0.4f;
+		if (data.forceUseBulletLifetime) {
+			killThreshold = -1; //not used
+			InitLifetime (data.lifeTime);
+		} else {
+			killThreshold = startingSpeedMagnitude * 0.1f;
+		}
     }
 		
 	public override void Tick(float delta) {
@@ -36,7 +43,7 @@ public class FlamerBullet : PolygonGameObject {
 		Brake(delta, deceleration);
 		var curVelocity = velocity.magnitude;
 		maxVelocity = curVelocity;
-		if (curVelocity < killThreshold) {
+		if (!data.forceUseBulletLifetime && curVelocity < killThreshold) {
 			Kill ();
 		}
 		if (oldVelocity > applyForceThreshold && curVelocity < applyForceThreshold) {

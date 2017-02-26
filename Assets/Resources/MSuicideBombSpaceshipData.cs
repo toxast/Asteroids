@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MSuicideBombSpaceshipData : MSpaceshipData {
 	public float delayBeforeExplode = 1f;
+	public ParticleSystemsData explodeTimerEffect;
 
     [Header("editor field")]
     [SerializeField]

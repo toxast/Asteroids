@@ -12,7 +12,7 @@ public class GunPlaceholder : Gun
 		}
 	}
 
-	public override void SetTimeForNexShot ()
+	public override void SetTimeForNextShot ()
 	{
 		
 	}
