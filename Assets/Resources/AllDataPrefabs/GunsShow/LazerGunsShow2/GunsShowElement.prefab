@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4712571063043808}
   - component: {fileID: 114292727620618090}
   m_Layer: 0
-  m_Name: GunsShowElement 2
+  m_Name: GunsShowElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,13 +55,10 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11421854, guid: 58e002aaa48e33d4184ce025bdad8b0f, type: 2}
+    gun: {fileID: 11421854, guid: e1e0261ee8b89144087ec0d4eda6a4ca, type: 2}
   - place:
       pos: {x: 0, y: 0}
       dir: {x: -1, y: 0}
-    gun: {fileID: 11421854, guid: 58e002aaa48e33d4184ce025bdad8b0f, type: 2}
+    gun: {fileID: 11421854, guid: e1e0261ee8b89144087ec0d4eda6a4ca, type: 2}
   linkedGuns: 
-  rotation: 30
-  offset:
-    pos: {x: 0, y: -10}
-    dir: {x: 0, y: -1}
+  rotation: 0

@@ -3,8 +3,8 @@ using System.Collections;
 
 public class PowerUp : polygonGO.DropBase 
 {
-	public EffectType effect;
-	public void InitPowerUp(EffectType effect)
+	public PowerUpEffect effect;
+	public void InitPowerUp(PowerUpEffect effect)
 	{
 		this.effect = effect;
 	}
@@ -14,7 +14,7 @@ public class PowerUp : polygonGO.DropBase
     }
 }
 
-public enum EffectType
+public enum PowerUpEffect
 {
 	GravityShield,
 	GunsShow1,
@@ -22,4 +22,5 @@ public enum EffectType
 	BackupTest,
 	HeavvyBulletTest,
 	ExtraGunTest,
+	TimeSlowTest,
 }

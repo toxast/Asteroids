@@ -27,6 +27,29 @@ public static class CollisionLayers
 		MISC = 1 << ilayerMisc,
 	}
 
+	[Serializable]
+	public class TimeMultipliersData
+	{
+		public float duration = 10f;
+
+		public float user = 1;
+		public float userTeam = 1;
+		public float userBullets = 1;
+
+		public float enemiesTeam = 1;
+		public float enemiesBullets = 1;
+
+		//layers should not intersect
+		public const int userLayer = (int)eLayer.USER;
+		public const int miscLayer = (int)eLayer.MISC;
+		public const int userTeamLayer = (int)eLayer.TEAM_USER;
+		public const int userBulletsLayer = (int)eLayer.BULLETS_USER;
+
+		//layers should not intersect
+		public const int enemiesTeamLayer = (int)eLayer.TEAM_ENEMIES | (int)eLayer.ASTEROIDS;
+		public const int enemiesBulletsLayer = (int)eLayer.BULLETS_ENEMIES;
+	}
+
 
 	static public int GetBulletLayerNum(int parentLayer)
 	{

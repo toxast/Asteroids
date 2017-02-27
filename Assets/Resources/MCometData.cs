@@ -20,7 +20,7 @@ public class MCometData : MSpawnDataBase {
 
 [System.Serializable]
 public class PowerupData {
-    public EffectType effect;
+    public PowerUpEffect effect;
     public float lifeTime;
     public Color color;
     public ParticleSystem particles;

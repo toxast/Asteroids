@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class MRocketGunData : MGunBaseData, IGotShape
 {
 	public float damageOnCollision = 0;
-    public bool explosionOnDestruction = true;
     public float overrideExplosionDamage = -1;
     public float overrideExplosionRadius = -1;
     public float lifeTime = 2;

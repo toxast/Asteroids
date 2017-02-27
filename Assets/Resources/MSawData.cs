@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class MSawData : MSpawnDataBase, IGotShape
@@ -8,7 +9,6 @@ public class MSawData : MSpawnDataBase, IGotShape
 	public float chargeRotation = 300f;
 	public RandomFloat chargeSpeed = new RandomFloat(30, 40);
 	public RandomFloat chargeDuration = new RandomFloat(2f, 3.5f);
-
 	public float slowingDuration = 2f;
 	public AccuracyData accuracy;
 	public Vector2[] vertices;
@@ -22,6 +22,8 @@ public class MSawData : MSpawnDataBase, IGotShape
 	public RandomFloat size;
 	public RandomFloat spikeSize;
 	public RandomInt spikesCount;
+
+	public MGunsShow gunsShowChargeEffect;
 
 	public override PolygonGameObject Create(int layer)
 	{

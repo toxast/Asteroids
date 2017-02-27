@@ -105,6 +105,7 @@ public class LazerGun : Gun
 			Math2d.PositionOnParent (lTransform, place, parent.cacheTransform, true);
 			layer = 1 << CollisionLayers.GetBulletLayerNum(parent.layer);
 			PolygonCreator.ChangeLazerMesh (lazerMesh, distance, width);
+			lazerRenderer.material.SetFloat("_Alpha", 0);
 		}
 	}
 

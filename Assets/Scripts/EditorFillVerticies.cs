@@ -16,18 +16,18 @@ public class EditorFillVerticies : MonoBehaviour
 		{
 			run = false;
 #if UNITY_EDITOR
-			Fill();
+//			Fill();
 #endif
 		}
 	}
 
-	void Fill()
-	{
-		Debug.LogWarning ("Fill");
-		var vertices = RocketLauncher.missileVertices;
-		float area;
-		Math2d.ScaleVertices (vertices, scale);
-		Vector2 pivot = Math2d.GetMassCenter(vertices, out area);
-		Math2d.ShiftVertices(vertices, -pivot);
-	}
+//	void Fill()
+//	{
+//		Debug.LogWarning ("Fill");
+//		var vertices = RocketLauncher.missileVertices;
+//		float area;
+//		Math2d.ScaleVertices (vertices, scale);
+//		Vector2 pivot = Math2d.GetMassCenter(vertices, out area);
+//		Math2d.ShiftVertices(vertices, -pivot);
+//	}
 }

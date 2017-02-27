@@ -25,7 +25,8 @@ public class SpaceShip : PolygonGameObject
 	public float turnSpeed { get; private set; }
 	public float stability { get; private set; }
 
-	public void MultiplyThrust(float mul){ thrust *= mul; }
+	private float currentThrustMultiplier = 1;
+	public void MultiplyThrust(float mul){ thrust *= mul;  currentThrustMultiplier *= mul;}
 	public void MultiplyMaxSpeed(float mul){ maxSpeed *= mul; }
 	public void MultiplyTurnSpeed(float mul){ turnSpeed *= mul; }
 	public void MultiplyStability(float mul){ stability *= mul; }
@@ -162,7 +163,7 @@ public class SpaceShip : PolygonGameObject
 			float dthrust = th.defaultLifetime * delta * 0.5f;
 			dthrust = (acceleratedThisTick)? dthrust : -dthrust;
 			var pmain = th.thrust.main;
-			var stLifetime = Mathf.Clamp(pmain.startLifetimeMultiplier + dthrust, th.defaultLifetime/2f,  th.defaultLifetime);
+			var stLifetime = Mathf.Clamp(pmain.startLifetimeMultiplier + dthrust, th.defaultLifetime/2f,  th.defaultLifetime * currentThrustMultiplier);
 			pmain.startLifetimeMultiplier = stLifetime;
 		}
 	}

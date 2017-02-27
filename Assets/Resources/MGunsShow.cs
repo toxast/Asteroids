@@ -7,7 +7,7 @@ public class MGunsShow : MSpawnDataBase {
 	public float duration = 3f;
 	public float rotation = 0f;
 	public bool makeChild = false; //will inherit rotation
-	public List<MGunsShowElement> elements;
+	public List<ElementPositioning> elements;
 
 	//to test in editor mode
 	public override PolygonGameObject Create(int layer) {
@@ -29,6 +29,13 @@ public class MGunsShow : MSpawnDataBase {
 		}
 	}
 
+	[System.Serializable]
+	public class ElementPositioning
+	{
+		public MGunsShowElement element;
+		public Place offset;
+	}
+
 	public PolygonGameObject CreateObj(int layer){
 		var verts1 = PolygonCreator.CreatePerfectPolygonVertices(3, 6);
 		GunsShowPolygonGO gunsShowObj = PolygonCreator.CreatePolygonGOByMassCenter<GunsShowPolygonGO>(verts1, Color.red);
@@ -43,7 +50,7 @@ public class MGunsShow : MSpawnDataBase {
 			var verts = PolygonCreator.CreatePerfectPolygonVertices(3, 4);
 			var obj = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(verts, Color.black);
 			obj.SetAlpha(0);
-			var elem = elements [i];
+			var elem = elements [i].element;
 			var gunsList = new List<Gun>();
 			foreach (var gunplace in elem.guns) {
 				var gun = gunplace.GetGun(obj);
@@ -54,7 +61,7 @@ public class MGunsShow : MSpawnDataBase {
 			obj.SetCollisionLayerNum(layer);
 			obj.rotation = elem.rotation;
 			obj.name = "guns element";
-			Math2d.PositionOnParent (obj.cacheTransform, elem.offset, gunsShowObj.cacheTransform, true, 1);
+			Math2d.PositionOnParent (obj.cacheTransform, elements [i].offset, gunsShowObj.cacheTransform, true, 1);
 			gunsObjects.Add (obj);
 		}
 		gunsShowObj.InitGunsShowPolygonGO (gunsObjects);
@@ -137,5 +144,9 @@ public class GunsShowEffect : TickableEffect {
 
 	public override bool IsFinished() {
 		return gunsShowObj == null || gunsShowObj.Expired();
+	}
+
+	public void ForceFinish() {
+		DestroyGunsShowObject ();
 	}
 }

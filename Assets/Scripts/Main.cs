@@ -38,9 +38,6 @@ public class Main : MonoBehaviour
 
 	[SerializeField] Vector2 sceneSizeInCameras = new Vector2 (3, 3);
 
-	//powerup
-	//private float slowTimeLeft = 0;
-	private float penetrationTimeLeft = 0;
 
 	private event Action moveCameraAction;
 	[SerializeField] bool boundsMode = true; 
@@ -321,12 +318,6 @@ public class Main : MonoBehaviour
 		}
 	}
 
-    //	void HandlePowerUpCreated (PowerUp powerUp)
-    //	{
-    //		SetRandomPosition(powerUp, new Vector2(50, 100), new SpawnPositioning());
-    //		powerUps.Add(powerUp);
-    //	}
-
     public static void PutOnFirstNullPlace<T>(List<T> list, T obj) {
         for (int i = 0; i < list.Count; i++) {
             if (list[i] == null) {
@@ -348,8 +339,10 @@ public class Main : MonoBehaviour
         list.Add(obj);
     }
 
-    float enemyDtime;
-//	bool doTick = true;
+	[SerializeField] CollisionLayers.TimeMultipliersData timeMultipliersTest;
+	[NonSerialized] CollisionLayers.TimeMultipliersData timeMultipliers = null;
+	float slowTimeLeft = 0;
+
 	bool gameIsOn = false;
 	void Update()
 	{
@@ -357,9 +350,12 @@ public class Main : MonoBehaviour
             return;
         }
 
-        if (IsNull(userSpaceship)) {
-            userSpaceship = null;
-        }
+		if (IsNull(userSpaceship)) {
+			userSpaceship = null;
+		}
+
+		float dtime = Time.deltaTime;
+		float enemyDtime = dtime;
 
         if (spawner != null) {
 			spawner.Tick();
@@ -368,76 +364,65 @@ public class Main : MonoBehaviour
             }
         }
 
-		float dtime = Time.deltaTime;
-
-//		if (slowTimeLeft > 0) 
-//		{
-//			slowTimeLeft -=  dtime;
-//			enemyDtime = dtime/2f;
-//		}
-//		else
-//		{
-			enemyDtime = dtime;
-//		}
-
-
-		if(penetrationTimeLeft > 0)
-		{
-			penetrationTimeLeft -= dtime;
-		}
-
-		if(userSpaceship != null)
-		{
-			if(boundsMode)
-			{
-				ApplyBoundsForce(userSpaceship);
+		//timeMultipliers = timeMultipliersTest; //test
+		if (timeMultipliers != null) {
+			slowTimeLeft -= dtime;
+			if (slowTimeLeft <= 0) {
+				timeMultipliers = null;
 			}
 		}
 
-		TickBullets (bullets, dtime);
-		TickObjects (gobjects, enemyDtime);
-		TickObjects (drops, enemyDtime);
+		if (timeMultipliers == null) {
+			TickBullets (bullets, dtime);
+			TickObjects (gobjects, dtime);
+		} else {
+			enemyDtime = dtime * timeMultipliers.enemiesTeam;
+			TickBulletsByLayer (bullets, dtime * timeMultipliers.enemiesBullets, CollisionLayers.TimeMultipliersData.enemiesBulletsLayer);
+			TickBulletsByLayer (bullets, dtime * timeMultipliers.userBullets, CollisionLayers.TimeMultipliersData.userBulletsLayer);
+			TickObjectsByLayer (gobjects, dtime * timeMultipliers.user, CollisionLayers.TimeMultipliersData.userLayer);
+			TickObjectsByLayer (gobjects, dtime * timeMultipliers.userTeam, CollisionLayers.TimeMultipliersData.userTeamLayer);
+			TickObjectsByLayer (gobjects, dtime * timeMultipliers.enemiesTeam, CollisionLayers.TimeMultipliersData.enemiesTeamLayer);
+			TickObjectsByLayer (gobjects, dtime, CollisionLayers.TimeMultipliersData.miscLayer);
+		}
+		TickObjects (drops, dtime);
 
 		CalculateGlobalPolygons (bullets);
 		CalculateGlobalPolygons (gobjects);
 		CalculateGlobalPolygons (drops);
 
-		if(boundsMode)
-		{
-			CheckBounds(bullets, true);
-			CheckBounds (gobjects, false); //TODO: spaceship in gobjects!!!
-			CheckBounds(drops, false);
+		if (userSpaceship != null) {
+			if (boundsMode) {
+				ApplyBoundsForce (userSpaceship);
+			}
 		}
-		else
-		{
-			Wrap(bullets);
-			Wrap(gobjects);
-			Wrap(drops);
+
+		if (boundsMode) {
+			CheckBounds (bullets, true);
+			CheckBounds (gobjects, false); //TODO: spaceship in gobjects!!!
+			CheckBounds (drops, false);
+		} else {
+			Wrap (bullets);
+			Wrap (gobjects);
+			Wrap (drops);
 		}
 
 		TickAlphaDestructors (enemyDtime);
-
-		Tick_GO_Destructors (dtime);
+		Tick_GO_Destructors (enemyDtime);
 
 		CleanBulletsList (bullets);
 		BulletsHitObjects (gobjects, bullets);
 
-		if(userSpaceship != null)
-		{
-			if(userSpaceship.collector != null)
-			{
-				userSpaceship.collector.Pull(userSpaceship.position, drops, dtime);
+		if (userSpaceship != null) {
+			if (userSpaceship.collector != null) {
+				userSpaceship.collector.Pull (userSpaceship.position, drops, dtime);
 			}
-
-			for (int i = drops.Count - 1; i >= 0; i--) 
-			{
+			for (int i = drops.Count - 1; i >= 0; i--) {
 				int indxa, indxb;
-				var drop = drops[i];
-				if(PolygonCollision.IsCollides(userSpaceship, drop, out indxa, out indxb))
-				{
-                    drop.OnUserInteracted();
-					Destroy(drop.gameObject);
-					drops.RemoveAt(i);
+				var drop = drops [i];
+				if (PolygonCollision.IsCollides (userSpaceship, drop, out indxa, out indxb)) {
+					drop.OnUserInteracted ();
+					Destroy (drop.gameObject);
+					drops.RemoveAt (i);
 				}
 			}
 		}
@@ -449,45 +434,8 @@ public class Main : MonoBehaviour
                 }
             }
         }
-/*
-		//TODO: refactor
-		for (int i = powerUps.Count - 1; i >= 0; i--) 
-		{
-			PowerUp powerUp = powerUps[i];
-			if(powerUp.lived > 20f)
-			{
-				powerUps.RemoveAt(i);
-				Destroy(powerUp.gameObject);
-			}
-			else if(spaceship != null && PolygonCollision.IsCollides(spaceship, powerUp))
-			{
-				EffectType effect = powerUp.effect;
-
-				powerUps.RemoveAt(i);
-				Destroy(powerUp.gameObject);
-
-				switch (effect) 
-				{
-//				case EffectType.IncreasedShootingSpeed:
-//					spaceship.ChangeFiringSpeed(3f, 10f);
-//				break;
-
-				case EffectType.PenetrationBullet:
-					penetrationTimeLeft = 10f;
-				break;
-
-				case EffectType.SlowAsteroids:
-					//slowTimeLeft = 10f;
-				break;
-				}	
-			}
-		}
-        */
-//		if(powerUpsCreator != null)
-//			powerUpsCreator.Tick(Time.deltaTime);
 
 		MoveCamera ();
-
 		CheckDeadObjects (gobjects);
 		CheckDeadObjects (drops);
 		CheckDeadObjects (bullets, true);
@@ -499,40 +447,48 @@ public class Main : MonoBehaviour
         GameResources.AddMoney((int)(value * addMoneyKff));
     }
 
-    public void ApplyPowerUP(EffectType effect) {
+	public void ApplyPowerUP(PowerUpEffect effect) {
+		ApplyPowerUP (effect, userSpaceship);
+	}
+
+	public void ApplyPowerUP(PowerUpEffect effect, PolygonGameObject obj) {
+
+		//TODO: apply global effects here
+		if (effect == PowerUpEffect.TimeSlowTest) {
+
+			timeMultipliers = timeMultipliersTest;
+			slowTimeLeft = timeMultipliersTest.duration;
+			return;
+		}
+
+
+		if (IsNull (obj)) {
+			Debug.LogError("effect obj is null");
+			return;
+		}
+
 		switch (effect) {
-		//				case EffectType.IncreasedShootingSpeed:
-		//					spaceship.ChangeFiringSpeed(3f, 10f);
-		//				break;
-
-//        case EffectType.PenetrationBullet:
-//            penetrationTimeLeft = 10f;
-//            break;
-
-//        case EffectType.SlowAsteroids:
-//            //slowTimeLeft = 10f;
-//            break;
-		case EffectType.GravityShield:
-			userSpaceship.AddEffect (new GravityShieldEffect (gravityShieldPowerUpData));
+		case PowerUpEffect.GravityShield:
+			obj.AddEffect (new GravityShieldEffect (gravityShieldPowerUpData));
 			break;
-		case EffectType.GunsShow1:
-			userSpaceship.AddEffect (new GunsShowEffect (gunsShow1));
+		case PowerUpEffect.GunsShow1:
+			obj.AddEffect (new GunsShowEffect (gunsShow1));
 			break;
-		case EffectType.PhysicalChanges1:
-			userSpaceship.AddEffect (new PhysicalChangesEffect (testPhysicalPowerup));
+		case PowerUpEffect.PhysicalChanges1:
+			obj.AddEffect (new PhysicalChangesEffect (testPhysicalPowerup));
 			break;
-		case EffectType.BackupTest:
-			userSpaceship.AddEffect (new SpawnBackupEffect (testBackupData));
+		case PowerUpEffect.BackupTest:
+			obj.AddEffect (new SpawnBackupEffect (testBackupData));
 			break;
-		case EffectType.HeavvyBulletTest:
+		case PowerUpEffect.HeavvyBulletTest:
 			HeavyBulletEffect.Data data = new HeavyBulletEffect.Data ();
 			data.duration = 1000f;
 			data.multiplier = 2f;
-			userSpaceship.AddEffect (new HeavyBulletEffect (data));
+			obj.AddEffect (new HeavyBulletEffect (data));
 			break;
-		case EffectType.ExtraGunTest:
+		case PowerUpEffect.ExtraGunTest:
 			ExtraGunsEffect gunEffect = new ExtraGunsEffect (extraGunTestData);
-			userSpaceship.AddEffect (gunEffect);
+			obj.AddEffect (gunEffect);
 			break;
 		}
 		
@@ -890,6 +846,55 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	private void TickObjectsByLayer<T>(List<T> list, float dtime, int layer)
+		where T: PolygonGameObject
+	{
+		for (int i = 0; i < list.Count ; i++)
+		{
+			var go = list[i];
+
+			if ((layer & go.layer) == 0)
+				continue;
+			
+			go.Tick(dtime);
+			if (go.Expired()) {
+				go.Kill();
+			}
+		}
+	}
+
+	private void TickBullets<T>(List<T> list, float dtime)
+		where T : PolygonGameObject {
+		for (int i = 0; i < list.Count; i++) {
+			var b = list[i];
+			if (b == null) {
+				continue;
+			}
+
+			b.Tick(dtime);
+			if (b.Expired()) {
+				b.Kill();
+			}
+		}
+	}
+
+	private void TickBulletsByLayer<T>(List<T> list, float dtime, int layer)
+		where T : PolygonGameObject {
+		for (int i = 0; i < list.Count; i++) {
+			var b = list[i];
+			if (b == null) {
+				continue;
+			}
+			if ((layer & b.layer) == 0)
+				continue;
+
+			b.Tick(dtime);
+			if (b.Expired()) {
+				b.Kill();
+			}
+		}
+	}
+
     private void CheckBounds<T>(List<T> list, bool nullCheck)
         where T : PolygonGameObject {
         if (!nullCheck) {
@@ -941,20 +946,7 @@ public class Main : MonoBehaviour
         }
     }
 
-    private void TickBullets<T>(List<T> list, float dtime)
-        where T : PolygonGameObject {
-        for (int i = 0; i < list.Count; i++) {
-            var b = list[i];
-            if (b == null) {
-                continue;
-            }
-
-            b.Tick(dtime);
-            if (b.Expired()) {
-                b.Kill();
-            }
-        }
-    }
+    
 
 	private bool CheckBounds(PolygonGameObject p)
 	{
@@ -1174,10 +1166,14 @@ public class Main : MonoBehaviour
 
 
 	/*
+	* unify guns!
 	 * 
 	 * FUTURE UPDATES
-	 * 
+	 * mines gun and ship
+	 * add charge behaviour to earth ships, and charge beh to posseed asteroids, add kill asteroid beh is full
+	 * restore dumb hitters
 	* big bullets powerup!
+	* IncreasedShootingSpeed
 	* split by two consiquent interior verts, not neighbours, check that mid is inside
 	* randomize behaviour ( spiky, bomb)
 	* add effect to others ai?
@@ -1192,7 +1188,7 @@ public class Main : MonoBehaviour
 	* add gun/turrets powerup => rage wave(assemble all level spawns with fixed difficulty once/total) and list of wave effects
 	* berzerk with extra gun for next wave with increased difficulty at once and total
 	* 
-	* burning fire trail
+	* saw enemy with guns (use guns show effect?)
 	* 
 	* explosion better force direction
 	* 

@@ -1699,8 +1699,6 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 695584446}
-  iOSLayoutAnchor: {fileID: 0}
-  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 590276174}
   m_Placeholder: {fileID: 15193681}
   m_ContentType: 2
@@ -2378,6 +2376,13 @@ MonoBehaviour:
         pos: {x: 5, y: 0}
         dir: {x: 1, y: 0}
       gun: {fileID: 11405498, guid: a5b021be1abdda0438689054cf93062b, type: 2}
+  timeMultipliersTest:
+    duration: 10
+    user: 1
+    userTeam: 1
+    userBullets: 1
+    enemiesTeam: 0.5
+    enemiesBullets: 0.5
 --- !u!4 &1045239090
 Transform:
   m_ObjectHideFlags: 0
@@ -3881,7 +3886,7 @@ MonoBehaviour:
   guns: []
   thrusters: []
   turrets: []
-  duplicateIndx: 1
+  duplicateIndx: 0
   duplicate: 0
   reverse: 0
   symmetric: 1
@@ -3889,10 +3894,10 @@ MonoBehaviour:
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 1, y: 0.9}
-  prefab: {fileID: 11454034, guid: f834433e372fd1b42aad31a296830148, type: 2}
-  fangs: 5
+  prefab: {fileID: 114878949953904804, guid: 361014ed5f614c94e81479adabf1ddb7, type: 2}
+  fangs: 3
   fangIndxFrom: 0
-  fangIndxTo: 8
+  fangIndxTo: 7
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0
@@ -3900,7 +3905,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.939, y: 5.064, z: 0}
+  m_LocalPosition: {x: 3.65, y: 5.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4179,8 +4184,6 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2008446757}
-  iOSLayoutAnchor: {fileID: 0}
-  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 910516205}
   m_Placeholder: {fileID: 377514020}
   m_ContentType: 2

@@ -53,17 +53,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
-  spawn: 1
+  spawn: 0
   editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2
-  prepareTime: 2
-  chargeRotation: 300
+  prepareTime: 3
+  chargeRotation: 360
   chargeSpeed:
-    min: 20
+    min: 30
     max: 30
   chargeDuration:
-    min: 2
+    min: 2.5
     max: 3.5
   slowingDuration: 2
   accuracy:
@@ -93,7 +93,7 @@ MonoBehaviour:
   - {x: 0.89510584, y: 1.5503691}
   - {x: 2.248218, y: 1.2896966}
   - {x: 3.522426, y: 0.5667121}
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  color: {r: 0.6691177, g: 0.4673984, b: 0.4673984, a: 1}
   reward: 0
   physical:
     density: 1
@@ -102,11 +102,11 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   speed:
-    min: 20
-    max: 30
+    min: 4
+    max: 10
   rotation:
-    min: -180
-    max: 180
+    min: 10
+    max: 20
   size:
     min: 0
     max: 0
@@ -116,6 +116,8 @@ MonoBehaviour:
   spikesCount:
     min: 0
     max: 0
+  gunsShowChargeEffect: {fileID: 114718910286998824, guid: 044d8122b50db664193e30377cd6dc0a,
+    type: 2}
 --- !u!114 &114571137283427640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -132,6 +134,3 @@ MonoBehaviour:
     teleportDuration: 1.5
     teleportRingSize: 10
     teleportationColor: {r: 1, g: 0.68235296, b: 0, a: 1}
-    place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}

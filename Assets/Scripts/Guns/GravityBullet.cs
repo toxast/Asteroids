@@ -53,7 +53,8 @@ public class GravityBullet : PolygonGameObject {
 
 		Color c = Color.black;
 		c.a = 0;
-		var holder = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(RocketLauncher.missileVertices, c);
+		var verts = PolygonCreator.CreatePerfectPolygonVertices (1, 4);
+		var holder = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(verts, c);
 		holder.position = this.position;
 		holder.velocity = this.velocity;
 

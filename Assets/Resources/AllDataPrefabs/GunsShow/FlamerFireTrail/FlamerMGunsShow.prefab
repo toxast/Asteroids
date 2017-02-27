@@ -58,6 +58,10 @@ MonoBehaviour:
   gameSpawnLayer: 1
   duration: 15
   rotation: -50
+  makeChild: 0
   elements:
-  - {fileID: 114292727620618090, guid: 7f2ba65c5d1a88a45af93a316de873df, type: 2}
-  - {fileID: 114292727620618090, guid: 269454cde50250b44a385a188362bbe0, type: 2}
+  - element: {fileID: 114292727620618090, guid: 8ec0289d300c16347b2023cae35d15cb,
+      type: 2}
+    offset:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}

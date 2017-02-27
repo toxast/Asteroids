@@ -11,10 +11,10 @@ public class RocketLauncher : GunShooterBase
 	private Vector2 launchDirection;
 	private float launchSpeed;
 	private float accuracy;
-	private float overrideExplosionRadius;
 	public Vector2[] vertices; 
 	public float lifeTime;
 	public Color color;
+	private float overrideExplosionRadius;
 	public float overrideExplosionDamage;
 	public PhysicalData physical;
 	List<ParticleSystemsData> thrusters;
@@ -74,9 +74,7 @@ public class RocketLauncher : GunShooterBase
 		missile.SetController (controller);
 		missile.targetSystem = new MissileTargetSystem (missile);
 
-		if (data.explosionOnDestruction) {
-			DeathAnimation.MakeDeathForThatFellaYo (missile, true);
-		}
+		DeathAnimation.MakeDeathForThatFellaYo (missile, true);
 
 		if(launchDirection != Vector2.zero)
 		{
@@ -100,14 +98,4 @@ public class RocketLauncher : GunShooterBase
 		if (fireEffect != null)
 			fireEffect.Emit (1);
 	}
-
-	public static Vector2[] missileVertices = PolygonCreator.GetCompleteVertexes(
-		new Vector2[]
-		{
-		new Vector2(2f, 0f),
-		new Vector2(1.5f, -0.2f),
-		new Vector2(0.3f, -0.15f),
-		new Vector2(0f, -0.35f),
-	}
-	, 1f).ToArray();
 }

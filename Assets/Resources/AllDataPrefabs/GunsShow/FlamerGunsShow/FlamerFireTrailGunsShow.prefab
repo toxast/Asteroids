@@ -60,4 +60,8 @@ MonoBehaviour:
   rotation: 0
   makeChild: 1
   elements:
-  - {fileID: 114292727620618090, guid: 7f2ba65c5d1a88a45af93a316de873df, type: 2}
+  - element: {fileID: 114292727620618090, guid: 7f2ba65c5d1a88a45af93a316de873df,
+      type: 2}
+    offset:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}

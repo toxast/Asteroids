@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1988151660142968}
+  m_RootGameObject: {fileID: 1801612010291450}
   m_IsPrefabParent: 1
---- !u!1 &1988151660142968
+--- !u!1 &1801612010291450
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4712571063043808}
-  - component: {fileID: 114292727620618090}
+  - component: {fileID: 4143888612699768}
+  - component: {fileID: 114718910286998824}
   m_Layer: 0
-  m_Name: GunsShowElement 1
+  m_Name: _MGunsShow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4712571063043808
+--- !u!4 &4143888612699768
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1988151660142968}
+  m_GameObject: {fileID: 1801612010291450}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.7585373, y: 4.353438, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,28 +40,43 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114292727620618090
+--- !u!114 &114718910286998824
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1988151660142968}
+  m_GameObject: {fileID: 1801612010291450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90f5b4491cc9c7e4696d869f4b2ea512, type: 3}
+  m_Script: {fileID: 11500000, guid: 437a08a48af876b49809bbfd4e446c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guns:
-  - place:
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 1
+  difficulty: 0
+  gameSpawnLayer: 2
+  duration: 100
+  rotation: 0
+  makeChild: 1
+  elements:
+  - element: {fileID: 114292727620618090, guid: 3e615c6ed3fc9e94ab4c30a7160a31f4,
+      type: 2}
+    offset:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11421854, guid: 58e002aaa48e33d4184ce025bdad8b0f, type: 2}
-  - place:
+  - element: {fileID: 114292727620618090, guid: 3e615c6ed3fc9e94ab4c30a7160a31f4,
+      type: 2}
+    offset:
       pos: {x: 0, y: 0}
-      dir: {x: -1, y: 0}
-    gun: {fileID: 11421854, guid: 58e002aaa48e33d4184ce025bdad8b0f, type: 2}
-  linkedGuns: 
-  rotation: 30
-  offset:
-    pos: {x: 0, y: 10}
-    dir: {x: 0, y: 1}
+      dir: {x: 1, y: 1}
+  - element: {fileID: 114292727620618090, guid: 3e615c6ed3fc9e94ab4c30a7160a31f4,
+      type: 2}
+    offset:
+      pos: {x: 0, y: 0}
+      dir: {x: 0, y: 1}
+  - element: {fileID: 114292727620618090, guid: 3e615c6ed3fc9e94ab4c30a7160a31f4,
+      type: 2}
+    offset:
+      pos: {x: 0, y: 0}
+      dir: {x: -1, y: 1}

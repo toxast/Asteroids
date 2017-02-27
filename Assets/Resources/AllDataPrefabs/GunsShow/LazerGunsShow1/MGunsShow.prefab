@@ -58,8 +58,25 @@ MonoBehaviour:
   gameSpawnLayer: 1
   duration: 5
   rotation: 0
+  makeChild: 0
   elements:
-  - {fileID: 114292727620618090, guid: 6ff44af8e2f2acd46859b4c76020e737, type: 2}
-  - {fileID: 114292727620618090, guid: 341b9a7263b0a894ba1c7edd2f6fd220, type: 2}
-  - {fileID: 114292727620618090, guid: b62d26d12c8e52f4788d375e3f44d101, type: 2}
-  - {fileID: 114292727620618090, guid: 68c714e0c7725f942a1b60e666cf503d, type: 2}
+  - element: {fileID: 114292727620618090, guid: 6ff44af8e2f2acd46859b4c76020e737,
+      type: 2}
+    offset:
+      pos: {x: -10, y: 0}
+      dir: {x: 0, y: 1}
+  - element: {fileID: 114292727620618090, guid: 6ff44af8e2f2acd46859b4c76020e737,
+      type: 2}
+    offset:
+      pos: {x: 0, y: 10}
+      dir: {x: -1, y: 0}
+  - element: {fileID: 114292727620618090, guid: 6ff44af8e2f2acd46859b4c76020e737,
+      type: 2}
+    offset:
+      pos: {x: 0, y: -10}
+      dir: {x: 1, y: 0}
+  - element: {fileID: 114292727620618090, guid: 6ff44af8e2f2acd46859b4c76020e737,
+      type: 2}
+    offset:
+      pos: {x: 10, y: 0}
+      dir: {x: 0, y: -1}

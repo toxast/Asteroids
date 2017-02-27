@@ -23,21 +23,15 @@ public class SawEnemy : Asteroid
 
 		initialRotation = rotation;
 		initialVelocity = velocity.magnitude;
-		//initialVelocitySqr = initialVelocity;
 
 		this.chargeRotation = data.chargeRotation;
-
-		this.rotationChargingRate = (data.chargeRotation - initialRotation) / data.prepareTime;
-//		this.veloityChargeRate = (data.chargeSpeed - initialVelocity) / data.prepareTime;
-
-		this.rotationSlowingRate = (data.chargeRotation - initialRotation) / data.slowingDuration;
-		this.velocityslowingRate = (data.chargeSpeed.max - initialVelocity) / data.slowingDuration;
+		this.rotationChargingRate = (data.chargeRotation) / data.prepareTime;
+		this.rotationSlowingRate = (data.chargeRotation) / data.slowingDuration;
+		this.velocityslowingRate = (data.chargeSpeed.max) / data.slowingDuration;
 	}
 
-	void Start () 
-	{
+	void Start () {
 		StartCoroutine(CheckDistanceAndCharge());
-
 		var accData = data.accuracy;
 		accuracy = accData.startingAccuracy;
 		if (accData.isDynamic) {
@@ -45,36 +39,30 @@ public class SawEnemy : Asteroid
 		}
 	}
 
-	IEnumerator CheckDistanceAndCharge()
-	{
+	IEnumerator CheckDistanceAndCharge() {
 		float deltaTime = 0.3f;
-
-		while(true)
-		{
-			yield return new WaitForSeconds(deltaTime); 
-
-			if(!Main.IsNull(target))
-			{
-				if(Mathf.Abs(rotation) > chargeRotation)
-				{
-					yield return StartCoroutine( Charge() ); 
-					yield return StartCoroutine( Slow() ); 
+		while (true) {
+			yield return new WaitForSeconds (deltaTime); 
+			if (!Main.IsNull (target)) {
+				if (Mathf.Abs (rotation) > chargeRotation) {
+					yield return StartCoroutine (Charge ()); 
+					yield return StartCoroutine (Slow ()); 
+				} else {
+					rotation += Mathf.Sign (rotation) * rotationChargingRate * deltaTime;
 				}
-				else
-				{
-					rotation += Mathf.Sign(rotation) * rotationChargingRate * deltaTime;
-				}
-			}
-			else
-			{
-				Slow(deltaTime);
+			} else {
+				Slow (deltaTime);
 			}
 		}
 	}
 
-	IEnumerator Charge()
-	{
+	GunsShowEffect currentGunsShowEffect;
+	IEnumerator Charge() {
 		if (!Main.IsNull (target)) {
+			if (data.gunsShowChargeEffect != null) {
+				currentGunsShowEffect = new GunsShowEffect (data.gunsShowChargeEffect);
+				AddEffect (currentGunsShowEffect);
+			}
 			chargeSpeed = data.chargeSpeed.RandomValue;
 			AimSystem aim = new AimSystem (target.position, target.velocity * accuracy, position, chargeSpeed);
 			if (aim.canShoot) {
@@ -85,10 +73,13 @@ public class SawEnemy : Asteroid
 			}
 		}
 		yield return new WaitForSeconds (data.chargeDuration.RandomValue); 
+		if (currentGunsShowEffect != null) {
+			currentGunsShowEffect.ForceFinish ();
+			currentGunsShowEffect = null;
+		}
 	}
 
-	private bool Slow(float deltaTime)
-	{
+	private bool Slow(float deltaTime) {
 		float diff = Mathf.Abs (rotation) - Mathf.Abs (initialRotation);
 		float delta = rotationSlowingRate * deltaTime;
 		bool slowingRotation = diff > 0;
@@ -96,7 +87,7 @@ public class SawEnemy : Asteroid
 			if (delta < diff) {
 				rotation -= Mathf.Sign (rotation) * delta;
 			} else {
-				rotation = Mathf.Sign (rotation) * initialRotation;
+				rotation = initialRotation;
 				slowingRotation = false;
 			}
 		}
@@ -115,14 +106,11 @@ public class SawEnemy : Asteroid
 		return slowingVelocity || slowingRotation;
 	}
 	
-	IEnumerator Slow()
-	{
+	IEnumerator Slow() {
 		float deltaTime = 0.15f;
-		
 		bool slowing = true;
 		while (slowing) {
 			slowing = Slow (deltaTime);
-			
 			yield return new WaitForSeconds (deltaTime); 
 		}
 	}
