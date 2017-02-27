@@ -1,0 +1,367 @@
+Index: Assets/Resources/MFlamerGunData.cs
+===================================================================
+--- Assets/Resources/MFlamerGunData.cs	(revision 282)
++++ Assets/Resources/MFlamerGunData.cs	(working copy)
+@@ -35,9 +35,14 @@
+ 		fdata = data;
+ 	}
+ 
+-	protected override void InitBullet(FlamerBullet b)
++	protected override void InitPolygonGameObject (FlamerBullet bullet, PhysicalData ph)
+ 	{
+-		base.InitBullet(b);
++		base.InitPolygonGameObject (bullet, ph);
++	}
++
++	protected override void InitBulletCollisionLayer(FlamerBullet b)
++	{
++		base.InitBulletCollisionLayer(b);
+ 		b.InitFlamingBullet(fdata, b.velocity);
+ 	}
+ 
+@@ -46,7 +51,7 @@
+ 		return PolygonGameObject.DestructionType.eDisappear;
+ 	}
+ 
+-	protected override float GetBulletVelocity ()
++	protected override float GetBulletVelocityMagnitude ()
+ 	{
+ 		return base.GetBulletVelocity () + UnityEngine.Random.Range(-fdata.velocityRandomRange, fdata.velocityRandomRange);
+ 	}
+Index: Assets/Resources/MRocketGunData.cs
+===================================================================
+--- Assets/Resources/MRocketGunData.cs	(revision 284)
++++ Assets/Resources/MRocketGunData.cs	(working copy)
+@@ -3,39 +3,23 @@
+ using System.Collections.Generic;
+ 
+ 
+-public class MRocketGunData : MGunBaseData, IGotShape
++public class MRocketGunData : MGunData, IGotShape
+ {
+-	public float damageOnCollision = 0;
++	[Header ("RocketLauncher")]
+     public float overrideExplosionDamage = -1;
+     public float overrideExplosionRadius = -1;
+-    public float lifeTime = 2;
+-    public float fireInterval = 0.5f;
+-    public int repeatCount = 0;
+-    public float repeatInterval = 0;
+-    public PhysicalData physical;
+-    public Vector2[] vertices = PolygonCreator.GetRectShape(0.4f, 0.2f); 
+-    public Color color = Color.red;
+-    public ParticleSystem fireEffect;
++	public float accuracy = 0.5f;
+ 	public SpaceshipData missleParameters;
+-	public float accuracy = 0.5f;
+ 	public List<ParticleSystemsData> thrusters;
+-	public List<ParticleSystemsData> particles;
+-	public List<ParticleSystemsData> destructionEffects;
+-
+ 	public Vector2 launchDirection;
+-	public float launchSpeed;
+ 
+-	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}
+-
+     public override Gun GetGun(Place place, PolygonGameObject t)
+ 	{
+ 		return new RocketLauncher(place, this, t);
+ 	}
+ 
+-	void OnValidate(){
++	protected override void OnValidate(){
+ 		thrusters.SetDefaultValues ();
+-		particles.SetDefaultValues ();
+-		destructionEffects.SetDefaultValues ();
+ 	}
+ 
+ }
+Index: Assets/Scripts/Guns/BulletGun.cs
+===================================================================
+--- Assets/Scripts/Guns/BulletGun.cs	(revision 281)
++++ Assets/Scripts/Guns/BulletGun.cs	(working copy)
+@@ -4,13 +4,6 @@
+ 
+ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
+ {
+-	public Vector2[] vertices; 
+-	public PhysicalData physical;
+-	public float lifeTime;
+-	public float bulletSpeed;
+-	public Color color;
+-	public float damage;
+-	public float spreadAngle;
+     public MGunData data;
+ 
+     public BulletGun(Place place, MGunData data, PolygonGameObject parent)
+@@ -17,38 +10,30 @@
+ 		:base(place, data, parent, data.repeatCount, data.repeatInterval, data.fireInterval, data.fireEffect)
+ 	{
+         this.data = data;
+-		this.vertices = data.vertices;
+-		this.physical = data.physical;
+-		this.lifeTime = data.lifeTime;
+-		this.bulletSpeed = data.bulletSpeed;
+-		this.color = data.color;
+-		this.damage = data.damage;
+-		this.spreadAngle = data.spreadAngle;
++		range = data.velocity * data.lifeTime;
+ 	}
+ 
+-	public override float Range
+-	{
+-		get{return bulletSpeed*lifeTime;}
++	float range;
++	public override float Range	{
++		get{return range;}
+ 	}
+ 
+-	public override float BulletSpeedForAim{ get { return bulletSpeed; } }
++	public override float BulletSpeedForAim{ get { return data.velocity; } }
+ 
+ 	protected T CreateBullet( )
+     {
+-        T bullet = PolygonCreator.CreatePolygonGOByMassCenter<T>(vertices, color);
+-		bullet.gameObject.name = "bullet";
++		T bullet = PolygonCreator.CreatePolygonGOByMassCenter<T>(data.vertices, data.color);
++		bullet.gameObject.name = data.name;
+ 
+ 		Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform);
+ 
+-		var ph = ApplyHeavvyBulletModifier (physical);
+-		bullet.InitPolygonGameObject (ph);
+-		bullet.InitLifetime (lifeTime);
+-		bullet.damageOnCollision = damage;
+-		var velocity = bullet.cacheTransform.right * GetBulletVelocity();
+-		if (spreadAngle > 0) {
+-			velocity = Math2d.RotateVertexDeg (velocity, UnityEngine.Random.Range (-spreadAngle * 0.5f, spreadAngle * 0.5f));
+-		}
+-		bullet.velocity = velocity;
++		var ph = ApplyHeavvyBulletModifier (data.physical);
++		InitPolygonGameObject ();
++
++		bullet.InitLifetime (data.lifeTime);
++		bullet.damageOnCollision = data.hitDamage;
++
++		bullet.velocity = GetBulletVelocity();
+ 		bullet.destructionType = GetBulletDestruction();
+ 		bullet.destroyOnBoundsTeleport = true;
+         bullet.SetParticles(data.effects);
+@@ -57,31 +42,40 @@
+         return bullet;
+ 	}
+ 
+-	protected virtual float GetBulletVelocity(){
+-		return bulletSpeed;
++	protected virtual void InitPolygonGameObject(T bullet, PhysicalData ph)
++	{
++		bullet.InitPolygonGameObject (ph);
+ 	}
+ 
++	protected virtual float GetBulletVelocityMagnitude(){
++		return data.velocity;
++	}
++
++	protected virtual Vector2 GetBulletVelocity(T bullet){
++		var velocity = bullet.cacheTransform.right * GetBulletVelocityMagnitude();
++		if (data.spreadAngle > 0) {
++			velocity = Math2d.RotateVertexDeg (velocity, UnityEngine.Random.Range (-data.spreadAngle * 0.5f, data.spreadAngle * 0.5f));
++		}
++		return velocity;
++	}
++
+ 	protected virtual PolygonGameObject.DestructionType GetBulletDestruction(){
+ 		return PolygonGameObject.DestructionType.eSptilOnlyOnHit;
+ 	}
+ 
+-    protected virtual void InitBullet(T bullet)
+-    {
+-        bullet.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
++    protected virtual void InitBulletCollisionLayer(T bullet) {
++		bullet.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
+     }
+ 
+-	protected override void Fire()
+-	{
++	protected override void Fire() {
+ 		var b = CreateBullet();
+-
+-        InitBullet( b );
+-
++        InitBulletCollisionLayer( b );
+ 		b.velocity += Main.AddShipSpeed2TheBullet(parent);
+-
+ 		Singleton<Main>.inst.HandleGunFire (b);
+ 
+-		if (fireEffect != null)
++		if (fireEffect != null) {
+ 			fireEffect.Emit (1);
++		}
+ 	}
+ }
+ 
+Index: Assets/Scripts/Guns/MGunData.cs
+===================================================================
+--- Assets/Scripts/Guns/MGunData.cs	(revision 280)
++++ Assets/Scripts/Guns/MGunData.cs	(working copy)
+@@ -3,23 +3,23 @@
+ 
+ [System.Serializable]
+ public class MGunData : MGunBaseData, IGotShape {
+-	public float damage = 3;
++	public float hitDamage = 3;
+ 	public float lifeTime = 2;
+-	public float bulletSpeed = 35;
++	public float velocity = 35;
+ 	public float fireInterval = 0.5f;
+-	public PhysicalData physical;
+ 	public int repeatCount = 0;
+ 	public float repeatInterval = 0;
++	public PhysicalData physical;
+ 	public float spreadAngle = 0;
+-	public Vector2[] vertices = PolygonCreator.GetRectShape(0.4f, 0.2f); 
+ 	public Color color = Color.red;
++	public ParticleSystem fireEffect;
+     public List<ParticleSystemsData> effects;
+ 	public List<ParticleSystemsData> destructionEffects;
+-    public ParticleSystem fireEffect;
++	public Vector2[] vertices = PolygonCreator.GetRectShape(0.4f, 0.2f); 
+ 
+ 	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}
+ 
+-	void OnValidate(){
++	protected virtual void OnValidate(){
+ 		effects.SetDefaultValues ();
+ 		destructionEffects.SetDefaultValues ();
+ 	}
+Index: Assets/Scripts/Guns/RocketLauncher.cs
+===================================================================
+--- Assets/Scripts/Guns/RocketLauncher.cs	(revision 284)
++++ Assets/Scripts/Guns/RocketLauncher.cs	(working copy)
+@@ -3,20 +3,8 @@
+ using System.Collections;
+ using System.Collections.Generic;
+ 
+-public class RocketLauncher : GunShooterBase
++public class RocketLauncher : BulletGun<SpaceShip>
+ {
+-	public ParticleSystem thrusterEffect;
+-	private SpaceshipData missleParameters;
+-	private Vector2 thrusterPos;
+-	private Vector2 launchDirection;
+-	private float launchSpeed;
+-	private float accuracy;
+-	public Vector2[] vertices; 
+-	public float lifeTime;
+-	public Color color;
+-	private float overrideExplosionRadius;
+-	public float overrideExplosionDamage;
+-	public PhysicalData physical;
+ 	List<ParticleSystemsData> thrusters;
+ 	List<ParticleSystemsData> partcles;
+ 
+@@ -26,76 +14,48 @@
+ 		:base(place, data, parent, data.repeatCount, data.repeatInterval, data.fireInterval, data.fireEffect)
+ 	{ 
+ 		this.data = data;
+-		vertices = data.vertices;
+-		missleParameters = data.missleParameters;
+-		physical = data.physical;
++		range = data.missleParameters.maxSpeed * data.lifeTime;
+         thrusters = data.thrusters.Clone();
+-        partcles = data.particles.Clone();
++        partcles = data.effects.Clone();
++	}
+ 
+-        launchDirection = data.launchDirection;
+-		launchSpeed = data.launchSpeed;
+-		accuracy = data.accuracy;
+-		overrideExplosionRadius = data.overrideExplosionRadius;
+-		lifeTime = data.lifeTime;
+-		color = data.color;
+-		overrideExplosionDamage = data.overrideExplosionDamage;
++	float range;
++	public override float Range	{
++		get{return range;}
+ 	}
+ 
+-	public override float Range
++	public override float BulletSpeedForAim{ get { return data.missleParameters.maxSpeed; } } //TODO?
++
++	protected override void InitPolygonGameObject (SpaceShip bullet, PhysicalData ph)
+ 	{
+-		get{return missleParameters.maxSpeed*lifeTime;}
++		bullet.InitSpaceShip(ph, data.missleParameters); 
+ 	}
+ 
+-	public override float BulletSpeedForAim{ get { return missleParameters.maxSpeed; } }
+ 
++
+ 	private SpaceShip CreateMissile()
+ 	{
+-		SpaceShip missile = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, color);
++		
+ 
+-		Math2d.PositionOnParent (missile.cacheTransform, place, parent.cacheTransform);
+-
+-		missile.gameObject.name = "missile";
+-		var ph = ApplyHeavvyBulletModifier (physical);
+-		missile.InitSpaceShip(ph, missleParameters);
+-		missile.InitLifetime (lifeTime);
+-
+-		missile.damageOnCollision = data.damageOnCollision;
+ 		missile.destroyOnBoundsTeleport = true;
+ 		missile.destructionType = PolygonGameObject.DestructionType.eDisappear;
+-		missile.overrideExplosionDamage = overrideExplosionDamage; 
+-		missile.overrideExplosionRange = overrideExplosionRadius;
++		missile.overrideExplosionDamage = data.overrideExplosionDamage; 
++		missile.overrideExplosionRange = data.overrideExplosionRadius;
++		DeathAnimation.MakeDeathForThatFellaYo (missile, true);
+ 		if(thrusters != null) {
+ 			missile.SetThrusters (thrusters);
+ 		}
+-		missile.SetParticles (partcles);
+-		missile.SetDestroyAnimationParticles (data.destructionEffects);
+ 
+-		var controller = new MissileController (missile, accuracy);
++		var controller = new MissileController (missile, data.accuracy);
+ 		missile.SetController (controller);
+ 		missile.targetSystem = new MissileTargetSystem (missile);
+ 
+-		DeathAnimation.MakeDeathForThatFellaYo (missile, true);
++		if (data.launchDirection != Vector2.zero) {
++			float angle = Math2d.GetRotationRad (missile.cacheTransform.right);
++			var byPlace = Math2d.RotateVertex (data.launchDirection, angle);
++			missile.velocity += byPlace.normalized * data.velocity;
++		} 
+ 
+-		if(launchDirection != Vector2.zero)
+-		{
+-			float angle = Math2d.GetRotationRad(missile.cacheTransform.right);
+-			var byPlace = Math2d.RotateVertex(launchDirection, angle);
+-			missile.velocity += byPlace.normalized * launchSpeed;
+-		}
+-
+ 		return missile;
+ 	}
+-
+-	protected override void Fire()
+-	{
+-		var fireElem = CreateMissile ();
+-
+-		fireElem.velocity += Main.AddShipSpeed2TheBullet(parent);
+-		fireElem.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
+-
+-		Singleton<Main>.inst.HandleGunFire (fireElem);
+-
+-		if (fireEffect != null)
+-			fireEffect.Emit (1);
+-	}
+ }
+Index: ProjectSettings/ProjectVersion.txt
+===================================================================
+--- ProjectSettings/ProjectVersion.txt	(revision 279)
++++ ProjectSettings/ProjectVersion.txt	(working copy)
+@@ -1 +1 @@
+-m_EditorVersion: 5.5.0p3
++m_EditorVersion: 5.5.2f1
