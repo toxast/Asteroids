@@ -21,7 +21,7 @@ public class MGunsShow : MSpawnDataBase {
 			ph.health = 10000;
 			ph.density = 100;
 			holder.InitPolygonGameObject (ph);
-			holder.SetCollisionLayerNum (layer);
+			holder.SetLayerNum (layer);
 			holder.InitLifetime (duration + 1);
 			holder.destructionType = PolygonGameObject.DestructionType.eDisappear;
 			holder.name = "fake holder";
@@ -41,7 +41,7 @@ public class MGunsShow : MSpawnDataBase {
 		GunsShowPolygonGO gunsShowObj = PolygonCreator.CreatePolygonGOByMassCenter<GunsShowPolygonGO>(verts1, Color.red);
 		gunsShowObj.SetAlpha (0);
 		gunsShowObj.InitPolygonGameObject (new PhysicalData ());
-		gunsShowObj.SetCollisionLayerNum (layer);
+		gunsShowObj.SetLayerNum (layer);
 		gunsShowObj.InitLifetime (duration);
 		gunsShowObj.rotation = rotation;
 		gunsShowObj.name = "guns show";
@@ -58,7 +58,7 @@ public class MGunsShow : MSpawnDataBase {
 			}
 			obj.InitPolygonGameObject (new PhysicalData ());
 			obj.SetGuns(gunsList, elem.linkedGuns);
-			obj.SetCollisionLayerNum(layer);
+			obj.SetLayerNum(layer);
 			obj.rotation = elem.rotation;
 			obj.name = "guns element";
 			Math2d.PositionOnParent (obj.cacheTransform, elements [i].offset, gunsShowObj.cacheTransform, true, 1);

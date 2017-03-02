@@ -24,7 +24,11 @@ public class MSpawnDataBase : MonoBehaviour, ISpawnable {
 	#endif
 
 	public PolygonGameObject Create (){
-		return Create (gameSpawnLayer);
+		var obj = Create (gameSpawnLayer);
+		if (obj != null) {
+			obj.name = name;
+		}
+		return obj;
 	}
 
 	public virtual PolygonGameObject Create (int layer){return null;}

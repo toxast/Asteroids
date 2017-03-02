@@ -5,10 +5,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 450510}
-  - 114: {fileID: 11411428}
+  - component: {fileID: 450510}
+  - component: {fileID: 11411428}
   m_Layer: 0
   m_Name: Gun4_(4) user gun for old school
   m_TagString: Untagged
@@ -25,10 +25,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11411428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -44,16 +44,23 @@ MonoBehaviour:
   price: 0
   etype: 1
   damage: 1.8
+  hitDamage: 1.8
   lifeTime: 2
-  bulletSpeed: 40
+  velocity: 35
   fireInterval: 0.5
+  repeatCount: 0
+  repeatInterval: 0
   physical:
     density: 2
+    health: -1
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1.5
-  repeatCount: 0
-  repeatInterval: 0
+  spreadAngle: 0
+  color: {r: 0.71212554, g: 0.08504539, b: 0.8897059, a: 1}
+  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  effects: []
+  destructionEffects: []
   vertices:
   - {x: 0.52531284, y: -0.2638593}
   - {x: 0.31961906, y: -0.517}
@@ -61,8 +68,6 @@ MonoBehaviour:
   - {x: -0.42798528, y: 0.69795036}
   - {x: 0.31961906, y: 0.517}
   - {x: 0.52531284, y: 0.2638593}
-  color: {r: 0.71212554, g: 0.08504539, b: 0.8897059, a: 1}
-  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

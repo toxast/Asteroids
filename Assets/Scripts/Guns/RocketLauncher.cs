@@ -3,99 +3,61 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class RocketLauncher : GunShooterBase
+public class RocketLauncher : BulletGun<SpaceShip>
 {
-	public ParticleSystem thrusterEffect;
-	private SpaceshipData missleParameters;
-	private Vector2 thrusterPos;
-	private Vector2 launchDirection;
-	private float launchSpeed;
-	private float accuracy;
-	public Vector2[] vertices; 
-	public float lifeTime;
-	public Color color;
-	private float overrideExplosionRadius;
-	public float overrideExplosionDamage;
-	public PhysicalData physical;
 	List<ParticleSystemsData> thrusters;
-	List<ParticleSystemsData> partcles;
 
-	MRocketGunData data;
+	new MRocketGunData data;
 
 	public RocketLauncher(Place place, MRocketGunData data, PolygonGameObject parent)
-		:base(place, data, parent, data.repeatCount, data.repeatInterval, data.fireInterval, data.fireEffect)
+		:base(place, data, parent)
 	{ 
 		this.data = data;
-		vertices = data.vertices;
-		missleParameters = data.missleParameters;
-		physical = data.physical;
+		range = data.missleParameters.maxSpeed * data.lifeTime;
         thrusters = data.thrusters.Clone();
-        partcles = data.particles.Clone();
-
-        launchDirection = data.launchDirection;
-		launchSpeed = data.launchSpeed;
-		accuracy = data.accuracy;
-		overrideExplosionRadius = data.overrideExplosionRadius;
-		lifeTime = data.lifeTime;
-		color = data.color;
-		overrideExplosionDamage = data.overrideExplosionDamage;
 	}
 
-	public override float Range
-	{
-		get{return missleParameters.maxSpeed*lifeTime;}
+	float range;
+	public override float Range	{
+		get{return range;}
 	}
 
-	public override float BulletSpeedForAim{ get { return missleParameters.maxSpeed; } }
+	public override float BulletSpeedForAim{ get { return data.missleParameters.maxSpeed; } } //TODO?
 
-	private SpaceShip CreateMissile()
-	{
-		SpaceShip missile = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, color);
+	protected override void InitPolygonGameObject (SpaceShip bullet, PhysicalData ph) {
+		bullet.InitSpaceShip(ph, data.missleParameters); 
 
-		Math2d.PositionOnParent (missile.cacheTransform, place, parent.cacheTransform);
+		if (CreateExplosion ()) {
+			bullet.overrideExplosionDamage = data.overrideExplosionDamage; 
+			bullet.overrideExplosionRange = data.overrideExplosionRadius;
+			DeathAnimation.MakeDeathForThatFellaYo (bullet, true);
+		}
 
-		missile.gameObject.name = "missile";
-		var ph = ApplyHeavvyBulletModifier (physical);
-		missile.InitSpaceShip(ph, missleParameters);
-		missile.InitLifetime (lifeTime);
-
-		missile.damageOnCollision = data.damageOnCollision;
-		missile.destroyOnBoundsTeleport = true;
-		missile.destructionType = PolygonGameObject.DestructionType.eDisappear;
-		missile.overrideExplosionDamage = overrideExplosionDamage; 
-		missile.overrideExplosionRange = overrideExplosionRadius;
 		if(thrusters != null) {
-			missile.SetThrusters (thrusters);
-		}
-		missile.SetParticles (partcles);
-		missile.SetDestroyAnimationParticles (data.destructionEffects);
-
-		var controller = new MissileController (missile, accuracy);
-		missile.SetController (controller);
-		missile.targetSystem = new MissileTargetSystem (missile);
-
-		DeathAnimation.MakeDeathForThatFellaYo (missile, true);
-
-		if(launchDirection != Vector2.zero)
-		{
-			float angle = Math2d.GetRotationRad(missile.cacheTransform.right);
-			var byPlace = Math2d.RotateVertex(launchDirection, angle);
-			missile.velocity += byPlace.normalized * launchSpeed;
+			bullet.SetThrusters (thrusters);
 		}
 
-		return missile;
+		var controller = new MissileController (bullet, data.accuracy);
+		bullet.SetController (controller);
+		bullet.targetSystem = new MissileTargetSystem (bullet);
+
+	}
+	protected override PolygonGameObject.DestructionType SetDestructionType () {
+		return PolygonGameObject.DestructionType.eDisappear;
 	}
 
-	protected override void Fire()
-	{
-		var fireElem = CreateMissile ();
+	protected virtual bool CreateExplosion() {
+		return true;
+	}
 
-		fireElem.velocity += Main.AddShipSpeed2TheBullet(parent);
-		fireElem.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
-
-		Singleton<Main>.inst.HandleGunFire (fireElem);
-
-		if (fireEffect != null)
-			fireEffect.Emit (1);
+	protected override Vector2 GetDirectionNormalized (SpaceShip bullet) {
+		var dir = base.GetDirectionNormalized (bullet);
+		if (data.launchDirection != Vector2.zero) {
+			float angle = Math2d.GetRotationRad (dir);
+			var byPlace = Math2d.RotateVertex (data.launchDirection, angle);
+			return byPlace.normalized;
+		} else {
+			return dir;
+		}
 	}
 }

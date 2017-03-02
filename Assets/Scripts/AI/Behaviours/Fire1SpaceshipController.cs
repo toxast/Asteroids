@@ -142,7 +142,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 							var obj = fireballs [i];
 							if (!Main.IsNull (obj)) {
 								fireballs [i] = null;
-								AimSystem aim = new AimSystem (target.position, target.velocity, obj.position, (data.fireballData.launchSpeed + data.fireballData.missleParameters.maxSpeed) * 0.5f);
+								AimSystem aim = new AimSystem (target.position, target.velocity, obj.position, (data.fireballData.velocity + data.fireballData.missleParameters.maxSpeed) * 0.5f);
 								var controller = new MissileController (obj, data.fireballData.accuracy);
 								obj.SetController (controller);
 								obj.SetTarget (target);
@@ -151,7 +151,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 								var dir = aim.directionDist.normalized;
 								dir = Math2d.RotateVertexDeg (dir, rndAngle);
 								obj.cacheTransform.right = dir; 
-								obj.velocity = obj.cacheTransform.right * data.fireballData.launchSpeed;
+								obj.velocity = obj.cacheTransform.right * data.fireballData.velocity;
 								obj.InitLifetime (data.fireballData.lifeTime); 
 
 								obj.destroyOnBoundsTeleport = true;
@@ -169,22 +169,16 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 
     private SpaceShip CreateFireball() {
         var rd = data.fireballData;
-		var vertices = PolygonCreator.CreatePerfectPolygonVertices(rd.radius, 6);
-		SpaceShip fireball = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip>(vertices, Color.black);
-		fireball.SetAlpha (0);
-        fireball.position = thisShip.position;
-        fireball.gameObject.name = "fireball";
-        fireball.InitSpaceShip(rd.physical, rd.missleParameters);
-        fireball.damageOnCollision = rd.damageOnCollision;
-        fireball.destructionType = PolygonGameObject.DestructionType.eDisappear;
-        fireball.SetParticles(rd.particles);
-        fireball.SetDestroyAnimationParticles(rd.destructionEffects);
+		var fireballGun = rd.GetGun (new Place (), thisShip) as FireballGun;
+		var fireball = fireballGun.CreateBullet ();
+		//hacks
+		fireball.velocity = Vector2.zero;
+		fireball.SetInfiniteLifeTime ();
 		fireball.SetController (new StaticInputController ());
-		fireball.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(thisShip.layer));
-		fireball.burnDot = rd.dot;
-        thisShip.AddObjectAsFollower(fireball);
+		fireball.destroyOnBoundsTeleport = false;
+		thisShip.AddObjectAsFollower(fireball);
 		Singleton<Main>.inst.HandleGunFire (fireball);
-        return fireball;
+		return fireball;
     }
 
 	private IEnumerator AccuracyChanger(AccuracyData data)

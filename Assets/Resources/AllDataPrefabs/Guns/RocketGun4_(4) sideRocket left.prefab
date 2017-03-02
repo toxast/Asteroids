@@ -43,30 +43,34 @@ MonoBehaviour:
   storeName: (4) sideRocket left
   price: 0
   etype: 2
-  damage: 4.5
-  overrideExplosionDamage: 4.5
-  overrideExplosionRadius: 15
+  hitDamage: 4.5
   lifeTime: 3
+  velocity: 35
   fireInterval: 3
+  repeatCount: 3
+  repeatInterval: 0.3
   physical:
     density: 1
     health: -1
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  repeatCount: 3
-  repeatInterval: 0.3
+  spreadAngle: 0
+  color: {r: 0.3294118, g: 0.74509805, b: 0.72789717, a: 1}
+  fireEffect: {fileID: 0}
+  effects: []
+  destructionEffects: []
   vertices:
-  - {x: 1.1400497, y: 7.471937e-10}
+  - {x: 1.1400497, y: 7.4718376e-10}
   - {x: 0.64004976, y: -0.2}
   - {x: -0.55995023, y: -0.15}
   - {x: -0.85995024, y: -0.35}
   - {x: -0.85995024, y: 0.35}
   - {x: -0.55995023, y: 0.15}
   - {x: 0.64004976, y: 0.2}
-  color: {r: 0.3294118, g: 0.74509805, b: 0.72789717, a: 1}
-  fireEffect: {fileID: 0}
-  explosionOnDestruction: 1
+  overrideExplosionDamage: 4.5
+  overrideExplosionRadius: 15
+  accuracy: 1
   missleParameters:
     thrust: 30
     maxSpeed: 60
@@ -75,15 +79,16 @@ MonoBehaviour:
     passiveBrake: 2
     stability: 1
     shootAngle: 15
-  accuracy: 1
-  thrusters: []
-  particles:
+  thrusters:
   - place:
-      pos: {x: -0.8599502, y: 0}
+      pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
     prefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
   launchDirection: {x: 0.2, y: 1}
-  launchSpeed: 20
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

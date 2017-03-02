@@ -43,31 +43,22 @@ MonoBehaviour:
   storeName: (5) user gun for old school 2
   price: 0
   etype: 1
-  damage: 4.5
+  damage: 3
+  hitDamage: 3
   lifeTime: 2
-  bulletSpeed: 42
+  velocity: 35
   fireInterval: 0.7
+  repeatCount: 0
+  repeatInterval: 0
   physical:
     density: 2
     health: -1
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  repeatCount: 0
-  repeatInterval: 0
   spreadAngle: 0
-  vertices:
-  - {x: 0.5804765, y: -0.23747337}
-  - {x: 0.2851637, y: -0.63}
-  - {x: -0.4248363, y: -1.098}
-  - {x: -0.6548363, y: -0.792}
-  - {x: -0.11483633, y: -0.306}
-  - {x: -0.11483633, y: 0.306}
-  - {x: -0.6548363, y: 0.792}
-  - {x: -0.4248363, y: 1.098}
-  - {x: 0.2851637, y: 0.63}
-  - {x: 0.5804765, y: 0.23747337}
   color: {r: 0.02189661, g: 0.5955882, b: 0.16828679, a: 0}
+  fireEffect: {fileID: 0}
   effects:
   - place:
       pos: {x: 0, y: 0}
@@ -86,7 +77,17 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: -1
-  fireEffect: {fileID: 0}
+  vertices:
+  - {x: 0.5804765, y: -0.23747337}
+  - {x: 0.2851637, y: -0.63}
+  - {x: -0.4248363, y: -1.098}
+  - {x: -0.6548363, y: -0.792}
+  - {x: -0.11483633, y: -0.306}
+  - {x: -0.11483633, y: 0.306}
+  - {x: -0.6548363, y: 0.792}
+  - {x: -0.4248363, y: 1.098}
+  - {x: 0.2851637, y: 0.63}
+  - {x: 0.5804765, y: 0.23747337}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

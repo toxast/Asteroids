@@ -44,26 +44,28 @@ MonoBehaviour:
   price: 0
   etype: 1
   damage: 1
+  hitDamage: 1
   lifeTime: 2
-  bulletSpeed: 35
+  velocity: 35
   fireInterval: 0.33
+  repeatCount: 0
+  repeatInterval: 0
   physical:
     density: 0.1
     health: -1
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 0.1
-  repeatCount: 0
-  repeatInterval: 0
   spreadAngle: 0
+  color: {r: 0.8862745, g: 0.7254902, b: 0.06666667, a: 1}
+  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  effects: []
+  destructionEffects: []
   vertices:
   - {x: 0.4, y: 0.2}
   - {x: 0.4, y: -0.2}
   - {x: -0.4, y: -0.2}
   - {x: -0.4, y: 0.2}
-  color: {r: 0.8862745, g: 0.7254902, b: 0.06666667, a: 1}
-  effects: []
-  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

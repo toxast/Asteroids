@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1657710132949094}
+  m_IsPrefabParent: 1
+--- !u!1 &1657710132949094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4488915978420290}
+  - component: {fileID: 114753084314748396}
+  m_Layer: 0
+  m_Name: ShieldSaw
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4488915978420290
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657710132949094}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7585373, y: 4.353438, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114753084314748396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657710132949094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308fcc3f00d3a1b4c8e7f0a97758cb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  difficulty: 0
+  gameSpawnLayer: 2
+  physical:
+    density: 3
+    health: -1
+    healthModifier: 5
+    collisionDefence: 0.5
+    collisionAttackModifier: 1
+  verts:
+  - {x: 1.1471696, y: -0.00000035534973}
+  - {x: 1.070184, y: -0.7698414}
+  - {x: 1.3839425, y: -1.3455586}
+  - {x: 1.7488872, y: -1.3941442}
+  - {x: 1.9560572, y: -0.6686048}
+  - {x: 2.3765845, y: -0.73676205}
+  - {x: 2.7327158, y: -1.625343}
+  - {x: 2.2468867, y: -2.7262204}
+  - {x: 1.1844982, y: -3.5642936}
+  - {x: -0.24166006, y: -3.6855183}
+  - {x: 0.5554927, y: -2.7440736}
+  - {x: 0.69233346, y: -2.2304149}
+  - {x: 0.41405767, y: -1.5782194}
+  - {x: -0.08665551, y: -1.028329}
+  - {x: -0.57358515, y: -0.99347794}
+  - {x: -1.2017944, y: -0.54188573}
+  - {x: -1.8572595, y: -0.5257498}
+  - {x: -2.0818086, y: -0.81750846}
+  - {x: -1.5570575, y: -1.3596925}
+  - {x: -1.8263472, y: -1.6898011}
+  - {x: -2.7739468, y: -1.5539291}
+  - {x: -3.4844196, y: -0.5827504}
+  - {x: -3.6790175, y: 0.7563415}
+  - {x: -3.0709229, y: 2.0520432}
+  - {x: -2.654184, y: 0.890966}
+  - {x: -2.277763, y: 0.51562923}
+  - {x: -1.5738069, y: 0.43052524}
+  - {x: -0.84723157, y: 0.58921033}
+  - {x: -0.57358503, y: 0.9934782}
+  - {x: 0.13160984, y: 1.311728}
+  - {x: 0.47331664, y: 1.8713094}
+  - {x: 0.3329206, y: 2.2116535}
+  - {x: -0.39899996, y: 2.0282984}
+  - {x: -0.5502379, y: 2.4265635}
+  - {x: 0.04123011, y: 3.179273}
+  - {x: 1.2375323, y: 3.3089714}
+  - {x: 2.4945195, y: 2.807953}
+  - {x: 3.3125818, y: 1.6334766}
+  - {x: 2.0986907, y: 1.8531084}
+  - {x: 1.5854287, y: 1.7147865}
+  - {x: 1.1597488, y: 1.1476948}
+  - {x: 0.9338862, y: 0.43911904}
+  color: {r: 0.48172578, g: 0.5787272, b: 0.8088235, a: 1}

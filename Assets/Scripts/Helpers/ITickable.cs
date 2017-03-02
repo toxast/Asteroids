@@ -35,6 +35,8 @@ public abstract class TickableEffect : ITickable
 		SpawnBackup,
 		HeavyBullet,
 		ExtraGuns,
+		RotatingObjectsShield,
+		KeepRotation,
 	}
 }
 

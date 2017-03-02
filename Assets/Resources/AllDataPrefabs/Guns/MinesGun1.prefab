@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1025754281705486}
+  m_IsPrefabParent: 1
+--- !u!1 &1025754281705486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4927751522471260}
+  - component: {fileID: 114042038382192468}
+  m_Layer: 0
+  m_Name: MinesGun1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4927751522471260
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1025754281705486}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7585373, y: 4.353438, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114042038382192468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1025754281705486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7e2de9eef5577418432b9cd403e3aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storeName: 
+  price: 0
+  etype: 0
+  hitDamage: 0
+  lifeTime: 30
+  velocity: 30
+  fireInterval: 2
+  repeatCount: 3
+  repeatInterval: 0.01
+  physical:
+    density: 1
+    health: 5
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  spreadAngle: 90
+  color: {r: 0.8088235, g: 0.26167822, b: 0.26167822, a: 1}
+  fireEffect: {fileID: 0}
+  effects: []
+  destructionEffects: []
+  vertices:
+  - {x: 1.3700931, y: 0.0000012778415}
+  - {x: 1.3023905, y: -0.49525788}
+  - {x: 1.662212, y: -0.7652308}
+  - {x: 1.4856243, y: -1.0322293}
+  - {x: 1.0898739, y: -0.8665579}
+  - {x: 0.68504643, y: -1.1865357}
+  - {x: 0.22228819, y: -1.3755326}
+  - {x: 0.16839576, y: -1.8221335}
+  - {x: -0.15112525, y: -1.8027031}
+  - {x: -0.20552495, y: -1.3771378}
+  - {x: -0.6850468, y: -1.1865357}
+  - {x: -1.080102, y: -0.8802735}
+  - {x: -1.4938155, y: -1.0569023}
+  - {x: -1.6367491, y: -0.7704733}
+  - {x: -1.2953985, y: -0.510579}
+  - {x: -1.3700931, y: 0.0000012778415}
+  - {x: -1.3023905, y: 0.4952595}
+  - {x: -1.6622118, y: 0.7652319}
+  - {x: -1.485624, y: 1.0322295}
+  - {x: -1.0898738, y: 0.8665588}
+  - {x: -0.6850465, y: 1.1865355}
+  - {x: -0.22228903, y: 1.3755324}
+  - {x: -0.16839662, y: 1.8221333}
+  - {x: 0.15112442, y: 1.8027029}
+  - {x: 0.20552415, y: 1.3771375}
+  - {x: 0.6850464, y: 1.1865355}
+  - {x: 1.0801018, y: 0.88027483}
+  - {x: 1.4938155, y: 1.0569024}
+  - {x: 1.6367491, y: 0.7704743}
+  - {x: 1.2953985, y: 0.5105802}
+  overrideExplosionDamage: 10
+  overrideExplosionRadius: 20
+  deceleration:
+    min: 3
+    max: 5
+  activateRange: 15
+  timerDuration: 1
+  explodeOnExpire: 0
+  triggetExplosionEffect:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198454905475482354, guid: d3e5fc2c1e21b104d970309baf68dc76, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -0.1

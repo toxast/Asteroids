@@ -3,23 +3,23 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class MGunData : MGunBaseData, IGotShape {
-	public float damage = 3;
+	public float hitDamage = 3;
 	public float lifeTime = 2;
-	public float bulletSpeed = 35;
+	public float velocity = 35;
 	public float fireInterval = 0.5f;
-	public PhysicalData physical;
 	public int repeatCount = 0;
 	public float repeatInterval = 0;
+	public PhysicalData physical;
 	public float spreadAngle = 0;
-	public Vector2[] vertices = PolygonCreator.GetRectShape(0.4f, 0.2f); 
 	public Color color = Color.red;
+	public ParticleSystem fireEffect;
     public List<ParticleSystemsData> effects;
 	public List<ParticleSystemsData> destructionEffects;
-    public ParticleSystem fireEffect;
+	public Vector2[] vertices = PolygonCreator.GetRectShape(0.4f, 0.2f); 
 
 	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}
 
-	void OnValidate(){
+	protected virtual void OnValidate(){
 		effects.SetDefaultValues ();
 		destructionEffects.SetDefaultValues ();
 	}

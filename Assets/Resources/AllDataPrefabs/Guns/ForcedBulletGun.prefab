@@ -54,33 +54,39 @@ MonoBehaviour:
   storeName: 
   price: 0
   etype: 0
-  damage: 0
+  hitDamage: 0
   lifeTime: 10
-  bulletSpeed: 25
+  velocity: 35
   fireInterval: 1
+  repeatCount: 0
+  repeatInterval: 0
   physical:
     density: 1
     health: -1
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  repeatCount: 0
-  repeatInterval: 0
+  spreadAngle: 0
+  color: {r: 0, g: 0.7931032, b: 1, a: 0.466}
+  fireEffect: {fileID: 0}
+  effects: []
+  destructionEffects: []
   vertices:
   - {x: 0.4, y: 0.4}
   - {x: 0.4, y: -0.4}
   - {x: -0.4, y: -0.4}
   - {x: -0.4, y: 0.4}
-  color: {r: 0, g: 0.7931032, b: 1, a: 0}
-  effects: []
-  fireEffect: {fileID: 0}
   force: 20
   forceDuration: 0.7
-  range: 13
-  fieldForce: -1000
+  range: 10
+  fieldForce: 1000
   damagePerSecond: 100
   effectsForcedBullet:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
     prefab: {fileID: 198453883806092314, guid: 66c58d27ef07a5d41abc364d59fe1c42, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1

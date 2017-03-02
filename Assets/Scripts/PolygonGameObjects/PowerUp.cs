@@ -23,4 +23,5 @@ public enum PowerUpEffect
 	HeavvyBulletTest,
 	ExtraGunTest,
 	TimeSlowTest,
+	ShieldObjsTest,
 }

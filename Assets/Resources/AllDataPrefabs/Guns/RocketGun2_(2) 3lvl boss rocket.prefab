@@ -44,18 +44,23 @@ MonoBehaviour:
   price: 0
   etype: 2
   damage: 6
-  overrideExplosionDamage: 6
-  overrideExplosionRadius: 25
+  hitDamage: 6
   lifeTime: 3
+  velocity: 35
   fireInterval: 3
+  repeatCount: 3
+  repeatInterval: 1
   physical:
     density: 1
     health: -1
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  repeatCount: 3
-  repeatInterval: 1
+  spreadAngle: 0
+  color: {r: 0.72794116, g: 0.4815781, b: 0.47637326, a: 1}
+  fireEffect: {fileID: 0}
+  effects: []
+  destructionEffects: []
   vertices:
   - {x: 1.6213002, y: 0.00000006612638}
   - {x: 0.7280292, y: -0.55799997}
@@ -64,9 +69,9 @@ MonoBehaviour:
   - {x: -1.2409708, y: 0.55799997}
   - {x: -0.37197086, y: 0.46799996}
   - {x: 0.7280292, y: 0.55799997}
-  color: {r: 0.72794116, g: 0.4815781, b: 0.47637326, a: 1}
-  fireEffect: {fileID: 0}
-  explosionOnDestruction: 1
+  overrideExplosionDamage: 6
+  overrideExplosionRadius: 25
+  accuracy: 1
   missleParameters:
     thrust: 10
     maxSpeed: 25
@@ -75,11 +80,8 @@ MonoBehaviour:
     passiveBrake: 2
     stability: 1
     shootAngle: 15
-  accuracy: 1
   thrusters: []
-  particles: []
   launchDirection: {x: 1, y: 0}
-  launchSpeed: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

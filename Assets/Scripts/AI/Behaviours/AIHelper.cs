@@ -117,7 +117,7 @@ public static class AIHelper
 		if (b == null)
 			return false;
 		
-		if((b.collision & go.layer) == 0)
+		if((b.collisions & go.layerCollision) == 0)
 			return false;
 		
 		Vector2 dir2thisShip = go.position - b.position;
@@ -242,6 +242,30 @@ public static class AIHelper
 			if (timeLeft <= 0) {
 				timeLeft += repeatInterval;
 				act ();
+			}
+		}
+	}
+
+	public class MyTimer : ITickable {
+		float timeLeft;
+		//float duration;
+		Action act;
+		public MyTimer(float duration, Action act) {
+			//this.duration = duration;
+			this.act = act;
+			timeLeft = duration;
+		}
+
+		public bool IsFinished(){
+			return timeLeft <= 0;
+		}
+
+		public void Tick(float delta) {
+			if (timeLeft > 0) {
+				timeLeft -= delta;
+				if (timeLeft <= 0) {
+					if(act != null) act ();
+				}
 			}
 		}
 	}

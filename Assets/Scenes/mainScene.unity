@@ -2007,7 +2007,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1543549236}
   m_HandleRect: {fileID: 1543549235}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2376,6 +2376,18 @@ MonoBehaviour:
         pos: {x: 5, y: 0}
         dir: {x: 1, y: 0}
       gun: {fileID: 11405498, guid: a5b021be1abdda0438689054cf93062b, type: 2}
+  objsShieldTestData:
+    spawn: {fileID: 114753084314748396, guid: b2e0e1e690476164197f00da7cb06400, type: 2}
+    shieldRotationSpeed: 120
+    asteroidShieldRadius: 20
+    respawnShieldObjDuration: 1
+    asteroidsStability: 0.5
+    maxShieldsCount: 4
+    overrideMaxPartSpeed: -1
+    keepObjectsRotation: 1
+    keepRotationData:
+      targetRotation: -720
+      acceleration: 200
   timeMultipliersTest:
     duration: 10
     user: 1
@@ -3474,7 +3486,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   run: 0
-  scale: 1
 --- !u!4 &1640002913
 Transform:
   m_ObjectHideFlags: 0
@@ -3889,15 +3900,15 @@ MonoBehaviour:
   duplicateIndx: 0
   duplicate: 0
   reverse: 0
-  symmetric: 1
+  symmetric: 0
   scaleUp: 0
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 1, y: 0.9}
-  prefab: {fileID: 114878949953904804, guid: 361014ed5f614c94e81479adabf1ddb7, type: 2}
+  prefab: {fileID: 114753084314748396, guid: b2e0e1e690476164197f00da7cb06400, type: 2}
   fangs: 3
   fangIndxFrom: 0
-  fangIndxTo: 7
+  fangIndxTo: 14
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0

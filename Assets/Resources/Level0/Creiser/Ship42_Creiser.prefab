@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
-  spawn: 1
+  spawn: 0
   editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2

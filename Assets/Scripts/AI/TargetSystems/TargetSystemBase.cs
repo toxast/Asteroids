@@ -21,7 +21,7 @@ public class TargetSystemBase<T> : ITickable
 	}
 
 	protected bool SholuldDropTargetInstantly() {
-		return Main.IsNull(curTarget) || curTarget.IsInvisible();
+		return Main.IsNull(curTarget) || !ValidTarget(curTarget);
 	}
 
 	public void Tick(float delta) {
@@ -67,7 +67,7 @@ public class TargetSystemBase<T> : ITickable
 
 	protected virtual PolygonGameObject GetTheClosestTarget()
 	{
-		var enemyLayers = CollisionLayers.GetEnemyLayers (thisObj.layer);
+		var enemyLayers = CollisionLayers.GetEnemyLayers (thisObj.layerLogic);
 		var t = GetClosestObjectFromLayer (enemyLayers, PolygonGameObject.ePriorityLevel.NORMAL);
 		if (t != null) {
 			return t;
@@ -87,7 +87,7 @@ public class TargetSystemBase<T> : ITickable
 		var gobjects = Singleton<Main>.inst.gObjects;
 		for (int i = 0; i < gobjects.Count; i++) {
 			var obj = gobjects [i];
-			if ((enemylayer & obj.layer) != 0 && obj.priority == priority && ValidTarget(obj)) {
+			if ((enemylayer & obj.layerLogic) != 0 && obj.priority == priority && ValidTarget(obj)) {
 				float objDistValue = GetDistValue (obj) / obj.priorityMultiplier;
 				if (objDistValue < distValue) {
 					indx = i;

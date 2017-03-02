@@ -21,8 +21,9 @@ public class PolygonGameObject : MonoBehaviour
 
 	//collision
 	public int layerNum;
-	public int layer;
-	public int collision;
+	public int layerLogic;
+	public int layerCollision;
+	public int collisions;
 
 	//physical
 	public float density{ get; private set; }
@@ -172,6 +173,10 @@ public class PolygonGameObject : MonoBehaviour
 		inertiaMoment = mass * approximationR * approximationR / 2f;
 	}
 
+	public void SetInfiniteLifeTime(){
+		startinglifeTime = 0;
+	}
+
 	public void InitLifetime(float lifeTime)
 	{
 		this.startinglifeTime = lifeTime;
@@ -257,16 +262,17 @@ public class PolygonGameObject : MonoBehaviour
 	public void AddTurret(Place place, PolygonGameObject turret)
 	{
 		Math2d.PositionOnParent(turret.cacheTransform, place, cacheTransform, true, -1);
-		turret.SetCollisionLayerNum (layerNum);
+		turret.SetLayerNum (layerNum);
 		turrets.Add (turret);
 	}
 
-	public virtual void SetCollisionLayerNum (int layerNum)
+	public virtual void SetLayerNum (int layerNum)
 	{
 		this.layerNum = layerNum;
-		layer = 1 << layerNum;
-		collision = CollisionLayers.GetLayerCollisions (layerNum);
-		turrets.ForEach (t => t.SetCollisionLayerNum (layerNum));
+		layerLogic = 1 << layerNum;
+		layerCollision = layerLogic; //there are exceptions
+		collisions = CollisionLayers.GetLayerCollisions (layerNum);
+		turrets.ForEach (t => t.SetLayerNum (layerNum));
 	}
 
 	public void Accelerate(float delta, float thrust, float stability, float maxSpeed, float maxSpeedSqr, Vector2 dirNormalized)

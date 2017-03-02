@@ -103,7 +103,7 @@ public class LazerGun : Gun
 			lTransform = lazer.transform;
 			lazerMesh = lazer.GetComponent<MeshFilter>().mesh;
 			Math2d.PositionOnParent (lTransform, place, parent.cacheTransform, true);
-			layer = 1 << CollisionLayers.GetBulletLayerNum(parent.layer);
+			layer = 1 << CollisionLayers.GetBulletLayerNum(parent.layerLogic);
 			PolygonCreator.ChangeLazerMesh (lazerMesh, distance, width);
 			lazerRenderer.material.SetFloat("_Alpha", 0);
 		}
@@ -159,7 +159,7 @@ public class LazerGun : Gun
 			if(parent == obj)
 				continue;
 
-			if((layer & obj.collision) == 0)
+			if((layer & obj.collisions) == 0)
 				continue;
 			
 			var dir = obj.position - lpos;

@@ -7,8 +7,6 @@ using UnityEngine;
 public class FlamerBullet : PolygonGameObject {
 	float deceleration;
 
-	float startingSpeedMagnitude;
-
 	float force = 10f;
 	float forceAngleChangeSpeed = 120f;
 
@@ -20,12 +18,11 @@ public class FlamerBullet : PolygonGameObject {
 	float lastVelocity = 0;
 	MFlamerGunData data;
 
-	public void InitFlamingBullet( MFlamerGunData data, Vector2 startingSpeed ) {
+	public void InitFlamingBullet( MFlamerGunData data, float startingSpeedMagnitude ) {
 		this.data = data;
 		this.deceleration = data.deceleration.RandomValue;
         this.burnDot = data.dot;
 		forceChangeSign = Math2d.RandomSign();
-		startingSpeedMagnitude = startingSpeed.magnitude;
 		maxVelocity = startingSpeedMagnitude;
 		lastVelocity = startingSpeedMagnitude;
 		applyForceThreshold = startingSpeedMagnitude * 0.4f;

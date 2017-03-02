@@ -34,8 +34,8 @@ public class GravityShieldEffect : TickableEffect
 
 		if (!IsFinished ()) {
 			timeLeft -= delta;
-			new GravityForceExplosion (holder.position, data.range, 0, delta * currentForce, gobjects, holder.collision);
-			new GravityForceExplosion (holder.position, data.range, 0, delta * currentForce, bullets, holder.collision);
+			new GravityForceExplosion (holder.position, data.range, 0, delta * currentForce, gobjects, holder.collisions);
+			new GravityForceExplosion (holder.position, data.range, 0, delta * currentForce, bullets, holder.collisions);
 		}
 
 		if (!wasFinished && IsFinished ()) {

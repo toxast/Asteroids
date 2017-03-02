@@ -43,11 +43,10 @@ MonoBehaviour:
   storeName: old school rocket
   price: 0
   etype: 2
-  damageOnCollision: 0
-  explosionOnDestruction: 1
-  overrideExplosionDamage: 5
-  overrideExplosionRadius: 20
+  damage: 3
+  hitDamage: 3
   lifeTime: 3.5
+  velocity: 35
   fireInterval: 2.7
   repeatCount: 0
   repeatInterval: 0
@@ -57,6 +56,11 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  spreadAngle: 0
+  color: {r: 0.9191176, g: 0.7990544, b: 0.29736158, a: 1}
+  fireEffect: {fileID: 0}
+  effects: []
+  destructionEffects: []
   vertices:
   - {x: 1.1400497, y: 7.471958e-10}
   - {x: 0.64004976, y: -0.2}
@@ -65,8 +69,9 @@ MonoBehaviour:
   - {x: -0.85995024, y: 0.35}
   - {x: -0.55995023, y: 0.15}
   - {x: 0.64004976, y: 0.2}
-  color: {r: 0.9191176, g: 0.7990544, b: 0.29736158, a: 1}
-  fireEffect: {fileID: 0}
+  overrideExplosionDamage: 5
+  overrideExplosionRadius: 20
+  accuracy: 1
   missleParameters:
     thrust: 25
     maxSpeed: 40
@@ -75,16 +80,16 @@ MonoBehaviour:
     passiveBrake: 2
     stability: 0.6
     shootAngle: 1
-  accuracy: 1
   thrusters:
   - place:
       pos: {x: -0.8599502, y: 0}
       dir: {x: 1, y: 0}
     prefab: {fileID: 19843890, guid: ebbe7025a3dcd3e45913c758e3bb69e1, type: 2}
-  particles: []
-  destructionEffects: []
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
   launchDirection: {x: 1, y: 0}
-  launchSpeed: 20
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

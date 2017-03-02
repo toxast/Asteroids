@@ -54,8 +54,9 @@ MonoBehaviour:
   storeName: 
   price: 0
   etype: 0
-  damageOnCollision: 10
+  hitDamage: 3
   lifeTime: 3.6
+  velocity: 35
   fireInterval: 0.5
   repeatCount: 0
   repeatInterval: 0
@@ -65,18 +66,10 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  radius: 3
+  spreadAngle: 0
+  color: {r: 1, g: 0, b: 0, a: 0.184}
   fireEffect: {fileID: 0}
-  missleParameters:
-    thrust: 35
-    maxSpeed: 40
-    turnSpeed: 100
-    brake: 15
-    passiveBrake: 2
-    stability: 0.5
-    shootAngle: 1
-  accuracy: 0.5
-  particles:
+  effects:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
@@ -102,6 +95,21 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+  vertices: []
+  overrideExplosionDamage: -1
+  overrideExplosionRadius: -1
+  accuracy: 0.5
+  missleParameters:
+    thrust: 35
+    maxSpeed: 40
+    turnSpeed: 100
+    brake: 15
+    passiveBrake: 2
+    stability: 0.5
+    shootAngle: 1
+  thrusters: []
+  launchDirection: {x: 1, y: 0}
+  ballRadius: 3
   dot:
     duration: 5
     dps: 5
@@ -116,5 +124,3 @@ MonoBehaviour:
       overrideDelay: -1
       overrideDuration: -1
       zOffset: -1
-  launchDirection: {x: 1, y: 0}
-  launchSpeed: 20

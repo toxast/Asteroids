@@ -120,7 +120,7 @@ public class SpikyAsteroid : Asteroid
 		float collisionMod = data.overrideSpikeCollisionAttack < 0 ? this.collisionAttackModifier : data.overrideSpikeCollisionAttack;
 
 		spikeGO.InitPolygonGameObject(new PhysicalData(this.density, this.healthModifier, this.collisionDefence, collisionMod));
-		spikeGO.SetCollisionLayerNum (this.layerNum);
+		spikeGO.SetLayerNum (this.layerNum);
 		spikeGO.position += position;
 		spikeGO.rotation = 0f;
 		spikeGO.velocity = spikeSpeed * spikeDirection.normalized;

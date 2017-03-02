@@ -14,7 +14,7 @@ public class PhExplosion
 				continue;
 			}
 
-			if((obj.layer & collision) == 0)
+			if((obj.layerCollision & collision) == 0)
 			{
 				continue;
 			}
@@ -58,7 +58,7 @@ public class GravityForceExplosion {
                 continue;
             }
 
-            if ((obj.layer & collision) == 0) {
+			if ((obj.layerCollision & collision) == 0) {
                 continue;
             }
 

@@ -11,13 +11,12 @@ public class GravityBullet : PolygonGameObject {
     List<PolygonGameObject> gobjects;
     List<PolygonGameObject> bullets;
     ParticleSystem effect;
-	float forceMultipier;
 
-	public void InitGravityBullet(int affectLayer, MGravityGunData data, float forceMultipier = 1) {
+	public void InitGravityBullet(int affectLayer, MGravityGunData data, float rangeMultiplier = 1) {
         this.affectLayer = affectLayer;
-        range = data.range;
-        damagePerSecond = data.damagePerSecond;
-		force = data.force * forceMultipier;
+		force = data.force;
+		range = data.range * rangeMultiplier;
+		damagePerSecond = data.hitDamage;
         gobjects = Singleton<Main>.inst.gObjects;
         bullets = Singleton<Main>.inst.bullets;
         //effect

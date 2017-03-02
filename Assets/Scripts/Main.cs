@@ -52,6 +52,7 @@ public class Main : MonoBehaviour
 	[SerializeField] PhysicalChangesEffect.Data testPhysicalPowerup;
 	[SerializeField] SpawnBackupEffect.Data testBackupData;
 	[SerializeField] ExtraGunsEffect.Data extraGunTestData;
+	[SerializeField] RotatingObjectsShield.Data objsShieldTestData;
 
 	Coroutine repositionCoroutine;
 	Coroutine wrapStarsCoroutine;
@@ -490,6 +491,9 @@ public class Main : MonoBehaviour
 			ExtraGunsEffect gunEffect = new ExtraGunsEffect (extraGunTestData);
 			obj.AddEffect (gunEffect);
 			break;
+		case PowerUpEffect.ShieldObjsTest:
+			obj.AddEffect (new RotatingObjectsShield (objsShieldTestData));
+			break;
 		}
 		
     }
@@ -576,7 +580,7 @@ public class Main : MonoBehaviour
 			float radius = gobject.deathAnimation.GetFinalExplosionRadius();
 			float damage = gobject.overrideExplosionDamage >= 0 ? gobject.overrideExplosionDamage : 2f * Mathf.Pow(radius, 0.65f);
 			Debug.LogWarning("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
-			int collision = gobject.collision;
+			int collision = gobject.collisions;
 			collision |= (int)CollisionLayers.eLayer.ASTEROIDS;
 			CreatePhysicalExplosion(gobject.position, radius, damage, collision);
 		}
@@ -596,7 +600,7 @@ public class Main : MonoBehaviour
     }
 
     private void ObjectsCollide(PolygonGameObject a, PolygonGameObject b) {
-        if ((a.collision & b.layer) == 0)
+		if ((a.collisions & b.layerCollision) == 0)
             return;
 
         int indxa, indxb;
@@ -638,7 +642,7 @@ public class Main : MonoBehaviour
             if (bullet == null)
                 continue;
 
-            if ((obj.collision & bullet.layer) == 0)
+			if ((obj.layerCollision & bullet.collisions) == 0)
                 continue;
 
             int indxa, indxb;
@@ -853,7 +857,7 @@ public class Main : MonoBehaviour
 		{
 			var go = list[i];
 
-			if ((layer & go.layer) == 0)
+			if ((layer & go.layerLogic) == 0)
 				continue;
 			
 			go.Tick(dtime);
@@ -885,7 +889,7 @@ public class Main : MonoBehaviour
 			if (b == null) {
 				continue;
 			}
-			if ((layer & b.layer) == 0)
+			if ((layer & b.layerLogic) == 0)
 				continue;
 
 			b.Tick(dtime);
@@ -1039,6 +1043,11 @@ public class Main : MonoBehaviour
 
 	public void HandleGunFire (PolygonGameObject bullet)
 	{
+		#if UNITY_EDITOR
+		if (bullet.layerLogic != (int)CollisionLayers.eLayer.BULLETS_ENEMIES && bullet.layerLogic != (int)CollisionLayers.eLayer.BULLETS_USER) {
+			Debug.LogError ("MISTAKE layerLogic"); //wont be ticked is slow motion
+		}
+		#endif
 		PutOnFirstNullPlace<PolygonGameObject>(bullets, bullet);
 	}
 

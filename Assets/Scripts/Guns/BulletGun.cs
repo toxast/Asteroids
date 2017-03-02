@@ -4,84 +4,87 @@ using System.Collections;
 
 public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 {
-	public Vector2[] vertices; 
-	public PhysicalData physical;
-	public float lifeTime;
-	public float bulletSpeed;
-	public Color color;
-	public float damage;
-	public float spreadAngle;
     public MGunData data;
 
     public BulletGun(Place place, MGunData data, PolygonGameObject parent)
 		:base(place, data, parent, data.repeatCount, data.repeatInterval, data.fireInterval, data.fireEffect)
 	{
         this.data = data;
-		this.vertices = data.vertices;
-		this.physical = data.physical;
-		this.lifeTime = data.lifeTime;
-		this.bulletSpeed = data.bulletSpeed;
-		this.color = data.color;
-		this.damage = data.damage;
-		this.spreadAngle = data.spreadAngle;
+		range = data.velocity * data.lifeTime;
 	}
 
-	public override float Range
-	{
-		get{return bulletSpeed*lifeTime;}
+	float range;
+	public override float Range	{
+		get{return range;}
 	}
 
-	public override float BulletSpeedForAim{ get { return bulletSpeed; } }
+	public override float BulletSpeedForAim{ get { return data.velocity; } }
 
-	protected T CreateBullet( )
+	public T CreateBullet( )
     {
-        T bullet = PolygonCreator.CreatePolygonGOByMassCenter<T>(vertices, color);
-		bullet.gameObject.name = "bullet";
+		T bullet = PolygonCreator.CreatePolygonGOByMassCenter<T>(GetVerts(), data.color);
+		bullet.gameObject.name = data.name;
 
 		Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform);
 
-		var ph = ApplyHeavvyBulletModifier (physical);
-		bullet.InitPolygonGameObject (ph);
-		bullet.InitLifetime (lifeTime);
-		bullet.damageOnCollision = damage;
-		var velocity = bullet.cacheTransform.right * GetBulletVelocity();
-		if (spreadAngle > 0) {
-			velocity = Math2d.RotateVertexDeg (velocity, UnityEngine.Random.Range (-spreadAngle * 0.5f, spreadAngle * 0.5f));
-		}
-		bullet.velocity = velocity;
-		bullet.destructionType = GetBulletDestruction();
-		bullet.destroyOnBoundsTeleport = true;
+		var ph = ApplyHeavvyBulletModifier (data.physical);
+		InitPolygonGameObject (bullet, ph);
+		bullet.InitLifetime (data.lifeTime);
+		bullet.damageOnCollision = data.hitDamage;
+		bullet.velocity = GetDirectionNormalized(bullet) * GetVelocityMagnitude();
+		bullet.destructionType = SetDestructionType();
+		bullet.destroyOnBoundsTeleport = DestroyOnBoundsTeleport;
         bullet.SetParticles(data.effects);
 		bullet.SetDestroyAnimationParticles (data.destructionEffects);
-
+		SetCollisionLayer( bullet );
+		bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
         return bullet;
 	}
 
-	protected virtual float GetBulletVelocity(){
-		return bulletSpeed;
+	protected virtual Vector2[] GetVerts() {
+		return data.vertices;
 	}
 
-	protected virtual PolygonGameObject.DestructionType GetBulletDestruction(){
+	protected virtual bool DestroyOnBoundsTeleport{
+		get{ return true;}
+	}
+
+	protected virtual void InitPolygonGameObject(T bullet, PhysicalData ph)
+	{
+		bullet.InitPolygonGameObject (ph);
+	}
+
+	protected virtual float GetVelocityMagnitude(){
+		return data.velocity;
+	}
+
+	protected virtual Vector2 GetDirectionNormalized(T bullet){
+		var velocity = bullet.cacheTransform.right;
+		if (data.spreadAngle > 0) {
+			velocity = Math2d.RotateVertexDeg (velocity, UnityEngine.Random.Range (-data.spreadAngle * 0.5f, data.spreadAngle * 0.5f));
+		}
+		return velocity;
+	}
+
+	protected virtual PolygonGameObject.DestructionType SetDestructionType(){
 		return PolygonGameObject.DestructionType.eSptilOnlyOnHit;
 	}
 
-    protected virtual void InitBullet(T bullet)
-    {
-        bullet.SetCollisionLayerNum(CollisionLayers.GetBulletLayerNum(parent.layer));
+    protected virtual void SetCollisionLayer(T bullet) {
+		bullet.SetLayerNum(CollisionLayers.GetBulletLayerNum(parent.layerLogic));
     }
 
-	protected override void Fire()
-	{
-		var b = CreateBullet();
-
-        InitBullet( b );
-
-		b.velocity += Main.AddShipSpeed2TheBullet(parent);
-
+	protected virtual void AddToMainLoop(T b) {
 		Singleton<Main>.inst.HandleGunFire (b);
+	}
 
-		if (fireEffect != null)
+	protected override void Fire() {
+		var b = CreateBullet();
+		AddToMainLoop (b);
+
+		if (fireEffect != null) {
 			fireEffect.Emit (1);
+		}
 	}
 }
 
@@ -95,9 +98,12 @@ public class ForcedBulletGun : BulletGun<ForcedBullet>
         this.fdata = fdata;
     }
 
-    protected override void InitBullet(ForcedBullet bullet)
-    {
-        var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layer));
-        bullet.InitForcedBullet(fdata, affectedLayer);
-    }
+	protected override void SetCollisionLayer (ForcedBullet bullet)
+	{
+		base.SetCollisionLayer (bullet);
+		bullet.collisions = 0;
+
+		var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layerLogic));
+		bullet.InitForcedBullet(fdata, affectedLayer);
+	}
 }

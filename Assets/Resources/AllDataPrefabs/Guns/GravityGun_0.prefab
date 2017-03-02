@@ -54,20 +54,29 @@ MonoBehaviour:
   storeName: gravi
   price: 0
   etype: 0
-  damagePerSecond: 30
-  force: -1000
-  range: 20
+  hitDamage: 30
   lifeTime: 4
-  bulletSpeed: 20
+  velocity: 35
   fireInterval: 1
   repeatCount: 0
   repeatInterval: 0
+  physical:
+    density: 1
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  spreadAngle: 0
+  color: {r: 1, g: 0, b: 1, a: 1}
+  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  effects: []
+  destructionEffects: []
   vertices:
   - {x: 0.4, y: 0.2}
   - {x: 0.4, y: -0.2}
   - {x: -0.4, y: -0.2}
   - {x: -0.4, y: 0.2}
-  color: {r: 1, g: 0, b: 1, a: 1}
-  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  force: -1000
+  range: 20
   bulletEffect: {fileID: 198887602376405788, guid: a87beb6f50920eb44bf485e3cfef7b27,
     type: 2}

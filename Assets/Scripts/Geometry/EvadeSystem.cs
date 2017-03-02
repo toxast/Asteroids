@@ -79,7 +79,7 @@ public class EvadeSystem
 			var bullet = bullets[i];
 			if(bullet == null) continue;
 
-			if((bullet.collision & victim.layer) == 0)
+			if((bullet.collisions & victim.layerCollision) == 0)
 				continue;
 
 			Vector2 pos = (Vector2)bullet.position - victimPos; 

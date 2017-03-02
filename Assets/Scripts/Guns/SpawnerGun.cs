@@ -54,7 +54,7 @@ public class SpawnerGun : GunShooterBase
 			}
 		}
 
-		var obj = spawnRef.Create(CollisionLayers.GetSpawnedLayer(parent.layer));
+		var obj = spawnRef.Create(CollisionLayers.GetSpawnedLayer(parent.layerLogic));
         obj.SetSpawnParent(parent);
         obj.gameObject.name += "_spawn";
 		obj.reward = 0;

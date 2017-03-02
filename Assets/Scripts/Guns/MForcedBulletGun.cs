@@ -13,7 +13,8 @@ public class MForcedBulletGun : MGunData {
     public float damagePerSecond = 3;
 	public List<ParticleSystemsData> effectsForcedBullet;
 
-	void OnValidate(){
+	protected override void OnValidate () {
+		base.OnValidate ();
 		effectsForcedBullet.SetDefaultValues ();
 	}
 
