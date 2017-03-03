@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4444415667974396}
   - component: {fileID: 114878949953904804}
   m_Layer: 0
-  m_Name: Ship3_Earth 2
+  m_Name: Ship3_Earth 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,13 +126,16 @@ MonoBehaviour:
     destructionType: 0
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
-  elementsCount: 1
+  elementsCount: 6
   shieldRadius: 15
   shieldRotationSpeed: 50
   respawnShieldObjDuration: 2
   shootInterval: 1
-  applyShootingForceDuration: 5
+  applyShootingForceDuration: 6
   shootByArc: 1
+  useShootPause: 1
+  pauseAfterAttackNum: 6
+  pauseDuration: 5
   collectBrokenObjects: 0
   brokenShieldRadius: 20
   attackWithBrokenWhenCount: 8

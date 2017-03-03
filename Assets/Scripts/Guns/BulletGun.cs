@@ -38,6 +38,7 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 		bullet.SetDestroyAnimationParticles (data.destructionEffects);
 		SetCollisionLayer( bullet );
 		bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
+		bullet.rotation += data.rotation.RandomValue;
         return bullet;
 	}
 

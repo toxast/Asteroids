@@ -38,11 +38,12 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		float evadeDuration = (90f / thisShip.turnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.maxSpeed * 0.8f);
 		evadeBullets = evadeDuration < 1.2f;
 		turnBehEnabled = evadeDuration < 3f;
-		if(turnBehEnabled)
-		{
+		if(turnBehEnabled)		{
 			untilTurnMin = Mathf.Max(2f, Mathf.Sqrt(evadeDuration) * 2.5f);
 			untilTurnMax = untilTurnMin * 1.8f;
 		}
+
+		Debug.Log (thisShip.name + " evadeDuration " + evadeDuration + " turnBehEnabled: " + turnBehEnabled + " evadeBullets: " + evadeBullets);
 
 		untilCheckAccelerationMin = evadeDuration / 6f;
 		untilCheckAccelerationMax = untilCheckAccelerationMin * 2f;
@@ -52,6 +53,11 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 	float untilTurn = 0f;
 	float untilTurnMax = 4.5f;
 	float untilTurnMin = 2.5f;
+
+	bool timeForCowardActionPassed = true;
+	float untilCoward = 0f;
+	float untilCowardMax = 20f;
+	float untilCowardMin = 12f;
 
 	bool checkBulletsAction = false;
 	float untilBulletsEvade = 1f;
@@ -65,6 +71,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 
 	private IEnumerator BehavioursRandomTiming()
 	{
+		untilCoward = UnityEngine.Random.Range (untilCowardMin, untilCowardMax);
 		while(true)
 		{
 			TickActionVariable(ref timeForTurnAction, ref untilTurn, untilTurnMin, untilTurnMax);
@@ -73,11 +80,11 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 
 			TickActionVariable(ref checkAccelerationAction, ref untilCheckAcceleration, untilCheckAccelerationMin, untilCheckAccelerationMax);
 
+			TickActionVariable(ref timeForCowardActionPassed, ref untilCoward, untilCowardMin, untilCowardMax);
+
 			yield return null;
 		}
 	}
-
-
 
 	private IEnumerator Logic()
 	{
@@ -86,7 +93,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		bool behaviourChosen = false;
 		float duration;
 		Vector2 newDir;
-
+		bool lastHasShield = false;
 		while (true) {
 			if (!Main.IsNull (target)) {
 				behaviourChosen = false;
@@ -118,6 +125,28 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 							behaviourChosen = true;
 							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 						}
+					}
+
+					if (evadeBullets && !behaviourChosen && timeForCowardActionPassed) {
+						bool haveShield = thisShip.GetShield () != null && thisShip.GetShield ().currentShields > 0;
+						if (thisShip.GetLeftHealthPersentage () < 0.3f || (lastHasShield && !haveShield)) {
+							timeForCowardActionPassed = false;
+							if (Math2d.Chance (0.6f)) {
+								behaviourChosen = true;
+								Debug.LogWarning ("coward action");
+								int turnsTotal = UnityEngine.Random.Range (2, 5);
+								int turns = turnsTotal;
+								while (turns > 0) {
+									turns--;
+									duration = 3f / turnsTotal + UnityEngine.Random.Range (-0.3f, 0.5f);
+									float angle = UnityEngine.Random.Range (120f, 180f);
+									newDir = Math2d.RotateVertexDeg (tickData.dirNorm, tickData.evadeSign * angle);
+									yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
+									tickData.Refresh (thisShip, target);
+								}
+							}
+						}
+						lastHasShield = haveShield;
 					}
 
 					if (!behaviourChosen && evadeBullets && checkBulletsAction) {

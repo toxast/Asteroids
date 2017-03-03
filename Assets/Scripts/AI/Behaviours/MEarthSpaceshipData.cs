@@ -11,6 +11,12 @@ public class MEarthSpaceshipData : MSpaceshipData
 	public float respawnShieldObjDuration = 3f;
 	public float shootInterval = 5f;
 	public float applyShootingForceDuration = 5f;
+	public bool shootByArc = false;
+
+	[Header ("pause shoouting for some time after x-th attack")]
+	public bool useShootPause = false;
+	public int pauseAfterAttackNum = 0;
+	public float pauseDuration = 0;
 
 	[Header ("shield from broken elements")]
     public bool collectBrokenObjects = true;

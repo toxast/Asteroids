@@ -62,7 +62,7 @@ public static class AIHelper
 			{
 				float angle = UnityEngine.Random.Range(40, 110);
 				newDir = Math2d.RotateVertexDeg(tickData.dirNorm, tickData.evadeSign * angle);
-				duration = (angle / ship.turnSpeed) + ((ship.polygon.R + target.polygon.R) * 2f) / (ship.maxSpeed * 0.8f);// UnityEngine.Random.Range(0.5f, 1.5f);
+				duration = UnityEngine.Random.Range(-0.3f, 0.4f) + (angle / ship.turnSpeed) + ((ship.polygon.R + target.polygon.R) * 2f) / (ship.maxSpeed * 0.8f);// UnityEngine.Random.Range(0.5f, 1.5f);
 				return true;
 			}
 		}

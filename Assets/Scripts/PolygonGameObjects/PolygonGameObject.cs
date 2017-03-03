@@ -86,6 +86,9 @@ public class PolygonGameObject : MonoBehaviour
 
 	public float fullHealth{ protected set; get;}
 	[SerializeField] protected float currentHealth;
+	public float GetLeftHealthPersentage(){
+		return currentHealth / fullHealth;
+	}
 //	public event Action<float> healthChanged;
 
 	public List<Gun> guns { get; private set;}
@@ -100,6 +103,7 @@ public class PolygonGameObject : MonoBehaviour
 
 	protected Shield shield = null;
 	[SerializeField] private PolygonGameObject shieldGO;
+	public Shield GetShield() { return shield; }
 
 	public PolygonGameObject minimapIndicator;
 

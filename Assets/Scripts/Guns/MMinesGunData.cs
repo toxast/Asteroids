@@ -60,7 +60,7 @@ public class MinesGun : BulletGun<Mine>
 	{
 		bullet.SetLayerNum(CollisionLayers.GetSpawnedLayer (parent.layerLogic));
 		bullet.InitMine (data);
-		bullet.priorityMultiplier = 0.5f;
+		bullet.priorityMultiplier = 0.1f;
 	}
 
 	protected override void AddToMainLoop (Mine b)

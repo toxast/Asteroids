@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &168982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 450510}
+  - component: {fileID: 11411428}
+  m_Layer: 0
+  m_Name: Gun4_shuriken
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &450510
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168982}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11411428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storeName: (4) user gun for old school
+  price: 0
+  etype: 1
+  hitDamage: 1.8
+  lifeTime: 2
+  velocity: 35
+  fireInterval: 0.5
+  repeatCount: 0
+  repeatInterval: 0
+  physical:
+    density: 2
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1.5
+  spreadAngle: 0
+  rotation:
+    min: 360
+    max: 360
+  color: {r: 0.71212554, g: 0.08504539, b: 0.8897059, a: 1}
+  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  effects: []
+  destructionEffects: []
+  vertices:
+  - {x: 0.53150725, y: 0}
+  - {x: 0.29999998, y: 0}
+  - {x: -0.000000032966852, y: 0.3000001}
+  - {x: -0.30000004, y: 0}
+  - {x: -0.000000032966852, y: -0.29999992}
+  - {x: 0.29999998, y: 0}
+  - {x: 0.53150743, y: 0}
+  - {x: 0.7027187, y: -0.5145744}
+  - {x: 0.9500002, y: -0.8000001}
+  - {x: 0.24364683, y: -0.7036594}
+  - {x: -0.000000032966852, y: -0.5315074}
+  - {x: -0.51457435, y: -0.7027186}
+  - {x: -0.80000025, y: -0.95000017}
+  - {x: -0.70365936, y: -0.24364653}
+  - {x: -0.5315073, y: 0}
+  - {x: -0.70271856, y: 0.51457465}
+  - {x: -0.94999987, y: 0.8000003}
+  - {x: -0.24364665, y: 0.70365965}
+  - {x: -0.000000032966852, y: 0.5315076}
+  - {x: 0.51457447, y: 0.70271885}
+  - {x: 0.79999965, y: 0.9500004}
+  - {x: 0.7036595, y: 0.24364719}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 168982}
+  m_IsPrefabParent: 1

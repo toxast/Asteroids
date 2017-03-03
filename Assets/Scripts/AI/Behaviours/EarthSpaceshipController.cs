@@ -33,10 +33,12 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 	float rotationSpeed; 
 	List<BulletObj> objectShootingWith = new List<BulletObj>(); //can contain null objects
     List<BrokenBulletObj> brokenObjectShootingWith = new List<BrokenBulletObj>();
+	bool lastArcIsRight = false;
 
     class BulletObj{
 		public PolygonGameObject obj;
 		public float startTime;
+		public bool rightArc = true;
 	}
 
     class BrokenBulletObj {
@@ -50,7 +52,6 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		public float angleDeg;
 	}
 
-    float teleportDistanceSqr = 120f * 120f; 
 	MEarthSpaceshipData data;
 
 	public EarthSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> objects, MEarthSpaceshipData data) : base(thisShip)
@@ -93,7 +94,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 			thisShip.StartCoroutine (AccuracyChanger (accData));
 		}
 		
-		Debug.LogWarning ("EarthShip:  part max speed: " + partMaxSpeed + " rotationSpeed " + rotationSpeed + " force: " + force);
+		//Debug.LogWarning ("EarthShip:  part max speed: " + partMaxSpeed + " rotationSpeed " + rotationSpeed + " force: " + force);
 	}
 
     private IEnumerator LogicShip() {
@@ -176,13 +177,11 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 				if (Main.IsNull (item)) {
 					shields [i] = null;
 				} else {
-                    if ((item.position - thisShip.position).sqrMagnitude < teleportDistanceSqr) { //hack for bounds teleport
-                        var radAngle = angle * Mathf.Deg2Rad;
-                        Vector2 targetPos = thisShip.position + asteroidShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
-                        Vector2 targetVelocity = thisShip.velocity + rotationSpeed * (-Math2d.MakeRight(targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
-                        FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force);
-						item.Accelerate(Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
-                    }
+                    var radAngle = angle * Mathf.Deg2Rad;
+                    Vector2 targetPos = thisShip.position + asteroidShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
+                    Vector2 targetVelocity = thisShip.velocity + rotationSpeed * (-Math2d.MakeRight(targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
+                    FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force);
+					item.Accelerate(Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
 				}
 				angle += deltaAngle;
 			}
@@ -200,14 +199,12 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                         brokenShields[i] = null;
                     } else {
                         item.angleDeg += deltaAngle;
-                        if ((item.obj.position - thisShip.position).sqrMagnitude < teleportDistanceSqr) { //hack for bounds teleport
-                            var bObj = item.obj;
-                            var radAngle = item.angleDeg * Mathf.Deg2Rad;
-							Vector2 targetPos = thisShip.position + data.brokenShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
-                            Vector2 targetVelocity = thisShip.velocity - rotationSpeed * (-Math2d.MakeRight(targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
-                            FollowAim aim = new FollowAim(targetPos, targetVelocity, bObj.position, bObj.velocity, force);
-							bObj.Accelerate(Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
-                        }
+                        var bObj = item.obj;
+                        var radAngle = item.angleDeg * Mathf.Deg2Rad;
+						Vector2 targetPos = thisShip.position + data.brokenShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
+                        Vector2 targetVelocity = thisShip.velocity - rotationSpeed * (-Math2d.MakeRight(targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
+                        FollowAim aim = new FollowAim(targetPos, targetVelocity, bObj.position, bObj.velocity, force);
+						bObj.Accelerate(Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
                     }
                 }
             }
@@ -216,6 +213,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
     }
 
     private IEnumerator LogicShoot() {
+		int attacksCount = 0;
 		yield return new WaitForSeconds (data.shootInterval/2f);
 		while (true) {
 			if (target != null) {
@@ -235,7 +233,19 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 					obj.destroyOnBoundsTeleport = true;
 					obj.capturedByEarthSpaceship = true;
 					thisShip.RemoveFollower (obj);
-					Main.PutOnFirstNullPlace (objectShootingWith, new BulletObj{ obj = obj, startTime = Time.time }); ;
+					var bulletObj = new BulletObj{ obj = obj, startTime = Time.time };
+					if (data.shootByArc) {
+						lastArcIsRight = !lastArcIsRight;
+						bulletObj.rightArc = lastArcIsRight;
+					}
+					Main.PutOnFirstNullPlace (objectShootingWith, bulletObj); ;
+				}
+
+				attacksCount++;
+				if (data.useShootPause && (attacksCount % data.pauseAfterAttackNum == 0)) {
+					attacksCount = 0;
+					Debug.LogWarning ("pause " + data.pauseDuration);
+					yield return new WaitForSeconds (data.pauseDuration);
 				}
 				yield return new WaitForSeconds (data.shootInterval);
 			} else {
@@ -249,7 +259,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
             if (target != null) {
                 var notNull = brokenShields.FindAll(a => a!= null && !Main.IsNull(a.obj));
 				if (notNull.Count >= data.attackWithBrokenWhenCount) {
-					Debug.LogWarning("broken obj: " + notNull.Count + " shoot " + data.attackWithBrokenWhenCount);
+					//Debug.LogWarning("broken obj: " + notNull.Count + " shoot " + data.attackWithBrokenWhenCount);
 					for (int i = 0; i < data.attackWithBrokenCount; i++) {
                         notNull = brokenShields.FindAll(a => a != null && !Main.IsNull(a.obj));
                         if(notNull.Count == 0) {
@@ -289,7 +299,11 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 							} else {
 								var item = bulletObj.obj;
 								SuicideAim aim = new SuicideAim (target.position, target.velocity, item.position, item.velocity, 300f, 1f);
-								item.Accelerate (Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.direction.normalized); 
+								var aimDir = aim.direction.normalized;
+								if (data.shootByArc && aim.time > 2f) {
+									aimDir = Math2d.RotateVertexDeg (aimDir, 30 * (bulletObj.rightArc ? 1 : -1));
+								}
+								item.Accelerate (Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aimDir); 
 							}
 						}
 					} 
@@ -350,7 +364,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 //					continue;
 //				}
 
-				Debug.LogWarning ("add " + obj.name);
+				//Debug.LogWarning ("add " + obj.name);
 				var angle = Math2d.AngleRad (new Vector2 (1, 0), (obj.position - thisShip.position).normalized) * Mathf.Rad2Deg;
 				var newBroken = new BrokenShieldObj{ obj = obj, angleDeg = angle};
 				obj.SetLayerNum (CollisionLayers.GetSpawnedLayer (thisShip.layerLogic));
@@ -404,7 +418,7 @@ public class RotatingObjectsShield : TickableEffect
 		routineSpawn = SpawnShieldObjects ();
 		routineRotate = RotateShields ();
 		shields = new List<PolygonGameObject> ();
-		rotationSpeed = 2f * Mathf.PI * data.asteroidShieldRadius / (360f / data.shieldRotationSpeed);
+		rotationSpeed = 2f * Mathf.PI * data.asteroidShieldRadius / (360f / Mathf.Abs(data.shieldRotationSpeed));
 		SpaceShip holderAsSpaceship = holder as SpaceShip;
 		force = rotationSpeed / 0.5f;
 		if (holderAsSpaceship != null) {
@@ -428,6 +442,9 @@ public class RotatingObjectsShield : TickableEffect
 
 	private PolygonGameObject CreateShieldObj() {
 		var shieldObj = data.spawn.Create(CollisionLayers.GetSpawnedLayer (holder.layerLogic));
+		if (data.collideWithAsteroids) {
+			shieldObj.collisions |= (int)CollisionLayers.eLayer.ASTEROIDS;
+		}
 		shieldObj.position = holder.position;
 		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(holder.cacheTransform.position.z + 1f);
 		holder.AddObjectAsFollower(shieldObj);
@@ -479,7 +496,7 @@ public class RotatingObjectsShield : TickableEffect
 				} else {
 					var radAngle = angle * Mathf.Deg2Rad;
 					Vector2 targetPos = holder.position + data.asteroidShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
-					Vector2 targetVelocity = holder.velocity + rotationSpeed * (-Math2d.MakeRight(targetPos - holder.position) + 0.1f * (holder.position - targetPos)).normalized;
+					Vector2 targetVelocity = holder.velocity + Mathf.Sign(data.shieldRotationSpeed) * rotationSpeed * (-Math2d.MakeRight(targetPos - holder.position) + 0.1f * (holder.position - targetPos)).normalized;
 					FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force);
 					item.Accelerate(deltaTime, force, data.asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
 				}
@@ -494,10 +511,11 @@ public class RotatingObjectsShield : TickableEffect
 		public MSpawnDataBase spawn;
 		public float shieldRotationSpeed;
 		public float asteroidShieldRadius;
-		public float respawnShieldObjDuration;
+		public float respawnShieldObjDuration; 
 		public float asteroidsStability;
 		public int maxShieldsCount;
 		public float overrideMaxPartSpeed = -1;
+		public bool collideWithAsteroids = false;
 
 		[Header ("keep rotation")]
 		public bool keepObjectsRotation = false;

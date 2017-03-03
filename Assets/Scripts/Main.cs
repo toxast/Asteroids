@@ -579,7 +579,7 @@ public class Main : MonoBehaviour
 			}
 			float radius = gobject.deathAnimation.GetFinalExplosionRadius();
 			float damage = gobject.overrideExplosionDamage >= 0 ? gobject.overrideExplosionDamage : 2f * Mathf.Pow(radius, 0.65f);
-			Debug.LogWarning("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
+			//Debug.LogWarning("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
 			int collision = gobject.collisions;
 			collision |= (int)CollisionLayers.eLayer.ASTEROIDS;
 			CreatePhysicalExplosion(gobject.position, radius, damage, collision);

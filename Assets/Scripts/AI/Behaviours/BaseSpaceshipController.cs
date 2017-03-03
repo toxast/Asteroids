@@ -48,9 +48,10 @@ public class BaseSpaceshipController : InputController, IGotTarget
 
 	protected void TickActionVariable(ref bool action, ref float timeLeft, float min, float max)
 	{
-		if(!action)
+		if (!action) {
 			timeLeft -= Time.deltaTime;
-		
+		}
+
 		if(timeLeft < 0)
 		{
 			timeLeft = UnityEngine.Random.Range (min, max);
@@ -63,6 +64,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 		turnDirection = dir;
 		SetAcceleration (accelerating);
 		this.shooting = shooting;
+		duration = Mathf.Max (0, duration);
 		yield return new WaitForSeconds(duration);
 	}
 

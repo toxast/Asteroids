@@ -2378,12 +2378,13 @@ MonoBehaviour:
       gun: {fileID: 11405498, guid: a5b021be1abdda0438689054cf93062b, type: 2}
   objsShieldTestData:
     spawn: {fileID: 114753084314748396, guid: b2e0e1e690476164197f00da7cb06400, type: 2}
-    shieldRotationSpeed: 120
+    shieldRotationSpeed: -120
     asteroidShieldRadius: 20
     respawnShieldObjDuration: 1
     asteroidsStability: 0.5
     maxShieldsCount: 4
     overrideMaxPartSpeed: -1
+    collideWithAsteroids: 1
     keepObjectsRotation: 1
     keepRotationData:
       targetRotation: -720
@@ -3897,7 +3898,7 @@ MonoBehaviour:
   guns: []
   thrusters: []
   turrets: []
-  duplicateIndx: 0
+  duplicateIndx: 4
   duplicate: 0
   reverse: 0
   symmetric: 0
@@ -3905,10 +3906,10 @@ MonoBehaviour:
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 1, y: 0.9}
-  prefab: {fileID: 114753084314748396, guid: b2e0e1e690476164197f00da7cb06400, type: 2}
-  fangs: 3
+  prefab: {fileID: 11411428, guid: a06e82c6a1698ed478ee2305086d1c55, type: 2}
+  fangs: 4
   fangIndxFrom: 0
-  fangIndxTo: 14
+  fangIndxTo: 4
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0

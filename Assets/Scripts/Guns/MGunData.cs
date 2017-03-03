@@ -11,6 +11,7 @@ public class MGunData : MGunBaseData, IGotShape {
 	public float repeatInterval = 0;
 	public PhysicalData physical;
 	public float spreadAngle = 0;
+	public RandomFloat rotation = new RandomFloat (0, 0);
 	public Color color = Color.red;
 	public ParticleSystem fireEffect;
     public List<ParticleSystemsData> effects;
