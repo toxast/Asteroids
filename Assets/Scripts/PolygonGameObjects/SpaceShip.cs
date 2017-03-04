@@ -173,7 +173,7 @@ public class SpaceShip : PolygonGameObject
 		inputController.Tick (this);
 		var dir = inputController.turnDirection;
 		bool shooting = inputController.shooting;
-		if (Mathf.Abs (rotation) > turnSpeed * 1.2f) {
+		if (RestrictShootingByFastRotation && Mathf.Abs (rotation) > turnSpeed * 1.2f) {
 			shooting = false;
 		}
 		if (dir != Vector2.zero) {
@@ -191,6 +191,7 @@ public class SpaceShip : PolygonGameObject
 		}
 	}
 
+	protected virtual bool RestrictShootingByFastRotation{get{ return true; } }
 
     public void TurnRight(float delta) {
         TurnDirection(true, delta);

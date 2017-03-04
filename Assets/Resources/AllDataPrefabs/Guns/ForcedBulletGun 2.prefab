@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4250243256977174}
   - component: {fileID: 114256884597087828}
   m_Layer: 0
-  m_Name: ForcedBulletGun 2
+  m_Name: BulletGun 2tGun 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,9 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   spreadAngle: 0
+  rotation:
+    min: 0
+    max: 0
   color: {r: 0, g: 0.7931032, b: 1, a: 0}
   fireEffect: {fileID: 0}
   effects: []
@@ -79,8 +82,8 @@ MonoBehaviour:
   force: 20
   forceDuration: 0.7
   range: 7
-  fieldForce: 1000
-  damagePerSecond: 50
+  fieldForce: 2000
+  damagePerSecond: 10
   effectsForcedBullet:
   - place:
       pos: {x: 0, y: 0}

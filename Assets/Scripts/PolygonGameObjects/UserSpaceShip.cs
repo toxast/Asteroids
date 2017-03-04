@@ -44,4 +44,6 @@ public class UserSpaceShip : SpaceShip {
 	{
 		GameResources.SetHealth (currentHealth/fullHealth);
 	}
+
+	protected override bool RestrictShootingByFastRotation{get{ return false; } }
 }

@@ -88,7 +88,7 @@ public class TargetSystemBase<T> : ITickable
 		for (int i = 0; i < gobjects.Count; i++) {
 			var obj = gobjects [i];
 			if ((enemylayer & obj.layerLogic) != 0 && obj.priority == priority && ValidTarget(obj)) {
-				float objDistValue = GetDistValue (obj) / obj.priorityMultiplier;
+				float objDistValue = GetPrioritizedDistValue(obj);
 				if (objDistValue < distValue) {
 					indx = i;
 					distValue = objDistValue;
@@ -105,6 +105,11 @@ public class TargetSystemBase<T> : ITickable
 
 	protected virtual bool ValidTarget(PolygonGameObject obj) {
 		return !obj.IsInvisible ();
+	}
+
+	protected virtual float GetPrioritizedDistValue(PolygonGameObject obj)
+	{
+		return GetDistValue(obj) / obj.priorityMultiplier;
 	}
 
 	protected virtual float GetDistValue(PolygonGameObject obj)

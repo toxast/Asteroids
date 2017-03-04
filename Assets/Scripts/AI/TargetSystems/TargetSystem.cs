@@ -2,7 +2,7 @@
 using System.Collections;
 public class TargetSystem : TargetSystemBase<PolygonGameObject>
 {
-	float enemyLostRSqr = 30 * 30; 
+	float enemyLostRSqr = 23 * 23; 
 	public TargetSystem (PolygonGameObject thisObj) : base (thisObj, 1.5f)
 	{
 	}
@@ -13,7 +13,8 @@ public class TargetSystem : TargetSystemBase<PolygonGameObject>
 			if (t.priority > curTarget.priority) {
 				return t;
 			}
-			if(IsSqrDistMore (curTarget, enemyLostRSqr) && IsSqrDistLess (t, SqrDist (curTarget) / 4f)){
+			//the bigger dist value is - the less priority is the target
+			if(GetDistValue(curTarget) > enemyLostRSqr && GetPrioritizedDistValue (curTarget) > GetPrioritizedDistValue (t) / 4f){
 				return t;
 			}
 		}

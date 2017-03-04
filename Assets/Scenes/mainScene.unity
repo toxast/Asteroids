@@ -1699,6 +1699,8 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 695584446}
+  iOSLayoutAnchor: {fileID: 0}
+  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 590276174}
   m_Placeholder: {fileID: 15193681}
   m_ContentType: 2
@@ -2007,7 +2009,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1543549236}
   m_HandleRect: {fileID: 1543549235}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3898,15 +3900,15 @@ MonoBehaviour:
   guns: []
   thrusters: []
   turrets: []
-  duplicateIndx: 4
+  duplicateIndx: 0
   duplicate: 0
   reverse: 0
-  symmetric: 0
+  symmetric: 1
   scaleUp: 0
   scaleDown: 0
   doScale: 0
   scaleBy: {x: 1, y: 0.9}
-  prefab: {fileID: 11411428, guid: a06e82c6a1698ed478ee2305086d1c55, type: 2}
+  prefab: {fileID: 11415946, guid: f67c1026ff6aee446922836eee54c7ce, type: 2}
   fangs: 4
   fangIndxFrom: 0
   fangIndxTo: 4
@@ -4196,6 +4198,8 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2008446757}
+  iOSLayoutAnchor: {fileID: 0}
+  iOSCenterOnElement: 1
   m_TextComponent: {fileID: 910516205}
   m_Placeholder: {fileID: 377514020}
   m_ContentType: 2

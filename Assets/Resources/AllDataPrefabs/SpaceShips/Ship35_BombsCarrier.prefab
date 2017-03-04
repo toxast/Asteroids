@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 412028}
   - component: {fileID: 11415946}
   m_Layer: 0
-  m_Name: Ship35_
+  m_Name: Ship35_BombsCarrier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,53 +43,57 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  _spaceField: 0
+  difficulty: 10
+  gameSpawnLayer: 2
   price: -1
   reward: 0
-  color: {r: 1, g: 1, b: 1, a: 1}
+  color: {r: 0.5743079, g: 0.34337154, b: 0.6397059, a: 1}
   physical:
     density: 1
     health: -1
-    healthModifier: 1
+    healthModifier: 7
     collisionDefence: 0
     collisionAttackModifier: 1
-  ai: 0
   mobility:
-    thrust: 45
+    thrust: 5
     maxSpeed: 20
-    turnSpeed: 220
+    turnSpeed: 100
     brake: 15
     passiveBrake: 2
     stability: 0.5
     shootAngle: 15
   accuracy:
     startingAccuracy: 0
-    thresholdDistance: 10
+    thresholdDistance: 20
     isDynamic: 1
     checkDtime: 0.5
     add: 0.15
     sub: 0.4
     bounds: {x: 0, y: 1}
   shield:
-    capacity: 0
-    rechargeRate: 0
-    rechargeDelay: 0
+    capacity: 30
+    rechargeRate: 3
+    hitRechargeDelay: 5
+    rechargeDelayAfterDestory: 20
   guns:
   - place:
       pos: {x: 2.1099687, y: -1.21}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
+    gun: {fileID: 114042038382192468, guid: 3ed083326287d8e4884a61e3b9296745, type: 2}
   - place:
       pos: {x: 2.1099687, y: 1.21}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
+    gun: {fileID: 114042038382192468, guid: 3ed083326287d8e4884a61e3b9296745, type: 2}
   linkedGuns: 
   thrusters:
   - place:
-      pos: {x: -1.4200314, y: -0.0000000067559487}
+      pos: {x: -1.4200314, y: 0}
       dir: {x: 1, y: 0}
     prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
-    thrusterPrefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
   turrets: []
   verts:
   - {x: 0.15796855, y: -0.1440002}
@@ -111,6 +115,12 @@ MonoBehaviour:
   - {x: 0.36196867, y: 0.504}
   - {x: 0.15796855, y: 0.14399981}
   upgradeIndex: 0
+  deathData:
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    destructionType: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

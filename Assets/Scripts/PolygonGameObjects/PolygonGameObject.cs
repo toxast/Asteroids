@@ -299,7 +299,7 @@ public class PolygonGameObject : MonoBehaviour
 
 		if(velocity.sqrMagnitude > maxSpeedSqr)
 		{
-			velocity = velocity.normalized*(Mathf.Min(velocity.magnitude - deltaV, maxSpeed));
+			velocity = velocity.normalized*(Mathf.Max(velocity.magnitude - deltaV, maxSpeed));
 		}
 	} 
 
