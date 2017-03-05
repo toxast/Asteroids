@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveData:
     diffucultyAtOnce: 200
-    diffucultyTotal: 200
+    diffucultyTotal: 210
     startNextWaveWhenDifficultyLeft: 0
     differentSpawnsCountRange:
       min: 1
