@@ -180,11 +180,8 @@ public class ObjectsCreator
         comet.InitComet(mdata.powerupData, mdata.lifeTime);
 		comet.SetLayerNum(CollisionLayers.ilayerTeamEnemies);
 		comet.priority = PolygonGameObject.ePriorityLevel.LOW;
-//		comet.SetParticles(
-        var ps = GameObject.Instantiate<ParticleSystem>(mdata.particles, comet.transform);
-		ps.SetStartColor (mdata.particleSystemColor);
-        ps.transform.localPosition = new Vector3(0, 0, -1);
-		ps.Play ();
+		comet.SetParticles (mdata.particles);
+		comet.SetDestroyAnimationParticles (mdata.destructionEffects);
         comet.gameObject.name = mdata.name;
         comet.destructionType = PolygonGameObject.DestructionType.eComplete;
         return comet;

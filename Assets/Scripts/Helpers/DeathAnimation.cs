@@ -87,6 +87,7 @@ public class DeathAnimation
 				var emain = e.main;
 				emain.startDelayMultiplier = ((float)(k) / explosionPrefabs.Count) * duration;
 				emain.duration = duration - emain.startDelayMultiplier;
+				obj.globalPolygon.SetTriangles (obj.polygon.GetTriangles ());
 				e.transform.position = (Vector3)obj.globalPolygon.GetRandomAreaVertex() + new Vector3(0,0,DeathAnimationZOffset);
 				e.transform.parent = obj.cacheTransform;
 				Vector2 offset = e.transform.localPosition;

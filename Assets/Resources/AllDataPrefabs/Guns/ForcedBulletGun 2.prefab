@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4250243256977174}
   - component: {fileID: 114256884597087828}
   m_Layer: 0
-  m_Name: BulletGun 2tGun 2
+  m_Name: ForcedBulletGun 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

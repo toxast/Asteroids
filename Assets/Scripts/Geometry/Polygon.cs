@@ -79,12 +79,17 @@ public class Polygon
 		//Debug.LogError("triangles: " + triangles.Length);
     }
 
+	public int[] GetTriangles() {
+		if(triangles == null) {
+			Triangulator tr = new Triangulator(vertices);
+			triangles = tr.Triangulate();
+			Debug.LogError("manual triangulation");
+		}
+		return triangles;
+	}
+
     public Vector2 GetRandomAreaVertex() {
-        if(triangles == null) {
-            Triangulator tr = new Triangulator(vertices);
-            triangles = tr.Triangulate();
-            Debug.LogError("manual triangulation");
-        }
+		GetTriangles ();
 
         if (triangles != null) {
             int rnd = UnityEngine.Random.Range(0, triangles.Length / 3);

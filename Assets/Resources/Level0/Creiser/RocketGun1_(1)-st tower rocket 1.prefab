@@ -43,10 +43,9 @@ MonoBehaviour:
   storeName: (1)-st tower rocket
   price: 0
   etype: 2
-  damage: 3
   hitDamage: 3
   lifeTime: 4
-  velocity: 35
+  velocity: 10
   fireInterval: 3
   repeatCount: 0
   repeatInterval: 0
@@ -57,10 +56,33 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   spreadAngle: 0
+  rotation:
+    min: 0
+    max: 0
   color: {r: 0.7352941, g: 0.48010382, b: 0.097318344, a: 1}
   fireEffect: {fileID: 0}
-  effects: []
-  destructionEffects: []
+  effects:
+  - place:
+      pos: {x: -1.2, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198673609503307992, guid: 05ffe666272776943bb9edaf97de548f, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 0.1
+    afterlife: 0
+    stopEmission: 1
+  destructionEffects:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198506558026876436, guid: b89db195f4064b04b9aa96a3acfe7896, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
   vertices:
   - {x: 1.6213002, y: 0.00000006612638}
   - {x: 0.7280292, y: -0.55799997}
@@ -73,14 +95,24 @@ MonoBehaviour:
   overrideExplosionRadius: 23
   accuracy: 0.5
   missleParameters:
-    thrust: 35
-    maxSpeed: 40
+    thrust: 5
+    maxSpeed: 25
     turnSpeed: 65
     brake: 8
     passiveBrake: 2
-    stability: 1
+    stability: 0.5
     shootAngle: 15
-  thrusters: []
+  thrusters:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 0.1
+    afterlife: 0
+    stopEmission: 1
   launchDirection: {x: 1, y: 0}
 --- !u!1001 &100100000
 Prefab:

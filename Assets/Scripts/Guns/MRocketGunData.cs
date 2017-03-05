@@ -18,6 +18,7 @@ public class MRocketGunData : MGunData {
 	}
 
 	protected override void OnValidate(){
+		base.OnValidate ();
 		thrusters.SetDefaultValues ();
 	}
 

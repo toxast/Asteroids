@@ -9,13 +9,19 @@ public class MCometData : MSpawnDataBase {
     public PhysicalData physical;
     public float lifeTime;
     public Color color;
-    public ParticleSystem particles;
-    public Color particleSystemColor;
-    public PowerupData powerupData;
+	public Color particleSystemColor;
+	public PowerupData powerupData;
+	public List<ParticleSystemsData> particles;
+	public List<ParticleSystemsData> destructionEffects;
 	public override PolygonGameObject Create(int layer) {
         var spawn = ObjectsCreator.CreateComet(this);
         return spawn;
     }
+
+	protected void OnValidate () {
+		particles.SetDefaultValues ();
+		destructionEffects.SetDefaultValues ();
+	}
 }
 
 [System.Serializable]

@@ -10,6 +10,9 @@ public class ParticleSystemsData: IClonable<ParticleSystemsData>, IGotPlace
 	public float overrideDelay = -1;
     public float overrideDuration = -1;
     public float zOffset = 1;
+	[Header ("behaviour after holder destruction")]
+	public bool afterlife = false;
+	public bool stopEmission = true;
 
     public Place pos {get {return place;} set{place = value;}}
 

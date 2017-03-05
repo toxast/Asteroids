@@ -73,7 +73,7 @@ MonoBehaviour:
   rotationSpeed:
     min: 25
     max: 25
-  gun: {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
+  gun: {fileID: 11428948, guid: ad72f9c0feb316a46b6afea3bebaa684, type: 2}
 --- !u!114 &114815797046515768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -90,6 +90,3 @@ MonoBehaviour:
     teleportDuration: 1.5
     teleportRingSize: 10
     teleportationColor: {r: 1, g: 0.68235296, b: 0, a: 1}
-    place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}

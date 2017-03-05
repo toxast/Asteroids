@@ -608,39 +608,40 @@ public class PolygonGameObject : MonoBehaviour
 		polygon.ChangeVertex(indx, v);
 	}
 
-	[System.NonSerialized] List<ParticleSystem> particles = new  List<ParticleSystem>();
+	[System.NonSerialized] List<ParticlesInst> particles = new  List<ParticlesInst>();
 	//TODO: refactor this somehow, i need a lot of parametes and control over the particles
 	public List<ParticleSystem> SetParticles(List<ParticleSystemsData> datas)
 	{
-		List<ParticleSystem> result = new List<ParticleSystem> ();
-		foreach (var setup in datas) 
-		{
-			if(setup.prefab == null)
-			{
-				Debug.LogError("null particle system");
-			}
-			else
-			{
-				var inst = Instantiate(setup.prefab) as ParticleSystem;
-                var pmain = inst.main;
-                if (setup.overrideSize > 0) {
-                    pmain.startSizeMultiplier = setup.overrideSize;
-                }
-                if (setup.overrideDuration > 0) {
-                    pmain.duration = setup.overrideDuration;
-                }
+		List<ParticlesInst> result = new List<ParticlesInst> ();
+		foreach (var setup in datas) {
+			if (setup.prefab == null) {
+				Debug.LogError ("null particle system");
+			} else {
+				var inst = Instantiate (setup.prefab) as ParticleSystem;
+				var pmain = inst.main;
+				if (setup.overrideSize > 0) {
+					pmain.startSizeMultiplier = setup.overrideSize;
+				}
+				if (setup.overrideDuration > 0) {
+					pmain.duration = setup.overrideDuration;
+				}
 				if (setup.overrideDelay > 0) {
 					pmain.startDelayMultiplier = setup.overrideDelay;
 				}
-                inst.Play();
+				inst.Play ();
 
-                Math2d.PositionOnParent (inst.transform, setup.place, cacheTransform, true, setup.zOffset);
-				result.Add (inst);
+				Math2d.PositionOnParent (inst.transform, setup.place, cacheTransform, true, setup.zOffset);
+				result.Add (new ParticlesInst{ system = inst, data = setup });
 			}
 		}
-
 		particles.AddRange (result); 
-		return result;
+		return result.ConvertAll(s => s.system);
+	}
+
+	private class ParticlesInst
+	{
+		public ParticleSystem system;
+		public ParticleSystemsData data;
 	}
 
 	public void OnBoundsTeleporting(Vector2 newPos) {
@@ -666,14 +667,14 @@ public class PolygonGameObject : MonoBehaviour
 	public void ToggleAllDistanceEmitParticles(bool play){
 		if (play) {
 			foreach (var item in particles) {
-				if (item != null && item.emission.rateOverDistanceMultiplier > 0) {
-					item.Play ();
+				if (item != null && item.system.emission.rateOverDistanceMultiplier > 0) {
+					item.system.Play ();
 				}
 			}
 		} else {
 			foreach (var item in particles) {
-				if (item != null && item.emission.rateOverDistanceMultiplier > 0) {
-					item.Pause ();
+				if (item != null && item.system.emission.rateOverDistanceMultiplier > 0) {
+					item.system.Pause ();
 				}
 			}
 		}
@@ -694,12 +695,26 @@ public class PolygonGameObject : MonoBehaviour
     }
 
     public Action OnDestroying;
-	public virtual void HandleDestroying() {
+	public virtual void HandleDestroying() 
+	{
+		for (int i = 0; i < particles.Count; i++) {
+			var ps = particles [i];
+			if (ps.data.afterlife) {
+				ps.system.transform.parent = null;
+//				var main = ps.system.main;
+				if (ps.data.stopEmission) {
+					ps.system.Stop ();
+				}
+				Destroy (ps.system.gameObject, ps.system.main.startLifetimeMultiplier + 2f);
+			}
+		}
+
 		if (destroyEffects != null) {
 			foreach (var item in destroyEffects) {
 				var inst  = Instantiate(item.prefab) as ParticleSystem;
 				Math2d.PositionOnParent (inst.transform, item.place, cacheTransform, false, -1);
-				Destroy (inst.gameObject, 5f);
+				Destroy (inst.gameObject, inst.main.duration + inst.main.startLifetimeMultiplier);
+				inst.Play ();
 			}
 		}
 

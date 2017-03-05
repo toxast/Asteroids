@@ -647,7 +647,7 @@ public class ShipEditor : MonoBehaviour
 
 	[ContextMenu ("CustomAction")]
 	public void MyCustomAction() {
-		var list = LoadPrefabsContaining<MGunData> ();
+		var list = LoadPrefabsContaining<ParticleSystem> ();
 		foreach (var item in list) {
 			//item.hitDamage = item.damage;
 			//item.overrideExplosionDamage = item.overrideExplosionDamage;

@@ -51,7 +51,7 @@ MonoBehaviour:
   physical:
     density: 1
     health: -1
-    healthModifier: 1
+    healthModifier: 5
     collisionDefence: 0
     collisionAttackModifier: 1
   mobility:
@@ -65,7 +65,7 @@ MonoBehaviour:
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
-    isDynamic: 1
+    isDynamic: 0
     checkDtime: 0.5
     add: 0.15
     sub: 0.4

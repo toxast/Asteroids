@@ -43,7 +43,6 @@ MonoBehaviour:
   storeName: (1)-st tower rocket
   price: 0
   etype: 2
-  damage: 3
   hitDamage: 3
   lifeTime: 4
   velocity: 35
@@ -57,10 +56,23 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   spreadAngle: 0
+  rotation:
+    min: 0
+    max: 0
   color: {r: 0.7352941, g: 0.48010382, b: 0.097318344, a: 1}
   fireEffect: {fileID: 0}
   effects: []
-  destructionEffects: []
+  destructionEffects:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198506558026876436, guid: b89db195f4064b04b9aa96a3acfe7896, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
   vertices:
   - {x: 1.6213002, y: 0.00000006612638}
   - {x: 0.7280292, y: -0.55799997}
