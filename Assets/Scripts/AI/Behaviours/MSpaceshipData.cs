@@ -27,7 +27,7 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 	public List<ParticleSystemsData> ithrusters {get {return thrusters;} set{thrusters = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
-	public override PolygonGameObject Create(int layer)
+	protected override PolygonGameObject CreateInternal(int layer)
 	{
 		return ObjectsCreator.CreateSpaceship<SpaceShip>(this, layer);
 	}

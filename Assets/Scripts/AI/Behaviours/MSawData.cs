@@ -25,7 +25,7 @@ public class MSawData : MSpawnDataBase, IGotShape
 
 	public MGunsShow gunsShowChargeEffect;
 
-	public override PolygonGameObject Create(int layer)
+	protected override PolygonGameObject CreateInternal(int layer)
 	{
 		return ObjectsCreator.CreateSawEnemy(this, layer);
 	}

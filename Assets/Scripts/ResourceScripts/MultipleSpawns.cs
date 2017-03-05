@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class MultipleSpawns : MSpawnBase {
 
 	[SerializeField] List<MultiSpawnElement> elems;
 
-	public override float difficulty{ get{
+	public override float sdifficulty{ get{
 			float dif = 0;
 			for (int i = 0; i < elems.Count; i++) {
 				dif += elems [i].spawn.difficulty;
@@ -24,15 +25,15 @@ public class MultipleSpawns : MSpawnBase {
 
 	void OnValidate(){
 		for (int i = 0; i < elems.Count; i++) {
-			if (elems [i].spawn.prefab == null) {
+			if (elems [i].spawn == null) {
 				elems [i] = new MultiSpawnElement ();
 			}
 		}
 	}
 
-	[SerializeField]
+	[Serializable]
 	public class MultiSpawnElement {
-		public SpawnElem spawn;
+		public MSpawnDataBase spawn;
 		public Place place;
 	}
 }

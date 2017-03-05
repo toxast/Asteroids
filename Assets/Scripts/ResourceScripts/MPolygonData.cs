@@ -10,7 +10,7 @@ public class MPolygonData : MSpawnDataBase, IGotShape
 
 	public Vector2[] iverts {get {return verts;} set{verts = value;}}
 
-	public override PolygonGameObject Create(int layerNum)
+	protected override PolygonGameObject CreateInternal(int layerNum)
 	{
 		var spawn = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject> (verts, color);
 		spawn.InitPolygonGameObject (physical);

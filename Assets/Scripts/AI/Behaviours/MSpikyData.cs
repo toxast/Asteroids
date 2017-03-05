@@ -18,7 +18,7 @@ public class MSpikyData : MSpawnDataBase
 	public RandomFloat spikeSize;
 	public RandomInt spikesCount;
 
-	public override PolygonGameObject Create(int layer)
+	protected override PolygonGameObject CreateInternal(int layer)
 	{
 		return ObjectsCreator.CreateSpikyAsteroid(this, layer);
 	}

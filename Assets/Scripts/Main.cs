@@ -207,7 +207,7 @@ public class Main : MonoBehaviour
 	{
 		while (true) {
 			if (!IsNull (userSpaceship)) {
-				var comet = cometData.Create (cometData.gameSpawnLayer);
+				var comet = cometData.Create ();
 				var angle = UnityEngine.Random.Range (0, 360);
 				comet.position = userSpaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
 				Add2Objects (comet);

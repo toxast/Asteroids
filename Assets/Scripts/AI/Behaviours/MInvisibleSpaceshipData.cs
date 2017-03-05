@@ -28,7 +28,7 @@ public class MInvisibleSpaceshipData : MSpaceshipData
 		}
 	}
 
-	public override PolygonGameObject Create(int layer)
+	protected override PolygonGameObject CreateInternal(int layer)
 	{
 		return ObjectsCreator.CreateInvisibleSpaceship<SpaceShip>(this, layer);
 	}

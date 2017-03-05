@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
- public class MSpawnBase : MonoBehaviour {
+ public  abstract class MSpawnBase : MonoBehaviour {
+	public abstract float sdifficulty{ get;}
+	public abstract void Spawn (PositionData data, Action<SpawnedObj> callback);
 
-	public virtual float difficulty{get{return 0;}}
-	public virtual void Spawn(PositionData data, Action<SpawnedObj> callback){}
-
-	protected IEnumerator SpawnRoutine(SpawnElem elem, PositionData data, Place place, Action<SpawnedObj> callback)
+	public static IEnumerator SpawnRoutine(MSpawnDataBase elem, PositionData data, Place place, Action<SpawnedObj> callback)
 	{
 		var main = Singleton<Main>.inst;
 		Vector2 elemOrigin = data.origin + Math2d.RotateVertexDeg (new Vector2 (data.range, 0), data.rangeAngle);
@@ -18,17 +17,14 @@ using UnityEngine;
 		Vector2 elemPos = elemOrigin + elemOffset;
 
 		//animation
-		var anim = main.CreateTeleportationRing(elemPos, elem.teleportationColor, elem.teleportRingSize);
-		yield return new WaitForSeconds(elem.teleportDuration);
+		var anim = main.CreateTeleportationRing(elemPos, elem.teleportData.color, elem.teleportData.ringSize);
+		yield return new WaitForSeconds(elem.teleportData.duration);
 		anim.Stop ();
 		main.PutObjectOnDestructionQueue (anim.gameObject, 5f);
 
 		PolygonGameObject obj = null;
-		if (elem.prefab != null) {
-			var mdata  = elem.prefab as ISpawnable;
-			if (mdata != null) {
-				obj = mdata.Create ();
-			}
+		if (elem != null) {
+			obj = elem.Create ();
 		}
 
 		if (obj != null) {
@@ -43,18 +39,6 @@ using UnityEngine;
 		}
 	}
 
-	[System.Serializable]
-	public class SpawnElem {
-		public MSpawnDataBase prefab;
-		public float teleportDuration = 1.5f;
-		public float teleportRingSize = 10f;
-		public Color teleportationColor = new Color (1, 174f / 255f, 0);
-		//public Place place; TODO: move away from here
-		public float difficulty {
-			get{ return prefab.difficulty;}
-		}
-	}
-
 	public class SpawnedObj {
 		public PolygonGameObject obj;
 		public float difficulty;
@@ -65,6 +49,49 @@ using UnityEngine;
 		public float range; //rotate range by rangeAlgle to get next point
 		public float rangeAngle;
 		public float angleLookAtOrigin; //rotate objects group by angleLookAtOrigin, zero is to look at origin
+	}
+
+	[System.Serializable]
+	public class TeleportData {
+		public float duration = 1.5f;
+		public float ringSize = 10f;
+		public Color color = new Color (1, 174f / 255f, 0);
+	}
+
+}
+
+
+
+[Serializable]
+public class SpawnPositioning
+{
+	public float positionAngle = 0f; // 0 - right, 90 - up, 180 - left, 270 - down from the user ship
+	public float positionAngleRange = 0; //randomize positionAngle by this degrees
+	public float lookAngle = 0f; // 0 - towards user, 180 - turn back 2 user
+	public float lookAngleRange = 0; // randomize lookAngle by this degrees
+}
+
+public interface ILevelSpawner
+{
+	bool Done ();
+	void Tick ();
+}
+public interface IWaveSpawner
+{
+	bool Done ();
+	void Tick ();
+}
+
+
+public class EmptyTestSceneSpawner : ILevelSpawner
+{
+	public bool Done()
+	{
+		return false;
+	}
+
+	public void Tick()
+	{
 	}
 }
 

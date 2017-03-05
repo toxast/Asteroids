@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4770759188356310}
   - component: {fileID: 114374702242948724}
-  - component: {fileID: 114815797046515768}
   m_Layer: 0
   m_Name: Station_0
   m_TagString: Untagged
@@ -57,6 +56,10 @@ MonoBehaviour:
   editorSpawnLayer: 2
   difficulty: 40
   gameSpawnLayer: 2
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
   size:
     min: 6
     max: 6
@@ -74,19 +77,3 @@ MonoBehaviour:
     min: 25
     max: 25
   gun: {fileID: 11428948, guid: ad72f9c0feb316a46b6afea3bebaa684, type: 2}
---- !u!114 &114815797046515768
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1665662289995266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bddf528640b752e46be50e3ebe74730e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elem:
-    prefab: {fileID: 114374702242948724}
-    teleportDuration: 1.5
-    teleportRingSize: 10
-    teleportationColor: {r: 1, g: 0.68235296, b: 0, a: 1}

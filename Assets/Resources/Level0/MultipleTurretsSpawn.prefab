@@ -52,24 +52,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elems:
-  - prefab: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
-    teleportDuration: 1
-    teleportRingSize: 10
-    teleportationColor: {r: 1, g: 0.5586207, b: 0, a: 1}
+  - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
     place:
-      pos: {x: 10, y: 0}
+      pos: {x: 0, y: 15}
       dir: {x: 1, y: 0}
-  - prefab: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
-    teleportDuration: 2
-    teleportRingSize: 10
-    teleportationColor: {r: 1, g: 0.68235296, b: 0, a: 1}
+  - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
     place:
-      pos: {x: 7, y: 10}
-      dir: {x: 0, y: 1}
-  - prefab: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
-    teleportDuration: 3
-    teleportRingSize: 10
-    teleportationColor: {r: 1, g: 0, b: 0.8068962, a: 1}
+      pos: {x: 15, y: 0}
+      dir: {x: 1, y: 0}
+  - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
     place:
-      pos: {x: 7, y: -10}
-      dir: {x: 0, y: -1}
+      pos: {x: 0, y: -15}
+      dir: {x: 1, y: 0}

@@ -13,7 +13,7 @@ public class MCometData : MSpawnDataBase {
 	public PowerupData powerupData;
 	public List<ParticleSystemsData> particles;
 	public List<ParticleSystemsData> destructionEffects;
-	public override PolygonGameObject Create(int layer) {
+	protected override PolygonGameObject CreateInternal(int layer) {
         var spawn = ObjectsCreator.CreateComet(this);
         return spawn;
     }

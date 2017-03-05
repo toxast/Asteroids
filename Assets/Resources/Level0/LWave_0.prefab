@@ -52,14 +52,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 50
-    diffucultyTotal: 100
+    diffucultyAtOnce: 70
+    diffucultyTotal: 140
     startNextWaveWhenDifficultyLeft: 0
     differentSpawnsCountRange:
       min: 1
       max: 3
     objects:
-    - spawn: {fileID: 114571137283427640, guid: 09781f803db67aa4484ae2001ca98716,
+    - spawn: {fileID: 114018212185065258, guid: 09781f803db67aa4484ae2001ca98716,
         type: 2}
       weight: 4
       range:
@@ -69,8 +69,18 @@ MonoBehaviour:
         positionAngle: 0
         positionAngleRange: 360
         lookAngle: 0
-        lookAngleRange: 0
-    - spawn: {fileID: 114918153341501258, guid: b60157c54dc5a6542a34b8c4a7fad6c6,
+        lookAngleRange: 360
+    - spawn: {fileID: 11492862, guid: b60157c54dc5a6542a34b8c4a7fad6c6, type: 2}
+      weight: 4
+      range:
+        min: 40
+        max: 50
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 360
+        lookAngle: 0
+        lookAngleRange: 360
+    - spawn: {fileID: 114529371202508250, guid: ba381844ac705544aa88a826333cc3bf,
         type: 2}
       weight: 4
       range:
@@ -80,5 +90,5 @@ MonoBehaviour:
         positionAngle: 0
         positionAngleRange: 360
         lookAngle: 0
-        lookAngleRange: 0
+        lookAngleRange: 360
   createDefWaveEditor: 0

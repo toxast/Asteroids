@@ -9,7 +9,7 @@ public class MAsteroidData : MSpawnDataBase
 
 	public MAsteroidCommonData commonData;
 
-	public override PolygonGameObject Create(int layer)
+	protected override PolygonGameObject CreateInternal(int layer)
 	{
         var spawn = ObjectsCreator.CreateAsteroid (this);
         Singleton<Main>.inst.CreateDropForObject(spawn, commonData); 

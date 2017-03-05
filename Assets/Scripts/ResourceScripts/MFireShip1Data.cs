@@ -14,7 +14,7 @@ public class MFireShip1Data : MSpaceshipData
 	public float overrideMaxComfortDist = -1;
 	public MFireballGunData fireballData;
 
-	public override PolygonGameObject Create(int layer) {
+	protected override PolygonGameObject CreateInternal(int layer) {
 		return ObjectsCreator.CreateFireSpaceship1<SpaceShip>(this, layer);
 	}
 

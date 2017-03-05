@@ -22,7 +22,7 @@ public class MTowerData : MSpawnDataBase, IGotShape, IGotGuns, IGotTurrets
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
 	public List<MTurretReferenceData> iturrets {get {return turrets;} set{turrets = value;}}
 
-	public override PolygonGameObject Create(int layer)
+	protected override PolygonGameObject CreateInternal(int layer)
 	{
 		return ObjectsCreator.CreateSimpleTower(this, layer);
 	}

@@ -11,7 +11,7 @@ public class MGasteroidData : MSpawnDataBase
     public PhysicalData physical;
 //    public MAsteroidCommonData commonData;
 
-	public override PolygonGameObject Create(int layer)
+	protected override PolygonGameObject CreateInternal(int layer)
     {
         var spawn = ObjectsCreator.CreateGasteroid (this);
         return spawn;

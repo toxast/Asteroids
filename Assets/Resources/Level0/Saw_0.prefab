@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4566230865438258}
   - component: {fileID: 114018212185065258}
-  - component: {fileID: 114571137283427640}
   m_Layer: 0
   m_Name: Saw_0
   m_TagString: Untagged
@@ -57,6 +56,10 @@ MonoBehaviour:
   editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
   prepareTime: 3
   chargeRotation: 360
   chargeSpeed:
@@ -118,19 +121,3 @@ MonoBehaviour:
     max: 0
   gunsShowChargeEffect: {fileID: 114718910286998824, guid: 044d8122b50db664193e30377cd6dc0a,
     type: 2}
---- !u!114 &114571137283427640
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1397046965028498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bddf528640b752e46be50e3ebe74730e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elem:
-    prefab: {fileID: 114018212185065258}
-    teleportDuration: 1.5
-    teleportRingSize: 10
-    teleportationColor: {r: 1, g: 0.68235296, b: 0, a: 1}

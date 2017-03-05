@@ -43,7 +43,7 @@ public class WeightedSpawn
 	[SerializeField] public SpawnPositioning positioning = new SpawnPositioning {positionAngleRange = 360} ;
 
 	public float difficulty{
-		get{ return spawn.difficulty;}
+		get{ return spawn.sdifficulty;}
 	}
 } 
 
@@ -78,7 +78,6 @@ public class RandomWave : IWaveSpawner{
 	}
 
 	private IEnumerator CheckSpawnNextRoutine() {
-		Debug.LogError ("move to tick or implement pause, check that wave is ending");
 		bool first = true;
 		bool prepareNextSpawnGroup = true;
 		float preparedDifficulty = 0;
@@ -197,8 +196,8 @@ public class RandomWave : IWaveSpawner{
 		for (int i = 0; i < selectedSpawns.Count; i++) {
 			var item = selectedSpawns [i].spawn;
 			for (int k = 0; k < selectedSpawnsCount[i]; k++) {
-				totalDifficulyLeft -= item.difficulty;
-				spawningDifficulty += item.difficulty;
+				totalDifficulyLeft -= item.sdifficulty;
+				spawningDifficulty += item.sdifficulty;
 			}
 		}
 	}

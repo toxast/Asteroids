@@ -34,7 +34,7 @@ public class MEarthSpaceshipData : MSpaceshipData
 	public List<ParticleSystemsData> asteroidGrabByForceAnimations;
 
 
-	public override PolygonGameObject Create(int layer)
+	protected override PolygonGameObject CreateInternal(int layer)
 	{
 		return ObjectsCreator.CreateEarthSpaceship<SpaceShip>(this, layer);
 	}

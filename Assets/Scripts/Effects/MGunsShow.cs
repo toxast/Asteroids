@@ -10,7 +10,7 @@ public class MGunsShow : MSpawnDataBase {
 	public List<ElementPositioning> elements;
 
 	//to test in editor mode
-	public override PolygonGameObject Create(int layer) {
+	protected override PolygonGameObject CreateInternal(int layer) {
 		if (Singleton<Main>.inst.userSpaceship != null) {
 			Singleton<Main>.inst.userSpaceship.AddEffect(new GunsShowEffect(this));
 			return null;
