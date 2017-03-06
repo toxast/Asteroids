@@ -22,6 +22,11 @@ public class MRandomWave : MWaveBase {
 		return new RandomWave(waveData); 
 	}
 
+	public override List<MSpawnBase> GetElements ()
+	{
+		return waveData.objects.ConvertAll (e => e.spawn);
+	}
+
 	[Space (30)]
 	[SerializeField] bool createDefWaveEditor = false;
 	void OnValidate(){

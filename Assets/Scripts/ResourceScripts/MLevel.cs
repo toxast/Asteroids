@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +30,17 @@ public class LevelSpawner : ILevelSpawner
 		currentWave = data.waves [0].GetWave();
 	}
 
+	public List<MSpawnBase> GetElements (){
+		var allelements = new HashSet<MSpawnBase> ();
+		foreach (var item in data.waves) {
+			foreach (var spawn in item.GetElements ()) {
+				allelements.Add (spawn);
+			}
+		}
+		Debug.LogWarning (allelements.Count + "different spawns");
+		return allelements.ToList ();
+	}
+
 	public bool Done() {
 		return currentWave == null;
 	}
@@ -44,5 +55,10 @@ public class LevelSpawner : ILevelSpawner
 			waveNum++;
 			currentWave = waveNum < data.waves.Count ? data.waves [waveNum].GetWave () : null;
 		}
+	}
+
+	public void ForceInsertWave(IWaveSpawner wave){
+		currentWave = wave;
+		waveNum--;
 	}
 }

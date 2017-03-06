@@ -493,10 +493,34 @@ public class Main : MonoBehaviour
 			break;
 		case PowerUpEffect.ShieldObjsTest:
 			obj.AddEffect (new RotatingObjectsShield (objsShieldTestData));
+			CreateRageWave ();
 			break;
 		}
 		
     }
+
+	private void CreateRageWave() {
+		var level = (spawner as LevelSpawner);
+		if (level != null) {
+			var elems = level.GetElements ();
+			if (elems.Count > 0) {
+				MRandomWave.RandomWaveData data = new MRandomWave.RandomWaveData ();
+				data.diffucultyTotal = 200;
+				data.diffucultyAtOnce = 200;
+				data.startNextWaveWhenDifficultyLeft = 0;
+				data.objects = new List<WeightedSpawn> ();
+				for (int i = 0; i < elems.Count; i++) {
+					WeightedSpawn wspawn = new WeightedSpawn ();
+					wspawn.spawn = elems [i];
+					wspawn.positioning = new SpawnPositioning{ positionAngleRange = 360 };
+					wspawn.range = new RandomFloat (40, 70);
+					wspawn.weight = 1;
+					data.objects.Add (wspawn);
+				}
+				level.ForceInsertWave (new RandomWave (data));
+			}
+		}
+	}
 
 
 	private void CalculateGlobalPolygons<T> (List<T> objs)
@@ -1175,10 +1199,7 @@ public class Main : MonoBehaviour
 
 
 	/*
-	* unify guns!
-	 * 
 	 * FUTURE UPDATES
-	 * mines gun and ship
 	 * add charge behaviour to earth ships, and charge beh to posseed asteroids, add kill asteroid beh is full
 	 * restore dumb hitters
 	* big bullets powerup!
@@ -1186,8 +1207,6 @@ public class Main : MonoBehaviour
 	* split by two consiquent interior verts, not neighbours, check that mid is inside
 	* randomize behaviour ( spiky, bomb)
 	* add effect to others ai?
-	* increase thrust lifetime on multipliers
-	* refactor thrusters, play with inherit velocity
 	* power ups(fast bullets, missiles around,
 	* permanent powerups, shield as power-up?, health powerup, health over time, add gun/turret powerup.
 	* powerups duration indicators

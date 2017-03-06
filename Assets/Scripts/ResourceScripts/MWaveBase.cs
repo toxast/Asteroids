@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class MWaveBase : MonoBehaviour
+public abstract class MWaveBase : MonoBehaviour
 {
 	public virtual IWaveSpawner GetWave() { return null; }
+	public abstract List<MSpawnBase> GetElements ();
 }
