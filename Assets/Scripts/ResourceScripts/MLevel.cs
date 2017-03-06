@@ -23,7 +23,7 @@ public class LevelSpawner : ILevelSpawner
 {
 	MLevel.LevelData data;
 	IWaveSpawner currentWave;
-	IWaveSpawner deferredWave = null; //paused wave
+	Stack<IWaveSpawner> deferredWaves = new Stack<IWaveSpawner>(); //paused waves
 	int waveNum = 0;
 
 	public LevelSpawner(MLevel.LevelData data) {
@@ -53,9 +53,8 @@ public class LevelSpawner : ILevelSpawner
 		}
 		currentWave.Tick ();
 		if(currentWave.Done()) {
-			if (deferredWave != null) {
-				currentWave = deferredWave;
-				deferredWave = null;
+			if (deferredWaves.Count > 0) {
+				currentWave = deferredWaves.Pop();
 			} else {
 				waveNum++;
 				currentWave = waveNum < data.waves.Count ? data.waves [waveNum].GetWave () : null;
@@ -65,7 +64,7 @@ public class LevelSpawner : ILevelSpawner
 
 
 	public void ForceInsertWave(IWaveSpawner wave){
-		deferredWave = currentWave;
+		deferredWaves.Push(currentWave);
 		currentWave = wave;
 	}
 }

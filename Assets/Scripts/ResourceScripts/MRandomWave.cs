@@ -127,7 +127,7 @@ public class RandomWave : IWaveSpawner{
 			if (selectedSpawnsCount.Count == selectedSpawns.Count) {
 				if (preparedDifficulty <= data.diffucultyAtOnce - CurrentDifficulty ()) {
 					CountInWhatWillBeSpawned (selectedSpawns, selectedSpawnsCount);
-					Spawn (selectedSpawns, selectedSpawnsCount); 
+					yield return Singleton<Main>.inst.StartCoroutine(Spawn (selectedSpawns, selectedSpawnsCount)); 
 					prepareNextSpawnGroup = true;
 				}	
 			} else {
@@ -149,18 +149,40 @@ public class RandomWave : IWaveSpawner{
 		return selectedSpawns;
 	}
 
-	//TODO different strategies
-	//current - less diffuculty more chance
+	public enum eSpawnCountStrategy
+	{
+		MIN = 1,
+		LESS_DIFFICULT,
+		EQUAL,
+		MORE_DIFFICULT,
+		MAX,
+	}
+
 	private List<int> GetCountForSpawns(List<WeightedSpawn> selectedSpawns, float difficulty){
-		float currentDifficulty = 0;
 		List<int> selectedSpawnsCount = selectedSpawns.ConvertAll (s => 0);
+		if (selectedSpawns.Count == 0) {
+			return selectedSpawnsCount;
+		}
+
+		eSpawnCountStrategy strategy = (eSpawnCountStrategy)UnityEngine.Random.Range ((int)eSpawnCountStrategy.MIN + 1, (int)eSpawnCountStrategy.MAX);
+		Func<WeightedSpawn, float> weightsFunc;
+		if (strategy == eSpawnCountStrategy.LESS_DIFFICULT) {
+			weightsFunc = (w) => 1 / w.difficulty;
+		} else if (strategy == eSpawnCountStrategy.MORE_DIFFICULT) {
+			weightsFunc = (w) => w.difficulty;
+		} else {
+			weightsFunc = (w) => 1;
+		}
+
+		float currentDifficulty = 0;
 		List<WeightedSpawn> selectedSpawnsAvaliable = new List<WeightedSpawn> (selectedSpawns); 
-		while (selectedSpawnsAvaliable.Count > 0) {
-			bool anyAvaliable = false;
+		bool anyAvaliable = true;
+		while (true) {
+			anyAvaliable = false;
 			List<float> weights = selectedSpawnsAvaliable.ConvertAll (asp => {
 				if(asp.difficulty <= difficulty - currentDifficulty) {
 					anyAvaliable = true;
-					return 1f; //1f/asp.difficulty));
+					return weightsFunc(asp);
 				} else {
 					return 0f;
 				}
@@ -175,21 +197,54 @@ public class RandomWave : IWaveSpawner{
 		return selectedSpawnsCount;
 	}
 
-	public enum eSpawnStrategy {
-		Random = -1,
-		ByPositioningAllAtOnce = 1,
-		ByPositioningWithIntervals = 2,
-		FiewGroups = 4,
-
+	public enum SpawnStrategy
+	{
+		PICK_RANDOM = 0,
+		MIN = 1 ,
+		ALL_AT_ONCE,
+		QUICK_DELAYS,
+		LONG_DELAYS,
+		MAX,
 	}
 
-	private void Spawn(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount){
+	//TODO:
+	public enum SpawnPositionStrategy
+	{
+		MIN = 1,
+		RANDOM,
+		CIRCLE_ARC,
+		TRIANGLE,
+		MAX,
+	}
+
+	private IEnumerator Spawn(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount){
+
+		SpawnStrategy strategy = (SpawnStrategy)UnityEngine.Random.Range ((int)SpawnStrategy.MIN + 1, (int)SpawnStrategy.MAX);
+
+		List<WeightedSpawn> toSpawn = new List<WeightedSpawn> ();
+
 		for (int i = 0; i < selectedSpawns.Count; i++) {
 			var item = selectedSpawns [i];
 			for (int k = 0; k < selectedSpawnsCount[i]; k++) {
-				item.spawn.Spawn (main.GetPositionData(item.range, item.positioning) , OnObjectSpawned);
+				toSpawn.Add (item);
 			}
 		}
+
+		while (toSpawn.Count > 0) {
+			int index = UnityEngine.Random.Range (0, toSpawn.Count);
+			var item = toSpawn [index];
+			toSpawn.RemoveAt (index);
+			item.spawn.Spawn (main.GetPositionData(item.range, item.positioning) , OnObjectSpawned);
+			if (strategy == SpawnStrategy.QUICK_DELAYS) {
+				yield return new WaitForSeconds (UnityEngine.Random.Range (0.2f, 0.6f));
+			} else if (strategy == SpawnStrategy.LONG_DELAYS) {
+				yield return new WaitForSeconds (UnityEngine.Random.Range (0.6f, 1.5f));
+			} else {
+				//no delay
+			}
+		}
+
+		yield break;
 	}
 
 	private void OnObjectSpawned(MSpawnBase.SpawnedObj obj) {

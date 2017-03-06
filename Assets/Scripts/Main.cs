@@ -1212,6 +1212,7 @@ public class Main : MonoBehaviour
 	* powerups duration indicators
 	* start powerup button
 	* burn fire hit on self effect
+	* meteor shower on the map powerup
 	* 
 	* add gun/turrets powerup => rage wave(assemble all level spawns with fixed difficulty once/total) and list of wave effects
 	* berzerk with extra gun for next wave with increased difficulty at once and total
