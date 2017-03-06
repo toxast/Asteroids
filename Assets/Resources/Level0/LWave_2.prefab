@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4031162268806062}
   - component: {fileID: 114664566910631732}
   m_Layer: 0
-  m_Name: LWave_1
+  m_Name: LWave_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,43 +52,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 70
-    diffucultyTotal: 100
+    diffucultyAtOnce: 200
+    diffucultyTotal: 200
     startNextWaveWhenDifficultyLeft: 0
     differentSpawnsCountRange:
       min: 1
       max: 3
     objects:
-    - spawn: {fileID: 114529371202508250, guid: a4c47a10384b0284182186956f8600b7,
-        type: 2}
+    - spawn: {fileID: 11442294, guid: fa285c50427b55344b625e6f53f53720, type: 2}
       weight: 4
       range:
-        min: 40
-        max: 50
-      positioning:
-        positionAngle: 0
-        positionAngleRange: 360
-        lookAngle: 0
-        lookAngleRange: 0
-    - spawn: {fileID: 11492862, guid: b60157c54dc5a6542a34b8c4a7fad6c6, type: 2}
-      weight: 4
-      range:
-        min: 40
+        min: 60
         max: 70
       positioning:
         positionAngle: 0
-        positionAngleRange: 360
-        lookAngle: 0
-        lookAngleRange: 360
-    - spawn: {fileID: 114529371202508250, guid: ba381844ac705544aa88a826333cc3bf,
-        type: 2}
-      weight: 4
-      range:
-        min: 40
-        max: 70
-      positioning:
-        positionAngle: 0
-        positionAngleRange: 360
+        positionAngleRange: 0
         lookAngle: 0
         lookAngleRange: 360
   createDefWaveEditor: 0

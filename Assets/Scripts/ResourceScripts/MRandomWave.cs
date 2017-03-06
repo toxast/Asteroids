@@ -101,7 +101,7 @@ public class RandomWave : IWaveSpawner{
 					}
 				}
 
-				if (minDifficulty < totalDifficulyLeft) { 
+				if (minDifficulty <= totalDifficulyLeft) { 
 					if (first) {
 						first = false;
 						preparedDifficulty = data.diffucultyAtOnce;

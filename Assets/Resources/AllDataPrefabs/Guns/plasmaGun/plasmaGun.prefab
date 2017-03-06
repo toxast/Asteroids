@@ -43,7 +43,6 @@ MonoBehaviour:
   storeName: (5) user gun for old school 2
   price: 0
   etype: 1
-  damage: 3
   hitDamage: 3
   lifeTime: 2
   velocity: 35
@@ -57,8 +56,12 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   spreadAngle: 0
+  rotation:
+    min: 0
+    max: 0
   color: {r: 0.02189661, g: 0.5955882, b: 0.16828679, a: 0}
-  fireEffect: {fileID: 0}
+  fireEffect: {fileID: 198039527583253788, guid: d9d054c5ca8388a4db079f01ed1197fd,
+    type: 2}
   effects:
   - place:
       pos: {x: 0, y: 0}

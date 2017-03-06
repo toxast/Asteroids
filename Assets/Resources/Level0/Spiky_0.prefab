@@ -48,7 +48,7 @@ MonoBehaviour:
   teleportData:
     duration: 1.5
     ringSize: 10
-    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+    color: {r: 1, g: 0.97241366, b: 0, a: 1}
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
@@ -60,16 +60,16 @@ MonoBehaviour:
   spikeVelocity: 25
   regrowPause:
     min: 0
-    max: 2
+    max: 1
   growSpeed: 1
-  overrideSpikeCollisionAttack: -1
+  overrideSpikeCollisionAttack: 5
   chanceShootSpikeAtDeath: 0.5
   color: {r: 0.4742647, g: 0.52114606, b: 0.63235295, a: 1}
   reward: 40
   physical:
     density: 2
     health: -1
-    healthModifier: 8
+    healthModifier: 3
     collisionDefence: 0
     collisionAttackModifier: 1
   speed:

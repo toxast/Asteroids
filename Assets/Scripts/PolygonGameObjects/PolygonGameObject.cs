@@ -506,7 +506,7 @@ public class PolygonGameObject : MonoBehaviour
 	{
 		Color shCol = Color.green;
 		shCol.a = 0.3f;
-		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.circulatedVertices, 0.3f);
+		Vector2[] v = Math2d.OffsetVerticesFromCenter (polygon.circulatedVertices, 0.45f);
 		shieldGO = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(v, shCol);
 		shieldGO.name = "shield";
 		shieldGO.cacheTransform.parent = cacheTransform;
