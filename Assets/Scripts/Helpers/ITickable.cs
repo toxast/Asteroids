@@ -37,6 +37,8 @@ public abstract class TickableEffect : ITickable
 		ExtraGuns,
 		RotatingObjectsShield,
 		KeepRotation,
+		HealOT,
+		HealOnce,
 	}
 }
 

@@ -475,6 +475,10 @@ public class PolygonGameObject : MonoBehaviour
 		return chance > UnityEngine.Random.Range(0f, 1f);
 	}
 
+	public virtual void Heal(float amount){
+		currentHealth = Mathf.Min (currentHealth + amount, fullHealth);
+	}
+
 	public virtual void Hit(float dmg)
 	{
 //        Debug.LogError ("hit " + dmg);
@@ -619,6 +623,7 @@ public class PolygonGameObject : MonoBehaviour
 			} else {
 				var inst = Instantiate (setup.prefab) as ParticleSystem;
 				var pmain = inst.main;
+
 				if (setup.overrideSize > 0) {
 					pmain.startSizeMultiplier = setup.overrideSize;
 				}

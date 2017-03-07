@@ -53,6 +53,8 @@ public class Main : MonoBehaviour
 	[SerializeField] SpawnBackupEffect.Data testBackupData;
 	[SerializeField] ExtraGunsEffect.Data extraGunTestData;
 	[SerializeField] RotatingObjectsShield.Data objsShieldTestData;
+	[SerializeField] HealingEffect.Data healTestData;
+	[SerializeField] HealOnce.Data healOnceTestData;
 
 	Coroutine repositionCoroutine;
 	Coroutine wrapStarsCoroutine;
@@ -495,8 +497,11 @@ public class Main : MonoBehaviour
 			obj.AddEffect (new RotatingObjectsShield (objsShieldTestData));
 			CreateRageWave ();
 			break;
+		case PowerUpEffect.HealingTest:
+			obj.AddEffect (new HealOnce(healOnceTestData));
+			//obj.AddEffect (new HealingEffect (healTestData));
+			break;
 		}
-		
     }
 
 	private void CreateRageWave() {

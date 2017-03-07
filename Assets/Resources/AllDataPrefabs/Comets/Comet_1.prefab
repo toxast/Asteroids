@@ -56,6 +56,10 @@ MonoBehaviour:
   editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
   speed:
     min: 15
     max: 20
@@ -75,7 +79,7 @@ MonoBehaviour:
   color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
   particleSystemColor: {r: 0.96470594, g: 0.7019608, b: 0.14117648, a: 1}
   powerupData:
-    effect: 7
+    effect: 8
     lifeTime: 30
     color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
     particles: {fileID: 198790583922292200, guid: 226bd5cb1953ecd46adca2b21c81e272,

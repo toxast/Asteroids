@@ -34,6 +34,12 @@ public class UserSpaceShip : SpaceShip {
 		UpdateShields ();
 	}
 
+	public override void Heal (float amount)
+	{
+		base.Heal (amount);
+		UpdateHealth ();
+	}
+
 	private void UpdateShields()
 	{
 		if (shield != null)
