@@ -29,6 +29,7 @@ public class DumbHitterController : BaseSpaceshipController {
 
         thisShip.StartCoroutine(Logic());
         thisShip.StartCoroutine(BehavioursRandomTiming());
+        thisShip.StartCoroutine(ApproachArcGenerator());
     }
 
     private IEnumerator BehavioursRandomTiming() {
@@ -36,6 +37,35 @@ public class DumbHitterController : BaseSpaceshipController {
             TickActionVariable(ref timeForTurnAction, ref untilTurn, untilTurnMin, untilTurnMax);
             TickActionVariable(ref checkBulletsAction, ref untilBulletsEvade, untilBulletsEvadeMin, untilBulletsEvadeMax);
             yield return null;
+        }
+    }
+
+    Vector2 approachArc = Vector2.zero;
+    private IEnumerator ApproachArcGenerator() {
+        approachArc = Vector2.zero;
+        while (true) {
+            if (!Main.IsNull(target)) {
+                float arcDegrees = Random.Range(150f, 270f);
+                float arcRotationRad = Random.Range(1, 360) * Mathf.Deg2Rad;
+                float dist = 2 * (target.polygon.R + thisShip.polygon.R) + 20f;
+                float arcRadius = Random.Range(dist * 0.7f, dist * 1.2f);
+                float arcDuration = Random.Range(3f, 6f);
+                float duration = (2 * Mathf.PI * arcRadius) * (360f / arcDegrees) / thisShip.maxSpeed;
+                duration = Random.Range(duration * 0.8f, duration * 1.2f);
+                float arcSpeed = arcDegrees / duration;
+                float currentDegrees = arcDegrees;
+                while (duration > 0) {
+                    duration -= Time.deltaTime;
+                    currentDegrees -= arcSpeed * Time.deltaTime;
+                    var rad = currentDegrees * Mathf.Deg2Rad;
+                    approachArc = arcRadius * new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+                    approachArc = Math2d.RotateVertex(approachArc, arcRotationRad);
+                    yield return null;
+                }
+            }
+            approachArc = Vector2.zero;
+            float noArcDuration = Random.Range(3f, 7f);
+            yield return new WaitForSeconds(noArcDuration);
         }
     }
 
@@ -79,7 +109,7 @@ public class DumbHitterController : BaseSpaceshipController {
 
                     if (!behaviourChosen) {
                         var aimVelocity = (target.velocity - thisShip.velocity) * accuracy;
-                        AimSystem aim = new AimSystem(target.position, aimVelocity, thisShip.position, thisShip.maxSpeed);
+                        AimSystem aim = new AimSystem(target.position + approachArc, aimVelocity, thisShip.position, thisShip.maxSpeed);
                         turnDirection = aim.directionDist;
                         yield return null;
                     }
