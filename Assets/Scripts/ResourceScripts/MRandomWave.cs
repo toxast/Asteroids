@@ -210,8 +210,9 @@ public class RandomWave : IWaveSpawner{
 	//TODO:
 	public enum SpawnPositionStrategy
 	{
+		RANDOM = 0,
 		MIN = 1,
-		RANDOM,
+        CIRCLE_SECTORS,
 		CIRCLE_ARC,
 		TRIANGLE,
 		MAX,
