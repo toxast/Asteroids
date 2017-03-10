@@ -117,6 +117,9 @@ public class ChargerController : BaseSpaceshipController
 
     private IEnumerator ChargeAttack(float duration) {
 		LogWarning("charge attack " + chargeDuration);
+        if (chData.shootWhenCharge) {
+            shooting = true;
+        }
         SetAcceleration(true);
 		chData.chargeEffect.duration = duration;
 		thisShip.AddEffect (new PhysicalChangesEffect(chData.chargeEffect));
@@ -130,6 +133,7 @@ public class ChargerController : BaseSpaceshipController
             }
             yield return null;
         }
+        shooting = false;
     }
 
 	private bool IsBetterToStop() {
@@ -143,9 +147,16 @@ public class ChargerController : BaseSpaceshipController
 	}
 
     private Vector2 getAimDiraction() {
-        var aimVelocity = accuracy * (1.3f * target.velocity - thisShip.velocity);
-        AimSystem aim = new AimSystem(target.position, aimVelocity, thisShip.position, thisShip.maxSpeed);
-        return aim.directionDist;
+        var targetPos = target.position;
+        if(chData.aimOffset != 0) {
+            if (target.velocity != Vector2.zero) {
+                targetPos += target.velocity.normalized * chData.aimOffset;
+            } else {
+                targetPos += (Vector2)target.cacheTransform.right * chData.aimOffset;
+            }
+        }
+        SuicideAim aim = new SuicideAim(targetPos, target.velocity, thisShip.position, thisShip.velocity, thisShip.turnSpeed, accuracy);
+        return aim.direction;
     }
 
 	private IEnumerator AccuracyChanger(AccuracyData data)
@@ -160,3 +171,4 @@ public class ChargerController : BaseSpaceshipController
 		}
 	}
 }
+

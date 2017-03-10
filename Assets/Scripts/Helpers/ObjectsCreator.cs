@@ -64,6 +64,16 @@ public class ObjectsCreator
         return spaceship;
     }
 
+    public static T CreateDumbHitterSpaceship<T>(MDumbHitterData sdata, int layerNum)
+        where T : SpaceShip {
+        var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
+        var bullets = Singleton<Main>.inst.bullets;
+        var controller = new DumbHitterController(spaceship, bullets, sdata.accuracy);
+        spaceship.SetController(controller);
+        spaceship.targetSystem = new TargetSystem(spaceship);
+        return spaceship;
+    }
+
     public static T CreateSuisideBombSpaceship<T>(MSuicideBombSpaceshipData sdata, int layerNum)
        where T : SpaceShip {
         var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
