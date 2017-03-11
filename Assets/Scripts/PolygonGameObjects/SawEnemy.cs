@@ -72,7 +72,24 @@ public class SawEnemy : Asteroid
 				velocity = chargeSpeed * direction.normalized;
 			}
 		}
-		yield return new WaitForSeconds (data.chargeDuration.RandomValue); 
+
+		bool forceStopWhenMissed = Math2d.Chance(data.chanceForceStopWhenMissed);
+		bool continueWhileGoingAfterTarget = Math2d.Chance(data.chanceContinueChargeUntilMiss);
+		var chargeLeftDuration = data.chargeDuration.RandomValue;
+		while (chargeLeftDuration > 0) {
+			chargeLeftDuration -= Time.deltaTime;
+			yield return null; 
+			if ((forceStopWhenMissed || continueWhileGoingAfterTarget) && !Main.IsNull(target)) {
+				bool missed = Vector2.Dot ((target.position - position), velocity) <= 0;
+				if (missed && forceStopWhenMissed) {
+					break;
+				}
+				if (!missed && continueWhileGoingAfterTarget && chargeLeftDuration <= 0) {
+					chargeLeftDuration = 0.0001f;
+				}
+			}
+		}
+
 		if (currentGunsShowEffect != null) {
 			currentGunsShowEffect.ForceFinish ();
 			currentGunsShowEffect = null;

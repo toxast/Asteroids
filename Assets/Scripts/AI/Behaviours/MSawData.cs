@@ -10,6 +10,10 @@ public class MSawData : MSpawnDataBase, IGotShape
 	public RandomFloat chargeSpeed = new RandomFloat(30, 40);
 	public RandomFloat chargeDuration = new RandomFloat(2f, 3.5f);
 	public float slowingDuration = 2f;
+
+	public float chanceForceStopWhenMissed = 0.5f;
+	public float chanceContinueChargeUntilMiss = 0.5f;
+
 	public AccuracyData accuracy;
 	public Vector2[] vertices;
 	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}

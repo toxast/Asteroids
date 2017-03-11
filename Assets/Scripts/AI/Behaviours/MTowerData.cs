@@ -13,7 +13,7 @@ public class MTowerData : MSpawnDataBase, IGotShape, IGotGuns, IGotTurrets
 	public AccuracyData accuracy;
 	public ShieldData shield;
 	public List<MGunSetupData> guns;
-	public List<int> linkedGuns;
+	public List<List<int>> linkedGuns;
 	public List<MTurretReferenceData> turrets;
 	public Vector2[] verts;
 

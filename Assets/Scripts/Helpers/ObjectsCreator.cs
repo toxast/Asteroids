@@ -120,7 +120,7 @@ public class ObjectsCreator
 			var gun = gunplace.GetGun (spaceship);
 			guns.Add (gun);
 		}
-		spaceship.SetGuns (guns, sdata.linkedGuns);
+		spaceship.SetGuns (guns, sdata.linkedGuns.ConvertAll(f => f.list));
 
 		foreach (var item in sdata.turrets) 
 		{
@@ -188,7 +188,7 @@ public class ObjectsCreator
 		Comet comet = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
         comet.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
         comet.InitComet(mdata.powerupData, mdata.lifeTime);
-		comet.SetLayerNum(CollisionLayers.ilayerTeamEnemies);
+		comet.SetLayerNum(CollisionLayers.ilayerAsteroids);
 		comet.priority = PolygonGameObject.ePriorityLevel.LOW;
 		comet.SetParticles (mdata.particles);
 		comet.SetDestroyAnimationParticles (mdata.destructionEffects);
@@ -348,12 +348,12 @@ public class ObjectsCreator
         Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(size, vcount);
         var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, data.color);
         drop.InitPolygonGameObject(new PhysicalData());
-        drop.InitPowerUp(data.effect);
+        drop.InitPowerUp(data.effectData);
         var ps = GameObject.Instantiate<ParticleSystem> (data.particles, drop.transform);
 		ps.SetStartColor(data.particleSystemColor);
         ps.transform.localPosition = new Vector3(0, 0, 1);
         drop.SetLayerNum(CollisionLayers.ilayerMisc);
-        drop.gameObject.name = "DropPowerUp " + data.effect.ToString();
+        drop.gameObject.name = "DropPowerUp " + data.effectData.ToString();
         drop.lifetime = data.lifeTime;
         return drop;
     }

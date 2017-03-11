@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class SpawnBackupEffect : TickableEffect{
@@ -33,7 +34,10 @@ public class SpawnBackupEffect : TickableEffect{
 	}
 
 	[System.Serializable]
-	public class Data {
+	public class Data : IApplyable {
 		public List<WeightedSpawn> spawns;
+		public void Apply(PolygonGameObject picker) {
+			picker.AddEffect (new SpawnBackupEffect (this));
+		}
 	}
 }

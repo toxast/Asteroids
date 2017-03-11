@@ -68,6 +68,8 @@ public class TowerEnemy : PolygonGameObject
 	}
 
 	private void TickGunsNew(float delta) {
+		//base.TickGuns ();
+		//base.Shoot ();
 		for (int i = 0; i < guns.Count; i++) {
 			guns [i].Tick (delta);
 		}

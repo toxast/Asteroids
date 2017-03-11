@@ -45,13 +45,23 @@ MonoBehaviour:
   editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
   prepareTime: 2
-  chargeSpeed: 30
   chargeRotation: 300
-  chargeDuration: 3
+  chargeSpeed:
+    min: 30
+    max: 40
+  chargeDuration:
+    min: 2
+    max: 3.5
   slowingDuration: 2
+  chanceForceStopWhenMissed: 0.5
+  chanceContinueChargeUntilMiss: 0.5
   accuracy:
-    startingAccuracy: 0
+    startingAccuracy: 1
     thresholdDistance: 10
     isDynamic: 0
     checkDtime: 1
@@ -91,6 +101,7 @@ MonoBehaviour:
   spikesCount:
     min: 5
     max: 10
+  gunsShowChargeEffect: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

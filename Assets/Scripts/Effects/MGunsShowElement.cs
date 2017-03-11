@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class MGunsShowElement : MonoBehaviour, IGotGuns{
 	public List<MGunSetupData> guns;
-	public List<int> linkedGuns;
+	public List<List<int>> linkedGuns;
 	public float rotation = 100f;
 
 	//interfaces

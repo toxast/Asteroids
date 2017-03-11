@@ -15,7 +15,7 @@ namespace polygonGO {
             }
 		}
 
-        public virtual void OnUserInteracted() {
+		public virtual void OnInteracted(PolygonGameObject picker) {
         }
 
         public virtual void OnLifeTimeEnd() {

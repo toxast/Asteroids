@@ -139,9 +139,11 @@ public class RotatingObjectsShield : TickableEffect
 	}
 
 	[System.Serializable]
-	public class Data{
-		public MSpawnDataBase spawn;
+	public class Data: IHasDuration, IApplyable {
+
 		public float duration = 30f; 
+		public float iduration{get {return duration;} set{duration = value;}}
+		public MSpawnDataBase spawn;
 		public float shieldRotationSpeed;
 		public float asteroidShieldRadius;
 		public float respawnShieldObjDuration; 
@@ -154,5 +156,9 @@ public class RotatingObjectsShield : TickableEffect
 		[Header ("keep rotation")]
 		public bool keepObjectsRotation = false;
 		public KeepRotationEffect.Data keepRotationData;
+	
+		public void Apply(PolygonGameObject picker) {
+			picker.AddEffect (new RotatingObjectsShield (this));
+		}
 	}
 }

@@ -72,49 +72,18 @@ public class HealingEffect : TickableEffect{
 	}
 
 	[System.Serializable]
-	public class Data{
+	public class Data: IHasDuration, IApplyable {
 		public float duration = 4;
+		public float iduration{get {return duration;} set{duration = value;}}
 		public float total = 20;
 		public ParticleSystemsData effect;
-	}
-}
 
-
-
-public class HealOnce : TickableEffect{
-	protected override eType etype { get { return eType.HealOnce; } }
-	public override bool CanBeUpdatedWithSameEffect { get { return false; } }
-
-	Data data;
-	bool used = false;
-
-	public HealOnce(Data data) {
-		this.data = data;
-	}
-
-	public override void SetHolder (PolygonGameObject holder){
-		base.SetHolder (holder);
-	}
-
-	public override bool IsFinished() {
-		return used;
-	}
-	
-	public override void Tick (float delta) {
-		if (!IsFinished ()) {
-			used = true;
-			holder.Heal (data.total);
-			AddEffects ();
+		public void Apply(PolygonGameObject picker) {
+			picker.AddEffect (new HealingEffect (this));
 		}
 	}
-
-	void AddEffects(){
-		holder.SetParticles(new List<ParticleSystemsData> { data.effect});
-	}
-
-	[System.Serializable]
-	public class Data{
-		public float total = 20;
-		public ParticleSystemsData effect;
-	}
 }
+
+
+
+

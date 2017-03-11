@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PhysicalChangesEffect : TickableEffect 
 {
 	protected override eType etype { get { return eType.PhysicalChanges; } }
@@ -69,8 +70,9 @@ public class PhysicalChangesEffect : TickableEffect
 	}
 
 	[System.Serializable]
-	public class Data {
-		public float duration = 10f;
+	public class Data : IHasDuration, IApplyable {
+		public float duration = 4;
+		public float iduration{get {return duration;} set{duration = value;}}
 		public float overrideDefence = -1;
 		public float multiplyMass = 1;
 		public float multiplyCollisionAttack = 1;
@@ -78,5 +80,8 @@ public class PhysicalChangesEffect : TickableEffect
 		public float multiplyMaxSpeed = 1f;
 		public float multiplyTurnSpeed = 1f;
 		public float multiplyStability = 1f;
+		public void Apply(PolygonGameObject picker) {
+			picker.AddEffect (new PhysicalChangesEffect (this));
+		}
 	}
 }

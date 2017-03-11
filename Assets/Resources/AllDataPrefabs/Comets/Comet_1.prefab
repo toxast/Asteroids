@@ -77,9 +77,12 @@ MonoBehaviour:
     collisionAttackModifier: 1
   lifeTime: 120
   color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
-  particleSystemColor: {r: 0.96470594, g: 0.7019608, b: 0.14117648, a: 1}
   powerupData:
-    effect: 8
+    cost: 0
+    effectData:
+      effects:
+      - {fileID: 114146737906528258, guid: 5abcce0077805d041b14043aa116315c, type: 2}
+    verts: []
     lifeTime: 30
     color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
     particles: {fileID: 198790583922292200, guid: 226bd5cb1953ecd46adca2b21c81e272,

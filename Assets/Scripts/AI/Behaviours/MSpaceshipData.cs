@@ -14,7 +14,7 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 	public AccuracyData accuracy;
 	public ShieldData shield;
 	public List<MGunSetupData> guns;
-	public List<int> linkedGuns;
+	public List<MyIntList> linkedGuns;
 	public List<ParticleSystemsData> thrusters;
 	public List<MTurretReferenceData> turrets;
 	public Vector2[] verts;
@@ -34,6 +34,11 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 
 	void OnValidate(){
 		thrusters.SetDefaultValues ();
+	}
+
+	[System.Serializable]
+	public class MyIntList{
+		public List<int> list;
 	}
 }
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,8 +43,13 @@ public class HeavyBulletEffect : TickableEffect
 	}
 
 	[System.Serializable]
-	public class Data{
+	public class Data : IApplyable, IHasDuration{
 		public float duration;
 		public float multiplier;
+		public float iduration{get {return duration;} set{duration = value;}}
+
+		public void Apply(PolygonGameObject picker) {
+			picker.AddEffect (new HeavyBulletEffect (this));
+		}
 	}
 }

@@ -11,7 +11,7 @@ public class MTurretData : MonoBehaviour , IGotShape, IGotGuns
 	public float repeatTargetCheck = 1f;
 	public AccuracyData accuracy;
 	public List<MGunSetupData> guns;
-	public List<int> linkedGuns;
+	public List<List<int>> linkedGuns;
 	public Vector2[] verts;
 
     //interfaces

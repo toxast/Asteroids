@@ -423,7 +423,7 @@ public class Main : MonoBehaviour
 				int indxa, indxb;
 				var drop = drops [i];
 				if (PolygonCollision.IsCollides (userSpaceship, drop, out indxa, out indxb)) {
-					drop.OnUserInteracted ();
+					drop.OnInteracted (userSpaceship);
 					Destroy (drop.gameObject);
 					drops.RemoveAt (i);
 				}
@@ -450,6 +450,7 @@ public class Main : MonoBehaviour
         GameResources.AddMoney((int)(value * addMoneyKff));
     }
 
+	/*
 	public void ApplyPowerUP(PowerUpEffect effect) {
 		ApplyPowerUP (effect, userSpaceship);
 	}
@@ -503,6 +504,7 @@ public class Main : MonoBehaviour
 			break;
 		}
     }
+    */
 
 	private void CreateRageWave() {
 		var level = (spawner as LevelSpawner);

@@ -2377,8 +2377,8 @@ MonoBehaviour:
         dir: {x: 1, y: 0}
       gun: {fileID: 11405498, guid: a5b021be1abdda0438689054cf93062b, type: 2}
   objsShieldTestData:
-    spawn: {fileID: 114753084314748396, guid: b2e0e1e690476164197f00da7cb06400, type: 2}
     duration: 30
+    spawn: {fileID: 114753084314748396, guid: b2e0e1e690476164197f00da7cb06400, type: 2}
     shieldRotationSpeed: -120
     asteroidShieldRadius: 20
     respawnShieldObjDuration: 1

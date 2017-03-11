@@ -92,8 +92,8 @@ public class PolygonGameObject : MonoBehaviour
 //	public event Action<float> healthChanged;
 
 	public List<Gun> guns { get; private set;}
-	protected int linkedGunTick = 0;
-	protected List<int> linkedGuns = new List<int>();
+	protected List<List<int>> linkedGuns = new List<List<int>>(); //indexes of linked gun, can be a few of them
+	protected List<int> linkedGunTick = new List<int>(); //each list of linked guns has a current index. 
 	protected List<int> notLinkedGuns = new List<int>();
 	protected List<int> spawnerGuns = new List<int>();
 
@@ -187,28 +187,26 @@ public class PolygonGameObject : MonoBehaviour
 		this.leftlifeTime = lifeTime;
 	}
 
-	public void SetGuns(List<Gun> guns, List<int> linked = null)
+	public void SetGuns(List<Gun> guns, List<List<int>> linked = null)
 	{
 		this.spawnerGuns = new List<int> ();
 		this.guns = new List<Gun>(guns);
 		this.notLinkedGuns = new List<int> ();
-		this.linkedGuns = new List<int> ();
-		if (linked == null) {
-			linked = new List<int> ();
-		}
+		this.linkedGuns = linked ?? new List<List<int>>();
 		for (int i = 0; i < guns.Count; i++) {
-			var addList = (linked.Contains(i)) ? linkedGuns : notLinkedGuns;
-			addList.Add(i);
-
-			if(guns[i] is SpawnerGun)
-			{
+			if (!linkedGuns.Exists (list => list.Contains (i))) {
+				notLinkedGuns.Add (i);
+			}
+			if(guns[i] is SpawnerGun) {
 				spawnerGuns.Add(i);
 			}
 		}
 
-		this.linkedGunTick = 0;
-		for (int i = 1; i < linkedGuns.Count; i++) {
-			guns[linkedGuns[i]].SetTimeForNextShot();
+		this.linkedGunTick = linkedGuns.ConvertAll (g => 0);
+		for (int i = 0; i < linkedGuns.Count; i++) {
+			for (int k = 1; k < linkedGuns [i].Count; k++) {
+				guns [linkedGuns [i] [k]].SetTimeForNextShot ();
+			}
 		}
 	}
 
@@ -575,7 +573,11 @@ public class PolygonGameObject : MonoBehaviour
 		}
 		
 		if (linkedGuns.Any ()) {
-			guns [linkedGuns [linkedGunTick]].Tick (d);
+			for (int i = 0; i < linkedGunTick.Count; i++) {
+				var linkedGunsIndexList = linkedGuns [i];
+				int indexToTick = linkedGunTick [i];
+				guns [linkedGunsIndexList[indexToTick]].Tick (d);
+			}
 		}
 
 		if (!Main.IsNull (target)) {
@@ -589,17 +591,24 @@ public class PolygonGameObject : MonoBehaviour
 
     public void Shoot()
 	{
-		for (int i = 0; i < notLinkedGuns.Count; i++) 
-		{
+		for (int i = 0; i < notLinkedGuns.Count; i++) {
 			guns[notLinkedGuns[i]].ShootIfReady();
 		}
 		
-		if(linkedGuns.Any() && guns[linkedGuns[linkedGunTick]].ReadyToShoot())
-		{
-			guns[linkedGuns[linkedGunTick]].ShootIfReady();
-			linkedGunTick ++;
-			if(linkedGunTick >= linkedGuns.Count)
-				linkedGunTick = 0;
+		for (int i = 0; i < linkedGuns.Count; i++) {
+			ShootLinkedGunList (i);
+		}
+	}
+
+	protected void ShootLinkedGunList(int i) {
+		var indexList = linkedGuns [i];
+		var index = linkedGunTick [i]; 
+		var gun = guns [indexList [index]];
+		if(indexList.Any() && gun.ReadyToShoot()) {
+			gun.ShootIfReady();
+			linkedGunTick[i] = linkedGunTick[i] + 1;
+			if(linkedGunTick[i] >= indexList.Count)
+				linkedGunTick[i] = 0;
 		}
 	}
 

@@ -9,7 +9,6 @@ public class MCometData : MSpawnDataBase {
     public PhysicalData physical;
     public float lifeTime;
     public Color color;
-	public Color particleSystemColor;
 	public PowerupData powerupData;
 	public List<ParticleSystemsData> particles;
 	public List<ParticleSystemsData> destructionEffects;
@@ -26,7 +25,9 @@ public class MCometData : MSpawnDataBase {
 
 [System.Serializable]
 public class PowerupData {
-    public PowerUpEffect effect;
+	public int cost;
+	public UserComboPowerup effectData;
+	public Vector2[] verts;
     public float lifeTime;
     public Color color;
     public ParticleSystem particles;

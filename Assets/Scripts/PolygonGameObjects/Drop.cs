@@ -15,7 +15,7 @@ namespace polygonGO
             }
         }
 
-        public override void OnUserInteracted() {
+		public override void OnInteracted(PolygonGameObject picker) {
             if (!moneyAdded) {
                 moneyAdded = true;
                 Singleton<Main>.inst.AddMoneyOnDropInterated(value);

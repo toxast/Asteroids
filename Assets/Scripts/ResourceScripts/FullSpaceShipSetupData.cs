@@ -16,7 +16,7 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 	public AccuracyData accuracy;
 	public ShieldData shield;
 	public List<GunSetupData> guns;
-	public List<int> linkedGuns;
+	public List<List<int>> linkedGuns;	
 	public List<ParticleSystemsData> thrusters;
 	public List<TurretReferenceData> turrets;
 	public Vector2[] verts;
@@ -40,7 +40,10 @@ public class FullSpaceShipSetupData : IClonable<FullSpaceShipSetupData>, IGotSha
 		r.accuracy = accuracy.Clone();
 		r.shield = shield.Clone(); 
 		r.guns = guns.ConvertAll(g => g.Clone());
-		r.linkedGuns = new List<int> (linkedGuns);
+		r.linkedGuns = new List<List<int>> ();
+		for (int i = 0; i < linkedGuns.Count; i++) {
+			r.linkedGuns.Add(new List<int> (linkedGuns [i]));
+		}
 		r.thrusters = thrusters.ConvertAll(t => t.Clone());
 		r.turrets = turrets.ConvertAll(t => t.Clone());
 		r.verts = verts.ToList ().ToArray ();

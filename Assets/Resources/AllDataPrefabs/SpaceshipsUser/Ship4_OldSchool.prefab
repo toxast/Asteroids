@@ -45,6 +45,10 @@ MonoBehaviour:
   editorSpawnLayer: 2
   difficulty: 10
   gameSpawnLayer: 2
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
   price: 1200
   reward: 0
   color: {r: 0.24356619, g: 0.625, b: 0.37246457, a: 1}
@@ -80,7 +84,7 @@ MonoBehaviour:
       pos: {x: 2.0781481, y: -0.000000005697526}
       dir: {x: 1, y: 0}
     gun: {fileID: 114256884597087828, guid: 8067a874aeb70f64498ae8b80df70b25, type: 2}
-  linkedGuns: 
+  linkedGuns: []
   thrusters:
   - place:
       pos: {x: -1.2018518, y: -0.000000005697526}
@@ -90,6 +94,8 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1
   turrets: []
   verts:
   - {x: 2.398148, y: 0}
