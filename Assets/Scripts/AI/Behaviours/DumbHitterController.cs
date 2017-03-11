@@ -45,11 +45,10 @@ public class DumbHitterController : BaseSpaceshipController {
         approachArc = Vector2.zero;
         while (true) {
             if (!Main.IsNull(target)) {
-                float arcDegrees = Random.Range(150f, 270f);
+                float arcDegrees = Random.Range(100f, 270f);
                 float arcRotationRad = Random.Range(1, 360) * Mathf.Deg2Rad;
                 float dist = 2 * (target.polygon.R + thisShip.polygon.R) + 20f;
                 float arcRadius = Random.Range(dist * 0.7f, dist * 1.2f);
-                float arcDuration = Random.Range(3f, 6f);
                 float duration = (2 * Mathf.PI * arcRadius) * (360f / arcDegrees) / thisShip.maxSpeed;
                 duration = Random.Range(duration * 0.8f, duration * 1.2f);
                 float arcSpeed = arcDegrees / duration;
