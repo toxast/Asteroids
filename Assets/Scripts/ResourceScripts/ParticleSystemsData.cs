@@ -22,9 +22,12 @@ public class ParticleSystemsData: IClonable<ParticleSystemsData>, IGotPlace
             place = place.Clone(),
             prefab = prefab,
             overrideSize = overrideSize,
-            overrideDuration = overrideDuration,
-            zOffset = zOffset,
 			overrideDelay = overrideDelay,
+			overrideDuration = overrideDuration,
+			zOffset = zOffset,
+			afterlife = afterlife,
+			stopEmission = stopEmission,
+
         };
 	}
 }

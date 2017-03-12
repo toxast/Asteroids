@@ -117,10 +117,14 @@ public class PolygonGameObject : MonoBehaviour
 
 	public bool capturedByEarthSpaceship = false;
 
-	[NonSerialized] public DOTEffect.Data burnDot;
+	[NonSerialized] public IceEffect.Data iceEffectData;
+	[NonSerialized] public DOTEffect.Data burnDotData;
     public virtual void OnHit(PolygonGameObject other) {
-		if (burnDot != null) {
-			other.AddEffect (new BurningEffect (burnDot));
+		if (burnDotData != null) {
+			other.AddEffect (new BurningEffect (burnDotData));
+		}
+		if (iceEffectData != null) {
+			other.AddEffect (new IceEffect (iceEffectData));
 		}
 	}
 
@@ -713,7 +717,7 @@ public class PolygonGameObject : MonoBehaviour
 	{
 		for (int i = 0; i < particles.Count; i++) {
 			var ps = particles [i];
-			if (ps.data.afterlife) {
+			if (ps.data.afterlife && ps.system != null && ps.system.transform != null ) {
 				ps.system.transform.parent = null;
 //				var main = ps.system.main;
 				if (ps.data.stopEmission) {

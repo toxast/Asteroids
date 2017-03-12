@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MForcedBulletGun : MGunData {
+
+	[Header ("ice")]
+	public IceEffect.Data iceData;
+
     [Header ("move bullet by force")]
     public float force = 20f;
     public float forceDuration = 2f;

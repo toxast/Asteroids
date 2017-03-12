@@ -21,7 +21,7 @@ public class FlamerBullet : PolygonGameObject {
 	public void InitFlamingBullet( MFlamerGunData data, float startingSpeedMagnitude ) {
 		this.data = data;
 		this.deceleration = data.deceleration.RandomValue;
-        this.burnDot = data.dot;
+        this.burnDotData = data.dot;
 		forceChangeSign = Math2d.RandomSign();
 		maxVelocity = startingSpeedMagnitude;
 		lastVelocity = startingSpeedMagnitude;

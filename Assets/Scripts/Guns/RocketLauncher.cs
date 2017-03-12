@@ -40,8 +40,8 @@ public class RocketLauncher : BulletGun<SpaceShip>
 		var controller = new MissileController (bullet, data.accuracy);
 		bullet.SetController (controller);
 		bullet.targetSystem = new MissileTargetSystem (bullet);
-
 	}
+
 	protected override PolygonGameObject.DestructionType SetDestructionType () {
 		return PolygonGameObject.DestructionType.eDisappear;
 	}

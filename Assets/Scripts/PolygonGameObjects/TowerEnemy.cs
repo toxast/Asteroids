@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TowerEnemy : PolygonGameObject
+public class TowerEnemy : PolygonGameObject, IFreezble
 {
 	float detectionDistanceSqr;
 	float rotationSpeed;
@@ -17,6 +17,10 @@ public class TowerEnemy : PolygonGameObject
         InitPolygonGameObject(data.physical); 
 		cannonsRotaitor = new Rotaitor (cacheTransform, rotationSpeed);
 		StartCoroutine(Aim());
+	}
+
+	public void Freeze(float multipiler){
+		cannonsRotaitor.Freeze(multipiler);
 	}
 
 	public override void Tick(float delta) {

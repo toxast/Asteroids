@@ -20,6 +20,7 @@ public class ForcedBullet : PolygonGameObject {
         effects2 = data.effectsForcedBullet.ConvertAll(e => e.Clone());
         effects2.ForEach(e => e.overrideSize = 2 * data.range);
 		SetParticles (effects2);
+		Debug.LogError ("explosion refactor: get all data for explosion, than apply force, hit, ice, gravity, whatever");
     }
 
     const float checkEvery = 0.16f;

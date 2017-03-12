@@ -81,7 +81,7 @@ MonoBehaviour:
     cost: 0
     effectData:
       effects:
-      - {fileID: 114146737906528258, guid: 5abcce0077805d041b14043aa116315c, type: 2}
+      - {fileID: 114489954731306090, guid: 13f318fba582b0c48bfa189cccd336a4, type: 2}
     verts: []
     lifeTime: 30
     color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}

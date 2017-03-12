@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Linq;
 
-public class SimpleTower : PolygonGameObject
+public class SimpleTower : PolygonGameObject, IFreezble
 {
 	//public static Vector2[] vertices = PolygonCreator.CreateTowerVertices2(1, 6);
 	
@@ -26,6 +26,10 @@ public class SimpleTower : PolygonGameObject
 			StartCoroutine (AccuracyChanger (accData));
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
+	}
+
+	public void Freeze(float multipiler){
+		cannonsRotaitor.Freeze(multipiler);
 	}
 
 	public override void Tick(float delta)

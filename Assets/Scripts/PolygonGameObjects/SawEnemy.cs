@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SawEnemy : Asteroid
+public class SawEnemy : Asteroid, IFreezble
 {
 	private float initialRotation;
 	private float initialVelocity;
@@ -28,6 +28,11 @@ public class SawEnemy : Asteroid
 		this.rotationChargingRate = (data.chargeRotation) / data.prepareTime;
 		this.rotationSlowingRate = (data.chargeRotation) / data.slowingDuration;
 		this.velocityslowingRate = (data.chargeSpeed.max) / data.slowingDuration;
+	}
+
+	public void Freeze(float multipiler){
+		rotationSlowingRate *= multipiler;
+		velocityslowingRate *= multipiler;
 	}
 
 	void Start () {

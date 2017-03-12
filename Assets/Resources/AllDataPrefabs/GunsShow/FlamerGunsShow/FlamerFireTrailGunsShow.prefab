@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4143888612699768}
   - component: {fileID: 114718910286998824}
+  - component: {fileID: 114641064014505036}
   m_Layer: 0
   m_Name: FlamerFireTrailGunsShow
   m_TagString: Untagged
@@ -40,6 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114641064014505036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1801612010291450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7196e4466a542ce4db916524594263b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 114718910286998824}
 --- !u!114 &114718910286998824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -56,6 +69,10 @@ MonoBehaviour:
   editorSpawnLayer: 1
   difficulty: 0
   gameSpawnLayer: 1
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
   duration: 60
   rotation: 0
   makeChild: 1

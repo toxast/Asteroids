@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 
-public class Rotaitor
+public class Rotaitor : IFreezble
 {
 	private Transform transform;
 	public float rotatingSpeed{ private set; get;}
@@ -14,6 +14,10 @@ public class Rotaitor
 	{
 		this.transform = transform;
 		this.rotatingSpeed = rotatingSpeed;
+	}
+
+	public void Freeze(float multipiler){
+		rotatingSpeed *= multipiler;
 	}
 
 	/// <summary>

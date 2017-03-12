@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class SpaceShip : PolygonGameObject 
+public class SpaceShip : PolygonGameObject , IFreezble
 {
 	public float shootAngle = 15f;
 
@@ -30,6 +30,7 @@ public class SpaceShip : PolygonGameObject
 	public void MultiplyMaxSpeed(float mul){ maxSpeed *= mul; }
 	public void MultiplyTurnSpeed(float mul){ turnSpeed *= mul; }
 	public void MultiplyStability(float mul){ stability *= mul; }
+	public void MultiplyBrake(float mul){ passiveBrake *= mul;  brake *= mul;}
 
 	private class Thruster
 	{
@@ -60,6 +61,13 @@ public class SpaceShip : PolygonGameObject
         SetAlpha(alpha);
         SetInvisible(alpha == 0);
     }
+
+	public void Freeze(float multipiler){
+		MultiplyStability(multipiler);
+		MultiplyThrust(multipiler);
+		MultiplyTurnSpeed(multipiler);
+		MultiplyBrake (multipiler);
+	}
 
     public override void SetAlpha (float a)
 	{

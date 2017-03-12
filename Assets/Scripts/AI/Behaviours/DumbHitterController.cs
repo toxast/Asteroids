@@ -10,9 +10,9 @@ public class DumbHitterController : BaseSpaceshipController {
     AIHelper.Data tickData = new AIHelper.Data();
 
     bool timeForTurnAction = false;
-    float untilTurn = 0f;
-    float untilTurnMax = 3.5f;
-    float untilTurnMin = 1.5f;
+//    float untilTurn = 0f;
+//    float untilTurnMax = 3.5f;
+//    float untilTurnMin = 1.5f;
 
     bool checkBulletsAction = false;
     float untilBulletsEvade = 1f;
@@ -34,7 +34,7 @@ public class DumbHitterController : BaseSpaceshipController {
 
     private IEnumerator BehavioursRandomTiming() {
         while (true) {
-            TickActionVariable(ref timeForTurnAction, ref untilTurn, untilTurnMin, untilTurnMax);
+            //TickActionVariable(ref timeForTurnAction, ref untilTurn, untilTurnMin, untilTurnMax);
             TickActionVariable(ref checkBulletsAction, ref untilBulletsEvade, untilBulletsEvadeMin, untilBulletsEvadeMax);
             yield return null;
         }
@@ -46,24 +46,25 @@ public class DumbHitterController : BaseSpaceshipController {
         while (true) {
             if (!Main.IsNull(target)) {
                 float arcDegrees = Random.Range(100f, 270f);
-                float arcRotationRad = Random.Range(1, 360) * Mathf.Deg2Rad;
                 float dist = 2 * (target.polygon.R + thisShip.polygon.R) + 20f;
                 float arcRadius = Random.Range(dist * 0.7f, dist * 1.2f);
-                float duration = (2 * Mathf.PI * arcRadius) * (360f / arcDegrees) / thisShip.maxSpeed;
-                duration = Random.Range(duration * 0.8f, duration * 1.2f);
-                float arcSpeed = arcDegrees / duration;
+				float duration = (2 * Mathf.PI * arcRadius) * (arcDegrees / 360f) / thisShip.maxSpeed;
+                //duration = Random.Range(duration * 0.8f, duration * 1.2f);
+				float angleSpeed = arcDegrees / duration;
                 float currentDegrees = arcDegrees;
+				Debug.LogWarning ("arc " + duration + " " + arcDegrees);
+				float arcRotationRad = Random.Range(1, 360) * Mathf.Deg2Rad;
                 while (duration > 0) {
                     duration -= Time.deltaTime;
-                    currentDegrees -= arcSpeed * Time.deltaTime;
+                    currentDegrees -= angleSpeed * Time.deltaTime;
                     var rad = currentDegrees * Mathf.Deg2Rad;
-                    approachArc = arcRadius * new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+					approachArc = arcRadius * (new Vector2(1,0) - new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)));
                     approachArc = Math2d.RotateVertex(approachArc, arcRotationRad);
                     yield return null;
                 }
             }
             approachArc = Vector2.zero;
-            float noArcDuration = Random.Range(3f, 7f);
+			float noArcDuration = Random.Range(3f, 6f);
             yield return new WaitForSeconds(noArcDuration);
         }
     }
@@ -80,6 +81,7 @@ public class DumbHitterController : BaseSpaceshipController {
         Vector2 newDir;
         while (true) {
             if (!Main.IsNull(target)) {
+				accelerating = true;
                 behaviourChosen = false;
                 checkBehTime -= Time.deltaTime;
                 tickData.Refresh(thisShip, target);
