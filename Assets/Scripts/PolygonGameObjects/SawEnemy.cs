@@ -30,9 +30,11 @@ public class SawEnemy : Asteroid, IFreezble
 		this.velocityslowingRate = (data.chargeSpeed.max) / data.slowingDuration;
 	}
 
-	public void Freeze(float multipiler){
+	public override void Freeze(float multipiler){
 		rotationSlowingRate *= multipiler;
 		velocityslowingRate *= multipiler;
+		rotationChargingRate *= multipiler;
+		base.Freeze (multipiler);
 	}
 
 	void Start () {

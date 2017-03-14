@@ -48,7 +48,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 161642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ed90980701059449bbd93c5170316d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   storeName: 
@@ -71,6 +71,36 @@ MonoBehaviour:
     min: 0
     max: 0
   color: {r: 0.39099997, g: 0.8236, b: 1, a: 0.622}
+  burnDOT:
+    duration: 0
+    dps: 0
+    maxBuildUpDuration: 0
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 0}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: 1
+      afterlife: 0
+      stopEmission: 1
+  iceData:
+    duration: 4
+    freezeAmount: 90
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 198168226012235746, guid: 3af76bc46403b1f4ca3f7bf8eb19fdb8,
+        type: 2}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: -0.1
+      afterlife: 0
+      stopEmission: 1
   fireEffect: {fileID: 0}
   effects: []
   destructionEffects: []
@@ -101,31 +131,3 @@ MonoBehaviour:
   - {x: 1.0703846, y: 0.765}
   - {x: 0.83612835, y: 0.4409999}
   - {x: 1.1728717, y: 0.19799992}
-  overrideExplosionDamage: -1
-  overrideExplosionRadius: -1
-  accuracy: 0
-  missleParameters:
-    thrust: 0
-    maxSpeed: 0
-    turnSpeed: 0
-    brake: 0
-    passiveBrake: 0
-    stability: 0
-    shootAngle: 0
-  thrusters: []
-  launchDirection: {x: 1, y: 0}
-  iceData:
-    duration: 4
-    freezeAmount: 9
-    effect:
-      place:
-        pos: {x: 0, y: 0}
-        dir: {x: 1, y: 0}
-      prefab: {fileID: 198168226012235746, guid: 3af76bc46403b1f4ca3f7bf8eb19fdb8,
-        type: 2}
-      overrideSize: -1
-      overrideDelay: -1
-      overrideDuration: -1
-      zOffset: -0.5
-      afterlife: 0
-      stopEmission: 1

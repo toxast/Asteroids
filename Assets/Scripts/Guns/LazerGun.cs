@@ -48,6 +48,8 @@ public class LazerGun : Gun
 	float lazerAppearDuration = 0.25f;
 	float appearTimeLfet = 0;
 
+	[System.NonSerialized] public IceEffect.Data iceData = null;
+
 	public LazerGun(Place place, MLazerGunData data, PolygonGameObject parent):base(place, data, parent)
 	{
 		distance = data.distance;
@@ -57,6 +59,10 @@ public class LazerGun : Gun
 		attackDuration = data.attackDuration;
 		pauseDuration = data.pauseDuration;
 		appearTimeLfet = lazerAppearDuration;
+
+		if (data.iceData.Initialized ()) {
+			iceData = data.iceData;
+		}
 
 		if(data.fireEffect != null)
 		{
@@ -199,15 +205,19 @@ public class LazerGun : Gun
 			{
 				hitObject.Hit(damage*delta);
 
+				if(iceData != null && iceData.freezeAmount > 0){
+					var currentIce = iceData.Clone (delta);
+					hitObject.AddEffect(new IceEffect (currentIce));
+				}
 				//heavvy bullet logic
 
-				if (parent.heavyBulletData != null){ 
+				if (parent.heavyBulletData != null && parent.heavyBulletData.applyForceToLazer){ 
 					timeLeftToApplyHeavvyBullet -= delta;
 					if (timeLeftToApplyHeavvyBullet <= 0) {
 						timeLeftToApplyHeavvyBullet += ApplyHeavvyBulletInterval;
 						Vector2 egde = hitEdge.p2 - hitEdge.p1;
 						Vector2 egdeRight = Math2d.MakeRight (egde).normalized;
-						float force = 30f * damage * Vector2.Dot (lazerDir, egdeRight) * parent.heavyBulletData.multiplier * ApplyHeavvyBulletInterval;
+						float force = 15f * damage * Vector2.Dot (lazerDir, egdeRight) * parent.heavyBulletData.multiplier * ApplyHeavvyBulletInterval;
 						PolygonCollision.ApplyForce (hitObject, hitPlace, force * egdeRight);
 					}
 				}

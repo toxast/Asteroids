@@ -13,7 +13,6 @@ public class IceEffect : TickableEffect {
 
 	float iceEffectSize;
     Data data;
-    IFreezble freezableHolder;
     float timeLeft;
     float currentFreezeAmount;
 
@@ -25,9 +24,8 @@ public class IceEffect : TickableEffect {
 
     public override void SetHolder(PolygonGameObject holder) {
         base.SetHolder(holder);
-        freezableHolder = holder as IFreezble;
-		iceEffectSize = Mathf.Min(4, Mathf.Pow (holder.polygon.R, 0.5f));
-        UpdateFreezeAount(currentFreezeAmount);
+		iceEffectSize = Mathf.Clamp(Mathf.Pow (holder.polygon.R, 0.5f), 1, 4);
+        UpdateFreezeAmount(currentFreezeAmount);
     }
 
     public override void Tick(float delta) {
@@ -35,7 +33,7 @@ public class IceEffect : TickableEffect {
         if (!IsFinished()) {
             timeLeft -= delta;
             if (IsFinished()) {
-                UpdateFreezeAount(0);
+                UpdateFreezeAmount(0);
             }
         }
     }
@@ -49,6 +47,8 @@ public class IceEffect : TickableEffect {
         float incomingFreeze = effect.data.duration * effect.data.freezeAmount;
 		float weightTime = (effect.data.duration / timeLeft);
 		float weightAmount = (effect.data.freezeAmount / currentFreezeAmount);
+		weightTime *= weightTime;
+		weightAmount *= weightAmount;
 		float addToAmount = incomingFreeze * (weightAmount / (weightTime + weightAmount));
 		float addToTime = incomingFreeze - addToAmount;
 		float oldAmount = currentFreezeAmount;
@@ -58,11 +58,12 @@ public class IceEffect : TickableEffect {
         timeLeft = newTotalFreeze / currentFreezeAmount;
 		newTotalFreeze = currentFreezeAmount * timeLeft + addToAmount;
         currentFreezeAmount = newTotalFreeze / timeLeft;
-        UpdateFreezeAount(currentFreezeAmount);
+        UpdateFreezeAmount(currentFreezeAmount);
+		Debug.LogWarning ("add to time " + addToTime + " add to amount " + addToAmount);
 		Debug.LogWarning ("time " + oldTime + "->" + timeLeft + " amount: " + oldAmount + "->" + currentFreezeAmount);
     }
 
-    private void UpdateFreezeAount(float freezeAmount) {
+    private void UpdateFreezeAmount(float freezeAmount) {
         float freeze01 = Mathf.Clamp01(freezeAmount / holder.mass);
         UpdateFreeze01(freeze01);
         UpdateIceEffectsCount(freeze01);
@@ -70,11 +71,11 @@ public class IceEffect : TickableEffect {
 
     float lastMultiplier = 1f;
     private void UpdateFreeze01(float freeze01) {
-        if (freezableHolder != null) {
+        if (holder != null) {
             var lastMultiplierReverse = 1f / lastMultiplier;
-            freezableHolder.Freeze(lastMultiplierReverse);
+            holder.Freeze(lastMultiplierReverse);
             float multipiler = 1f - Mathf.Clamp(freeze01, 0f, 1 - minFreeze);
-            freezableHolder.Freeze(multipiler);
+            holder.Freeze(multipiler);
             lastMultiplier = multipiler;
         }
     }
@@ -109,9 +110,28 @@ public class IceEffect : TickableEffect {
     }
 
     [System.Serializable]
-    public class Data {
-        public float duration = 3;
-        public float freezeAmount = 20;
-        public ParticleSystemsData effect;
+	public class Data : IClonable<Data> {
+        public float duration = 0;
+        public float freezeAmount = 0;
+        public ParticleSystemsData effect; 
+
+		public bool Initialized() {
+			return duration > 0 && freezeAmount > 0;
+		}
+
+		public Data Clone()
+		{
+			return Clone (1);
+		}
+
+		public Data Clone(float multiplier)
+		{
+			Data r = new Data ();
+			float sqrt = Mathf.Sqrt (multiplier);
+			r.duration = duration * sqrt;
+			r.freezeAmount = freezeAmount * sqrt;
+			r.effect = effect; 
+			return r;
+		}
     }
 }

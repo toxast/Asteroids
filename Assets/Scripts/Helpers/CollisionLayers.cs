@@ -13,8 +13,7 @@ public static class CollisionLayers
 	public const int ilayerBulletsEnemies = 4;
 	public const int ilayerAsteroids = 5;
 	public const int ilayerMisc = 6;
-	
-	
+
 	[System.Flags]
 	public enum eLayer : int
 	{

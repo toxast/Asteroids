@@ -7,7 +7,6 @@ using UnityEngine;
 [SerializeField]
 public class MFlamerGunData : MGunData
 {
-    public DOTEffect.Data dot;
 	public RandomFloat deceleration;
 	public float velocityRandomRange = 5;
 	public bool forceUseBulletLifetime = false; //for use in flame trail
@@ -54,6 +53,10 @@ public class FlamerGun : BulletGun<FlamerBullet>
 
 	protected override PolygonGameObject.DestructionType SetDestructionType () {
 		return PolygonGameObject.DestructionType.eDisappear;
+	}
+
+	protected override void AddShipSpeed2TheBullet(FlamerBullet bullet){
+		bullet.velocity += parent.velocity;
 	}
 
 	protected override float GetVelocityMagnitude () {

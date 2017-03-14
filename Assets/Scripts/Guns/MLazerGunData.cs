@@ -10,6 +10,7 @@ public class MLazerGunData : MGunBaseData
 	public ParticleSystem fireEffect;
 	public float distance = 50f;
 	public float width = 0.5f;
+	public IceEffect.Data iceData;
 
 	public override Gun GetGun(Place place, PolygonGameObject t)
 	{

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SpikyAsteroid : Asteroid
+public class SpikyAsteroid : Asteroid, IFreezble
 {
 //	public event System.Action<Asteroid> SpikeAttack;
 
@@ -51,6 +51,11 @@ public class SpikyAsteroid : Asteroid
 		}
 		
 		StartCoroutine (CheckForTarget ());
+	}
+
+	public override void Freeze(float multipiler){
+		base.Freeze (multipiler);
+		growSpeed *= multipiler;
 	}
 
 	IEnumerator CheckForTarget()

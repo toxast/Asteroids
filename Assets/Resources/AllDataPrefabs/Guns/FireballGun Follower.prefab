@@ -67,7 +67,40 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   spreadAngle: 0
+  rotation:
+    min: 0
+    max: 0
   color: {r: 1, g: 0, b: 0, a: 0.184}
+  burnDOT:
+    duration: 2
+    dps: 3
+    maxBuildUpDuration: 10
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 198732008161831254, guid: 30f37b9af5892bb4387108403b759dec,
+        type: 2}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: -0.1
+      afterlife: 0
+      stopEmission: 1
+  iceData:
+    duration: 0
+    freezeAmount: 0
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 0}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: 1
+      afterlife: 0
+      stopEmission: 1
   fireEffect: {fileID: 0}
   effects:
   - place:
@@ -78,6 +111,8 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: -1
+    afterlife: 0
+    stopEmission: 1
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
@@ -86,6 +121,8 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: -1
+    afterlife: 0
+    stopEmission: 1
   destructionEffects:
   - place:
       pos: {x: 0, y: 0}
@@ -95,6 +132,8 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1
   vertices: []
   overrideExplosionDamage: -1
   overrideExplosionRadius: -1
@@ -110,17 +149,3 @@ MonoBehaviour:
   thrusters: []
   launchDirection: {x: 1, y: 0}
   ballRadius: 3
-  dot:
-    duration: 5
-    dps: 5
-    maxBuildUpDuration: 5
-    effect:
-      place:
-        pos: {x: 0, y: 0}
-        dir: {x: 1, y: 0}
-      prefab: {fileID: 198732008161831254, guid: 30f37b9af5892bb4387108403b759dec,
-        type: 2}
-      overrideSize: -1
-      overrideDelay: -1
-      overrideDuration: -1
-      zOffset: -1

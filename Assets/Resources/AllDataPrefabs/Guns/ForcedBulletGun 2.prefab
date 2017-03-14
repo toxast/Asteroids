@@ -71,6 +71,36 @@ MonoBehaviour:
     min: 0
     max: 0
   color: {r: 0, g: 0.7931032, b: 1, a: 0}
+  burnDOT:
+    duration: 0
+    dps: 0
+    maxBuildUpDuration: 0
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 0}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: 1
+      afterlife: 0
+      stopEmission: 1
+  iceData:
+    duration: 5
+    freezeAmount: 20
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 198168226012235746, guid: 3af76bc46403b1f4ca3f7bf8eb19fdb8,
+        type: 2}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: -0.1
+      afterlife: 0
+      stopEmission: 1
   fireEffect: {fileID: 0}
   effects: []
   destructionEffects: []
@@ -93,3 +123,5 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1

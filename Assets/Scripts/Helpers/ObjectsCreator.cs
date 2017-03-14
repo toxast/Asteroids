@@ -168,12 +168,7 @@ public class ObjectsCreator
 		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
 		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, Singleton<GlobalConfig>.inst.AsteroidColor, ObjectsCreator.GetAsteroidMaterial(mdata.commonData.asteroidMaterialIndex));
 
-		//todo: include physical into asteroids?
-		var ph = new PhysicalData ();
-		ph.density = mdata.commonData.density;
-		ph.healthModifier = mdata.commonData.density;
-
-		asteroid.InitAsteroid (ph, mdata.speed, mdata.rotation); 
+		asteroid.InitAsteroid (mdata.commonData.physical, mdata.speed, mdata.rotation); 
 		asteroid.SetLayerNum (CollisionLayers.ilayerAsteroids);
 		asteroid.priority = PolygonGameObject.ePriorityLevel.LOW;
         asteroid.gameObject.name = mdata.name;

@@ -21,30 +21,27 @@ public class BurningEffect : DOTEffect {
 	}
 
 	private void UpdateFlamesCount() {
-		if (IsFinished()) {
-			foreach (var item in spawnedEffects) {
-				GameObject.Destroy(item.gameObject);
-			}
-			spawnedEffects.Clear();
-		} else {
+		int burningsCount = 0;
+		if (!IsFinished()) {
 			float burningArea = Mathf.Clamp(( 3f * currentDps * timeLeft )/ holder.fullHealth, 0.1f, 0.8f);
-			int burningsCount = (int)Mathf.Max(3f, 3f*holder.polygon.R * burningArea);
-			int diff = burningsCount - spawnedEffects.Count;
-			if (diff != 0) {
-				if (diff > 0) {
-					for (int i = 0; i < diff; i++) {
-						var effect = data.effect.Clone();
-						effect.place.pos = holder.polygon.GetRandomAreaVertex();
-						effect.overrideSize = UnityEngine.Random.Range (2f, Mathf.Min(4f, holder.polygon.R/2f));
-						effect.overrideDelay = UnityEngine.Random.Range (0f, 2f);
-						spawnedEffects.AddRange(holder.SetParticles(new List<ParticleSystemsData> { effect }));
-					}
-				} else {
-					for (int i = 0; i < -diff; i++) {
-						int last = spawnedEffects.Count - 1;
-						GameObject.Destroy(spawnedEffects[last].gameObject);
-						spawnedEffects.RemoveAt(last);
-					}
+			burningsCount = (int)Mathf.Max(3f, 3f*holder.polygon.R * burningArea);
+		} 
+		int diff = burningsCount - spawnedEffects.Count;
+		if (diff != 0) {
+			if (diff > 0) {
+				for (int i = 0; i < diff; i++) {
+					var effect = data.effect.Clone();
+					effect.place.pos = holder.polygon.GetRandomAreaVertex();
+					effect.overrideSize = UnityEngine.Random.Range (2f, Mathf.Min(4f, holder.polygon.R/2f));
+					effect.overrideDelay = UnityEngine.Random.Range (0f, 2f);
+					spawnedEffects.AddRange(holder.SetParticles(new List<ParticleSystemsData> { effect }));
+				}
+			} else {
+				for (int i = 0; i < -diff; i++) {
+					int last = spawnedEffects.Count - 1;
+					spawnedEffects [last].Stop ();
+					GameObject.Destroy(spawnedEffects[last].gameObject, 5f);
+					spawnedEffects.RemoveAt(last);
 				}
 			}
 		}

@@ -37,9 +37,13 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
         bullet.SetParticles(data.effects);
 		bullet.SetDestroyAnimationParticles (data.destructionEffects);
 		SetCollisionLayer( bullet );
-		bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
+		AddShipSpeed2TheBullet (bullet);
 		bullet.rotation += data.rotation.RandomValue;
         return bullet;
+	}
+
+	protected virtual void AddShipSpeed2TheBullet(T bullet){
+		bullet.velocity += Main.AddShipSpeed2TheBullet(parent);
 	}
 
 	protected virtual Vector2[] GetVerts() {
@@ -53,6 +57,12 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 	protected virtual void InitPolygonGameObject(T bullet, PhysicalData ph)
 	{
 		bullet.InitPolygonGameObject (ph);
+		if (data.burnDOT.dps > 0 && data.burnDOT.duration > 0) {
+			bullet.burnDotData = data.burnDOT;
+		}
+		if (data.iceData.Initialized()){
+			bullet.iceEffectData = data.iceData;
+		}
 	}
 
 	protected virtual float GetVelocityMagnitude(){
@@ -90,21 +100,3 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 }
 
 
-public class ForcedBulletGun : BulletGun<ForcedBullet>
-{
-    MForcedBulletGun fdata;
-    
-    public ForcedBulletGun(Place place, MForcedBulletGun fdata, PolygonGameObject parent)
-        : base(place, fdata, parent) {
-        this.fdata = fdata;
-    }
-
-	protected override void SetCollisionLayer (ForcedBullet bullet)
-	{
-		base.SetCollisionLayer (bullet);
-		bullet.collisions = 0;
-
-		var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layerLogic));
-		bullet.InitForcedBullet(fdata, affectedLayer);
-	}
-}

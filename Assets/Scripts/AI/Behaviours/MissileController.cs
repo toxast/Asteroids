@@ -13,6 +13,8 @@ public class MissileController : InputController, IGotTarget
 
 	float accuracy = 0.5f;
 
+	public void Freeze(float m){ }
+
 	public MissileController(SpaceShip thisShip, float accuracy)
 	{
 		this.thisShip = thisShip;

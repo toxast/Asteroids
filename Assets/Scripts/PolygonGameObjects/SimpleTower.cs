@@ -28,7 +28,8 @@ public class SimpleTower : PolygonGameObject, IFreezble
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
 	}
 
-	public void Freeze(float multipiler){
+	public override void Freeze(float multipiler){
+		base.Freeze (multipiler);
 		cannonsRotaitor.Freeze(multipiler);
 	}
 

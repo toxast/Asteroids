@@ -389,9 +389,9 @@ public class Main : MonoBehaviour
 		}
 		TickObjects (drops, dtime);
 
-		CalculateGlobalPolygons (bullets);
-		CalculateGlobalPolygons (gobjects);
-		CalculateGlobalPolygons (drops);
+		ResetGlobalPolygons (bullets);
+		ResetGlobalPolygons (gobjects);
+		ResetGlobalPolygons (drops);
 
 		if (userSpaceship != null) {
 			if (boundsMode) {
@@ -530,15 +530,12 @@ public class Main : MonoBehaviour
 	}
 
 
-	private void CalculateGlobalPolygons<T> (List<T> objs)
-		where T: PolygonGameObject
-	{
-		for (int k = objs.Count - 1; k >= 0; k--)
-		{
-			var obj = objs[k];
-			if(obj != null)
-			{
-				obj.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates(obj);
+	private void ResetGlobalPolygons<T> (List<T> objs)
+		where T: PolygonGameObject {
+		for (int k = objs.Count - 1; k >= 0; k--) {
+			var obj = objs [k];
+			if (obj != null) {
+				obj.NullifyGlobalPolygon ();
 			}
 		}
 	}
@@ -548,6 +545,10 @@ public class Main : MonoBehaviour
         for (int k = objs.Count - 1; k >= 0; k--) {
             var obj = objs[k];
             if (obj != null && obj.IsKilled()) {
+				if (obj.deathAnimation != null && !obj.deathAnimation.started && obj.freezeMod < 0.3f) {
+					obj.deathAnimation = null;
+				}
+
                 if (obj.deathAnimation != null) {
                     if (!obj.deathAnimation.started) {
                         obj.deathAnimation.AnimateDeath();
@@ -583,16 +584,12 @@ public class Main : MonoBehaviour
 			break;
 		}
 
-		//TODO: refactor
 		{
-
-			foreach(var t in gobject.turrets)
-			{
+			foreach(var t in gobject.turrets) {
 				t.cacheTransform.parent = null;
 				t.velocity += gobject.velocity;
-				Debug.Log(t.inertiaMoment);
 				t.rotation += UnityEngine.Random.Range(-150f, 150f);
-				DeathAnimation.MakeDeathForThatFellaYo (t, true);
+				t.destructionType = PolygonGameObject.DestructionType.eNormal;
 				Add2Objects (t);
 				t.Kill ();
 			}
@@ -679,12 +676,10 @@ public class Main : MonoBehaviour
             int indxa, indxb;
             if (PolygonCollision.IsCollides(obj, bullet, out indxa, out indxb)) {
                 var impulse = PolygonCollision.ApplyCollision(obj, bullet, indxa, indxb);
-
                 if (!bullet.IsKilled()) {
+					bullet.OnHit(obj); //apply ice/burn effects first. (ice affects destruction)
                     obj.Hit(bullet.damageOnCollision + GetCollisionDamage(impulse, obj, bullet));
-                    bullet.OnHit(obj);
                 }
-
                 if (bullet.destructionType == PolygonGameObject.DestructionType.eSptilOnlyOnHit) {
                     bullet.destructionType = PolygonGameObject.DestructionType.eComplete;
                 }
@@ -841,7 +836,7 @@ public class Main : MonoBehaviour
 		anim.transform.parent = dropObj.transform;
 		anim.transform.localPosition = new Vector3(0, 0, UnityEngine.Random.Range(1f, 1.1f));
 		dropObj.cacheTransform.position =
-			position + randomOffset + new Vector3(0,0,-2);
+			position + randomOffset + new Vector3(0,0,1);
 		dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Math2d.RandomSign();
 		drops.Add(dropObj);
 	}
@@ -855,9 +850,7 @@ public class Main : MonoBehaviour
         drops.Add(powerup);
     }
 
-	public void Add2Objects(PolygonGameObject p)
-	{
-		p.globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates (p);
+	public void Add2Objects(PolygonGameObject p) {
 		CreateMinimapIndicatorForObject (p);
 		gobjects.Add (p);
 	}
@@ -1206,7 +1199,9 @@ public class Main : MonoBehaviour
 
 
 	/*
+	* bug in freezed ships with duration and stuff when freezed
 	 * FUTURE UPDATES
+	 * 
 	 * add charge behaviour to earth ships, and charge beh to posseed asteroids, add kill asteroid beh is full
 	 * restore dumb hitters
 	* big bullets powerup!
@@ -1223,8 +1218,6 @@ public class Main : MonoBehaviour
 	* 
 	* add gun/turrets powerup => rage wave(assemble all level spawns with fixed difficulty once/total) and list of wave effects
 	* berzerk with extra gun for next wave with increased difficulty at once and total
-	* 
-	* saw enemy with guns (use guns show effect?)
 	* 
 	* explosion better force direction
 	* 

@@ -67,6 +67,9 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   spreadAngle: 0
+  rotation:
+    min: 0
+    max: 0
   color: {r: 0, g: 0.7931032, b: 1, a: 0.466}
   fireEffect: {fileID: 0}
   effects: []
@@ -76,11 +79,26 @@ MonoBehaviour:
   - {x: 0.4, y: -0.4}
   - {x: -0.4, y: -0.4}
   - {x: -0.4, y: 0.4}
+  iceData:
+    duration: 6
+    freezeAmount: 40
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 198168226012235746, guid: 3af76bc46403b1f4ca3f7bf8eb19fdb8,
+        type: 2}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: -0.1
+      afterlife: 0
+      stopEmission: 1
   force: 20
   forceDuration: 0.7
   range: 10
-  fieldForce: 1000
-  damagePerSecond: 100
+  fieldForce: 100
+  damagePerSecond: 10
   effectsForcedBullet:
   - place:
       pos: {x: 0, y: 0}
@@ -90,3 +108,5 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1

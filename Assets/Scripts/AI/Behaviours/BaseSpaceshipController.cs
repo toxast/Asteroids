@@ -12,6 +12,8 @@ public class BaseSpaceshipController : InputController, IGotTarget
 	public bool braking{ get; protected set; }
 	public Vector2 turnDirection{ get; protected set; }
 
+	public virtual void Freeze(float m){ }
+
 	public BaseSpaceshipController(SpaceShip thisShip)
 	{
 		this.thisShip = thisShip;

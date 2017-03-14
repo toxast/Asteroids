@@ -19,7 +19,8 @@ public class TowerEnemy : PolygonGameObject, IFreezble
 		StartCoroutine(Aim());
 	}
 
-	public void Freeze(float multipiler){
+	public override void Freeze(float multipiler){
+		base.Freeze (multipiler);
 		cannonsRotaitor.Freeze(multipiler);
 	}
 

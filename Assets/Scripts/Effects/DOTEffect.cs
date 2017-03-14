@@ -58,9 +58,9 @@ public abstract class DOTEffect : TickableEffect
 
 	[System.Serializable]
 	public class Data{
-		public float duration = 1;
-		public float dps = 3;
-		public float maxBuildUpDuration = 5;
+		public float duration = 0;
+		public float dps = 0;
+		public float maxBuildUpDuration = 0;
 		public ParticleSystemsData effect;
 	}
 }

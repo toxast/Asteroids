@@ -46,8 +46,8 @@ public class HeavyBulletEffect : TickableEffect
 	public class Data : IApplyable, IHasDuration{
 		public float duration;
 		public float multiplier;
+		public bool applyForceToLazer = false;
 		public float iduration{get {return duration;} set{duration = value;}}
-
 		public void Apply(PolygonGameObject picker) {
 			picker.AddEffect (new HeavyBulletEffect (this));
 		}

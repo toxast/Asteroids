@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PolygonGameObject : MonoBehaviour
+public class PolygonGameObject : MonoBehaviour, IFreezble
 {
 	[SerializeField] bool destroy = false;
 
@@ -12,7 +12,19 @@ public class PolygonGameObject : MonoBehaviour
 	public GameObject gameObj{get{return gameObject;}}
 	public Polygon polygon{ get; private set;}
 
-	public Polygon globalPolygon{get; set;}
+	private Polygon _globalPolygon;
+	public Polygon globalPolygon {
+		get { 
+			if (_globalPolygon == null) {
+				_globalPolygon = PolygonCollision.GetPolygonInGlobalCoordinates(this);
+			}
+			return _globalPolygon;
+		}
+	}
+	public void NullifyGlobalPolygon() {
+		_globalPolygon = null;
+	}
+
 	public Transform cacheTransform{ get; private set;}
 	public Mesh mesh;
     public int[] triangulationIndices;
@@ -153,6 +165,15 @@ public class PolygonGameObject : MonoBehaviour
 
 	public void MultiplyCollisionAttack(float multiplyBy) {
 		collisionAttackModifier *= multiplyBy;
+	}
+
+	float _freezeMod = 1f;
+	public float freezeMod { 
+		get { return _freezeMod; }
+		private set {_freezeMod = value; }
+	}
+	public virtual void Freeze(float mod){
+		freezeMod *= mod;
 	}
 
 	public void ChangeCollisionDefence(float def) {

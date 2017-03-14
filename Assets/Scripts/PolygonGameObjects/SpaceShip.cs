@@ -62,11 +62,16 @@ public class SpaceShip : PolygonGameObject , IFreezble
         SetInvisible(alpha == 0);
     }
 
-	public void Freeze(float multipiler){
+	public override void Freeze(float multipiler){
+		base.Freeze (multipiler);
 		MultiplyStability(multipiler);
 		MultiplyThrust(multipiler);
 		MultiplyTurnSpeed(multipiler);
 		MultiplyBrake (multipiler);
+
+		if (inputController != null) {
+			inputController.Freeze (multipiler);
+		}
 	}
 
     public override void SetAlpha (float a)

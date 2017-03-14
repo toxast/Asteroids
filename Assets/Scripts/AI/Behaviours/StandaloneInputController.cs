@@ -8,6 +8,7 @@ public class StandaloneInputController : InputController
 	public bool braking{ get; private set; }
 	public Vector2 turnDirection{ get; private set; }
 
+	public void Freeze(float m){ }
 
 	public StandaloneInputController()
 	{

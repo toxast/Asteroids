@@ -340,7 +340,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 	{
 		float checkDistSqr = (2 * asteroidShieldRadius);
 		checkDistSqr = checkDistSqr * checkDistSqr;
-		float checkDensity = ast.commonData.density * 1.5f;
+		float checkDensity = ast.commonData.physical.density * 1.5f;
 		float checkRadius = ast.size.max * 1.5f;
 
 		while (true) {

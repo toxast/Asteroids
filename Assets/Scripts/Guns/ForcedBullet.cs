@@ -20,10 +20,9 @@ public class ForcedBullet : PolygonGameObject {
         effects2 = data.effectsForcedBullet.ConvertAll(e => e.Clone());
         effects2.ForEach(e => e.overrideSize = 2 * data.range);
 		SetParticles (effects2);
-		Debug.LogError ("explosion refactor: get all data for explosion, than apply force, hit, ice, gravity, whatever");
     }
 
-    const float checkEvery = 0.16f;
+    const float checkEvery = 0.18f;
     float timeLeftForCheck = checkEvery;
     public override void Tick(float delta) {
         base.Tick(delta);
@@ -46,7 +45,9 @@ public class ForcedBullet : PolygonGameObject {
     }
 
     private void TickEvery(float sec) {
-        
+		if (iceEffectData.Initialized()) {
+			new IceWave (position, data.range, iceEffectData, checkEvery, gobjects, affectLayer);
+		}
 		new PhExplosion(position, data.range, sec * data.damagePerSecond, sec * data.fieldForce, gobjects, affectLayer);
     }
 }

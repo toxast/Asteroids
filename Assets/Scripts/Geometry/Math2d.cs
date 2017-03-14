@@ -226,16 +226,19 @@ public static class Math2d {
         return verticesRotated;
     }
 
+	//rotate conter-clockwise
     static public Vector2 RotateVertexDeg(Vector2 v, float alpha) {
         return RotateVertex(v, alpha * Mathf.Deg2Rad);
     }
 
+	//rotate conter-clockwise
     static public Vector2 RotateVertex(Vector2 v, float alpha) {
         var cosA = Mathf.Cos(alpha);
         var sinA = Mathf.Sin(alpha);
         return new Vector2(v.x * cosA - v.y * sinA, v.x * sinA + v.y * cosA);
     }
 
+	//rotate conter-clockwise
     static public Vector2 RotateVertex(Vector2 v, float cosA, float sinA) {
         return new Vector2(v.x * cosA - v.y * sinA, v.x * sinA + v.y * cosA);
     }

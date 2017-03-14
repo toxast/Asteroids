@@ -33,6 +33,8 @@ public class TabletInputController : MonoBehaviour, InputController
 		joystick.rectTransform.sizeDelta = new Vector2(2*controlRadius, 2*controlRadius);
 	}
 
+	public void Freeze(float m){ }
+
 	public void Tick(PolygonGameObject p)
 	{
 		turnDirection = Vector2.zero;

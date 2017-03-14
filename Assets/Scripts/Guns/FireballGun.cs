@@ -15,12 +15,6 @@ public class FireballGun : RocketLauncher {
 		return PolygonCreator.CreatePerfectPolygonVertices(data.ballRadius, 6);
 	}
 
-	protected override void InitPolygonGameObject (SpaceShip bullet, PhysicalData ph)
-	{
-		base.InitPolygonGameObject (bullet, ph);
-		bullet.burnDotData = data.dot;
-	}
-
 	protected override bool CreateExplosion ()	{
 		return false;
 	}

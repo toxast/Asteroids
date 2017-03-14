@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface InputController
+public interface InputController : IFreezble
 {
 	void Tick (PolygonGameObject p);
 	Vector2 turnDirection{ get;}
@@ -20,4 +20,5 @@ public class StaticInputController : InputController
 	public bool accelerating{ get; set; }
 	public bool braking{ get; set; }
 	public void SetSpawnParent(PolygonGameObject prnt){}
+	public void Freeze(float m){ }
 }
