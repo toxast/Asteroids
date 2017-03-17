@@ -1,12 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotatingObjectsShield : TickableEffect 
-{
+public class RotatingObjectsShield : DurationEffect {
 	protected override eType etype { get { return eType.RotatingObjectsShield; } }
 	Data data;
-	float timeLeft = 1;
 	float currentAngle = 0;
 	IEnumerator routineRotate;
 	IEnumerator routineSpawn;
@@ -16,30 +15,11 @@ public class RotatingObjectsShield : TickableEffect
 	float partMaxSpeedSqr;
 	float force;
 
-	public override void HandleHolderDestroying ()
-	{
-		base.HandleHolderDestroying ();
-		if (data.killShieldsObjectsOnDeath) {
-			DestroyShields ();
-		}
-	}
+    public RotatingObjectsShield(Data data) : base(data) {
+        this.data = data;
+    }
 
-	private void DestroyShields(){
-		if(shields != null) {
-			for (int i = 0; i < shields.Count; i++) {
-				if (!Main.IsNull (shields [i])) {
-					shields [i].Kill ();
-				}
-			}
-		}
-	}
-
-	public RotatingObjectsShield(Data data) {
-		this.data = data;
-		timeLeft = data.duration;
-	}
-
-	public override void SetHolder (PolygonGameObject holder) {
+    public override void SetHolder (PolygonGameObject holder) {
 		base.SetHolder (holder);
 		routineSpawn = SpawnShieldObjects ();
 		routineRotate = RotateShields ();
@@ -56,23 +36,37 @@ public class RotatingObjectsShield : TickableEffect
 	}
 
 	public override void Tick (float delta) {
-		base.Tick (delta);
-		timeLeft -= delta;
-
-		if (IsFinished ()) {
-			DestroyShields ();
-		} else {
-			deltaTime = delta;
-			routineRotate.MoveNext ();
-			routineSpawn.MoveNext ();
-		}
+        base.Tick (delta);
+        if (!IsFinished()) {
+            deltaTime = delta;
+            routineRotate.MoveNext();
+            routineSpawn.MoveNext();
+        }
 	}
 
-	public override bool IsFinished() {
-		return timeLeft <= 0;
-	}
+    public override void OnExpired() {
+        DestroyShields();
+    }
 
-	private PolygonGameObject CreateShieldObj() {
+
+    public override void HandleHolderDestroying() {
+        base.HandleHolderDestroying();
+        if (data.killShieldsObjectsOnDeath) {
+            DestroyShields();
+        }
+    }
+
+    private void DestroyShields() {
+        if (shields != null) {
+            for (int i = 0; i < shields.Count; i++) {
+                if (!Main.IsNull(shields[i])) {
+                    shields[i].Kill();
+                }
+            }
+        }
+    }
+
+    private PolygonGameObject CreateShieldObj() {
 		var shieldObj = data.spawn.Create(CollisionLayers.GetSpawnedLayer (holder.layerLogic));
 		if (data.collideWithAsteroids) {
 			shieldObj.collisions |= (int)CollisionLayers.eLayer.ASTEROIDS;

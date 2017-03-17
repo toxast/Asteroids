@@ -1,18 +1,17 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-public class ExtraGunsEffect : TickableEffect {
+public class ExtraGunsEffect : DurationEffect {
 	protected override eType etype { get { return eType.ExtraGuns; } }
 	public override bool CanBeUpdatedWithSameEffect { get { return false; } }
 
 	Data data;
-	float timeLeft;
 	List<Gun> guns;
 
-	public ExtraGunsEffect(Data data) {
+	public ExtraGunsEffect(Data data) : base(data) {
 		this.data = data;
-		timeLeft = data.duration;
 	}
 
 	public override void SetHolder (PolygonGameObject holder) {
@@ -49,19 +48,9 @@ public class ExtraGunsEffect : TickableEffect {
 		return false;
 	}
 
-	public override bool IsFinished() {
-		return timeLeft <= 0;
-	}
-
-	public override void Tick (float delta) {
-		base.Tick (delta);
-		if (!IsFinished ()) {
-			timeLeft -= delta;
-			if (IsFinished ()) {
-				holder.RemoveGuns (guns);
-			}
-		}
-	}
+    public override void OnExpired() {
+        holder.RemoveGuns(guns);
+    }
 
 	[System.Serializable]
 	public class Data : IHasDuration, IApplyable {
@@ -73,8 +62,6 @@ public class ExtraGunsEffect : TickableEffect {
 			picker.AddEffect (new ExtraGunsEffect (this));
 		}
 	}
-
-
 }
 
 

@@ -1,37 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PhysicalChangesEffect : TickableEffect 
+public class PhysicalChangesEffect : DurationEffect 
 {
 	protected override eType etype { get { return eType.PhysicalChanges; } }
 	public override bool CanBeUpdatedWithSameEffect { get { return false; } }
 
 	protected Data data;
-	protected float timeLeft;
-
 	float lastDefence = -1;
 
-	public PhysicalChangesEffect(Data data) {
+	public PhysicalChangesEffect(Data data) : base(data) {
 		this.data = data;
-		timeLeft = data.duration;
 	}
-
-	public override void Tick (float delta) {
-		base.Tick (delta);
-		if (!IsFinished ()) {
-			timeLeft -= delta;
-			if (IsFinished ()) {
-				ResumeHolderValues ();
-			}
-		}
-	}
-
-	public override bool IsFinished() {
-		return timeLeft <= 0;
-	}
-
+   
 	public override void SetHolder (PolygonGameObject holder) {
 		base.SetHolder (holder);
 		holder.MultiplyMass (data.multiplyMass);
@@ -64,7 +48,11 @@ public class PhysicalChangesEffect : TickableEffect
 		}
 	}
 
-	public override void HandleHolderDestroying () {
+    public override void OnExpired() {
+        ResumeHolderValues();
+    }
+
+    public override void HandleHolderDestroying () {
 		base.HandleHolderDestroying ();
 		ResumeHolderValues ();
 	}

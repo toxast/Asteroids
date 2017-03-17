@@ -1,68 +1,33 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-public class HealingEffect : TickableEffect{
+public class HealingEffect : DurationEffect {
 	protected override eType etype { get { return eType.HealOT; } }
 	public override bool CanBeUpdatedWithSameEffect { get { return true; } }
 
 	Data data;
-	float timeLeft;
 	float currentHps;
 
 	List<ParticleSystem> spawnedEffects = new List<ParticleSystem>();
 
-	public override void SetHolder (PolygonGameObject holder){
+    public HealingEffect(Data data) : base(data) {
+        this.data = data;
+        currentHps = data.total / data.duration;
+    }
+
+    public override void SetHolder (PolygonGameObject holder){
 		base.SetHolder (holder);
 		AddEffects ();
 	}
 
-	void AddEffects(){
-		int amount= (int)(3*Mathf.Pow(holder.polygon.R, 0.8f));
-		for (int i = 0; i < amount; i++) {
-			var effect = data.effect.Clone();
-			effect.place.pos = holder.polygon.GetRandomAreaVertex();
-			spawnedEffects.AddRange(holder.AddParticles(new List<ParticleSystemsData> { effect }));
-		}
-	}
-
-	void DestroyEffects(){
-		if (IsFinished()) {
-			foreach (var item in spawnedEffects) {
-				item.Stop ();
-				GameObject.Destroy(item.gameObject, 5f);
-			}
-			spawnedEffects.Clear();
-		}
-	}
-
-	public HealingEffect(Data data) {
-		if (data.duration <= 0) {
-			Debug.LogError ("wrong HOT effect duration: " + data.duration);
-		}
-
-		this.data = data;
-		timeLeft = data.duration;
-		currentHps = data.total/ data.duration;
-	}
-
 	public override void Tick (float delta) {
-		if (!IsFinished ()) {
-			timeLeft -= delta;
-			ActionFunc(currentHps * delta);
-			if (IsFinished ()) {
-				DestroyEffects ();
-			}
-		}
-	}
-
-	void ActionFunc(float amount){
-		holder.Heal (amount);
-	}
-
-	public override bool IsFinished() {
-		return timeLeft <= 0;
+        if (!IsFinished()) {
+            holder.Heal(currentHps * delta);
+        }
+        base.Tick(delta);
 	}
 
 	public override void UpdateBy (TickableEffect sameEffect) {
@@ -71,7 +36,30 @@ public class HealingEffect : TickableEffect{
 		timeLeft += (same.data.total / currentHps);
 	}
 
-	[System.Serializable]
+    public override void OnExpired() {
+        DestroyEffects();
+    }
+
+    void AddEffects() {
+        int amount = (int)(3 * Mathf.Pow(holder.polygon.R, 0.8f));
+        for (int i = 0; i < amount; i++) {
+            var effect = data.effect.Clone();
+            effect.place.pos = holder.polygon.GetRandomAreaVertex();
+            spawnedEffects.AddRange(holder.AddParticles(new List<ParticleSystemsData> { effect }));
+        }
+    }
+
+    void DestroyEffects() {
+        if (IsFinished()) {
+            foreach (var item in spawnedEffects) {
+                item.Stop();
+                GameObject.Destroy(item.gameObject, 5f);
+            }
+            spawnedEffects.Clear();
+        }
+    }
+
+    [System.Serializable]
 	public class Data: IHasDuration, IApplyable {
 		public float duration = 4;
 		public float iduration{get {return duration;} set{duration = value;}}

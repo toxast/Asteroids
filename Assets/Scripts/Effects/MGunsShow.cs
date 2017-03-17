@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class MGunsShow : MSpawnDataBase , IApplyable {
+public class MGunsShow : MSpawnDataBase , IApplyable, IHasDuration {
 	public float duration = 3f;
 	public float rotation = 0f;
 	public bool makeChild = false; //will inherit rotation
 	public List<ElementPositioning> elements;
 
-	//to test in editor mode
-	protected override PolygonGameObject CreateInternal(int layer) {
+    public float iduration { get { return duration; } set { duration = value; } }
+
+    //to test in editor mode
+    protected override PolygonGameObject CreateInternal(int layer) {
 		if (Singleton<Main>.inst.userSpaceship != null) {
 			Singleton<Main>.inst.userSpaceship.AddEffect(new GunsShowEffect(this));
 			return null;
