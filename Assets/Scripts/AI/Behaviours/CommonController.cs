@@ -35,7 +35,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		comformDistanceMax = gun.Range;
 		comformDistanceMin = comformDistanceMax * 0.5f;
 		
-		float evadeDuration = (90f / thisShip.turnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.maxSpeed * 0.8f);
+		float evadeDuration = (90f / thisShip.originalTurnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.originalMaxSpeed * 0.8f);
 		evadeBullets = evadeDuration < 1.2f;
 		turnBehEnabled = evadeDuration < 3f;
 		if(turnBehEnabled)		{
@@ -183,7 +183,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 					float dist = defendObject.polygon.R + thisShip.polygon.R + 15f;
 					float angle = UnityEngine.Random.Range (1, 360) * Mathf.Deg2Rad;
 					Vector2 defPosition = defendObject.position + dist * new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle));
-					if ((thisShip.position - defPosition).sqrMagnitude < thisShip.maxSpeed * actDuration) {
+					if ((thisShip.position - defPosition).sqrMagnitude < thisShip.originalMaxSpeed * actDuration) {
 						Brake ();
 						shooting = false;
 						yield return new WaitForSeconds (0.5f);

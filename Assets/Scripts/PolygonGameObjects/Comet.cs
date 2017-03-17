@@ -9,9 +9,9 @@ public class Comet : Asteroid {
         InitLifetime(lifeTime);
     }
 
-	public override void HandleDestroying ()
+	public override void HandleDestroy ()
 	{
-		base.HandleDestroying ();
+		base.HandleDestroy ();
 		if (leftlifeTime > 0) {
 			Singleton<Main>.inst.CreatePowerUp(data, this.position);
 		} else {

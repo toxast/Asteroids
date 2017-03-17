@@ -185,7 +185,7 @@ public class ObjectsCreator
         comet.InitComet(mdata.powerupData, mdata.lifeTime);
 		comet.SetLayerNum(CollisionLayers.ilayerAsteroids);
 		comet.priority = PolygonGameObject.ePriorityLevel.LOW;
-		comet.SetParticles (mdata.particles);
+		comet.AddParticles (mdata.particles);
 		comet.SetDestroyAnimationParticles (mdata.destructionEffects);
         comet.gameObject.name = mdata.name;
         comet.destructionType = PolygonGameObject.DestructionType.eComplete;
@@ -340,13 +340,18 @@ public class ObjectsCreator
     public static PowerUp CreatePowerUpDrop(PowerupData data) {
         float size = 1f;
         int vcount = 7;
-        Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(size, vcount);
+		Vector2[] vertices;
+		if (data.verts.Length < 3) {
+			vertices = PolygonCreator.CreatePerfectPolygonVertices (size, vcount);
+		} else {
+			vertices = data.verts;
+		}
         var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, data.color);
         drop.InitPolygonGameObject(new PhysicalData());
         drop.InitPowerUp(data.effectData);
-        var ps = GameObject.Instantiate<ParticleSystem> (data.particles, drop.transform);
-		ps.SetStartColor(data.particleSystemColor);
-        ps.transform.localPosition = new Vector3(0, 0, 1);
+		var clone = data.particles.Clone ();
+		clone.startColor = data.particleSystemColor;
+		drop.AddParticles (new List<ParticleSystemsData>{clone});
         drop.SetLayerNum(CollisionLayers.ilayerMisc);
         drop.gameObject.name = "DropPowerUp " + data.effectData.ToString();
         drop.lifetime = data.lifeTime;

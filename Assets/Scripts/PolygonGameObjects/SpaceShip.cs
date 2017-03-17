@@ -25,6 +25,9 @@ public class SpaceShip : PolygonGameObject , IFreezble
 	public float turnSpeed { get; private set; }
 	public float stability { get; private set; }
 
+	public float originalTurnSpeed { get; private set; }
+	public float originalMaxSpeed { get; private set; }
+
 	private float currentThrustMultiplier = 1;
 	public void MultiplyThrust(float mul){ thrust *= mul;  currentThrustMultiplier *= mul;}
 	public void MultiplyMaxSpeed(float mul){ maxSpeed *= mul; }
@@ -107,6 +110,9 @@ public class SpaceShip : PolygonGameObject , IFreezble
         thrust = data.thrust;
 		maxSpeed = data.maxSpeed;
 		stability = data.stability;
+
+		originalTurnSpeed = turnSpeed;
+		originalMaxSpeed = maxSpeed;
 	}
 
 	public override void SetTarget(PolygonGameObject target)

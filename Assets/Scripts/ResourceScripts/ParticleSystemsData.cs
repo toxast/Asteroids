@@ -13,6 +13,11 @@ public class ParticleSystemsData: IClonable<ParticleSystemsData>, IGotPlace
 	[Header ("behaviour after holder destruction")]
 	public bool afterlife = false;
 	public bool stopEmission = true;
+	public bool inheritVelocity = true; //conflicts with parentToSplitParts, parentToSplitParts will prevail
+	public bool parentToSplitParts = false;
+	[Header ("color")]
+	public bool overrideStartColor = false;
+	public Color startColor = Color.white;
 
     public Place pos {get {return place;} set{place = value;}}
 
@@ -27,7 +32,10 @@ public class ParticleSystemsData: IClonable<ParticleSystemsData>, IGotPlace
 			zOffset = zOffset,
 			afterlife = afterlife,
 			stopEmission = stopEmission,
-
+			inheritVelocity = inheritVelocity,
+			parentToSplitParts = parentToSplitParts,
+			overrideStartColor = overrideStartColor,
+			startColor = startColor,
         };
 	}
 }

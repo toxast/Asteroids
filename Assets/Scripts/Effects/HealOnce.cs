@@ -30,7 +30,7 @@ public class HealOnce : TickableEffect{
 	}
 
 	void AddEffects(){
-		holder.SetParticles(new List<ParticleSystemsData> { data.effect});
+		holder.AddParticles(new List<ParticleSystemsData> { data.effect});
 	}
 
 	[System.Serializable]

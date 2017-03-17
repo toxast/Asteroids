@@ -229,7 +229,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 					}
 
                     asteroidAttackByForceAnimations.ForEach(e => { e.overrideSize = 2 * obj.polygon.R; e.overrideDuration = applyShootingForceDuration; });
-                    obj.SetParticles (asteroidAttackByForceAnimations);
+                    obj.AddParticles (asteroidAttackByForceAnimations);
 					obj.destroyOnBoundsTeleport = true;
 					obj.capturedByEarthSpaceship = true;
 					thisShip.RemoveFollower (obj);
@@ -271,7 +271,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                         brokenShields.Remove(bobj);
 
                         asteroidAttackByForceAnimations.ForEach(e => { e.overrideSize = 2 * obj.polygon.R; e.overrideDuration = applyShootingForceDuration; });
-                        obj.SetParticles(asteroidAttackByForceAnimations);
+                        obj.AddParticles(asteroidAttackByForceAnimations);
                         obj.capturedByEarthSpaceship = true;
 						thisShip.RemoveFollower (obj);
                         AimSystem aim = new AimSystem(target.position, target.velocity, obj.position, partMaxSpeed * 0.8f);
@@ -371,7 +371,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 				obj.capturedByEarthSpaceship = true;
                 thisShip.AddObjectAsFollower(obj);
                 asteroidGrabByForceAnimations.ForEach(e => e.overrideSize = 2 * obj.polygon.R);
-                obj.SetParticles (asteroidGrabByForceAnimations);
+                obj.AddParticles (asteroidGrabByForceAnimations);
 				Main.PutOnFirstNullPlace (brokenShields,  newBroken);
 			}
 

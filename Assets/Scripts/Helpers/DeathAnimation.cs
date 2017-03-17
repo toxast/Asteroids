@@ -223,7 +223,7 @@ public class DeathAnimation
 		firepart.velocity = speed * VelocityDir + obj.velocity * objSpeedMultipier;
         firepart.cacheTransform.right = firepart.velocity.normalized;
         firepart.position = pos;
-		Singleton<Main>.inst.AddToDetructor(firepart,pmain.duration + 4f, lowerAlphaTo0:false);
+		Singleton<Main>.inst.AddToDestructor(firepart,pmain.duration + 4f, lowerAlphaTo0:false);
     }
 }
 

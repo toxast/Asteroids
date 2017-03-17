@@ -13,7 +13,7 @@ public class MGunData : MGunBaseData, IGotShape {
 	public float spreadAngle = 0;
 	public RandomFloat rotation = new RandomFloat (0, 0);
 	public Color color = Color.red;
-	public DOTEffect.Data burnDOT;
+	public BurningEffect.Data burnDOT;
 	public IceEffect.Data iceData;
 	public ParticleSystem fireEffect;
     public List<ParticleSystemsData> effects;
@@ -25,16 +25,6 @@ public class MGunData : MGunBaseData, IGotShape {
 	protected virtual void OnValidate(){
 		effects.SetDefaultValues ();
 		destructionEffects.SetDefaultValues ();
-		CheckEffects ();
-	}
-
-	private void CheckEffects() {
-		if (burnDOT.dps > 0 && burnDOT.effect.prefab == null) {
-			Debug.LogError ("no fire effect " + name);
-		}
-		if (iceData.freezeAmount > 0 && iceData.effect.prefab == null) {
-			Debug.LogError ("no ice effect" + name);
-		}
 	}
 
 	public override Gun GetGun(Place place, PolygonGameObject t)

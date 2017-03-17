@@ -315,10 +315,10 @@ public class Polygon
     public List<Vector2[]> SplitByConcaveVertex() {
         //Debug.Log("SplitByInteriorVertex, vcount:" + vcount);
         List<Vector2[]> parts = new List<Vector2[]>();
-        int interiorVertex = GetRandomConcaveVertex();
-        if (interiorVertex >= 0) {
+		int concaveVertex = GetRandomConcaveVertex();
+        if (concaveVertex >= 0) {
             //Debug.Log("SplitByInteriorVertex: got vertex");
-            parts = SplitByInteriorVertex(interiorVertex);
+            parts = SplitByInteriorVertex(concaveVertex);
         } else {
             //Debug.Log("SplitByInteriorVertex: no vertex");
             parts.Add(vertices);
@@ -370,60 +370,83 @@ public class Polygon
 	private List<Vector2[]> SplitByInteriorVertex(int interiorIndx)
 	{
 		List<Vector2[]> parts = new List<Vector2[]> ();
+		Vector2 interiorVertex = vertices [interiorIndx];
 
-		Vector2 interiorVertex = vertices[interiorIndx];
+		bool splitByTwoConcaveVerts = false;
 
-		int cindex  = interiorIndx + 1;
-		Vector2 a = (circulatedVertices[cindex] - circulatedVertices[cindex-1]).normalized;
-		Vector2 b = -(circulatedVertices[cindex+1] - circulatedVertices[cindex]).normalized;
+		var cverts = GetConcaveVertices ();
+		cverts.Remove (interiorIndx);
 
-		Vector2 bisector = interiorVertex + (a + b).normalized * 3 * R;
-		//Debug.LogWarning("vertex: " + vIndx + " bisector: "+ bisector);
-
-		int edgeIndex = -1;
-		float lastDistance = float.MaxValue;
-		Intersection intersection = null;
-		for (int i = 0; i < vcount; i++)
-		{
-			Intersection insc = new Intersection(edges[i].p1, edges[i].p2, interiorVertex, bisector);
-			if(insc.haveIntersection && insc.intersection != interiorVertex)
-			{
-				float distSqr = (interiorVertex - insc.intersection).sqrMagnitude;
-				if(intersection == null || lastDistance > distSqr)
-				{
-					edgeIndex = i;
-					lastDistance = distSqr;
-					intersection = insc;
+		float dotThreshold = Mathf.Sqrt(0.5f);//45 deg
+		for (int i = 0; i < cverts.Count; i++) {
+			int aindx = cverts [i];
+			Vector2 apos = vertices [aindx];
+			Vector2 toInt = interiorVertex - apos;
+			Vector2 abisector = GetBisector(aindx).normalized;
+			var dot = Vector2.Dot (toInt.normalized, abisector);
+			if ( dot > dotThreshold) { 
+				float chance01 = (dot - dotThreshold) / (1f - dotThreshold);
+				if (Math2d.Chance (0.3f + Mathf.Sqrt(chance01) * 0.5f)) {
+					Edge insideEdge = new Edge (interiorVertex - abisector * 0.01f, apos + abisector * 0.01f);
+					int intersections = Intersection.GetIntersections (insideEdge, edges).FindAll (it => it.haveIntersection).Count;
+					if (intersections == 0) {
+						//Debug.LogWarning ("splitByTwoConcaveVerts " + interiorIndx + " " + aindx);
+						parts = SplitBy2Vertices (interiorIndx, aindx);
+						splitByTwoConcaveVerts = true;
+						break;
+					}
 				}
 			}
 		}
 
-		if(intersection == null)
-		{
-			parts.Add(vertices);
-			return parts;
+		if (!splitByTwoConcaveVerts) {
+			Vector2 bisector =  interiorVertex + GetBisector(interiorIndx).normalized * 3 * R;
+			//Debug.LogWarning("vertex: " + vIndx + " bisector: "+ bisector);
+
+			int edgeIndex = -1;
+			float lastDistance = float.MaxValue;
+			Intersection intersection = null;
+			for (int i = 0; i < vcount; i++) {
+				Intersection insc = new Intersection (edges [i].p1, edges [i].p2, interiorVertex, bisector);
+				if (insc.haveIntersection && insc.intersection != interiorVertex) {
+					float distSqr = (interiorVertex - insc.intersection).sqrMagnitude;
+					if (intersection == null || lastDistance > distSqr) {
+						edgeIndex = i;
+						lastDistance = distSqr;
+						intersection = insc;
+					}
+				}
+			}
+
+			if (intersection == null) {
+				parts.Add (vertices);
+				return parts;
+			}
+
+			if (intersection.intersection == edges [edgeIndex].p1) {
+				return SplitBy2Vertices (edgeIndex, interiorIndx);
+			} else if (intersection.intersection == edges [edgeIndex].p2) {
+				return SplitBy2Vertices (Next (edgeIndex), interiorIndx);
+			}
+
+			List<Vector2> part1 = GetVertices (interiorIndx, edgeIndex);
+			part1.Add (intersection.intersection);
+
+			List<Vector2> part2 = GetVertices (Next (edgeIndex), interiorIndx);
+			part2.Add (intersection.intersection);
+
+			parts.Add (part1.ToArray ());
+			parts.Add (part2.ToArray ());
 		}
-
-		if(intersection.intersection == edges[edgeIndex].p1)
-		{
-			return SplitBy2Vertices(edgeIndex, interiorIndx);
-		}
-		else if(intersection.intersection == edges[edgeIndex].p2)
-		{
-			return SplitBy2Vertices(Next(edgeIndex), interiorIndx);
-		}
-
-		List<Vector2> part1 = GetVertices(interiorIndx, edgeIndex);
-		part1.Add(intersection.intersection);
-
-		List<Vector2> part2 = GetVertices(Next(edgeIndex), interiorIndx);
-		part2.Add(intersection.intersection);
-
-		parts.Add(part1.ToArray());
-		parts.Add(part2.ToArray());
 		return parts;
 	}
 
+	Vector2 GetBisector(int vIndx){
+		int cindex = vIndx + 1;
+		Vector2 a = (circulatedVertices [cindex] - circulatedVertices [cindex - 1]).normalized;
+		Vector2 b = -(circulatedVertices [cindex + 1] - circulatedVertices [cindex]).normalized;
+		return a + b;
+	}
 
 	//TODO: test
 	public  List<Vector2[]> SplitBy2Vertices(int index1, int index2)

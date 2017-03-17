@@ -67,7 +67,41 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   spreadAngle: 0
-  color: {r: 1, g: 0, b: 1, a: 1}
+  rotation:
+    min: 0
+    max: 0
+  color: {r: 1, g: 0, b: 1, a: 0}
+  burnDOT:
+    duration: 0
+    dps: 0
+    maxBuildUpDuration: 0
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 0}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: 1
+      afterlife: 0
+      stopEmission: 1
+      inheritVelocity: 1
+  iceData:
+    duration: 0
+    freezeAmount: 0
+    effect:
+      place:
+        pos: {x: 0, y: 0}
+        dir: {x: 1, y: 0}
+      prefab: {fileID: 0}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: 1
+      afterlife: 0
+      stopEmission: 1
+      inheritVelocity: 1
   fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   effects: []
   destructionEffects: []
@@ -78,5 +112,15 @@ MonoBehaviour:
   - {x: -0.4, y: 0.2}
   force: -1000
   range: 20
-  bulletEffect: {fileID: 198887602376405788, guid: a87beb6f50920eb44bf485e3cfef7b27,
-    type: 2}
+  gravityEffect:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198887602376405788, guid: a87beb6f50920eb44bf485e3cfef7b27, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -0.1
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 1

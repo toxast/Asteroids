@@ -217,7 +217,7 @@ public class LazerGun : Gun
 						timeLeftToApplyHeavvyBullet += ApplyHeavvyBulletInterval;
 						Vector2 egde = hitEdge.p2 - hitEdge.p1;
 						Vector2 egdeRight = Math2d.MakeRight (egde).normalized;
-						float force = 15f * damage * Vector2.Dot (lazerDir, egdeRight) * parent.heavyBulletData.multiplier * ApplyHeavvyBulletInterval;
+						float force = 60f * Mathf.Sqrt(damage) * Vector2.Dot (lazerDir, egdeRight) * parent.heavyBulletData.multiplier * ApplyHeavvyBulletInterval;
 						PolygonCollision.ApplyForce (hitObject, hitPlace, force * egdeRight);
 					}
 				}

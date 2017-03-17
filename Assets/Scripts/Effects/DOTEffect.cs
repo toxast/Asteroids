@@ -61,6 +61,5 @@ public abstract class DOTEffect : TickableEffect
 		public float duration = 0;
 		public float dps = 0;
 		public float maxBuildUpDuration = 0;
-		public ParticleSystemsData effect;
 	}
 }

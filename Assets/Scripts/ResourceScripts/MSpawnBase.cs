@@ -60,6 +60,28 @@ using UnityEngine;
 
 }
 
+[Serializable]
+public class SpawnBase
+{
+	[SerializeField] public MSpawnBase spawn;
+	[SerializeField] public RandomFloat range = new RandomFloat(40, 50);
+
+	public float difficulty{
+		get{ return spawn.sdifficulty;}
+	}
+} 
+
+[Serializable]
+public class WeightedSpawn : SpawnBase
+{
+	[SerializeField] public float weight = 4;
+} 
+
+[Serializable]
+public class SpawnPos : SpawnBase
+{
+	[SerializeField] public SpawnPositioning positioning = new SpawnPositioning {positionAngleRange = 360} ;
+} 
 
 
 [Serializable]

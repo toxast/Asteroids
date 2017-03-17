@@ -26,6 +26,7 @@ public abstract class TickableEffect : ITickable
 		GravityShield,
 		Burning,
 		Ice,
+		IceWave,
         GunsShow,
 		PhysicalChanges,
 		SpawnBackup,

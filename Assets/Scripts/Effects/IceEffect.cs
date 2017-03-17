@@ -59,12 +59,13 @@ public class IceEffect : TickableEffect {
 		newTotalFreeze = currentFreezeAmount * timeLeft + addToAmount;
         currentFreezeAmount = newTotalFreeze / timeLeft;
         UpdateFreezeAmount(currentFreezeAmount);
-		Debug.LogWarning ("add to time " + addToTime + " add to amount " + addToAmount);
-		Debug.LogWarning ("time " + oldTime + "->" + timeLeft + " amount: " + oldAmount + "->" + currentFreezeAmount);
+		//Debug.LogWarning ("add to time " + addToTime + " add to amount " + addToAmount);
+		//Debug.LogWarning ("time " + oldTime + "->" + timeLeft + " amount: " + oldAmount + "->" + currentFreezeAmount);
     }
 
     private void UpdateFreezeAmount(float freezeAmount) {
-        float freeze01 = Mathf.Clamp01(freezeAmount / holder.mass);
+		float freeze01 = Mathf.Clamp01(freezeAmount / holder.massSqrt07);
+		Debug.LogWarning (holder.name + " freeze01 " + freeze01 + " timeLeft " + timeLeft);
         UpdateFreeze01(freeze01);
         UpdateIceEffectsCount(freeze01);
     }
@@ -86,8 +87,8 @@ public class IceEffect : TickableEffect {
 		if (!IsFinished ()) {
 			iceEffectsCount =  Mathf.CeilToInt(2.5f * freeze01 * Mathf.Pow(holder.polygon.area, 0.8f) / Mathf.Pow(iceEffectSize, 1.3f));
 		}
-		Debug.LogWarning ("area " + holder.polygon.area  + " " + iceEffectSize);
-		Debug.LogWarning ("freeze01 " + freeze01 + " iceEffectsCount " + iceEffectsCount);
+		//Debug.LogWarning ("area " + holder.polygon.area  + " " + iceEffectSize);
+		//Debug.LogWarning ("freeze01 " + freeze01 + " iceEffectsCount " + iceEffectsCount);
         int diff = iceEffectsCount - spawnedEffects.Count;
         if (diff != 0) {
             if (diff > 0) {
@@ -96,7 +97,7 @@ public class IceEffect : TickableEffect {
                     effect.place.pos = holder.polygon.GetRandomAreaVertex();
                     effect.overrideDelay = UnityEngine.Random.Range(0f, 2f);
 					effect.overrideSize = iceEffectSize * UnityEngine.Random.Range (0.8f, 1.2f);
-                    spawnedEffects.AddRange(holder.SetParticles(new List<ParticleSystemsData> { effect }));
+                    spawnedEffects.AddRange(holder.AddParticles(new List<ParticleSystemsData> { effect }));
                 }
             } else {
                 for (int i = 0; i < -diff; i++) {
@@ -113,7 +114,7 @@ public class IceEffect : TickableEffect {
 	public class Data : IClonable<Data> {
         public float duration = 0;
         public float freezeAmount = 0;
-        public ParticleSystemsData effect; 
+		public ParticleSystemsData effect{ get { return MParticleResources.Instance.iceParticles.data;} } 
 
 		public bool Initialized() {
 			return duration > 0 && freezeAmount > 0;
@@ -130,7 +131,6 @@ public class IceEffect : TickableEffect {
 			float sqrt = Mathf.Sqrt (multiplier);
 			r.duration = duration * sqrt;
 			r.freezeAmount = freezeAmount * sqrt;
-			r.effect = effect; 
 			return r;
 		}
     }

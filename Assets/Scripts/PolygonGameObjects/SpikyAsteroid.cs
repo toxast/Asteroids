@@ -100,9 +100,9 @@ public class SpikyAsteroid : Asteroid, IFreezble
 		}
 	}
 
-	public override void HandleDestroying ()
+	public override void HandleStartDestroying()
 	{
-		base.HandleDestroying ();
+		base.HandleStartDestroying ();
 		for (int i = spikesLeft.Count - 1; i >= 0; i--) {
 			if (Math2d.Chance (data.chanceShootSpikeAtDeath)) {
 				ShootSpike (i);

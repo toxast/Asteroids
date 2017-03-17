@@ -55,7 +55,7 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
         comformDistanceMax = gun.Range;
         comformDistanceMin = 30;
 
-        float evadeDuration = (90f / thisShip.turnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.maxSpeed * 0.8f);
+		float evadeDuration = (90f / thisShip.originalTurnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.originalMaxSpeed * 0.8f);
         evadeBullets = evadeDuration < 1.2f;
         turnBehEnabled = evadeDuration < 3f;
         if(turnBehEnabled)

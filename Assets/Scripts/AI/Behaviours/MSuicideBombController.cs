@@ -64,7 +64,7 @@ public class MSuicideBombController : BaseSpaceshipController {
 						SetAcceleration (false);
 						var timerEffect = data.explodeTimerEffect.Clone ();
 						timerEffect.overrideSize = (2f * thisShip.polygon.R) * 1.8f;
-						thisShip.SetParticles (new List<ParticleSystemsData>{ timerEffect });
+						thisShip.AddParticles (new List<ParticleSystemsData>{ timerEffect });
 						yield return new WaitForSeconds (dtime);
 						thisShip.Kill ();
 						yield break;

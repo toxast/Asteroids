@@ -17,7 +17,7 @@ public class ChargerController : BaseSpaceshipController
 	{
 		this.chData = chData;
 		accuracy = accData.startingAccuracy;
-		float chargeToMaxDuration = thisShip.maxSpeed * chData.chargeEffect.multiplyMaxSpeed / (thisShip.thrust * chData.chargeEffect.multiplyThrust);
+		float chargeToMaxDuration = thisShip.originalMaxSpeed * chData.chargeEffect.multiplyMaxSpeed / (thisShip.thrust * chData.chargeEffect.multiplyThrust);
         chargingDist = thisShip.thrust * chargeToMaxDuration * chargeToMaxDuration * 0.5f;
         chargeDuration = chargeToMaxDuration + 1f;
         if (accData.isDynamic) {
@@ -38,7 +38,7 @@ public class ChargerController : BaseSpaceshipController
 				yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration, accelerating: true));
 
 				Brake ();
-				duration = Random.Range (180f - 30f, 180f + 30f) / thisShip.turnSpeed;
+				duration = Random.Range (180f - 30f, 180f + 30f) / thisShip.originalTurnSpeed;
 				yield return RotateOnTarget (duration);
 
 				yield return thisShip.StartCoroutine (ChargeAttack (chargeDuration));
@@ -59,10 +59,10 @@ public class ChargerController : BaseSpaceshipController
 		tickData.Refresh(thisShip, target);
 		if(tickData.distEdge2Edge > chargingDist * 1.2f) {
 			weights = new List<float>{ 3, 1, 0 };
-			durations = new List<float>{1.4f * (tickData.distEdge2Edge - chargingDist) / thisShip.maxSpeed, 1.7f, 0 };
+			durations = new List<float>{1.4f * (tickData.distEdge2Edge - chargingDist) / thisShip.originalMaxSpeed, 1.7f, 0 };
 		} else if(tickData.distEdge2Edge < chargingDist * 0.8f) {
 			weights  = new List<float>{ 0, 1, 3 };
-			durations = new List<float>{0, 1.7f, 1.4f * (chargingDist - tickData.distEdge2Edge) / thisShip.maxSpeed };
+			durations = new List<float>{0, 1.7f, 1.4f * (chargingDist - tickData.distEdge2Edge) / thisShip.originalMaxSpeed };
 		} else {
 			weights  = new List<float>{ 1, 3, 1 };
 			durations = new List<float>{1.7f, 2.2f, 1.7f };
@@ -101,7 +101,7 @@ public class ChargerController : BaseSpaceshipController
 			Brake();
 		}
 
-		float uncontrollableRotateDuration = angle / thisShip.turnSpeed;
+		float uncontrollableRotateDuration = angle / thisShip.originalTurnSpeed;
 		LogWarning("rotate uncontrollable " + uncontrollableRotateDuration);
 		turnDirection = Vector2.zero;
 		while (uncontrollableRotateDuration > 0) {

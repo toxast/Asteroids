@@ -30,6 +30,6 @@ public class PowerupData {
 	public Vector2[] verts;
     public float lifeTime;
     public Color color;
-    public ParticleSystem particles;
+	public ParticleSystemsData particles { get { return MParticleResources.Instance.powerUpDropParticles.data;} } 
     public Color particleSystemColor;
 }

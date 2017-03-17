@@ -30,11 +30,11 @@ public class BurningEffect : DOTEffect {
 		if (diff != 0) {
 			if (diff > 0) {
 				for (int i = 0; i < diff; i++) {
-					var effect = data.effect.Clone();
+					var effect = (data as Data).effect.Clone();
 					effect.place.pos = holder.polygon.GetRandomAreaVertex();
 					effect.overrideSize = UnityEngine.Random.Range (2f, Mathf.Min(4f, holder.polygon.R/2f));
 					effect.overrideDelay = UnityEngine.Random.Range (0f, 2f);
-					spawnedEffects.AddRange(holder.SetParticles(new List<ParticleSystemsData> { effect }));
+					spawnedEffects.AddRange(holder.AddParticles(new List<ParticleSystemsData> { effect }));
 				}
 			} else {
 				for (int i = 0; i < -diff; i++) {
@@ -45,6 +45,11 @@ public class BurningEffect : DOTEffect {
 				}
 			}
 		}
+	}
+
+	[System.Serializable]
+	new public class Data : DOTEffect.Data{
+		public ParticleSystemsData effect { get { return MParticleResources.Instance.burnParticles.data;} } 
 	}
 }
 

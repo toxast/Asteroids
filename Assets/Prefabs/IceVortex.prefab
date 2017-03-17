@@ -96,12 +96,12 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 708865788
+  randomSeed: -1803738982
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
-      scalar: 1
+      scalar: 1.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -539,7 +539,7 @@ ParticleSystem:
     enabled: 1
     serializedVersion: 3
     rateOverTime:
-      scalar: 20
+      scalar: 15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -630,7 +630,7 @@ ParticleSystem:
     time3: 0
     m_BurstCount: 0
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       scalar: 1
       maxCurve:
@@ -638,19 +638,25 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
+          value: 0.0065789223
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+        - serializedVersion: 2
+          time: 0.47079986
           value: 1
-          inSlope: -0.6216217
-          outSlope: -0.6216217
-          tangentMode: 34
+          inSlope: 0.14833574
+          outSlope: 0.14833574
+          tangentMode: 0
         - serializedVersion: 2
           time: 1
-          value: 0.3783783
-          inSlope: -0.6216217
-          outSlope: -0.6216217
-          tangentMode: 34
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_RotationOrder: 0
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -840,10 +846,10 @@ ParticleSystem:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 16749824
+          rgba: 1258263808
         key1:
           serializedVersion: 2
-          rgba: 1322023448
+          rgba: 1674344984
         key2:
           serializedVersion: 2
           rgba: 0
@@ -871,7 +877,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 33924
+        atime1: 33539
         atime2: 65535
         atime3: 0
         atime4: 0

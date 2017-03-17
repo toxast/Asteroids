@@ -37,6 +37,20 @@ public class Spliter
 			
 			parts.Add(asteroidPart);
 		}
+
+		var afterlifeEffects = polygonGo.GetEffectsForSplitParts ();
+		foreach (var item in afterlifeEffects) {
+			if (item.system != null && item.system.transform != null) {
+				var pos = item.system.transform.position;
+				foreach (var part in parts) {
+					if (part.globalPolygon.IsPointInside (pos)) {
+						item.system.transform.SetParent (part.cacheTransform, true);
+						item.system.transform.localPosition = item.system.transform.localPosition.SetZ (item.data.zOffset);
+						break;
+					}
+				}
+			}
+		}
 		
 		CalculateObjectPartVelocity(parts, polygonGo);
 		

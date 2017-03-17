@@ -401,7 +401,7 @@ public class Main : MonoBehaviour
 
 		if (boundsMode) {
 			CheckBounds (bullets, true);
-			CheckBounds (gobjects, false); //TODO: spaceship in gobjects!!!
+			CheckBounds (gobjects, false);
 			CheckBounds (drops, false);
 		} else {
 			Wrap (bullets);
@@ -511,7 +511,7 @@ public class Main : MonoBehaviour
 		if (level != null) {
 			var elems = level.GetElements ();
 			if (elems.Count > 0) {
-				MRandomWave.RandomWaveData data = new MRandomWave.RandomWaveData ();
+				RandomWave.Data data = new RandomWave.Data ();
 				data.diffucultyTotal = 200;
 				data.diffucultyAtOnce = 200;
 				data.startNextWaveWhenDifficultyLeft = 0;
@@ -519,7 +519,6 @@ public class Main : MonoBehaviour
 				for (int i = 0; i < elems.Count; i++) {
 					WeightedSpawn wspawn = new WeightedSpawn ();
 					wspawn.spawn = elems [i];
-					wspawn.positioning = new SpawnPositioning{ positionAngleRange = 360 };
 					wspawn.range = new RandomFloat (40, 70);
 					wspawn.weight = 1;
 					data.objects.Add (wspawn);
@@ -569,6 +568,8 @@ public class Main : MonoBehaviour
 
 	private void ObjectDeath(PolygonGameObject gobject)
 	{
+		gobject.HandleStartDestroying ();
+
 		switch (gobject.destructionType) {
 		case PolygonGameObject.DestructionType.eNormal:
 			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
@@ -618,7 +619,7 @@ public class Main : MonoBehaviour
 	}
 
     private void DestroyPolygonGameObject(PolygonGameObject gobject) {
-		gobject.HandleDestroying ();
+		gobject.HandleDestroy ();
         Destroy(gobject.gameObj);
     }
 
@@ -750,7 +751,7 @@ public class Main : MonoBehaviour
 					CheckDrop (drop, part);
 				}
 
-				AddToDetructor (part, 0.7f + UnityEngine.Random.Range (0f, 1f));
+				AddToDestructor (part, 0.7f + UnityEngine.Random.Range (0f, 1f));
 			} else {
 				if (obj.dropID != null) {
 					part.dropID = obj.dropID;
@@ -793,7 +794,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	public void AddToDetructor(PolygonGameObject p, float time, bool lowerAlphaTo0 = true) {
+	public void AddToDestructor(PolygonGameObject p, float time, bool lowerAlphaTo0 = true) {
 		TimeDestuctor d = new TimeDestuctor(p, time, lowerAlphaTo0);
 		PutOnFirstNullPlace(destructors, d); 
 	}
@@ -1202,27 +1203,23 @@ public class Main : MonoBehaviour
 	* bug in freezed ships with duration and stuff when freezed
 	 * FUTURE UPDATES
 	 * 
-	 * add charge behaviour to earth ships, and charge beh to posseed asteroids, add kill asteroid beh is full
-	 * restore dumb hitters
-	* big bullets powerup!
+	* sky texture?
+	* powerups duration indicators
 	* IncreasedShootingSpeed
+	 * add charge behaviour to earth ships, and charge beh to posseed asteroids, add kill asteroid beh is full
+	* big bullets powerup!
 	* split by two consiquent interior verts, not neighbours, check that mid is inside
-	* randomize behaviour ( spiky, bomb)
 	* add effect to others ai?
 	* power ups(fast bullets, missiles around,
 	* permanent powerups, shield as power-up?, health powerup, health over time, add gun/turret powerup.
-	* powerups duration indicators
 	* start powerup button
 	* burn fire hit on self effect
+
 	* meteor shower on the map powerup
-	* 
-	* add gun/turrets powerup => rage wave(assemble all level spawns with fixed difficulty once/total) and list of wave effects
-	* berzerk with extra gun for next wave with increased difficulty at once and total
 	* 
 	* explosion better force direction
 	* 
 	 * side shooting ships
-	 * destroy turrets
 	 * 
 	 * EMP
 	 * fixed wave, fix rotation on ship func
@@ -1230,27 +1227,19 @@ public class Main : MonoBehaviour
 	 * 
 	 * teleporter enemies backups (spawner)
 	 * 
-	* frozen storms weapon like diablo 2
-	 * waves
+	 * wheather effects: ice, asteroids, smoke.
 	* asteroid storms like earth enemy
 	* fire, free-aim towers
      * teleporting enemy
-     * weapons fr charger (flamer, lazers)
-	* missile that sticks and applies force
+     * missile that sticks and applies force
 	 * duplicating enemy and illusions enemy?
-	 * stop towers from flowing after hit
      * posessed ships
      * necromancer-ship (throws pieces, then assembles them into ship until area threshold )
-     * explosion on turrets
 	 * ipad trampolines (2 if i recall correctly, about interfaces)
 	 * poison asteroids
 	 * camera shake on explosions
-	 * sky texture?
-	 * explision by vertex
-	 * mine missiles
 	 * deflect shields
 	 * more efficeient stars render
-	 * cold enemies
 	 * gravity enemies
 	 * texture on asteroids?
 	 * joystick position fixed
@@ -1260,8 +1249,7 @@ public class Main : MonoBehaviour
 	 * achievements and ship unlocks for them (luke - survive astroid field, reach 100% acc in more than x shots)
 	 * dissolve bullet and shader
 	 * bad effects on power-up destroy. Monster spawn, tough emeny, rocket launch, spawn of new very PoweR up! 
-	 * bosses (arcanoid?)
-	 * 
+	 * bosses  
 	 * 
 	 * 
 	 */

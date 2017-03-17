@@ -23,7 +23,7 @@ public class HealingEffect : TickableEffect{
 		for (int i = 0; i < amount; i++) {
 			var effect = data.effect.Clone();
 			effect.place.pos = holder.polygon.GetRandomAreaVertex();
-			spawnedEffects.AddRange(holder.SetParticles(new List<ParticleSystemsData> { effect }));
+			spawnedEffects.AddRange(holder.AddParticles(new List<ParticleSystemsData> { effect }));
 		}
 	}
 

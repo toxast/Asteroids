@@ -38,7 +38,7 @@ public class Mine : PolygonGameObject {
 		if (!setForDestruction && HasObjectInRange(enemyLayers, data.activateRange) != null) {
 			setForDestruction = true;
 			destructionTimer = new AIHelper.MyTimer (data.timerDuration, () => Kill ());
-			SetParticles (new List<ParticleSystemsData>{data.triggetExplosionEffect });
+			AddParticles (new List<ParticleSystemsData>{data.triggetExplosionEffect });
 		}
 
 		if (destructionTimer != null) {

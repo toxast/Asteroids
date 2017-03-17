@@ -34,7 +34,7 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 		bullet.velocity = GetDirectionNormalized(bullet) * GetVelocityMagnitude();
 		bullet.destructionType = SetDestructionType();
 		bullet.destroyOnBoundsTeleport = DestroyOnBoundsTeleport;
-        bullet.SetParticles(data.effects);
+        bullet.AddParticles(data.effects);
 		bullet.SetDestroyAnimationParticles (data.destructionEffects);
 		SetCollisionLayer( bullet );
 		AddShipSpeed2TheBullet (bullet);

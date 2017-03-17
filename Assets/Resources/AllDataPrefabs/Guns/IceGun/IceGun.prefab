@@ -86,6 +86,8 @@ MonoBehaviour:
       zOffset: 1
       afterlife: 0
       stopEmission: 1
+      inheritVelocity: 1
+      parentToSplitParts: 0
   iceData:
     duration: 4
     freezeAmount: 90
@@ -99,8 +101,10 @@ MonoBehaviour:
       overrideDelay: -1
       overrideDuration: -1
       zOffset: -0.1
-      afterlife: 0
+      afterlife: 1
       stopEmission: 1
+      inheritVelocity: 0
+      parentToSplitParts: 1
   fireEffect: {fileID: 0}
   effects: []
   destructionEffects: []

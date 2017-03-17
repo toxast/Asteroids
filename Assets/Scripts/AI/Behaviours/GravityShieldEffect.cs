@@ -25,7 +25,7 @@ public class GravityShieldEffect : TickableEffect
 		base.SetHolder (holder);
         var particles = data.particles.Clone();
         particles.ForEach(e => e.overrideSize = data.range * 2f);
-        spawnedEffects = holder.SetParticles (particles);
+        spawnedEffects = holder.AddParticles (particles);
 	}
 
 	public override void Tick (float delta) {

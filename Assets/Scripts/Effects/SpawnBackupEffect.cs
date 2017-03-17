@@ -25,7 +25,7 @@ public class SpawnBackupEffect : TickableEffect{
 
 	public override bool IsFinished() {	return spawned; }
 
-	private void Spawn(List<WeightedSpawn> spawns){
+	private void Spawn(List<SpawnPos> spawns){
 		var main = Singleton<Main>.inst;
 		for (int i = 0; i < spawns.Count; i++) {
 			var item = spawns [i];
@@ -35,7 +35,7 @@ public class SpawnBackupEffect : TickableEffect{
 
 	[System.Serializable]
 	public class Data : IApplyable {
-		public List<WeightedSpawn> spawns;
+		public List<SpawnPos> spawns;
 		public void Apply(PolygonGameObject picker) {
 			picker.AddEffect (new SpawnBackupEffect (this));
 		}

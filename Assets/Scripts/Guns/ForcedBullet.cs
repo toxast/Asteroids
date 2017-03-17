@@ -19,7 +19,7 @@ public class ForcedBullet : PolygonGameObject {
         StartCoroutine(ForceChange());
         effects2 = data.effectsForcedBullet.ConvertAll(e => e.Clone());
         effects2.ForEach(e => e.overrideSize = 2 * data.range);
-		SetParticles (effects2);
+		AddParticles (effects2);
     }
 
     const float checkEvery = 0.18f;

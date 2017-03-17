@@ -43,8 +43,8 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 2
+  difficulty: 10
   teleportData:
     duration: 1.5
     ringSize: 10
@@ -96,6 +96,8 @@ MonoBehaviour:
     zOffset: 1
     afterlife: 0
     stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
   turrets: []
   verts:
   - {x: 2.398148, y: 0}

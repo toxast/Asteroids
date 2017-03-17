@@ -49,16 +49,30 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
     public float mass { get { return _mass; } set { 
 			_mass = value; 
 			massSqrtCalculated = false; 
+			massSqrt07Calculated = false;
 			UpdateMassRelatedValues ();
 	}}
     bool massSqrtCalculated = false;
     float _massSqrt;
     public float massSqrt {
         get {
-            if (!massSqrtCalculated) { _massSqrt = Mathf.Sqrt(mass); }
+			if (!massSqrtCalculated) { _massSqrt = Mathf.Sqrt(mass);  massSqrtCalculated = true;}
             return _massSqrt;
         }
     }
+
+	bool massSqrt07Calculated = false;
+	float _massSqrt07;
+	public float massSqrt07 {
+		get {
+			if (!massSqrt07Calculated) { 
+				_massSqrt07 = Mathf.Pow (mass, 0.85f); 
+				massSqrt07Calculated = true; 
+				Debug.LogError (mass +  " -> sqrt07 " + _massSqrt07); 
+			}
+			return _massSqrt07;
+		}
+	}
 
 
 	public int reward;
@@ -130,7 +144,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	public bool capturedByEarthSpaceship = false;
 
 	[NonSerialized] public IceEffect.Data iceEffectData;
-	[NonSerialized] public DOTEffect.Data burnDotData;
+	[NonSerialized] public BurningEffect.Data burnDotData;
     public virtual void OnHit(PolygonGameObject other) {
 		if (burnDotData != null) {
 			other.AddEffect (new BurningEffect (burnDotData));
@@ -648,7 +662,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 
 	[System.NonSerialized] List<ParticlesInst> particles = new  List<ParticlesInst>();
 	//TODO: refactor this somehow, i need a lot of parametes and control over the particles
-	public List<ParticleSystem> SetParticles(List<ParticleSystemsData> datas)
+	public List<ParticleSystem> AddParticles(List<ParticleSystemsData> datas)
 	{
 		List<ParticlesInst> result = new List<ParticlesInst> ();
 		foreach (var setup in datas) {
@@ -667,6 +681,9 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 				if (setup.overrideDelay > 0) {
 					pmain.startDelayMultiplier = setup.overrideDelay;
 				}
+				if (setup.overrideStartColor) {
+					inst.SetStartColor(setup.startColor);
+				}
 				inst.Play ();
 
 				Math2d.PositionOnParent (inst.transform, setup.place, cacheTransform, true, setup.zOffset);
@@ -677,7 +694,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		return result.ConvertAll(s => s.system);
 	}
 
-	private class ParticlesInst
+	public class ParticlesInst
 	{
 		public ParticleSystem system;
 		public ParticleSystemsData data;
@@ -733,18 +750,43 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
         Main.PutOnFirstNullOrDestroyedPlace(teleportWithMe, obj);
     }
 
+	//called before HandleDestroying
+	public List<ParticlesInst> GetEffectsForSplitParts() {
+		return particles.FindAll (p => p.data.afterlife && p.data.parentToSplitParts);
+	}
+
+	//at the very beginning of destruction proccess
+	public virtual void HandleStartDestroying() 
+	{
+		
+	}
+
     public Action OnDestroying;
-	public virtual void HandleDestroying() 
+	public virtual void HandleDestroy() 
 	{
 		for (int i = 0; i < particles.Count; i++) {
 			var ps = particles [i];
 			if (ps.data.afterlife && ps.system != null && ps.system.transform != null ) {
-				ps.system.transform.parent = null;
-//				var main = ps.system.main;
+				if (ps.data.parentToSplitParts == false) {
+					ps.system.transform.parent = null;
+				}
+				var main = ps.system.main;
 				if (ps.data.stopEmission) {
 					ps.system.Stop ();
 				}
-				Destroy (ps.system.gameObject, ps.system.main.startLifetimeMultiplier + 2f);
+				float blifetime = main.startLifetimeMultiplier + 2f;
+				if (ps.data.inheritVelocity && !ps.data.parentToSplitParts) {
+					var verts = PolygonCreator.CreatePerfectPolygonVertices (1, 3);
+					Color col = new Color (0, 0, 0, 0);
+					var holder = PolygonCreator.CreatePolygonGOByMassCenter<PolygonGameObject>(verts, col);
+					holder.InitPolygonGameObject (new PhysicalData ());
+					holder.velocity = velocity;
+					holder.SetLayerNum (CollisionLayers.ilayerMisc);
+					holder.gameObject.name = "animation holder " + ps.system.name;
+					ps.system.transform.parent = holder.cacheTransform;
+					Singleton<Main>.inst.AddToDestructor(holder, blifetime + 1f);
+				}
+				Destroy (ps.system.gameObject, blifetime);
 			}
 		}
 

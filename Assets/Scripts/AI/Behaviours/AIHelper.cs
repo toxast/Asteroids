@@ -62,7 +62,7 @@ public static class AIHelper
 			{
 				float angle = UnityEngine.Random.Range(40, 110);
 				newDir = Math2d.RotateVertexDeg(tickData.dirNorm, tickData.evadeSign * angle);
-				duration = UnityEngine.Random.Range(-0.3f, 0.4f) + (angle / ship.turnSpeed) + ((ship.polygon.R + target.polygon.R) * 2f) / (ship.maxSpeed * 0.8f);// UnityEngine.Random.Range(0.5f, 1.5f);
+				duration = UnityEngine.Random.Range(-0.3f, 0.4f) + (angle / ship.turnSpeed) + ((ship.polygon.R + target.polygon.R) * 2f) / (ship.originalMaxSpeed * 0.8f);// UnityEngine.Random.Range(0.5f, 1.5f);
 				return true;
 			}
 		}
@@ -83,7 +83,7 @@ public static class AIHelper
 			angle = -tickData.evadeSign * UnityEngine.Random.Range(80, 100);
 		}
 		float restoreDist =  UnityEngine.Random.Range(20f, 40f);
-		duration =  restoreDist / ship.maxSpeed;
+		duration =  restoreDist / ship.originalMaxSpeed;
 		
 		var dirFromTarget =  Math2d.RotateVertexDeg(-tickData.dirNorm, angle);  
 		dirFromTarget *= (comformDistanceMax + comformDistanceMin)/2f;
@@ -145,7 +145,7 @@ public static class AIHelper
 				float bulletEvadeSign = Mathf.Sign(Math2d.Cross2(b.velocity, bulletDir));
 				float angle = 90;
 				newDir = Math2d.RotateVertexDeg(bulletDir.normalized, bulletEvadeSign * angle);
-				duration = (angle / ship.turnSpeed) + ((ship.polygon.R + b.polygon.R) * 2f) / (ship.maxSpeed / 2f);
+				duration = (angle / ship.originalTurnSpeed) + ((ship.polygon.R + b.polygon.R) * 2f) / (ship.originalMaxSpeed / 2f);
 				return true;
 			}
 		}

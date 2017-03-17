@@ -2366,6 +2366,10 @@ MonoBehaviour:
       zOffset: 1
       afterlife: 0
       stopEmission: 1
+      inheritVelocity: 1
+      parentToSplitParts: 0
+      overrideStartColor: 0
+      startColor: {r: 1, g: 1, b: 1, a: 1}
   testPhysicalPowerup:
     duration: 10
     overrideDefence: 1
@@ -2378,7 +2382,6 @@ MonoBehaviour:
   testBackupData:
     spawns:
     - spawn: {fileID: 0}
-      weight: 0
       range:
         min: 20
         max: 20
@@ -2388,7 +2391,6 @@ MonoBehaviour:
         lookAngle: 90
         lookAngleRange: 0
     - spawn: {fileID: 0}
-      weight: 0
       range:
         min: 20
         max: 20
@@ -2434,6 +2436,10 @@ MonoBehaviour:
       zOffset: -1
       afterlife: 1
       stopEmission: 1
+      inheritVelocity: 1
+      parentToSplitParts: 0
+      overrideStartColor: 0
+      startColor: {r: 1, g: 1, b: 1, a: 1}
   healOnceTestData:
     total: 20
     effect:
@@ -2448,6 +2454,10 @@ MonoBehaviour:
       zOffset: 1
       afterlife: 0
       stopEmission: 1
+      inheritVelocity: 1
+      parentToSplitParts: 0
+      overrideStartColor: 0
+      startColor: {r: 1, g: 1, b: 1, a: 1}
   timeMultipliersTest:
     duration: 10
     user: 1
