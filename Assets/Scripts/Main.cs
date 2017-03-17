@@ -1206,7 +1206,9 @@ public class Main : MonoBehaviour
 	* sky texture?
 	* powerups duration indicators
 	* IncreasedShootingSpeed
-	 * add charge behaviour to earth ships, and charge beh to posseed asteroids, add kill asteroid beh is full
+	 *         add charge behaviour to earth ships, and charge beh to posseed asteroids, add kill asteroid beh is full
+     * or add asteroid shield to charger!
+     * 
 	* big bullets powerup!
 	* split by two consiquent interior verts, not neighbours, check that mid is inside
 	* add effect to others ai?

@@ -367,8 +367,7 @@ public class Polygon
         return (rotate > 0);
     }
 
-	private List<Vector2[]> SplitByInteriorVertex(int interiorIndx)
-	{
+    private List<Vector2[]> SplitByInteriorVertex(int interiorIndx) {
 		List<Vector2[]> parts = new List<Vector2[]> ();
 		Vector2 interiorVertex = vertices [interiorIndx];
 
@@ -376,25 +375,26 @@ public class Polygon
 
 		var cverts = GetConcaveVertices ();
 		cverts.Remove (interiorIndx);
+        Math2d.Shuffle(cverts);
 
-		float dotThreshold = Mathf.Sqrt(0.5f);//45 deg
+        float dotThreshold = Mathf.Sqrt(0.5f);//45 deg
 		for (int i = 0; i < cverts.Count; i++) {
 			int aindx = cverts [i];
+            if(Distance(aindx, interiorIndx) <= 1) {
+                continue;
+            }
 			Vector2 apos = vertices [aindx];
 			Vector2 toInt = interiorVertex - apos;
 			Vector2 abisector = GetBisector(aindx).normalized;
 			var dot = Vector2.Dot (toInt.normalized, abisector);
 			if ( dot > dotThreshold) { 
-				float chance01 = (dot - dotThreshold) / (1f - dotThreshold);
-				if (Math2d.Chance (0.3f + Mathf.Sqrt(chance01) * 0.5f)) {
-					Edge insideEdge = new Edge (interiorVertex - abisector * 0.01f, apos + abisector * 0.01f);
-					int intersections = Intersection.GetIntersections (insideEdge, edges).FindAll (it => it.haveIntersection).Count;
-					if (intersections == 0) {
-						//Debug.LogWarning ("splitByTwoConcaveVerts " + interiorIndx + " " + aindx);
-						parts = SplitBy2Vertices (interiorIndx, aindx);
-						splitByTwoConcaveVerts = true;
-						break;
-					}
+				Edge insideEdge = new Edge (interiorVertex - abisector * 0.01f, apos + abisector * 0.01f);
+				int intersections = Intersection.GetIntersections (insideEdge, edges).FindAll (it => it.haveIntersection).Count;
+				if (intersections == 0) {
+					Debug.LogWarning ("splitByTwoConcaveVerts " + interiorIndx + " " + aindx);
+					parts = SplitBy2Vertices (interiorIndx, aindx);
+					splitByTwoConcaveVerts = true;
+					break;
 				}
 			}
 		}

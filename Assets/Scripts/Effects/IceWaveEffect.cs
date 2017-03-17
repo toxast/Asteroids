@@ -26,7 +26,7 @@ public class IceWaveEffect : TickableEffect{
 			used = true;
 			int layer = CollisionLayers.GetBulletLayerNum (holder.layerLogic);
 			int collision = CollisionLayers.GetLayerCollisions (layer);
-			new IceWave (holder.position, data.radius, data.iceData, 1f, Singleton<Main>.inst.gObjects, collision);
+			new IceWave (holder.position, data.radius, data.iceData, 1f, Singleton<Main>.inst.gObjects, collision, false);
 			AddEffects ();
 		}
 	}

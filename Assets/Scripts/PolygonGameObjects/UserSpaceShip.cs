@@ -42,13 +42,20 @@ public class UserSpaceShip : SpaceShip {
 
 	private void UpdateShields()
 	{
-		if (shield != null)
-			GameResources.SetShields (shield.currentShields / shield.capacity);
+        if (shield != null && shield.capacity > 0) {
+            GameResources.SetShields(shield.currentShields / shield.capacity);
+        } else {
+            GameResources.SetShields(0);
+        }
 	}
 
 	private void UpdateHealth()
 	{
-		GameResources.SetHealth (currentHealth/fullHealth);
+        if (fullHealth > 0) {
+            GameResources.SetHealth(currentHealth / fullHealth);
+        } else {
+            GameResources.SetHealth(0);
+        }
 	}
 
 	protected override bool RestrictShootingByFastRotation{get{ return false; } }

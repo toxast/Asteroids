@@ -23,6 +23,18 @@ public static class Math2d {
 		}
 	}
 
+    private static System.Random rng = new System.Random();
+    public static void Shuffle<T>(this IList<T> list) {
+        int n = list.Count;
+        while (n > 1) {
+            n--;
+            int k = rng.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+
     static public float DotProduct(ref Vector2 v1, ref Vector2 v2) {
         return v1.x * v2.x + v1.y * v2.y;
     }
