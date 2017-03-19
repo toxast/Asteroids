@@ -391,7 +391,7 @@ public class Polygon
 				Edge insideEdge = new Edge (interiorVertex - abisector * 0.01f, apos + abisector * 0.01f);
 				int intersections = Intersection.GetIntersections (insideEdge, edges).FindAll (it => it.haveIntersection).Count;
 				if (intersections == 0) {
-					Debug.LogWarning ("splitByTwoConcaveVerts " + interiorIndx + " " + aindx);
+					//Debug.LogWarning ("splitByTwoConcaveVerts " + interiorIndx + " " + aindx);
 					parts = SplitBy2Vertices (interiorIndx, aindx);
 					splitByTwoConcaveVerts = true;
 					break;

@@ -37,8 +37,14 @@ public class GravityBullet : PolygonGameObject {
 		timeLeftForCheck -= delta;
 		if (timeLeftForCheck < 0) {
 			timeLeftForCheck += checkEvery;
-			new GravityForceExplosion(position, range, checkEvery * damagePerSecond, checkEvery * force, gobjects, affectLayer);
-			new GravityForceExplosion(position, range, checkEvery * damagePerSecond * 0.5f, checkEvery * force, bullets, affectLayer);
+
+			var objectsAroundData = ExplosionData.CollectData (position, range, gobjects, affectLayer);
+			new ForceExplosion (objectsAroundData, position, checkEvery * force);
+			new DamageExplosion (objectsAroundData, position, checkEvery * damagePerSecond);
+
+			var bulletsAroundData = ExplosionData.CollectData (position, range, bullets, affectLayer);
+			new ForceExplosion (bulletsAroundData, position, checkEvery * force);
+			new DamageExplosion (bulletsAroundData, position, checkEvery * damagePerSecond * 0.5f);
 		}
     }
 }

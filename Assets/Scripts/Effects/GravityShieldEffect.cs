@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class GravityShieldEffect : TickableEffect 
-{
+public class GravityShieldEffect : DurationEffect {
+	public override bool CanBeUpdatedWithSameEffect { get { return true; }	}
 	protected override eType etype { get { return eType.GravityShield; } }
 	Data data;
-	float timeLeft;
 	float currentForce;
 	List<PolygonGameObject> gobjects;
 	List<PolygonGameObject> bullets;
 	List<ParticleSystem> spawnedEffects = new List<ParticleSystem> ();
 
-	public GravityShieldEffect(Data data) {
+	public GravityShieldEffect(Data data) : base(data){
 		this.data = data;
-		timeLeft = data.duration;
 		currentForce = data.force;
 		gobjects = Singleton<Main>.inst.gObjects;
 		bullets = Singleton<Main>.inst.bullets;
@@ -30,29 +28,18 @@ public class GravityShieldEffect : TickableEffect
 
 	public override void Tick (float delta) {
 		base.Tick (delta);
-		bool wasFinished = IsFinished ();
-
 		if (!IsFinished ()) {
-			timeLeft -= delta;
-			new GravityForceExplosion (holder.position, data.range, 0, delta * currentForce, gobjects, holder.collisions);
-			new GravityForceExplosion (holder.position, data.range, 0, delta * currentForce, bullets, holder.collisions);
-		}
-
-		if (!wasFinished && IsFinished ()) {
-			foreach (var effect in spawnedEffects) {
-				effect.Stop ();
-			}
+			var objectsAroundData = ExplosionData.CollectData (holder.position, data.range, gobjects, holder.collisions);
+			var bulletsAroundData = ExplosionData.CollectData (holder.position, data.range, bullets, holder.collisions);
+			new ForceExplosion (objectsAroundData, holder.position, delta * currentForce, data.distanceMatters, data.massMatters);
+			new ForceExplosion (bulletsAroundData, holder.position, delta * currentForce, data.distanceMatters, data.massMatters);
 		}
 	}
 
-	public override bool CanBeUpdatedWithSameEffect {
-		get {
-			return true;
+	public override void OnExpired () {
+		foreach (var effect in spawnedEffects) {
+			effect.Stop ();
 		}
-	}
-
-	public override bool IsFinished() {
-		return timeLeft <= 0;
 	}
 
 	/// <summary>
@@ -67,11 +54,16 @@ public class GravityShieldEffect : TickableEffect
 	}
 
 	[System.Serializable]
-	public class Data{
+	public class Data: IHasDuration, IApplyable{
 		public float duration = 30;
 		public float range = 20;
 		public float force = 20;
+		public bool distanceMatters = false;
+		public bool massMatters = false;
+		public float iduration{get {return duration;} set{duration = value;}}
 		public List<ParticleSystemsData> particles;
-		//TODO: add effect particle system here
+		public void Apply(PolygonGameObject picker) {
+			picker.AddEffect (new GravityShieldEffect (this));
+		}
 	}
 }

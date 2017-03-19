@@ -49,7 +49,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
     public float mass { get { return _mass; } set { 
 			_mass = value; 
 			massSqrtCalculated = false; 
-			massSqrt07Calculated = false;
+			massSqrt85Calculated = false;
 			UpdateMassRelatedValues ();
 	}}
     bool massSqrtCalculated = false;
@@ -61,16 +61,16 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
         }
     }
 
-	bool massSqrt07Calculated = false;
-	float _massSqrt07;
-	public float massSqrt07 {
+	bool massSqrt85Calculated = false;
+	float _massSqrt85;
+	public float massSqrt85 {
 		get {
-			if (!massSqrt07Calculated) { 
-				_massSqrt07 = Mathf.Pow (mass, 0.85f); 
-				massSqrt07Calculated = true; 
-				Debug.LogError (mass +  " -> sqrt07 " + _massSqrt07); 
+			if (!massSqrt85Calculated) { 
+				_massSqrt85 = Mathf.Pow (mass, 0.85f); 
+				massSqrt85Calculated = true; 
+				//Debug.LogError (mass +  " -> sqrt07 " + _massSqrt85); 
 			}
-			return _massSqrt07;
+			return _massSqrt85;
 		}
 	}
 
@@ -89,6 +89,8 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	public float damageOnCollision;
 	public float startinglifeTime;
 	protected float leftlifeTime;
+	public float pLeftlifeTime{get{ return leftlifeTime;}}
+
 
 	public enum DestructionType
 	{
@@ -720,18 +722,26 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		ToggleAllDistanceEmitParticles (true);
 	}
 
-	public void ToggleAllDistanceEmitParticles(bool play){
+	public void ToggleAllDistanceEmitParticles(bool play) {
+		for (int i = particles.Count - 1; i >= 0; i--) {
+			var item = particles [i];
+			if (item == null && item.system == null && item.system.transform == null) {
+				particles.RemoveAt(i);
+			}
+		}
+
 		if (play) {
 			foreach (var item in particles) {
-				if (item != null && item.system.emission.rateOverDistanceMultiplier > 0) {
+				//turns out not only rateover distance
+				//if (item != null && item.system != null) { //&& item.system.emission.rateOverDistanceMultiplier > 0) {
 					item.system.Play ();
-				}
+				//}
 			}
 		} else {
 			foreach (var item in particles) {
-				if (item != null && item.system.emission.rateOverDistanceMultiplier > 0) {
+				//if (item != null && item.system != null) {// && item.system.emission.rateOverDistanceMultiplier > 0) {
 					item.system.Pause ();
-				}
+				//}
 			}
 		}
 	}

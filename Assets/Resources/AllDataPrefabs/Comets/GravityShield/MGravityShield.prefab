@@ -9,63 +9,67 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1516941056774888}
+  m_RootGameObject: {fileID: 1485021821277266}
   m_IsPrefabParent: 1
---- !u!1 &1516941056774888
+--- !u!1 &1485021821277266
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4823665254039810}
-  - component: {fileID: 114101379656073294}
+  - component: {fileID: 4429079305900234}
+  - component: {fileID: 114991370844887376}
   m_Layer: 0
-  m_Name: MHealOnce
+  m_Name: MGravityShield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4823665254039810
+--- !u!4 &4429079305900234
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516941056774888}
+  m_GameObject: {fileID: 1485021821277266}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5658922, y: 1.5487146, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114101379656073294
+--- !u!114 &114991370844887376
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516941056774888}
+  m_GameObject: {fileID: 1485021821277266}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c443ed4c32fb444593932b532c578da, type: 3}
+  m_Script: {fileID: 11500000, guid: f8315d9666400cd4d904d19f38e8a58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    total: 20
-    effect:
-      place:
+    duration: 30
+    range: 25
+    force: 50
+    distanceMatters: 0
+    massMatters: 0
+    particles:
+    - place:
         pos: {x: 0, y: 0}
         dir: {x: 1, y: 0}
-      prefab: {fileID: 198932849477729090, guid: b32921fa29f386645872f562a4ca073e,
+      prefab: {fileID: 198159519111888470, guid: b23f62bccbb84ed44a1707c769ff9067,
         type: 2}
       overrideSize: -1
       overrideDelay: -1
       overrideDuration: -1
-      zOffset: 1
+      zOffset: 0.1
       afterlife: 0
-      stopEmission: 1
-      inheritVelocity: 1
+      stopEmission: 0
+      inheritVelocity: 0
       parentToSplitParts: 0
       overrideStartColor: 0
-      startColor: {r: 1, g: 1, b: 1, a: 1}
+      startColor: {r: 0, g: 0, b: 0, a: 0}

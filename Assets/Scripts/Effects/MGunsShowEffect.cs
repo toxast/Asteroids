@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class MGunsShowEffect: MEffectData, IHasDuration {
 	public MGunsShow data;
-	public float iduration{get {return data.duration;} set{data.duration = value;}}
+	public float iduration{get {return data.iduration;} set{data.iduration = value;}}
 	public override void Apply (PolygonGameObject picker) {
 		data.Apply (picker);
 	}

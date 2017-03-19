@@ -54,8 +54,8 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 2
+  difficulty: 10
   teleportData:
     duration: 1.5
     ringSize: 10
@@ -75,18 +75,33 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
-  lifeTime: 120
+  lifeTime: 1200
   color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
   powerupData:
     cost: 0
     effectData:
       effects:
       - {fileID: 114489954731306090, guid: 13f318fba582b0c48bfa189cccd336a4, type: 2}
-    verts: []
+    verts:
+    - {x: 2.1262753, y: -1.2067624}
+    - {x: 1.780275, y: -1.6877624}
+    - {x: -0.19197848, y: -0.059411574}
+    - {x: -0.9654417, y: -0.34662592}
+    - {x: -1.5234942, y: -0.15011089}
+    - {x: -1.7200092, y: 0.5515488}
+    - {x: -1.7086717, y: 1.0579528}
+    - {x: -1.3471344, y: 0.9811107}
+    - {x: -1.1506193, y: 0.32983953}
+    - {x: -0.5610741, y: 0.42053875}
+    - {x: -0.42880428, y: 0.751843}
+    - {x: -0.46155685, y: 1.084407}
+    - {x: -0.815536, y: 1.3640629}
+    - {x: -0.71349925, y: 1.6563162}
+    - {x: -0.19701731, y: 1.5215269}
+    - {x: 0.062483396, y: 0.9004891}
+    - {x: 0.114131615, y: 0.3726697}
     lifeTime: 30
     color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
-    particles: {fileID: 198790583922292200, guid: 226bd5cb1953ecd46adca2b21c81e272,
-      type: 2}
     particleSystemColor: {r: 0.96470594, g: 0.7019608, b: 0.14117648, a: 1}
   particles:
   - place:
@@ -99,6 +114,10 @@ MonoBehaviour:
     zOffset: 1
     afterlife: 1
     stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   destructionEffects:
   - place:
       pos: {x: 0, y: 0}
@@ -110,3 +129,7 @@ MonoBehaviour:
     zOffset: 1
     afterlife: 0
     stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}

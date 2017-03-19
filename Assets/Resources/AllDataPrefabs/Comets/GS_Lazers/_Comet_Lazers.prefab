@@ -54,8 +54,8 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 2
+  difficulty: 10
   teleportData:
     duration: 1.5
     ringSize: 10
@@ -82,11 +82,37 @@ MonoBehaviour:
     effectData:
       effects:
       - {fileID: 114475704861502076, guid: 3244b465b7df6ec4eb94addb4c1645bd, type: 2}
-    verts: []
+    verts:
+    - {x: 1.0646403, y: 0}
+    - {x: 0.47400814, y: -1.0032777}
+    - {x: 1.3871112, y: -2.1803896}
+    - {x: 1.1970066, y: -2.3486228}
+    - {x: 0.24240877, y: -1.1124691}
+    - {x: -0.075345874, y: -2.9170432}
+    - {x: -0.3640025, y: -2.9047027}
+    - {x: -0.00000033003448, y: -1.0646404}
+    - {x: -1.0032781, y: -0.47400826}
+    - {x: -2.1803901, y: -1.3871113}
+    - {x: -2.348623, y: -1.1970067}
+    - {x: -1.1124693, y: -0.24240893}
+    - {x: -2.9170434, y: 0.075345695}
+    - {x: -2.904703, y: 0.36400235}
+    - {x: -1.0646408, y: 0}
+    - {x: -0.47400847, y: 1.003278}
+    - {x: -1.3871113, y: 2.1803896}
+    - {x: -1.1970066, y: 2.3486228}
+    - {x: -0.24240911, y: 1.1124691}
+    - {x: 0.07534579, y: 2.9170427}
+    - {x: 0.36400244, y: 2.9047024}
+    - {x: -0.00000027080185, y: 1.0646406}
+    - {x: 1.0032777, y: 0.4740087}
+    - {x: 2.1803894, y: 1.387112}
+    - {x: 2.3486223, y: 1.1970075}
+    - {x: 1.1124691, y: 0.24240945}
+    - {x: 2.917043, y: -0.07534487}
+    - {x: 2.9047024, y: -0.3640015}
     lifeTime: 30
     color: {r: 0.06666667, g: 0.34509805, b: 0.89019614, a: 1}
-    particles: {fileID: 198790583922292200, guid: 226bd5cb1953ecd46adca2b21c81e272,
-      type: 2}
     particleSystemColor: {r: 0.06666667, g: 0.34509805, b: 0.89019614, a: 1}
   particles:
   - place:
@@ -99,6 +125,10 @@ MonoBehaviour:
     zOffset: 1
     afterlife: 1
     stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   destructionEffects:
   - place:
       pos: {x: 0, y: 0}
@@ -110,3 +140,7 @@ MonoBehaviour:
     zOffset: 1
     afterlife: 0
     stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}

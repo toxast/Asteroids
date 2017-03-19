@@ -2,16 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunsShowEffect : TickableEffect, IHasDuration {
+public class GunsShowEffect : TickableEffect, IHasDuration, IHasProgress {
 	MGunsShow data;
 	PolygonGameObject gunsShowObj;
 
 	protected override eType etype { get { return eType.GunsShow; } }
 	public override bool CanBeUpdatedWithSameEffect { get { return false; } }
-	public float iduration{get { return data.duration;} set { data.duration = value;}}
+	public float iduration{get { return data.iduration;} set { data.iduration = value;}}
 
 	public GunsShowEffect(MGunsShow data) {
 		this.data = data;
+	}
+
+	public float iprogress{ 
+		get { 
+			if (Main.IsNull (gunsShowObj)) {
+				return 1;
+			} else {
+				return Mathf.Clamp01 (1f - gunsShowObj.pLeftlifeTime / gunsShowObj.startinglifeTime);
+			}
+		}
 	}
 
 	public override void SetHolder(PolygonGameObject holder) {

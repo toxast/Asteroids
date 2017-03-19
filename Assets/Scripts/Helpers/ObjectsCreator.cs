@@ -183,8 +183,9 @@ public class ObjectsCreator
 		Comet comet = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
         comet.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
         comet.InitComet(mdata.powerupData, mdata.lifeTime);
-		comet.SetLayerNum(CollisionLayers.ilayerAsteroids);
+		comet.SetLayerNum(CollisionLayers.ilayerTeamEnemies);
 		comet.priority = PolygonGameObject.ePriorityLevel.LOW;
+		comet.priorityMultiplier = 0.01f;
 		comet.AddParticles (mdata.particles);
 		comet.SetDestroyAnimationParticles (mdata.destructionEffects);
         comet.gameObject.name = mdata.name;
@@ -338,10 +339,10 @@ public class ObjectsCreator
 	}
 
     public static PowerUp CreatePowerUpDrop(PowerupData data) {
-        float size = 1f;
-        int vcount = 7;
 		Vector2[] vertices;
 		if (data.verts.Length < 3) {
+			float size = 1f;
+			int vcount = 7;
 			vertices = PolygonCreator.CreatePerfectPolygonVertices (size, vcount);
 		} else {
 			vertices = data.verts;

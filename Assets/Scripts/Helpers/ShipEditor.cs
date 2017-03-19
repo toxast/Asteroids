@@ -38,6 +38,9 @@ public class ShipEditor : MonoBehaviour
 //	[SerializeField] int saveANDloadIndx = -1;
 //	[SerializeField] eSaveLoadType editType;
 
+	[SerializeField] bool doRotate = false;
+	[SerializeField] float rotateby = 45;
+
 	Vector2 vright = new Vector2(1,0);
 
     bool symmetricState = true;
@@ -499,6 +502,13 @@ public class ShipEditor : MonoBehaviour
         return true;
     }
 
+	private void Rotate(float angle){
+		foreach (var h in handles) 
+		{
+			h.transform.localPosition = Math2d.RotateVertexDeg (h.transform.localPosition, angle);
+		}
+	}
+
 
     private void Scale(Vector2 vscale)
 	{
@@ -538,6 +548,11 @@ public class ShipEditor : MonoBehaviour
 		{
 			doScale = false;
 			Scale(scaleBy);
+		}
+
+		if(doRotate) {
+			doRotate = false;
+			Rotate(rotateby);
 		}
 
 		if(scaleUp)

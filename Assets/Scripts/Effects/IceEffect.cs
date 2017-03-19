@@ -6,19 +6,17 @@ using UnityEngine;
 //freeze with 2 should freeze the object 2 times
 //freeze with 0.5 should unfreeze previous call with 2.
 //freeze 0 will not be called, minimum is minFreeze (0.01f)
-public class IceEffect : TickableEffect {
+public class IceEffect : DurationEffect {
     const float minFreeze = 0.01f;
     protected override eType etype { get { return eType.Ice; } }
     public override bool CanBeUpdatedWithSameEffect { get { return true; } }
 
 	float iceEffectSize;
     Data data;
-    float timeLeft;
     float currentFreezeAmount;
 
-    public IceEffect(Data data) {
+	public IceEffect(Data data) : base(data){
         this.data = data;
-        timeLeft = data.duration;
         currentFreezeAmount = data.freezeAmount;
     }
 
@@ -28,31 +26,23 @@ public class IceEffect : TickableEffect {
         UpdateFreezeAmount(currentFreezeAmount);
     }
 
-    public override void Tick(float delta) {
-        base.Tick(delta);
-        if (!IsFinished()) {
-            timeLeft -= delta;
-            if (IsFinished()) {
-                UpdateFreezeAmount(0);
-            }
-        }
-    }
-
-    public override bool IsFinished() { return timeLeft <= 0; }
+	public override void OnExpired () {
+		UpdateFreezeAmount(0);
+	}
 
     public override void UpdateBy(TickableEffect sameEffect) {
         base.UpdateBy(sameEffect);
         IceEffect effect = sameEffect as IceEffect;
         //w goes to duration, 1-w to amount
         float incomingFreeze = effect.data.duration * effect.data.freezeAmount;
-		float weightTime = (effect.data.duration / timeLeft);
-		float weightAmount = (effect.data.freezeAmount / currentFreezeAmount);
+		float weightTime = (timeLeft > 0) ? (effect.data.duration / timeLeft) : 100000f;
+		float weightAmount = (currentFreezeAmount > 0) ? (effect.data.freezeAmount / currentFreezeAmount) : 100000f;
 		weightTime *= weightTime;
 		weightAmount *= weightAmount;
 		float addToAmount = incomingFreeze * (weightAmount / (weightTime + weightAmount));
 		float addToTime = incomingFreeze - addToAmount;
-		float oldAmount = currentFreezeAmount;
-		float oldTime = timeLeft;
+		//float oldAmount = currentFreezeAmount;
+		//float oldTime = timeLeft;
 		float newTotalFreeze;
 		newTotalFreeze = currentFreezeAmount * timeLeft + addToTime;
         timeLeft = newTotalFreeze / currentFreezeAmount;
@@ -64,8 +54,8 @@ public class IceEffect : TickableEffect {
     }
 
     private void UpdateFreezeAmount(float freezeAmount) {
-		float freeze01 = Mathf.Clamp01(freezeAmount / holder.massSqrt07);
-		Debug.LogWarning (holder.name + " freeze01 " + freeze01 + " timeLeft " + timeLeft);
+		float freeze01 = Mathf.Clamp01(freezeAmount / holder.massSqrt85);
+		//Debug.LogWarning (holder.name + " freeze01 " + freeze01 + " timeLeft " + timeLeft);
         UpdateFreeze01(freeze01);
         UpdateIceEffectsCount(freeze01);
     }
@@ -111,10 +101,11 @@ public class IceEffect : TickableEffect {
     }
 
     [System.Serializable]
-	public class Data : IClonable<Data> {
+	public class Data : IClonable<Data> , IHasDuration{
         public float duration = 0;
         public float freezeAmount = 0;
 		public ParticleSystemsData effect{ get { return MParticleResources.Instance.iceParticles.data;} } 
+		public float iduration{get {return duration;} set{duration = value;}}
 
 		public bool Initialized() {
 			return duration > 0 && freezeAmount > 0;

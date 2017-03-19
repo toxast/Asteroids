@@ -48,7 +48,6 @@ public class RotatingObjectsShield : DurationEffect {
         DestroyShields();
     }
 
-
     public override void HandleHolderDestroying() {
         base.HandleHolderDestroying();
         if (data.killShieldsObjectsOnDeath) {
