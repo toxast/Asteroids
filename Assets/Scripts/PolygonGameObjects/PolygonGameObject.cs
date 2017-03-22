@@ -520,7 +520,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 
 	public virtual void Hit(float dmg)
 	{
-//        Debug.LogError ("hit " + dmg);
+//      Debug.LogError ("hit " + dmg);
 		if (increaceAlphaOnHitAndDropInvisibility) {
 		    float alpha = GetAlpha ();
 			SetAlpha(Mathf.Min(1, alpha + 0.65f));
@@ -725,7 +725,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	public void ToggleAllDistanceEmitParticles(bool play) {
 		for (int i = particles.Count - 1; i >= 0; i--) {
 			var item = particles [i];
-			if (item == null && item.system == null && item.system.transform == null) {
+			if (item == null || item.system == null || item.system.transform == null) {
 				particles.RemoveAt(i);
 			}
 		}

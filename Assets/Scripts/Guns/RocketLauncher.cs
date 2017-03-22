@@ -26,17 +26,14 @@ public class RocketLauncher : BulletGun<SpaceShip>
 
 	protected override void InitPolygonGameObject (SpaceShip bullet, PhysicalData ph) {
 		bullet.InitSpaceShip(ph, data.missleParameters); 
-
 		if (CreateExplosion ()) {
 			bullet.overrideExplosionDamage = data.overrideExplosionDamage; 
 			bullet.overrideExplosionRange = data.overrideExplosionRadius;
 			DeathAnimation.MakeDeathForThatFellaYo (bullet, true);
 		}
-
 		if(thrusters != null) {
 			bullet.SetThrusters (thrusters);
 		}
-
 		var controller = new MissileController (bullet, data.accuracy);
 		bullet.SetController (controller);
 		bullet.targetSystem = new MissileTargetSystem (bullet);

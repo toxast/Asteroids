@@ -10,8 +10,9 @@ public class MSuicideBombSpaceshipData : MSpaceshipData {
     [SerializeField]
     MSpaceshipData fillFrom;
 
-    private void OnValidate() {
-        if (fillFrom != null) {
+	protected override void OnValidate() {
+		base.OnValidate ();   
+		if (fillFrom != null) {
             System.Type type = this.GetType();
             Component copy = this;
             // Copied fields can be restricted with BindingFlags

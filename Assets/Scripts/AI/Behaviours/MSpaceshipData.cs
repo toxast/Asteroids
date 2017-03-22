@@ -21,6 +21,12 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 	public int upgradeIndex;
     [SerializeField] public DeathData deathData;
 
+	public Vector2 launchDirection;
+
+	[Space(20)]
+	[SerializeField] float explosionRangeCalculated;
+	[SerializeField] float explosionDamageCalculated;
+
     //interfaces
     public Vector2[] iverts {get {return verts;} set{verts = value;}}
 	public List<MGunSetupData> iguns {get {return guns;} set{guns = value;}}
@@ -30,9 +36,15 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 	protected override PolygonGameObject CreateInternal(int layer)
 	{
 		return ObjectsCreator.CreateSpaceship<SpaceShip>(this, layer);
-	}
+	} 
 
-	void OnValidate(){
+	protected virtual void OnValidate(){
+
+		float area;
+		Math2d.GetMassCenter (verts, out area);
+		explosionRangeCalculated = deathData.overrideExplosionRange >= 0 ? deathData.overrideExplosionRange : DeathAnimation.ExplosionRadius (area);
+		explosionDamageCalculated = DeathAnimation.ExplosionDamage (explosionRangeCalculated);
+
 		thrusters.SetDefaultValues ();
 	}
 

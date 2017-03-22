@@ -9,60 +9,64 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1956655350111000}
+  m_RootGameObject: {fileID: 1414233921822308}
   m_IsPrefabParent: 1
---- !u!1 &1956655350111000
+--- !u!1 &1414233921822308
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4984619861852606}
-  - component: {fileID: 114701114572746712}
+  - component: {fileID: 4031162268806062}
+  - component: {fileID: 114664566910631732}
   m_Layer: 0
-  m_Name: MParticlesDots
+  m_Name: LWave_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4984619861852606
+--- !u!4 &4031162268806062
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1956655350111000}
+  m_GameObject: {fileID: 1414233921822308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65.44581, y: -12.25738, z: -0.100000024}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114701114572746712
+--- !u!114 &114664566910631732
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1956655350111000}
+  m_GameObject: {fileID: 1414233921822308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19770a85ae78ae5469cf595f92f07751, type: 3}
+  m_Script: {fileID: 11500000, guid: 98890128bdb4f2b4893c920210a82103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-    prefab: {fileID: 198790583922292200, guid: 226bd5cb1953ecd46adca2b21c81e272, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 0.1
-    afterlife: 1
-    stopEmission: 1
-    inheritVelocity: 0
-    parentToSplitParts: 0
-    overrideStartColor: 0
-    startColor: {r: 1, g: 1, b: 1, a: 1}
+  waveData:
+    diffucultyAtOnce: 200
+    diffucultyTotal: 200
+    startNextWaveWhenDifficultyLeft: 0
+    differentSpawnsCountRange:
+      min: 1
+      max: 3
+    objects:
+    - spawn: {fileID: 11442294, guid: fa285c50427b55344b625e6f53f53720, type: 2}
+      weight: 4
+      range:
+        min: 60
+        max: 70
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 360
+  createDefWaveEditor: 0

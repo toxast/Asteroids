@@ -9,58 +9,50 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1956655350111000}
+  m_RootGameObject: {fileID: 1908703360595952}
   m_IsPrefabParent: 1
---- !u!1 &1956655350111000
+--- !u!1 &1908703360595952
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4984619861852606}
-  - component: {fileID: 114701114572746712}
+  - component: {fileID: 4292783225170616}
+  - component: {fileID: 114579945728572404}
   m_Layer: 0
-  m_Name: MIceParticles
+  m_Name: Level_Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4984619861852606
+--- !u!4 &4292783225170616
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1956655350111000}
+  m_GameObject: {fileID: 1908703360595952}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65.44581, y: -12.25738, z: -0.100000024}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114701114572746712
+--- !u!114 &114579945728572404
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1956655350111000}
+  m_GameObject: {fileID: 1908703360595952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19770a85ae78ae5469cf595f92f07751, type: 3}
+  m_Script: {fileID: 11500000, guid: a588f2a546b6bca4492c79c23395b9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-    prefab: {fileID: 198168226012235746, guid: 3af76bc46403b1f4ca3f7bf8eb19fdb8, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: -0.1
-    afterlife: 1
-    stopEmission: 1
-    inheritVelocity: 0
-    parentToSplitParts: 1
+    waves:
+    - {fileID: 114664566910631732, guid: fc6ad850bad4a824b9e425997cea9140, type: 2}
+    - {fileID: 114664566910631732, guid: 8616a1118e79b494e948141dd27ae0a3, type: 2}
+    - {fileID: 114664566910631732, guid: f03bbee8996d2e64bbbadab2cb40d3e3, type: 2}

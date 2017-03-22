@@ -51,9 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b2a1773cacffd349ac20852a9a077ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iceParticles: {fileID: 114701114572746712, guid: 5ec0e3a49379372498a6228f0d8ff0cb,
+  iceParticles: {fileID: 114357952062215020, guid: 3af76bc46403b1f4ca3f7bf8eb19fdb8,
     type: 2}
-  burnParticles: {fileID: 114188426880991738, guid: af549b851fa9192489f302d21015b3c1,
+  burnParticles: {fileID: 114933847197244354, guid: 30f37b9af5892bb4387108403b759dec,
     type: 2}
-  powerUpDropParticles: {fileID: 114701114572746712, guid: ca53ddd40f3c3a848b0815c8571ae148,
+  powerUpDropParticles: {fileID: 114181843113015062, guid: 226bd5cb1953ecd46adca2b21c81e272,
+    type: 2}
+  healOnceParticles: {fileID: 114319621311812664, guid: b32921fa29f386645872f562a4ca073e,
+    type: 2}
+  healingParticles: {fileID: 114498572488554808, guid: e338133772e77a64a9d44c5ce1f1352a,
     type: 2}

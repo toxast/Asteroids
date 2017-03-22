@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 public class MMinesGunData : MGunData, IGotShape
 {
+	[Space(20)]
+	[SerializeField] float explosionRangeCalculated;
+	[SerializeField] float explosionDamageCalculated;
+
 	[Header ("MinesGun")]
 	public float overrideExplosionDamage = -1;
 	public float overrideExplosionRadius = -1;
@@ -25,64 +29,23 @@ public class MMinesGunData : MGunData, IGotShape
 	{
 		return new MinesGun(place, this, t);
 	}
-}
 
-public class MinesGun : BulletGun<Mine>
-{
-	new MMinesGunData data;
-
-	float _range;
-	public override float Range	{
-		get { 
-			return _range;
-		}
-	}
-
-	float aimVelocity;
-	public override float BulletSpeedForAim{ get { return aimVelocity; } }
-
-
-	public MinesGun(Place place, MMinesGunData data, PolygonGameObject parent)
-		:base(place, data, parent)
-	{ 
-		this.data = data;
-
-		var velocity = GetVelocityMagnitude ();
-		aimVelocity = velocity * 0.8f;
-		float t =  0.8f * velocity / data.deceleration.Middle ;
-		_range = t * velocity - 0.5f * t * t * data.deceleration.Middle; 
-	}
-
-	protected override void InitPolygonGameObject (Mine bullet, PhysicalData ph) {
-		base.InitPolygonGameObject (bullet, ph);
-
-		bullet.overrideExplosionDamage = data.overrideExplosionDamage; 
-		bullet.overrideExplosionRange = data.overrideExplosionRadius;
-		DeathAnimation.MakeDeathForThatFellaYo (bullet, true);
-
-		bullet.targetSystem = new TargetSystem (bullet);
-	}
-
-	protected override void SetCollisionLayer (Mine bullet)
+	protected override float HitDamage ()
 	{
-		bullet.SetLayerNum(CollisionLayers.GetSpawnedLayer (parent.layerLogic));
-		bullet.InitMine (data);
-		bullet.priorityMultiplier = 0.1f;
-	}
-
-	protected override void AddToMainLoop (Mine b)
-	{
-		Singleton<Main>.inst.Add2Objects (b);
-	}
-
-	protected override bool DestroyOnBoundsTeleport {
-		get {
-			return false;
+		float explosionDamage = 0;
+		if (vertices.Length > 2) {
+			float area;
+			Math2d.GetMassCenter (vertices, out area);
+			explosionRangeCalculated = overrideExplosionRadius >= 0 ? overrideExplosionRadius : DeathAnimation.ExplosionRadius (area);
+			explosionDamageCalculated = DeathAnimation.ExplosionDamage (explosionRangeCalculated);
 		}
+		if (overrideExplosionDamage > 0) {
+			explosionDamage += overrideExplosionDamage;
+		} else {
+			explosionDamage += explosionDamageCalculated;
+		}
+
+		return base.HitDamage () + explosionDamage;
 	}
 
-	protected override PolygonGameObject.DestructionType SetDestructionType () {
-		return PolygonGameObject.DestructionType.eComplete;
-	}
 }
-

@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MGunBaseData : MonoBehaviour, IGun
+public class MGunBaseData : MonoBehaviour
 {
-	public string storeName;
-	public int price;
-	public GunSetupData.eGuns etype;
+	[SerializeField] protected float dps;
 
-	public string iname{ get {return storeName;}}
-	public int iprice{ get {return price;}}
-	public virtual GunSetupData.eGuns itype{ get {return etype;}}
+	protected virtual void OnValidate(){
+		dps = CalculateDps();
+	}
+
+	protected virtual float CalculateDps() {return 0;}
 
 	public virtual Gun GetGun(Place setupData, PolygonGameObject t)
 	{

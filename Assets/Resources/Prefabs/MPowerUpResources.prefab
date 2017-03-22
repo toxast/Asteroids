@@ -9,58 +9,48 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1281922701362796}
+  m_RootGameObject: {fileID: 1237106917477616}
   m_IsPrefabParent: 1
---- !u!1 &1281922701362796
+--- !u!1 &1237106917477616
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4546827898146064}
-  - component: {fileID: 114188426880991738}
+  - component: {fileID: 4964079444990736}
+  - component: {fileID: 114604745176556116}
   m_Layer: 0
-  m_Name: MBurnParticles
+  m_Name: MPowerUpResources
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4546827898146064
+--- !u!4 &4964079444990736
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1281922701362796}
+  m_GameObject: {fileID: 1237106917477616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65.44581, y: -12.25738, z: -0.100000024}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114188426880991738
+--- !u!114 &114604745176556116
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1281922701362796}
+  m_GameObject: {fileID: 1237106917477616}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19770a85ae78ae5469cf595f92f07751, type: 3}
+  m_Script: {fileID: 11500000, guid: 40706eb5cd0f6ad409b9a7a9defd6a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-    prefab: {fileID: 198732008161831254, guid: 30f37b9af5892bb4387108403b759dec, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: -0.1
-    afterlife: 1
-    stopEmission: 1
-    inheritVelocity: 0
-    parentToSplitParts: 1
+  powerups:
+  - comets:
+    - {fileID: 114935688868597546, guid: 551e3d8a1598ea34ca056c3b14716913, type: 2}

@@ -8,6 +8,12 @@ public class MGravityGunData : MGunData {
     public float range = 20;
 	public ParticleSystemsData gravityEffect;
 
+	protected override float CalculateDps ()
+	{
+		return hitDamage;
+	}
+
+
     public override Gun GetGun(Place place, PolygonGameObject t)
     {
         return new GravityGun(place, this, t);

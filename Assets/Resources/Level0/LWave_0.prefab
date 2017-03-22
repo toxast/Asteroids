@@ -52,43 +52,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 30
-    diffucultyTotal: 60
-    startNextWaveWhenDifficultyLeft: 0
+    diffucultyAtOnce: 17
+    diffucultyTotal: 17
+    startNextWaveWhenDifficultyLeft: 10
     differentSpawnsCountRange:
-      min: 1
-      max: 3
+      min: 3
+      max: 4
     objects:
-    - spawn: {fileID: 114018212185065258, guid: 09781f803db67aa4484ae2001ca98716,
-        type: 2}
-      weight: 4
+    - spawn: {fileID: 11429188, guid: 608185eb9f5281d489276a76819a6780, type: 2}
       range:
         min: 40
         max: 50
-      positioning:
-        positionAngle: 0
-        positionAngleRange: 360
-        lookAngle: 0
-        lookAngleRange: 360
-    - spawn: {fileID: 11492862, guid: b60157c54dc5a6542a34b8c4a7fad6c6, type: 2}
       weight: 4
+    - spawn: {fileID: 11429188, guid: 87edaecd5b7dcca48932c54dda1521ff, type: 2}
       range:
         min: 40
         max: 50
-      positioning:
-        positionAngle: 0
-        positionAngleRange: 360
-        lookAngle: 0
-        lookAngleRange: 360
-    - spawn: {fileID: 114529371202508250, guid: ba381844ac705544aa88a826333cc3bf,
-        type: 2}
       weight: 4
+    - spawn: {fileID: 11429188, guid: 115d5ca572346a646b8cf432d62374bd, type: 2}
       range:
         min: 40
         max: 50
-      positioning:
-        positionAngle: 0
-        positionAngleRange: 360
-        lookAngle: 0
-        lookAngleRange: 360
+      weight: 4
   createDefWaveEditor: 0

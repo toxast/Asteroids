@@ -54,8 +54,12 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 2
+  difficulty: 10
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
   price: -1
   reward: 60
   color: {r: 0.44852942, g: 0.31319726, b: 0.16819853, a: 1}
@@ -87,7 +91,7 @@ MonoBehaviour:
     hitRechargeDelay: 0
     rechargeDelayAfterDestory: 1
   guns: []
-  linkedGuns: 
+  linkedGuns: []
   thrusters:
   - place:
       pos: {x: -0.55117786, y: 0.000000020427592}
@@ -97,6 +101,12 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
   - {x: 0.7788221, y: -0.54999995}
@@ -118,6 +128,9 @@ MonoBehaviour:
     destructionType: 0
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
+  launchDirection: {x: 0, y: 0}
+  explosionRangeCalculated: 6.512766
+  explosionDamageCalculated: 6.76048
   chargeEffect:
     duration: -1
     overrideDefence: 1
@@ -127,4 +140,6 @@ MonoBehaviour:
     multiplyMaxSpeed: 2
     multiplyTurnSpeed: 1
     multiplyStability: 1
+  shootWhenCharge: 0
+  aimOffset: 0
   fillFrom: {fileID: 0}

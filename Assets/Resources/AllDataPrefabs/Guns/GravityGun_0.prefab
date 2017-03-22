@@ -75,33 +75,9 @@ MonoBehaviour:
     duration: 0
     dps: 0
     maxBuildUpDuration: 0
-    effect:
-      place:
-        pos: {x: 0, y: 0}
-        dir: {x: 1, y: 0}
-      prefab: {fileID: 0}
-      overrideSize: -1
-      overrideDelay: -1
-      overrideDuration: -1
-      zOffset: 1
-      afterlife: 0
-      stopEmission: 1
-      inheritVelocity: 1
   iceData:
     duration: 0
     freezeAmount: 0
-    effect:
-      place:
-        pos: {x: 0, y: 0}
-        dir: {x: 1, y: 0}
-      prefab: {fileID: 0}
-      overrideSize: -1
-      overrideDelay: -1
-      overrideDuration: -1
-      zOffset: 1
-      afterlife: 0
-      stopEmission: 1
-      inheritVelocity: 1
   fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   effects: []
   destructionEffects: []
@@ -110,7 +86,7 @@ MonoBehaviour:
   - {x: 0.4, y: -0.2}
   - {x: -0.4, y: -0.2}
   - {x: -0.4, y: 0.2}
-  force: -1000
+  force: -500
   range: 20
   gravityEffect:
     place:
@@ -124,3 +100,6 @@ MonoBehaviour:
     afterlife: 1
     stopEmission: 1
     inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}

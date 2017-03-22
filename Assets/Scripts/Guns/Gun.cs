@@ -98,7 +98,7 @@ public abstract class GunShooterBase : Gun
 			}
 		}
 		if (shootInterval <= 0) {
-			shootInterval = 0.1f;
+			shootInterval = 0.001f;
 			Debug.LogError ("wrong shoot interval, infinite loop warning");
 		}
 

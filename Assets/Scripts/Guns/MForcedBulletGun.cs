@@ -19,6 +19,11 @@ public class MForcedBulletGun : MGunData {
 		effectsForcedBullet.SetDefaultValues ();
 	}
 
+	protected override float CalculateDps ()
+	{
+		return base.CalculateDps () + damagePerSecond ;
+	}
+
     public override Gun GetGun(Place place, PolygonGameObject t) {
         return new ForcedBulletGun(place, this, t);
     }

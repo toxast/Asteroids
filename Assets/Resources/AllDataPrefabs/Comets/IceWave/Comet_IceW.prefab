@@ -78,10 +78,7 @@ MonoBehaviour:
   lifeTime: 120
   color: {r: 0.06541956, g: 0.5145136, b: 0.8897059, a: 1}
   powerupData:
-    cost: 0
-    effectData:
-      effects:
-      - {fileID: 114864734706309220, guid: 2b587fbe726e2704dac0bc6094ba575c, type: 2}
+    lifeTime: 30
     verts:
     - {x: 0.88558465, y: 0}
     - {x: 0.78669137, y: -0.19733985}
@@ -161,8 +158,11 @@ MonoBehaviour:
     - {x: 1.9798282, y: 0.4322273}
     - {x: 1.3390932, y: 0.6116393}
     - {x: 0.7699428, y: 0.22837847}
-    lifeTime: 30
     color: {r: 0.06666667, g: 0.5137255, b: 0.89019614, a: 1}
+    effectData:
+      effects:
+      - {fileID: 114864734706309220, guid: 2b587fbe726e2704dac0bc6094ba575c, type: 2}
+      - {fileID: 114146737906528258, guid: 5abcce0077805d041b14043aa116315c, type: 2}
     particleSystemColor: {r: 0.06666667, g: 0.5137255, b: 0.89019614, a: 1}
   particles:
   - place:

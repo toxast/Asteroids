@@ -19,8 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4919876872425718}
-  - component: {fileID: 198168226012235746}
+  - component: {fileID: 114357952062215020}
   - component: {fileID: 199783124420420644}
+  - component: {fileID: 198168226012235746}
   m_Layer: 0
   m_Name: IceEfect
   m_TagString: Untagged
@@ -41,6 +42,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114357952062215020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1794801502530674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19770a85ae78ae5469cf595f92f07751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198168226012235746}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -0.1
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 0
+    parentToSplitParts: 1
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!198 &198168226012235746
 ParticleSystem:
   m_ObjectHideFlags: 1

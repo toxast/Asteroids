@@ -44,7 +44,7 @@ public class GravityBullet : PolygonGameObject {
 
 			var bulletsAroundData = ExplosionData.CollectData (position, range, bullets, affectLayer);
 			new ForceExplosion (bulletsAroundData, position, checkEvery * force);
-			new DamageExplosion (bulletsAroundData, position, checkEvery * damagePerSecond * 0.5f);
+			new DamageExplosion (bulletsAroundData, position, checkEvery * damagePerSecond * 0.2f);
 		}
     }
 }

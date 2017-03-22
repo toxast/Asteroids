@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4031162268806062}
-  - component: {fileID: 114664566910631732}
+  - component: {fileID: 114772783378911896}
   m_Layer: 0
   m_Name: LWave_2
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114664566910631732
+--- !u!114 &114772783378911896
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,25 +48,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414233921822308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98890128bdb4f2b4893c920210a82103, type: 3}
+  m_Script: {fileID: 11500000, guid: ba4f98fa5957bdc47ab96e2ddafe12fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 200
-    diffucultyTotal: 200
     startNextWaveWhenDifficultyLeft: 0
-    differentSpawnsCountRange:
-      min: 1
-      max: 3
     objects:
-    - spawn: {fileID: 11442294, guid: fa285c50427b55344b625e6f53f53720, type: 2}
-      weight: 4
+    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
+        type: 2}
       range:
-        min: 60
-        max: 70
+        min: 40
+        max: 50
       positioning:
-        positionAngle: 0
+        positionAngle: 30
         positionAngleRange: 0
         lookAngle: 0
-        lookAngleRange: 360
+        lookAngleRange: 0
+    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
+        type: 2}
+      range:
+        min: 40
+        max: 50
+      positioning:
+        positionAngle: 150
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 0
+    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
+        type: 2}
+      range:
+        min: 40
+        max: 50
+      positioning:
+        positionAngle: 270
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 0
   createDefWaveEditor: 0

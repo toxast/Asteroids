@@ -5,7 +5,7 @@ using System.Linq;
 
 public class SpawnerGun : GunShooterBase 
 {
-	public MSpawnDataBase spawnRef; //TODO: not only spaceship
+	public MSpawnDataBase spawnRef; 
 	public int maxSpawn;
 
 	private int startSpawnLeft;

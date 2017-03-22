@@ -41,8 +41,9 @@ public class MEarthSpaceshipData : MSpaceshipData
 
 	[Header("editor field")]
 	[SerializeField] MSpaceshipData fillFrom;
-	private void OnValidate() 
+	protected override void OnValidate() 
 	{
+		base.OnValidate ();
 		asteroidAttackByForceAnimations.SetDefaultValues ();
 		asteroidGrabByForceAnimations.SetDefaultValues ();
 

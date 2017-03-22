@@ -43,8 +43,12 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 2
+  difficulty: 10
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
   price: 10
   reward: 0
   color: {r: 0, g: 0.30065933, b: 0.8897059, a: 1}
@@ -55,12 +59,12 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   mobility:
-    thrust: 20
+    thrust: 15
     maxSpeed: 20
     turnSpeed: 150
     brake: 15
     passiveBrake: 2
-    stability: 0.5
+    stability: 0
     shootAngle: 1
   accuracy:
     startingAccuracy: 0
@@ -73,22 +77,29 @@ MonoBehaviour:
   shield:
     capacity: 0
     rechargeRate: 0
-    rechargeDelay: 0
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 0
   guns:
   - place:
       pos: {x: 1.7318765, y: -0.000000010210249}
       dir: {x: 1, y: 0}
-    gun: {fileID: 11438672, guid: 50ca31a6d6f44194a99fad3ca70f8497, type: 2}
-  linkedGuns: 
+    gun: {fileID: 11438672, guid: f5afa70ff12d5ac4db2ac1c1ce10ab1d, type: 2}
+  linkedGuns: []
   thrusters:
   - place:
       pos: {x: -1.0981234, y: -0.000000010210249}
       dir: {x: 1, y: 0}
-    prefab: {fileID: 19843890, guid: e98a39de22332db468df9c0345fd18ec, type: 2}
+    prefab: {fileID: 19843890, guid: fb904cf495a1eda4f912701e8852007b, type: 2}
     overrideSize: -1
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
   - {x: 2.1474977, y: -0.27019304}
@@ -108,6 +119,9 @@ MonoBehaviour:
     destructionType: 0
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
+  launchDirection: {x: 0, y: 0}
+  explosionRangeCalculated: 8.09898
+  explosionDamageCalculated: 7.7895017
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

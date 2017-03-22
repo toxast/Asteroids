@@ -14,7 +14,8 @@ public class MChargerSpaseshipData : MSpaceshipData {
     [SerializeField]
     MSpaceshipData fillFrom;
 
-    private void OnValidate() {
+	protected override void OnValidate() {
+		base.OnValidate ();
         if (fillFrom != null) {
             System.Type type = fillFrom.GetType();
             Component copy = this;

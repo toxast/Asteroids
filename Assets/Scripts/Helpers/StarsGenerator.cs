@@ -47,7 +47,8 @@ public class StarsGenerator : MonoBehaviour
 	public void Clear()
 	{
 		foreach (var s in stars) {
-			Destroy(s);
+			Destroy(s.gameObject);
 		}
+		stars = null;
 	}
 }

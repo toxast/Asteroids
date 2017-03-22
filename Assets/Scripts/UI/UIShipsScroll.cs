@@ -12,28 +12,21 @@ public class UIShipsScroll : MonoBehaviour
 	BuyShipElem selected = null;
 	List<BuyShipElem> list = new List<BuyShipElem>();
 
-	public void Show(List<MSpaceshipData> elemsData, Action<int, int, MSpaceshipData> onClick)
-	{
+	public void Show(List<MSpaceshipData> elemsData, Action<int, MSpaceshipData> onClick) {
 		Clear ();
-
-		for (int i = 0; i < elemsData.Count; i++) 
-		{
+		for (int i = 0; i < elemsData.Count; i++) {
 			int index = i;
 			var data = elemsData [index];
-//			if(data.price <= 0)
-//				continue;
-
 			var shipElem = Instantiate(prefab) as BuyShipElem;
 			shipElem.transform.SetParent(elementsHolder, false);
 			shipElem.Init(data.name, data.price); 
 			int indxInList = list.Count;
-			shipElem.AddListener(() => onClick(indxInList, index, data));
+			shipElem.AddListener(() => onClick(indxInList, data));
 			list.Add(shipElem);
 		}
 	}
 
-	public void Clear()
-	{
+	public void Clear() {
 		selected = null;
 		list.ForEach (item => Destroy (item.gameObject));
 		list.Clear ();

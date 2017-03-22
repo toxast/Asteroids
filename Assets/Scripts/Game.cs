@@ -20,8 +20,8 @@ public class Game : MonoBehaviour
 
 		hangar.startTheGame += HandleStartTheGame;
 
-		main.gameOver += HandleGameOver;
-		main.levelCleared += HandlelevelCleared;
+		main.OnGameOver += HandleGameOver;
+		main.OnLevelCleared += HandlelevelCleared;
 	}
 
 	void HandlelevelCleared ()
@@ -54,16 +54,10 @@ public class Game : MonoBehaviour
 		hangarObjects.ForEach (h => h.SetActive (false));
 		gameObjects.ForEach (h => h.SetActive (true));
 
-		main.StartTheGame (data, int.Parse(levelInput.text), int.Parse(waveInput.text));
+		main.StartTheGame (data, MPowerUpResources.Instance.powerups[0].comets, int.Parse(levelInput.text), int.Parse(waveInput.text));
 	}
 }
 
 /*
- * анимация появления врагов
- * дроп со всех
- * апгрейд кораблей
- * болле детальные параметры для всех врагов 
- * радиус появления врагов
- * появления в главном меню после сметри
  * сохранение игры
  */

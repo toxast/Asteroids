@@ -7,12 +7,12 @@ public class DamageExplosion {
 	{
 		foreach(var data in objectsAroundData) {
 			var obj = data.obj;
-			float dmg; 
-			dmg = maxDamage;
+			float dmg = maxDamage;
 			if (distanceMatters) {
 				dmg *= data.distance01;
 			}
 			if (dmg > 0) {
+				//Debug.LogError (obj.name + " hit explosion " + dmg);
 				obj.Hit (dmg);
 			}
 		}

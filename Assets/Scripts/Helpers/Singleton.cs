@@ -21,7 +21,7 @@ public class Singleton<T> where T: MonoBehaviour
 		if ( objects != null && objects.Length > 1 )
 			Debug.LogError("Present more than one singleton instance of type " + type.Name + " on scene!");
 		
-		var instance = objects != null && objects.Length > 0 ? objects[0] as T : null;
+		var instance = (objects != null && objects.Length > 0) ? objects[0] as T : null;
 		if ( instance == null) {
 			Debug.Log("Create singleton for type: " + type.Name);
 			

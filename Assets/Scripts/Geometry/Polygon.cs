@@ -105,7 +105,7 @@ public class Polygon
 			var vrtx = A + AX * rnd3;
 			#if UNITY_EDITOR
 			if (!IsPointInside (vrtx)) {
-				Debug.LogError("no an inside point");
+				Debug.LogError("not an inside point");
 			}
 			#endif
 			return vrtx;

@@ -19,8 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4498382310745776}
-  - component: {fileID: 198187809016010928}
+  - component: {fileID: 114498572488554808}
   - component: {fileID: 199133988388563350}
+  - component: {fileID: 198187809016010928}
   m_Layer: 0
   m_Name: HealingEffect
   m_TagString: Untagged
@@ -41,6 +42,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114498572488554808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1419368430776708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19770a85ae78ae5469cf595f92f07751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198187809016010928}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -0.2
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!198 &198187809016010928
 ParticleSystem:
   m_ObjectHideFlags: 1

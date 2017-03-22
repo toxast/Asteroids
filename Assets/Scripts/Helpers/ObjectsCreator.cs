@@ -202,7 +202,7 @@ public class ObjectsCreator
         Gasteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Gasteroid>(vertices, Singleton<GlobalConfig>.inst.GasteroidColor);
         asteroid.InitAsteroid (initData.physical, initData.speed, initData.rotation);
         asteroid.destructionType = PolygonGameObject.DestructionType.eComplete;
-        DeathAnimation.MakeDeathForThatFellaYo (asteroid, true, 1.3f);
+		DeathAnimation.MakeDeathForThatFellaYo (asteroid, true);//, 1.3f);
         asteroid.SetLayerNum (CollisionLayers.ilayerAsteroids);
         asteroid.gameObject.name = initData.name;
 

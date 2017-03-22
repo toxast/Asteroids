@@ -47,14 +47,14 @@ public class Main : MonoBehaviour
 	Transform cameraTransform;
 	[SerializeField] Camera minimapCamera;
 	[SerializeField] MCometData cometData;
-	[SerializeField] MGunsShow gunsShow1;
-	[SerializeField] GravityShieldEffect.Data gravityShieldPowerUpData;
-	[SerializeField] PhysicalChangesEffect.Data testPhysicalPowerup;
-	[SerializeField] SpawnBackupEffect.Data testBackupData;
-	[SerializeField] ExtraGunsEffect.Data extraGunTestData;
-	[SerializeField] RotatingObjectsShield.Data objsShieldTestData;
-	[SerializeField] HealingEffect.Data healTestData;
-	[SerializeField] HealOnce.Data healOnceTestData;
+//	[SerializeField] MGunsShow gunsShow1;
+//	[SerializeField] GravityShieldEffect.Data gravityShieldPowerUpData;
+//	[SerializeField] PhysicalChangesEffect.Data testPhysicalPowerup;
+//	[SerializeField] SpawnBackupEffect.Data testBackupData;
+//	[SerializeField] ExtraGunsEffect.Data extraGunTestData;
+//	[SerializeField] RotatingObjectsShield.Data objsShieldTestData;
+//	[SerializeField] HealingEffect.Data healTestData;
+//	[SerializeField] HealOnce.Data healOnceTestData;
 
 	Coroutine repositionCoroutine;
 	Coroutine wrapStarsCoroutine;
@@ -75,7 +75,7 @@ public class Main : MonoBehaviour
 
 
 	ILevelSpawner spawner;
-	public void StartTheGame(MSpaceshipData spaceshipData, int level = 0, int waveNum = 0)
+	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, int level = 0, int waveNum = 0)
 	{
 		#if UNITY_STANDALONE
 		if (cursorTexture != null)
@@ -83,6 +83,8 @@ public class Main : MonoBehaviour
 			Cursor.SetCursor (cursorTexture, new Vector2(cursorTexture.width/2f, cursorTexture.height/2f), CursorMode.Auto);
 		}
 		#endif
+
+		var pinst = MParticleResources.Instance;
 
 		gameIsOn = true;
 
@@ -101,17 +103,17 @@ public class Main : MonoBehaviour
 
 		repositionCoroutine = StartCoroutine(RepositionAll());
 		wrapStarsCoroutine = StartCoroutine(WrapStars());
-		spawnCometsCoroutine = StartCoroutine (SpawnComets());
+		spawnCometsCoroutine = StartCoroutine (SpawnComets(avaliableComets));
 
 //		powerUpsCreator = new PowerUpsCreator(5f, 10f);
 //		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
 	}
 
-	public event Action gameOver;
-	public event Action levelCleared;
+	public event Action OnGameOver;
+	public event Action OnLevelCleared;
 	private void HandleUserDestroyed()
 	{
-//		gameOver ();
+		OnGameOver ();
 	}
 
 	public void Clear()
@@ -177,6 +179,8 @@ public class Main : MonoBehaviour
 		goDestructors.Clear ();
 		id2drops.Clear ();
 
+		starsGenerator.Clear ();
+
 		gameIsOn = false;
 	}
 
@@ -205,21 +209,46 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	IEnumerator SpawnComets()
-	{
+	IEnumerator SpawnComets(List<MCometData> avaliableComets) {
+		if (avaliableComets.Count == 0) {
+			yield break;
+		}
+
+		float spawnTime = 90f;
+		float percentLowerTime = 10f;
+		for (int i = 0; i < 20; i++) {
+		//	Debug.LogError(i + " " + spawnTime);
+		//	Debug.LogError(i + " percentLowerTime " + percentLowerTime);
+			spawnTime = spawnTime * (1f - percentLowerTime / 100f);
+			percentLowerTime = percentLowerTime * (1f - percentLowerTime / 50f);
+		}
+
 		while (true) {
+			float nextDelta = spawnTime;
+			if (Math2d.Chance (0.25f)) {
+				if (Math2d.Chance (0.5f)) {
+					nextDelta = nextDelta * 0.6f;
+				} else {
+					nextDelta = nextDelta * 1.3f;
+				}
+			} 
+			nextDelta = UnityEngine.Random.Range (1f - 0.25f, 1f + 0.25f) * nextDelta;
+
+			Debug.LogError (nextDelta + " Todo: spawn on edge of area");
+
+			yield return new WaitForSeconds (nextDelta);
 			if (!IsNull (userSpaceship)) {
+				var cometData = avaliableComets [UnityEngine.Random.Range (0, avaliableComets.Count)];
 				var comet = cometData.Create ();
 				var angle = UnityEngine.Random.Range (0, 360);
 				comet.position = userSpaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
 				Add2Objects (comet);
 			}
-			yield return new WaitForSeconds (50f);
 		}
 	}
 
 	IEnumerator WrapStars() {
-		yield return new WaitForSeconds (1f);
+		yield return new WaitForSeconds (0.1f);
 		while (true) {
 			var stars = starsGenerator.stars;
 			for (int i = 0; i < stars.Length; i++) {
@@ -364,6 +393,7 @@ public class Main : MonoBehaviour
 			spawner.Tick();
             if (spawner.Done()) {
                 spawner = null;
+				OnLevelCleared ();
             }
         }
 
@@ -607,7 +637,7 @@ public class Main : MonoBehaviour
 				}
 			}
 			float radius = gobject.deathAnimation.GetFinalExplosionRadius();
-			float damage = gobject.overrideExplosionDamage >= 0 ? gobject.overrideExplosionDamage : 2f * Mathf.Pow(radius, 0.65f);
+			float damage = gobject.overrideExplosionDamage >= 0 ? gobject.overrideExplosionDamage : DeathAnimation.ExplosionDamage(radius);
 			//Debug.LogWarning("explosion " + gobject.gameObj.name + " " + radius + " " + damage);
 			int collision = gobject.collisions;
 			collision |= (int)CollisionLayers.eLayer.ASTEROIDS;
@@ -635,8 +665,14 @@ public class Main : MonoBehaviour
         int indxa, indxb;
         if (PolygonCollision.IsCollides(a, b, out indxa, out indxb)) {
             var impulse = PolygonCollision.ApplyCollision(a, b, indxa, indxb);
-            a.Hit(GetCollisionDamage(impulse, a, b));
-            b.Hit(GetCollisionDamage(impulse, b, a));
+			var dmgAB = GetCollisionDamage (impulse, a, b);
+			if (dmgAB != 0) {
+				a.Hit (dmgAB);
+			}
+			var dmgBA = GetCollisionDamage(impulse, b, a);
+			if(dmgBA != 0){
+				b.Hit(dmgBA);
+			}
         }
     }
 
@@ -856,10 +892,11 @@ public class Main : MonoBehaviour
 		gobjects.Add (p);
 	}
 
-	static public float GetCollisionDamage(float impulse, PolygonGameObject a,  PolygonGameObject from)
-	{
+	static public float GetCollisionDamage(float impulse, PolygonGameObject a,  PolygonGameObject from) {
 		var dmg = (Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier) / 100f;
-		return (1f - a.collisionDefence) * (from.collisionAttackModifier * dmg);
+		dmg = (1f - a.collisionDefence) * (from.collisionAttackModifier * dmg);
+		//Debug.LogError ("collision dmg " + dmg);
+		return dmg;
 	}
 
 	private void TickObjects<T>(List<T> list, float dtime)
@@ -1200,7 +1237,7 @@ public class Main : MonoBehaviour
 
 
 	/*
-	* bug in freezed ships with duration and stuff when freezed
+	 * pause 
 	 * FUTURE UPDATES
 	 * 
 	* sky texture?

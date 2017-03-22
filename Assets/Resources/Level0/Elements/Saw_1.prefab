@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1397046965028498}
+  m_IsPrefabParent: 1
+--- !u!1 &1397046965028498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4566230865438258}
+  - component: {fileID: 114018212185065258}
+  m_Layer: 0
+  m_Name: Saw_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4566230865438258
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397046965028498}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114018212185065258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397046965028498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66c90fb949572fb4b8058b4f155a2eef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 0
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 10
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  prepareTime: 3
+  chargeRotation: 360
+  chargeSpeed:
+    min: 15
+    max: 15
+  chargeDuration:
+    min: 2.5
+    max: 3.5
+  slowingDuration: 3
+  chanceForceStopWhenMissed: 0
+  chanceContinueChargeUntilMiss: 0
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 1
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  vertices:
+  - {x: 1.7902123, y: -0.000000061063886}
+  - {x: 2.2410183, y: -1.3021663}
+  - {x: 2.2519994, y: -2.7671545}
+  - {x: 0.89510596, y: -1.5503691}
+  - {x: -0.007199585, y: -2.5918627}
+  - {x: -1.2704264, y: -3.333867}
+  - {x: -0.895106, y: -1.5503691}
+  - {x: -2.248219, y: -1.2896957}
+  - {x: -3.5224264, y: -0.5667121}
+  - {x: -1.790212, y: -0.000000061063886}
+  - {x: -2.2410183, y: 1.3021666}
+  - {x: -2.2519996, y: 2.7671552}
+  - {x: -0.89510566, y: 1.5503691}
+  - {x: 0.0072000395, y: 2.5918627}
+  - {x: 1.2704266, y: 3.333867}
+  - {x: 0.8951059, y: 1.5503691}
+  - {x: 2.248218, y: 1.2896966}
+  - {x: 3.522426, y: 0.5667121}
+  color: {r: 0.6691177, g: 0.4673984, b: 0.4673984, a: 1}
+  reward: 20
+  physical:
+    density: 0.6
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  speed:
+    min: 4
+    max: 10
+  rotation:
+    min: 10
+    max: 20
+  size:
+    min: 0
+    max: 0
+  spikeSize:
+    min: 0
+    max: 0
+  spikesCount:
+    min: 0
+    max: 0
+  gunsShowChargeEffect: {fileID: 0}

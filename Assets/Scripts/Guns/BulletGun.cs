@@ -25,7 +25,7 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 		T bullet = PolygonCreator.CreatePolygonGOByMassCenter<T>(GetVerts(), data.color);
 		bullet.gameObject.name = data.name;
 
-		Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform);
+		Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform, false, -0.01f);
 
 		var ph = ApplyHeavvyBulletModifier (data.physical);
 		InitPolygonGameObject (bullet, ph);

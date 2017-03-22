@@ -51,9 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18491777c216a4f40b9edf6cf23f17b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storeName: 
-  price: 0
-  etype: 1
+  dps: 13.609023
   hitDamage: 0.3
   lifeTime: 10
   velocity: 35
@@ -72,35 +70,12 @@ MonoBehaviour:
     max: 0
   color: {r: 1, g: 0, b: 0, a: 0}
   burnDOT:
-    duration: 2
-    dps: 6
+    duration: 4
+    dps: 3
     maxBuildUpDuration: 8
-    effect:
-      place:
-        pos: {x: 0, y: 0}
-        dir: {x: 1, y: 0}
-      prefab: {fileID: 198732008161831254, guid: 30f37b9af5892bb4387108403b759dec,
-        type: 2}
-      overrideSize: -1
-      overrideDelay: -1
-      overrideDuration: -1
-      zOffset: -0.1
-      afterlife: 0
-      stopEmission: 1
   iceData:
     duration: 0
     freezeAmount: 0
-    effect:
-      place:
-        pos: {x: 0, y: 0}
-        dir: {x: 1, y: 0}
-      prefab: {fileID: 0}
-      overrideSize: -1
-      overrideDelay: -1
-      overrideDuration: -1
-      zOffset: 1
-      afterlife: 0
-      stopEmission: 1
   fireEffect: {fileID: 0}
   effects:
   - place:
@@ -110,9 +85,13 @@ MonoBehaviour:
     overrideSize: -1
     overrideDelay: -1
     overrideDuration: -1
-    zOffset: -1
+    zOffset: 0.1
     afterlife: 0
     stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   destructionEffects: []
   vertices:
   - {x: -1, y: 0}

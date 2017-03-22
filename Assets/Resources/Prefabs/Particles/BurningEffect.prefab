@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4887931707299094}
   - component: {fileID: 198732008161831254}
   - component: {fileID: 199509568564266916}
+  - component: {fileID: 114933847197244354}
   m_Layer: 0
   m_Name: BurningEffect
   m_TagString: Untagged
@@ -41,6 +42,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114933847197244354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1700224633046130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19770a85ae78ae5469cf595f92f07751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198732008161831254}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -0.1
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 0
+    parentToSplitParts: 1
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!198 &198732008161831254
 ParticleSystem:
   m_ObjectHideFlags: 1

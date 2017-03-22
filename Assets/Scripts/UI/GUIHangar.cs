@@ -19,20 +19,19 @@ public class GUIHangar : MonoBehaviour
 	}
 
 	void Start () {
-		shipsScroll.Show (MSpaceShipResources.Instance.userSpaceships, Create);
+		shipsScroll.Show (MSpaceShipResources.Instance.userSpaceships, onClick: Create);
 	}
 
 	void StartGame() {
-		if(currentShipData != null)
-		{
+		if(currentShipData != null) {
 			startTheGame(currentShipData);
 			uiShip.Clear();
 		}
 	}
 
-	private void Create(int shipIndx, int dataIndx, MSpaceshipData data) {
+	private void Create(int shipIndx, MSpaceshipData data) {
 		shipsScroll.Select (shipIndx);
 		currentShipData = data;
-		uiShip.Create (dataIndx, data, (indx) => {});
+		uiShip.Create (data);
 	}
 }

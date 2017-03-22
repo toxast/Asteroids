@@ -55,9 +55,9 @@ public class FlamerGun : BulletGun<FlamerBullet>
 		return PolygonGameObject.DestructionType.eDisappear;
 	}
 
-	protected override void AddShipSpeed2TheBullet(FlamerBullet bullet){
-		bullet.velocity += parent.velocity;
-	}
+//	protected override void AddShipSpeed2TheBullet(FlamerBullet bullet){
+//		bullet.velocity += parent.velocity;
+//	}
 
 	protected override float GetVelocityMagnitude () {
 		return base.GetVelocityMagnitude() + UnityEngine.Random.Range(-fdata.velocityRandomRange, fdata.velocityRandomRange);

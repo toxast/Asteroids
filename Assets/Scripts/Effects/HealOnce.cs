@@ -36,7 +36,7 @@ public class HealOnce : TickableEffect{
 	[System.Serializable]
 	public class Data : IApplyable{
 		public float total = 20;
-		public ParticleSystemsData effect;
+		public ParticleSystemsData effect{ get { return MParticleResources.Instance.healOnceParticles.data;} } 
 
 		public void Apply(PolygonGameObject picker) {
 			picker.AddEffect (new HealOnce (this));

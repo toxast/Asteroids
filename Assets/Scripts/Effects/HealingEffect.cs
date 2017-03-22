@@ -64,7 +64,7 @@ public class HealingEffect : DurationEffect {
 		public float duration = 4;
 		public float iduration{get {return duration;} set{duration = value;}}
 		public float total = 20;
-		public ParticleSystemsData effect;
+		public ParticleSystemsData effect{ get { return MParticleResources.Instance.healingParticles.data;} } 
 
 		public void Apply(PolygonGameObject picker) {
 			picker.AddEffect (new HealingEffect (this));
