@@ -11,7 +11,7 @@ namespace polygonGO
         private void AddMoneyIfNotYet() {
             if (!moneyAdded) {
                 moneyAdded = true;
-                GameResources.AddMoney(value);
+                Singleton<Main>.inst.AddMoneyOnDropNotInterated(value);
             }
         }
 

@@ -31,6 +31,11 @@ public class LevelSpawner : ILevelSpawner
 		currentWave = data.waves [0].GetWave();
 	}
 
+    public void ForceWaveNum(int pwave) {
+        waveNum = pwave;
+        currentWave = data.waves[pwave].GetWave();
+    }
+
 	public List<MSpawnBase> GetElements (){
 		var allelements = new HashSet<MSpawnBase> ();
 		foreach (var item in data.waves) {

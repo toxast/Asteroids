@@ -20,8 +20,9 @@ public class MFireShip1Data : MSpaceshipData
 
 	[Header("editor field")]
 	[SerializeField] MSpaceshipData fillFrom;
-	private void OnValidate() {
-		if (fillFrom != null) {
+    protected override void OnValidate() {
+        base.OnValidate();
+        if (fillFrom != null) {
 			System.Type type = fillFrom.GetType();
 			Component copy = this;
 			System.Reflection.FieldInfo[] fields = type.GetFields(); 

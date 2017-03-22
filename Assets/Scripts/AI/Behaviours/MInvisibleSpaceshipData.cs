@@ -9,8 +9,9 @@ public class MInvisibleSpaceshipData : MSpaceshipData
 	[Header("editor field")]
 	[SerializeField] MSpaceshipData fillFrom;
 
-	private void OnValidate() {
-		if (fillFrom != null) {
+    protected override void OnValidate() {
+        base.OnValidate();
+        if (fillFrom != null) {
 //			this.accuracy = fillFrom.accuracy;
 //			this.color = fillFrom.color;
 //			this.verts = fillFrom.verts;

@@ -64,10 +64,12 @@ public class FixedWave : IWaveSpawner{
 
 	private IEnumerator Spawn(List<SpawnPos> selectedSpawns){
 		SpawnStrategy strategy = (SpawnStrategy)UnityEngine.Random.Range ((int)SpawnStrategy.MIN + 1, (int)SpawnStrategy.MAX);
+        float totalAngleOffset = UnityEngine.Random.Range(0, 360);
 		for (int i = 0; i < selectedSpawns.Count; i++) {
-			int index = UnityEngine.Random.Range (0, selectedSpawns.Count);
-			var item = selectedSpawns [index];
-			item.spawn.Spawn (main.GetPositionData(item.range, item.positioning) , OnObjectSpawned);
+			var item = selectedSpawns [i];
+            var positionData = main.GetPositionData(item.range, item.positioning);
+            positionData.rangeAngle += totalAngleOffset;
+            item.spawn.Spawn (positionData, OnObjectSpawned);
 			if (strategy == SpawnStrategy.QUICK_DELAYS) {
 				yield return new WaitForSeconds (UnityEngine.Random.Range (0.2f, 0.6f));
 			} else if (strategy == SpawnStrategy.LONG_DELAYS) {

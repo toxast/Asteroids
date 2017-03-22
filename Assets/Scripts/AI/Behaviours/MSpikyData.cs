@@ -10,7 +10,6 @@ public class MSpikyData : MSpawnDataBase
 	public float overrideSpikeCollisionAttack = -1;
 	public float chanceShootSpikeAtDeath = 0.5f;
 	public Color color = new Color (0.5f, 0.5f, 0.5f);
-	public int reward = 0;
 	public PhysicalData physical;
 	public RandomFloat speed;
 	public RandomFloat rotation;

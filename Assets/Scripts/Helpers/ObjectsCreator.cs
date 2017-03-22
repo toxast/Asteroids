@@ -97,7 +97,6 @@ public class ObjectsCreator
 		where T:SpaceShip
 	{
 		T spaceship = PolygonCreator.CreatePolygonGOByMassCenter<T> (sdata.verts, sdata.color);
-		spaceship.reward = sdata.reward;
 		spaceship.InitSpaceShip(sdata.physical, sdata.mobility);
 		spaceship.SetThrusters (sdata.thrusters);
 
@@ -209,21 +208,8 @@ public class ObjectsCreator
         return asteroid;
     }
 
-
-
 	public static SawEnemy CreateSawEnemy(MSawData data, int layer)	{
-		Vector2[] vertices;
-		if (data.vertices.Length > 2) {
-			vertices = data.vertices;
-		} else {
-			float rInner = data.size.RandomValue;
-			float spikeLength = data.spikeSize.RandomValue;
-			float rOuter = rInner + spikeLength;
-			int spikesCount = data.spikesCount.RandomValue;
-			int[] spikes;
-			vertices = PolygonCreator.CreateSpikyPolygonVertices (rOuter, rInner, spikesCount, out spikes);
-		}
-		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(vertices, data.color);
+		SawEnemy asteroid = PolygonCreator.CreatePolygonGOByMassCenter<SawEnemy>(data.vertices, data.color);
 		asteroid.InitSawEnemy (data);
 		asteroid.SetLayerNum (layer);
 		asteroid.targetSystem = new TargetSystem (asteroid);
@@ -284,7 +270,6 @@ public class ObjectsCreator
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
 		turret.InitSimpleTower (data.physical, data.rotationSpeed, data.accuracy, data.shootAngle);
-		turret.reward = data.reward;
 		turret.SetLayerNum (layer);
 		var guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) {

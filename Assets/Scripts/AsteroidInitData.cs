@@ -66,20 +66,6 @@ public class AsteroidSetupData
 	public RandomFloat size;
 }
 
-/*[System.Serializable]
-public class SpikyInitData
-{
-	public string name;
-	public Color color = new Color (0.5f, 0.5f, 0.5f);
-	public int reward = 0;
-	public PhysicalData physical;
-	public RandomFloat speed;
-	public RandomFloat rotation;
-	public RandomFloat size;
-	public RandomFloat spikeSize;
-	public RandomInt spikesCount;
-}*/
-
 [System.Serializable]
 public class AccuracyData: IClonable<AccuracyData>
 {

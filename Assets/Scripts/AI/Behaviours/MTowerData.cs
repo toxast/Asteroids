@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class MTowerData : MSpawnDataBase, IGotShape, IGotGuns, IGotTurrets
 {
-	public int reward;
 	public PhysicalData physical;
 	public Color color = Color.white;
 	public float shootAngle = 20;

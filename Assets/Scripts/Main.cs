@@ -25,9 +25,10 @@ public class Main : MonoBehaviour
 //	List<PowerUp> powerUps = new List<PowerUp> ();
 
 	private float DestroyAfterSplitTreshold = 5f;
-	private float addMoneyKff = 1.2f;
+	private float addMoneyKff = 1f;
+    private float addMoneyNotInteractedKff = 0.7f;
 
-	[SerializeField] float borderWidth = 40f;
+    [SerializeField] float borderWidth = 40f;
 	Rect screenBounds;
 	Rect flyZoneBounds;
 
@@ -99,7 +100,11 @@ public class Main : MonoBehaviour
 			spawner = new EmptyTestSceneSpawner ();
 		} else {
 			spawner = MLevelsResources.Instance.levels [level].GetLevel();
-		}
+            //testing purposes
+            if (waveNum != 0) {
+                (spawner as LevelSpawner).ForceWaveNum(waveNum);
+            }
+        }
 
 		repositionCoroutine = StartCoroutine(RepositionAll());
 		wrapStarsCoroutine = StartCoroutine(WrapStars());
@@ -480,7 +485,11 @@ public class Main : MonoBehaviour
         GameResources.AddMoney((int)(value * addMoneyKff));
     }
 
-	/*
+    public void AddMoneyOnDropNotInterated(int value) {
+        GameResources.AddMoney(Mathf.CeilToInt(value * addMoneyNotInteractedKff));
+    }
+
+    /*
 	public void ApplyPowerUP(PowerUpEffect effect) {
 		ApplyPowerUP (effect, userSpaceship);
 	}
@@ -536,7 +545,7 @@ public class Main : MonoBehaviour
     }
     */
 
-	private void CreateRageWave() {
+    private void CreateRageWave() {
 		var level = (spawner as LevelSpawner);
 		if (level != null) {
 			var elems = level.GetElements ();

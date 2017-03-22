@@ -20,7 +20,14 @@ public class MFixedWave: MWaveBase {
 
 	[Space (30)]
 	[SerializeField] bool createDefWaveEditor = false;
-	void OnValidate(){
+    [SerializeField] float totalDifficulty;
+
+    void OnValidate(){
+        totalDifficulty = 0;
+        for (int i = 0; i < waveData.objects.Count; i++) {
+            totalDifficulty += waveData.objects[i].difficulty;
+        }
+
 		if (createDefWaveEditor) {
 			createDefWaveEditor = false;
 			waveData = new FixedWave.Data ();

@@ -16,7 +16,8 @@ public class RandomWave : IWaveSpawner{
 		public float diffucultyAtOnce = 50f;
 		public float diffucultyTotal = 100f;
 		public float startNextWaveWhenDifficultyLeft = 0f;
-		public RandomInt differentSpawnsCountRange = new RandomInt{max = 3, min = 1}; 
+        public bool chooseNewObjectsEachTime = true;
+        public RandomInt differentSpawnsCountRange = new RandomInt{max = 3, min = 1}; 
 		public List<WeightedSpawn> objects;
 	}
 
@@ -49,10 +50,12 @@ public class RandomWave : IWaveSpawner{
 		bool prepareNextSpawnGroup = true;
 		float preparedDifficulty = 0;
 		List<int> selectedSpawnsCount = new List<int>();
-		List<WeightedSpawn> selectedSpawns = new List<WeightedSpawn> ();
-		while (true) {
+		List<WeightedSpawn> selectedSpawns = SelectSpawns(data.objects, data.diffucultyAtOnce, data.differentSpawnsCountRange);
+        while (true) {
 			if (prepareNextSpawnGroup) {
-				selectedSpawns = SelectSpawns(data.objects, data.diffucultyAtOnce, data.differentSpawnsCountRange);
+                if (data.chooseNewObjectsEachTime) {
+                    selectedSpawns = SelectSpawns(data.objects, data.diffucultyAtOnce, data.differentSpawnsCountRange);
+                }
 				prepareNextSpawnGroup = false;
 				selectedSpawnsCount.Clear ();
 

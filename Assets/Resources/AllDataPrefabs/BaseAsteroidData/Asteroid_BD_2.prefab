@@ -45,10 +45,10 @@ MonoBehaviour:
   physical:
     density: 1.5
     health: -1
-    healthModifier: 1.5
-    collisionDefence: 0
-    collisionAttackModifier: 1
-  value: 70
+    healthModifier: 2
+    collisionDefence: 0.2
+    collisionAttackModifier: 1.1
+  value: 25
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

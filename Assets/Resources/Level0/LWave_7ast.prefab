@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4031162268806062}
-  - component: {fileID: 114772783378911896}
+  - component: {fileID: 114664566910631732}
   m_Layer: 0
-  m_Name: LWave_2
+  m_Name: LWave_7ast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114772783378911896
+--- !u!114 &114664566910631732
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,30 +48,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414233921822308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba4f98fa5957bdc47ab96e2ddafe12fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 98890128bdb4f2b4893c920210a82103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    startNextWaveWhenDifficultyLeft: 0
+    diffucultyAtOnce: 20
+    diffucultyTotal: 20
+    startNextWaveWhenDifficultyLeft: 14
+    chooseNewObjectsEachTime: 1
+    differentSpawnsCountRange:
+      min: 2
+      max: 4
     objects:
-    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
-        type: 2}
+    - spawn: {fileID: 11429188, guid: 608185eb9f5281d489276a76819a6780, type: 2}
       range:
         min: 40
         max: 50
-      positioning:
-        positionAngle: 30
-        positionAngleRange: 0
-        lookAngle: 0
-        lookAngleRange: 0
-    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
-        type: 2}
+      weight: 3
+    - spawn: {fileID: 11429188, guid: 87edaecd5b7dcca48932c54dda1521ff, type: 2}
       range:
         min: 40
         max: 50
-      positioning:
-        positionAngle: 150
-        positionAngleRange: 0
-        lookAngle: 0
-        lookAngleRange: 0
+      weight: 3
+    - spawn: {fileID: 11429188, guid: 115d5ca572346a646b8cf432d62374bd, type: 2}
+      range:
+        min: 40
+        max: 50
+      weight: 3
+    - spawn: {fileID: 11429188, guid: 50bc0fa87704058478edbd3a90b88241, type: 2}
+      range:
+        min: 40
+        max: 50
+      weight: 3
   createDefWaveEditor: 0

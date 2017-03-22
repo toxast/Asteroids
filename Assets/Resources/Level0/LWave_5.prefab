@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4031162268806062}
   - component: {fileID: 114772783378911896}
   m_Layer: 0
-  m_Name: LWave_2
+  m_Name: LWave_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,26 +52,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    startNextWaveWhenDifficultyLeft: 0
+    startNextWaveWhenDifficultyLeft: 5
     objects:
-    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
-        type: 2}
+    - spawn: {fileID: 11429188, guid: 50bc0fa87704058478edbd3a90b88241, type: 2}
       range:
         min: 40
         max: 50
       positioning:
-        positionAngle: 30
-        positionAngleRange: 0
-        lookAngle: 0
-        lookAngleRange: 0
-    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
-        type: 2}
-      range:
-        min: 40
-        max: 50
-      positioning:
-        positionAngle: 150
+        positionAngle: 0
         positionAngleRange: 0
         lookAngle: 0
         lookAngleRange: 0
   createDefWaveEditor: 0
+  totalDifficulty: 5

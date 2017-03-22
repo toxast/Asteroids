@@ -13,7 +13,8 @@ public abstract class MSpawnDataBase : MSpawnBase {
 	[Header("game fields")]
 	public int gameSpawnLayer = CollisionLayers.ilayerTeamEnemies;
 	public float difficulty = 10f;
-	public override float sdifficulty { get { return difficulty; }	}
+    public int reward = 0;
+    public override float sdifficulty { get { return difficulty; }	}
 	public TeleportData teleportData;
 
 	public PolygonGameObject Create(){
@@ -24,7 +25,8 @@ public abstract class MSpawnDataBase : MSpawnBase {
 		var obj = CreateInternal (layer);
 		if (obj != null) {
 			obj.name = name;
-		}
+            obj.reward = reward;
+        }
 		return obj;
 	}
 
@@ -49,7 +51,7 @@ public abstract class MSpawnDataBase : MSpawnBase {
 	private void EditorSpawn() {
 		var obj = Create (editorSpawnLayer);
 		if (obj == null) {
-			Debug.LogWarning ("Cretae obj is null " + name);
+            Debug.LogWarning ("Cretae obj is null " + name);
 			return;
 		}
 

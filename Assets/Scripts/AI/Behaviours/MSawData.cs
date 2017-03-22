@@ -19,17 +19,20 @@ public class MSawData : MSpawnDataBase, IGotShape
 	public Vector2[] iverts {get {return vertices;} set{vertices = value;}}
 
 	public Color color = new Color (0.5f, 0.5f, 0.5f);
-	public int reward = 0;
 	public PhysicalData physical;
 	public RandomFloat speed;
 	public RandomFloat rotation;
-	public RandomFloat size;
-	public RandomFloat spikeSize;
-	public RandomInt spikesCount;
 
 	public MGunsShow gunsShowChargeEffect;
 
-	protected override PolygonGameObject CreateInternal(int layer)
+
+    private void OnValidate() {
+        if (vertices.Length < 3) {
+            Debug.LogError("no verts on saw: " + name);
+        }
+    }
+
+    protected override PolygonGameObject CreateInternal(int layer)
 	{
 		return ObjectsCreator.CreateSawEnemy(this, layer);
 	}

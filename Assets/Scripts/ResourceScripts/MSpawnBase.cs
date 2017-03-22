@@ -9,6 +9,7 @@ using UnityEngine;
 
 	public static IEnumerator SpawnRoutine(MSpawnDataBase elem, PositionData data, Place place, Action<SpawnedObj> callback)
 	{
+        //Debug.LogError(data.rangeAngle);
 		var main = Singleton<Main>.inst;
 		Vector2 elemOrigin = data.origin + Math2d.RotateVertexDeg (new Vector2 (data.range, 0), data.rangeAngle);
 		float elemRotationAngle = data.rangeAngle + (180 + data.angleLookAtOrigin);

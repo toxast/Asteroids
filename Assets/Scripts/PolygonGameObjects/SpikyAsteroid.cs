@@ -34,7 +34,6 @@ public class SpikyAsteroid : Asteroid, IFreezble
 
 	public void InitSpikyAsteroid (int[] spikes, MSpikyData data)	{
 		this.data = data;
-		reward = data.reward;
 		InitAsteroid (data.physical, data.speed, data.rotation);
 		this.spikeSpeed = data.spikeVelocity;
 		this.growSpeed = data.growSpeed;

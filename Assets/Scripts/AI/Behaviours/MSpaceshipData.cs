@@ -7,7 +7,6 @@ using System.Linq;
 public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
 {
 	public int price = -1;
-	public int reward = 0;
 	public Color color = Color.white;
 	public PhysicalData physical;
 	public SpaceshipData mobility;
