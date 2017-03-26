@@ -51,9 +51,9 @@ public class FlamerGun : BulletGun<FlamerBullet>
 		b.InitFlamingBullet(fdata, b.velocity.magnitude);
 	}
 
-	protected override PolygonGameObject.DestructionType SetDestructionType () {
-		return PolygonGameObject.DestructionType.eDisappear;
-	}
+//	protected override PolygonGameObject.DestructionType SetDestructionType () {
+//		return PolygonGameObject.DestructionType.eDisappear;
+//	}
 
 //	protected override void AddShipSpeed2TheBullet(FlamerBullet bullet){
 //		bullet.velocity += parent.velocity;

@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1581563268517186}
+  m_IsPrefabParent: 1
+--- !u!1 &1581563268517186
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4765144737268108}
+  - component: {fileID: 114935688868597546}
+  m_Layer: 0
+  m_Name: _Comet_Lazers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4765144737268108
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1581563268517186}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114935688868597546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1581563268517186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7cf8d9f2afcc24296250b95276de48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 10
+  reward: 0
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  rotation:
+    min: 20
+    max: 40
+  size:
+    min: 1.8
+    max: 1.8
+  physical:
+    density: 3
+    health: 2
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  color: {r: 0.06541956, g: 0.34397158, b: 0.8897059, a: 1}
+  powerupData:
+    lifeTime: 30
+    verts:
+    - {x: 1.0646403, y: 0}
+    - {x: 0.47400814, y: -1.0032777}
+    - {x: 1.3871112, y: -2.1803896}
+    - {x: 1.1970066, y: -2.3486228}
+    - {x: 0.24240877, y: -1.1124691}
+    - {x: -0.075345874, y: -2.9170432}
+    - {x: -0.3640025, y: -2.9047027}
+    - {x: -0.00000033003448, y: -1.0646404}
+    - {x: -1.0032781, y: -0.47400826}
+    - {x: -2.1803901, y: -1.3871113}
+    - {x: -2.348623, y: -1.1970067}
+    - {x: -1.1124693, y: -0.24240893}
+    - {x: -2.9170434, y: 0.075345695}
+    - {x: -2.904703, y: 0.36400235}
+    - {x: -1.0646408, y: 0}
+    - {x: -0.47400847, y: 1.003278}
+    - {x: -1.3871113, y: 2.1803896}
+    - {x: -1.1970066, y: 2.3486228}
+    - {x: -0.24240911, y: 1.1124691}
+    - {x: 0.07534579, y: 2.9170427}
+    - {x: 0.36400244, y: 2.9047024}
+    - {x: -0.00000027080185, y: 1.0646406}
+    - {x: 1.0032777, y: 0.4740087}
+    - {x: 2.1803894, y: 1.387112}
+    - {x: 2.3486223, y: 1.1970075}
+    - {x: 1.1124691, y: 0.24240945}
+    - {x: 2.917043, y: -0.07534487}
+    - {x: 2.9047024, y: -0.3640015}
+    effectData:
+      color: {r: 0.06541956, g: 0.34397158, b: 0.8897059, a: 1}
+      overrideEffectsDuration: -1
+      effects:
+      - {fileID: 114475704861502076, guid: 3244b465b7df6ec4eb94addb4c1645bd, type: 2}
+    particleSystemColor: {r: 0.06666667, g: 0.34509805, b: 0.89019614, a: 1}
+  particles:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198328997085036626, guid: 72c85ce4b5d5ceb4eb95a4c3ba6cbee4, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  destructionEffects:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198898463116308176, guid: df4fbbf5af84235478a8fc7da9e00fd4, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}

@@ -225,7 +225,8 @@ public class DeathAnimation
         //spData.turnSpeed = Random.Range(10, 30);
         spData.maxSpeed = speed;
 		spData.brake = 0.8f * speed / duration;
-        firepart.InitSpaceShip(new PhysicalData(), spData);
+		firepart.InitPolygonGameObject (new PhysicalData ());
+        firepart.InitSpaceShip(spData);
         var VelocityDir = Math2d.RotateVertex(new Vector2(1, 0), Random.Range(0f, 6f));
 		firepart.velocity = speed * VelocityDir + obj.velocity * objSpeedMultipier;
         firepart.cacheTransform.right = firepart.velocity.normalized;
@@ -236,9 +237,9 @@ public class DeathAnimation
 
 [System.Serializable]
 public class DeathData {
-    public bool createExplosionOnDeath = true;
+	public PolygonGameObject.DestructionType destructionType = PolygonGameObject.DestructionType.eNormal;
+	public bool createExplosionOnDeath = false;
     public bool instantExplosion = false;
-    public PolygonGameObject.DestructionType destructionType = PolygonGameObject.DestructionType.eNormal;
     public float overrideExplosionRange = -1;
     public float overrideExplosionDamage = -1;
 }

@@ -41,6 +41,11 @@ public class ShipEditor : MonoBehaviour
 	[SerializeField] bool doRotate = false;
 	[SerializeField] float rotateby = 45;
 
+	[Header("perfect shape")]
+	[SerializeField] bool createPerfectShape = false;
+	[SerializeField] float perfectShapeRadius = 1;
+	[SerializeField] int perfectShapeSides = 6;
+
 	Vector2 vright = new Vector2(1,0);
 
     bool symmetricState = true;
@@ -567,6 +572,20 @@ public class ShipEditor : MonoBehaviour
 			Scale(new Vector2(0.92f, 0.92f));
 		}
 
+		if (createPerfectShape) {
+			createPerfectShape = false;
+			foreach(GameObject go in handles) {
+				DestroyImmediate(go);    
+			}
+			handles.Clear ();
+			symmetric = false;
+			symmetricState = false;
+			Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(perfectShapeRadius, perfectShapeSides);
+			foreach(var vert in vertices) {
+				CreatePosition(vert,  vright, "handle ", handles);
+			}
+		}
+
         if(symmetric != symmetricState)
         {
             symmetricState = symmetric;
@@ -662,13 +681,48 @@ public class ShipEditor : MonoBehaviour
 
 	[ContextMenu ("CustomAction")]
 	public void MyCustomAction() {
-		var list = LoadPrefabsContaining<ParticleSystem> ();
-		foreach (var item in list) {
-			//item.hitDamage = item.damage;
-			//item.overrideExplosionDamage = item.overrideExplosionDamage;
-//			item.thrusters.ForEach (p => p.prefab = p.thrusterPrefab);
+//
+		var list3 = LoadPrefabsContaining<MCometData> ();
+		foreach (var item in list3) {
+			item.powerupData.effectData.color = item.color;
 			EditorUtility.SetDirty (item.gameObject);
 		}
+//
+//		var list4 = LoadPrefabsContaining<MFlamerGunData> ();
+//		foreach (var item in list4) {
+//			item.deathData.destructionType = PolygonGameObject.DestructionType.eDisappear;
+//			item.deathData.createExplosionOnDeath = false;
+//			EditorUtility.SetDirty (item.gameObject);
+//		}
+//
+//		var list5 = LoadPrefabsContaining<MFlamerGunData> ();
+//		foreach (var item in list5) {
+//			item.deathData.destructionType = PolygonGameObject.DestructionType.eDisappear;
+//			item.deathData.createExplosionOnDeath = false;
+//			EditorUtility.SetDirty (item.gameObject);
+//		}
+//
+//		var list = LoadPrefabsContaining<MRocketGunData> ();
+//		foreach (var item in list) {
+//			item.deathData.destructionType = PolygonGameObject.DestructionType.eDisappear;
+//			item.deathData.createExplosionOnDeath = true;
+//			item.deathData.instantExplosion = true;
+//			item.deathData.overrideExplosionDamage = item.overrideExplosionDamage;
+//			item.deathData.overrideExplosionRange= item.overrideExplosionRadius;
+//			EditorUtility.SetDirty (item.gameObject);
+//		}
+//
+//		var list2 = LoadPrefabsContaining<MMinesGunData> ();
+//		foreach (var item in list2) {
+//			item.deathData.destructionType = PolygonGameObject.DestructionType.eComplete;
+//			item.deathData.createExplosionOnDeath = true;
+//			item.deathData.instantExplosion = true;
+//			item.deathData.overrideExplosionDamage = item.overrideExplosionDamage;
+//			item.deathData.overrideExplosionRange= item.overrideExplosionRadius;
+//			EditorUtility.SetDirty (item.gameObject);
+//		}
+//
+
 		AssetDatabase.SaveAssets();
 	}
 }

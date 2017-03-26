@@ -40,10 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storeName: (14) bat 2 gun 2
-  price: 0
-  etype: 1
-  damage: 3
+  dps: 6
   hitDamage: 3
   lifeTime: 2
   velocity: 35
@@ -56,8 +53,24 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 2
+  deathData:
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    destructionType: 3
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   spreadAngle: 0
+  rotation:
+    min: 0
+    max: 0
   color: {r: 0.50927705, g: 0.17030708, b: 0.9264706, a: 1}
+  burnDOT:
+    duration: 0
+    dps: 0
+    maxBuildUpDuration: 0
+  iceData:
+    duration: 0
+    freezeAmount: 0
   fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
   effects: []
   destructionEffects: []
@@ -72,6 +85,8 @@ MonoBehaviour:
   - {x: 0.15129593, y: 0.37}
   - {x: 0.5012959, y: 0.39}
   - {x: 0.6312959, y: 0.120000005}
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -253,7 +253,7 @@ public static class AIHelper
 		public MyTimer(float duration, Action act) {
 			//this.duration = duration;
 			this.act = act;
-			timeLeft = duration;
+			Reset(duration);
 		}
 
 		public bool IsFinished(){
@@ -267,6 +267,10 @@ public static class AIHelper
 					if(act != null) act ();
 				}
 			}
+		}
+
+		public void Reset(float duration){
+			timeLeft = duration;
 		}
 	}
 

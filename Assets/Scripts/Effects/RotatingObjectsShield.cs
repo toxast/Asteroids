@@ -74,6 +74,7 @@ public class RotatingObjectsShield : DurationEffect {
 		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(holder.cacheTransform.position.z + 1f);
 		holder.AddObjectAsFollower(shieldObj);
 		shieldObj.priorityMultiplier = 0.5f;
+		shieldObj.showOffScreen = false;
 		if (data.keepObjectsRotation) {
 			shieldObj.AddEffect (new KeepRotationEffect(data.keepRotationData));
 		}
@@ -150,8 +151,10 @@ public class RotatingObjectsShield : DurationEffect {
 		public bool keepObjectsRotation = false;
 		public KeepRotationEffect.Data keepRotationData;
 	
-		public void Apply(PolygonGameObject picker) {
-			picker.AddEffect (new RotatingObjectsShield (this));
+		public IHasProgress Apply(PolygonGameObject picker) {
+			var effect = new RotatingObjectsShield (this);
+			picker.AddEffect (effect);
+			return effect;
 		}
 	}
 }

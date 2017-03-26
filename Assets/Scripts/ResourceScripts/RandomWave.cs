@@ -15,9 +15,17 @@ public class RandomWave : IWaveSpawner{
 	public class Data{
 		public float diffucultyAtOnce = 50f;
 		public float diffucultyTotal = 100f;
+		public RandomInt differentSpawnsCountRange = new RandomInt{max = 3, min = 1}; 
+		public bool chooseNewObjectsEachTime = true;
+		public float overrideSpawnTime = -1f;
 		public float startNextWaveWhenDifficultyLeft = 0f;
-        public bool chooseNewObjectsEachTime = true;
-        public RandomInt differentSpawnsCountRange = new RandomInt{max = 3, min = 1}; 
+		public RandomWave.eSpawnCountStrategy countStrategy =  RandomWave.eSpawnCountStrategy.PICK_RANDOM;
+		public RandomWave.eSpawnStrategy spawnStrategy =  RandomWave.eSpawnStrategy.PICK_RANDOM;
+		[Header ("DestroyAreaDelay")]
+		public bool useDestroyAreaDelay = false;
+		public float destroyAreaTimeThreshold = 20f;
+		public float destroyAreaPersentage = 0.3f;
+		[Header("objects")]
 		public List<WeightedSpawn> objects;
 	}
 
@@ -26,7 +34,9 @@ public class RandomWave : IWaveSpawner{
 	float totalDifficulyLeft;
 	IEnumerator spawnRoutine;
 	float spawningDifficulty = 0;
+	float totalAreaSpawned = 0;
 	List<MSpawnBase.SpawnedObj> spawned = new List<MSpawnBase.SpawnedObj>();
+	DestroyAreaWave destroyAreaWave;
 
 	public RandomWave(Data data) {
 		this.data = data;
@@ -42,7 +52,13 @@ public class RandomWave : IWaveSpawner{
 	}
 
 	public bool Done() {
-		return (CurrentDifficulty() <= data.startNextWaveWhenDifficultyLeft && totalDifficulyLeft <= 0);
+		bool condition = false;
+		if (data.useDestroyAreaDelay) {
+			condition = destroyAreaWave != null && destroyAreaWave.Done ();
+		} else {
+			condition = CurrentDifficulty () <= data.startNextWaveWhenDifficultyLeft;
+		}
+		return (condition && totalDifficulyLeft <= 0);
 	}
 
 	private IEnumerator CheckSpawnNextRoutine() {
@@ -73,7 +89,7 @@ public class RandomWave : IWaveSpawner{
 					} else {
 						preparedDifficulty = Rnd.Range (minDifficulty, Mathf.Min (data.diffucultyAtOnce, totalDifficulyLeft));
 					}
-					Debug.LogWarning ("preparedDifficulty: " + preparedDifficulty);
+					//Debug.LogWarning ("preparedDifficulty: " + preparedDifficulty);
 					selectedSpawnsCount = GetCountForSpawns (selectedSpawns, preparedDifficulty);//todo min values should be more frequent
 
 					/////////////////
@@ -81,10 +97,10 @@ public class RandomWave : IWaveSpawner{
 					for (int i = 0; i < selectedSpawns.Count; i++) {
 						difficultyPicked += selectedSpawnsCount[i] * selectedSpawns [i].difficulty;
 					}
-					Debug.LogWarning ("difficultyPicked: " + difficultyPicked);
+					//Debug.LogWarning ("difficultyPicked: " + difficultyPicked);
 					////////////////
 				} else {
-					Debug.LogWarning ("totalDifficulyLeft: " + totalDifficulyLeft + " => 0");
+					//Debug.LogWarning ("totalDifficulyLeft: " + totalDifficulyLeft + " => 0");
 					totalDifficulyLeft = 0;
 				}
 			}
@@ -99,6 +115,22 @@ public class RandomWave : IWaveSpawner{
 				break;
 			}
 			yield return null;
+		}
+
+		if (data.useDestroyAreaDelay) {
+			while (totalDifficulyLeft > 0 || spawningDifficulty > 0) {
+				yield return null;
+			}
+
+			var desData = new DestroyAreaWave.Data {
+				area = totalAreaSpawned * data.destroyAreaPersentage,
+				time = data.destroyAreaTimeThreshold
+			};
+			destroyAreaWave = new DestroyAreaWave (desData);
+			while (!destroyAreaWave.Done ()) {
+				destroyAreaWave.Tick ();
+				yield return null;
+			}
 		}
 	}
 
@@ -116,7 +148,8 @@ public class RandomWave : IWaveSpawner{
 
 	public enum eSpawnCountStrategy
 	{
-		MIN = 1,
+		PICK_RANDOM = 1,
+		MIN,
 		LESS_DIFFICULT,
 		EQUAL,
 		MORE_DIFFICULT,
@@ -129,7 +162,20 @@ public class RandomWave : IWaveSpawner{
 			return selectedSpawnsCount;
 		}
 
-		eSpawnCountStrategy strategy = (eSpawnCountStrategy)UnityEngine.Random.Range ((int)eSpawnCountStrategy.MIN + 1, (int)eSpawnCountStrategy.MAX);
+		float currentDifficulty = 0;
+//		for (int i = 0; i < selectedSpawns.Count; i++) {
+//			if (selectedSpawns [i].difficulty + currentDifficulty <= difficulty) {
+//				selectedSpawnsCount [i] = 1;
+//				currentDifficulty += selectedSpawns [i].difficulty;
+//			}
+//		}
+		eSpawnCountStrategy strategy;
+		if (data.countStrategy == eSpawnCountStrategy.PICK_RANDOM) {
+			strategy = (eSpawnCountStrategy)UnityEngine.Random.Range ((int)eSpawnCountStrategy.MIN + 1, (int)eSpawnCountStrategy.MAX);
+		} else {
+			strategy = data.countStrategy;
+		}
+
 		Func<WeightedSpawn, float> weightsFunc;
 		if (strategy == eSpawnCountStrategy.LESS_DIFFICULT) {
 			weightsFunc = (w) => 1 / w.difficulty;
@@ -139,7 +185,9 @@ public class RandomWave : IWaveSpawner{
 			weightsFunc = (w) => 1;
 		}
 
-		float currentDifficulty = 0;
+		Debug.LogError (strategy);
+
+
 		List<WeightedSpawn> selectedSpawnsAvaliable = new List<WeightedSpawn> (selectedSpawns); 
 		bool anyAvaliable = true;
 		while (true) {
@@ -162,10 +210,10 @@ public class RandomWave : IWaveSpawner{
 		return selectedSpawnsCount;
 	}
 
-	public enum SpawnStrategy
+	public enum eSpawnStrategy
 	{
-		PICK_RANDOM = 0,
-		MIN = 1 ,
+		PICK_RANDOM = 1,
+		MIN,
 		ALL_AT_ONCE,
 		QUICK_DELAYS,
 		LONG_DELAYS,
@@ -173,19 +221,23 @@ public class RandomWave : IWaveSpawner{
 	}
 
 	//TODO:
-	public enum SpawnPositionStrategy
-	{
-		RANDOM = 0,
-		MIN = 1,
-        CIRCLE_SECTORS,
-		CIRCLE_ARC,
-		TRIANGLE,
-		MAX,
-	}
+//	public enum SpawnPositionStrategy
+//	{
+//		RANDOM = 0,
+//		MIN = 1,
+//        CIRCLE_SECTORS,
+//		CIRCLE_ARC,
+//		TRIANGLE,
+//		MAX,
+//	}
 
-	private IEnumerator Spawn(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount){
-
-		SpawnStrategy strategy = (SpawnStrategy)UnityEngine.Random.Range ((int)SpawnStrategy.MIN + 1, (int)SpawnStrategy.MAX);
+	private IEnumerator Spawn(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount) {
+		eSpawnStrategy strategy;
+		if (data.countStrategy == eSpawnCountStrategy.PICK_RANDOM) {
+			strategy = (eSpawnStrategy)UnityEngine.Random.Range ((int)eSpawnStrategy.MIN + 1, (int)eSpawnStrategy.MAX);
+		} else {
+			strategy = data.spawnStrategy;
+		}
 
 		List<WeightedSpawn> toSpawn = new List<WeightedSpawn> ();
 
@@ -200,13 +252,23 @@ public class RandomWave : IWaveSpawner{
 			int index = UnityEngine.Random.Range (0, toSpawn.Count);
 			var item = toSpawn [index];
 			toSpawn.RemoveAt (index);
-			item.spawn.Spawn (main.GetPositionData(item.range, new SpawnPositioning{lookAngleRange = 120, positionAngleRange = 360}) , OnObjectSpawned);
-			if (strategy == SpawnStrategy.QUICK_DELAYS) {
-				yield return new WaitForSeconds (UnityEngine.Random.Range (0.2f, 0.6f));
-			} else if (strategy == SpawnStrategy.LONG_DELAYS) {
-				yield return new WaitForSeconds (UnityEngine.Random.Range (0.6f, 1.5f));
+			MSpawnBase.PositionData posData;
+			if (item.spawnAtViewEdge) {
+				posData = main.GetEdgePositionData (UnityEngine.Random.Range (1, 360)); 
 			} else {
-				//no delay
+				posData = main.GetPositionData (item.range, new SpawnPositioning{ lookAngleRange = 120, positionAngleRange = 360 });
+			}
+			item.spawn.Spawn (posData, OnObjectSpawned);
+			if (data.overrideSpawnTime < 0) {
+				if (strategy == eSpawnStrategy.QUICK_DELAYS) {
+					yield return new WaitForSeconds (UnityEngine.Random.Range (0.2f, 0.6f));
+				} else if (strategy == eSpawnStrategy.LONG_DELAYS) {
+					yield return new WaitForSeconds (UnityEngine.Random.Range (0.6f, 1.5f));
+				} else {
+					//no delay
+				}
+			} else {
+				yield return new WaitForSeconds (data.overrideSpawnTime);
 			}
 		}
 
@@ -214,6 +276,7 @@ public class RandomWave : IWaveSpawner{
 	}
 
 	private void OnObjectSpawned(MSpawnBase.SpawnedObj obj) {
+		totalAreaSpawned += obj.obj.polygon.area;
 		spawningDifficulty -= obj.difficulty;
 		spawned.Add(obj);
 	}

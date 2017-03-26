@@ -8,4 +8,5 @@ public class MParticleResources : ResourceSingleton<MParticleResources> {
 	[SerializeField] public MParticleSystemsData powerUpDropParticles;
 	[SerializeField] public MParticleSystemsData healOnceParticles;
 	[SerializeField] public MParticleSystemsData healingParticles;
+	[SerializeField] public MParticleSystemsData lightFreeParticles;
 }

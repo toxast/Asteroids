@@ -99,10 +99,8 @@ public class SpaceShip : PolygonGameObject , IFreezble
 		velocity = Vector2.zero;
 	}
 
-	public void InitSpaceShip(PhysicalData physical, SpaceshipData data)
+	public void InitSpaceShip(SpaceshipData data)
 	{
-		InitPolygonGameObject (physical);
-
 		shootAngle = data.shootAngle;
 		turnSpeed = data.turnSpeed;
         brake = data.brake;
@@ -206,7 +204,7 @@ public class SpaceShip : PolygonGameObject , IFreezble
 		} else if (inputController.braking) {
 			Brake (delta, brake);
 		} else {
-			Brake (delta, passiveBrake);
+			//Brake (delta, passiveBrake);
 		}
 	}
 

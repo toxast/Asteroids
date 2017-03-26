@@ -61,3 +61,5 @@ MonoBehaviour:
     type: 2}
   healingParticles: {fileID: 114498572488554808, guid: e338133772e77a64a9d44c5ce1f1352a,
     type: 2}
+  lightFreeParticles: {fileID: 114951812601180788, guid: b290d6404caa7a34f9fcd0e86d8228da,
+    type: 2}

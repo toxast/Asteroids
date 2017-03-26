@@ -38,8 +38,9 @@ public class HealOnce : TickableEffect{
 		public float total = 20;
 		public ParticleSystemsData effect{ get { return MParticleResources.Instance.healOnceParticles.data;} } 
 
-		public void Apply(PolygonGameObject picker) {
+		public IHasProgress Apply(PolygonGameObject picker) {
 			picker.AddEffect (new HealOnce (this));
+			return null;
 		}
 	}
 }

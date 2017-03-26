@@ -4,10 +4,15 @@ using System.Collections.Generic;
 
 public class StarsGenerator : MonoBehaviour 
 {
+	[SerializeField] SpriteRenderer starPrefab;
 	public Sprite[] textures;
 	public Color[] colors;
 
 	public Transform[] stars;
+
+	void Awake(){
+		starPrefab.CreatePool (20);
+	}
 
 	public void Generate(int count, Rect rect, float z)
 	{
@@ -25,7 +30,8 @@ public class StarsGenerator : MonoBehaviour
 				col = colors[Random.Range(0, colors.Length)];
 			}
 
-			GameObject g = new GameObject();
+			var renderer =  starPrefab.Spawn ();
+			GameObject g = renderer.gameObject;
 			Transform t = g.transform;
 			stars[i] = t;
 			t.position = new Vector3(
@@ -33,7 +39,6 @@ public class StarsGenerator : MonoBehaviour
 			    Random.Range(rect.yMin, rect.yMax),
 				z + Random.Range(19f, 20f));
 
-			var renderer = g.AddComponent<SpriteRenderer>();
 			renderer.sprite = tex;
 			renderer.color = col;
 
@@ -47,7 +52,7 @@ public class StarsGenerator : MonoBehaviour
 	public void Clear()
 	{
 		foreach (var s in stars) {
-			Destroy(s.gameObject);
+			s.gameObject.Recycle ();
 		}
 		stars = null;
 	}

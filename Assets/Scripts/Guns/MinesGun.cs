@@ -29,11 +29,6 @@ public class MinesGun : BulletGun<Mine>
 
 	protected override void InitPolygonGameObject (Mine bullet, PhysicalData ph) {
 		base.InitPolygonGameObject (bullet, ph);
-
-		bullet.overrideExplosionDamage = data.overrideExplosionDamage; 
-		bullet.overrideExplosionRange = data.overrideExplosionRadius;
-		DeathAnimation.MakeDeathForThatFellaYo (bullet, true);
-
 		bullet.targetSystem = new TargetSystem (bullet);
 	}
 
@@ -42,6 +37,7 @@ public class MinesGun : BulletGun<Mine>
 		bullet.SetLayerNum(CollisionLayers.GetSpawnedLayer (parent.layerLogic));
 		bullet.InitMine (data);
 		bullet.priorityMultiplier = 0.1f;
+		bullet.showOffScreen = false;
 	}
 
 	protected override void AddToMainLoop (Mine b)
@@ -55,7 +51,7 @@ public class MinesGun : BulletGun<Mine>
 		}
 	}
 
-	protected override PolygonGameObject.DestructionType SetDestructionType () {
-		return PolygonGameObject.DestructionType.eComplete;
-	}
+//	protected override PolygonGameObject.DestructionType SetDestructionType () {
+//		return PolygonGameObject.DestructionType.eComplete;
+//	}
 }

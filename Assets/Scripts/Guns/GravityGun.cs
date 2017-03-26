@@ -20,10 +20,10 @@ public class GravityGun : BulletGun<GravityBullet>
 		bullet.InitGravityBullet(affectLayer, data, rangeMultiplier);
 	}
 
-	protected override PolygonGameObject.DestructionType SetDestructionType ()
-	{
-		return  PolygonGameObject.DestructionType.eDisappear;
-	}
+//	protected override PolygonGameObject.DestructionType SetDestructionType ()
+//	{
+//		return  PolygonGameObject.DestructionType.eDisappear;
+//	}
 
 	protected override void SetCollisionLayer (GravityBullet bullet)
 	{

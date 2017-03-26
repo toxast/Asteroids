@@ -40,9 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storeName: (5) user gun for old school 2
-  price: 0
-  etype: 1
+  dps: 4.285714
   hitDamage: 3
   lifeTime: 2
   velocity: 35
@@ -55,11 +53,24 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  deathData:
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    destructionType: 3
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   spreadAngle: 0
   rotation:
     min: 0
     max: 0
   color: {r: 0.02189661, g: 0.5955882, b: 0.16828679, a: 0}
+  burnDOT:
+    duration: 0
+    dps: 0
+    maxBuildUpDuration: 0
+  iceData:
+    duration: 0
+    freezeAmount: 0
   fireEffect: {fileID: 198039527583253788, guid: d9d054c5ca8388a4db079f01ed1197fd,
     type: 2}
   effects:
@@ -71,6 +82,12 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   destructionEffects:
   - place:
       pos: {x: 0, y: 0}
@@ -80,6 +97,12 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: -1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   vertices:
   - {x: 0.5804765, y: -0.23747337}
   - {x: 0.2851637, y: -0.63}
@@ -91,6 +114,8 @@ MonoBehaviour:
   - {x: -0.4248363, y: 1.098}
   - {x: 0.2851637, y: 0.63}
   - {x: 0.5804765, y: 0.23747337}
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -93,24 +93,28 @@ public class ObjectsCreator
 		return spaceship;
 	}
 
+	public static void ApplyDeathData(PolygonGameObject go, DeathData deathData){
+		go.destructionType = deathData.destructionType;
+		go.overrideExplosionDamage = deathData.overrideExplosionDamage;
+		go.overrideExplosionRange = deathData.overrideExplosionRange;
+		if (deathData.createExplosionOnDeath) {
+			DeathAnimation.MakeDeathForThatFellaYo(go, deathData.instantExplosion);
+		}
+	}
+
 	private static T MCreateSpaceShip<T>(MSpaceshipData sdata, int layer)
 		where T:SpaceShip
 	{
 		T spaceship = PolygonCreator.CreatePolygonGOByMassCenter<T> (sdata.verts, sdata.color);
-		spaceship.InitSpaceShip(sdata.physical, sdata.mobility);
+		spaceship.InitPolygonGameObject (sdata.physical);
+		spaceship.InitSpaceShip(sdata.mobility);
 		spaceship.SetThrusters (sdata.thrusters);
 
 		if (sdata.shield != null && sdata.shield.capacity > 0) {
 			spaceship.SetShield (sdata.shield);
 		}
 
-        var deathData = sdata.deathData;
-        spaceship.destructionType = deathData.destructionType;
-        spaceship.overrideExplosionDamage = deathData.overrideExplosionDamage;
-        spaceship.overrideExplosionRange = deathData.overrideExplosionRange;
-        if (deathData.createExplosionOnDeath) {
-            DeathAnimation.MakeDeathForThatFellaYo(spaceship, deathData.instantExplosion);
-        }
+		ApplyDeathData (spaceship, sdata.deathData);
 
 		spaceship.gameObject.name = sdata.name; 
 
@@ -175,18 +179,18 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
-    public static Comet CreateComet(MCometData mdata) {
+	public static Comet CreateComet(MCometData mdata, RandomFloat speed, float lifetime) {
 		float size = mdata.size.RandomValue;
         int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size * 3);
         Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size / 2f, vcount);
 		Comet comet = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
-        comet.InitAsteroid(mdata.physical, mdata.speed, mdata.rotation);
-        comet.InitComet(mdata.powerupData, mdata.lifeTime);
+		comet.InitAsteroid(mdata.physical, speed, mdata.rotation);
+		comet.InitComet(mdata.powerupData, lifetime);
 		comet.SetLayerNum(CollisionLayers.ilayerTeamEnemies);
 		comet.priority = PolygonGameObject.ePriorityLevel.LOW;
 		comet.priorityMultiplier = 0.01f;
 		comet.AddParticles (mdata.particles);
-		comet.SetDestroyAnimationParticles (mdata.destructionEffects);
+		comet.AddDestroyAnimationParticles (mdata.destructionEffects);
         comet.gameObject.name = mdata.name;
         comet.destructionType = PolygonGameObject.DestructionType.eComplete;
         return comet;
@@ -316,9 +320,15 @@ public class ObjectsCreator
         var drop = PolygonCreator.CreatePolygonGOByMassCenter<polygonGO.Drop>(vertices, color);
 		drop.InitPolygonGameObject (new PhysicalData());
 		drop.SetLayerNum (CollisionLayers.ilayerMisc);
+		var effectLightFree = MParticleResources.Instance.lightFreeParticles;
+		var effectClone = effectLightFree.data.Clone ();
+		effectClone.overrideStartColor = true;
+		effectClone.startColor = color;
+		effectClone.overrideSize = 20f * drop.polygon.R;
+		drop.AddDestroyAnimationParticles (new List<ParticleSystemsData> {effectClone});
 		drop.value = value;
 		drop.gameObject.name = "drop";
-		drop.lifetime = 10f;
+		drop.lifetime = 15f;
 		
 		return drop;
 	}
@@ -332,7 +342,7 @@ public class ObjectsCreator
 		} else {
 			vertices = data.verts;
 		}
-        var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, data.color);
+		var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, data.effectData.color);
         drop.InitPolygonGameObject(new PhysicalData());
         drop.InitPowerUp(data.effectData);
 		var clone = data.particles.Clone ();

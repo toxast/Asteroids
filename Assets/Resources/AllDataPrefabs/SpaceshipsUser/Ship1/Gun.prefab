@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &151532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 412264}
+  - component: {fileID: 11408126}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &412264
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11408126
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dps: 4
+  hitDamage: 2
+  lifeTime: 2
+  velocity: 35
+  fireInterval: 0.5
+  repeatCount: 0
+  repeatInterval: 0
+  physical:
+    density: 0.3
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 0.3
+  deathData:
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    destructionType: 3
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
+  spreadAngle: 0
+  rotation:
+    min: 0
+    max: 0
+  color: {r: 0.99264705, g: 0.9150223, b: 0.31385165, a: 1}
+  burnDOT:
+    duration: 0
+    dps: 0
+    maxBuildUpDuration: 0
+  iceData:
+    duration: 0
+    freezeAmount: 0
+  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  effects: []
+  destructionEffects: []
+  vertices:
+  - {x: 0.5, y: 0.3}
+  - {x: 0.5, y: -0.3}
+  - {x: -0.5, y: -0.3}
+  - {x: -0.5, y: 0.3}
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 151532}
+  m_IsPrefabParent: 1

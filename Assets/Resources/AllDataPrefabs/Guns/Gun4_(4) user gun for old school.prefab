@@ -53,6 +53,12 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  deathData:
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    destructionType: 3
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   spreadAngle: 0
   rotation:
     min: 0
@@ -75,6 +81,8 @@ MonoBehaviour:
   - {x: -0.42798528, y: 0.69795036}
   - {x: 0.31961906, y: 0.517}
   - {x: 0.52531284, y: 0.2638593}
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

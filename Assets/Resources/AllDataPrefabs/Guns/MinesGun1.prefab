@@ -51,9 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7e2de9eef5577418432b9cd403e3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storeName: 
-  price: 0
-  etype: 0
+  dps: 0
   hitDamage: 0
   lifeTime: 30
   velocity: 30
@@ -66,8 +64,24 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  deathData:
+    createExplosionOnDeath: 1
+    instantExplosion: 1
+    destructionType: 1
+    overrideExplosionRange: 20
+    overrideExplosionDamage: 10
   spreadAngle: 90
+  rotation:
+    min: 0
+    max: 0
   color: {r: 0.8088235, g: 0.26167822, b: 0.26167822, a: 1}
+  burnDOT:
+    duration: 0
+    dps: 0
+    maxBuildUpDuration: 0
+  iceData:
+    duration: 0
+    freezeAmount: 0
   fireEffect: {fileID: 0}
   effects: []
   destructionEffects: []
@@ -102,6 +116,8 @@ MonoBehaviour:
   - {x: 1.4938155, y: 1.0569024}
   - {x: 1.6367491, y: 0.7704743}
   - {x: 1.2953985, y: 0.5105802}
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0
   overrideExplosionDamage: 10
   overrideExplosionRadius: 20
   deceleration:
@@ -119,3 +135,14 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: -0.1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  useFlowTowerdsTargetBeh: 0
+  flowRange: 30
+  flowAcceleration: 5
+  flowMaxSpeed: 10
+  flowStability: 0

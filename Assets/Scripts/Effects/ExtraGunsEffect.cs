@@ -58,8 +58,10 @@ public class ExtraGunsEffect : DurationEffect {
 		public float iduration{get {return duration;} set{duration = value;}}
 		public List<MGunSetupData> guns;
 
-		public void Apply(PolygonGameObject picker) {
-			picker.AddEffect (new ExtraGunsEffect (this));
+		public IHasProgress Apply(PolygonGameObject picker) {
+			var effect = new ExtraGunsEffect (this);
+			picker.AddEffect (effect);
+			return effect;
 		}
 	}
 }

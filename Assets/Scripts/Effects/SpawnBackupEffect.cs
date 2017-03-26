@@ -36,8 +36,9 @@ public class SpawnBackupEffect : TickableEffect{
 	[System.Serializable]
 	public class Data : IApplyable {
 		public List<SpawnPos> spawns;
-		public void Apply(PolygonGameObject picker) {
+		public IHasProgress Apply(PolygonGameObject picker) {
 			picker.AddEffect (new SpawnBackupEffect (this));
+			return null;
 		}
 	}
 }

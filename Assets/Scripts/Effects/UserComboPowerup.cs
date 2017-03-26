@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class UserComboPowerup : IApplyable, IHasDuration
 {
+	public Color color = Color.white;
+	public float overrideEffectsDuration = -1;
 	public List<MEffectData> effects;
 	public float iduration {
 		get {
@@ -24,9 +26,33 @@ public class UserComboPowerup : IApplyable, IHasDuration
 		}
 	}
 
-	public void Apply (PolygonGameObject picker) {
-		foreach (var item in effects) {
-			item.Apply (picker);
+	public IHasProgress Apply (PolygonGameObject picker) {
+		if (overrideEffectsDuration >= 0) {
+			iduration = overrideEffectsDuration;
 		}
+		IHasProgress progressEffect = null;
+		foreach (var item in effects) {
+			var effect = item.Apply (picker);
+			if (effect != null && progressEffect == null) {
+				progressEffect = effect;
+			}
+		}
+
+		if (progressEffect != null) {
+			ProgressColorWrapper wrapper = new ProgressColorWrapper{ progressObj = progressEffect, color = color };
+			Singleton<Main>.inst.DisplayPowerup (wrapper);
+		}
+
+		return progressEffect;
+	}
+
+	public class ProgressColorWrapper: IHasProgress
+	{
+		public IHasProgress progressObj;
+		public Color color;
+
+		public float iprogress{ get { return progressObj.iprogress; } }
+	
 	}
 }
+

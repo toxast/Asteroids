@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class MHealOnce: MEffectData {
 	public HealOnce.Data data;
-	public override void Apply (PolygonGameObject picker) {
-		data.Apply (picker);
+	public override IHasProgress Apply (PolygonGameObject picker) {
+		return data.Apply (picker);
 	}
 }

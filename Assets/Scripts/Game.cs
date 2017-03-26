@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
 {
 	[SerializeField] Main main;
 	[SerializeField] GUIHangar hangar;
+
 	[SerializeField] InputField levelInput;
 	[SerializeField] InputField waveInput;
 	[SerializeField] List<GameObject> gameObjects;
@@ -27,7 +28,7 @@ public class Game : MonoBehaviour
 	void HandlelevelCleared ()
 	{
 		Debug.LogWarning ("levelCleared");
-		StartCoroutine(FinishGameIn (10f));
+		FinishGameIn (1f);
 	}
 
 	void HandleGameOver ()

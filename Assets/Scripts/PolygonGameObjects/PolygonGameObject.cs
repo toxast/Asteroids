@@ -40,6 +40,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	//physical
 	public float density{ get; private set; }
 	public float healthModifier;
+	public float collisionDefenceOriginal{ get; private set; }
 	public float collisionDefence{ get; private set; }
 	public float collisionAttackModifier{ get; private set; }
 
@@ -91,13 +92,14 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	protected float leftlifeTime;
 	public float pLeftlifeTime{get{ return leftlifeTime;}}
 
+	public bool showOffScreen = true;
 
 	public enum DestructionType
 	{
 		eNormal,
 		eComplete,
 		eDisappear,
-		eSptilOnlyOnHit,//if hit - destroy, if not - just disappear
+		eSplitlOnlyOnHit,//if hit - destroy, if not - just disappear
 	}
 	public DestructionType destructionType;
 	public bool destroyOnBoundsTeleport;
@@ -192,8 +194,17 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		freezeMod *= mod;
 	}
 
+	[NonSerialized] int defChanges = 0;
 	public void ChangeCollisionDefence(float def) {
 		collisionDefence = def;
+		defChanges++;
+	}
+
+	public void RestoreCollisionDefence() {
+		defChanges--;
+		if (defChanges == 0) {
+			collisionDefence = collisionDefenceOriginal;
+		}
 	}
 
 	public void InitPolygonGameObject(PhysicalData physics)
@@ -201,6 +212,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		this.density = physics.density;
 		this.healthModifier = physics.healthModifier;
 		this.collisionDefence = physics.collisionDefence;
+		collisionDefenceOriginal = collisionDefence;
 		this.collisionAttackModifier = physics.collisionAttackModifier;
 
 		mass = polygon.area * density;
@@ -298,6 +310,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 
 	public virtual void SetTarget(PolygonGameObject target)
 	{
+		//Debug.LogError (this.name + " SetTarget " + (target == null ? "null" : target.name));
 		this.target = target;
 		guns.ForEach(g => g.SetTarget(target));
 	}
@@ -672,20 +685,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 				Debug.LogError ("null particle system");
 			} else {
 				var inst = Instantiate (setup.prefab) as ParticleSystem;
-				var pmain = inst.main;
-
-				if (setup.overrideSize > 0) {
-					pmain.startSizeMultiplier = setup.overrideSize;
-				}
-				if (setup.overrideDuration > 0) {
-					pmain.duration = setup.overrideDuration;
-				}
-				if (setup.overrideDelay > 0) {
-					pmain.startDelayMultiplier = setup.overrideDelay;
-				}
-				if (setup.overrideStartColor) {
-					inst.SetStartColor(setup.startColor);
-				}
+				ApplyOverrides (inst, setup);
 				inst.Play ();
 
 				Math2d.PositionOnParent (inst.transform, setup.place, cacheTransform, true, setup.zOffset);
@@ -694,6 +694,23 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		}
 		particles.AddRange (result); 
 		return result.ConvertAll(s => s.system);
+	}
+
+	private void ApplyOverrides(ParticleSystem inst, ParticleSystemsData setup){
+		var pmain = inst.main;
+
+		if (setup.overrideSize > 0) {
+			pmain.startSizeMultiplier = setup.overrideSize;
+		}
+		if (setup.overrideDuration > 0) {
+			pmain.duration = setup.overrideDuration;
+		}
+		if (setup.overrideDelay > 0) {
+			pmain.startDelayMultiplier = setup.overrideDelay;
+		}
+		if (setup.overrideStartColor) {
+			inst.SetStartColor(setup.startColor);
+		}
 	}
 
 	public class ParticlesInst
@@ -747,9 +764,11 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	}
 
 	List<ParticleSystemsData> destroyEffects;
-	public void SetDestroyAnimationParticles(List<ParticleSystemsData> datas)
-	{
-		destroyEffects = new List<ParticleSystemsData>(datas);
+	public void AddDestroyAnimationParticles(List<ParticleSystemsData> datas) {
+		if (destroyEffects == null) {
+			destroyEffects = new List<ParticleSystemsData> ();
+		}
+		destroyEffects.AddRange(datas);
 	}
 
     public void AddObjectAsFollower(PolygonGameObject obj) {
@@ -804,8 +823,9 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 			foreach (var item in destroyEffects) {
 				var inst  = Instantiate(item.prefab) as ParticleSystem;
 				Math2d.PositionOnParent (inst.transform, item.place, cacheTransform, false, -1);
-				Destroy (inst.gameObject, inst.main.duration + inst.main.startLifetimeMultiplier);
+				ApplyOverrides (inst, item);
 				inst.Play ();
+				Destroy (inst.gameObject, inst.main.duration + inst.main.startLifetimeMultiplier);
 			}
 		}
 

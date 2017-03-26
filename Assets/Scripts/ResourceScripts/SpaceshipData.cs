@@ -12,9 +12,7 @@ public class SpaceshipData : IClonable<SpaceshipData>
 	public float stability = 0.5f;
 	public float shootAngle = 15f;
 
-	public SpaceshipData()
-	{
-	}
+	public SpaceshipData() { }
 
 	public SpaceshipData(float thrust, float maxSpeed, float turnSpeed, float brake, float passiveBrake, float stability, float shootAngle)
 	{

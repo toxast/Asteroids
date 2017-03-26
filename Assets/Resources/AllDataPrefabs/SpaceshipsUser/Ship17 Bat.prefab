@@ -43,10 +43,15 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 2
-  price: 4
+  difficulty: 10
   reward: 0
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  id: 10
+  price: 4
   color: {r: 0, g: 0.25517225, b: 1, a: 1}
   physical:
     density: 1.5
@@ -54,6 +59,12 @@ MonoBehaviour:
     healthModifier: 25
     collisionDefence: 0.2
     collisionAttackModifier: 3
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   mobility:
     thrust: 28
     maxSpeed: 36
@@ -73,7 +84,8 @@ MonoBehaviour:
   shield:
     capacity: 10
     rechargeRate: 3
-    rechargeDelay: 1
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 1
   guns:
   - place:
       pos: {x: 1.2669727, y: -0.92}
@@ -83,7 +95,7 @@ MonoBehaviour:
       pos: {x: 1.2669727, y: 0.92}
       dir: {x: 1, y: 0}
     gun: {fileID: 11425260, guid: b7fcaa38176f78b43b71d90751875d3f, type: 2}
-  linkedGuns: 
+  linkedGuns: []
   thrusters:
   - place:
       pos: {x: -0.49963373, y: -0.03999994}
@@ -93,6 +105,12 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
   - {x: 2.3182817, y: -0.08999973}
@@ -125,13 +143,8 @@ MonoBehaviour:
   - {x: 2.0569725, y: 0.88}
   - {x: 2.0932815, y: 0.42299974}
   - {x: 2.3182817, y: 0.08999979}
-  upgradeIndex: 0
-  deathData:
-    createExplosionOnDeath: 1
-    instantExplosion: 0
-    destructionType: 0
-    overrideExplosionRange: -1
-    overrideExplosionDamage: -1
+  explosionRangeCalculated: 11.780155
+  explosionDamageCalculated: 9.937523
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

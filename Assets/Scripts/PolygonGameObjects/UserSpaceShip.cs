@@ -17,12 +17,7 @@ public class UserSpaceShip : SpaceShip {
 	{
 		base.Hit (dmg);
 
-		if(IsKilled() && !sentDestroyed)
-		{
-			sentDestroyed = true;
-			if(destroyed != null)
-				destroyed();
-		}
+
 
 		UpdateHealth ();
 		UpdateShields ();
@@ -59,4 +54,15 @@ public class UserSpaceShip : SpaceShip {
 	}
 
 	protected override bool RestrictShootingByFastRotation{get{ return false; } }
+
+	public override void HandleDestroy ()
+	{
+		base.HandleDestroy ();
+		if(!sentDestroyed)
+		{
+			sentDestroyed = true;
+			if(destroyed != null)
+				destroyed();
+		}
+	}
 }

@@ -64,6 +64,12 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  deathData:
+    destructionType: 2
+    createExplosionOnDeath: 0
+    instantExplosion: 1
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   spreadAngle: 0
   rotation:
     min: 0
@@ -124,8 +130,6 @@ MonoBehaviour:
   vertices: []
   explosionRangeCalculated: 0
   explosionDamageCalculated: 0
-  overrideExplosionRadius: -1
-  overrideExplosionDamage: -1
   accuracy: 0.5
   missleParameters:
     thrust: 35

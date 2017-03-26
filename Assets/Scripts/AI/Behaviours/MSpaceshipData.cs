@@ -6,9 +6,11 @@ using System.Linq;
 [System.Serializable]
 public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns, IGotTurrets
 {
+	public int id = -1;
 	public int price = -1;
 	public Color color = Color.white;
 	public PhysicalData physical;
+	public DeathData deathData;
 	public SpaceshipData mobility;
 	public AccuracyData accuracy;
 	public ShieldData shield;
@@ -17,10 +19,6 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 	public List<ParticleSystemsData> thrusters;
 	public List<MTurretReferenceData> turrets;
 	public Vector2[] verts;
-	public int upgradeIndex;
-    [SerializeField] public DeathData deathData;
-
-	public Vector2 launchDirection;
 
 	[Space(20)]
 	[SerializeField] float explosionRangeCalculated;

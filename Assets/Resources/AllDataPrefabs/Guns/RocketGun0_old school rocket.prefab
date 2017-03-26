@@ -40,9 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b4a78513600bd4293c806f2d55eb81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storeName: old school rocket
-  price: 0
-  etype: 2
+  dps: 1.111111
   hitDamage: 3
   lifeTime: 3.5
   velocity: 35
@@ -55,11 +53,24 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  deathData:
+    createExplosionOnDeath: 1
+    instantExplosion: 1
+    destructionType: 2
+    overrideExplosionRange: 20
+    overrideExplosionDamage: 5
   spreadAngle: 0
   rotation:
     min: 0
     max: 0
   color: {r: 0.9191176, g: 0.7990544, b: 0.29736158, a: 1}
+  burnDOT:
+    duration: 0
+    dps: 0
+    maxBuildUpDuration: 0
+  iceData:
+    duration: 0
+    freezeAmount: 0
   fireEffect: {fileID: 0}
   effects:
   - place:
@@ -72,6 +83,10 @@ MonoBehaviour:
     zOffset: 0.1
     afterlife: 1
     stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   destructionEffects:
   - place:
       pos: {x: 0, y: 0}
@@ -83,6 +98,10 @@ MonoBehaviour:
     zOffset: 0.1
     afterlife: 0
     stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   vertices:
   - {x: 1.1400497, y: 7.471834e-10}
   - {x: 0.64004976, y: -0.2}
@@ -91,8 +110,10 @@ MonoBehaviour:
   - {x: -0.85995024, y: 0.35}
   - {x: -0.55995023, y: 0.15}
   - {x: 0.64004976, y: 0.2}
-  overrideExplosionDamage: 5
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0
   overrideExplosionRadius: 20
+  overrideExplosionDamage: 5
   accuracy: 1
   missleParameters:
     thrust: 25
@@ -113,6 +134,10 @@ MonoBehaviour:
     zOffset: 1
     afterlife: 0
     stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   launchDirection: {x: 1, y: 0}
 --- !u!1001 &100100000
 Prefab:

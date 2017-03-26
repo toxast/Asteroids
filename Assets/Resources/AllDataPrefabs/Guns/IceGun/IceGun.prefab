@@ -51,9 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storeName: 
-  price: 0
-  etype: 0
+  dps: 9.090909
   hitDamage: 3
   lifeTime: 3.6
   velocity: 35
@@ -66,6 +64,12 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  deathData:
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    destructionType: 3
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   spreadAngle: 30
   rotation:
     min: 0
@@ -75,36 +79,9 @@ MonoBehaviour:
     duration: 0
     dps: 0
     maxBuildUpDuration: 0
-    effect:
-      place:
-        pos: {x: 0, y: 0}
-        dir: {x: 1, y: 0}
-      prefab: {fileID: 0}
-      overrideSize: -1
-      overrideDelay: -1
-      overrideDuration: -1
-      zOffset: 1
-      afterlife: 0
-      stopEmission: 1
-      inheritVelocity: 1
-      parentToSplitParts: 0
   iceData:
     duration: 4
     freezeAmount: 90
-    effect:
-      place:
-        pos: {x: 0, y: 0}
-        dir: {x: 1, y: 0}
-      prefab: {fileID: 198168226012235746, guid: 3af76bc46403b1f4ca3f7bf8eb19fdb8,
-        type: 2}
-      overrideSize: -1
-      overrideDelay: -1
-      overrideDuration: -1
-      zOffset: -0.1
-      afterlife: 1
-      stopEmission: 1
-      inheritVelocity: 0
-      parentToSplitParts: 1
   fireEffect: {fileID: 0}
   effects: []
   destructionEffects: []
@@ -135,3 +112,5 @@ MonoBehaviour:
   - {x: 1.0703846, y: 0.765}
   - {x: 0.83612835, y: 0.4409999}
   - {x: 1.1728717, y: 0.19799992}
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0

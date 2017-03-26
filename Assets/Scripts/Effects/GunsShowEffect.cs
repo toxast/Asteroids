@@ -36,6 +36,7 @@ public class GunsShowEffect : TickableEffect, IHasDuration, IHasProgress {
 
 	void SetPosition(){
 		gunsShowObj.position = holder.position;
+		gunsShowObj.velocity = holder.velocity;
 	}
 
 	public override void HandleHolderDestroying ()
@@ -48,9 +49,7 @@ public class GunsShowEffect : TickableEffect, IHasDuration, IHasProgress {
 		base.Tick(delta);
 		if (!IsFinished()) {
 			gunsShowObj.Tick(delta);
-			if (!data.makeChild) {
-				SetPosition ();
-			}
+			SetPosition ();
 			if (IsFinished ()) {
 				DestroyGunsShowObject ();
 			}

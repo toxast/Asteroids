@@ -6,7 +6,7 @@ using UnityEngine;
 public class MGunsShowEffect: MEffectData, IHasDuration {
 	public MGunsShow data;
 	public float iduration{get {return data.iduration;} set{data.iduration = value;}}
-	public override void Apply (PolygonGameObject picker) {
-		data.Apply (picker);
+	public override IHasProgress Apply (PolygonGameObject picker) {
+		return data.Apply (picker);
 	}
 }

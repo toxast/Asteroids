@@ -11,6 +11,7 @@ public class MGunData : MGunBaseData, IGotShape {
 	public int repeatCount = 0;
 	public float repeatInterval = 0;
 	public PhysicalData physical;
+	public DeathData deathData;
 	public float spreadAngle = 0;
 	public RandomFloat rotation = new RandomFloat (0, 0);
 	public Color color = Color.red;
@@ -41,11 +42,28 @@ public class MGunData : MGunBaseData, IGotShape {
 		return totalInterval;
 	}
 
-	protected virtual float HitDamage(){
+	[Space(20)]
+	[SerializeField] float explosionRangeCalculated;
+	[SerializeField] float explosionDamageCalculated;
+	protected virtual float HitDamage ()
+	{
 		float totalDamage = hitDamage;
-		if (repeatCount > 0) {
-			totalDamage += repeatCount * hitDamage;
+		float explosionDamage = 0;
+		if (vertices.Length > 2) {
+			float area;
+			Math2d.GetMassCenter (vertices, out area);
+			explosionRangeCalculated = deathData.overrideExplosionRange >= 0 ? deathData.overrideExplosionRange : DeathAnimation.ExplosionRadius (area);
+			explosionDamageCalculated = DeathAnimation.ExplosionDamage (explosionRangeCalculated);
 		}
+		if (deathData.createExplosionOnDeath) {
+			if (deathData.overrideExplosionDamage > 0) {
+				explosionDamage += deathData.overrideExplosionDamage;
+			} else {
+				explosionDamage += explosionDamageCalculated;
+			}
+		}
+		totalDamage += explosionDamage;
+		totalDamage += repeatCount * totalDamage;
 		return totalDamage;
 	}
 

@@ -43,10 +43,15 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 2
-  price: 10
+  difficulty: 10
   reward: 0
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  id: 12
+  price: 10
   color: {r: 0, g: 0.04827571, b: 1, a: 1}
   physical:
     density: 2
@@ -54,6 +59,12 @@ MonoBehaviour:
     healthModifier: 27
     collisionDefence: 0.22
     collisionAttackModifier: 3
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   mobility:
     thrust: 34
     maxSpeed: 42
@@ -73,7 +84,8 @@ MonoBehaviour:
   shield:
     capacity: 25
     rechargeRate: 3
-    rechargeDelay: 1
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 1
   guns:
   - place:
       pos: {x: 2.23, y: 0.94000006}
@@ -91,7 +103,7 @@ MonoBehaviour:
       pos: {x: -1.3099998, y: 2.58}
       dir: {x: 0.9509485, y: 0.3093493}
     gun: {fileID: 11424670, guid: 4f6e9207ec8c5e64a8241f924d53e229, type: 2}
-  linkedGuns: 0000000001000000
+  linkedGuns: []
   thrusters:
   - place:
       pos: {x: -1.2, y: 0.4}
@@ -101,6 +113,12 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   - place:
       pos: {x: -1.2, y: -0.4}
       dir: {x: 1, y: 0}
@@ -109,6 +127,12 @@ MonoBehaviour:
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
   - {x: 2.4942532, y: -0.21870002}
@@ -141,13 +165,8 @@ MonoBehaviour:
   - {x: 2.6692133, y: 1.2028497}
   - {x: 2.2026532, y: 0.58319986}
   - {x: 2.4942532, y: 0.21869999}
-  upgradeIndex: 0
-  deathData:
-    createExplosionOnDeath: 1
-    instantExplosion: 0
-    destructionType: 0
-    overrideExplosionRange: -1
-    overrideExplosionDamage: -1
+  explosionRangeCalculated: 13.674906
+  explosionDamageCalculated: 10.94916
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

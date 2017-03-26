@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &149244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 405056}
+  - component: {fileID: 114913661651274198}
+  m_Layer: 0
+  m_Name: Ship dumb hitter_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &405056
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149244}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 149244}
+  m_IsPrefabParent: 1
+--- !u!114 &114913661651274198
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790b874bab4780a44b1f5c31938b29f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 5
+  reward: 15
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  price: -1
+  color: {r: 0.59838027, g: 0.6838235, b: 0.40224913, a: 1}
+  physical:
+    density: 0.6
+    health: 3.9
+    healthModifier: 2
+    collisionDefence: 0.5
+    collisionAttackModifier: 1.7
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: 7
+    overrideExplosionDamage: 3
+  mobility:
+    thrust: 20
+    maxSpeed: 25
+    turnSpeed: 150
+    brake: 15
+    passiveBrake: 2
+    stability: 0.3
+    shootAngle: 15
+  accuracy:
+    startingAccuracy: 0.3
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 0.5
+    add: 0.2
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 0
+    rechargeRate: 0
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 1
+  guns: []
+  linkedGuns: []
+  thrusters:
+  - place:
+      pos: {x: -0.47351867, y: -8.8239815e-10}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  turrets: []
+  verts:
+  - {x: 0.98190755, y: -0.31000006}
+  - {x: 0.58822083, y: -0.5040002}
+  - {x: 0.58822083, y: -0.9144001}
+  - {x: 1.0819075, y: -0.85}
+  - {x: 0.5738208, y: -1.6416001}
+  - {x: -0.47737876, y: -1.5047998}
+  - {x: -1.226179, y: -1.0583999}
+  - {x: -0.5997791, y: -0.5904}
+  - {x: -0.77257895, y: -0.27360013}
+  - {x: -0.77257895, y: 0.2736}
+  - {x: -0.5997791, y: 0.5904}
+  - {x: -1.226179, y: 1.0583999}
+  - {x: -0.47737876, y: 1.5047998}
+  - {x: 0.5738208, y: 1.6416001}
+  - {x: 1.0819075, y: 0.85}
+  - {x: 0.58822083, y: 0.9144001}
+  - {x: 0.58822083, y: 0.5040002}
+  - {x: 0.98190755, y: 0.30999994}
+  explosionRangeCalculated: 7
+  explosionDamageCalculated: 7.085063
+  fillFrom: {fileID: 0}

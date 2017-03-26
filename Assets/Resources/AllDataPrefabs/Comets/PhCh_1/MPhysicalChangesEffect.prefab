@@ -52,11 +52,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    duration: 30
-    overrideDefence: -1
+    duration: 20
+    overrideDefence: 1
     multiplyMass: 1
     multiplyCollisionAttack: 1
     multiplyThrust: 1
-    multiplyMaxSpeed: 2
-    multiplyTurnSpeed: 2
-    multiplyStability: 2
+    multiplyMaxSpeed: 1
+    multiplyTurnSpeed: 1
+    multiplyStability: 1

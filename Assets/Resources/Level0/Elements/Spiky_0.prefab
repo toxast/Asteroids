@@ -47,11 +47,11 @@ MonoBehaviour:
   difficulty: 7
   reward: 20
   teleportData:
-    duration: 1.5
-    ringSize: 10
+    duration: 2.5
+    ringSize: 18
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   accuracy:
-    startingAccuracy: 0
+    startingAccuracy: 0.1
     thresholdDistance: 10
     isDynamic: 0
     checkDtime: 1
@@ -69,7 +69,7 @@ MonoBehaviour:
   physical:
     density: 1
     health: -1
-    healthModifier: 1
+    healthModifier: 0.6
     collisionDefence: 0
     collisionAttackModifier: 1.5
   speed:

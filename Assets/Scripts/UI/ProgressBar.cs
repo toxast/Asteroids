@@ -12,8 +12,12 @@ public class ProgressBar : MonoBehaviour
 	protected virtual void Awake() {
 		width = back.rectTransform.sizeDelta.x;
 	}
+
+	public void SetBarColor(Color col){
+		bar.color = col;
+	}
 	
-	protected void Display(float persent) {
+	public void Display(float persent) {
         persent = Mathf.Clamp01(persent);
 		bar.rectTransform.anchoredPosition = new Vector3 ((persent - 1f) * width, 0);
 	}

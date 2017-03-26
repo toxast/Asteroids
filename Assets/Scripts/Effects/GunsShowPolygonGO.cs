@@ -14,7 +14,9 @@ public class GunsShowPolygonGO : PolygonGameObject
 		base.Tick (delta);
 		for (int i = 0; i < gunsObjects.Count; i++) {
 			var obj = gunsObjects [i];
+			obj.velocity = Vector2.zero;
 			obj.Tick (delta);
+			obj.velocity = this.velocity;
 			obj.TickGuns(delta);
 			obj.Shoot();
 		}

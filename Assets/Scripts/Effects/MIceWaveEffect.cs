@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class MIceWaveEffect: MEffectData {
 	public IceWaveEffect.Data data;
-	public override void Apply (PolygonGameObject picker) {
-		data.Apply (picker);
+	public override IHasProgress Apply (PolygonGameObject picker) {
+		return data.Apply (picker);
 	}
 }

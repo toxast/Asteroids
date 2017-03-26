@@ -59,6 +59,7 @@ MonoBehaviour:
       range:
         min: 40
         max: 50
+      spawnAtViewEdge: 0
       positioning:
         positionAngle: 30
         positionAngleRange: 0
@@ -69,9 +70,11 @@ MonoBehaviour:
       range:
         min: 40
         max: 50
+      spawnAtViewEdge: 0
       positioning:
         positionAngle: 150
         positionAngleRange: 0
         lookAngle: 0
         lookAngleRange: 0
   createDefWaveEditor: 0
+  totalDifficulty: 10

@@ -11,12 +11,13 @@ public class TargetSystemBase<T> : ITickable
 	protected float leftUntilTargetCheck;
 
 	protected bool hasTarget = false;
-
+	private bool mixPiority;
 	protected PolygonGameObject curTarget{get{return thisObj.target;}}
 
-	public TargetSystemBase(T thisObj, float repeatTargetCheck) {
+	public TargetSystemBase(T thisObj, float repeatTargetCheck, bool mixPiority = false) {
 		this.thisObj = thisObj;
 		this.repeatTargetCheck = repeatTargetCheck;
+		this.mixPiority = mixPiority;
 		leftUntilTargetCheck = 0;
 	}
 
@@ -62,36 +63,63 @@ public class TargetSystemBase<T> : ITickable
 	//can return null if had to loose the target
 	//can assume that current targed passed SholuldDropTargetInstantly check
 	protected virtual PolygonGameObject IsShouldLooseTheTargetForTheOther() {
-		return thisObj.target;
+		return curTarget;
 	}
 
-	protected virtual PolygonGameObject GetTheClosestTarget()
-	{
-		var enemyLayers = CollisionLayers.GetEnemyLayers (thisObj.layerLogic);
-		var t = GetClosestObjectFromLayer (enemyLayers, PolygonGameObject.ePriorityLevel.NORMAL);
-		if (t != null) {
-			return t;
+	protected virtual PolygonGameObject GetTheClosestTarget() {
+		if (mixPiority) {
+			var enemyLayers = CollisionLayers.GetEnemyLayers (thisObj.layerLogic);
+			var t = GetClosestObjectFromLayers (enemyLayers, mixed);
+			if (t != null) {
+				return t;
+			}
+		} else {
+			var enemyLayers = CollisionLayers.GetEnemyLayers (thisObj.layerLogic);
+			var t = GetClosestObjectFromLayers (enemyLayers, normList);
+			if (t != null) {
+				return t;
+			}
+			t = GetClosestObjectFromLayers (enemyLayers, lowList);
+			if (t != null) {
+				return t;
+			}
 		}
-
-		t = GetClosestObjectFromLayer (enemyLayers, PolygonGameObject.ePriorityLevel.LOW);
-		if (t != null) {
-			return t;
-		}
-
 		return null;
 	}
 
-	private PolygonGameObject GetClosestObjectFromLayer(int enemylayer, PolygonGameObject.ePriorityLevel priority) {
+	public class PriorityMultiplier {
+		public PolygonGameObject.ePriorityLevel plevel;
+		public float mul = 1;
+		public PriorityMultiplier(PolygonGameObject.ePriorityLevel lvl, float mul = 1){
+			plevel = lvl;
+			this.mul = mul;
+		}
+	}
+
+	static List<PriorityMultiplier> lowList = new List<PriorityMultiplier>{new PriorityMultiplier(PolygonGameObject.ePriorityLevel.LOW)} ;
+	static List<PriorityMultiplier> normList = new List<PriorityMultiplier>{new PriorityMultiplier(PolygonGameObject.ePriorityLevel.NORMAL)}; 
+	static List<PriorityMultiplier> mixed = new List<PriorityMultiplier>{
+		new PriorityMultiplier(PolygonGameObject.ePriorityLevel.NORMAL, 1f),
+		new PriorityMultiplier(PolygonGameObject.ePriorityLevel.LOW, 1.3f),
+	} ;
+
+
+	private PolygonGameObject GetClosestObjectFromLayers(int enemylayer, List<PriorityMultiplier> plevels) {
 		float distValue = float.MaxValue;
 		int indx = -1;
 		var gobjects = Singleton<Main>.inst.gObjects;
 		for (int i = 0; i < gobjects.Count; i++) {
 			var obj = gobjects [i];
-			if ((enemylayer & obj.layerLogic) != 0 && obj.priority == priority && ValidTarget(obj)) {
-				float objDistValue = GetPrioritizedDistValue(obj);
-				if (objDistValue < distValue) {
-					indx = i;
-					distValue = objDistValue;
+			if ((enemylayer & obj.layerLogic) != 0 && ValidTarget(obj)) {
+				for (int k= 0; k < plevels.Count; k++) {
+					if (obj.priority == plevels[k].plevel) {
+						float objDistValue = GetPrioritizedDistValue (obj) * plevels[k].mul;
+						if (objDistValue < distValue) {
+							indx = i;
+							distValue = objDistValue;
+						}
+						break;
+					}
 				}
 			}
 		}

@@ -66,7 +66,7 @@ public class SpawnBase
 {
 	[SerializeField] public MSpawnBase spawn;
 	[SerializeField] public RandomFloat range = new RandomFloat(40, 50);
-
+	[SerializeField] public bool spawnAtViewEdge = false;
 	public float difficulty{
 		get{ return spawn.sdifficulty;}
 	}

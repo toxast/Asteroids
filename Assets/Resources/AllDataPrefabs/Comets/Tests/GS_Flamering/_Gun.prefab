@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1413935947130494}
+  m_IsPrefabParent: 1
+--- !u!1 &1413935947130494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4881977606913368}
+  - component: {fileID: 114836998923856916}
+  m_Layer: 0
+  m_Name: _Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4881977606913368
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1413935947130494}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114836998923856916
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1413935947130494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18491777c216a4f40b9edf6cf23f17b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dps: 11.187819
+  hitDamage: 0.3
+  lifeTime: 0.5
+  velocity: 10
+  fireInterval: 0.0001
+  repeatCount: 1000
+  repeatInterval: 0.03
+  physical:
+    density: 0.01
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  deathData:
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    destructionType: 2
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
+  spreadAngle: 10
+  rotation:
+    min: 0
+    max: 0
+  color: {r: 1, g: 0, b: 0, a: 0}
+  burnDOT:
+    duration: 3
+    dps: 5
+    maxBuildUpDuration: 7
+  iceData:
+    duration: 0
+    freezeAmount: 0
+  fireEffect: {fileID: 0}
+  effects:
+  - place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+    prefab: {fileID: 198732008161831254, guid: 8219a11f700c69543a46a72ae88a8410, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  destructionEffects: []
+  vertices:
+  - {x: -1, y: 0}
+  - {x: 0, y: 1}
+  - {x: 1, y: 0}
+  - {x: 0, y: -1}
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0
+  deceleration:
+    min: 0
+    max: 0
+  velocityRandomRange: 0
+  forceUseBulletLifetime: 1

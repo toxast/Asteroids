@@ -25,17 +25,21 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 		T bullet = PolygonCreator.CreatePolygonGOByMassCenter<T>(GetVerts(), data.color);
 		bullet.gameObject.name = data.name;
 
-		Math2d.PositionOnParent(bullet.cacheTransform, place, parent.cacheTransform, false, -0.01f);
-
+		Place placeActual = place;
+		if (data.spreadAngle > 0) {
+			placeActual = place.Clone ();
+			placeActual.dir = Math2d.RotateVertexDeg (placeActual.dir, UnityEngine.Random.Range (-data.spreadAngle * 0.5f, data.spreadAngle * 0.5f));
+		}
+		Math2d.PositionOnParent(bullet.cacheTransform, placeActual, parent.cacheTransform, false, -0.01f);
 		var ph = ApplyHeavvyBulletModifier (data.physical);
 		InitPolygonGameObject (bullet, ph);
 		bullet.InitLifetime (data.lifeTime);
+		ObjectsCreator.ApplyDeathData(bullet, data.deathData);
 		bullet.damageOnCollision = data.hitDamage;
 		bullet.velocity = GetDirectionNormalized(bullet) * GetVelocityMagnitude();
-		bullet.destructionType = SetDestructionType();
 		bullet.destroyOnBoundsTeleport = DestroyOnBoundsTeleport;
         bullet.AddParticles(data.effects);
-		bullet.SetDestroyAnimationParticles (data.destructionEffects);
+		bullet.AddDestroyAnimationParticles (data.destructionEffects);
 		SetCollisionLayer( bullet );
 		AddShipSpeed2TheBullet (bullet);
 		bullet.rotation += data.rotation.RandomValue;
@@ -70,16 +74,17 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 	}
 
 	protected virtual Vector2 GetDirectionNormalized(T bullet){
-		var velocity = bullet.cacheTransform.right;
-		if (data.spreadAngle > 0) {
-			velocity = Math2d.RotateVertexDeg (velocity, UnityEngine.Random.Range (-data.spreadAngle * 0.5f, data.spreadAngle * 0.5f));
-		}
-		return velocity;
+		return bullet.cacheTransform.right;
+//		var velocity = bullet.cacheTransform.right;
+//		if (data.spreadAngle > 0) {
+//			velocity = Math2d.RotateVertexDeg (velocity, UnityEngine.Random.Range (-data.spreadAngle * 0.5f, data.spreadAngle * 0.5f));
+//		}
+//		return velocity;
 	}
 
-	protected virtual PolygonGameObject.DestructionType SetDestructionType(){
-		return PolygonGameObject.DestructionType.eSptilOnlyOnHit;
-	}
+//	protected virtual PolygonGameObject.DestructionType SetDestructionType(){
+//		return PolygonGameObject.DestructionType.eSptilOnlyOnHit;
+//	}
 
     protected virtual void SetCollisionLayer(T bullet) {
 		bullet.SetLayerNum(CollisionLayers.GetBulletLayerNum(parent.layerLogic));

@@ -62,8 +62,10 @@ public class GravityShieldEffect : DurationEffect {
 		public bool massMatters = false;
 		public float iduration{get {return duration;} set{duration = value;}}
 		public List<ParticleSystemsData> particles;
-		public void Apply(PolygonGameObject picker) {
-			picker.AddEffect (new GravityShieldEffect (this));
+		public IHasProgress Apply(PolygonGameObject picker) {
+			var effect = new GravityShieldEffect (this);
+			picker.AddEffect (effect);
+			return effect;
 		}
 	}
 }

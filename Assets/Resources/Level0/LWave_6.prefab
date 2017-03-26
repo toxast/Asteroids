@@ -52,23 +52,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 20
+    diffucultyAtOnce: 60
     diffucultyTotal: 60
-    startNextWaveWhenDifficultyLeft: 0
-    chooseNewObjectsEachTime: 1
     differentSpawnsCountRange:
-      min: 1
+      min: 2
       max: 2
+    chooseNewObjectsEachTime: 0
+    overrideSpawnTime: 3.5
+    startNextWaveWhenDifficultyLeft: 0
+    useDestroyAreaDelay: 0
+    destroyAreaTimeThreshold: 20
+    destroyAreaPersentage: 0.3
     objects:
     - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
         type: 2}
       range:
         min: 30
         max: 50
-      weight: 1
+      spawnAtViewEdge: 0
+      weight: 2
     - spawn: {fileID: 11492862, guid: ff668e1ae5f777d45894ba125955ffaa, type: 2}
       range:
         min: 30
         max: 40
-      weight: 10
+      spawnAtViewEdge: 0
+      weight: 6
+    - spawn: {fileID: 114913661651274198, guid: 0eafa92842238654aa5ceba6d534c629,
+        type: 2}
+      range:
+        min: 30
+        max: 40
+      spawnAtViewEdge: 1
+      weight: 2
+    - spawn: {fileID: 114529371202508250, guid: 63bba91971bc77e438cdc78a5d83aacd,
+        type: 2}
+      range:
+        min: 0
+        max: 0
+      spawnAtViewEdge: 0
+      weight: 1
   createDefWaveEditor: 0

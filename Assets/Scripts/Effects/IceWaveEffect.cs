@@ -43,8 +43,10 @@ public class IceWaveEffect : TickableEffect{
 		public bool distanceMatters = false;
 		public IceEffect.Data iceData;
 		public ParticleSystemsData ringEffect;
-		public void Apply(PolygonGameObject picker) {
-			picker.AddEffect (new IceWaveEffect (this));
+		public IHasProgress Apply(PolygonGameObject picker) {
+			var effect = new IceWaveEffect (this);
+			picker.AddEffect (effect);
+			return null;
 		}
 	}
 }

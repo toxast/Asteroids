@@ -45,12 +45,13 @@ MonoBehaviour:
   editorSpawnLayer: 1
   gameSpawnLayer: 2
   difficulty: 10
+  reward: 0
   teleportData:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  id: 5
   price: 1800
-  reward: 0
   color: {r: 0.24356619, g: 0.625, b: 0.37246457, a: 1}
   physical:
     density: 2
@@ -58,6 +59,12 @@ MonoBehaviour:
     healthModifier: 20
     collisionDefence: 0.1
     collisionAttackModifier: 1
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   mobility:
     thrust: 24
     maxSpeed: 32
@@ -116,14 +123,6 @@ MonoBehaviour:
   - {x: 0.19785263, y: 1}
   - {x: 1.2378527, y: 0.74}
   - {x: 2.3878527, y: 0.09000006}
-  upgradeIndex: 0
-  deathData:
-    createExplosionOnDeath: 1
-    instantExplosion: 0
-    destructionType: 0
-    overrideExplosionRange: -1
-    overrideExplosionDamage: -1
-  launchDirection: {x: 0, y: 0}
   explosionRangeCalculated: 8.429825
   explosionDamageCalculated: 7.9948816
 --- !u!1001 &100100000

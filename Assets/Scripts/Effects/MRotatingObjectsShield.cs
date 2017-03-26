@@ -6,7 +6,7 @@ using UnityEngine;
 public class MRotatingObjectsShield: MEffectData, IHasDuration {
 	public RotatingObjectsShield.Data data;
 	public float iduration{get {return data.iduration;} set{data.iduration = value;}}
-	public override void Apply (PolygonGameObject picker) {
-		data.Apply (picker);
+	public override IHasProgress Apply (PolygonGameObject picker) {
+		return data.Apply (picker);
 	}
 }

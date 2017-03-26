@@ -25,12 +25,9 @@ public class RocketLauncher : BulletGun<SpaceShip>
 	public override float BulletSpeedForAim{ get { return data.missleParameters.maxSpeed; } } //TODO?
 
 	protected override void InitPolygonGameObject (SpaceShip bullet, PhysicalData ph) {
-		bullet.InitSpaceShip(ph, data.missleParameters); 
-		if (CreateExplosion ()) {
-			bullet.overrideExplosionDamage = data.overrideExplosionDamage; 
-			bullet.overrideExplosionRange = data.overrideExplosionRadius;
-			DeathAnimation.MakeDeathForThatFellaYo (bullet, true);
-		}
+		base.InitPolygonGameObject (bullet, ph);
+		bullet.InitSpaceShip(data.missleParameters); 
+
 		if(thrusters != null) {
 			bullet.SetThrusters (thrusters);
 		}
@@ -39,13 +36,13 @@ public class RocketLauncher : BulletGun<SpaceShip>
 		bullet.targetSystem = new MissileTargetSystem (bullet);
 	}
 
-	protected override PolygonGameObject.DestructionType SetDestructionType () {
-		return PolygonGameObject.DestructionType.eDisappear;
-	}
+//	protected override PolygonGameObject.DestructionType SetDestructionType () {
+//		return PolygonGameObject.DestructionType.eDisappear;
+//	}
 
-	protected virtual bool CreateExplosion() {
-		return true;
-	}
+//	protected virtual bool CreateExplosion() {
+//		return true;
+//	}
 
 	protected override Vector2 GetDirectionNormalized (SpaceShip bullet) {
 		var dir = base.GetDirectionNormalized (bullet);

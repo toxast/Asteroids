@@ -36,8 +36,10 @@ public class HeavyBulletEffect : DurationEffect {
 		public float multiplier;
 		public bool applyForceToLazer = false;
 		public float iduration{get {return duration;} set{duration = value;}}
-		public void Apply(PolygonGameObject picker) {
-			picker.AddEffect (new HeavyBulletEffect (this));
+		public IHasProgress Apply(PolygonGameObject picker) {
+			var effect = new HeavyBulletEffect (this);
+			picker.AddEffect (effect);
+			return effect;
 		}
 	}
 }

@@ -15,7 +15,7 @@ public class FireballGun : RocketLauncher {
 		return PolygonCreator.CreatePerfectPolygonVertices(data.ballRadius, 6);
 	}
 
-	protected override bool CreateExplosion ()	{
-		return false;
-	}
+//	protected override bool CreateExplosion ()	{
+//		return false;
+//	}
 }

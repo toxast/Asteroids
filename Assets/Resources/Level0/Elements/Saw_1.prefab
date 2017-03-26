@@ -59,7 +59,7 @@ MonoBehaviour:
   reward: 20
   teleportData:
     duration: 1
-    ringSize: 7
+    ringSize: 10
     color: {r: 0.9191176, g: 0.6250159, b: 0, a: 1}
   prepareTime: 2
   chargeRotation: 500
@@ -113,7 +113,7 @@ MonoBehaviour:
   physical:
     density: 0.6
     health: -1
-    healthModifier: 1
+    healthModifier: 0.8
     collisionDefence: 0
     collisionAttackModifier: 1.5
   speed:

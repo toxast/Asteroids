@@ -51,9 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdeafd76c56213e43ae9be4251171a09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storeName: gravi
-  price: 0
-  etype: 0
+  dps: 30
   hitDamage: 30
   lifeTime: 4
   velocity: 35
@@ -66,6 +64,12 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  deathData:
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    destructionType: 3
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   spreadAngle: 0
   rotation:
     min: 0
@@ -86,6 +90,8 @@ MonoBehaviour:
   - {x: 0.4, y: -0.2}
   - {x: -0.4, y: -0.2}
   - {x: -0.4, y: 0.2}
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0
   force: -500
   range: 20
   gravityEffect:

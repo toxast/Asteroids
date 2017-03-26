@@ -10,7 +10,6 @@ public class PhysicalChangesEffect : DurationEffect
 	public override bool CanBeUpdatedWithSameEffect { get { return false; } }
 
 	protected Data data;
-	float lastDefence = -1;
 
 	public PhysicalChangesEffect(Data data) : base(data) {
 		this.data = data;
@@ -20,8 +19,7 @@ public class PhysicalChangesEffect : DurationEffect
 		base.SetHolder (holder);
 		holder.MultiplyMass (data.multiplyMass);
 		holder.MultiplyCollisionAttack (data.multiplyCollisionAttack);
-		if (data.overrideDefence != -1) { //yes defence can be restored wrong if few effect
-			lastDefence = holder.collisionDefence;
+		if (data.overrideDefence != -1) {
 			holder.ChangeCollisionDefence (data.overrideDefence);
 		}
 		var spaceshipHolder = holder as SpaceShip;
@@ -36,8 +34,8 @@ public class PhysicalChangesEffect : DurationEffect
 	void ResumeHolderValues(){
 		holder.MultiplyMass (1f/data.multiplyMass);
 		holder.MultiplyCollisionAttack (1f/data.multiplyCollisionAttack);
-		if (data.overrideDefence != -1) { //yes defence can be restored wrong if few effect
-			holder.ChangeCollisionDefence (lastDefence);
+		if (data.overrideDefence != -1) { 
+			holder.RestoreCollisionDefence ();
 		}
 		var spaceshipHolder = holder as SpaceShip;
 		if (spaceshipHolder != null) {
@@ -68,8 +66,10 @@ public class PhysicalChangesEffect : DurationEffect
 		public float multiplyMaxSpeed = 1f;
 		public float multiplyTurnSpeed = 1f;
 		public float multiplyStability = 1f;
-		public void Apply(PolygonGameObject picker) {
-			picker.AddEffect (new PhysicalChangesEffect (this));
+		public IHasProgress Apply(PolygonGameObject picker) {
+			var effect = new PhysicalChangesEffect (this);
+			picker.AddEffect (effect);
+			return effect;
 		}
 	}
 }

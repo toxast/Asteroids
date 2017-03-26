@@ -7,7 +7,8 @@ using System.Collections.Generic;
 public class Main : MonoBehaviour 
 {
 	[SerializeField] Texture2D cursorTexture;
-
+	[SerializeField] UIPowerups uiPowerups;
+	[SerializeField] OffscreenArrows offscreenArrows;
 	[SerializeField] ParticleSystem dropAnimationPrefab;
 	[SerializeField] public ParticleSystem teleportationRingPrefab;
 	[SerializeField] StarsGenerator starsGenerator;
@@ -26,7 +27,7 @@ public class Main : MonoBehaviour
 
 	private float DestroyAfterSplitTreshold = 5f;
 	private float addMoneyKff = 1f;
-    private float addMoneyNotInteractedKff = 0.7f;
+    private float addMoneyNotInteractedKff = 0.65f;
 
     [SerializeField] float borderWidth = 40f;
 	Rect screenBounds;
@@ -46,8 +47,8 @@ public class Main : MonoBehaviour
 
 	[SerializeField] Camera mainCamera;
 	Transform cameraTransform;
-	[SerializeField] Camera minimapCamera;
-	[SerializeField] MCometData cometData;
+	//[SerializeField] Camera minimapCamera;
+	//[SerializeField] MCometData cometData;
 //	[SerializeField] MGunsShow gunsShow1;
 //	[SerializeField] GravityShieldEffect.Data gravityShieldPowerUpData;
 //	[SerializeField] PhysicalChangesEffect.Data testPhysicalPowerup;
@@ -65,7 +66,7 @@ public class Main : MonoBehaviour
 	{
 		mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera>();
 		cameraTransform = mainCamera.transform;
-		minimapCamera = GameObject.FindGameObjectWithTag ("MinimapCamera").GetComponent<Camera>();
+		//minimapCamera = GameObject.FindGameObjectWithTag ("MinimapCamera").GetComponent<Camera>();
 
 		if (boundsMode) {
 			moveCameraAction += MoveCameraBoundsMode;
@@ -74,6 +75,11 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	public void DisplayPowerup(UserComboPowerup.ProgressColorWrapper powerup) {
+		if (gameIsOn) {
+			uiPowerups.DisplayPowerup (powerup);
+		}
+	}
 
 	ILevelSpawner spawner;
 	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, int level = 0, int waveNum = 0)
@@ -116,8 +122,7 @@ public class Main : MonoBehaviour
 
 	public event Action OnGameOver;
 	public event Action OnLevelCleared;
-	private void HandleUserDestroyed()
-	{
+	private void HandleUserDestroyed() {
 		OnGameOver ();
 	}
 
@@ -160,32 +165,34 @@ public class Main : MonoBehaviour
 		drops.Clear ();
 
 		foreach (var obj in gobjects) {
-			if(!IsNull(obj))
-				Destroy(obj.gameObj);
+			if (!IsNull (obj)) {
+				Destroy (obj.gameObj);
+			}
 		}
 		gobjects.Clear ();
 
 		foreach (var obj in bullets) {
-			if(!IsNull(obj))
-				Destroy(obj.gameObj);
+			if (!IsNull (obj)) {
+				Destroy (obj.gameObj);
+			}
 		}
 		bullets.Clear ();
 
 		foreach (var obj in destructors) {
-			if(obj!= null && !IsNull(obj.a))
-				Destroy(obj.a.gameObject);
+			if (obj != null && !IsNull (obj.a)) {
+				Destroy (obj.a.gameObject);
+			}
 		}
 		destructors.Clear ();
 
 		foreach (var obj in goDestructors) {
-			if(obj != null && obj.g != null && obj.g.transform != null)
-				Destroy(obj.g.gameObject);
+			if (obj != null && obj.g != null && obj.g.transform != null) {
+				Destroy (obj.g.gameObject);
+			}
 		}
 		goDestructors.Clear ();
 		id2drops.Clear ();
-
 		starsGenerator.Clear ();
-
 		gameIsOn = false;
 	}
 
@@ -219,14 +226,25 @@ public class Main : MonoBehaviour
 			yield break;
 		}
 
-		float spawnTime = 90f;
-		float percentLowerTime = 10f;
-		for (int i = 0; i < 20; i++) {
-		//	Debug.LogError(i + " " + spawnTime);
+		float spawnTime = 140;//0f;
+		float percentLowerTime = 8f;
+		for (int i = 0; i < avaliableComets.Count; i++) {
+			//Debug.LogError(i + " " + spawnTime);
 		//	Debug.LogError(i + " percentLowerTime " + percentLowerTime);
 			spawnTime = spawnTime * (1f - percentLowerTime / 100f);
 			percentLowerTime = percentLowerTime * (1f - percentLowerTime / 50f);
 		}
+
+		float cometLifeTime = 90;
+		float percentIncTime = 8f;
+		for (int i = 0; i < avaliableComets.Count - 1; i++) {
+			//Debug.LogError(i + " " + cometLifeTime);
+			//Debug.LogError(i + " percentIncTime " + percentIncTime);
+			cometLifeTime = cometLifeTime * (1f + percentIncTime / 100f);
+			percentIncTime = percentIncTime * (1f - percentIncTime / 40f);
+		}
+
+		Debug.LogError ("comet spawn time: " + spawnTime + " life time " + cometLifeTime);
 
 		while (true) {
 			float nextDelta = spawnTime;
@@ -238,15 +256,13 @@ public class Main : MonoBehaviour
 				}
 			} 
 			nextDelta = UnityEngine.Random.Range (1f - 0.25f, 1f + 0.25f) * nextDelta;
-
-			Debug.LogError (nextDelta + " Todo: spawn on edge of area");
-
 			yield return new WaitForSeconds (nextDelta);
 			if (!IsNull (userSpaceship)) {
 				var cometData = avaliableComets [UnityEngine.Random.Range (0, avaliableComets.Count)];
-				var comet = cometData.Create ();
+				var comet = cometData.GameCreate (userSpaceship.maxSpeed, cometLifeTime);
 				var angle = UnityEngine.Random.Range (0, 360);
-				comet.position = userSpaceship.position + 30f * Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
+				var posData = GetEdgePositionData (angle);
+				comet.position = posData.origin + posData.range * Math2d.RotateVertexDeg (new Vector2 (1, 0), posData.rangeAngle);
 				Add2Objects (comet);
 			}
 		}
@@ -334,8 +350,8 @@ public class Main : MonoBehaviour
 	private void MoveCameraWarpMode()
 	{
 		Vector3 pos = userSpaceship.position;
-		mainCamera.transform.position = pos.SetZ(mainCamera.transform.position.z);
-		minimapCamera.transform.position = mainCamera.transform.position.SetZ(minimapCamera.transform.position.z);
+		cameraTransform.position = pos.SetZ(cameraTransform.position.z);
+		//minimapCamera.transform.position = cameraTransform.position.SetZ(minimapCamera.transform.position.z);
 	}
 
 	private void MoveCameraBoundsMode()
@@ -343,8 +359,8 @@ public class Main : MonoBehaviour
 		Vector3 pos = userSpaceship.position;
 		float x = Mathf.Clamp(pos.x, -maxCameraX, maxCameraX);
 		float y = Mathf.Clamp(pos.y, -maxCameraY, maxCameraY);
-		mainCamera.transform.position = new Vector3(x, y, mainCamera.transform.position.z);
-		minimapCamera.transform.position = mainCamera.transform.position.SetZ(minimapCamera.transform.position.z);
+		cameraTransform.position = new Vector3(x, y, cameraTransform.position.z);
+		//minimapCamera.transform.position = cameraTransform.position.SetZ(minimapCamera.transform.position.z);
 	}
 
 	private void MoveCamera()
@@ -380,7 +396,7 @@ public class Main : MonoBehaviour
 	[NonSerialized] CollisionLayers.TimeMultipliersData timeMultipliers = null;
 	float slowTimeLeft = 0;
 
-	bool gameIsOn = false;
+	[System.NonSerialized] bool gameIsOn = false;
 	void Update()
 	{
         if (!gameIsOn) {
@@ -398,7 +414,7 @@ public class Main : MonoBehaviour
 			spawner.Tick();
             if (spawner.Done()) {
                 spawner = null;
-				OnLevelCleared ();
+				StartCoroutine (WaitUntilDropsAreDestroyed ());
             }
         }
 
@@ -459,8 +475,7 @@ public class Main : MonoBehaviour
 				var drop = drops [i];
 				if (PolygonCollision.IsCollides (userSpaceship, drop, out indxa, out indxb)) {
 					drop.OnInteracted (userSpaceship);
-					Destroy (drop.gameObject);
-					drops.RemoveAt (i);
+					drop.Kill ();
 				}
 			}
 		}
@@ -477,6 +492,19 @@ public class Main : MonoBehaviour
 		CheckDeadObjects (gobjects);
 		CheckDeadObjects (drops);
 		CheckDeadObjects (bullets, true);
+
+		List<OffScreenPosition> offScreenPositions = new List<OffScreenPosition> ();
+		int enemiesLayer = (int)CollisionLayers.eLayer.TEAM_ENEMIES;
+		for (int i = 0; i < gobjects.Count; i++) {
+			var obj = gobjects [i];
+			if (obj.showOffScreen && (enemiesLayer & obj.layerLogic) != 0) {
+				var pos = GetOffScreenPositionData (obj.position);
+				if (pos != null) {
+					offScreenPositions.Add (pos);
+				}
+			}
+		}
+		offscreenArrows.Display (offScreenPositions);
 	}
 
     //TODO: unlock ability to score persantage of non-collected drops (Call it "Dust Collector")
@@ -544,6 +572,21 @@ public class Main : MonoBehaviour
 		}
     }
     */
+
+	private IEnumerator WaitUntilDropsAreDestroyed(){
+		var drops = gobjects.FindAll (obj => obj is polygonGO.Drop);
+		while (true) {
+			if (drops.Exists (d => !IsNull (d))) {
+				yield return new WaitForSeconds (1f);
+			} else {
+				break;
+			}
+		}
+
+		if (!Main.IsNull (userSpaceship) && !userSpaceship.IsKilled ()) {
+			OnLevelCleared ();
+		}
+	}
 
     private void CreateRageWave() {
 		var level = (spawner as LevelSpawner);
@@ -617,7 +660,7 @@ public class Main : MonoBehaviour
 			SplitAndMarkForDestructionAllParts(gobject);
 			break;
 		case PolygonGameObject.DestructionType.eDisappear:
-		case PolygonGameObject.DestructionType.eSptilOnlyOnHit:
+		case PolygonGameObject.DestructionType.eSplitlOnlyOnHit:
 			break;
 		default:
 			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
@@ -726,7 +769,7 @@ public class Main : MonoBehaviour
 					bullet.OnHit(obj); //apply ice/burn effects first. (ice affects destruction)
                     obj.Hit(bullet.damageOnCollision + GetCollisionDamage(impulse, obj, bullet));
                 }
-                if (bullet.destructionType == PolygonGameObject.DestructionType.eSptilOnlyOnHit) {
+                if (bullet.destructionType == PolygonGameObject.DestructionType.eSplitlOnlyOnHit) {
                     bullet.destructionType = PolygonGameObject.DestructionType.eComplete;
                 }
                 bullet.Kill();
@@ -897,7 +940,7 @@ public class Main : MonoBehaviour
     }
 
 	public void Add2Objects(PolygonGameObject p) {
-		CreateMinimapIndicatorForObject (p);
+		//CreateMinimapIndicatorForObject (p);
 		gobjects.Add (p);
 	}
 
@@ -1065,7 +1108,7 @@ public class Main : MonoBehaviour
 
 	private bool Wrap(Transform t, out Vector3 newPos)
 	{
-		Vector2 center = mainCamera.transform.position;
+		Vector2 center = cameraTransform.position;
 		Vector2 pos = t.position;
 		float rHorisontal = screenBounds.width/2;
 		float rVertical = screenBounds.height/2;
@@ -1108,7 +1151,7 @@ public class Main : MonoBehaviour
 		#endif
 		userSpaceship = ObjectsCreator.CreateSpaceShip (controller, data);
 		Add2Objects(userSpaceship);
-		userSpaceship.cacheTransform.position = mainCamera.transform.position.SetZ (0);
+		userSpaceship.cacheTransform.position = cameraTransform.position.SetZ (0);
 	}
 
 
@@ -1197,6 +1240,124 @@ public class Main : MonoBehaviour
 		data.range = range.RandomValue;
 		data.rangeAngle = UnityEngine.Random.Range(pos.positionAngle - pos.positionAngleRange * 0.5f, pos.positionAngle + pos.positionAngleRange * 0.5f);
 		data.angleLookAtOrigin = UnityEngine.Random.Range (pos.lookAngle - pos.lookAngleRange * 0.5f, pos.lookAngle + pos.lookAngleRange * 0.5f);
+		return data;
+	}
+
+	public MSpawnBase.PositionData GetEdgePositionData(float angle, float lookAtOrigin = 0, float lookAtOriginRange = 360) {
+		MSpawnBase.PositionData data = new MSpawnBase.PositionData ();
+
+		Rect rect = screenBounds;
+		rect.width /= sceneSizeInCameras.x;
+		rect.height /= sceneSizeInCameras.y;
+		rect.center = Vector2.zero;
+		//screenBounds
+		Vector2 v00 =  rect.min;
+		Vector2 v01 =  new Vector2(rect.xMin, rect.yMax);
+		Vector2 v11 =  rect.max;
+		Vector2 v10 =  new Vector2(rect.xMax, rect.yMin);
+
+		Vector2 origin = Vector2.zero;
+		Vector2 end = Math2d.RotateVertexDeg(new Vector2(1000,0), angle);
+
+		bool hasIntersection = false;
+		Intersection itr = new Intersection (v00, v10, origin, end);
+		if (itr.haveIntersection) {
+			hasIntersection = true;
+			data.range = itr.intersection.magnitude;
+		}
+		if (!hasIntersection) {
+			itr = new Intersection (v10, v11, origin, end);
+			if (itr.haveIntersection) {
+				hasIntersection = true;
+				data.range = itr.intersection.magnitude;
+			}
+		}
+		if (!hasIntersection) {
+			itr = new Intersection (v11, v01, origin, end);
+			if (itr.haveIntersection) {
+				hasIntersection = true;
+				data.range = itr.intersection.magnitude;
+			}
+		}
+		if (!hasIntersection) {
+			itr = new Intersection (v01, v00, origin, end);
+			if (itr.haveIntersection) {
+				hasIntersection = true;
+				data.range = itr.intersection.magnitude;
+			}
+		}
+		if (!hasIntersection) {
+			Debug.LogError ("no intersection found");
+			data.range = 70;
+		}
+		data.range += 20;
+
+		data.origin = (Vector2)cameraTransform.position;
+		data.rangeAngle = angle;
+		data.angleLookAtOrigin = UnityEngine.Random.Range (lookAtOrigin - lookAtOriginRange * 0.5f, lookAtOrigin + lookAtOriginRange * 0.5f);
+
+		return data;
+	}
+
+	public class OffScreenPosition
+	{
+		public enum eSide
+		{
+			RIGHT,
+			LEFT,
+			TOP,
+			DOWN,
+		}
+
+		public eSide side;
+		public float pos01;
+	}
+	public OffScreenPosition GetOffScreenPositionData(Vector2 end) {
+		OffScreenPosition data = null;
+		Rect rect = screenBounds;
+		rect.width /= sceneSizeInCameras.x;
+		rect.height /= sceneSizeInCameras.y;
+		rect.center = Vector2.zero;
+		end = end - (Vector2)cameraTransform.position;
+		if (rect.Contains (end)) {
+			return null;
+		}
+
+		//screenBounds
+		Vector2 v00 =  rect.min;
+		Vector2 v01 =  new Vector2(rect.xMin, rect.yMax);
+		Vector2 v11 =  rect.max;
+		Vector2 v10 =  new Vector2(rect.xMax, rect.yMin);
+
+		Vector2 origin = Vector2.zero;
+
+		bool hasIntersection = false;
+		Intersection itr = new Intersection (v00, v10, origin, end);
+		if (itr.haveIntersection) {
+			hasIntersection = true;
+			data = new OffScreenPosition{ side = OffScreenPosition.eSide.DOWN, pos01 = itr.intersection.x / rect.width};
+		}
+		if (!hasIntersection) {
+			itr = new Intersection (v10, v11, origin, end);
+			if (itr.haveIntersection) {
+				hasIntersection = true;
+				data = new OffScreenPosition{ side = OffScreenPosition.eSide.RIGHT, pos01 = itr.intersection.y / rect.height};
+			}
+		}
+		if (!hasIntersection) {
+			itr = new Intersection (v11, v01, origin, end);
+			if (itr.haveIntersection) {
+				hasIntersection = true;
+				data = new OffScreenPosition{ side = OffScreenPosition.eSide.TOP, pos01 = itr.intersection.x / rect.width};
+			}
+		}
+		if (!hasIntersection) {
+			itr = new Intersection (v01, v00, origin, end);
+			if (itr.haveIntersection) {
+				hasIntersection = true;
+				data = new OffScreenPosition{ side = OffScreenPosition.eSide.LEFT, pos01 = itr.intersection.y / rect.height};
+			}
+		}
 		return data;
 	}
 

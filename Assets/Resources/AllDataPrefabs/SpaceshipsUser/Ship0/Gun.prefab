@@ -53,6 +53,12 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 0.1
+  deathData:
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    destructionType: 3
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   spreadAngle: 0
   rotation:
     min: 0
@@ -69,10 +75,12 @@ MonoBehaviour:
   effects: []
   destructionEffects: []
   vertices:
-  - {x: 0.4, y: 0.2}
-  - {x: 0.4, y: -0.2}
-  - {x: -0.4, y: -0.2}
-  - {x: -0.4, y: 0.2}
+  - {x: 0.5, y: 0.25}
+  - {x: 0.5, y: -0.25}
+  - {x: -0.5, y: -0.25}
+  - {x: -0.5, y: 0.25}
+  explosionRangeCalculated: 0
+  explosionDamageCalculated: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
