@@ -133,7 +133,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 							timeForCowardActionPassed = false;
 							if (Math2d.Chance (0.6f)) {
 								behaviourChosen = true;
-								Debug.LogWarning ("coward action");
+								//Debug.LogWarning ("coward action");
 								int turnsTotal = UnityEngine.Random.Range (2, 5);
 								int turns = turnsTotal;
 								while (turns > 0) {

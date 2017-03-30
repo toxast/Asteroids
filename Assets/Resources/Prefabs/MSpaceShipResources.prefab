@@ -41,22 +41,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userSpaceships:
-  - {fileID: 11441248, guid: 64863f281f8a3444aa83390fe868be22, type: 2}
-  - {fileID: 11405160, guid: a598852d836e290418f30a252a5b9ddb, type: 2}
-  - {fileID: 11480350, guid: d4d883b3ff16b0b4887ce43194b44757, type: 2}
-  - {fileID: 11441248, guid: c197495d5c31c7649be7ba26f3c5e85c, type: 2}
-  - {fileID: 11441248, guid: 6cae3be69bd6f974ca03f529f691d788, type: 2}
-  - {fileID: 11451942, guid: 2723a78f2f8424a49b9b2a1f1e5e5c36, type: 2}
-  - {fileID: 11451942, guid: b234a1e29644aa740ac01e7a31e48944, type: 2}
-  - {fileID: 11434626, guid: 9503594d1e892204489862ec4f152ddd, type: 2}
-  - {fileID: 11475918, guid: 728f19986db60d444896d091a7b2cec4, type: 2}
-  - {fileID: 11412104, guid: 94d22cd787f003545936a647217ea7bc, type: 2}
-  - {fileID: 11442276, guid: d5a16cf23c46f9b478273940188db6b6, type: 2}
-  - {fileID: 11434910, guid: 93eaeb9636b892f498ce92abfc3e8fd1, type: 2}
-  - {fileID: 11414660, guid: a5433fae328c9434182ae120570534d2, type: 2}
-  - {fileID: 11443740, guid: f3519ce212c11c845b0e09bae3366531, type: 2}
-  - {fileID: 11411850, guid: 255907c1247a9074a80e122760a58630, type: 2}
-  - {fileID: 11480600, guid: b1234ce6f2073884a997309e2ca933a5, type: 2}
+  - ships:
+    - {fileID: 11441248, guid: 64863f281f8a3444aa83390fe868be22, type: 2}
+    - {fileID: 11405160, guid: a598852d836e290418f30a252a5b9ddb, type: 2}
+    - {fileID: 11480350, guid: d4d883b3ff16b0b4887ce43194b44757, type: 2}
+  - ships:
+    - {fileID: 11451942, guid: 2723a78f2f8424a49b9b2a1f1e5e5c36, type: 2}
+    - {fileID: 11451942, guid: b234a1e29644aa740ac01e7a31e48944, type: 2}
+    - {fileID: 11434626, guid: 9503594d1e892204489862ec4f152ddd, type: 2}
   testid: 0
 --- !u!1001 &100100000
 Prefab:

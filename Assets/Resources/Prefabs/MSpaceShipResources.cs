@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class MSpaceShipResources : ResourceSingleton<MSpaceShipResources> 
 {
-	[SerializeField] public List<MSpaceshipData> userSpaceships;
+	[SerializeField] public List<ShipUpgrades> userSpaceships;
 	[SerializeField] bool testid = false;
 
 	void OnValidate(){
@@ -12,18 +12,25 @@ public class MSpaceShipResources : ResourceSingleton<MSpaceShipResources>
 	}
 
 	private void CheckIds(){
+		testid = false;
+		List<MSpaceshipData> allSpaceships = new List<MSpaceshipData> ();
 		for (int i = 0; i < userSpaceships.Count; i++) {
-			var id = userSpaceships [i].id;
+			allSpaceships.AddRange (userSpaceships [i].ships);
+		}
+
+		for (int i = 0; i < allSpaceships.Count; i++) {
+			var id = allSpaceships [i].id;
 			if (id <= 0) {
-				Debug.LogError ("wrong ship id " + userSpaceships[i].name);
+				Debug.LogError ("wrong ship id " + allSpaceships[i].name);
 			}
-			for (int k = 0; k < userSpaceships.Count; k++) {
-				if (k != i && userSpaceships [k].id == id) {
+			for (int k = 0; k < allSpaceships.Count; k++) {
+				if (k != i && allSpaceships [k].id == id) {
 					Debug.LogError (i + " " + k + " user ships has same id " + id);				
 				}
 			}
 		}
 	}
+
 
 	/*[ContextMenu ("calculate health")] 
 	private void CalculateHealth()
@@ -37,4 +44,10 @@ public class MSpaceShipResources : ResourceSingleton<MSpaceShipResources>
 			}
 		}
 	}*/
+}
+
+[System.Serializable]
+public class ShipUpgrades
+{
+	public List<MSpaceshipData> ships;
 }

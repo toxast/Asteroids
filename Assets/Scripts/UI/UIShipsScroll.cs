@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,21 +10,54 @@ public class UIShipsScroll : MonoBehaviour
 	[SerializeField] BuyShipElem prefab;
 	[SerializeField] RectTransform elementsHolder;
 
-	BuyShipElem selected = null;
+	public BuyShipElem selected { get; private set;}
 	List<BuyShipElem> list = new List<BuyShipElem>();
 
-	public void Show(List<MSpaceshipData> elemsData, Action<int, MSpaceshipData> onClick) {
-		Clear ();
-		for (int i = 0; i < elemsData.Count; i++) {
-			int index = i;
-			var data = elemsData [index];
-			var shipElem = Instantiate(prefab) as BuyShipElem;
-			shipElem.transform.SetParent(elementsHolder, false);
-			shipElem.Init(data.name, data.price); 
-			int indxInList = list.Count;
-			shipElem.AddListener(() => onClick(indxInList, data));
-			list.Add(shipElem);
-		}
+
+
+	void Awake(){
+//		LoadShips ();
+	}
+
+	public Action<BuyShipElem> OnCick;
+
+	public void Show(List<ShipUpgrades> elemsData) {
+//		Clear ();
+//		bool lastShipFullUpgraded = false;
+//		for (int i = 0; i < elemsData.Count; i++) {
+//			var upgradeList = elemsData [i].ships;
+//			var lastBoughtUpgrade = upgradeList.FindLast(s => unlockedShips.Contains(s.id));
+//
+//			if (lastBoughtUpgrade != null) {
+//				bool canBeUpgraded = upgradeList.Last () != lastBoughtUpgrade;
+//				BuyShipElem.State state = canBeUpgraded ? BuyShipElem.State.CanBeUpgraded : BuyShipElem.State.Max;
+//				AddShipToTheList (lastBoughtUpgrade, state);
+//				lastShipFullUpgraded = !canBeUpgraded;
+//			} else {
+//				if (lastShipFullUpgraded) {
+//					//show awaliable
+//					AddShipToTheList (upgradeList[0],  BuyShipElem.State.CanUnlock);
+//				} else {
+//					//display lock
+//					AddShipToTheList (upgradeList[0],  BuyShipElem.State.CanUnlock);
+//				}
+//
+//				lastShipFullUpgraded = false;
+//			}
+//		}
+	}
+
+	BuyShipElem AddShipToTheList(MSpaceshipData data, BuyShipElem.State state){
+		var shipElem = Instantiate (prefab) as BuyShipElem;
+		shipElem.transform.SetParent (elementsHolder, false);
+		shipElem.Refresh (data, state); 
+		shipElem.OnClick += () => OnShipElemClicked(shipElem);
+		list.Add (shipElem);
+		return shipElem;
+	}
+
+	void OnShipElemClicked(BuyShipElem elem){
+		OnCick (elem);
 	}
 
 	public void Clear() {
@@ -32,12 +66,53 @@ public class UIShipsScroll : MonoBehaviour
 		list.Clear ();
 	}
 
-	public void Select(int i)
+	public void Select(BuyShipElem data)
 	{
-		if (selected != null)
+		if (selected != data && selected != null) {
 			selected.Unselect ();
+		}
+		selected = data;
+		if (selected != null) {
+			selected.Select ();
+		}
+	}
 
-		selected = list [i];
-		selected.Select();
+	void UnlockShip(int id){
+//		unlockedShips.Add (id);
+//		SaveShips ();
+	}
+
+
+}
+
+public class ShipsSave {
+
+	const string shipsSaveString = "unlockedShips";
+	public HashSet<int> unlockedShips = new HashSet<int>{1};
+
+	public void SaveShips() {
+		string saveString = string.Empty;
+		var list = unlockedShips.ToList ();
+		for (int i = 0; i < list.Count; i++) {
+			saveString += list[i].ToString() + " ";
+		}
+		PlayerPrefs.SetString (shipsSaveString, saveString);
+	}
+
+	public void UnlockShip(int id){
+		unlockedShips.Add (id);
+		SaveShips ();
+	}
+
+	public void LoadShips() {
+		string loadedString = PlayerPrefs.GetString (shipsSaveString, "");
+		var parts = loadedString.Split (' ');
+		for (int i = 0; i < parts.Count(); i++) {
+			int res;
+			if(System.Int32.TryParse(parts[i], out res)){
+				unlockedShips.Add (res);
+			}
+		}
 	}
 }
+  

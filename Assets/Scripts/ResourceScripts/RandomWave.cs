@@ -101,7 +101,7 @@ public class RandomWave : IWaveSpawner{
 							Debug.Log (selectedSpawns [i].spawn.name + " " + selectedSpawnsCount [i]);
 						}
 					}
-					Debug.LogWarning ("preparedDifficulty: " + preparedDifficulty + " difficultyPicked: " + difficultyPicked);
+					//Debug.LogWarning ("preparedDifficulty: " + preparedDifficulty + " difficultyPicked: " + difficultyPicked);
 					////////////////
 				} else {
 					//Debug.LogWarning ("totalDifficulyLeft: " + totalDifficulyLeft + " => 0");
@@ -189,7 +189,7 @@ public class RandomWave : IWaveSpawner{
 			weightsFunc = (w) => 1;
 		}
 
-		Debug.LogError (strategy);
+		//Debug.LogError (strategy);
 
 
 		List<WeightedSpawn> selectedSpawnsAvaliable = new List<WeightedSpawn> (selectedSpawns); 

@@ -52,7 +52,7 @@ public class DumbHitterController : BaseSpaceshipController {
                 //duration = Random.Range(duration * 0.8f, duration * 1.2f);
 				float angleSpeed = arcDegrees / duration;
                 float currentDegrees = arcDegrees;
-				Debug.LogWarning ("arc " + duration + " " + arcDegrees);
+				LogWarning ("arc " + duration + " " + arcDegrees);
 				float arcRotationRad = Random.Range(1, 360) * Mathf.Deg2Rad;
                 while (duration > 0) {
                     duration -= Time.deltaTime;

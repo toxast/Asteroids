@@ -17,6 +17,8 @@ public class Game : MonoBehaviour
 
 	void Awake()
 	{
+		GameResources.LoadMoney ();
+
 		hangarObjects.ForEach (h => h.SetActive (true));
 
 		hangar.startTheGame += HandleStartTheGame;
@@ -50,12 +52,20 @@ public class Game : MonoBehaviour
 		main.Clear ();
 	}
 
-	void HandleStartTheGame (MSpaceshipData data)
+	void HandleStartTheGame (MSpaceshipData shipData)
 	{
 		hangarObjects.ForEach (h => h.SetActive (false));
 		gameObjects.ForEach (h => h.SetActive (true));
 
-		main.StartTheGame (data, MPowerUpResources.Instance.powerups[0].comets, int.Parse(levelInput.text), int.Parse(waveInput.text));
+		main.StartTheGame (shipData, MPowerUpResources.Instance.powerups[0].comets, int.Parse(levelInput.text), int.Parse(waveInput.text));
+	}
+
+	void OnApplicationPause(){
+		PlayerPrefs.Save ();
+	}
+
+	void OnApplicationQuit(){
+		PlayerPrefs.Save ();
 	}
 }
 

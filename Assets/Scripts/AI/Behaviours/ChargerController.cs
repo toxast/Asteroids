@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class ChargerController : BaseSpaceshipController
 {
-	AIHelper.Data tickData = new AIHelper.Data();
 	MChargerSpaseshipData chData;
 
     float chargeDuration;

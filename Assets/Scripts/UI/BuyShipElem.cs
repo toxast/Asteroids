@@ -6,18 +6,63 @@ using System;
 public class BuyShipElem : MonoBehaviour 
 {
 	[SerializeField] Text label;
-	[SerializeField] MoneyButton btn;
+	[SerializeField] Button clickArea;
+
+	[SerializeField] GameObject canBeUpgradedContainer;
+	[SerializeField] Text upgradeText;
+
+	[SerializeField] GameObject maxContainer;
+	[SerializeField] Text maxText;
+
+	[SerializeField] GameObject unlockContainer;
+	[SerializeField] Text unlockText;
+
+	[SerializeField] GameObject lockedContainer;
+
+
 	[SerializeField] Image selectElem;
 
-	public void AddListener(Action act)
+	public Action OnClick;
+
+	public MSpaceshipData data{ get; private set;}
+	public State state{ get; private set;}
+	public enum State
 	{
-		btn.AddListener (act);
+		CanBeUpgraded = 1,
+		Max,
+		CanUnlock,
+		Locked,
 	}
 
-	public void Init(string text, int price)
+	void Awake(){
+		clickArea.onClick.AddListener (() => OnClick());
+	}
+
+	public void Refresh(MSpaceshipData data, State state)
 	{
-		label.text = text;
-		btn.SetPrice (price);
+		this.data = data;
+		this.state = state;
+
+		canBeUpgradedContainer.SetActive (state == State.CanBeUpgraded);
+		maxContainer.SetActive (state == State.Max);
+		unlockContainer.SetActive (state == State.CanUnlock);
+		lockedContainer.SetActive (state == State.Locked);
+
+		switch (state) {
+		case State.CanBeUpgraded:
+			//text and upgrade arrow
+			upgradeText.text = data.name;
+			break;
+		case State.Max:
+			maxText.text = data.name;
+			break;
+		case State.CanUnlock:
+			unlockText.text = "Unlock " + data.price;
+			break;
+		case State.Locked:
+			break;
+		}
+
 	}
 
 	public void Select()

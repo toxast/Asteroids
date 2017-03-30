@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 489608}
   - component: {fileID: 11434626}
   m_Layer: 0
-  m_Name: Ship6_OldSchool
+  m_Name: Ship5_Retro3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
-  id: 5
+  id: 6
   price: 1600
   color: {r: 0.24356619, g: 0.625, b: 0.37246457, a: 1}
   physical:

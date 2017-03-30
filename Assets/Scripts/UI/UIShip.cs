@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class UIShip : MonoBehaviour 
 {
-	[SerializeField] Camera cam;
+	//[SerializeField] Camera cam;
 	[SerializeField] Transform spaceshipHolder;
 	SpaceShip spaceship;
 

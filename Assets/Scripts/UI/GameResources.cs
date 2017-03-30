@@ -21,22 +21,35 @@ public static class GameResources
 
 
 	static public event Action<int> moneyChanged = delegate {};
+	const string moneySaveKey = "essence";
+	public static void LoadMoney() {
+		int money = PlayerPrefs.GetInt (moneySaveKey, 0);
+		AddMoney (money);
+	}
 
 	public static int money {
 		get;
 		private set;
 	}
 
-	public static void AddMoney(int amount)
-	{
+	public static void AddMoney(int amount)	{
 		money += amount;
+		PlayerPrefs.SetInt (moneySaveKey, money);
 		moneyChanged (money);
 	}
 
-	public static void SpendMoney(int amount)
-	{
-		money -= amount;
-		moneyChanged (money);
+	public static bool SpendMoney(int amount) {
+		if (CanSpend(amount)) {
+			money -= amount;
+			PlayerPrefs.SetInt (moneySaveKey, money);
+			moneyChanged (money);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
+	public static bool CanSpend(int amount) {
+		return money >= amount;
+	}
 }
