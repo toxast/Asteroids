@@ -13,7 +13,7 @@ using UnityEngine;
 		var main = Singleton<Main>.inst;
 		Vector2 elemOrigin = data.origin + Math2d.RotateVertexDeg (new Vector2 (data.range, 0), data.rangeAngle);
 		float elemRotationAngle = data.rangeAngle + (180 + data.angleLookAtOrigin);
-		Vector2 elemOffset = Math2d.RotateVertexDeg (place.pos, elemRotationAngle);
+		Vector2 elemOffset = Math2d.RotateVertexDeg (place.position, elemRotationAngle);
 		elemRotationAngle += Math2d.GetRotationDg (place.dir);
 		Vector2 elemPos = elemOrigin + elemOffset;
 
@@ -76,6 +76,8 @@ public class SpawnBase
 public class WeightedSpawn : SpawnBase
 {
 	[SerializeField] public float weight = 4;
+	[SerializeField] public bool overridePositioning = false;
+	[SerializeField] public SpawnPositioning positioning;
 } 
 
 [Serializable]

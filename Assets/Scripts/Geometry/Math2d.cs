@@ -23,6 +23,25 @@ public static class Math2d {
 		}
 	}
 
+	public static float GetDuration (float distToGo, float Vcurr, float Vmax, float a) {
+		float tUntilMax = (Vmax - Vcurr) / a;
+		float chargingDist = Vcurr * tUntilMax + 0.5f * a * tUntilMax * tUntilMax;
+		if (chargingDist > distToGo) {
+			return (Mathf.Sqrt (Vcurr * Vcurr + 2 * a * distToGo) - Vcurr) / a;
+		} else {
+			return (distToGo + Vmax * tUntilMax - chargingDist) / Vmax;
+		}
+	}
+
+	public static float GetDistance (float t, float Vcurr, float Vmax, float a) {
+		float tUntilMax = (Vmax - Vcurr) / a;
+		if (t > tUntilMax) {
+			return Vcurr * t + 0.5f * a * tUntilMax * tUntilMax + Vmax* (t - tUntilMax); 
+		} else {
+			return Vcurr * t + 0.5f * a * t * t; 
+		}
+	}
+
     private static System.Random rng = new System.Random();
     public static void Shuffle<T>(this IList<T> list) {
         int n = list.Count;

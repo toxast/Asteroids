@@ -41,6 +41,10 @@ public class ShipEditor : MonoBehaviour
 	[SerializeField] bool doRotate = false;
 	[SerializeField] float rotateby = 45;
 
+	[Header ("shiftVerts")]
+	[SerializeField] bool shiftVerts = false;
+	[SerializeField] int shiftCount = 1;
+
 	[Header("perfect shape")]
 	[SerializeField] bool createPerfectShape = false;
 	[SerializeField] float perfectShapeRadius = 1;
@@ -420,20 +424,15 @@ public class ShipEditor : MonoBehaviour
 	private void FillPlaces<T>(List<T> newPlaces, List<T> oldPlaces)
 		where T : IGotPlace
 	{
-		for (int i = 0; i < newPlaces.Count; i++) 
-		{
-			if(oldPlaces.Count <= i)
-			{
-				oldPlaces.Add(newPlaces[i]);
-			}
-			else
-			{
-				oldPlaces[i].pos = newPlaces[i].pos;
+		for (int i = 0; i < newPlaces.Count; i++) {
+			if (oldPlaces.Count <= i) {
+				oldPlaces.Add (newPlaces [i]);
+			} else {
+				oldPlaces [i].pos = newPlaces [i].pos;
 			}
 		}
-		if(newPlaces.Count < oldPlaces.Count)
-		{
-			oldPlaces.RemoveRange(newPlaces.Count, oldPlaces.Count - newPlaces.Count);
+		if (newPlaces.Count < oldPlaces.Count) {
+			oldPlaces.RemoveRange (newPlaces.Count, oldPlaces.Count - newPlaces.Count);
 		}
 	}
 
@@ -583,6 +582,22 @@ public class ShipEditor : MonoBehaviour
 			Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(perfectShapeRadius, perfectShapeSides);
 			foreach(var vert in vertices) {
 				CreatePosition(vert,  vright, "handle ", handles);
+			}
+		}
+
+		if (shiftVerts) {
+			if (symmetric || symmetricState) {
+				symmetric = false;
+				symmetricState = false;
+			} else {
+				shiftVerts = false;
+				for (int i = 0; i < shiftCount; i++) {
+					handles.Insert (0, handles.Last ());
+					handles.RemoveAt (handles.Count - 1);
+				}
+				for (int i = 0; i < handles.Count; i++) {
+					handles[i].name = name + " " + i.ToString();
+				}
 			}
 		}
 

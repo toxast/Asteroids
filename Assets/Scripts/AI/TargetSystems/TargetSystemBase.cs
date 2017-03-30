@@ -100,7 +100,7 @@ public class TargetSystemBase<T> : ITickable
 	static List<PriorityMultiplier> normList = new List<PriorityMultiplier>{new PriorityMultiplier(PolygonGameObject.ePriorityLevel.NORMAL)}; 
 	static List<PriorityMultiplier> mixed = new List<PriorityMultiplier>{
 		new PriorityMultiplier(PolygonGameObject.ePriorityLevel.NORMAL, 1f),
-		new PriorityMultiplier(PolygonGameObject.ePriorityLevel.LOW, 1.3f),
+		new PriorityMultiplier(PolygonGameObject.ePriorityLevel.LOW, 1.7f),
 	} ;
 
 

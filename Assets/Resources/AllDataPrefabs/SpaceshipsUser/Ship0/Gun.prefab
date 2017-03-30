@@ -54,16 +54,16 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 0.1
   deathData:
+    destructionType: 3
     createExplosionOnDeath: 0
     instantExplosion: 0
-    destructionType: 3
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
   spreadAngle: 0
   rotation:
     min: 0
     max: 0
-  color: {r: 0.8862745, g: 0.7254902, b: 0.06666667, a: 1}
+  color: {r: 0, g: 0.7941176, b: 0.03833678, a: 1}
   burnDOT:
     duration: 0
     dps: 0
@@ -79,8 +79,8 @@ MonoBehaviour:
   - {x: 0.5, y: -0.25}
   - {x: -0.5, y: -0.25}
   - {x: -0.5, y: 0.25}
-  explosionRangeCalculated: 0
-  explosionDamageCalculated: 0
+  explosionRangeCalculated: 2.1213202
+  explosionDamageCalculated: 3.2607992
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

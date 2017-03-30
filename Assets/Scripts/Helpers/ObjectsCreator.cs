@@ -238,24 +238,28 @@ public class ObjectsCreator
 
     public static TowerEnemy CreateStationTower(MStationTowerData data, int layer)
 	{
-        float r = data.size.RandomValue;  
-        int sides = data.sidesCount.RandomValue;
+        //float r = data.size.RandomValue;  
+        //int sides = data.sidesCount.RandomValue;
 		
-		int[] cannons;
-		Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/7f, sides, out cannons);
+		//int[] cannons;
+		//Vector2[] vertices = PolygonCreator.CreateTowerPolygonVertices (r, r/7f, sides, out cannons);
 		
-        var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy> (vertices, data.color);//Singleton<GlobalConfig>.inst.towerEnemiesColor);
+		var tower = PolygonCreator.CreatePolygonGOByMassCenter<TowerEnemy> (data.verts, data.color);//Singleton<GlobalConfig>.inst.towerEnemiesColor);
         tower.Init (data);
 		tower.SetLayerNum (layer);
+		ApplyDeathData(tower, data.deathData);
         tower.gameObject.name = data.name;
 		DeathAnimation.MakeDeathForThatFellaYo (tower);
 		List<Place> gunplaces = new List<Place> ();
-		for (int i = 0; i < cannons.Length; i++) 
-		{
+
+		float angle = 0;
+		float deltaAngle = 360f / data.cannonsCount;
+		for (int i = 0; i < data.cannonsCount; i++) {
 			Place place = new Place();
-			place.pos = vertices[cannons[i]];
+			place.pos = Math2d.RotateVertexDeg (data.firtGunPlace, angle);
 			place.dir = place.pos.normalized;
 			gunplaces.Add(place);
+			angle += deltaAngle;
 		}
 
         InitGuns (tower, gunplaces, data.gun);
@@ -346,6 +350,7 @@ public class ObjectsCreator
         drop.InitPolygonGameObject(new PhysicalData());
         drop.InitPowerUp(data.effectData);
 		var clone = data.particles.Clone ();
+		clone.overrideStartColor = true;
 		clone.startColor = data.particleSystemColor;
 		drop.AddParticles (new List<ParticleSystemsData>{clone});
         drop.SetLayerNum(CollisionLayers.ilayerMisc);

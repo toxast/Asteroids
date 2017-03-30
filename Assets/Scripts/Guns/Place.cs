@@ -6,6 +6,20 @@ public class Place: IClonable<Place>
 {
 	public Vector2 pos = Vector2.zero;
 	public Vector2 dir = new Vector2(1,0);
+	public bool useAngleForPosition = false;
+	public float range;
+	public float angle;
+
+	public Vector2 position{
+		get{ 
+			if (!useAngleForPosition) {
+				return pos;
+			} else {
+				return Math2d.RotateVertexDeg (new Vector2 (range, 0), angle);
+			}
+		}
+	}
+
 	public Place(){}
 	public Place(Vector2 pos, Vector2 dir)
 	{

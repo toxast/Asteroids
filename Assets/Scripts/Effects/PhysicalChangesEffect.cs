@@ -16,6 +16,7 @@ public class PhysicalChangesEffect : DurationEffect
 	}
    
 	public override void SetHolder (PolygonGameObject holder) {
+		//Debug.LogWarning ("apply PhysicalChangesEffect");
 		base.SetHolder (holder);
 		holder.MultiplyMass (data.multiplyMass);
 		holder.MultiplyCollisionAttack (data.multiplyCollisionAttack);
@@ -32,6 +33,7 @@ public class PhysicalChangesEffect : DurationEffect
 	}
 
 	void ResumeHolderValues(){
+		//Debug.LogWarning ("resume PhysicalChangesEffect");
 		holder.MultiplyMass (1f/data.multiplyMass);
 		holder.MultiplyCollisionAttack (1f/data.multiplyCollisionAttack);
 		if (data.overrideDefence != -1) { 

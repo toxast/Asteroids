@@ -76,6 +76,9 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 198328997085036626, guid: 59b2b605adc94b743a34e978e0b60a39, type: 2}
     overrideSize: -1
     overrideDelay: -1
@@ -91,6 +94,9 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 198991140418863546, guid: 77d98cbded15d1b40b91a79b2d30028c, type: 2}
     overrideSize: -1
     overrideDelay: -1
@@ -103,10 +109,10 @@ MonoBehaviour:
     overrideStartColor: 0
     startColor: {r: 1, g: 1, b: 1, a: 1}
   vertices:
-  - {x: 1, y: 0.00000011391465}
+  - {x: 1, y: 0.000000109011275}
   - {x: 0.49999997, y: -0.86602545}
   - {x: -0.50000006, y: -0.8660254}
-  - {x: -1, y: 0.00000011391465}
+  - {x: -1, y: 0.000000109011275}
   - {x: -0.4999999, y: 0.86602545}
   - {x: 0.4999999, y: 0.86602545}
   explosionRangeCalculated: 23

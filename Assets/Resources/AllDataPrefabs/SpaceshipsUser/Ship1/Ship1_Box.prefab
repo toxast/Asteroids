@@ -96,7 +96,7 @@ MonoBehaviour:
   - place:
       pos: {x: -0.88658565, y: -0.000000022700332}
       dir: {x: 1, y: 0}
-    prefab: {fileID: 19868348, guid: efd4a140c58a95747b7591da7ccf3cca, type: 2}
+    prefab: {fileID: 19843890, guid: b7d51ca7af501df4fb6ece31fb5edc30, type: 2}
     overrideSize: -1
     overrideDelay: -1
     overrideDuration: -1

@@ -45,7 +45,7 @@ MonoBehaviour:
   physical:
     density: 1
     health: -1
-    healthModifier: 1.5
+    healthModifier: 1.2
     collisionDefence: 0.1
     collisionAttackModifier: 1
   value: 15

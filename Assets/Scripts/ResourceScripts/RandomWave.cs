@@ -15,6 +15,7 @@ public class RandomWave : IWaveSpawner{
 	public class Data{
 		public float diffucultyAtOnce = 50f;
 		public float diffucultyTotal = 100f;
+		public float overrideDificultyAdds = -1f;
 		public RandomInt differentSpawnsCountRange = new RandomInt{max = 3, min = 1}; 
 		public bool chooseNewObjectsEachTime = true;
 		public float overrideSpawnTime = -1f;
@@ -87,17 +88,20 @@ public class RandomWave : IWaveSpawner{
 						first = false;
 						preparedDifficulty = data.diffucultyAtOnce;
 					} else {
-						preparedDifficulty = Rnd.Range (minDifficulty, Mathf.Min (data.diffucultyAtOnce, totalDifficulyLeft));
+						float dif = data.overrideDificultyAdds > 0 ? data.overrideDificultyAdds : data.diffucultyAtOnce; 
+						preparedDifficulty = Rnd.Range (minDifficulty, Mathf.Min (dif, totalDifficulyLeft));
 					}
-					//Debug.LogWarning ("preparedDifficulty: " + preparedDifficulty);
 					selectedSpawnsCount = GetCountForSpawns (selectedSpawns, preparedDifficulty);//todo min values should be more frequent
 
 					/////////////////
 					float difficultyPicked = 0;
 					for (int i = 0; i < selectedSpawns.Count; i++) {
 						difficultyPicked += selectedSpawnsCount[i] * selectedSpawns [i].difficulty;
+						if(selectedSpawnsCount[i] > 0){
+							Debug.Log (selectedSpawns [i].spawn.name + " " + selectedSpawnsCount [i]);
+						}
 					}
-					//Debug.LogWarning ("difficultyPicked: " + difficultyPicked);
+					Debug.LogWarning ("preparedDifficulty: " + preparedDifficulty + " difficultyPicked: " + difficultyPicked);
 					////////////////
 				} else {
 					//Debug.LogWarning ("totalDifficulyLeft: " + totalDifficulyLeft + " => 0");
@@ -233,7 +237,7 @@ public class RandomWave : IWaveSpawner{
 
 	private IEnumerator Spawn(List<WeightedSpawn> selectedSpawns, List<int> selectedSpawnsCount) {
 		eSpawnStrategy strategy;
-		if (data.countStrategy == eSpawnCountStrategy.PICK_RANDOM) {
+		if (data.spawnStrategy == eSpawnStrategy.PICK_RANDOM) {
 			strategy = (eSpawnStrategy)UnityEngine.Random.Range ((int)eSpawnStrategy.MIN + 1, (int)eSpawnStrategy.MAX);
 		} else {
 			strategy = data.spawnStrategy;
@@ -254,9 +258,17 @@ public class RandomWave : IWaveSpawner{
 			toSpawn.RemoveAt (index);
 			MSpawnBase.PositionData posData;
 			if (item.spawnAtViewEdge) {
-				posData = main.GetEdgePositionData (UnityEngine.Random.Range (1, 360)); 
+				if (item.overridePositioning) {
+					posData = main.GetEdgePositionData (item.positioning.positionAngle, item.positioning.lookAngle, item.positioning.lookAngleRange); 
+				} else {
+					posData = main.GetEdgePositionData (UnityEngine.Random.Range (1, 360)); 
+				}
 			} else {
-				posData = main.GetPositionData (item.range, new SpawnPositioning{ lookAngleRange = 120, positionAngleRange = 360 });
+				if (item.overridePositioning) {
+					posData = main.GetPositionData (item.range, item.positioning); 
+				} else {
+					posData = main.GetPositionData (item.range, new SpawnPositioning{ lookAngleRange = 120, positionAngleRange = 360 });
+				}
 			}
 			item.spawn.Spawn (posData, OnObjectSpawned);
 			if (data.overrideSpawnTime < 0) {

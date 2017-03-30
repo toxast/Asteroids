@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &107444
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 493064}
+  - component: {fileID: 114006690424570016}
+  m_Layer: 0
+  m_Name: charger_ship 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &493064
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107444}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 107444}
+  m_IsPrefabParent: 1
+--- !u!114 &114006690424570016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e6dde16848dc7c4285542f86a05aba5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 0
+  reward: 0
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  id: -1
+  price: -1
+  color: {r: 0.6544118, g: 0.44766808, b: 0.226157, a: 1}
+  physical:
+    density: 0.8
+    health: 10
+    healthModifier: -1
+    collisionDefence: 0.5
+    collisionAttackModifier: 1.5
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: 4
+  mobility:
+    thrust: 15
+    maxSpeed: 20
+    turnSpeed: 120
+    brake: 7
+    passiveBrake: 2
+    stability: 0.3
+    shootAngle: 15
+  accuracy:
+    startingAccuracy: 1
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 0.5
+    add: 0.2
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 0
+    rechargeRate: 0
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 1
+  guns: []
+  linkedGuns: []
+  thrusters:
+  - place:
+      pos: {x: -1.4779522, y: -0.000000018825432}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 19817912, guid: 1630461838b7291468f1ed9aee18c505, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  turrets: []
+  verts:
+  - {x: 0.10309595, y: -0.45413092}
+  - {x: 2.5335374, y: -0.53822917}
+  - {x: 2.3989801, y: -1.3960321}
+  - {x: 0.37221053, y: -1.850163}
+  - {x: 0.16196476, y: -2.4556708}
+  - {x: -1.1667886, y: -2.388392}
+  - {x: -1.9741322, y: -0.85780275}
+  - {x: -1.6770381, y: -0.50445384}
+  - {x: -1.6770381, y: 0.50445384}
+  - {x: -1.9741322, y: 0.85780275}
+  - {x: -1.1667886, y: 2.388392}
+  - {x: 0.16196476, y: 2.4556708}
+  - {x: 0.37221053, y: 1.850163}
+  - {x: 2.3989801, y: 1.3960321}
+  - {x: 2.5335374, y: 0.53822917}
+  - {x: 0.10309595, y: 0.45413092}
+  explosionRangeCalculated: 11.219202
+  explosionDamageCalculated: 9.627316
+  chargeEffect:
+    duration: 4
+    overrideDefence: -1
+    multiplyMass: 1
+    multiplyCollisionAttack: 1
+    multiplyThrust: 1
+    multiplyMaxSpeed: 2
+    multiplyTurnSpeed: 1
+    multiplyStability: 1
+  shootWhenCharge: 0
+  aimOffset: 0
+  fillFrom: {fileID: 0}

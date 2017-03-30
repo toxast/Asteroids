@@ -23,6 +23,13 @@ public abstract class DurationEffect : TickableEffect, IHasProgress {
         return timeLeft <= 0;
     }
 
+	public void ForceFinish(){
+		if (!IsFinished ()) {
+			timeLeft = 0;
+			OnExpired ();
+		}
+	}
+
     public override void Tick(float delta) {
         base.Tick(delta);
         if (!IsFinished()) {

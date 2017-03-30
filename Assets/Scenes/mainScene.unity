@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 56938531}
   m_Layer: 0
-  m_Name: EditorOnly
+  m_Name: ONLY_EDITOR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -742,7 +742,7 @@ Prefab:
     - target: {fileID: 224799588128547578, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224799588128547578, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
@@ -752,7 +752,7 @@ Prefab:
     - target: {fileID: 224799588128547578, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 22
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224736985639167794, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
@@ -1138,7 +1138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1373469702
 Transform:
   m_ObjectHideFlags: 0
@@ -1320,6 +1320,10 @@ Prefab:
     - target: {fileID: 1893700860562684, guid: a3363190ad2d97b4db2c20f3c31c7bbb, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1031200164668700, guid: a3363190ad2d97b4db2c20f3c31c7bbb, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3363190ad2d97b4db2c20f3c31c7bbb, type: 2}
@@ -1560,7 +1564,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 770184ef69a49ac4dbc497db7c357d32, type: 3}
   m_Name: 
@@ -1569,23 +1573,25 @@ MonoBehaviour:
   guns: []
   thrusters: []
   turrets: []
-  duplicateIndx: 1
+  duplicateIndx: 0
   duplicate: 0
   reverse: 0
   symmetric: 1
   scaleUp: 0
   scaleDown: 0
   doScale: 0
-  scaleBy: {x: 1.1, y: 1}
+  scaleBy: {x: 1, y: 0.9}
   doRotate: 0
-  rotateby: 45
+  rotateby: 5
+  shiftVerts: 0
+  shiftCount: 4
   createPerfectShape: 0
   perfectShapeRadius: 1
   perfectShapeSides: 6
-  prefab: {fileID: 11421222, guid: e24bbcf4680bb214db6dc17116268bbb, type: 2}
-  fangs: 7
+  prefab: {fileID: 11493992, guid: b6fc6cae6cc86994b965e78c87db1eaf, type: 2}
+  fangs: 6
   fangIndxFrom: 0
-  fangIndxTo: 1
+  fangIndxTo: 7
 --- !u!4 &1922263271
 Transform:
   m_ObjectHideFlags: 0
@@ -1593,7 +1599,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1922263267}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -179.02065, y: 91.16262, z: 0}
+  m_LocalPosition: {x: -179.02065, y: 91.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 56938531}

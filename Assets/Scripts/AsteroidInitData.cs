@@ -71,7 +71,7 @@ public class AccuracyData: IClonable<AccuracyData>
 {
 	public float startingAccuracy = 0f;
 	public float thresholdDistance = 10f;
-	public bool isDynamic = true;
+	public bool isDynamic = false;
 	public float checkDtime = 1f;
 	public float add = 0.15f;
 	public float sub = 0.4f;

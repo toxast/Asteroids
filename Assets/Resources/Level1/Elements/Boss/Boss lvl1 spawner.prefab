@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &105804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 451228}
+  - component: {fileID: 11401504}
+  m_Layer: 0
+  m_Name: Boss lvl1 spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &451228
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 105804}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11401504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 105804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 100
+  reward: 300
+  teleportData:
+    duration: 4
+    ringSize: 10
+    color: {r: 1, g: 0, b: 0.18620682, a: 1}
+  id: -1
+  price: -1
+  color: {r: 0.4705882, g: 0.34077075, b: 0.17647058, a: 1}
+  physical:
+    density: 1.2
+    health: 150
+    healthModifier: -1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: 10
+  mobility:
+    thrust: 10
+    maxSpeed: 15
+    turnSpeed: 30
+    brake: 15
+    passiveBrake: 2
+    stability: 0.4
+    shootAngle: 15
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 5
+    rechargeRate: 0.5
+    hitRechargeDelay: 4
+    rechargeDelayAfterDestory: 10
+  guns:
+  - place:
+      pos: {x: 7.62, y: 0.00000026972842}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11456942, guid: d50425da7db2b98488d712854eec4540, type: 2}
+  - place:
+      pos: {x: 1.7915019, y: -8.9579525}
+      dir: {x: -0.00000047683716, y: -0.99999994}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11427436, guid: 446d4a580b44ca1409763e63ace05ecb, type: 2}
+  - place:
+      pos: {x: 1.7915019, y: 8.9579525}
+      dir: {x: -0.00000011920929, y: 0.99999994}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11427436, guid: 446d4a580b44ca1409763e63ace05ecb, type: 2}
+  linkedGuns: []
+  thrusters:
+  - place:
+      pos: {x: -7.1664515, y: 0.00000026972842}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 19811494, guid: cb687415c7c4be04faf4172bca70022d, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  - place:
+      pos: {x: -7.4813786, y: 2.3328001}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 19897922, guid: 016050792ddac9448bcf3b07318ca2ae, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  - place:
+      pos: {x: -7.4813786, y: -2.3328001}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 19897922, guid: 016050792ddac9448bcf3b07318ca2ae, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  turrets: []
+  verts:
+  - {x: 7.9617586, y: -1.2597119}
+  - {x: 8.601483, y: -1.6369442}
+  - {x: 8.740797, y: -4.5625405}
+  - {x: 6.632062, y: -5.505408}
+  - {x: 10.119598, y: -7.091712}
+  - {x: 11.297663, y: -9.284545}
+  - {x: 3.7510471, y: -14.558324}
+  - {x: 3.529446, y: -12.317182}
+  - {x: 1.7448456, y: -11.570688}
+  - {x: -0.01641982, y: -12.445487}
+  - {x: -0.14472455, y: -14.918259}
+  - {x: -9.6742115, y: -13.821838}
+  - {x: -8.822744, y: -11.174112}
+  - {x: -5.626803, y: -10.007712}
+  - {x: -6.1750107, y: -7.2083516}
+  - {x: -10.712308, y: -5.295456}
+  - {x: -8.472819, y: -4.1173916}
+  - {x: -9.63922, y: -2.6244}
+  - {x: -9.63922, y: 2.6244}
+  - {x: -8.472819, y: 4.1173916}
+  - {x: -10.712308, y: 5.295456}
+  - {x: -6.1750107, y: 7.2083516}
+  - {x: -5.626803, y: 10.007712}
+  - {x: -8.822744, y: 11.174112}
+  - {x: -9.6742115, y: 13.821838}
+  - {x: -0.14472455, y: 14.918259}
+  - {x: -0.01641982, y: 12.445487}
+  - {x: 1.7448456, y: 11.570688}
+  - {x: 3.529446, y: 12.317182}
+  - {x: 3.7510471, y: 14.558324}
+  - {x: 11.297663, y: 9.284545}
+  - {x: 10.119598, y: 7.091712}
+  - {x: 6.632062, y: 5.505408}
+  - {x: 8.740797, y: 4.5625405}
+  - {x: 8.601483, y: 1.6369442}
+  - {x: 7.9617586, y: 1.2597119}
+  explosionRangeCalculated: 64.86329
+  explosionDamageCalculated: 30.11822
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 105804}
+  m_IsPrefabParent: 1

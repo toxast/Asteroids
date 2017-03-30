@@ -63,7 +63,7 @@ MonoBehaviour:
   rotation:
     min: 0
     max: 0
-  color: {r: 0.2926858, g: 0.8088235, b: 0.08920847, a: 1}
+  color: {r: 0, g: 0.7941176, b: 0.03833678, a: 1}
   burnDOT:
     duration: 0
     dps: 0
@@ -79,8 +79,8 @@ MonoBehaviour:
   - {x: 0.6, y: -0.25}
   - {x: -0.6, y: -0.25}
   - {x: -0.6, y: 0.25}
-  explosionRangeCalculated: 0
-  explosionDamageCalculated: 0
+  explosionRangeCalculated: 2.32379
+  explosionDamageCalculated: 3.4598556
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

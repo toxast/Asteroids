@@ -641,19 +641,19 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
       minMaxState: 0
-    cnt0: 10
+    cnt0: 2
     cnt1: 30
     cnt2: 30
     cnt3: 30
-    cntmax0: 10
+    cntmax0: 4
     cntmax1: 30
     cntmax2: 30
     cntmax3: 30
-    time0: 1
+    time0: 0.5
     time1: 0
     time2: 0
     time3: 0
-    m_BurstCount: 0
+    m_BurstCount: 1
   SizeModule:
     enabled: 1
     curve:

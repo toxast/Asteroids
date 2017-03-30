@@ -12,11 +12,16 @@ public class TowerEnemy : PolygonGameObject, IFreezble
     Gun closestGun = null;
     float currentAimAngle;
 
+	MStationTowerData data;
+	AIHelper.AccuracyChangerAdvanced accuracyChanger;
+
     public void Init(MStationTowerData data) {
+		this.data = data;
         rotationSpeed = data.rotationSpeed.RandomValue;
         InitPolygonGameObject(data.physical); 
 		cannonsRotaitor = new Rotaitor (cacheTransform, rotationSpeed);
 		StartCoroutine(Aim());
+		accuracyChanger = new AIHelper.AccuracyChangerAdvanced(data.accuracyData, this);
 	}
 
 	public override void Freeze(float multipiler){
@@ -26,6 +31,7 @@ public class TowerEnemy : PolygonGameObject, IFreezble
 
 	public override void Tick(float delta) {
 		base.Tick (delta);
+		accuracyChanger.Tick (delta);
 		Brake (delta, 5f);
 		RotateCannon(delta);
 		TickGunsNew (delta);
@@ -37,7 +43,7 @@ public class TowerEnemy : PolygonGameObject, IFreezble
 
 		while (true) {
 			if (!Main.IsNull (target)) {
-				AimSystem aim = new AimSystem (target.position, target.velocity, position, guns [0].BulletSpeedForAim);
+				AimSystem aim = new AimSystem (target.position, accuracyChanger.accuracy * target.velocity, position, guns [0].BulletSpeedForAim);
 				if (!aim.canShoot) {
 					aim = new AimSystem (target.position, target.velocity, position, 1.2f * target.velocity.magnitude);
 				}
@@ -78,7 +84,7 @@ public class TowerEnemy : PolygonGameObject, IFreezble
 		for (int i = 0; i < guns.Count; i++) {
 			guns [i].Tick (delta);
 		}
-		if (target != null && closestGun != null && lastDeltaAngle < 10f) {
+		if (target != null && closestGun != null && lastDeltaAngle < data.shootAngle) {
 			closestGun.ShootIfReady ();
 		}
 	}

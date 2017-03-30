@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1414233921822308}
+  m_IsPrefabParent: 1
+--- !u!1 &1414233921822308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4031162268806062}
+  - component: {fileID: 114664566910631732}
+  m_Layer: 0
+  m_Name: LWave_8
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4031162268806062
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1414233921822308}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114664566910631732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1414233921822308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98890128bdb4f2b4893c920210a82103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveData:
+    diffucultyAtOnce: 40
+    diffucultyTotal: 80
+    differentSpawnsCountRange:
+      min: 2
+      max: 2
+    chooseNewObjectsEachTime: 0
+    overrideSpawnTime: 5
+    startNextWaveWhenDifficultyLeft: 0
+    countStrategy: 3
+    spawnStrategy: 1
+    useDestroyAreaDelay: 0
+    destroyAreaTimeThreshold: 30
+    destroyAreaPersentage: 0.3
+    objects:
+    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
+        type: 2}
+      range:
+        min: 40
+        max: 90
+      spawnAtViewEdge: 0
+      weight: 4
+      overridePositioning: 0
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 0
+    - spawn: {fileID: 11492862, guid: b92ba4209b4910a4aaba8686641d74a8, type: 2}
+      range:
+        min: 40
+        max: 40
+      spawnAtViewEdge: 1
+      weight: 4
+      overridePositioning: 0
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 0
+  createDefWaveEditor: 0

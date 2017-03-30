@@ -14,6 +14,10 @@ public class MSpawnerGunData : MGunBaseData
 	public int startSpawn = 1;
 	public float startSpawnInterval = 2f;
 
+	[Header ("parent destruction")]
+	public bool killOnParentDestroyed = false;
+	public bool disableExplosion = false;
+
 
 	public override Gun GetGun(Place place, PolygonGameObject t)
 	{

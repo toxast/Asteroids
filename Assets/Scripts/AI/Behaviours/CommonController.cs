@@ -39,7 +39,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		evadeBullets = evadeDuration < 1.2f;
 		turnBehEnabled = evadeDuration < 3f;
 		if(turnBehEnabled)		{
-			untilTurnMin = Mathf.Max(2f, Mathf.Sqrt(evadeDuration) * 2.5f);
+			untilTurnMin = Mathf.Max(2f, evadeDuration * 2f);
 			untilTurnMax = untilTurnMin * 1.8f;
 		}
 

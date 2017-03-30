@@ -15,6 +15,7 @@ public class FixedWave : IWaveSpawner{
 
 	[Serializable]
 	public class Data{
+		public RandomWave.eSpawnStrategy spawnStrategy =  RandomWave.eSpawnStrategy.PICK_RANDOM;
 		public float startNextWaveWhenDifficultyLeft = 0f;
 		public List<SpawnPos> objects;
 	}
@@ -52,18 +53,14 @@ public class FixedWave : IWaveSpawner{
 		yield return Singleton<Main>.inst.StartCoroutine(Spawn (data.objects));
 	}
 
-	public enum SpawnStrategy
-	{
-		PICK_RANDOM = 0,
-		MIN = 1 ,
-		ALL_AT_ONCE,
-		QUICK_DELAYS,
-		LONG_DELAYS,
-		MAX,
-	}
-
 	private IEnumerator Spawn(List<SpawnPos> selectedSpawns){
-		SpawnStrategy strategy = (SpawnStrategy)UnityEngine.Random.Range ((int)SpawnStrategy.MIN + 1, (int)SpawnStrategy.MAX);
+		RandomWave.eSpawnStrategy strategy;
+		if (data.spawnStrategy == RandomWave.eSpawnStrategy.PICK_RANDOM) {
+			strategy = (RandomWave.eSpawnStrategy)UnityEngine.Random.Range ((int)RandomWave.eSpawnStrategy.MIN + 1, (int)RandomWave.eSpawnStrategy.MAX);
+		} else {
+			strategy = data.spawnStrategy;
+		}
+
         float totalAngleOffset = UnityEngine.Random.Range(0, 360);
 		for (int i = 0; i < selectedSpawns.Count; i++) {
 			var item = selectedSpawns [i];
@@ -76,9 +73,9 @@ public class FixedWave : IWaveSpawner{
 			}
 			positionData.rangeAngle += totalAngleOffset;
             item.spawn.Spawn (positionData, OnObjectSpawned);
-			if (strategy == SpawnStrategy.QUICK_DELAYS) {
+			if (strategy ==  RandomWave.eSpawnStrategy.QUICK_DELAYS) {
 				yield return new WaitForSeconds (UnityEngine.Random.Range (0.2f, 0.6f));
-			} else if (strategy == SpawnStrategy.LONG_DELAYS) {
+			} else if (strategy ==  RandomWave.eSpawnStrategy.LONG_DELAYS) {
 				yield return new WaitForSeconds (UnityEngine.Random.Range (0.6f, 1.5f));
 			} else {
 				//no delay

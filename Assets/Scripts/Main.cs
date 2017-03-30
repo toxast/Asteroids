@@ -263,6 +263,7 @@ public class Main : MonoBehaviour
 				var angle = UnityEngine.Random.Range (0, 360);
 				var posData = GetEdgePositionData (angle);
 				comet.position = posData.origin + posData.range * Math2d.RotateVertexDeg (new Vector2 (1, 0), posData.rangeAngle);
+				comet.showOffScreen = false;
 				Add2Objects (comet);
 			}
 		}
@@ -1411,13 +1412,11 @@ public class Main : MonoBehaviour
 	 * FUTURE UPDATES
 	 * 
 	* sky texture?
-	* powerups duration indicators
 	* IncreasedShootingSpeed
 	 *         add charge behaviour to earth ships, and charge beh to posseed asteroids, add kill asteroid beh is full
      * or add asteroid shield to charger!
      * 
 	* big bullets powerup!
-	* split by two consiquent interior verts, not neighbours, check that mid is inside
 	* add effect to others ai?
 	* power ups(fast bullets, missiles around,
 	* permanent powerups, shield as power-up?, health powerup, health over time, add gun/turret powerup.
@@ -1425,8 +1424,6 @@ public class Main : MonoBehaviour
 	* burn fire hit on self effect
 
 	* meteor shower on the map powerup
-	* 
-	* explosion better force direction
 	* 
 	 * side shooting ships
 	 * 

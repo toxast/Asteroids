@@ -108,8 +108,8 @@ MonoBehaviour:
     stopEmission: 1
     inheritVelocity: 1
     parentToSplitParts: 0
-    overrideStartColor: 0
-    startColor: {r: 1, g: 1, b: 1, a: 1}
+    overrideStartColor: 1
+    startColor: {r: 0.06666667, g: 0.89019614, b: 0.854902, a: 1}
   destructionEffects:
   - place:
       pos: {x: 0, y: 0}
@@ -123,5 +123,5 @@ MonoBehaviour:
     stopEmission: 1
     inheritVelocity: 1
     parentToSplitParts: 0
-    overrideStartColor: 0
-    startColor: {r: 1, g: 1, b: 1, a: 1}
+    overrideStartColor: 1
+    startColor: {r: 0.06666667, g: 0.89019614, b: 0.854902, a: 1}
