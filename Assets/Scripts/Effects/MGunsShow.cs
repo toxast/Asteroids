@@ -33,7 +33,7 @@ public class MGunsShow : MSpawnDataBase , IApplyable, IHasDuration {
 
 	public IHasProgress Apply(PolygonGameObject picker) {
 		var effect = new GunsShowEffect (this);
-		picker.AddEffect (effect);
+		effect = picker.AddEffect (effect);
 		return effect;
 	}
 

@@ -18,7 +18,7 @@ public class GravityBullet : PolygonGameObject {
 		range = data.range * rangeMultiplier;
 		damagePerSecond = data.hitDamage;
         gobjects = Singleton<Main>.inst.gObjects;
-        bullets = Singleton<Main>.inst.bullets;
+		bullets = Singleton<Main>.inst.pBullets;
 
 		var clone = data.gravityEffect.Clone ();
 		var effect = AddParticles (new List<ParticleSystemsData>{clone})[0];

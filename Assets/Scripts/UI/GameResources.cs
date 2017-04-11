@@ -21,15 +21,18 @@ public static class GameResources
 
 
 	static public event Action<int> moneyChanged = delegate {};
-	const string moneySaveKey = "essence";
-	public static void LoadMoney() {
-		int money = PlayerPrefs.GetInt (moneySaveKey, 0);
-		AddMoney (money);
-	}
+	static string moneySaveKey = "";
+
 
 	public static int money {
 		get;
 		private set;
+	}
+
+	public static void LoadMoney(string saveKey){
+		moneySaveKey = saveKey;
+		var loaded = PlayerPrefs.GetInt (moneySaveKey, 0);
+		AddMoney (loaded);
 	}
 
 	public static void AddMoney(int amount)	{

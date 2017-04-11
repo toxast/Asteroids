@@ -13,9 +13,7 @@ public class ForcedBulletGun : BulletGun<ForcedBullet>
 
 	protected override void SetCollisionLayer (ForcedBullet bullet)
 	{
-		base.SetCollisionLayer (bullet);
-		bullet.collisions = 0;
-
+		bullet.SetLayerNum(CollisionLayers.GetBulletLayerNum(parent.layerLogic), CollisionLayers.ilayerNoCollision);
 		var affectedLayer = CollisionLayers.GetLayerCollisions(CollisionLayers.GetBulletLayerNum(parent.layerLogic));
 		bullet.InitForcedBullet(fdata, affectedLayer);
 	}

@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MCometData : MSpawnDataBase, IGotShape {
+	public int id;
+	public int price;
+	public MJournalLog journal;
     public RandomFloat rotation;
     public RandomFloat size;
     public PhysicalData physical;
+
+	[Header ("drop from enemies")]
+	public bool dropFromEnemies = false;
+	public int dropCountPerLevel = 0;
+
+	[Header ("other")]
 //    public float lifeTime;
     public Color color;
 	public PowerupData powerupData;

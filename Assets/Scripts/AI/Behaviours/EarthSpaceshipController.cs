@@ -347,7 +347,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 
 			for (int i = 0; i < objects.Count; i++) {
 				var obj = objects [i];
-				if (Main.IsNull (obj) || obj.layerNum != CollisionLayers.ilayerAsteroids || obj.capturedByEarthSpaceship) {
+				if (Main.IsNull (obj) || obj.logicNum != CollisionLayers.ilayerAsteroids || obj.capturedByEarthSpaceship) {
 					continue;
 				}
 

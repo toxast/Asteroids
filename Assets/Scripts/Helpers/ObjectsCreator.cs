@@ -11,7 +11,7 @@ public class ObjectsCreator
 		where T:SpaceShip
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
-		var bullets = Singleton<Main>.inst.bullets;
+		var bullets = Singleton<Main>.inst.pBullets;
 		if (spaceship.guns.Count > 0) {
 			var controller = new CommonController (spaceship, bullets, spaceship.guns [0], sdata.accuracy);
 			spaceship.SetController (controller);
@@ -27,7 +27,7 @@ public class ObjectsCreator
 		where T:SpaceShip
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
-		var bullets = Singleton<Main>.inst.bullets;
+		var bullets = Singleton<Main>.inst.pBullets;
         var controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy, sdata.invisibleData);
 		spaceship.SetController(controller);
 		spaceship.targetSystem = new TargetSystem (spaceship);
@@ -57,7 +57,7 @@ public class ObjectsCreator
     public static T CreateChargerSpaceship<T>(MChargerSpaseshipData sdata, int layerNum)
         where T : SpaceShip {
         var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
-        var bullets = Singleton<Main>.inst.bullets;
+		var bullets = Singleton<Main>.inst.pBullets;
         var controller = new ChargerController(spaceship, bullets, sdata.accuracy, sdata);
         spaceship.SetController(controller);
 		spaceship.targetSystem = new TargetSystem (spaceship);
@@ -67,7 +67,7 @@ public class ObjectsCreator
     public static T CreateDumbHitterSpaceship<T>(MDumbHitterData sdata, int layerNum)
         where T : SpaceShip {
         var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
-        var bullets = Singleton<Main>.inst.bullets;
+		var bullets = Singleton<Main>.inst.pBullets;
         var controller = new DumbHitterController(spaceship, bullets, sdata.accuracy);
         spaceship.SetController(controller);
         spaceship.targetSystem = new TargetSystem(spaceship);

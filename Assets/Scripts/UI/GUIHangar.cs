@@ -7,49 +7,79 @@ using System.Linq;
 
 public class GUIHangar : MonoBehaviour 
 {
+	[SerializeField] Canvas canvas;
 	[SerializeField] Text moneyText;
-	//[SerializeField] UIShipsScroll shipsScroll;
+	[SerializeField] UIPowerupsScroll powerupsScroll;
+	[SerializeField] Image powerupsLock;
 	[SerializeField] UIShip uiShip;
-	[SerializeField] Text messageText;
+	[SerializeField] MessageTyper messageText;
 
-	[SerializeField] ui5.TextButton5 unlockButton;
-	[SerializeField] SpriteToggle5 toggleUnlock;
-
+	[SerializeField] PriceButton unlockButton;
 	[SerializeField] Button startButton;
+
+	const int UNLOCK_SHIP_ID_POWERUPS = 2;
 
 	public event Action<MSpaceshipData> startTheGame;
 
-	ShipsSave shipsSaves = new ShipsSave();
 	ShipUpgradeData currentShipData;
+	IntHashSave shipsSaves;
+	IntHashSave journalSaves;
 
-	void Awake() {
-		shipsSaves.LoadShips ();
-		startButton.onClick.AddListener (FireStartGame);
-		GameResources.moneyChanged += GameResources_moneyChanged;
-		unlockButton.onClick.AddListener (UnlockShip);
+	bool Visible{
+		get{return canvas.enabled;}
+		set{canvas.enabled = value;}
 	}
 
-	void Start () {
-		ViewLastBoughtShip ();
+	void Awake() {
+		startButton.onClick.AddListener (FireStartGame);
+		GameResources.moneyChanged += GameResources_moneyChanged;
+		unlockButton.clickCallback += UnlockShip;
+		powerupsScroll.OnBought += OnPowerupBought;
 	}
 
 	void FireStartGame() {
+		startTheGame(currentShipData.current);
+	}
+
+	public void AnimatePowerupsUnlock(){
+		powerupsLock.gameObject.SetActive (false);
+	}
+
+	public void Init(IntHashSave shipsSaves, IntHashSave cometUnlocks, IntHashSave journalSaves){
+		this.shipsSaves = shipsSaves;
+		this.journalSaves = journalSaves;
+		powerupsScroll.Init (cometUnlocks);
+	}
+
+	public void Show() {
+		Visible = true;
+		ViewLastBoughtShip ();
+		powerupsScroll.Show ();
+		powerupsLock.gameObject.SetActive (currentShipData.current.id < UNLOCK_SHIP_ID_POWERUPS);
+	}
+
+	public void Hide(){
+		Clear ();
+		Visible = false;
+	}
+
+	void Clear() {
 		uiShip.Clear();
+		powerupsScroll.Clear ();
 		ClearMessage ();
-		startTheGame(currentShipData.ship);
 	}
 
 	class ShipUpgradeData{
-		public MSpaceshipData ship;
+		public MSpaceshipData current;
 		public MSpaceshipData next;
 		public bool isNextShipType;
 	}
-
+		
 	ShipUpgradeData FindLastBounghtShip() {
 		var shipUpgrades = ResourceSingleton<MSpaceShipResources>.Instance.userSpaceships;
 		for (int i = shipUpgrades.Count - 1; i >= 0; i--) {
 			var upgrades = shipUpgrades [i].ships;
-			var indx = upgrades.FindLastIndex (sh => shipsSaves.unlockedShips.Contains (sh.id));
+			var indx = upgrades.FindLastIndex (sh => shipsSaves.Contains (sh.id));
 			if (indx >= 0) {
 				MSpaceshipData lastBoughtShip = upgrades [indx];
 				MSpaceshipData nextShip = null;
@@ -63,7 +93,7 @@ public class GUIHangar : MonoBehaviour
 						nextShip = shipUpgrades [i + 1].ships [0];
 					}
 				}
-				return new ShipUpgradeData{ ship = lastBoughtShip, next = nextShip, isNextShipType = isNextShipType };
+				return new ShipUpgradeData{ current = lastBoughtShip, next = nextShip, isNextShipType = isNextShipType };
 			}
 		}
 		return null;
@@ -73,53 +103,52 @@ public class GUIHangar : MonoBehaviour
 		moneyText.text = money.ToString ();
 	}
 
+	void OnPowerupBought(MCometData comet){
+		ShowMessage (comet.journal);
+	}
+
 	void UnlockShip() {
-		if (GameResources.SpendMoney (currentShipData.next.price)) {
-			shipsSaves.UnlockShip (currentShipData.next.id);
-			ViewLastBoughtShip ();
-			ShowMessage ("hey cool");
+		var unlockShip = currentShipData.next;
+		if (unlockShip == null) {
+			return;
 		}
-	}
-
-	void ShowMessage(string msg) {
-		messageText.text = msg;
-	}
-
-	void ClearMessage() {
-		messageText.text = string.Empty;
+		if (GameResources.SpendMoney (unlockShip.price)) {
+			shipsSaves.Add (unlockShip.id);
+			ViewLastBoughtShip ();
+			if (unlockShip.journal != null) {
+				ShowMessage (unlockShip.journal);
+			}
+			if (unlockShip.id == UNLOCK_SHIP_ID_POWERUPS) {
+				AnimatePowerupsUnlock ();
+			}
+		}
 	}
 
 	void ViewLastBoughtShip() {
 		currentShipData = FindLastBounghtShip ();
-		uiShip.Create (currentShipData.ship);
+		uiShip.Create (currentShipData.current);
 		unlockButton.gameObject.SetActive (currentShipData.next != null);
 		if (currentShipData.next != null) {
-			unlockButton.text = currentShipData.next.price.ToString();
+			unlockButton.Refresh (currentShipData.next.price, currentShipData.isNextShipType);
 		}
-		toggleUnlock.SetState (currentShipData.isNextShipType);
 	}
 
-	private void ShowShip(MSpaceshipData current, MSpaceshipData next, bool isUnlock){
-		uiShip.Create (current);
-		toggleUnlock.SetState (isUnlock);
+	public void ShowStartMessage() {
+		ShowMessage (ResourceSingleton<MSpaceShipResources>.Instance.userSpaceships[0].ships[0].journal);
 	}
 
-	private void HandleClick(BuyShipElem elem) {
-//		switch (elem.state) {
-//		case BuyShipElem.State.CanBeUpgraded:
-//			shipsScroll.Select (elem);
-//			uiShip.Create (elem.data);
-//			break;
-//		case BuyShipElem.State.Max:
-//			shipsScroll.Select (elem);
-//			uiShip.Create (elem.data);
-//			break;
-//		case BuyShipElem.State.CanUnlock:
-//			//unlock
-//			break;
-//		case BuyShipElem.State.Locked:
-//			//nothing
-//			break;
-//		}
+	public void ShowMessage(MJournalLog log) {
+		if (log != null && !journalSaves.Contains(log.id)) {
+			journalSaves.Add (log.id);
+			messageText.Show (log.text);
+		}
+	}
+
+	public void ClearMessage() {
+		messageText.Clear();
+	}
+
+	private void HandleClick(PowerupUI elem) {
+
 	}
 }

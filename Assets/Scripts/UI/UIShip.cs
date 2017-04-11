@@ -12,6 +12,11 @@ public class UIShip : MonoBehaviour
 
 	public void Create(MSpaceshipData data) {
 		Clear ();
+		StartCoroutine (CreateShip (data));
+	}
+
+	IEnumerator CreateShip(MSpaceshipData data){
+		yield return null;
 		spaceship = PolygonCreator.CreatePolygonGOByMassCenter<SpaceShip> (data.verts, data.color);
 		spaceship.InitPolygonGameObject (data.physical);
 		spaceship.SetThrusters (data.thrusters);

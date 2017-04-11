@@ -16,7 +16,7 @@ public class GravityShieldEffect : DurationEffect {
 		this.data = data;
 		currentForce = data.force;
 		gobjects = Singleton<Main>.inst.gObjects;
-		bullets = Singleton<Main>.inst.bullets;
+		bullets = Singleton<Main>.inst.pBullets;
 	}
 
 	public override void SetHolder (PolygonGameObject holder) {
@@ -49,7 +49,7 @@ public class GravityShieldEffect : DurationEffect {
 	public override void UpdateBy (TickableEffect sameEffect) {
 		base.UpdateBy (sameEffect);
 		var same = sameEffect as GravityShieldEffect;
-		timeLeft += same.data.duration;
+		IncreaseTimeLeft (same.data.duration);
 		currentForce = Mathf.Max (currentForce, same.data.force);
 	}
 
@@ -64,7 +64,7 @@ public class GravityShieldEffect : DurationEffect {
 		public List<ParticleSystemsData> particles;
 		public IHasProgress Apply(PolygonGameObject picker) {
 			var effect = new GravityShieldEffect (this);
-			picker.AddEffect (effect);
+			effect = picker.AddEffect (effect);
 			return effect;
 		}
 	}

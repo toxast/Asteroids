@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SawEnemy : Asteroid, IFreezble
+public class SawEnemy : PolygonGameObject, IFreezble
 {
 	private float initialRotation;
 	private float initialVelocity;
@@ -19,7 +19,8 @@ public class SawEnemy : Asteroid, IFreezble
 	{
 		this.data = data;
 		this.reward = data.reward;
-		this.InitAsteroid (data.physical, data.speed, data.rotation);
+		InitPolygonGameObject (data.physical);
+		Asteroid.InitRandomMovement (this, data.speed, data.rotation);
 
 		initialRotation = rotation;
 		initialVelocity = velocity.magnitude;

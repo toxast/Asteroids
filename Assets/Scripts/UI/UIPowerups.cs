@@ -7,11 +7,15 @@ public class UIPowerups : MonoBehaviour
 	[SerializeField] ProgressBar powerupPrefab;
 	[SerializeField] Transform container;
 
-	List<IHasProgress> currentPowerups = new List<IHasProgress>();
+	List<UserComboPowerup.ProgressColorWrapper> currentPowerups = new List<UserComboPowerup.ProgressColorWrapper>();
 	List<ProgressBar> currentBars = new List<ProgressBar>();
 
 	public void DisplayPowerup(UserComboPowerup.ProgressColorWrapper powerup) {
 		if (powerup == null) {
+			return;
+		}
+		if (currentPowerups.Exists (e => e.progressObj == powerup.progressObj)) {
+			Debug.LogError ("same effect");
 			return;
 		}
 		var bar = Instantiate (powerupPrefab, container);

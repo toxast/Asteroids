@@ -26,7 +26,7 @@ public class GunsShowEffect : TickableEffect, IHasDuration, IHasProgress {
 
 	public override void SetHolder(PolygonGameObject holder) {
 		base.SetHolder(holder);
-		gunsShowObj = data.CreateObj(holder.layerNum);
+		gunsShowObj = data.CreateObj(holder.logicNum);
 		SetPosition ();
 		if (data.makeChild) {
 			gunsShowObj.cacheTransform.parent = holder.cacheTransform;

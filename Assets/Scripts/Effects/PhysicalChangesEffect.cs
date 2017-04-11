@@ -70,7 +70,7 @@ public class PhysicalChangesEffect : DurationEffect
 		public float multiplyStability = 1f;
 		public IHasProgress Apply(PolygonGameObject picker) {
 			var effect = new PhysicalChangesEffect (this);
-			picker.AddEffect (effect);
+			effect = picker.AddEffect (effect);
 			return effect;
 		}
 	}

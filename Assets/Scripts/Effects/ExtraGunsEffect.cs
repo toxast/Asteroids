@@ -60,7 +60,7 @@ public class ExtraGunsEffect : DurationEffect {
 
 		public IHasProgress Apply(PolygonGameObject picker) {
 			var effect = new ExtraGunsEffect (this);
-			picker.AddEffect (effect);
+			effect = picker.AddEffect (effect);
 			return effect;
 		}
 	}

@@ -30,8 +30,8 @@ public class MissileTargetSystem : TargetSystemBase<SpaceShip>
 		var dir = obj.position - thisObj.position;
 		var angle = Math2d.DeltaAngleDeg( Math2d.GetRotationDg(dir), Math2d.GetRotationDg(thisObj.cacheTransform.right));
 		angle = Mathf.Abs(angle);
-		float time2rotate = 0.1f + Mathf.Abs(angle) / thisObj.originalTurnSpeed;
-		return (dir.magnitude * time2rotate * time2rotate);
+		float time2rotate = 0.5f + Mathf.Abs(angle) / thisObj.originalTurnSpeed;
+		return (dir.magnitude * time2rotate);
 	}
 }
 

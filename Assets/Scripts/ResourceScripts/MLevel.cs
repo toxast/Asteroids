@@ -11,6 +11,8 @@ public class MLevel : MonoBehaviour
 	}
 
 	[SerializeField] Data data;
+	[SerializeField] public MJournalLog journal;
+	[SerializeField] public MJournalLog journalFinish;
 
 	[Header("edit helper")]
 	[SerializeField] bool insertWave = false;

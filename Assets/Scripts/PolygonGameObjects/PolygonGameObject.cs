@@ -32,9 +32,11 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	public Material mat;
 
 	//collision
-	public int layerNum;
-	public int layerLogic;
-	public int layerCollision;
+	public int logicNum;//{get; private set;}
+	public int layerLogic;//{get; private set;}
+
+	public int collisionNum;//{get; private set;}
+	public int layerCollision;//{get; private set;}
 	public int collisions;
 
 	//physical
@@ -318,18 +320,26 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	public void AddTurret(Place place, PolygonGameObject turret)
 	{
 		Math2d.PositionOnParent(turret.cacheTransform, place, cacheTransform, true, -1);
-		turret.SetLayerNum (layerNum);
+		turret.SetLayerNum (logicNum, collisionNum);
 		turrets.Add (turret);
 	}
 
 	public virtual void SetLayerNum (int layerNum)
 	{
-		this.layerNum = layerNum;
-		layerLogic = 1 << layerNum;
-		layerCollision = layerLogic; //there are exceptions
-		collisions = CollisionLayers.GetLayerCollisions (layerNum);
-		turrets.ForEach (t => t.SetLayerNum (layerNum));
+		SetLayerNum (layerNum, layerNum);
 	}
+
+	public virtual void SetLayerNum (int layerNum, int collisionNum) {
+		this.logicNum = layerNum;
+		layerLogic = 1 << layerNum;
+
+		this.collisionNum = collisionNum;
+		layerCollision = 1 << collisionNum; //there are exceptions
+		collisions = CollisionLayers.GetLayerCollisions (collisionNum);
+
+		turrets.ForEach (t => t.SetLayerNum (layerNum, collisionNum));
+	}
+
 
 	public void Accelerate(float delta, float thrust, float stability, float maxSpeed, float maxSpeedSqr, Vector2 dirNormalized)
 	{
@@ -412,7 +422,8 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
         _isInvisible = invis;
     }
 
-	public void AddEffect(TickableEffect effect) 
+	public E AddEffect<E>(E effect) 
+		where E: TickableEffect
 	{
 		bool updated = false;
 		if (effect.CanBeUpdatedWithSameEffect) {
@@ -420,6 +431,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 			if (same != null) {
 				same.UpdateBy (effect);
 				updated = true;
+				return same as E;
 			}
 		} 
 
@@ -427,6 +439,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 			effect.SetHolder (this);
 			effects.Add (effect);
 		}
+		return effect;
 	}
 
     //threshold >= 0

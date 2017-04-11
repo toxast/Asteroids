@@ -33,7 +33,8 @@ public class HealingEffect : DurationEffect {
 	public override void UpdateBy (TickableEffect sameEffect) {
 		base.UpdateBy (sameEffect);
 		var same = sameEffect as HealingEffect;
-		timeLeft += (same.data.total / currentHps);
+		float addTime = (same.data.total / currentHps);
+		IncreaseTimeLeft (addTime);
 	}
 
     public override void OnExpired() {
@@ -68,7 +69,7 @@ public class HealingEffect : DurationEffect {
 
 		public IHasProgress Apply(PolygonGameObject picker) {
 			var effect = new HealingEffect (this);
-			picker.AddEffect (effect);
+			effect = picker.AddEffect (effect);
 			return effect;
 		}
 	}

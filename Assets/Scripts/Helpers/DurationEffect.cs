@@ -23,6 +23,11 @@ public abstract class DurationEffect : TickableEffect, IHasProgress {
         return timeLeft <= 0;
     }
 
+	protected void IncreaseTimeLeft(float addTime){
+		timeLeft += addTime;
+		duration += addTime; //for progress bars
+	}
+
 	public void ForceFinish(){
 		if (!IsFinished ()) {
 			timeLeft = 0;

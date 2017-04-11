@@ -25,10 +25,8 @@ public class GravityGun : BulletGun<GravityBullet>
 //		return  PolygonGameObject.DestructionType.eDisappear;
 //	}
 
-	protected override void SetCollisionLayer (GravityBullet bullet)
-	{
-		base.SetCollisionLayer (bullet);
-		bullet.collisions = 0;
+	protected override void SetCollisionLayer (GravityBullet bullet) {
+		bullet.SetLayerNum(CollisionLayers.GetBulletLayerNum(parent.layerLogic), CollisionLayers.ilayerNoCollision);
 	}
 
   

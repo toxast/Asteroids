@@ -53,6 +53,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerups:
   - comets:
+    - {fileID: 114935688868597546, guid: 164284c7e17bb3c4094b0d3942efd747, type: 2}
+  - comets:
     - {fileID: 114935688868597546, guid: 3f93cfad55b602647b9fe06a26761781, type: 2}
-    - {fileID: 114935688868597546, guid: 551e3d8a1598ea34ca056c3b14716913, type: 2}
+  - comets:
     - {fileID: 114935688868597546, guid: f5246ee01a6b70147a254616625470f1, type: 2}
+    - {fileID: 114935688868597546, guid: c9508ae0fb0bd794689929a5f93c8ebe, type: 2}
+  - comets:
+    - {fileID: 114935688868597546, guid: 1daf181abd917a445966edf0e3a8c526, type: 2}
+  - comets:
+    - {fileID: 114935688868597546, guid: 79719de8a76810346ba29c58c4e22fb9, type: 2}
+    - {fileID: 114935688868597546, guid: d86801d2e651c0b4886c5b897a3e9ec9, type: 2}
+  - comets:
+    - {fileID: 114935688868597546, guid: 52f8edc3829c2c74ba59912d84d0ef1c, type: 2}
+  testid: 0

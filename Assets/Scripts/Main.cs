@@ -15,15 +15,14 @@ public class Main : MonoBehaviour
 	[SerializeField] TabletInputController tabletController;
 	[SerializeField] oldGUI oldGUI;
 	[NonSerialized] public UserSpaceShip userSpaceship;
+	[NonSerialized] public List<PolygonGameObject> bullets = new List<PolygonGameObject>();
 	List <PolygonGameObject> gobjects = new List<PolygonGameObject>();
     List<polygonGO.DropBase> drops = new List<polygonGO.DropBase>();
-	public List<PolygonGameObject> bullets = new List<PolygonGameObject>();
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
 	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
 
-//	PowerUpsCreator powerUpsCreator;
-//	List<PowerUp> powerUps = new List<PowerUp> ();
+	[SerializeField] bool killEveryOne = false;
 
 	private float DestroyAfterSplitTreshold = 5f;
 	private float addMoneyKff = 1f;
@@ -82,7 +81,7 @@ public class Main : MonoBehaviour
 	}
 
 	ILevelSpawner spawner;
-	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, int level = 0, int waveNum = 0)
+	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, ILevelSpawner lvlElement)
 	{
 		#if UNITY_STANDALONE
 		if (cursorTexture != null)
@@ -102,15 +101,12 @@ public class Main : MonoBehaviour
 		CreateSpaceShip (spaceshipData);
 		userSpaceship.destroyed += HandleUserDestroyed;
 
-		if (level < 0) {
-			spawner = new EmptyTestSceneSpawner ();
-		} else {
-			spawner = MLevelsResources.Instance.levels [level].GetLevel();
-            //testing purposes
-            if (waveNum != 0) {
-                (spawner as LevelSpawner).ForceWaveNum(waveNum);
-            }
-        }
+		spawner = lvlElement;
+
+		var level = (spawner as LevelSpawner);
+		if (level != null) {
+			DetermineCometDrops (avaliableComets, level);
+		}
 
 		repositionCoroutine = StartCoroutine(RepositionAll());
 		wrapStarsCoroutine = StartCoroutine(WrapStars());
@@ -120,14 +116,69 @@ public class Main : MonoBehaviour
 //		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
 	}
 
+	void DetermineCometDrops(List<MCometData> avaliableComets, LevelSpawner level){
+		int wavesCount = level.WavesCount;
+		List<CometDropWrapper> wrappers = new List<CometDropWrapper> ();
+		var powerupDrops = avaliableComets.FindAll (cmt => cmt.dropFromEnemies);
+		for (int i = 0; i < powerupDrops.Count; i++) {
+			var pdrop = powerupDrops [i];
+			List<int> dropOnWaves = new List<int> ();
+			for (int k = 0; k < pdrop.dropCountPerLevel; k++) {
+				int wave = UnityEngine.Random.Range (1, wavesCount-1);
+				dropOnWaves.Add (wave);
+			}
+			CometDropWrapper wrapper = new CometDropWrapper{ powerup = pdrop, dropOnWaves = dropOnWaves };
+			wrappers.Add (wrapper);
+			Debug.LogError (wrapper.powerup.name + ": " + MyExtensions.FormString (wrapper.dropOnWaves));
+		}
+		MyExtensions.ClassType<int> finishedWaveIndex = new MyExtensions.ClassType<int> ();
+		finishedWaveIndex.val = 0;
+		level.OnWaveFinished += () => HandleWaveFinished(finishedWaveIndex, wrappers);
+	}
+
+	List<CometDropWrapper2> powerupDropsLeft = new List<CometDropWrapper2>();
+
+	void HandleWaveFinished(MyExtensions.ClassType<int> finishedWaveIndex, List<CometDropWrapper> powerupDrops) {
+		Debug.LogError ("wave finished " + finishedWaveIndex.val);
+		for (int i = 0; i < powerupDrops.Count; i++) {
+			int count = powerupDrops [i].dropOnWaves.RemoveAll (w => w <= finishedWaveIndex.val);
+			for (int k = 0; k < count; k++) {
+				CometDropWrapper2 wrapper2 = new CometDropWrapper2{ waveIndx = finishedWaveIndex.val, powerup = powerupDrops [i].powerup };
+				wrapper2.dropOnWaveEnemieNumLeft = UnityEngine.Random.Range (0, 6);
+				Debug.LogError (wrapper2.powerup.name + " powerup in " + wrapper2.dropOnWaveEnemieNumLeft);
+				powerupDropsLeft.Add (wrapper2);
+			}
+		}
+
+		for (int i = 0; i < powerupDropsLeft.Count; i++) {
+			if (powerupDropsLeft [i].waveIndx < finishedWaveIndex.val) {
+				powerupDropsLeft [i].dropOnWaveEnemieNumLeft = 0;
+			}
+		}
+		finishedWaveIndex.val++;
+	}
+
+	class CometDropWrapper{
+		public MCometData powerup;
+		public List<int> dropOnWaves = new List<int>();
+	}
+
+	class CometDropWrapper2{
+		public int dropOnWaveEnemieNumLeft = 0;
+		public int waveIndx;
+		public MCometData powerup;
+	}
+
 	public event Action OnGameOver;
 	public event Action OnLevelCleared;
+
 	private void HandleUserDestroyed() {
 		OnGameOver ();
 	}
 
 	public void Clear()
 	{
+		powerupDropsLeft = new List<CometDropWrapper2> ();
 		#if UNITY_STANDALONE
 		if (cursorTexture != null)
 		{
@@ -193,6 +244,7 @@ public class Main : MonoBehaviour
 		goDestructors.Clear ();
 		id2drops.Clear ();
 		starsGenerator.Clear ();
+		cameraTransform.position = new Vector3(0, 0, cameraTransform.position.z);
 		gameIsOn = false;
 	}
 
@@ -221,23 +273,23 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	IEnumerator SpawnComets(List<MCometData> avaliableComets) {
-		if (avaliableComets.Count == 0) {
+	IEnumerator SpawnComets(List<MCometData> avaliablePowerups) {
+		if (avaliablePowerups.Count == 0) {
 			yield break;
 		}
 
-		float spawnTime = 140;//0f;
+		float spawnTime = 120;//0f;
 		float percentLowerTime = 8f;
-		for (int i = 0; i < avaliableComets.Count; i++) {
+		for (int i = 0; i < avaliablePowerups.Count; i++) {
 			//Debug.LogError(i + " " + spawnTime);
 		//	Debug.LogError(i + " percentLowerTime " + percentLowerTime);
 			spawnTime = spawnTime * (1f - percentLowerTime / 100f);
 			percentLowerTime = percentLowerTime * (1f - percentLowerTime / 50f);
 		}
 
-		float cometLifeTime = 90;
+		float cometLifeTime = 100;
 		float percentIncTime = 8f;
-		for (int i = 0; i < avaliableComets.Count - 1; i++) {
+		for (int i = 0; i < avaliablePowerups.Count - 1; i++) {
 			//Debug.LogError(i + " " + cometLifeTime);
 			//Debug.LogError(i + " percentIncTime " + percentIncTime);
 			cometLifeTime = cometLifeTime * (1f + percentIncTime / 100f);
@@ -257,8 +309,9 @@ public class Main : MonoBehaviour
 			} 
 			nextDelta = UnityEngine.Random.Range (1f - 0.25f, 1f + 0.25f) * nextDelta;
 			yield return new WaitForSeconds (nextDelta);
-			if (!IsNull (userSpaceship)) {
-				var cometData = avaliableComets [UnityEngine.Random.Range (0, avaliableComets.Count)];
+			var comets = avaliablePowerups.FindAll (cmt => cmt.dropFromEnemies == false);
+			if (!IsNull (userSpaceship) && comets.Count > 0) {
+				var cometData = comets [UnityEngine.Random.Range (0, comets.Count)];
 				var comet = cometData.GameCreate (userSpaceship.maxSpeed, cometLifeTime);
 				var angle = UnityEngine.Random.Range (0, 360);
 				var posData = GetEdgePositionData (angle);
@@ -418,6 +471,15 @@ public class Main : MonoBehaviour
 				StartCoroutine (WaitUntilDropsAreDestroyed ());
             }
         }
+
+		if (killEveryOne) {
+			killEveryOne = false;
+			foreach (var item in gObjects) {
+				if(item != userSpaceship){
+					item.Kill();
+				}
+			}
+		}
 
 		//timeMultipliers = timeMultipliersTest; //test
 		if (timeMultipliers != null) {
@@ -666,6 +728,19 @@ public class Main : MonoBehaviour
 		default:
 			SplitIntoAsteroidsAndMarkForDestuctionSmallParts(gobject);
 			break;
+		}
+
+		if (gobject.layerLogic == (int)CollisionLayers.eLayer.TEAM_ENEMIES && !(gobject is Asteroid)) {
+			for (int i = powerupDropsLeft.Count - 1; i >= 0; i--) {
+				var pup = powerupDropsLeft [i];
+				pup.dropOnWaveEnemieNumLeft--;
+				Debug.LogError(pup.powerup.name + " " + pup.dropOnWaveEnemieNumLeft);
+				if (pup.dropOnWaveEnemieNumLeft <= 0) {
+					powerupDropsLeft.RemoveAt(i);
+					CreatePowerUp (pup.powerup.powerupData, (Vector3)gobject.position + new Vector3(0,0,1));
+					break;
+				}
+			}
 		}
 
 		{
@@ -1195,7 +1270,7 @@ public class Main : MonoBehaviour
 
 		Color col = Color.white;
 
-		switch (obj.layerNum) 
+		switch (obj.logicNum) 
 		{
 		case CollisionLayers.ilayerUser:
 			col = Color.blue;

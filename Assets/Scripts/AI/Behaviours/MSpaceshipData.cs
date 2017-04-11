@@ -8,6 +8,8 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 {
 	public int id = -1;
 	public int price = -1;
+	public MJournalLog journal;
+
 	public Color color = Color.white;
 	public PhysicalData physical;
 	public DeathData deathData;

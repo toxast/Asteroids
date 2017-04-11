@@ -13,6 +13,9 @@ public class LevelSpawner : ILevelSpawner
 	DateTime start;
 	DateTime lastStartWave;
 
+	public Action OnWaveFinished;
+	public int WavesCount{get{return data.waves.Count;}}
+
 	public LevelSpawner(MLevel.Data data) {
 		this.data = data;
 		currentWave = data.waves [0].GetWave();
@@ -49,6 +52,9 @@ public class LevelSpawner : ILevelSpawner
 		}
 		currentWave.Tick ();
 		if(currentWave.Done()) {
+			if (OnWaveFinished != null) {
+				OnWaveFinished ();
+			}
 			Debug.LogError ("finished wave " + waveNum + " in " + (DateTime.Now - lastStartWave).TotalSeconds);
 			lastStartWave = DateTime.Now;
 			if (deferredWaves.Count > 0) {

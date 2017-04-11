@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SpikyAsteroid : Asteroid, IFreezble
+public class SpikyAsteroid : PolygonGameObject, IFreezble
 {
 //	public event System.Action<Asteroid> SpikeAttack;
 
@@ -34,7 +34,8 @@ public class SpikyAsteroid : Asteroid, IFreezble
 
 	public void InitSpikyAsteroid (int[] spikes, MSpikyData data)	{
 		this.data = data;
-		InitAsteroid (data.physical, data.speed, data.rotation);
+		InitPolygonGameObject (data.physical);
+		Asteroid.InitRandomMovement (this, data.speed, data.rotation);
 		this.spikeSpeed = data.spikeVelocity;
 		this.growSpeed = data.growSpeed;
 		foreach(int spikeVertex in spikes) {
@@ -124,7 +125,7 @@ public class SpikyAsteroid : Asteroid, IFreezble
 		float collisionMod = data.overrideSpikeCollisionAttack < 0 ? this.collisionAttackModifier : data.overrideSpikeCollisionAttack;
 
 		spikeGO.InitPolygonGameObject(new PhysicalData(this.density, this.healthModifier, this.collisionDefence, collisionMod));
-		spikeGO.SetLayerNum (this.layerNum);
+		spikeGO.SetLayerNum (CollisionLayers.ilayerAsteroids, this.collisionNum);
 		spikeGO.position += position;
 		spikeGO.rotation = 0f;
 		spikeGO.velocity = spikeSpeed * spikeDirection.normalized;

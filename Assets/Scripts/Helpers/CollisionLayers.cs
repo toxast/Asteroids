@@ -13,6 +13,7 @@ public static class CollisionLayers
 	public const int ilayerBulletsEnemies = 4;
 	public const int ilayerAsteroids = 5;
 	public const int ilayerMisc = 6;
+	public const int ilayerNoCollision = 7;
 
 	[System.Flags]
 	public enum eLayer : int
@@ -24,6 +25,7 @@ public static class CollisionLayers
 		BULLETS_ENEMIES = 1 << ilayerBulletsEnemies,
 		ASTEROIDS = 1 << ilayerAsteroids,
 		MISC = 1 << ilayerMisc,
+		NO_COLISION = 1 << ilayerNoCollision,
 	}
 
 	[Serializable]
@@ -127,6 +129,8 @@ public static class CollisionLayers
 		//layerAsteroids
 		0,
 		//layerMisc
+		0,
+		//no collision
 		0,
 	};
 

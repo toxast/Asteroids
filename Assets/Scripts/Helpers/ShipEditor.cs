@@ -697,9 +697,12 @@ public class ShipEditor : MonoBehaviour
 	[ContextMenu ("CustomAction")]
 	public void MyCustomAction() {
 //
-		var list3 = LoadPrefabsContaining<MCometData> ();
+		var list3 = LoadPrefabsContaining<MJournalLog> ();
+		int id = 0;
 		foreach (var item in list3) {
-			item.powerupData.effectData.color = item.color;
+			id++;
+			//item.powerupData.effectData.color = item.color;
+			item.id = id;
 			EditorUtility.SetDirty (item.gameObject);
 		}
 //

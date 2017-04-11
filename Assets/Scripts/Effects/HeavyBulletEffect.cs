@@ -25,7 +25,7 @@ public class HeavyBulletEffect : DurationEffect {
     public override void UpdateBy (TickableEffect sameEffect) {
 		base.UpdateBy (sameEffect);
 		var same = sameEffect as HeavyBulletEffect;
-		timeLeft += same.data.duration;
+		IncreaseTimeLeft (same.data.duration);
 		data = same.data;
 		holder.heavyBulletData = same.data;
 	}
@@ -38,7 +38,7 @@ public class HeavyBulletEffect : DurationEffect {
 		public float iduration{get {return duration;} set{duration = value;}}
 		public IHasProgress Apply(PolygonGameObject picker) {
 			var effect = new HeavyBulletEffect (this);
-			picker.AddEffect (effect);
+			effect = picker.AddEffect (effect);
 			return effect;
 		}
 	}

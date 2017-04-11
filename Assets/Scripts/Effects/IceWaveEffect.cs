@@ -45,7 +45,7 @@ public class IceWaveEffect : TickableEffect{
 		public ParticleSystemsData ringEffect;
 		public IHasProgress Apply(PolygonGameObject picker) {
 			var effect = new IceWaveEffect (this);
-			picker.AddEffect (effect);
+			effect = picker.AddEffect (effect);
 			return null;
 		}
 	}

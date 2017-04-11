@@ -61,6 +61,9 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  id: 8
+  price: 0
+  journal: {fileID: 0}
   rotation:
     min: 20
     max: 40
@@ -98,6 +101,9 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 198328997085036626, guid: 72c85ce4b5d5ceb4eb95a4c3ba6cbee4, type: 2}
     overrideSize: -1
     overrideDelay: -1
@@ -113,6 +119,9 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 198898463116308176, guid: df4fbbf5af84235478a8fc7da9e00fd4, type: 2}
     overrideSize: -1
     overrideDelay: -1

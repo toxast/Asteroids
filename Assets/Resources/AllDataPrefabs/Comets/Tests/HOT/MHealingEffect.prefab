@@ -52,17 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    duration: 4
-    total: 20
-    effect:
-      place:
-        pos: {x: 0, y: 0}
-        dir: {x: 1, y: 0}
-      prefab: {fileID: 198187809016010928, guid: e338133772e77a64a9d44c5ce1f1352a,
-        type: 2}
-      overrideSize: -1
-      overrideDelay: -1
-      overrideDuration: -1
-      zOffset: -0.2
-      afterlife: 1
-      stopEmission: 1
+    duration: 40
+    total: 7
