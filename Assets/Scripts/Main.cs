@@ -737,7 +737,7 @@ public class Main : MonoBehaviour
 				Debug.LogError(pup.powerup.name + " " + pup.dropOnWaveEnemieNumLeft);
 				if (pup.dropOnWaveEnemieNumLeft <= 0) {
 					powerupDropsLeft.RemoveAt(i);
-					CreatePowerUp (pup.powerup.powerupData, (Vector3)gobject.position + new Vector3(0,0,1));
+					CreatePowerUp (pup.powerup.powerupData, (Vector3)gobject.position + new Vector3(0,0,1), gobject.velocity);
 					break;
 				}
 			}
@@ -1000,7 +1000,9 @@ public class Main : MonoBehaviour
 		anim.SetStartColor (drop.color);
 		anim.transform.parent = dropObj.transform;
 		anim.transform.localPosition = new Vector3(0, 0, UnityEngine.Random.Range(1f, 1.1f));
-		dropObj.cacheTransform.position =
+        float magnitude = UnityEngine.Random.Range(2f, 5f);
+        dropObj.velocity = Math2d.RotateVertexDeg(new Vector2(magnitude, 0), UnityEngine.Random.Range(0f, 360f));
+        dropObj.cacheTransform.position =
 			position + randomOffset + new Vector3(0,0,1);
 		dropObj.rotation = UnityEngine.Random.Range(160f, 240f) * Math2d.RandomSign();
 		drops.Add(dropObj);
@@ -1008,9 +1010,16 @@ public class Main : MonoBehaviour
 
 
 
-    public void CreatePowerUp(PowerupData data, Vector3 position) {
+    public void CreatePowerUp(PowerupData data, Vector3 position, Vector2 parentVelocity) {
         var powerup = ObjectsCreator.CreatePowerUpDrop(data);
         powerup.cacheTransform.position = position + new Vector3(0, 0, 2);
+
+        if (parentVelocity == Vector2.zero) {
+            if (userSpaceship != null) {
+                parentVelocity = (userSpaceship.position - (Vector2)position).normalized;
+            }
+        }
+        powerup.velocity = parentVelocity.normalized * 8f;
         //powerup.rotation = UnityEngine.Random.Range(160f, 240f) * Mathf.Sign(UnityEngine.Random.Range(-1f, 1f));
         drops.Add(powerup);
     }

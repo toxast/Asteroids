@@ -4,8 +4,7 @@ using System.Collections;
 public class PowerUp : polygonGO.DropBase 
 {
 	public IApplyable effect;
-	public void InitPowerUp(IApplyable effect)
-	{
+	public void InitPowerUp(IApplyable effect) {
 		this.effect = effect;
 	}
     

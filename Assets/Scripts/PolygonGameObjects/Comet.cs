@@ -13,7 +13,7 @@ public class Comet : Asteroid {
 	{
 		base.HandleDestroy ();
 		if (leftlifeTime > 0) {
-			Singleton<Main>.inst.CreatePowerUp(data, this.position);
+			Singleton<Main>.inst.CreatePowerUp(data, this.position, velocity);
 		} else {
 			//TODO: create power up if corresponding ability bought in store
 		}

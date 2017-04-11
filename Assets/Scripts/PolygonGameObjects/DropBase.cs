@@ -13,6 +13,8 @@ namespace polygonGO {
                 OnLifeTimeEnd();
                 Kill();
             }
+
+            Brake(delta, 2.5f);
 		}
 
 		public virtual void OnInteracted(PolygonGameObject picker) {
