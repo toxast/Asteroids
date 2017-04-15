@@ -7,7 +7,7 @@ public class ShieldData: IClonable<ShieldData>
 	public float capacity;
 	public float rechargeRate;
 	public float hitRechargeDelay;
-	public float rechargeDelayAfterDestory = 1;
+	public float rechargeDelayAfterDestory = 1; 
 
 	public ShieldData()
 	{

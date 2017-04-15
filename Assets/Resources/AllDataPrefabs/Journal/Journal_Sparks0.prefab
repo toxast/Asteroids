@@ -51,5 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ad6e367ab2f9740920636a83069a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 6
-  text: Wow!    What was it?
+  id: 110
+  text: 'Wow!    What was that? \n I think I saw someone there. '

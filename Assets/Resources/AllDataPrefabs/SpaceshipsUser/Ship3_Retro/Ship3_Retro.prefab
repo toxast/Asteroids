@@ -51,7 +51,8 @@ MonoBehaviour:
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   id: 4
-  price: 1200
+  price: 800
+  journal: {fileID: 114395553400948598, guid: 5d53cd6485c3b0b4ebf7902083e2c9f0, type: 2}
   color: {r: 0.24356619, g: 0.625, b: 0.37246457, a: 1}
   physical:
     density: 0.7

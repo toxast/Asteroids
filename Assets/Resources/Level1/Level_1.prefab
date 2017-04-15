@@ -64,6 +64,9 @@ MonoBehaviour:
     - {fileID: 114664566910631732, guid: fbf9f1a2515b82146b177d087e6b28bf, type: 2}
     - {fileID: 114664566910631732, guid: 91a7d63009b4717468d1eb5cb3d809b8, type: 2}
     - {fileID: 114772783378911896, guid: bb1835310e5c4b74b937a3901c4a3aaf, type: 2}
+  journal: {fileID: 114395553400948598, guid: 0b01e2415974a6f48a38f76d96dd0082, type: 2}
+  journalFinish: {fileID: 114395553400948598, guid: de85dee667fefd44b8688f9dc074866c,
+    type: 2}
   insertWave: 0
   removeWave: 0
   index: 4

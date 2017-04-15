@@ -165,8 +165,8 @@ public class SpaceShip : PolygonGameObject , IFreezble
 		SetThrusters (tdatas);
 	}
 
-	public void Accelerate(float delta)	{
-		base.Accelerate(delta, thrust, stability, maxSpeed, maxSpeedSqr, cacheTransform.right);
+	public void Accelerate(float delta, float value01 = 1)	{
+		base.Accelerate(delta, thrust * value01, stability, maxSpeed, maxSpeedSqr, cacheTransform.right);
 		acceleratedThisTick = true;
 	}
 
@@ -195,12 +195,14 @@ public class SpaceShip : PolygonGameObject , IFreezble
 		}
 		if (dir != Vector2.zero) {
 			TurnByDirection (dir, delta);
+		} else {
+			TurnByDirection (cacheTransform.right, delta);
 		}
 		if (shooting) {
 			Shoot ();
 		}
 		if (inputController.accelerating) {
-			Accelerate (delta);
+			Accelerate (delta, inputController.accelerateValue01);
 		} else if (inputController.braking) {
 			Brake (delta, brake);
 		} else {
@@ -252,7 +254,6 @@ public class SpaceShip : PolygonGameObject , IFreezble
 				rotation = 0;
 		}
         lastRotationDirLeft = turnLeft;
-
     }
 
 	protected override void ApplyRotation (float dtime)

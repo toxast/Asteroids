@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ad6e367ab2f9740920636a83069a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 5
-  text: These strange capsules seem to be attracted to us.   But even if we miss some
-    of them, later they are nowhere to be found.   \n Somehow I feel right about it.
+  id: 51
+  text: These strange shiny capsules seem to be attracted to us.   But even if we
+    miss some of them, later they are nowhere to be found.   \n Somehow I feel right
+    about it.

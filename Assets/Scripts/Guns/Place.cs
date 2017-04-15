@@ -20,6 +20,26 @@ public class Place: IClonable<Place>
 		}
 	}
 
+	public Vector2 direction{
+		get{ 
+			if (!useAngleForPosition) {
+				return dir;
+			} else {
+				return Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
+			}
+		}
+	}
+
+	public float radians{
+		get{
+			if (!useAngleForPosition) {
+				return Math2d.GetRotationRad (dir);
+			} else {
+				return Mathf.Deg2Rad * angle;
+			}
+		}
+	}
+
 	public Place(){}
 	public Place(Vector2 pos, Vector2 dir)
 	{

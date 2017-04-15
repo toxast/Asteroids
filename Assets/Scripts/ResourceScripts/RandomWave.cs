@@ -13,13 +13,13 @@ public class RandomWave : IWaveSpawner{
 
 	[Serializable]
 	public class Data{
-		public float diffucultyAtOnce = 50f;
-		public float diffucultyTotal = 100f;
-		public float overrideDificultyAdds = -1f;
+		public int diffucultyAtOnce = 50;
+		public int diffucultyTotal = 100;
+		public int overrideDificultyAdds = -1;
 		public RandomInt differentSpawnsCountRange = new RandomInt{max = 3, min = 1}; 
 		public bool chooseNewObjectsEachTime = true;
 		public float overrideSpawnTime = -1f;
-		public float startNextWaveWhenDifficultyLeft = 0f;
+		public int startNextWaveWhenDifficultyLeft = 0;
 		public RandomWave.eSpawnCountStrategy countStrategy =  RandomWave.eSpawnCountStrategy.PICK_RANDOM;
 		public RandomWave.eSpawnStrategy spawnStrategy =  RandomWave.eSpawnStrategy.PICK_RANDOM;
 		[Header ("DestroyAreaDelay")]
@@ -32,9 +32,9 @@ public class RandomWave : IWaveSpawner{
 
 	Data data;
 	Main main;
-	float totalDifficulyLeft;
+	int totalDifficulyLeft;
 	IEnumerator spawnRoutine;
-	float spawningDifficulty = 0;
+	int spawningDifficulty = 0;
 	float totalAreaSpawned = 0;
 	List<MSpawnBase.SpawnedObj> spawned = new List<MSpawnBase.SpawnedObj>();
 	DestroyAreaWave destroyAreaWave;
@@ -65,7 +65,7 @@ public class RandomWave : IWaveSpawner{
 	private IEnumerator CheckSpawnNextRoutine() {
 		bool first = true;
 		bool prepareNextSpawnGroup = true;
-		float preparedDifficulty = 0;
+		int preparedDifficulty = 0;
 		List<int> selectedSpawnsCount = new List<int>();
 		List<WeightedSpawn> selectedSpawns = SelectSpawns(data.objects, data.diffucultyAtOnce, data.differentSpawnsCountRange);
         while (true) {
@@ -76,7 +76,7 @@ public class RandomWave : IWaveSpawner{
 				prepareNextSpawnGroup = false;
 				selectedSpawnsCount.Clear ();
 
-				float minDifficulty = float.MaxValue;
+				int minDifficulty = int.MaxValue;
 				for (int i = 0; i < selectedSpawns.Count; i++) {
 					if (selectedSpawns [i].difficulty < minDifficulty) {
 						minDifficulty = selectedSpawns [i].difficulty;
@@ -88,8 +88,8 @@ public class RandomWave : IWaveSpawner{
 						first = false;
 						preparedDifficulty = data.diffucultyAtOnce;
 					} else {
-						float dif = data.overrideDificultyAdds > 0 ? data.overrideDificultyAdds : data.diffucultyAtOnce; 
-						preparedDifficulty = Rnd.Range (minDifficulty, Mathf.Min (dif, totalDifficulyLeft));
+						int dif = data.overrideDificultyAdds > 0 ? data.overrideDificultyAdds : data.diffucultyAtOnce; 
+						preparedDifficulty = Rnd.Range (minDifficulty, Mathf.Min (dif, totalDifficulyLeft) + 1);
 					}
 					selectedSpawnsCount = GetCountForSpawns (selectedSpawns, preparedDifficulty);//todo min values should be more frequent
 
@@ -110,11 +110,17 @@ public class RandomWave : IWaveSpawner{
 			}
 
 			if (selectedSpawnsCount.Count == selectedSpawns.Count) {
-				if (preparedDifficulty <= data.diffucultyAtOnce - CurrentDifficulty ()) {
+				var currentDif = CurrentDifficulty ();
+				if (preparedDifficulty <= data.diffucultyAtOnce - currentDif) {
 					CountInWhatWillBeSpawned (selectedSpawns, selectedSpawnsCount);
-					yield return Singleton<Main>.inst.StartCoroutine(Spawn (selectedSpawns, selectedSpawnsCount)); 
+					yield return Singleton<Main>.inst.StartCoroutine (Spawn (selectedSpawns, selectedSpawnsCount)); 
 					prepareNextSpawnGroup = true;
-				}	
+				} else {
+					if (currentDif == 0) {
+						Debug.LogError ("this shoukd never happen");
+						break;
+					}
+				}
 			} else {
 				break;
 			}
@@ -160,13 +166,13 @@ public class RandomWave : IWaveSpawner{
 		MAX,
 	}
 
-	private List<int> GetCountForSpawns(List<WeightedSpawn> selectedSpawns, float difficulty){
+	private List<int> GetCountForSpawns(List<WeightedSpawn> selectedSpawns, int difficulty){
 		List<int> selectedSpawnsCount = selectedSpawns.ConvertAll (s => 0);
 		if (selectedSpawns.Count == 0) {
 			return selectedSpawnsCount;
 		}
 
-		float currentDifficulty = 0;
+		int currentDifficulty = 0;
 //		for (int i = 0; i < selectedSpawns.Count; i++) {
 //			if (selectedSpawns [i].difficulty + currentDifficulty <= difficulty) {
 //				selectedSpawnsCount [i] = 1;
@@ -182,11 +188,11 @@ public class RandomWave : IWaveSpawner{
 
 		Func<WeightedSpawn, float> weightsFunc;
 		if (strategy == eSpawnCountStrategy.LESS_DIFFICULT) {
-			weightsFunc = (w) => 1 / w.difficulty;
+			weightsFunc = (w) => 1f / w.difficulty;
 		} else if (strategy == eSpawnCountStrategy.MORE_DIFFICULT) {
 			weightsFunc = (w) => w.difficulty;
 		} else {
-			weightsFunc = (w) => 1;
+			weightsFunc = (w) => 1f;
 		}
 
 		//Debug.LogError (strategy);

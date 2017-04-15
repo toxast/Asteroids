@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ad6e367ab2f9740920636a83069a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 6
-  text: Samanta said this prevents all collision damage.  Now these spiky things can't
-    hurt us.  For a while.    \n She's not sure about bullets or explosions though.
+  id: 120
+  text: Samanta took a sample. This prevents all collision damage she said later.  Now
+    these spiky things can't hurt us.  For a while.    \n She's not sure about bullets
+    or explosions though.

@@ -11,7 +11,7 @@ public class MSpaceShipResources : ResourceSingleton<MSpaceShipResources>
 		CheckIds ();
 	}
 
-	private void CheckIds(){
+	public void CheckIds(){
 		testid = false;
 		List<MSpaceshipData> allSpaceships = new List<MSpaceshipData> ();
 		for (int i = 0; i < userSpaceships.Count; i++) {

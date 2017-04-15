@@ -41,15 +41,19 @@ public class UIPowerupsScroll : MonoBehaviour {
 		bool previousPowerupUnlocked = true;
 		for (int i = 0; i < list.Count; i++) {
 			var upgradeList = elemsData [i].comets;
-			var lastBoughtUpgrade = upgradeList.FindLast(s => cometUnlocks.Contains(s.id));
+			MCometData lastBoughtUpgrade = null;
+			var lastBoughtUpgradeIndex = upgradeList.FindLastIndex(s => cometUnlocks.Contains(s.id));
+			if (lastBoughtUpgradeIndex >= 0) {
+				lastBoughtUpgrade = upgradeList [lastBoughtUpgradeIndex];
+			}
 			PowerupUpgradeData pdata = new PowerupUpgradeData ();
 			PowerupUI.State state;
 			if (lastBoughtUpgrade != null) {
-				bool canBeUpgraded = upgradeList.Last () != lastBoughtUpgrade;
+				bool canBeUpgraded = (lastBoughtUpgradeIndex + 1) < upgradeList.Count;
 				state = canBeUpgraded ? PowerupUI.State.CanBeUpgraded : PowerupUI.State.Max;
 				pdata.current = lastBoughtUpgrade;
-				if (upgradeList.Last () != lastBoughtUpgrade) {
-					pdata.next = upgradeList.Last ();
+				if (canBeUpgraded) {
+					pdata.next = upgradeList [lastBoughtUpgradeIndex + 1];
 				}
 			} else {
 				if (previousPowerupUnlocked) {

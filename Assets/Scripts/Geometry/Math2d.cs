@@ -280,9 +280,9 @@ public static class Math2d {
 
 
     static public void PositionOnParent(Transform objTransform, Place place, Transform parentTransform, bool makeParent = false, float zOffset = 0) {
-        float angle = Math2d.GetRotationRad(place.dir);
+		float angle = place.radians;
         objTransform.RotateAround(Vector3.zero, Vector3.back, -angle * Mathf.Rad2Deg);
-        objTransform.position = place.pos;
+		objTransform.position = place.position;
 
         angle = Math2d.GetRotationRad(parentTransform.right);
         objTransform.RotateAround(Vector3.zero, Vector3.back, -angle * Mathf.Rad2Deg);

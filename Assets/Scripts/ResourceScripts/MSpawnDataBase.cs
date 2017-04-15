@@ -12,9 +12,9 @@ public abstract class MSpawnDataBase : MSpawnBase {
 
 	[Header("game fields")]
 	public int gameSpawnLayer = CollisionLayers.ilayerTeamEnemies;
-	public float difficulty = 10f;
+	public int difficulty;
     public int reward = 0;
-    public override float sdifficulty { get { return difficulty; }	}
+	public override int sdifficulty { get { return difficulty; }	}
 	public TeleportData teleportData;
 
 	public PolygonGameObject Create(){

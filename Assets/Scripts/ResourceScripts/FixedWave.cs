@@ -16,15 +16,15 @@ public class FixedWave : IWaveSpawner{
 	[Serializable]
 	public class Data{
 		public RandomWave.eSpawnStrategy spawnStrategy =  RandomWave.eSpawnStrategy.PICK_RANDOM;
-		public float startNextWaveWhenDifficultyLeft = 0f;
+		public int startNextWaveWhenDifficultyLeft = 0;
 		public List<SpawnPos> objects;
 	}
 
 	Data  data;
 	Main main;
-	float totalDifficulyLeft;
+	int totalDifficulyLeft;
 	IEnumerator spawnRoutine;
-	float spawningDifficulty = 0;
+	int spawningDifficulty = 0;
 	List<MSpawnBase.SpawnedObj> spawned = new List<MSpawnBase.SpawnedObj>();
 
 	public FixedWave(Data data) {
@@ -98,8 +98,8 @@ public class FixedWave : IWaveSpawner{
 	}
 
 	//difficulty of alive spawned and current spawning
-	private float CurrentDifficulty() {
-		float current = spawningDifficulty;
+	private int CurrentDifficulty() {
+		int current = spawningDifficulty;
 		for (int i = spawned.Count - 1; i >= 0; i--) {
 			if (!Main.IsNull (spawned [i].obj)) {
 				current += spawned [i].difficulty;

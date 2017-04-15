@@ -9,7 +9,7 @@ public class TabletInputController : MonoBehaviour, InputController
 	public bool accelerating{ get; private set; }
 	public bool braking{ get; private set; }
 	public Vector2 turnDirection{ get; private set; }
-
+	public float accelerateValue01{ get{ return 1f;}} 
 
 	[SerializeField] Image joystick;
 	[SerializeField] ToggleButton fireButton;

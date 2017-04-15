@@ -23,9 +23,8 @@ public class MCometData : MSpawnDataBase, IGotShape {
 	public Vector2[] iverts {get {return powerupData.verts;} set{powerupData.verts = value;}}
 
 	protected override PolygonGameObject CreateInternal(int layer) {
-		float speed = 30f;
-
-		var spawn = ObjectsCreator.CreateComet(this, new RandomFloat(speed * 0.7f, speed * 1.2f), 120f);
+		float speed = 20f;
+		var spawn = ObjectsCreator.CreateComet(this, new RandomFloat(speed * 0.6f, speed * 0.8f), 120f);
         return spawn;
     }
 

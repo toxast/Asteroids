@@ -43,12 +43,12 @@ MonoBehaviour:
   color: {r: 1, g: 0.058823533, b: 0.058823533, a: 1}
   asteroidMaterialIndex: 6
   physical:
-    density: 5
+    density: 4
     health: -1
-    healthModifier: 8
+    healthModifier: 5
     collisionDefence: 0.6
     collisionAttackModifier: 2
-  value: 140
+  value: 150
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

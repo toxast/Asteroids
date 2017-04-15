@@ -44,9 +44,13 @@ public class Shield
 					shieldAnimationCoroutine = shieldGo.StartCoroutine (AnimateHit ());
 				}
 			}
+
+			if (currentShields <= 0) {
+				time2startShieldRecharge = data.rechargeDelayAfterDestory;
+			}
 		}
 
-		time2startShieldRecharge = (currentShields <= 0) ? data.rechargeDelayAfterDestory : data.hitRechargeDelay;
+		time2startShieldRecharge = Mathf.Max (data.hitRechargeDelay, time2startShieldRecharge);
 
 		return dmg;
 	}

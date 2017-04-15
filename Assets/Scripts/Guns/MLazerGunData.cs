@@ -17,7 +17,7 @@ public class MLazerGunData : MGunBaseData
 	protected override float CalculateDps ()
 	{
 		totalAttackDamage = damage * attackDuration;
-		return damage / (attackDuration + pauseDuration);
+		return totalAttackDamage / (attackDuration + pauseDuration);
 	}
 
 	public override Gun GetGun(Place place, PolygonGameObject t)

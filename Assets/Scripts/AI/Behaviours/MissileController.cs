@@ -10,6 +10,7 @@ public class MissileController : InputController, IGotTarget
 	public bool accelerating{ get; private set; }
 	public bool braking{ get; private set; }
 	public Vector2 turnDirection{ get; private set; }
+	public float accelerateValue01{ get{ return 1f;}} 
 
 	float accuracy = 0.5f;
 

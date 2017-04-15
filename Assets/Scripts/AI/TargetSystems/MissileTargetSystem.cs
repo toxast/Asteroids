@@ -25,13 +25,12 @@ public class MissileTargetSystem : TargetSystemBase<SpaceShip>
 		return curTarget;
 	}
 
-	protected override float GetDistValue (PolygonGameObject obj)
-	{
+	protected override float GetDistValue (PolygonGameObject obj) {
 		var dir = obj.position - thisObj.position;
 		var angle = Math2d.DeltaAngleDeg( Math2d.GetRotationDg(dir), Math2d.GetRotationDg(thisObj.cacheTransform.right));
 		angle = Mathf.Abs(angle);
 		float time2rotate = 0.5f + Mathf.Abs(angle) / thisObj.originalTurnSpeed;
-		return (dir.magnitude * time2rotate);
+		return ((10f + dir.magnitude) * time2rotate * time2rotate);
 	}
 }
 

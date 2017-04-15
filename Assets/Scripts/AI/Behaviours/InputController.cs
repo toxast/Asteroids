@@ -7,6 +7,7 @@ public interface InputController : IFreezble
 	Vector2 turnDirection{ get;}
 	bool shooting{get;}
 	bool accelerating{ get;}
+	float accelerateValue01{ get;}
 	bool braking{get;}
     void SetSpawnParent(PolygonGameObject prnt);
 }
@@ -21,4 +22,5 @@ public class StaticInputController : InputController
 	public bool braking{ get; set; }
 	public void SetSpawnParent(PolygonGameObject prnt){}
 	public void Freeze(float m){ }
+	public float accelerateValue01{ get{ return 1f;}} 
 }

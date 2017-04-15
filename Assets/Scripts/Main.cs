@@ -83,6 +83,11 @@ public class Main : MonoBehaviour
 	ILevelSpawner spawner;
 	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, ILevelSpawner lvlElement)
 	{
+		if (gameIsOn) {
+			Debug.LogError ("game is on already");
+			return;
+		}
+
 		#if UNITY_STANDALONE
 		if (cursorTexture != null)
 		{
@@ -636,15 +641,16 @@ public class Main : MonoBehaviour
     }
     */
 
-	private IEnumerator WaitUntilDropsAreDestroyed(){
-		var drops = gobjects.FindAll (obj => obj is polygonGO.Drop);
-		while (true) {
-			if (drops.Exists (d => !IsNull (d))) {
-				yield return new WaitForSeconds (1f);
-			} else {
-				break;
-			}
-		}
+	private IEnumerator WaitUntilDropsAreDestroyed() {
+		yield return new WaitForSeconds (9f);
+//		var localdrops = drops.FindAll (obj => obj is polygonGO.Drop);
+//		while (true) {
+//			if (drops.Exists (d => !IsNull (d))) {
+//				yield return new WaitForSeconds (1f);
+//			} else {
+//				break;
+//			}
+//		}
 
 		if (!Main.IsNull (userSpaceship) && !userSpaceship.IsKilled ()) {
 			OnLevelCleared ();
@@ -955,6 +961,11 @@ public class Main : MonoBehaviour
 					maxLoops --;
 				}
 			}
+
+			if (rewardLeft <= datas [0].value) {
+				CreateDrop(datas[0].color, rewardLeft, go.cacheTransform.position, go.polygon.R*0.6f);
+				rewardLeft = 0;
+			}
 		}
 	}
 
@@ -994,10 +1005,15 @@ public class Main : MonoBehaviour
 
 	private void CreateDrop(MAsteroidCommonData drop, Vector3 position, float R)
 	{
+		CreateDrop (drop.color, drop.value, position, R);
+	}
+
+	private void CreateDrop(Color color, int value, Vector3 position, float R)
+	{
 		Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-R, R), UnityEngine.Random.Range(-R, R), 0);
-		var dropObj = ObjectsCreator.CreateDrop(drop.color, drop.value);
+		var dropObj = ObjectsCreator.CreateDrop(color, value);
 		var anim = Instantiate(dropAnimationPrefab) as ParticleSystem;
-		anim.SetStartColor (drop.color);
+		anim.SetStartColor (color);
 		anim.transform.parent = dropObj.transform;
 		anim.transform.localPosition = new Vector3(0, 0, UnityEngine.Random.Range(1f, 1.1f));
         float magnitude = UnityEngine.Random.Range(2f, 5f);
@@ -1492,6 +1508,7 @@ public class Main : MonoBehaviour
 
 
 	/*
+	 * checks for log ids, checks for powerups has their own effects (copy error)
 	 * pause 
 	 * FUTURE UPDATES
 	 * 

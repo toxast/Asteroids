@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
  public  abstract class MSpawnBase : MonoBehaviour {
-	public abstract float sdifficulty{ get;}
+	public abstract int sdifficulty{ get;}
 	public abstract void Spawn (PositionData data, Action<SpawnedObj> callback);
 
 	public static IEnumerator SpawnRoutine(MSpawnDataBase elem, PositionData data, Place place, Action<SpawnedObj> callback)
@@ -42,7 +42,7 @@ using UnityEngine;
 
 	public class SpawnedObj {
 		public PolygonGameObject obj;
-		public float difficulty;
+		public int difficulty;
 	}
 
 	public class PositionData {
@@ -67,7 +67,7 @@ public class SpawnBase
 	[SerializeField] public MSpawnBase spawn;
 	[SerializeField] public RandomFloat range = new RandomFloat(40, 50);
 	[SerializeField] public bool spawnAtViewEdge = false;
-	public float difficulty{
+	public int difficulty{
 		get{ return spawn.sdifficulty;}
 	}
 } 

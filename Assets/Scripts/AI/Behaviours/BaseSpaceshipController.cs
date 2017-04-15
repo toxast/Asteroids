@@ -9,6 +9,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 
 	public bool shooting{ get; protected set; }
 	public bool accelerating{ get; protected set; }
+	public float accelerateValue01{ get{ return 1f;}} 
 	public bool braking{ get; protected set; }
 	public Vector2 turnDirection{ get; protected set; }
 

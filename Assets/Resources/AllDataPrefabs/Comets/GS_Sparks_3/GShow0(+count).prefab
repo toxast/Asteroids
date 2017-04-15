@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1801612010291450}
+  m_IsPrefabParent: 1
+--- !u!1 &1801612010291450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4143888612699768}
+  - component: {fileID: 114641064014505036}
+  - component: {fileID: 114718910286998824}
+  m_Layer: 0
+  m_Name: GShow0(+count)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4143888612699768
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1801612010291450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7585373, y: 4.353438, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114641064014505036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1801612010291450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7196e4466a542ce4db916524594263b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 114718910286998824}
+--- !u!114 &114718910286998824
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1801612010291450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 437a08a48af876b49809bbfd4e446c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 1
+  gameSpawnLayer: 1
+  difficulty: 0
+  reward: 0
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  duration: 2
+  rotation: 180
+  makeChild: 1
+  elements:
+  - element: {fileID: 114292727620618090, guid: 817ba9bcb90d16041bd8e209b4011230,
+      type: 2}
+    offset:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 1
+      range: 0
+      angle: 0
+  - element: {fileID: 114292727620618090, guid: 817ba9bcb90d16041bd8e209b4011230,
+      type: 2}
+    offset:
+      pos: {x: 0, y: 0}
+      dir: {x: -1, y: 0}
+      useAngleForPosition: 1
+      range: 0
+      angle: 120
+  - element: {fileID: 114292727620618090, guid: 817ba9bcb90d16041bd8e209b4011230,
+      type: 2}
+    offset:
+      pos: {x: 0, y: 0}
+      dir: {x: -1, y: 0}
+      useAngleForPosition: 1
+      range: 0
+      angle: 240

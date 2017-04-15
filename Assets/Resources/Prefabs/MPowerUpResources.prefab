@@ -54,11 +54,17 @@ MonoBehaviour:
   powerups:
   - comets:
     - {fileID: 114935688868597546, guid: 164284c7e17bb3c4094b0d3942efd747, type: 2}
+    - {fileID: 114935688868597546, guid: 461d7b5ac7f84214e9ba33f1eaef0f61, type: 2}
+    - {fileID: 114935688868597546, guid: c3d48a77cd40979418a413557eea0198, type: 2}
   - comets:
     - {fileID: 114935688868597546, guid: 3f93cfad55b602647b9fe06a26761781, type: 2}
+    - {fileID: 114935688868597546, guid: e67653dee1b47dc43bfe1d251a6321c4, type: 2}
+    - {fileID: 114935688868597546, guid: e2f7ef27e0d1a124294a8c30274aca76, type: 2}
+    - {fileID: 114935688868597546, guid: b33eec485d82fee4a948f5d551299a84, type: 2}
   - comets:
     - {fileID: 114935688868597546, guid: f5246ee01a6b70147a254616625470f1, type: 2}
-    - {fileID: 114935688868597546, guid: c9508ae0fb0bd794689929a5f93c8ebe, type: 2}
+    - {fileID: 114935688868597546, guid: 5f77ac7e7aef89744a0e93bfa55da7db, type: 2}
+    - {fileID: 114935688868597546, guid: 7d4aea9b5390b6b4a80c15dd05f90945, type: 2}
   - comets:
     - {fileID: 114935688868597546, guid: 1daf181abd917a445966edf0e3a8c526, type: 2}
   - comets:

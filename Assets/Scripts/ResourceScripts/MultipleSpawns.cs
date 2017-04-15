@@ -14,8 +14,8 @@ public class MultipleSpawns : MSpawnBase {
 	[Header ("game")]
 	[SerializeField] List<MultiSpawnElement> elems;
 
-	public override float sdifficulty{ get{
-			float dif = 0;
+	public override int sdifficulty{ get{
+			int dif = 0;
 			for (int i = 0; i < elems.Count; i++) {
 				dif += elems [i].spawn.difficulty;
 			}
