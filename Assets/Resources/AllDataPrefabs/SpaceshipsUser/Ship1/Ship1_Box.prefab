@@ -53,7 +53,7 @@ MonoBehaviour:
   id: 2
   price: 200
   journal: {fileID: 114395553400948598, guid: 6755feaa26e3dbe4badc45997c18db5b, type: 2}
-  color: {r: 0, g: 0.30065933, b: 0.8897059, a: 1}
+  color: {r: 0.17993079, g: 0.47433493, b: 0.7647059, a: 1}
   physical:
     density: 0.5
     health: 35
@@ -70,7 +70,7 @@ MonoBehaviour:
     thrust: 17
     maxSpeed: 22
     turnSpeed: 155
-    brake: 14
+    brake: 11
     passiveBrake: 2
     stability: 0.2
     shootAngle: 1

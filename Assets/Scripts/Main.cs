@@ -21,7 +21,7 @@ public class Main : MonoBehaviour
 	List <TimeDestuctor> destructors = new List<TimeDestuctor>();
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
 	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
-
+	public static Color userColor = new Color(54f/255f, 120f/255f, 251f/255f);
 	[SerializeField] bool killEveryOne = false;
 
 	private float DestroyAfterSplitTreshold = 5f;

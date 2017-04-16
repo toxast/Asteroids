@@ -10,10 +10,10 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class Checker : MonoBehaviour {
 
-	int spaceshipsLogsFrom = 0;
-	int levelsLogsFrom = 50;
-	int powerupLogsFrom = 100;
-	int maxOneTypePowerups = 10;
+	[System.NonSerialized] int spaceshipsLogsFrom = 1;
+	[System.NonSerialized] int levelsLogsFrom = 50;
+	[System.NonSerialized] int powerupLogsFrom = 100;
+	[System.NonSerialized] int maxOneTypePowerups = 10;
 
 	[SerializeField] bool assignJournalsId = false;
 	void Update(){

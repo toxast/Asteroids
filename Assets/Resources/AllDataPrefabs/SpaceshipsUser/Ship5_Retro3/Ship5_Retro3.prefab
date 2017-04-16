@@ -70,7 +70,7 @@ MonoBehaviour:
     thrust: 23
     maxSpeed: 27
     turnSpeed: 170
-    brake: 8
+    brake: 14
     passiveBrake: 2
     stability: 0.4
     shootAngle: 1

@@ -44,8 +44,8 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 7
-  reward: 20
+  difficulty: 5
+  reward: 18
   teleportData:
     duration: 2.5
     ringSize: 18
@@ -69,21 +69,21 @@ MonoBehaviour:
   physical:
     density: 1
     health: -1
-    healthModifier: 0.6
+    healthModifier: 0.5
     collisionDefence: 0
     collisionAttackModifier: 1.5
   speed:
     min: 5
-    max: 10
+    max: 8
   rotation:
-    min: 40
-    max: 60
+    min: 30
+    max: 50
   size:
-    min: 3
-    max: 4
+    min: 2.7
+    max: 3.5
   spikeSize:
-    min: 2.5
-    max: 3
+    min: 2.3
+    max: 2.6
   spikesCount:
     min: 5
     max: 7

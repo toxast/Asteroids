@@ -44,15 +44,15 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 5
   gameSpawnLayer: 5
-  difficulty: 5
+  difficulty: 4
   reward: 0
   teleportData:
     duration: 1.2
     ringSize: 10
     color: {r: 0.4304379, g: 0.44117647, b: 0.3633218, a: 1}
   speed:
-    min: 13
-    max: 16
+    min: 10
+    max: 14
   rotation:
     min: 60
     max: 70

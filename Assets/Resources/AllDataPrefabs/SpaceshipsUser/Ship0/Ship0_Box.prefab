@@ -53,7 +53,7 @@ MonoBehaviour:
   id: 1
   price: 10
   journal: {fileID: 114395553400948598, guid: d80ef4ce076d79d4096a044e8c1ac753, type: 2}
-  color: {r: 0, g: 0.30065933, b: 0.8897059, a: 1}
+  color: {r: 0.2100995, g: 0.4720619, b: 0.9852941, a: 1}
   physical:
     density: 0.5
     health: 30
@@ -68,11 +68,11 @@ MonoBehaviour:
     overrideExplosionDamage: -1
   mobility:
     thrust: 15
-    maxSpeed: 20
+    maxSpeed: 18
     turnSpeed: 150
-    brake: 0
+    brake: 10
     passiveBrake: 2
-    stability: 0
+    stability: 1
     shootAngle: 1
   accuracy:
     startingAccuracy: 0

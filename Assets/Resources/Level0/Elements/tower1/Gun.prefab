@@ -40,13 +40,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 1
-  hitDamage: 2
-  lifeTime: 2
-  velocity: 35
+  dps: 0.48000002
+  hitDamage: 0.3
+  lifeTime: 3
+  velocity: 27
   fireInterval: 2
-  repeatCount: 0
-  repeatInterval: 0
+  repeatCount: 3
+  repeatInterval: 0.25
   physical:
     density: 1
     health: -1
@@ -75,12 +75,12 @@ MonoBehaviour:
   effects: []
   destructionEffects: []
   vertices:
-  - {x: 0.8, y: 0.4}
-  - {x: -0.8, y: 0.4}
-  - {x: -0.8, y: -0.4}
-  - {x: 0.8, y: -0.4}
-  explosionRangeCalculated: 3.3941126
-  explosionDamageCalculated: 4.4259048
+  - {x: 0.6, y: 0.3}
+  - {x: -0.6, y: 0.3}
+  - {x: -0.6, y: -0.3}
+  - {x: 0.6, y: -0.3}
+  explosionRangeCalculated: 2.5455844
+  explosionDamageCalculated: 3.6710632
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -54,12 +54,15 @@ MonoBehaviour:
   waveData:
     diffucultyAtOnce: 60
     diffucultyTotal: 60
+    overrideDificultyAdds: -1
     differentSpawnsCountRange:
       min: 2
-      max: 2
+      max: 3
     chooseNewObjectsEachTime: 0
     overrideSpawnTime: 3.5
     startNextWaveWhenDifficultyLeft: 0
+    countStrategy: 1
+    spawnStrategy: 1
     useDestroyAreaDelay: 0
     destroyAreaTimeThreshold: 20
     destroyAreaPersentage: 0.3
@@ -71,12 +74,24 @@ MonoBehaviour:
         max: 50
       spawnAtViewEdge: 0
       weight: 2
+      overridePositioning: 0
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 0
     - spawn: {fileID: 11492862, guid: ff668e1ae5f777d45894ba125955ffaa, type: 2}
       range:
         min: 30
         max: 40
       spawnAtViewEdge: 0
-      weight: 6
+      weight: 5
+      overridePositioning: 0
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 0
     - spawn: {fileID: 114913661651274198, guid: 0eafa92842238654aa5ceba6d534c629,
         type: 2}
       range:
@@ -84,6 +99,12 @@ MonoBehaviour:
         max: 40
       spawnAtViewEdge: 1
       weight: 2
+      overridePositioning: 0
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 0
     - spawn: {fileID: 114529371202508250, guid: 63bba91971bc77e438cdc78a5d83aacd,
         type: 2}
       range:
@@ -91,4 +112,22 @@ MonoBehaviour:
         max: 0
       spawnAtViewEdge: 0
       weight: 1
+      overridePositioning: 0
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 0
+    - spawn: {fileID: 11409610, guid: 22a3936c87e57d54bb1be51fd2febcfb, type: 2}
+      range:
+        min: 40
+        max: 60
+      spawnAtViewEdge: 0
+      weight: 1
+      overridePositioning: 0
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 360
+        lookAngle: 90
+        lookAngleRange: 180
   createDefWaveEditor: 0

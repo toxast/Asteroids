@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 422096}
   - component: {fileID: 11409610}
   m_Layer: 0
-  m_Name: Tower_0
+  m_Name: Tower_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,24 +44,24 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 6
-  reward: 20
+  difficulty: 4
+  reward: 12
   teleportData:
     duration: 2
-    ringSize: 8
+    ringSize: 6
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   physical:
     density: 0.6
-    health: 8
+    health: 3
     healthModifier: -1
     collisionDefence: 0
     collisionAttackModifier: 1
-  color: {r: 0.6838235, g: 0.33185554, b: 0.5867289, a: 1}
-  shootAngle: 20
-  rotationSpeed: 40
+  color: {r: 0.4852941, g: 0.47210354, b: 0.007136685, a: 1}
+  shootAngle: 40
+  rotationSpeed: 80
   repeatTargetCheck: 1
   accuracy:
-    startingAccuracy: 0.4
+    startingAccuracy: 0
     thresholdDistance: 10
     isDynamic: 0
     checkDtime: 1
@@ -69,38 +69,38 @@ MonoBehaviour:
     sub: 0.6
     bounds: {x: 0, y: 1}
   shield:
-    capacity: 2
-    rechargeRate: 0.4
-    hitRechargeDelay: 3
-    rechargeDelayAfterDestory: 6
+    capacity: 0
+    rechargeRate: 0
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 0
   deathData:
     destructionType: 0
     createExplosionOnDeath: 1
     instantExplosion: 0
     overrideExplosionRange: -1
-    overrideExplosionDamage: 2
+    overrideExplosionDamage: 1.5
   guns:
   - place:
-      pos: {x: 2.8263848, y: -0.000000050894936}
+      pos: {x: 2.4828346, y: -0.000000017665764}
       dir: {x: 1, y: 0}
       useAngleForPosition: 0
       range: 0
       angle: 0
-    gun: {fileID: 11458226, guid: a5a5acb6c0e8cc44b8d3c9a14697bd98, type: 2}
+    gun: {fileID: 11458226, guid: e407034087ae8934e939b103dc0aee8f, type: 2}
   turrets: []
   verts:
-  - {x: 2.9902427, y: -0.48664165}
-  - {x: 1.7563848, y: -0.74000007}
-  - {x: 1.5763849, y: -2.07}
-  - {x: 0.36778507, y: -2.7305999}
-  - {x: -2.3836153, y: -2.44}
-  - {x: -1.9036151, y: -1.54}
-  - {x: -1.9036151, y: 1.54}
-  - {x: -2.3836153, y: 2.44}
-  - {x: 0.36778507, y: 2.7305999}
-  - {x: 1.5763849, y: 2.07}
-  - {x: 1.7563848, y: 0.73999995}
-  - {x: 2.9902427, y: 0.4866416}
+  - {x: 2.6619327, y: -0.35819647}
+  - {x: 1.4861139, y: -0.39713085}
+  - {x: 0.7852947, y: -1.1836058}
+  - {x: 1.0111142, y: -2.4295065}
+  - {x: -1.8105516, y: -1.8999988}
+  - {x: -1.4367813, y: -1.1991796}
+  - {x: -1.4367813, y: 1.1991796}
+  - {x: -1.8105516, y: 1.8999988}
+  - {x: 1.0111142, y: 2.4295065}
+  - {x: 0.7852947, y: 1.1836058}
+  - {x: 1.4861139, y: 0.3971309}
+  - {x: 2.6619327, y: 0.35819653}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

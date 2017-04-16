@@ -55,18 +55,19 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 8
-  reward: 25
+  difficulty: 6
+  reward: 20
   teleportData:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   id: -1
   price: -1
+  journal: {fileID: 0}
   color: {r: 0.6544118, g: 0.44766808, b: 0.226157, a: 1}
   physical:
     density: 0.4
-    health: 8
+    health: 6
     healthModifier: -1
     collisionDefence: 0.5
     collisionAttackModifier: 1.3

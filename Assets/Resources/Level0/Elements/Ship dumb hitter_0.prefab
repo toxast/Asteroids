@@ -55,17 +55,19 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 5
+  difficulty: 4
   reward: 15
   teleportData:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  id: -1
   price: -1
+  journal: {fileID: 0}
   color: {r: 0.59838027, g: 0.6838235, b: 0.40224913, a: 1}
   physical:
     density: 0.6
-    health: 3.9
+    health: 3
     healthModifier: 2
     collisionDefence: 0.5
     collisionAttackModifier: 1.7
@@ -73,8 +75,8 @@ MonoBehaviour:
     destructionType: 0
     createExplosionOnDeath: 1
     instantExplosion: 0
-    overrideExplosionRange: 7
-    overrideExplosionDamage: 3
+    overrideExplosionRange: 6
+    overrideExplosionDamage: 2
   mobility:
     thrust: 20
     maxSpeed: 25
@@ -102,6 +104,9 @@ MonoBehaviour:
   - place:
       pos: {x: -0.47351867, y: -8.8239815e-10}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
     overrideSize: -1
     overrideDelay: -1
@@ -133,6 +138,6 @@ MonoBehaviour:
   - {x: 0.58822083, y: 0.9144001}
   - {x: 0.58822083, y: 0.5040002}
   - {x: 0.98190755, y: 0.30999994}
-  explosionRangeCalculated: 7
-  explosionDamageCalculated: 7.085063
+  explosionRangeCalculated: 6
+  explosionDamageCalculated: 6.409561
   fillFrom: {fileID: 0}

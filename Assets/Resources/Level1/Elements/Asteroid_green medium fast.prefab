@@ -44,7 +44,7 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 5
   gameSpawnLayer: 5
-  difficulty: 5
+  difficulty: 4
   reward: 0
   teleportData:
     duration: 1.2

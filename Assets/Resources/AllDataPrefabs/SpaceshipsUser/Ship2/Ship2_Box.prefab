@@ -53,7 +53,7 @@ MonoBehaviour:
   id: 3
   price: 450
   journal: {fileID: 114395553400948598, guid: 8bafb890e4599a54c907827f1590fe1d, type: 2}
-  color: {r: 0, g: 0.30065933, b: 0.8897059, a: 1}
+  color: {r: 0.22831963, g: 0.40709648, b: 0.75735295, a: 1}
   physical:
     density: 0.6
     health: 35

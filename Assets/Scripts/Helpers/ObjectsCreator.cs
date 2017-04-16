@@ -87,7 +87,7 @@ public class ObjectsCreator
 	{
 		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data, CollisionLayers.ilayerUser);
 		spaceship.collector = new DropCollector (0.15f, 20f);
-		spaceship.SetColor (Color.blue);
+		spaceship.SetColor (Main.userColor);
         spaceship.gameObject.name = "User_Spaceship " + data.name;
 		spaceship.SetController (contorller);
 		return spaceship;
@@ -279,6 +279,7 @@ public class ObjectsCreator
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
 		turret.InitSimpleTower (data.physical, data.rotationSpeed, data.accuracy, data.shootAngle);
 		turret.SetLayerNum (layer);
+		ApplyDeathData(turret, data.deathData);
 		var guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) {
 			var gun = gunplace.GetGun (turret);

@@ -11,6 +11,7 @@ public class MTowerData : MSpawnDataBase, IGotShape, IGotGuns, IGotTurrets
 	public float repeatTargetCheck = 1f;
 	public AccuracyData accuracy;
 	public ShieldData shield;
+	public DeathData deathData;
 	public List<MGunSetupData> guns;
 	public List<List<int>> linkedGuns;
 	public List<MTurretReferenceData> turrets;
