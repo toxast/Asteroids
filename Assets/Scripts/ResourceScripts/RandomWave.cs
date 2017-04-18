@@ -94,13 +94,13 @@ public class RandomWave : IWaveSpawner{
 					selectedSpawnsCount = GetCountForSpawns (selectedSpawns, preparedDifficulty);//todo min values should be more frequent
 
 					/////////////////
-					float difficultyPicked = 0;
-					for (int i = 0; i < selectedSpawns.Count; i++) {
-						difficultyPicked += selectedSpawnsCount[i] * selectedSpawns [i].difficulty;
-						if(selectedSpawnsCount[i] > 0){
-							Debug.Log (selectedSpawns [i].spawn.name + " " + selectedSpawnsCount [i]);
-						}
-					}
+//					float difficultyPicked = 0;
+//					for (int i = 0; i < selectedSpawns.Count; i++) {
+//						difficultyPicked += selectedSpawnsCount[i] * selectedSpawns [i].difficulty;
+//						if(selectedSpawnsCount[i] > 0){
+//							Debug.Log (selectedSpawns [i].spawn.name + " " + selectedSpawnsCount [i]);
+//						}
+//					}
 					//Debug.LogWarning ("preparedDifficulty: " + preparedDifficulty + " difficultyPicked: " + difficultyPicked);
 					////////////////
 				} else {

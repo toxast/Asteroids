@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4287442826843188}
   - component: {fileID: 114395553400948598}
   m_Layer: 0
-  m_Name: Journal_Tough1
+  m_Name: Journal_ExtraGun_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,5 +52,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 121
-  text: 'She ran screaming. \n  - I weight 200 pounds! \n  - Yeah. Ship gained twice
-    as well. We also fly faster.    \n  - And hitting someone won''t damage us  \n  ... '
+  text: Wzzzzzzzzzzzzzzzzzzzzzzzz!

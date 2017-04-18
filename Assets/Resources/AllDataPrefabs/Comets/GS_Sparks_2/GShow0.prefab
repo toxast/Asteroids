@@ -76,7 +76,7 @@ MonoBehaviour:
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   duration: 2
   rotation: 180
-  makeChild: 1
+  makeChild: 0
   elements:
   - element: {fileID: 114292727620618090, guid: 632679fe1873ca14bacb79f297f7144b,
       type: 2}

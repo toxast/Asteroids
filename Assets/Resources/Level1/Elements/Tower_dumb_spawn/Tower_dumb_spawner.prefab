@@ -52,7 +52,7 @@ MonoBehaviour:
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   physical:
     density: 1
-    health: 40
+    health: 30
     healthModifier: -1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -73,6 +73,12 @@ MonoBehaviour:
     rechargeRate: 0
     hitRechargeDelay: 0
     rechargeDelayAfterDestory: 0
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: 3.5
   guns:
   - place:
       pos: {x: 0.34432197, y: -0.00000003215212}

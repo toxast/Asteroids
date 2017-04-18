@@ -116,7 +116,7 @@ public class DeathAnimation
 	}
 
 	public static float ExplosionDamage(float radius) {
-		return 2f * Mathf.Pow (radius, 0.65f);
+		return 0.5f * Mathf.Pow (radius, 0.65f);
 	}
 
     public void Tick(float delta)

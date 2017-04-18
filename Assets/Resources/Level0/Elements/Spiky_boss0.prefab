@@ -60,9 +60,9 @@ MonoBehaviour:
     bounds: {x: 0, y: 1}
   spikeVelocity: 26
   regrowPause:
-    min: 0.5
-    max: 1
-  growSpeed: 0.7
+    min: 0.6
+    max: 1.2
+  growSpeed: 0.6
   overrideSpikeCollisionAttack: 2
   chanceShootSpikeAtDeath: 0
   color: {r: 0.67241377, g: 0.35142735, b: 0.9558824, a: 1}

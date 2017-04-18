@@ -22,22 +22,21 @@ public class StandaloneInputController : InputController
 			if(Input.GetButton ("Xbox_RB")){
 				autofireIsOn = !autofireIsOn;
 			}	
-			shooting = autofireIsOn ^ Input.GetButton ("Xbox_X");
+			shooting = autofireIsOn ^ Input.GetAxis ("Xbox_RT") > 0.1f;
 
 			float min = 0.14f;
 			float fullAt = 0.7f;
-			var trigger = Input.GetAxis ("Xbox_RT");
-			accelerating = trigger > min;
-
+			var accelerateAxis = Input.GetAxis ("360RightAnalogY");
+			accelerating = accelerateAxis > min;
+			braking = accelerateAxis < -min;
 			float minAccelerate = 0.3f;
 			if (accelerating) {
-				accelerateValue01 = minAccelerate + (1f - minAccelerate) * ((trigger - min) / (fullAt - min));
+				accelerateValue01 = minAccelerate + (1f - minAccelerate) * ((accelerateAxis - min) / (fullAt - min));
 				accelerateValue01 = Mathf.Clamp01 (accelerateValue01);
 			} else {
 				accelerateValue01 = 0;
 			}
 
-			braking = Input.GetButton ("Xbox_Y");
 			float x = Input.GetAxis ("HorizontalGamepad");
 			float y = Input.GetAxis ("VerticalGamepad");
 			turnDirection = new Vector2 (x, y).normalized;
@@ -60,7 +59,7 @@ public class StandaloneInputController : InputController
 
 	bool hasXboxConnected{
 		get{ 
-			return Input.GetJoystickNames ().ToList ().Exists (j => j.ToLower ().Contains ("xbox 360"));
+			return Input.GetJoystickNames ().ToList ().Exists (j => j.ToLower ().Contains ("xbox"));
 		}
 	}
 

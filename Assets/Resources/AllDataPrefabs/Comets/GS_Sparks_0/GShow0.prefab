@@ -76,15 +76,21 @@ MonoBehaviour:
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   duration: 2
   rotation: 180
-  makeChild: 1
+  makeChild: 0
   elements:
   - element: {fileID: 114292727620618090, guid: f13e5bed2bb315b44a39f41e6398e777,
       type: 2}
     offset:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
   - element: {fileID: 114292727620618090, guid: f13e5bed2bb315b44a39f41e6398e777,
       type: 2}
     offset:
       pos: {x: 0, y: 0}
       dir: {x: -1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0

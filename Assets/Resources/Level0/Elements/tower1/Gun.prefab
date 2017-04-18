@@ -75,12 +75,12 @@ MonoBehaviour:
   effects: []
   destructionEffects: []
   vertices:
-  - {x: 0.6, y: 0.3}
-  - {x: -0.6, y: 0.3}
-  - {x: -0.6, y: -0.3}
-  - {x: 0.6, y: -0.3}
-  explosionRangeCalculated: 2.5455844
-  explosionDamageCalculated: 3.6710632
+  - {x: 0.3, y: 0.3}
+  - {x: -0.3, y: 0.3}
+  - {x: -0.3, y: -0.3}
+  - {x: 0.3, y: -0.3}
+  explosionRangeCalculated: 1.8000001
+  explosionDamageCalculated: 2.930604
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

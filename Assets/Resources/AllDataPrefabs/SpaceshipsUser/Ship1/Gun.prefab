@@ -41,10 +41,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dps: 4
-  hitDamage: 2
+  hitDamage: 1.8
   lifeTime: 2
   velocity: 35
-  fireInterval: 0.5
+  fireInterval: 0.45
   repeatCount: 0
   repeatInterval: 0
   physical:

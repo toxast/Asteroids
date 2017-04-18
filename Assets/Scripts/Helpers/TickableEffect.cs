@@ -36,5 +36,7 @@ public abstract class TickableEffect : ITickable
 		KeepRotation,
 		HealOT,
 		HealOnce,
+		PullDrops,
+		EffectDeathAnimation,
 	}
 }

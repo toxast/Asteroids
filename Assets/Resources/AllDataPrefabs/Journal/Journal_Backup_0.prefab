@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4287442826843188}
   - component: {fileID: 114395553400948598}
   m_Layer: 0
-  m_Name: Journal_Tough3
+  m_Name: Journal_Backup_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,5 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ad6e367ab2f9740920636a83069a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 43
-  text: Collisions heal the ship.    \n Sounds masohistic.
+  id: 140
+  text: 'It''s a horn! White and silver. Something ancient is engraved on it. '

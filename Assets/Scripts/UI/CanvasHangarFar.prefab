@@ -642,8 +642,8 @@ GameObject:
   m_Component:
   - component: {fileID: 224799588128547578}
   - component: {fileID: 222508619047547178}
-  - component: {fileID: 114880472175806938}
   - component: {fileID: 114282187020308964}
+  - component: {fileID: 114880472175806938}
   m_Layer: 5
   m_Name: JournalText
   m_TagString: Untagged
@@ -1138,8 +1138,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   msgField: {fileID: 114880472175806938}
   scroll: {fileID: 114482019228060344}
-  interval: 0.07
-  intervalNextSentence: 0.4
+  interval: 0.065
+  intervalNextSentence: 0.35
 --- !u!114 &114298082338076124
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3462,7 +3462,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -2561}
+  m_AnchoredPosition: {x: 0, y: -53006}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224743668420826130

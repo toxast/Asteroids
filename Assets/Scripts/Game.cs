@@ -57,13 +57,15 @@ public class Game : MonoBehaviour
 		if (newGame) {
 			hangar.ShowStartMessage ();
 		}
+		hangar.lastBoughtPowerup = null;
 	}
 
 	void HandleStartTheGame (MSpaceshipData shipData) {
 		hangar.Hide ();
 		ToggleUICamera (false);
 		gameObjects.ForEach (h => h.SetActive (true));
-		main.StartTheGame (shipData, GetActiveComets(), DetermineLvel());
+		main.StartTheGame (shipData, GetActiveComets(), DetermineLvel(), hangar.lastBoughtPowerup);
+		hangar.lastBoughtPowerup = null;
 	}
 
 	 
@@ -170,16 +172,3 @@ public class Game : MonoBehaviour
 		PlayerPrefs.Save ();
 	}
 }
-
-//public interface ISave{
-//	void Load ();
-//	void DeleteAllSaves ();
-//}
-//
-//public static class AllSaves{
-//	public void Load(){
-//	
-//	}
-//
-//
-//}

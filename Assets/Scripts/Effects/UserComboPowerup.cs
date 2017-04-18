@@ -38,7 +38,23 @@ public class UserComboPowerup : IApplyable, IHasDuration
 			}
 		}
 
+		ReplaceDropCollectorEffect.Data collector = new ReplaceDropCollectorEffect.Data {
+			duration = 4f,
+			force = 0.5f,
+			range = 80f
+		};
+		collector.Apply (picker);
+
+
 		if (progressEffect != null) {
+			var desParticles = MParticleResources.Instance.effectFinished.data.Clone();
+			desParticles.startColor = color;
+			EffectDeathAnimation.Data onEffectFinish = new EffectDeathAnimation.Data {
+				effect = progressEffect,
+				particles = new List<ParticleSystemsData> {desParticles}
+			};
+			onEffectFinish.Apply (picker);
+				
 			ProgressColorWrapper wrapper = new ProgressColorWrapper{ progressObj = progressEffect, color = color };
 			Singleton<Main>.inst.DisplayPowerup (wrapper);
 		}

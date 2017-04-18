@@ -40,18 +40,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd7075665986364fb3694fc67038fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 7.2
-  totalAttackDamage: 72
+  dps: 12
+  totalAttackDamage: 360
   damage: 12
-  attackDuration: 6
-  pauseDuration: 4
+  attackDuration: 30
+  pauseDuration: 0
   color: {r: 0, g: 0.7931032, b: 1, a: 1}
   fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
-  distance: 60
+  distance: 65
   width: 1.8
   iceData:
-    duration: 6
-    freezeAmount: 15
+    duration: 5
+    freezeAmount: 20
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

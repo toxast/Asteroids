@@ -180,17 +180,30 @@ public class ObjectsCreator
 	}
 
 	public static Comet CreateComet(MCometData mdata, RandomFloat speed, float lifetime) {
-		float size = mdata.size.RandomValue;
+		float size = new RandomFloat(2f, 2.2f).RandomValue;
         int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size * 3);
         Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size / 2f, vcount);
-		Comet comet = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, mdata.color);
-		comet.InitAsteroid(mdata.physical, speed, mdata.rotation);
+		Color color = mdata.powerupData.particleSystemColor;
+		color.a = 0.8f;
+		Comet comet = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, color);
+		PhysicalData physical = new PhysicalData ();
+		physical.density = 0.01f;
+		physical.health = 0.1f;
+		comet.InitAsteroid(physical, speed, new RandomFloat (20f, 40f));
 		comet.InitComet(mdata.powerupData, lifetime);
 		comet.SetLayerNum(CollisionLayers.ilayerTeamEnemies);
 		comet.priority = PolygonGameObject.ePriorityLevel.LOW;
 		comet.priorityMultiplier = 0.01f;
-		comet.AddParticles (mdata.particles);
-		comet.AddDestroyAnimationParticles (mdata.destructionEffects);
+		comet.destructionType = PolygonGameObject.DestructionType.eComplete;
+
+		var particles = MParticleResources.Instance.cometParticles.data.Clone();
+		particles.startColor = mdata.powerupData.particleSystemColor;
+		comet.AddParticles (new List<ParticleSystemsData>{particles});
+
+		var desParticles = MParticleResources.Instance.cometDestroyParticles.data.Clone();
+		desParticles.startColor = mdata.powerupData.particleSystemColor;
+		comet.AddDestroyAnimationParticles (new List<ParticleSystemsData>{desParticles});
+
         comet.gameObject.name = mdata.name;
         comet.destructionType = PolygonGameObject.DestructionType.eComplete;
         return comet;

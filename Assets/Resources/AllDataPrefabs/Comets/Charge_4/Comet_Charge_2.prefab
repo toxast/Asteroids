@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4765144737268108}
   - component: {fileID: 114935688868597546}
   m_Layer: 0
-  m_Name: Comet_Charge_0
+  m_Name: Comet_Charge_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,9 +61,9 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
-  id: 40
-  price: 300
-  journal: {fileID: 114395553400948598, guid: a7f2d3bfd33857147be6775b48a5bd61, type: 2}
+  id: 132
+  price: 1300
+  journal: {fileID: 114395553400948598, guid: 65888d6845250cc41a309c0a2511b276, type: 2}
   rotation:
     min: 20
     max: 40
@@ -86,7 +86,7 @@ MonoBehaviour:
       color: {r: 0.95334685, g: 0.9647059, b: 0.14117645, a: 1}
       overrideEffectsDuration: -1
       effects:
-      - {fileID: 114604211848892936, guid: 106de4ab59f523048817483102a17544, type: 2}
+      - {fileID: 114604211848892936, guid: 78583254dc4c56643a261b074ea5b4f2, type: 2}
     particleSystemColor: {r: 0.95294124, g: 0.96470594, b: 0.14117648, a: 1}
   particles:
   - place:

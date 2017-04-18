@@ -52,10 +52,11 @@ MonoBehaviour:
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   id: -1
   price: -1
+  journal: {fileID: 0}
   color: {r: 0.04768598, g: 0.46323532, b: 0.32567418, a: 1}
   physical:
     density: 0.8
-    health: 40
+    health: 30
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -64,7 +65,7 @@ MonoBehaviour:
     createExplosionOnDeath: 1
     instantExplosion: 0
     overrideExplosionRange: -1
-    overrideExplosionDamage: 7
+    overrideExplosionDamage: 3.5
   mobility:
     thrust: 10
     maxSpeed: 15
@@ -140,7 +141,7 @@ MonoBehaviour:
   - {x: 1.7527065, y: 0.7440555}
   - {x: 3.1476722, y: 0.7200001}
   explosionRangeCalculated: 25.247822
-  explosionDamageCalculated: 16.31081
+  explosionDamageCalculated: 4.0777025
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

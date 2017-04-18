@@ -64,7 +64,7 @@ MonoBehaviour:
   rotationSpeed:
     min: 20
     max: 20
-  shootAngle: 35
+  shootAngle: 27
   accuracyData:
     startingAccuracy: 0.5
     thresholdDistance: 10
@@ -76,7 +76,7 @@ MonoBehaviour:
   color: {r: 0.30103806, g: 0.4705882, b: 0.3443025, a: 1}
   physical:
     density: 1.5
-    health: 80
+    health: 60
     healthModifier: -1
     collisionDefence: 0.3
     collisionAttackModifier: 1
@@ -85,7 +85,7 @@ MonoBehaviour:
     createExplosionOnDeath: 1
     instantExplosion: 0
     overrideExplosionRange: -1
-    overrideExplosionDamage: 8
+    overrideExplosionDamage: 4.5
   verts:
   - {x: 8.12, y: 0}
   - {x: 5.8340445, y: -2.77939}

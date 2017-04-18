@@ -546,6 +546,14 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 
 	public virtual void Hit(float dmg)
 	{
+		#if UNITY_EDITOR
+		var wtext = Singleton<worldTextUI>.inst;
+		if(wtext.showDmgInEditor){
+			Vector3 offset = new Vector3 (new RandomFloat(-5,5).RandomValue, new RandomFloat(-5,5).RandomValue, -1);
+			Singleton<worldTextUI>.inst.ShowText (cacheTransform.position + offset, this.GetColor(), dmg.ToString("##.##"), 12); 
+		}
+		#endif
+
 //      Debug.LogError ("hit " + dmg);
 		if (increaceAlphaOnHitAndDropInvisibility) {
 		    float alpha = GetAlpha ();

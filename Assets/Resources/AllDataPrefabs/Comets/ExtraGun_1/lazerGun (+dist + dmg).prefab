@@ -40,15 +40,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd7075665986364fb3694fc67038fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 6.6666665
+  dps: 7.5
   totalAttackDamage: 60
   damage: 12
   attackDuration: 5
-  pauseDuration: 4
-  color: {r: 1, g: 0.55862063, b: 0, a: 1}
+  pauseDuration: 3
+  color: {r: 1, g: 0.47586206, b: 0, a: 1}
   fireEffect: {fileID: 19849958, guid: e81d6b419abe45c408829e82e12fa9c1, type: 2}
   distance: 60
-  width: 1.8
+  width: 1.9
   iceData:
     duration: 0
     freezeAmount: 0

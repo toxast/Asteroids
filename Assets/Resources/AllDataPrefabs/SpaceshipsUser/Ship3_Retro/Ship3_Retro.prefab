@@ -72,7 +72,7 @@ MonoBehaviour:
     turnSpeed: 165
     brake: 11
     passiveBrake: 2
-    stability: 0.34
+    stability: 0.5
     shootAngle: 1
   accuracy:
     startingAccuracy: 0

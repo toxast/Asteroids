@@ -45,7 +45,7 @@ MonoBehaviour:
   editorSpawnLayer: 2
   gameSpawnLayer: 2
   difficulty: 7
-  reward: 20
+  reward: 25
   teleportData:
     duration: 3
     ringSize: 10
@@ -63,27 +63,27 @@ MonoBehaviour:
     min: 0
     max: 2
   growSpeed: 0.5
-  overrideSpikeCollisionAttack: 8
-  chanceShootSpikeAtDeath: 0
+  overrideSpikeCollisionAttack: 6
+  chanceShootSpikeAtDeath: 0.6
   color: {r: 0.7469081, g: 0.6607915, b: 0.9264706, a: 1}
   physical:
-    density: 0.2
+    density: 0.3
     health: -1
-    healthModifier: 0.8
+    healthModifier: 0.5
     collisionDefence: 0
     collisionAttackModifier: 1.5
   speed:
-    min: 15
-    max: 20
+    min: 12
+    max: 16
   rotation:
     min: 60
     max: 90
   size:
     min: 3
-    max: 3
+    max: 3.2
   spikeSize:
-    min: 1
-    max: 1.5
+    min: 1.2
+    max: 1.6
   spikesCount:
     min: 6
     max: 7

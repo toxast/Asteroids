@@ -53,33 +53,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     spawns:
-    - spawn: {fileID: 11480350, guid: 4b95e30afd30bc643ac2b1dc4327e4e8, type: 2}
-      weight: 0
+    - spawn: {fileID: 11441248, guid: d314ac571e6ab614798d798c809fc344, type: 2}
       range:
         min: 10
         max: 10
+      spawnAtViewEdge: 0
       positioning:
         positionAngle: 0
         positionAngleRange: 0
         lookAngle: 180
         lookAngleRange: 0
-    - spawn: {fileID: 11480350, guid: 4b95e30afd30bc643ac2b1dc4327e4e8, type: 2}
-      weight: 0
+    - spawn: {fileID: 11441248, guid: d314ac571e6ab614798d798c809fc344, type: 2}
       range:
         min: 10
         max: 10
+      spawnAtViewEdge: 0
       positioning:
-        positionAngle: 120
-        positionAngleRange: 0
-        lookAngle: 180
-        lookAngleRange: 0
-    - spawn: {fileID: 11480350, guid: 4b95e30afd30bc643ac2b1dc4327e4e8, type: 2}
-      weight: 0
-      range:
-        min: 10
-        max: 10
-      positioning:
-        positionAngle: 240
+        positionAngle: 180
         positionAngleRange: 0
         lookAngle: 180
         lookAngleRange: 0

@@ -74,7 +74,3 @@ public class HealingEffect : DurationEffect {
 		}
 	}
 }
-
-
-
-

@@ -63,3 +63,9 @@ MonoBehaviour:
     type: 2}
   lightFreeParticles: {fileID: 114951812601180788, guid: b290d6404caa7a34f9fcd0e86d8228da,
     type: 2}
+  cometParticles: {fileID: 114846334901751560, guid: 72c85ce4b5d5ceb4eb95a4c3ba6cbee4,
+    type: 2}
+  cometDestroyParticles: {fileID: 114419057018707582, guid: df4fbbf5af84235478a8fc7da9e00fd4,
+    type: 2}
+  effectFinished: {fileID: 114610804118556476, guid: bc12cfd7b64ad5745bd5a7aa2228d34c,
+    type: 2}

@@ -44,15 +44,15 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 6
-  reward: 20
+  difficulty: 8
+  reward: 24
   teleportData:
     duration: 2
     ringSize: 8
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   physical:
     density: 0.6
-    health: 8
+    health: 7
     healthModifier: -1
     collisionDefence: 0
     collisionAttackModifier: 1

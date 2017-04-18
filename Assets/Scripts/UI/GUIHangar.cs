@@ -21,6 +21,7 @@ public class GUIHangar : MonoBehaviour
 
 	public event Action<MSpaceshipData> startTheGame;
 
+	public MCometData lastBoughtPowerup;
 	ShipUpgradeData currentShipData;
 	IntHashSave shipsSaves;
 	IntHashSave journalSaves;
@@ -104,6 +105,9 @@ public class GUIHangar : MonoBehaviour
 	}
 
 	void OnPowerupBought(MCometData comet){
+		if (!comet.dropFromEnemies) {
+			lastBoughtPowerup = comet;
+		}
 		ShowMessage (comet.journal);
 	}
 

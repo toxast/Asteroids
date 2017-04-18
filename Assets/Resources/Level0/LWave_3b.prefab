@@ -85,7 +85,7 @@ MonoBehaviour:
         max: 60
       spawnAtViewEdge: 0
       weight: 2
-      overridePositioning: 0
+      overridePositioning: 1
       positioning:
         positionAngle: 0
         positionAngleRange: 360

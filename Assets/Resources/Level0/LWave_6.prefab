@@ -52,14 +52,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 60
-    diffucultyTotal: 60
+    diffucultyAtOnce: 55
+    diffucultyTotal: 55
     overrideDificultyAdds: -1
     differentSpawnsCountRange:
       min: 2
       max: 3
     chooseNewObjectsEachTime: 0
-    overrideSpawnTime: 3.5
+    overrideSpawnTime: 4
     startNextWaveWhenDifficultyLeft: 0
     countStrategy: 1
     spawnStrategy: 1
@@ -124,7 +124,7 @@ MonoBehaviour:
         max: 60
       spawnAtViewEdge: 0
       weight: 1
-      overridePositioning: 0
+      overridePositioning: 1
       positioning:
         positionAngle: 0
         positionAngleRange: 360

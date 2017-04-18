@@ -61,83 +61,34 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
-  id: 71
+  id: 101
   price: 500
   journal: {fileID: 114395553400948598, guid: 382485868be8f9c41828b43c1a1bf59e, type: 2}
-  rotation:
-    min: 20
-    max: 40
-  size:
-    min: 1.8
-    max: 1.8
-  physical:
-    density: 3
-    health: 2
-    healthModifier: 1
-    collisionDefence: 0
-    collisionAttackModifier: 1
   dropFromEnemies: 1
   dropCountPerLevel: 7
-  color: {r: 0.14117645, g: 0.7943203, b: 0.9647059, a: 1}
   powerupData:
     lifeTime: 30
     verts:
-    - {x: 2.1262753, y: -1.2067624}
-    - {x: 1.780275, y: -1.6877624}
-    - {x: -0.19197848, y: -0.059411507}
-    - {x: -0.9654417, y: -0.34662592}
-    - {x: -1.5234942, y: -0.15011089}
-    - {x: -1.7200092, y: 0.5515488}
-    - {x: -1.7086717, y: 1.0579528}
-    - {x: -1.3471344, y: 0.9811107}
-    - {x: -1.1506193, y: 0.32983953}
-    - {x: -0.5610741, y: 0.42053875}
-    - {x: -0.42880428, y: 0.751843}
-    - {x: -0.46155685, y: 1.084407}
-    - {x: -0.815536, y: 1.3640629}
-    - {x: -0.71349925, y: 1.6563162}
-    - {x: -0.19701731, y: 1.5215269}
-    - {x: 0.062483396, y: 0.9004891}
-    - {x: 0.114131615, y: 0.3726697}
+    - {x: 2.4224975, y: -1.2857254}
+    - {x: 2.0697782, y: -1.9533726}
+    - {x: -0.074224785, y: -0.20163147}
+    - {x: -1.0485657, y: -0.5634389}
+    - {x: -1.7515514, y: -0.31588653}
+    - {x: -1.9991038, y: 0.5680027}
+    - {x: -1.9848218, y: 1.2059258}
+    - {x: -1.5293888, y: 1.1091272}
+    - {x: -1.2818363, y: 0.2887128}
+    - {x: -0.53917897, y: 0.40296775}
+    - {x: -0.3725571, y: 0.8203157}
+    - {x: -0.41381592, y: 1.2392507}
+    - {x: -0.8597278, y: 1.5915366}
+    - {x: -0.7311908, y: 1.9596915}
+    - {x: -0.08057226, y: 1.7898959}
+    - {x: 0.24632393, y: 1.007567}
+    - {x: 0.3113858, y: 0.3426665}
     effectData:
-      color: {r: 0.9647059, g: 0.7019608, b: 0.14117648, a: 1}
+      color: {r: 0.14117648, g: 0.7960785, b: 0.96470594, a: 1}
       overrideEffectsDuration: -1
       effects:
       - {fileID: 114489954731306090, guid: 13f318fba582b0c48bfa189cccd336a4, type: 2}
-    particleSystemColor: {r: 0.96470594, g: 0.7019608, b: 0.14117648, a: 1}
-  particles:
-  - place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-      useAngleForPosition: 0
-      range: 0
-      angle: 0
-    prefab: {fileID: 198328997085036626, guid: 72c85ce4b5d5ceb4eb95a4c3ba6cbee4, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
-    afterlife: 1
-    stopEmission: 1
-    inheritVelocity: 1
-    parentToSplitParts: 0
-    overrideStartColor: 0
-    startColor: {r: 1, g: 1, b: 1, a: 1}
-  destructionEffects:
-  - place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-      useAngleForPosition: 0
-      range: 0
-      angle: 0
-    prefab: {fileID: 198898463116308176, guid: df4fbbf5af84235478a8fc7da9e00fd4, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
-    afterlife: 0
-    stopEmission: 1
-    inheritVelocity: 1
-    parentToSplitParts: 0
-    overrideStartColor: 0
-    startColor: {r: 1, g: 1, b: 1, a: 1}
+    particleSystemColor: {r: 0.14117648, g: 0.7960785, b: 0.96470594, a: 1}

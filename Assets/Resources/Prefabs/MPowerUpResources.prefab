@@ -62,14 +62,13 @@ MonoBehaviour:
     - {fileID: 114935688868597546, guid: e2f7ef27e0d1a124294a8c30274aca76, type: 2}
     - {fileID: 114935688868597546, guid: b33eec485d82fee4a948f5d551299a84, type: 2}
   - comets:
-    - {fileID: 114935688868597546, guid: f5246ee01a6b70147a254616625470f1, type: 2}
+    - {fileID: 114935688868597546, guid: 79719de8a76810346ba29c58c4e22fb9, type: 2}
+    - {fileID: 114935688868597546, guid: 61c063c802f3f8f43b0e3f051d633e42, type: 2}
+    - {fileID: 114935688868597546, guid: c8223066e5f2340418bcdfa3a547569a, type: 2}
+  - comets:
     - {fileID: 114935688868597546, guid: 5f77ac7e7aef89744a0e93bfa55da7db, type: 2}
     - {fileID: 114935688868597546, guid: 7d4aea9b5390b6b4a80c15dd05f90945, type: 2}
-  - comets:
-    - {fileID: 114935688868597546, guid: 1daf181abd917a445966edf0e3a8c526, type: 2}
-  - comets:
-    - {fileID: 114935688868597546, guid: 79719de8a76810346ba29c58c4e22fb9, type: 2}
-    - {fileID: 114935688868597546, guid: d86801d2e651c0b4886c5b897a3e9ec9, type: 2}
+    - {fileID: 114935688868597546, guid: 90aeb307c71c60a458d2b278d13d8d34, type: 2}
   - comets:
     - {fileID: 114935688868597546, guid: 52f8edc3829c2c74ba59912d84d0ef1c, type: 2}
   testid: 0

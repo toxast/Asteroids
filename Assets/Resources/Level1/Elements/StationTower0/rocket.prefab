@@ -57,7 +57,7 @@ MonoBehaviour:
     destructionType: 2
     createExplosionOnDeath: 1
     instantExplosion: 1
-    overrideExplosionRange: 18
+    overrideExplosionRange: 14
     overrideExplosionDamage: 5
   spreadAngle: 0
   rotation:
@@ -117,8 +117,8 @@ MonoBehaviour:
   - {x: -0.3170586, y: 0.5953186}
   - {x: 0.7639147, y: 0.7989802}
   - {x: 1.1242392, y: 0.36032444}
-  explosionRangeCalculated: 18
-  explosionDamageCalculated: 13.090526
+  explosionRangeCalculated: 14
+  explosionDamageCalculated: 11.117655
   accuracy: 0.7
   missleParameters:
     thrust: 15

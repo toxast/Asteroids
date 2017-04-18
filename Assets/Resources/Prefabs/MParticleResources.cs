@@ -9,4 +9,7 @@ public class MParticleResources : ResourceSingleton<MParticleResources> {
 	[SerializeField] public MParticleSystemsData healOnceParticles;
 	[SerializeField] public MParticleSystemsData healingParticles;
 	[SerializeField] public MParticleSystemsData lightFreeParticles;
+	[SerializeField] public MParticleSystemsData cometParticles;
+	[SerializeField] public MParticleSystemsData cometDestroyParticles;
+	[SerializeField] public MParticleSystemsData effectFinished;
 }

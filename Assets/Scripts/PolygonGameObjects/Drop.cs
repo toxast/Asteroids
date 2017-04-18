@@ -11,14 +11,14 @@ namespace polygonGO
         private void AddMoneyIfNotYet() {
             if (!moneyAdded) {
                 moneyAdded = true;
-                Singleton<Main>.inst.AddMoneyOnDropNotInterated(value);
+				Singleton<Main>.inst.AddMoneyOnDropNotInterated(this);
             }
         }
 
 		public override void OnInteracted(PolygonGameObject picker) {
             if (!moneyAdded) {
                 moneyAdded = true;
-                Singleton<Main>.inst.AddMoneyOnDropInterated(value);
+				Singleton<Main>.inst.AddMoneyOnDropInterated(this);
             }
         }
 

@@ -19,9 +19,9 @@ using UnityEngine;
 
 		//animation
 		var anim = main.CreateTeleportationRing(elemPos, elem.teleportData.color, elem.teleportData.ringSize);
+		main.PutObjectOnDestructionQueue (anim.gameObject, 5f + elem.teleportData.duration);
 		yield return new WaitForSeconds(elem.teleportData.duration);
 		anim.Stop ();
-		main.PutObjectOnDestructionQueue (anim.gameObject, 5f);
 
 		PolygonGameObject obj = null;
 		if (elem != null) {

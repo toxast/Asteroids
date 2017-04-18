@@ -42,10 +42,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dps: 0
   bulletSpeed: 30
-  fireInterval: 11
+  fireInterval: 18
   fireEffect: {fileID: 0}
   spawnRef: {fileID: 114006690424570016, guid: 4f515954c7378f94cb101de3f5597af4, type: 2}
-  maxSpawn: 3
+  maxSpawn: 4
   startSpawn: 3
   startSpawnInterval: 4
   killOnParentDestroyed: 1

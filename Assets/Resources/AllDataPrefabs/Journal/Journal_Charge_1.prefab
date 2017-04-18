@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4287442826843188}
   - component: {fileID: 114395553400948598}
   m_Layer: 0
-  m_Name: Journal_Tough0
+  m_Name: Journal_Charge_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ad6e367ab2f9740920636a83069a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 120
-  text: Samanta took a sample. This prevents all collision damage she said later.  Now
-    these spiky things can't hurt us.  For a while.    \n She's not sure about bullets
-    or explosions though.
+  id: 131
+  text: More weight, more speed.     More fun!

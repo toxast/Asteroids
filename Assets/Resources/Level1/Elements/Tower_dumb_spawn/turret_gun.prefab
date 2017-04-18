@@ -40,8 +40,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 1.5
-  hitDamage: 3
+  dps: 1
+  hitDamage: 2
   lifeTime: 3
   velocity: 25
   fireInterval: 2

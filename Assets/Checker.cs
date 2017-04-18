@@ -12,14 +12,56 @@ public class Checker : MonoBehaviour {
 
 	[System.NonSerialized] int spaceshipsLogsFrom = 1;
 	[System.NonSerialized] int levelsLogsFrom = 50;
-	[System.NonSerialized] int powerupLogsFrom = 100;
+	[System.NonSerialized] int powerupsFrom = 100;
 	[System.NonSerialized] int maxOneTypePowerups = 10;
 
+	[SerializeField] bool assignPowerupsId = false;
 	[SerializeField] bool assignJournalsId = false;
+	[SerializeField] bool assignCometsColors = false;
 	void Update(){
 		if (assignJournalsId) {
 			assignJournalsId = false;
 			AssignJournalsId ();
+		}
+		if (assignPowerupsId) {
+			assignPowerupsId = false;
+			AssignPowerupssId ();
+		}
+//		if (assignCometsColors) {
+//			assignCometsColors = false;
+//		}
+	}
+
+//	void AssignCometsColor(){
+//		var powerups = MPowerUpResources.Instance.powerups;
+//		for (int i = 0; i < powerups.Count; i++) {
+//			var list = powerups [i];
+//			for (int k = 0; k < list.comets.Count; k++) {
+//				var obj = list.comets [k];
+//				var color = obj.color;
+//				obj.powerupData.particleSystemColor = color;
+////				foreach (var d in obj.destructionEffects) {
+////					d.overrideStartColor = true;
+////					d.startColor = color;
+////				}
+////				foreach (var d in obj.destructionEffects) {
+////					d.overrideStartColor = true;
+////					d.startColor = color;
+////				}
+//				EditorUtility.SetDirty (obj.gameObject);
+//			}
+//		}
+//	}
+
+	void AssignPowerupssId(){
+		var powerups = MPowerUpResources.Instance.powerups;
+		for (int i = 0; i < powerups.Count; i++) {
+			var list = powerups [i];
+			for (int k = 0; k < list.comets.Count; k++) {
+				var obj = list.comets [k];
+				obj.id = powerupsFrom + maxOneTypePowerups * i + k;
+				EditorUtility.SetDirty (obj.gameObject);
+			}
 		}
 	}
 
@@ -54,7 +96,7 @@ public class Checker : MonoBehaviour {
 					Debug.LogError (list.comets [k].name + " no log");
 					continue;
 				}
-				log.id = powerupLogsFrom + maxOneTypePowerups * i + k;
+				log.id = powerupsFrom + maxOneTypePowerups * i + k;
 				EditorUtility.SetDirty (log.gameObject);
 			}
 		}

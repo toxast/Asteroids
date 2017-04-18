@@ -54,7 +54,7 @@ MonoBehaviour:
   data:
     duration: 32
     overrideDefence: 1
-    multiplyMass: 4
+    multiplyMass: 8
     multiplyCollisionAttack: 1
     multiplyThrust: 1.6
     multiplyMaxSpeed: 1.6

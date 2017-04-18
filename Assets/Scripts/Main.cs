@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class Main : MonoBehaviour 
 {
 	[SerializeField] Texture2D cursorTexture;
+	[SerializeField] worldTextUI worldtext;
 	[SerializeField] UIPowerups uiPowerups;
 	[SerializeField] OffscreenArrows offscreenArrows;
 	[SerializeField] ParticleSystem dropAnimationPrefab;
@@ -23,6 +24,7 @@ public class Main : MonoBehaviour
 	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
 	public static Color userColor = new Color(54f/255f, 120f/255f, 251f/255f);
 	[SerializeField] bool killEveryOne = false;
+
 
 	private float DestroyAfterSplitTreshold = 5f;
 	private float addMoneyKff = 1f;
@@ -66,7 +68,6 @@ public class Main : MonoBehaviour
 		mainCamera = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera>();
 		cameraTransform = mainCamera.transform;
 		//minimapCamera = GameObject.FindGameObjectWithTag ("MinimapCamera").GetComponent<Camera>();
-
 		if (boundsMode) {
 			moveCameraAction += MoveCameraBoundsMode;
 		} else {
@@ -81,7 +82,7 @@ public class Main : MonoBehaviour
 	}
 
 	ILevelSpawner spawner;
-	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, ILevelSpawner lvlElement)
+	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, ILevelSpawner lvlElement, MCometData lastBoughtComet = null)
 	{
 		if (gameIsOn) {
 			Debug.LogError ("game is on already");
@@ -115,7 +116,7 @@ public class Main : MonoBehaviour
 
 		repositionCoroutine = StartCoroutine(RepositionAll());
 		wrapStarsCoroutine = StartCoroutine(WrapStars());
-		spawnCometsCoroutine = StartCoroutine (SpawnComets(avaliableComets));
+		spawnCometsCoroutine = StartCoroutine (SpawnComets(avaliableComets, lastBoughtComet));
 
 //		powerUpsCreator = new PowerUpsCreator(5f, 10f);
 //		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
@@ -132,19 +133,31 @@ public class Main : MonoBehaviour
 				int wave = UnityEngine.Random.Range (1, wavesCount-1);
 				dropOnWaves.Add (wave);
 			}
+			dropOnWaves.Sort ();
 			CometDropWrapper wrapper = new CometDropWrapper{ powerup = pdrop, dropOnWaves = dropOnWaves };
 			wrappers.Add (wrapper);
 			Debug.LogError (wrapper.powerup.name + ": " + MyExtensions.FormString (wrapper.dropOnWaves));
 		}
+		MyExtensions.ClassType<int> helpedHeal = new MyExtensions.ClassType<int> ();
+		helpedHeal.val = 0;
 		MyExtensions.ClassType<int> finishedWaveIndex = new MyExtensions.ClassType<int> ();
 		finishedWaveIndex.val = 0;
-		level.OnWaveFinished += () => HandleWaveFinished(finishedWaveIndex, wrappers);
+		level.OnWaveFinished += () => HandleWaveFinished(finishedWaveIndex, wrappers, helpedHeal);
 	}
 
 	List<CometDropWrapper2> powerupDropsLeft = new List<CometDropWrapper2>();
 
-	void HandleWaveFinished(MyExtensions.ClassType<int> finishedWaveIndex, List<CometDropWrapper> powerupDrops) {
+	void HandleWaveFinished(MyExtensions.ClassType<int> finishedWaveIndex, List<CometDropWrapper> powerupDrops, MyExtensions.ClassType<int> helpedHeal) {
 		Debug.LogError ("wave finished " + finishedWaveIndex.val);
+		if (helpedHeal.val == 0 && userSpaceship != null && userSpaceship.GetLeftHealthPersentage () < 0.5f) {
+			var healDrop = powerupDrops.Find (d => d.powerup.powerupData.effectData.effects.Exists (e => e is HealingEffect));
+			if (healDrop != null && healDrop.dropOnWaves.Count > 0) {
+				healDrop.dropOnWaves [healDrop.dropOnWaves.Count - 1] = finishedWaveIndex.val;
+				helpedHeal.val = 1;
+				Debug.LogError ("heal help");
+			}
+		}
+
 		for (int i = 0; i < powerupDrops.Count; i++) {
 			int count = powerupDrops [i].dropOnWaves.RemoveAll (w => w <= finishedWaveIndex.val);
 			for (int k = 0; k < count; k++) {
@@ -278,7 +291,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	IEnumerator SpawnComets(List<MCometData> avaliablePowerups) {
+	IEnumerator SpawnComets(List<MCometData> avaliablePowerups,  MCometData lastBoughtComet = null) {
 		if (avaliablePowerups.Count == 0) {
 			yield break;
 		}
@@ -292,7 +305,7 @@ public class Main : MonoBehaviour
 			percentLowerTime = percentLowerTime * (1f - percentLowerTime / 50f);
 		}
 
-		float cometLifeTime = 100;
+		float cometLifeTime = 120;
 		float percentIncTime = 8f;
 		for (int i = 0; i < avaliablePowerups.Count - 1; i++) {
 			//Debug.LogError(i + " " + cometLifeTime);
@@ -313,10 +326,22 @@ public class Main : MonoBehaviour
 				}
 			} 
 			nextDelta = UnityEngine.Random.Range (1f - 0.25f, 1f + 0.25f) * nextDelta;
-			yield return new WaitForSeconds (nextDelta);
+
+			if (lastBoughtComet == null) {
+				yield return new WaitForSeconds (nextDelta);
+			} else {
+				yield return new WaitForSeconds (nextDelta/2f);
+			}
+
 			var comets = avaliablePowerups.FindAll (cmt => cmt.dropFromEnemies == false);
 			if (!IsNull (userSpaceship) && comets.Count > 0) {
-				var cometData = comets [UnityEngine.Random.Range (0, comets.Count)];
+				MCometData cometData;
+				if (lastBoughtComet == null) {
+					cometData = comets [UnityEngine.Random.Range (0, comets.Count)];
+				} else {
+					cometData = lastBoughtComet;
+					lastBoughtComet = null;
+				}
 				var comet = cometData.GameCreate (userSpaceship.maxSpeed, cometLifeTime);
 				var angle = UnityEngine.Random.Range (0, 360);
 				var posData = GetEdgePositionData (angle);
@@ -345,7 +370,7 @@ public class Main : MonoBehaviour
 
 	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
 	{
-		new PhExplosion(pos, r, dmgMax, 10 * dmgMax, gobjects, collision);
+		new PhExplosion(pos, r, dmgMax, 50f * dmgMax, gobjects, collision);
 	}
 
 	public IEnumerator Respawn()
@@ -577,13 +602,24 @@ public class Main : MonoBehaviour
 
     //TODO: unlock ability to score persantage of non-collected drops (Call it "Dust Collector")
     //TODO: unlock ability to increase addMoneyKff (Call it "Businessman")
-    public void AddMoneyOnDropInterated(int value) {
-        GameResources.AddMoney((int)(value * addMoneyKff));
+	public void AddMoneyOnDropInterated(polygonGO.Drop drop) {
+		var val = (int)(drop.value * addMoneyKff);
+		ShowAddMoney (drop, val);
     }
 
-    public void AddMoneyOnDropNotInterated(int value) {
-        GameResources.AddMoney(Mathf.CeilToInt(value * addMoneyNotInteractedKff));
+	public void AddMoneyOnDropNotInterated(polygonGO.Drop drop) {
+		var val = Mathf.CeilToInt (drop.value * addMoneyNotInteractedKff);
+		ShowAddMoney (drop, val);
     }
+
+	void ShowAddMoney(polygonGO.Drop drop, int value){
+		if(value == 0) {
+			return;
+		}
+		GameResources.AddMoney(value);
+		int size = Mathf.FloorToInt (14 + 3 * (Mathf.Sqrt (value) / 7f));
+		worldtext.ShowText (drop.transform.position, drop.GetColor (), string.Format ("+{0}", value), size);
+	}
 
     /*
 	public void ApplyPowerUP(PowerUpEffect effect) {
@@ -736,7 +772,7 @@ public class Main : MonoBehaviour
 			break;
 		}
 
-		if (gobject.layerLogic == (int)CollisionLayers.eLayer.TEAM_ENEMIES && !(gobject is Asteroid)) {
+		if (gobject.layerLogic == (int)CollisionLayers.eLayer.TEAM_ENEMIES && (!(gobject is Asteroid) || Math2d.Chance(0.12f))) {
 			for (int i = powerupDropsLeft.Count - 1; i >= 0; i--) {
 				var pup = powerupDropsLeft [i];
 				pup.dropOnWaveEnemieNumLeft--;

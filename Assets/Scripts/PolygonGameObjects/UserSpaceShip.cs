@@ -16,9 +16,6 @@ public class UserSpaceShip : SpaceShip {
 	public override void Hit (float dmg)
 	{
 		base.Hit (dmg);
-
-
-
 		UpdateHealth ();
 		UpdateShields ();
 	}
