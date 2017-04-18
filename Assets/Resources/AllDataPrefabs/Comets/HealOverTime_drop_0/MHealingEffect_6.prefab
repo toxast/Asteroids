@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4823665254039810}
   - component: {fileID: 114489954731306090}
   m_Layer: 0
-  m_Name: MHealingEffect_7
+  m_Name: MHealingEffect_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,4 +53,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     duration: 4
-    total: 7
+    total: 6

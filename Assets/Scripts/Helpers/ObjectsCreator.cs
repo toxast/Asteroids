@@ -86,7 +86,7 @@ public class ObjectsCreator
     public static UserSpaceShip CreateSpaceShip(InputController contorller, MSpaceshipData data)
 	{
 		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data, CollisionLayers.ilayerUser);
-		spaceship.collector = new DropCollector (0.15f, 20f);
+		spaceship.collector = new DropCollector (15f, 20f);
 		spaceship.SetColor (Main.userColor);
         spaceship.gameObject.name = "User_Spaceship " + data.name;
 		spaceship.SetController (contorller);
@@ -183,25 +183,25 @@ public class ObjectsCreator
 		float size = new RandomFloat(2f, 2.2f).RandomValue;
         int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size * 3);
         Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size / 2f, vcount);
-		Color color = mdata.powerupData.particleSystemColor;
+		Color psColor = mdata.powerupData.particleSystemColor;
+		Color color = psColor;
 		color.a = 0.8f;
 		Comet comet = PolygonCreator.CreatePolygonGOByMassCenter<Comet>(vertices, color);
 		PhysicalData physical = new PhysicalData ();
-		physical.density = 0.01f;
-		physical.health = 0.1f;
+		physical.density = 0.3f;
+		physical.health = 1f;
 		comet.InitAsteroid(physical, speed, new RandomFloat (20f, 40f));
 		comet.InitComet(mdata.powerupData, lifetime);
 		comet.SetLayerNum(CollisionLayers.ilayerTeamEnemies);
 		comet.priority = PolygonGameObject.ePriorityLevel.LOW;
 		comet.priorityMultiplier = 0.01f;
-		comet.destructionType = PolygonGameObject.DestructionType.eComplete;
 
 		var particles = MParticleResources.Instance.cometParticles.data.Clone();
-		particles.startColor = mdata.powerupData.particleSystemColor;
+		particles.startColor = psColor;
 		comet.AddParticles (new List<ParticleSystemsData>{particles});
 
 		var desParticles = MParticleResources.Instance.cometDestroyParticles.data.Clone();
-		desParticles.startColor = mdata.powerupData.particleSystemColor;
+		desParticles.startColor = psColor;
 		comet.AddDestroyAnimationParticles (new List<ParticleSystemsData>{desParticles});
 
         comet.gameObject.name = mdata.name;
@@ -361,7 +361,9 @@ public class ObjectsCreator
 			vertices = data.verts;
 		}
 		var drop = PolygonCreator.CreatePolygonGOByMassCenter<PowerUp>(vertices, data.effectData.color);
-        drop.InitPolygonGameObject(new PhysicalData());
+		var physical = new PhysicalData ();
+		physical.density = 0.01f;
+		drop.InitPolygonGameObject(physical);
         drop.InitPowerUp(data.effectData);
 		var clone = data.particles.Clone ();
 		clone.overrideStartColor = true;
@@ -370,6 +372,7 @@ public class ObjectsCreator
         drop.SetLayerNum(CollisionLayers.ilayerMisc);
         drop.gameObject.name = "DropPowerUp " + data.effectData.ToString();
         drop.lifetime = data.lifeTime;
+		drop.destructionType = PolygonGameObject.DestructionType.eComplete;
         return drop;
     }
 

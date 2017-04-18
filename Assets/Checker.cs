@@ -54,6 +54,7 @@ public class Checker : MonoBehaviour {
 //	}
 
 	void AssignPowerupssId(){
+		#if UNITY_EDITOR
 		var powerups = MPowerUpResources.Instance.powerups;
 		for (int i = 0; i < powerups.Count; i++) {
 			var list = powerups [i];
@@ -63,10 +64,11 @@ public class Checker : MonoBehaviour {
 				EditorUtility.SetDirty (obj.gameObject);
 			}
 		}
+		#endif
 	}
 
 	void AssignJournalsId(){
-
+		#if UNITY_EDITOR
 		var userSpaceships = MSpaceShipResources.Instance.userSpaceships;
 		List<MSpaceshipData> allSpaceships = new List<MSpaceshipData> ();
 		for (int i = 0; i < userSpaceships.Count; i++) {
@@ -104,10 +106,12 @@ public class Checker : MonoBehaviour {
 		CheckJournalsIds();
 
 		AssetDatabase.SaveAssets();
+		#endif
 	}
 
 
 	void CheckJournalsIds(){
+		#if UNITY_EDITOR
 		Dictionary<int, string> id2name = new Dictionary<int, string> ();
 		var list = ShipEditor.LoadPrefabsContaining<MJournalLog> ();
 		foreach (var item in list) {
@@ -118,5 +122,6 @@ public class Checker : MonoBehaviour {
 				id2name [item.id] = item.name;
 			}
 		}
+		#endif
 	}
 }

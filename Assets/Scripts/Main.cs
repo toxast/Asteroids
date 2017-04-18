@@ -130,7 +130,7 @@ public class Main : MonoBehaviour
 			var pdrop = powerupDrops [i];
 			List<int> dropOnWaves = new List<int> ();
 			for (int k = 0; k < pdrop.dropCountPerLevel; k++) {
-				int wave = UnityEngine.Random.Range (1, wavesCount-1);
+				int wave = UnityEngine.Random.Range (2, wavesCount-2);
 				dropOnWaves.Add (wave);
 			}
 			dropOnWaves.Sort ();
@@ -149,10 +149,10 @@ public class Main : MonoBehaviour
 
 	void HandleWaveFinished(MyExtensions.ClassType<int> finishedWaveIndex, List<CometDropWrapper> powerupDrops, MyExtensions.ClassType<int> helpedHeal) {
 		Debug.LogError ("wave finished " + finishedWaveIndex.val);
-		if (helpedHeal.val == 0 && userSpaceship != null && userSpaceship.GetLeftHealthPersentage () < 0.5f) {
-			var healDrop = powerupDrops.Find (d => d.powerup.powerupData.effectData.effects.Exists (e => e is HealingEffect));
+		if ((helpedHeal.val == 0 || Math2d.Chance(0.3f)) && userSpaceship != null && userSpaceship.GetLeftHealthPersentage () < 0.5f) {
+			var healDrop = powerupDrops.Find (d => d.powerup.powerupData.effectData.effects.Exists (e => e is MHealingEffect));
 			if (healDrop != null && healDrop.dropOnWaves.Count > 0) {
-				healDrop.dropOnWaves [healDrop.dropOnWaves.Count - 1] = finishedWaveIndex.val;
+				healDrop.dropOnWaves [0] = finishedWaveIndex.val;
 				helpedHeal.val = 1;
 				Debug.LogError ("heal help");
 			}
@@ -162,7 +162,7 @@ public class Main : MonoBehaviour
 			int count = powerupDrops [i].dropOnWaves.RemoveAll (w => w <= finishedWaveIndex.val);
 			for (int k = 0; k < count; k++) {
 				CometDropWrapper2 wrapper2 = new CometDropWrapper2{ waveIndx = finishedWaveIndex.val, powerup = powerupDrops [i].powerup };
-				wrapper2.dropOnWaveEnemieNumLeft = UnityEngine.Random.Range (0, 6);
+				wrapper2.dropOnWaveEnemieNumLeft = UnityEngine.Random.Range (2, 6);
 				Debug.LogError (wrapper2.powerup.name + " powerup in " + wrapper2.dropOnWaveEnemieNumLeft);
 				powerupDropsLeft.Add (wrapper2);
 			}
@@ -370,7 +370,7 @@ public class Main : MonoBehaviour
 
 	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
 	{
-		new PhExplosion(pos, r, dmgMax, 50f * dmgMax, gobjects, collision);
+		new PhExplosion(pos, r, dmgMax, 15f * dmgMax, gobjects, collision);
 	}
 
 	public IEnumerator Respawn()
@@ -772,7 +772,10 @@ public class Main : MonoBehaviour
 			break;
 		}
 
-		if (gobject.layerLogic == (int)CollisionLayers.eLayer.TEAM_ENEMIES && (!(gobject is Asteroid) || Math2d.Chance(0.12f))) {
+		if (
+			(gobject.layerLogic == (int)CollisionLayers.eLayer.TEAM_ENEMIES && (!(gobject is Asteroid))) ||
+			 (gobject.layerLogic == (int)CollisionLayers.eLayer.ASTEROIDS && Math2d.Chance(0.23f))
+		) {
 			for (int i = powerupDropsLeft.Count - 1; i >= 0; i--) {
 				var pup = powerupDropsLeft [i];
 				pup.dropOnWaveEnemieNumLeft--;

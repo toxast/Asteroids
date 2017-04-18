@@ -40,7 +40,7 @@ public class UserComboPowerup : IApplyable, IHasDuration
 
 		ReplaceDropCollectorEffect.Data collector = new ReplaceDropCollectorEffect.Data {
 			duration = 4f,
-			force = 0.5f,
+			force = 50f,
 			range = 80f
 		};
 		collector.Apply (picker);

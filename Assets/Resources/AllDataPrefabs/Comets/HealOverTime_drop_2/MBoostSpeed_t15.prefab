@@ -59,4 +59,4 @@ MonoBehaviour:
     multiplyThrust: 1
     multiplyMaxSpeed: 1.3
     multiplyTurnSpeed: 1.3
-    multiplyStability: 1.3
+    multiplyStability: 1.5

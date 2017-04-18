@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4765144737268108}
   - component: {fileID: 114935688868597546}
   m_Layer: 0
-  m_Name: Comet_Charge_2
+  m_Name: Comet_HOT_drop_x5
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -61,66 +61,34 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
-  id: 132
-  price: 1300
-  journal: {fileID: 114395553400948598, guid: 65888d6845250cc41a309c0a2511b276, type: 2}
-  rotation:
-    min: 20
-    max: 40
-  size:
-    min: 1.8
-    max: 1.8
-  physical:
-    density: 3
-    health: 2
-    healthModifier: 1
-    collisionDefence: 0
-    collisionAttackModifier: 1
-  dropFromEnemies: 0
-  dropCountPerLevel: 0
-  color: {r: 0.95334685, g: 0.9647059, b: 0.14117645, a: 1}
+  id: 100
+  price: 80
+  journal: {fileID: 114395553400948598, guid: 8299f16224285fb4cbe0a200d1986280, type: 2}
+  dropFromEnemies: 1
+  dropCountPerLevel: 5
   powerupData:
     lifeTime: 30
-    verts: []
+    verts:
+    - {x: 2.4224975, y: -1.2857252}
+    - {x: 2.0697782, y: -1.9533725}
+    - {x: -0.07422489, y: -0.20163149}
+    - {x: -1.0485657, y: -0.5634389}
+    - {x: -1.7515514, y: -0.31588656}
+    - {x: -1.9991038, y: 0.5680027}
+    - {x: -1.9848218, y: 1.205926}
+    - {x: -1.5293888, y: 1.1091273}
+    - {x: -1.2818363, y: 0.28871277}
+    - {x: -0.5391789, y: 0.40296772}
+    - {x: -0.37255704, y: 0.8203157}
+    - {x: -0.41381586, y: 1.2392508}
+    - {x: -0.85972774, y: 1.5915368}
+    - {x: -0.73119074, y: 1.9596916}
+    - {x: -0.08057237, y: 1.789896}
+    - {x: 0.24632384, y: 1.0075672}
+    - {x: 0.31138587, y: 0.34266648}
     effectData:
-      color: {r: 0.95334685, g: 0.9647059, b: 0.14117645, a: 1}
+      color: {r: 0.14117648, g: 0.7960785, b: 0.96470594, a: 1}
       overrideEffectsDuration: -1
       effects:
-      - {fileID: 114604211848892936, guid: 78583254dc4c56643a261b074ea5b4f2, type: 2}
-    particleSystemColor: {r: 0.95294124, g: 0.96470594, b: 0.14117648, a: 1}
-  particles:
-  - place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-      useAngleForPosition: 0
-      range: 0
-      angle: 0
-    prefab: {fileID: 198328997085036626, guid: 72c85ce4b5d5ceb4eb95a4c3ba6cbee4, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
-    afterlife: 1
-    stopEmission: 1
-    inheritVelocity: 1
-    parentToSplitParts: 0
-    overrideStartColor: 0
-    startColor: {r: 0.95294124, g: 0.96470594, b: 0.14117648, a: 1}
-  destructionEffects:
-  - place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-      useAngleForPosition: 0
-      range: 0
-      angle: 0
-    prefab: {fileID: 198898463116308176, guid: df4fbbf5af84235478a8fc7da9e00fd4, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
-    afterlife: 0
-    stopEmission: 1
-    inheritVelocity: 1
-    parentToSplitParts: 0
-    overrideStartColor: 0
-    startColor: {r: 0.95294124, g: 0.96470594, b: 0.14117648, a: 1}
+      - {fileID: 114489954731306090, guid: 13f318fba582b0c48bfa189cccd336a4, type: 2}
+    particleSystemColor: {r: 0.14117648, g: 0.7960785, b: 0.96470594, a: 1}

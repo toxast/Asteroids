@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4765144737268108}
   - component: {fileID: 114935688868597546}
   m_Layer: 0
-  m_Name: Comet_HOT_drop_x7
+  m_Name: Comet_Charge_1
   m_TagString: Untagged
-  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -61,34 +61,17 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
-  id: 101
-  price: 500
-  journal: {fileID: 114395553400948598, guid: 382485868be8f9c41828b43c1a1bf59e, type: 2}
-  dropFromEnemies: 1
-  dropCountPerLevel: 7
+  id: 131
+  price: 700
+  journal: {fileID: 114395553400948598, guid: 67297b96f6c2a204583079eb936883df, type: 2}
+  dropFromEnemies: 0
+  dropCountPerLevel: 0
   powerupData:
     lifeTime: 30
-    verts:
-    - {x: 2.4224975, y: -1.2857254}
-    - {x: 2.0697782, y: -1.9533726}
-    - {x: -0.074224785, y: -0.20163147}
-    - {x: -1.0485657, y: -0.5634389}
-    - {x: -1.7515514, y: -0.31588653}
-    - {x: -1.9991038, y: 0.5680027}
-    - {x: -1.9848218, y: 1.2059258}
-    - {x: -1.5293888, y: 1.1091272}
-    - {x: -1.2818363, y: 0.2887128}
-    - {x: -0.53917897, y: 0.40296775}
-    - {x: -0.3725571, y: 0.8203157}
-    - {x: -0.41381592, y: 1.2392507}
-    - {x: -0.8597278, y: 1.5915366}
-    - {x: -0.7311908, y: 1.9596915}
-    - {x: -0.08057226, y: 1.7898959}
-    - {x: 0.24632393, y: 1.007567}
-    - {x: 0.3113858, y: 0.3426665}
+    verts: []
     effectData:
-      color: {r: 0.14117648, g: 0.7960785, b: 0.96470594, a: 1}
+      color: {r: 0.95334685, g: 0.9647059, b: 0.14117645, a: 1}
       overrideEffectsDuration: -1
       effects:
-      - {fileID: 114489954731306090, guid: 13f318fba582b0c48bfa189cccd336a4, type: 2}
-    particleSystemColor: {r: 0.14117648, g: 0.7960785, b: 0.96470594, a: 1}
+      - {fileID: 114604211848892936, guid: cc6cba835891b7442bbf89137678d3ad, type: 2}
+    particleSystemColor: {r: 0.95294124, g: 0.96470594, b: 0.14117648, a: 1}

@@ -8,7 +8,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 405650}
-  - component: {fileID: 114372623864308318}
   - component: {fileID: 11439306}
   m_Layer: 0
   m_Name: Tower1_(1) rocket tower 1
@@ -44,9 +43,13 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 1
+  difficulty: 10
   reward: 260
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
   physical:
     density: 1
     health: -1
@@ -70,16 +73,27 @@ MonoBehaviour:
     rechargeRate: 0
     hitRechargeDelay: 0
     rechargeDelayAfterDestory: 1
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   guns:
   - place:
       pos: {x: 2.52, y: 2.12}
       dir: {x: 0.9910998, y: -0.13312134}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     gun: {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
   - place:
       pos: {x: 2.52, y: -2.12}
       dir: {x: 0.9910997, y: 0.13312174}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     gun: {fileID: 11428948, guid: 9d94a301ceb8fc640aee6e30781fc376, type: 2}
-  linkedGuns: 0000000001000000
   turrets: []
   verts:
   - {x: 2.2364025, y: -0.7099996}
@@ -109,22 +123,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 176600}
   m_IsPrefabParent: 1
---- !u!114 &114372623864308318
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bddf528640b752e46be50e3ebe74730e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elem:
-    prefab: {fileID: 11439306}
-    teleportDuration: 1.5
-    teleportRingSize: 10
-    teleportationColor: {r: 0.24267685, g: 0.7794118, b: 0.22350778, a: 1}
-    place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}

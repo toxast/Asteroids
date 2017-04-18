@@ -24,7 +24,7 @@ public class DropCollector
 			if(dist.sqrMagnitude < rangeSqr)
 			{
 				float magnitude = dist.magnitude;
-				d.position += force * (1 - magnitude/range) * (dist/magnitude);
+				d.position += delta * force * (1 - magnitude/range) * (dist/magnitude);
 			}
 		}
 	}

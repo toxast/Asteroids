@@ -351,6 +351,7 @@ public class ShipEditor : MonoBehaviour
     [ContextMenu ("Save into prefab")]
     private void SaveOn()
     {
+		#if UNITY_EDITOR
         if (prefab == null) {
         Debug.LogError ("no prefab is set");
         return;
@@ -380,10 +381,7 @@ public class ShipEditor : MonoBehaviour
         }
 
 		EditorUtility.SetDirty (prefab.gameObject);
-//        #if UNITY_EDITOR
-//        EditorUtility.SetDirty (MSpaceShipResources.Instance);
-//        EditorUtility.SetDirty (MGunsResources.Instance);
-//        #endif
+        #endif
     }   
 
 
@@ -663,12 +661,17 @@ public class ShipEditor : MonoBehaviour
 
 
 	public static string[] GetAllPrefabPaths () {
+		#if UNITY_EDITOR
 		string[] temp = AssetDatabase.GetAllAssetPaths();
 		List<string> result = new List<string>();
 		foreach ( string s in temp ) {
 			if ( s.Contains( ".prefab" ) ) result.Add( s );
 		}
 		return result.ToArray();
+		#else
+		return new string[1];
+		#endif
+
 	}
 
 	public static List<T> LoadPrefabsContaining<T>() where T : UnityEngine.Component
@@ -703,7 +706,9 @@ public class ShipEditor : MonoBehaviour
 			id++;
 			//item.powerupData.effectData.color = item.color;
 			item.id = id;
+			#if UNITY_EDITOR
 			EditorUtility.SetDirty (item.gameObject);
+			#endif
 		}
 //
 //		var list4 = LoadPrefabsContaining<MFlamerGunData> ();
@@ -741,6 +746,6 @@ public class ShipEditor : MonoBehaviour
 //		}
 //
 
-		AssetDatabase.SaveAssets();
+		//AssetDatabase.SaveAssets();
 	}
 }

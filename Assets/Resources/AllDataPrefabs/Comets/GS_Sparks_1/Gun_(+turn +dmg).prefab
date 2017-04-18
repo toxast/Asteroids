@@ -40,11 +40,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b4a78513600bd4293c806f2d55eb81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 25
+  dps: 29.411764
   hitDamage: 5
   lifeTime: 10
   velocity: 15
-  fireInterval: 0.2
+  fireInterval: 0.17
   repeatCount: 0
   repeatInterval: 0
   physical:
@@ -109,14 +109,14 @@ MonoBehaviour:
     overrideStartColor: 0
     startColor: {r: 1, g: 1, b: 1, a: 1}
   vertices:
-  - {x: 1, y: 0.000000109011275}
+  - {x: 1, y: 0.000000110147326}
   - {x: 0.49999997, y: -0.86602545}
   - {x: -0.50000006, y: -0.8660254}
-  - {x: -1, y: 0.000000109011275}
+  - {x: -1, y: 0.000000110147326}
   - {x: -0.4999999, y: 0.86602545}
   - {x: 0.4999999, y: 0.86602545}
   explosionRangeCalculated: 23
-  explosionDamageCalculated: 15.351579
+  explosionDamageCalculated: 3.8378947
   accuracy: 1
   missleParameters:
     thrust: 10

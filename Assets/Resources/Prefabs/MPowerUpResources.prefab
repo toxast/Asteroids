@@ -71,4 +71,5 @@ MonoBehaviour:
     - {fileID: 114935688868597546, guid: 90aeb307c71c60a458d2b278d13d8d34, type: 2}
   - comets:
     - {fileID: 114935688868597546, guid: 52f8edc3829c2c74ba59912d84d0ef1c, type: 2}
+    - {fileID: 114935688868597546, guid: 2f58bf3ae55c64b47a72218c3e088783, type: 2}
   testid: 0

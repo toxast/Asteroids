@@ -40,11 +40,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b4a78513600bd4293c806f2d55eb81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 50
+  dps: 66.666664
   hitDamage: 5
   lifeTime: 15
   velocity: 15
-  fireInterval: 0.2
+  fireInterval: 0.15
   repeatCount: 0
   repeatInterval: 0
   physical:
@@ -116,7 +116,7 @@ MonoBehaviour:
   - {x: -0.4999999, y: 0.86602545}
   - {x: 0.4999999, y: 0.86602545}
   explosionRangeCalculated: 23
-  explosionDamageCalculated: 15.351579
+  explosionDamageCalculated: 3.8378947
   accuracy: 1
   missleParameters:
     thrust: 10
