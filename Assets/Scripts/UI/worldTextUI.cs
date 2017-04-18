@@ -12,7 +12,7 @@ public class worldTextUI : MonoBehaviour {
 		floatingTextPrefab.CreatePool (10);
 	}
 
-	void OnDisable(){
+	void OnEnable(){
 		floatingTextPrefab.RecycleAll ();
 	}
 
