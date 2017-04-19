@@ -40,9 +40,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd7075665986364fb3694fc67038fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 7.5
-  totalAttackDamage: 60
-  damage: 12
+  dps: 5
+  totalAttackDamage: 40
+  damage: 8
   attackDuration: 5
   pauseDuration: 3
   color: {r: 1, g: 0.47586206, b: 0, a: 1}

@@ -12,11 +12,20 @@ public class worldTextUI : MonoBehaviour {
 		floatingTextPrefab.CreatePool (10);
 	}
 
+	bool enabledScript = false;
 	void OnEnable(){
+		enabledScript = true;
 		floatingTextPrefab.RecycleAll ();
 	}
 
+	void OnDisable(){
+		enabledScript = false;
+	}
+
 	public void ShowText(Vector3 pos, Color color, string text, int size = 15) {
+		if (!enabledScript) {
+			return;
+		}
 		var textElem = floatingTextPrefab.Spawn (container);
 		textElem.color = color;
 		textElem.text = text;

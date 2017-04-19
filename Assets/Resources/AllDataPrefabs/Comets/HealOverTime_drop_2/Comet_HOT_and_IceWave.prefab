@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4765144737268108}
   - component: {fileID: 114935688868597546}
   m_Layer: 0
-  m_Name: Comet_HOT_and_Boost_drop_x5
+  m_Name: Comet_HOT_and_IceWave
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -91,6 +91,6 @@ MonoBehaviour:
       overrideEffectsDuration: -1
       effects:
       - {fileID: 114489954731306090, guid: cc93aecbfeddf9242892ef793f49fc76, type: 2}
-      - {fileID: 114626470911203202, guid: 7af7dd0e5f613554fa1691a0a128ebe6, type: 2}
+      - {fileID: 114864734706309220, guid: 873ba8c025f48084f9624f36429d68a1, type: 2}
       - {fileID: 114769702618748316, guid: 5ce44ae76086b534f8f41a8a39fea2ce, type: 2}
     particleSystemColor: {r: 0.14117645, g: 0.7943203, b: 0.9647059, a: 1}

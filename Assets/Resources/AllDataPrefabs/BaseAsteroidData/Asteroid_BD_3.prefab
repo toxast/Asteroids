@@ -40,14 +40,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b1c0618d8cadc4686758f4d5accf7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 0.78823537, b: 0.10196079, a: 1}
+  color: {r: 0, g: 0.95862055, b: 1, a: 1}
   asteroidMaterialIndex: 3
   physical:
-    density: 1.4
+    density: 1.2
     health: -1
     healthModifier: 1.5
     collisionDefence: 0.3
-    collisionAttackModifier: 0.7
+    collisionAttackModifier: 0.5
   value: 25
 --- !u!1001 &100100000
 Prefab:

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4823665254039810}
   - component: {fileID: 114769702618748316}
   m_Layer: 0
-  m_Name: MHealOnce_6
+  m_Name: MHealOnce_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,4 +52,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    total: 6
+    total: 5

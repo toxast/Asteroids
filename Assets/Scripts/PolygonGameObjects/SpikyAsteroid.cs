@@ -71,7 +71,7 @@ public class SpikyAsteroid : PolygonGameObject, IFreezble
 				float cosA = Mathf.Cos (angle);
 				float sinA = Mathf.Sin (angle);
 
-				AimSystem aim = new AimSystem (target.position, accuracy * target.velocity, position, spikeSpeed * 1.05f);
+				AimSystem aim = new AimSystem (target.position, accuracy * target.velocity, position, spikeSpeed, - polygon.R + 0.1f);
 				if (aim.canShoot && aim.time < 3f) {
 					for (int i = spikesLeft.Count - 1; i >= 0; i--) {
 						Spike spike = spikesLeft [i];

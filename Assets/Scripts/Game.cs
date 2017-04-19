@@ -24,13 +24,20 @@ public class Game : MonoBehaviour
 	IntHashSave cometUnlocks;
 
 	void Awake() {
+		levelInput.gameObject.SetActive(Application.isEditor);
+		waveInput.gameObject.SetActive(Application.isEditor);
+		addMoneyEditor.gameObject.SetActive(Application.isEditor);
+
 		mainMenu.OnLoadGame += HandleMainMenuStartGame;
 		hangar.startTheGame += HandleStartTheGame;
+		main.OnQuitToMenu += Main_OnQuitToMenu;
 		main.OnGameOver += HandleGameOver;
 		main.OnLevelCleared += HandlelevelCleared;
 
 		addMoneyEditor.onClick.AddListener (() => GameResources.AddMoney(1000));
 	}
+
+
 
 	void Start() {
 		ToggleUICamera (true);
@@ -53,18 +60,18 @@ public class Game : MonoBehaviour
 		IntHashSave journal = new IntHashSave(GetJournalSaveKey(currentSlot));
 		journal.Load ();
 		hangar.Init (shipsSaves, cometUnlocks, journal);
-		hangar.Show ();
+		hangar.Show (AvaliableLevelIndex);
 		if (newGame) {
 			hangar.ShowStartMessage ();
 		}
 		hangar.lastBoughtPowerup = null;
 	}
 
-	void HandleStartTheGame (MSpaceshipData shipData) {
+	void HandleStartTheGame (MSpaceshipData shipData, int Level) {
 		hangar.Hide ();
 		ToggleUICamera (false);
 		gameObjects.ForEach (h => h.SetActive (true));
-		main.StartTheGame (shipData, GetActiveComets(), DetermineLvel(), hangar.lastBoughtPowerup);
+		main.StartTheGame (shipData, GetActiveComets(), DetermineLvel(Level), hangar.lastBoughtPowerup);
 		hangar.lastBoughtPowerup = null;
 	}
 
@@ -112,7 +119,11 @@ public class Game : MonoBehaviour
 		StartCoroutine (FinishGameIn (3f, false));
 	}
 
-	IEnumerator FinishGameIn(float seconds, bool success) {
+	void Main_OnQuitToMenu ()	{
+		StartCoroutine (FinishGameIn (0.0001f, false, true));
+	}
+
+	IEnumerator FinishGameIn(float seconds, bool success, bool userExited = false) {
 		yield return new WaitForSeconds (seconds);
 
 		ToggleUICamera (true);
@@ -121,12 +132,14 @@ public class Game : MonoBehaviour
 		yield return new WaitForEndOfFrame ();
 		yield return new WaitForEndOfFrame ();
 	
+		if (currentLevelIndex >= 0 && success) {
+			SaveLevelPassed (currentLevelIndex);
+		}
+
 		main.Clear ();
-		hangar.Show ();
-		if (currentLevelIndex >= 0) {
-			if (success) {
-				SaveLevelPassed (currentLevelIndex);
-			}
+		hangar.Show (AvaliableLevelIndex);
+
+		if (!userExited  && currentLevelIndex >= 0) {
 			var level = MLevelsResources.Instance.levels [currentLevelIndex];
 			if (level != null) {
 				hangar.ShowMessage (level.journal);
@@ -137,15 +150,20 @@ public class Game : MonoBehaviour
 		}
 	}
 
+	int AvaliableLevelIndex{
+		get{ return PlayerPrefs.GetInt (GetLevelSaveKey (currentSlot), 0); }
+	}
+
 	void SaveLevelPassed(int levelIndx){
-		int lastLevelPassed = PlayerPrefs.GetInt (GetLevelSaveKey (currentSlot), 0);
-		if (levelIndx + 1 > lastLevelPassed) {
-			Debug.LogError ("level passed: " + (levelIndx + 1));
-			PlayerPrefs.SetInt (GetLevelSaveKey (currentSlot), levelIndx + 1);
+		int toSave = levelIndx + 1;
+		if (toSave > AvaliableLevelIndex) {
+			Debug.LogError ("level passed: " + toSave);
+			PlayerPrefs.SetInt (GetLevelSaveKey (currentSlot), toSave);
 		}
 	}
 
-	ILevelSpawner DetermineLvel(){
+	ILevelSpawner DetermineLvel(int levelIndx) {
+		#if UNITY_EDITOR
 		currentLevelIndex = -1;
 		ILevelSpawner spawner;
 		int level = int.Parse (levelInput.text);
@@ -153,15 +171,26 @@ public class Game : MonoBehaviour
 		if (level < 0) {
 			spawner = new EmptyTestSceneSpawner ();
 		} else {
-			currentLevelIndex = level;
-			var lvl = MLevelsResources.Instance.levels [level];
-			spawner = lvl.GetLevel();
-			//testing purposes
-			if (waveNum != 0) {
-				(spawner as LevelSpawner).ForceWaveNum(waveNum);
+			if(level == 0 && waveNum == 0){
+				var lvl = MLevelsResources.Instance.levels [levelIndx];
+				spawner = lvl.GetLevel();
+				return spawner;
+			} else {
+				currentLevelIndex = level;
+				var lvl = MLevelsResources.Instance.levels [level];
+				spawner = lvl.GetLevel();
+				//testing purposes
+				if (waveNum != 0) {
+					(spawner as LevelSpawner).ForceWaveNum(waveNum);
+				}
 			}
-		}
+		} 
 		return spawner;
+		#else
+		var lvl = MLevelsResources.Instance.levels [levelIndx];
+		var spawner = lvl.GetLevel();
+		return spawner;
+		#endif
 	}
 
 	void OnApplicationPause(){

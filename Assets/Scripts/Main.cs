@@ -15,6 +15,8 @@ public class Main : MonoBehaviour
 	[SerializeField] StarsGenerator starsGenerator;
 	[SerializeField] TabletInputController tabletController;
 	[SerializeField] oldGUI oldGUI;
+	[SerializeField] Button pauseBtn;
+	[SerializeField] PauseCanvas pauseUI;
 	[NonSerialized] public UserSpaceShip userSpaceship;
 	[NonSerialized] public List<PolygonGameObject> bullets = new List<PolygonGameObject>();
 	List <PolygonGameObject> gobjects = new List<PolygonGameObject>();
@@ -73,6 +75,19 @@ public class Main : MonoBehaviour
 		} else {
 			moveCameraAction += MoveCameraWarpMode;
 		}
+
+		pauseBtn.onClick.AddListener (() => pauseUI.Show ());
+		pauseUI.OnMenu += PauseUI_OnMenu;
+		pauseUI.OnResume += PauseUI_OnResume;
+	}
+
+	void PauseUI_OnResume ()	{
+		//ui will be closed itself
+		//TODO: resume time with delay
+	}
+
+	void PauseUI_OnMenu ()	{
+		OnQuitToMenu ();
 	}
 
 	public void DisplayPowerup(UserComboPowerup.ProgressColorWrapper powerup) {
@@ -162,7 +177,7 @@ public class Main : MonoBehaviour
 			int count = powerupDrops [i].dropOnWaves.RemoveAll (w => w <= finishedWaveIndex.val);
 			for (int k = 0; k < count; k++) {
 				CometDropWrapper2 wrapper2 = new CometDropWrapper2{ waveIndx = finishedWaveIndex.val, powerup = powerupDrops [i].powerup };
-				wrapper2.dropOnWaveEnemieNumLeft = UnityEngine.Random.Range (2, 6);
+				wrapper2.dropOnWaveEnemieNumLeft = UnityEngine.Random.Range (2, 8);
 				Debug.LogError (wrapper2.powerup.name + " powerup in " + wrapper2.dropOnWaveEnemieNumLeft);
 				powerupDropsLeft.Add (wrapper2);
 			}
@@ -188,6 +203,7 @@ public class Main : MonoBehaviour
 	}
 
 	public event Action OnGameOver;
+	public event Action OnQuitToMenu;
 	public event Action OnLevelCleared;
 
 	private void HandleUserDestroyed() {
@@ -370,7 +386,7 @@ public class Main : MonoBehaviour
 
 	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
 	{
-		new PhExplosion(pos, r, dmgMax, 15f * dmgMax, gobjects, collision);
+		new PhExplosion(pos, r, dmgMax, 22f * dmgMax, gobjects, collision);
 	}
 
 	public IEnumerator Respawn()
@@ -774,7 +790,7 @@ public class Main : MonoBehaviour
 
 		if (
 			(gobject.layerLogic == (int)CollisionLayers.eLayer.TEAM_ENEMIES && (!(gobject is Asteroid))) ||
-			 (gobject.layerLogic == (int)CollisionLayers.eLayer.ASTEROIDS && Math2d.Chance(0.23f))
+			 (gobject.layerLogic == (int)CollisionLayers.eLayer.ASTEROIDS && Math2d.Chance(0.1f))
 		) {
 			for (int i = powerupDropsLeft.Count - 1; i >= 0; i--) {
 				var pup = powerupDropsLeft [i];

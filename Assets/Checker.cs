@@ -18,6 +18,8 @@ public class Checker : MonoBehaviour {
 	[SerializeField] bool assignPowerupsId = false;
 	[SerializeField] bool assignJournalsId = false;
 	[SerializeField] bool assignCometsColors = false;
+
+	[SerializeField] bool checkJournalsId = false;
 	void Update(){
 		if (assignJournalsId) {
 			assignJournalsId = false;
@@ -26,6 +28,11 @@ public class Checker : MonoBehaviour {
 		if (assignPowerupsId) {
 			assignPowerupsId = false;
 			AssignPowerupssId ();
+		}
+
+		if (checkJournalsId) {
+			checkJournalsId = false;
+			CheckJournalsIds ();
 		}
 //		if (assignCometsColors) {
 //			assignCometsColors = false;
@@ -77,7 +84,7 @@ public class Checker : MonoBehaviour {
 		for (int i = 0; i < allSpaceships.Count; i++) {
 			var sp = allSpaceships [i];
 			sp.journal.id = spaceshipsLogsFrom + i;
-			EditorUtility.SetDirty (sp.gameObject);
+			EditorUtility.SetDirty (sp.journal.gameObject);
 		}
 
 		var levels = MLevelsResources.Instance.levels;

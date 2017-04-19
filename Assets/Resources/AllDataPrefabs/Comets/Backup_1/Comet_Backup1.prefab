@@ -62,7 +62,7 @@ MonoBehaviour:
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   id: 141
-  price: 1000
+  price: 1100
   journal: {fileID: 0}
   dropFromEnemies: 0
   dropCountPerLevel: 0

@@ -9,8 +9,6 @@ public class ReplaceDropCollectorEffect : DurationEffect {
 
 	Data data;
 
-	List<ParticleSystem> spawnedEffects = new List<ParticleSystem>();
-
 	public ReplaceDropCollectorEffect(Data data) : base(data) {
 		this.data = data;
 	}

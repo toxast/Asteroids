@@ -23,7 +23,7 @@ public class AimSystem
 		}
 	}
 
-	public AimSystem(Vector2 targetPosition, Vector2 targetSpeed, Vector2 selfPosition, float bulletSpeed)
+	public AimSystem(Vector2 targetPosition, Vector2 targetSpeed, Vector2 selfPosition, float bulletSpeed, float extraDistance = 0)
 	{
         if (bulletSpeed == Mathf.Infinity)
 		{
@@ -34,7 +34,9 @@ public class AimSystem
 		{
 			canShoot = false;
 			Vector2 dist = targetPosition - selfPosition;
-
+			if(extraDistance != 0){
+				dist = dist.normalized * (dist.magnitude + extraDistance);
+			}
 			//Att + Bt + C = 0;
 			float A = targetSpeed.sqrMagnitude - bulletSpeed*bulletSpeed;
 			float B = 2*(targetSpeed.x * dist.x  +  targetSpeed.y * dist.y);

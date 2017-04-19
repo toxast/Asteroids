@@ -80,8 +80,9 @@ MonoBehaviour:
     - {x: 1.0936981, y: 0.3907521}
     - {x: 2.1716938, y: 0.3941798}
     effectData:
-      color: {r: 0.06666667, g: 0.34509805, b: 0.89019614, a: 1}
+      color: {r: 1, g: 0.47586206, b: 0, a: 1}
       overrideEffectsDuration: -1
       effects:
       - {fileID: 114381403804228008, guid: b821ee0266e33f3449e29c69344d8d4a, type: 2}
-    particleSystemColor: {r: 0.06666667, g: 0.34509805, b: 0.89019614, a: 1}
+      - {fileID: 114475704861502076, guid: 7c7efcb9cb251614bb359d7499ad6976, type: 2}
+    particleSystemColor: {r: 1, g: 0.47586206, b: 0, a: 1}

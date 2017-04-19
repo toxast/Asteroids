@@ -75,7 +75,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1464759781176610
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +307,7 @@ MonoBehaviour:
   assignPowerupsId: 0
   assignJournalsId: 0
   assignCometsColors: 0
+  checkJournalsId: 0
 --- !u!114 &114370667914766890
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -54,6 +54,7 @@ public class ShipEditor : MonoBehaviour
 
     bool symmetricState = true;
     [SerializeField] MonoBehaviour prefab;
+	[SerializeField] bool saveToPrefab = false;
 
 	void OnEnable()
 	{
@@ -348,7 +349,7 @@ public class ShipEditor : MonoBehaviour
 //	}
 
 
-    [ContextMenu ("Save into prefab")]
+    //[ContextMenu ("Save into prefab")]
     private void SaveOn()
     {
 		#if UNITY_EDITOR
@@ -657,6 +658,11 @@ public class ShipEditor : MonoBehaviour
 		mesh.colors = c3;
 		mesh.SetIndices (indx, MeshTopology.LineStrip, 0);
 		mesh.RecalculateBounds();
+
+		if (saveToPrefab) {
+			saveToPrefab = false;
+			SaveOn ();
+		}
 	}
 
 

@@ -61,9 +61,9 @@ MonoBehaviour:
   spikeVelocity: 30
   regrowPause:
     min: 0
-    max: 2
+    max: 3
   growSpeed: 0.5
-  overrideSpikeCollisionAttack: 6
+  overrideSpikeCollisionAttack: 2
   chanceShootSpikeAtDeath: 0.6
   color: {r: 0.7469081, g: 0.6607915, b: 0.9264706, a: 1}
   physical:
@@ -73,8 +73,8 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1.5
   speed:
-    min: 12
-    max: 16
+    min: 6
+    max: 9
   rotation:
     min: 60
     max: 90

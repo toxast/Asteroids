@@ -9,55 +9,70 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1516941056774888}
+  m_RootGameObject: {fileID: 1630777779268380}
   m_IsPrefabParent: 1
---- !u!1 &1516941056774888
+--- !u!1 &1630777779268380
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4823665254039810}
-  - component: {fileID: 114381403804228008}
+  - component: {fileID: 4426326966645804}
+  - component: {fileID: 114864734706309220}
   m_Layer: 0
-  m_Name: MExtraGun
+  m_Name: MIceWaveEffect 15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4823665254039810
+--- !u!4 &4426326966645804
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516941056774888}
+  m_GameObject: {fileID: 1630777779268380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5658922, y: 1.5487146, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114381403804228008
+--- !u!114 &114864734706309220
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516941056774888}
+  m_GameObject: {fileID: 1630777779268380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a1f357c76d7ff4d802394b1e42628d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c6b195c5d20d1246ac245a8465497b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    duration: 30
-    guns:
-    - place:
-        pos: {x: 1, y: 0}
+    radius: 100
+    distanceMatters: 0
+    iceData:
+      duration: 15
+      freezeAmount: 20
+    ringEffect:
+      place:
+        pos: {x: 0, y: 0}
         dir: {x: 1, y: 0}
         useAngleForPosition: 0
         range: 0
         angle: 0
-      gun: {fileID: 11421854, guid: d6339c34fa32181429bc7a41148a87bf, type: 2}
+      prefab: {fileID: 198376279772127628, guid: 73aceaae5c18b5e45b79bee4b929f4a7,
+        type: 2}
+      overrideSize: -1
+      overrideDelay: -1
+      overrideDuration: -1
+      zOffset: -3
+      afterlife: 0
+      stopEmission: 1
+      inheritVelocity: 1
+      parentToSplitParts: 0
+      overrideStartColor: 0
+      startColor: {r: 1, g: 1, b: 1, a: 1}

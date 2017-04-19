@@ -154,7 +154,7 @@ MonoBehaviour:
     multiplyMass: 1
     multiplyCollisionAttack: 1
     multiplyThrust: 1.2
-    multiplyMaxSpeed: 1.5
+    multiplyMaxSpeed: 1.6
     multiplyTurnSpeed: 1
     multiplyStability: 1
   shootWhenCharge: 0

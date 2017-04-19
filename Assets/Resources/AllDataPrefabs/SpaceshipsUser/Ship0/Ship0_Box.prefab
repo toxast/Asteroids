@@ -127,7 +127,7 @@ MonoBehaviour:
   - {x: 0.48187643, y: 1.176604}
   - {x: 2.1474977, y: 0.27019304}
   explosionRangeCalculated: 8.09898
-  explosionDamageCalculated: 7.7895017
+  explosionDamageCalculated: 1.9473754
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

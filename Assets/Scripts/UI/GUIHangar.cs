@@ -13,15 +13,15 @@ public class GUIHangar : MonoBehaviour
 	[SerializeField] Image powerupsLock;
 	[SerializeField] UIShip uiShip;
 	[SerializeField] MessageTyper messageText;
+	[SerializeField] LevelSelectUI levelSelect;
 
 	[SerializeField] PriceButton unlockButton;
-	[SerializeField] Button startButton;
 
 	const int UNLOCK_SHIP_ID_POWERUPS = 2;
 
-	public event Action<MSpaceshipData> startTheGame;
+	public event Action<MSpaceshipData, int> startTheGame;
 
-	public MCometData lastBoughtPowerup;
+	[NonSerialized] public MCometData lastBoughtPowerup;
 	ShipUpgradeData currentShipData;
 	IntHashSave shipsSaves;
 	IntHashSave journalSaves;
@@ -32,14 +32,14 @@ public class GUIHangar : MonoBehaviour
 	}
 
 	void Awake() {
-		startButton.onClick.AddListener (FireStartGame);
+		levelSelect.OnStart += LevelSelect_OnStart;
 		GameResources.moneyChanged += GameResources_moneyChanged;
 		unlockButton.clickCallback += UnlockShip;
 		powerupsScroll.OnBought += OnPowerupBought;
 	}
 
-	void FireStartGame() {
-		startTheGame(currentShipData.current);
+	void LevelSelect_OnStart (int levelIndx) {
+		startTheGame(currentShipData.current, levelIndx);
 	}
 
 	public void AnimatePowerupsUnlock(){
@@ -52,11 +52,12 @@ public class GUIHangar : MonoBehaviour
 		powerupsScroll.Init (cometUnlocks);
 	}
 
-	public void Show() {
+	public void Show (int avaliableLevelIndex) {
 		Visible = true;
 		ViewLastBoughtShip ();
 		powerupsScroll.Show ();
 		powerupsLock.gameObject.SetActive (currentShipData.current.id < UNLOCK_SHIP_ID_POWERUPS);
+		levelSelect.Refresh (avaliableLevelIndex, MLevelsResources.Instance.levels.Count);
 	}
 
 	public void Hide(){

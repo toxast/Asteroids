@@ -265,7 +265,9 @@ public class RandomWave : IWaveSpawner{
 			MSpawnBase.PositionData posData;
 			if (item.spawnAtViewEdge) {
 				if (item.overridePositioning) {
-					posData = main.GetEdgePositionData (item.positioning.positionAngle, item.positioning.lookAngle, item.positioning.lookAngleRange); 
+					var iposition = item.positioning;
+					var deltaAngle = new RandomFloat (-iposition.positionAngleRange, iposition.positionAngleRange).RandomValue;
+					posData = main.GetEdgePositionData (iposition.positionAngle + deltaAngle, iposition.lookAngle, iposition.lookAngleRange); 
 				} else {
 					posData = main.GetEdgePositionData (UnityEngine.Random.Range (1, 360)); 
 				}
