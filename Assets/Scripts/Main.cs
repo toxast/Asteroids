@@ -104,6 +104,8 @@ public class Main : MonoBehaviour
 			return;
 		}
 
+		Logger.Log ("StartTheGame " + spaceshipData.name + " comets: " + avaliableComets.Count);
+
 		#if UNITY_STANDALONE
 		if (cursorTexture != null)
 		{
@@ -151,7 +153,7 @@ public class Main : MonoBehaviour
 			dropOnWaves.Sort ();
 			CometDropWrapper wrapper = new CometDropWrapper{ powerup = pdrop, dropOnWaves = dropOnWaves };
 			wrappers.Add (wrapper);
-			Debug.LogError (wrapper.powerup.name + ": " + MyExtensions.FormString (wrapper.dropOnWaves));
+			Logger.Log (wrapper.powerup.name + ": " + MyExtensions.FormString (wrapper.dropOnWaves));
 		}
 		MyExtensions.ClassType<int> helpedHeal = new MyExtensions.ClassType<int> ();
 		helpedHeal.val = 0;
@@ -163,13 +165,17 @@ public class Main : MonoBehaviour
 	List<CometDropWrapper2> powerupDropsLeft = new List<CometDropWrapper2>();
 
 	void HandleWaveFinished(MyExtensions.ClassType<int> finishedWaveIndex, List<CometDropWrapper> powerupDrops, MyExtensions.ClassType<int> helpedHeal) {
-		Debug.LogError ("wave finished " + finishedWaveIndex.val);
+		Logger.Log ("wave finished " + finishedWaveIndex.val);
+		if(userSpaceship != null){
+			Logger.Log ("user health: " + userSpaceship.GetLeftHealthPersentage() * userSpaceship.fullHealth + " " + userSpaceship.GetLeftHealthPersentage());
+			Logger.Log ("money: " + GameResources.money);
+		}
 		if ((helpedHeal.val == 0 || Math2d.Chance(0.3f)) && userSpaceship != null && userSpaceship.GetLeftHealthPersentage () < 0.5f) {
 			var healDrop = powerupDrops.Find (d => d.powerup.powerupData.effectData.effects.Exists (e => e is MHealingEffect));
 			if (healDrop != null && healDrop.dropOnWaves.Count > 0) {
 				healDrop.dropOnWaves [0] = finishedWaveIndex.val;
 				helpedHeal.val = 1;
-				Debug.LogError ("heal help");
+				Logger.Log ("heal help");
 			}
 		}
 
@@ -207,6 +213,7 @@ public class Main : MonoBehaviour
 	public event Action OnLevelCleared;
 
 	private void HandleUserDestroyed() {
+		Logger.Log ("GAME OVER");
 		OnGameOver ();
 	}
 
@@ -359,6 +366,7 @@ public class Main : MonoBehaviour
 					lastBoughtComet = null;
 				}
 				var comet = cometData.GameCreate (userSpaceship.maxSpeed, cometLifeTime);
+				Logger.Log ("spawn comet " + comet.name);
 				var angle = UnityEngine.Random.Range (0, 360);
 				var posData = GetEdgePositionData (angle);
 				comet.position = posData.origin + posData.range * Math2d.RotateVertexDeg (new Vector2 (1, 0), posData.rangeAngle);
@@ -705,6 +713,7 @@ public class Main : MonoBehaviour
 //		}
 
 		if (!Main.IsNull (userSpaceship) && !userSpaceship.IsKilled ()) {
+			Logger.Log ("LEVEL CLEARED");
 			OnLevelCleared ();
 		}
 	}

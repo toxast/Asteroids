@@ -52,4 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 50
-  text: Seems no one waited for us here.  Mostly rocks around.   \n  Angry rocks.
+  entryName: Level 1
+  text: Seems no one waited for us here.  Mostly rocks around.   \n Angry rocks.

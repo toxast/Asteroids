@@ -64,6 +64,7 @@ MonoBehaviour:
   id: 140
   price: 500
   journal: {fileID: 114395553400948598, guid: e62a32d88102b634f9ae5df0b8aa3734, type: 2}
+  shipRestricltion: {fileID: 11480350, guid: d4d883b3ff16b0b4887ce43194b44757, type: 2}
   dropFromEnemies: 0
   dropCountPerLevel: 0
   powerupData:

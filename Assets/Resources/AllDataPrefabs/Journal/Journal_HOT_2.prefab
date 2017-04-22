@@ -52,4 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 102
-  text: 
+  entryName: Heal 3
+  text: Space is a cold place. This doesn't make it any better...    for them.

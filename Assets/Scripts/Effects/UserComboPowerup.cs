@@ -27,11 +27,13 @@ public class UserComboPowerup : IApplyable, IHasDuration
 	}
 
 	public IHasProgress Apply (PolygonGameObject picker) {
+		
 		if (overrideEffectsDuration >= 0) {
 			iduration = overrideEffectsDuration;
 		}
 		IHasProgress progressEffect = null;
 		foreach (var item in effects) {
+			Logger.Log ("apply " + item.name);
 			var effect = item.Apply (picker);
 			if (effect != null && progressEffect == null) {
 				progressEffect = effect;

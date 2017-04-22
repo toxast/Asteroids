@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 51
+  entryName: Level 1 cleared
   text: These strange shiny capsules seem to be attracted to us.   But even if we
-    miss some of them, later they are nowhere to be found.   \n Somehow I feel right
+    miss some of them, later they are nowhere to be found.   \nSomehow I feel right
     about it.

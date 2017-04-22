@@ -11,21 +11,16 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 	float accuracy = 0f;
 	bool turnBehEnabled = true;
 	bool evadeBullets = true;
-	bool isLazerShip = false;
 
-	LazerGun lazerGun = null;
+	Gun mainGun = null;
 	AIHelper.Data tickData = new AIHelper.Data();
 
 	public CommonController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData) : base(thisShip)
 	{
+		mainGun = gun;
 		this.bulletsSpeed = gun.BulletSpeedForAim;
 		this.bullets = bullets;
 		thisShip.StartCoroutine (Logic ());
-
-		if (gun is LazerGun) {
-			isLazerShip = true;
-			lazerGun = gun as LazerGun;
-		}
 
 		accuracy = accData.startingAccuracy;
 		if(accData.isDynamic)
@@ -135,15 +130,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 								behaviourChosen = true;
 								//Debug.LogWarning ("coward action");
 								int turnsTotal = UnityEngine.Random.Range (2, 5);
-								int turns = turnsTotal;
-								while (turns > 0) {
-									turns--;
-									duration = 3f / turnsTotal + UnityEngine.Random.Range (-0.3f, 0.5f);
-									float angle = UnityEngine.Random.Range (120f, 180f);
-									newDir = Math2d.RotateVertexDeg (tickData.dirNorm, tickData.evadeSign * angle);
-									yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
-									tickData.Refresh (thisShip, target);
-								}
+								yield return CowardAction (tickData, turnsTotal);
 							}
 						}
 						lastHasShield = haveShield;
@@ -160,7 +147,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 						}
 					}
 
-					if (turnBehEnabled && !behaviourChosen && timeForTurnAction && !(isLazerShip && lazerGun.IsFiring())) {
+					if (turnBehEnabled && !behaviourChosen && timeForTurnAction && !mainGun.IsFiring()) {
 						behaviourChosen = true;
 						if (tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin) {
 							AIHelper.OutOfComformTurn (thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);

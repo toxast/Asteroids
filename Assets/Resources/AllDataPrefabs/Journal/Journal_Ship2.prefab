@@ -52,4 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 3
-  text: 'We got ourself a shield. It was damaged badly, but the guy got it working. '
+  entryName: Ship 3
+  text: We got ourself a shield. It was damaged badly, but the guy got it working.

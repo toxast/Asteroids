@@ -52,4 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 110
-  text: 'Wow!    What was that? \n I think I saw someone there. '
+  entryName: Sparks 0.
+  text: Wow!    What was that? \nI think I saw someone there.

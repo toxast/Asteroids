@@ -52,4 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 2
-  text: Better dynamics he said, speed is increased he said.   \n I doubt it.
+  entryName: Ship 2
+  text: He said better dynamics, speed is increased he said.   \n

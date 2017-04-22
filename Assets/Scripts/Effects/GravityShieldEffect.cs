@@ -39,6 +39,7 @@ public class GravityShieldEffect : DurationEffect {
 	public override void OnExpired () {
 		foreach (var effect in spawnedEffects) {
 			effect.Stop ();
+			GameObject.Destroy (effect.gameObject, 2f);
 		}
 	}
 

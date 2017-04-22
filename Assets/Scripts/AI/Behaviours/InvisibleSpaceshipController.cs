@@ -23,9 +23,11 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 	float fadeInDuration;
 
     AIHelper.Data tickData = new AIHelper.Data();
+	Gun mainGun;
 
 	public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData, InvisibleData invisData) : base(thisShip)
     {
+		mainGun = gun;
         thisShip.increaceAlphaOnHitAndDropInvisibility = true;
         attackDutation = invisData.attackDutation;
 		invisibleDuration = invisData.invisibleDuration;
@@ -37,13 +39,10 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 		fadeOutAfterHitSpeedPerSecond = fadeOutSpeedPerSecond / 5f;
 		currentfadeOutSpeed = fadeOutSpeedPerSecond;
 
-        this.bulletsSpeed = gun.BulletSpeedForAim;
+		this.bulletsSpeed = mainGun.BulletSpeedForAim;
         this.bullets = bullets;
         thisShip.StartCoroutine (ControlInvisibility ());
         thisShip.StartCoroutine (Logic ());
-
-        if (gun is LazerGun)
-            isLazerShip = true;
 
         accuracy = accData.startingAccuracy;
         if (accData.isDynamic) {
@@ -52,7 +51,7 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 
 		thisShip.StartCoroutine (BehaviourChangeLogic ());
         thisShip.StartCoroutine (BehavioursRandomTiming ());
-        comformDistanceMax = gun.Range;
+		comformDistanceMax = mainGun.Range;
         comformDistanceMin = 30;
 
 		float evadeDuration = (90f / thisShip.originalTurnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.originalMaxSpeed * 0.8f);
@@ -87,7 +86,7 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
     {
         while(true)
         {
-            TickActionVariable(ref timeForTurnAction, ref untilTurn, untilTurnMin, untilTurnMax);
+			TickActionVariable (ref timeForTurnAction, ref untilTurn, untilTurnMin, untilTurnMax);
             TickActionVariable(ref checkBulletsAction, ref untilBulletsEvade, untilBulletsEvadeMin, untilBulletsEvadeMax);
             TickActionVariable(ref checkAccelerationAction, ref untilCheckAcceleration, untilCheckAccelerationMin, untilCheckAccelerationMax);
             yield return null;
@@ -96,6 +95,7 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 
 	bool invisibleBehaviour = true;
 	bool shouldBeInvisible = true;
+	bool disappering = false; 
 
 	private IEnumerator BehaviourChangeLogic()
 	{
@@ -104,15 +104,20 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 			currentfadeOutSpeed = fadeOutSpeedPerSecond;
 			invisibleBehaviour = true;
 			shouldBeInvisible = true;
+			timeForTurnAction = true;
+			disappering = true;
 			yield return new WaitForSeconds (fadeOutDuration);
-			//invisible duration
+			disappering = false;
 			currentfadeOutSpeed = fadeOutAfterHitSpeedPerSecond;
+			//invisible duration
 			yield return new WaitForSeconds (invisibleDuration);
 			//fade in
 			shouldBeInvisible = false;
 			yield return new WaitForSeconds (fadeInDuration);
 			//attack
 			invisibleBehaviour = false;
+			timeForTurnAction = false;
+			untilTurn = new RandomFloat(untilTurnMax * 0.7f, untilTurnMax).RandomValue;
 			yield return new WaitForSeconds (attackDutation);
 		}
 	}
@@ -135,7 +140,7 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
                 if(checkBehTime <= 0)
                 {
                     checkBehTime = checkBehTimeInterval;
-                    comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.7f); // TODO on target change
+                    comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.5f); // TODO on target change
                     tickData.Refresh(thisShip, target);
 		
 					if (invisibleBehaviour) {
@@ -177,21 +182,23 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 						}
 					}
 
-					if(turnBehEnabled && !behaviourChosen && timeForTurnAction && !(isLazerShip && shooting))
-					{
+					if (invisibleBehaviour || (turnBehEnabled && !behaviourChosen && timeForTurnAction && !mainGun.IsFiring())) {
 						behaviourChosen = true;
-						if(tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin)
-						{
-							AIHelper.OutOfComformTurn(thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-							yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration)); 
-						}
-						else
-						{
-							AIHelper.ComfortTurn(comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-							yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration)); 
+						if ( disappering && tickData.distEdge2Edge < (comformDistanceMin + comformDistanceMax) * 0.5f) {
+							disappering = false;
+							yield return CowardAction (tickData, 2, 1f);
+						} else {
+							if (tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin) {
+								AIHelper.OutOfComformTurn (thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+								yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
+							} else {
+								AIHelper.ComfortTurn (comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+								yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
+							}
 						}
 						timeForTurnAction = false;
 					}
+
                 }
 
 				if(!invisibleBehaviour && !behaviourChosen)

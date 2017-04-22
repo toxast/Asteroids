@@ -52,4 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 6
-  text: Bob said I would love the changes.   \n For once he is right.
+  entryName: Ship 6
+  text: Bob said I would love the changes.   \nRockets! I   love   rockets. \nHe is
+    forgiven.

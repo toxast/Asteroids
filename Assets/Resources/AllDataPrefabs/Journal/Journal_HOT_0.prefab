@@ -52,4 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 100
-  text: Our ship is being repaired.     \n Of itself?
+  entryName: Heal 1.
+  text: Our ship is being repaired.     \nOf itself?

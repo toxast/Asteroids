@@ -1,27 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &145136
+--- !u!1 &168982
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 404210}
-  - component: {fileID: 11414980}
+  - component: {fileID: 450510}
+  - component: {fileID: 11411428}
   m_Layer: 0
-  m_Name: gun_backhead
+  m_Name: Gun4_shuriken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &404210
+--- !u!4 &450510
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145136}
+  m_GameObject: {fileID: 168982}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -29,41 +29,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11414980
+--- !u!114 &11411428
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145136}
+  m_GameObject: {fileID: 168982}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 1.6
-  hitDamage: 4
-  lifeTime: 3
-  velocity: 35
-  fireInterval: 2.5
-  repeatCount: 0
-  repeatInterval: 0
+  dps: 0.7142857
+  hitDamage: 0.7
+  lifeTime: 2.3
+  velocity: 30
+  fireInterval: 4
+  repeatCount: 4
+  repeatInterval: 0.3
   physical:
-    density: 2.5
+    density: 0.3
     health: -1
     healthModifier: 1
     collisionDefence: 0
-    collisionAttackModifier: 0.1
+    collisionAttackModifier: 1.5
   deathData:
     destructionType: 3
     createExplosionOnDeath: 0
     instantExplosion: 0
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
-  spreadAngle: 0
+  spreadAngle: 10
   rotation:
-    min: 0
-    max: 0
-  color: {r: 0.97794116, g: 0.057525948, b: 0.057525948, a: 1}
+    min: 360
+    max: 360
+  color: {r: 0.8897059, g: 0.08504539, b: 0.10169379, a: 1}
   burnDOT:
     duration: 0
     dps: 0
@@ -75,17 +75,30 @@ MonoBehaviour:
   effects: []
   destructionEffects: []
   vertices:
-  - {x: 1.038538, y: -0.14999984}
-  - {x: 0.71853787, y: -0.45999998}
-  - {x: -0.011463015, y: -0.58}
-  - {x: -1.1214621, y: -0.49999997}
-  - {x: -0.6214621, y: 0.00000048192317}
-  - {x: -1.1214621, y: 0.5}
-  - {x: -0.011463015, y: 0.58}
-  - {x: 0.71853787, y: 0.46000004}
-  - {x: 1.038538, y: 0.1500002}
-  explosionRangeCalculated: 4.1386952
-  explosionDamageCalculated: 1.2587261
+  - {x: 0.5315073, y: -0.00000007383905}
+  - {x: 0.3000004, y: -0.00000007383905}
+  - {x: 0.00000032139573, y: 0.3}
+  - {x: -0.29999962, y: -0.00000007383905}
+  - {x: 0.00000032139573, y: -0.3}
+  - {x: 0.3000004, y: -0.00000007383905}
+  - {x: 0.5315075, y: -0.00000007383905}
+  - {x: 0.70271873, y: -0.51457447}
+  - {x: 0.9500003, y: -0.80000013}
+  - {x: 0.24364723, y: -0.7036595}
+  - {x: 0.00000032139573, y: -0.53150743}
+  - {x: -0.5145743, y: -0.7027187}
+  - {x: -0.8000002, y: -0.9500002}
+  - {x: -0.7036593, y: -0.24364655}
+  - {x: -0.53150725, y: -0.00000007383905}
+  - {x: -0.7027185, y: 0.5145746}
+  - {x: -0.9499998, y: 0.80000025}
+  - {x: -0.24364625, y: 0.7036596}
+  - {x: 0.00000032139573, y: 0.53150755}
+  - {x: 0.5145745, y: 0.7027188}
+  - {x: 0.7999997, y: 0.95000035}
+  - {x: 0.70365953, y: 0.24364717}
+  explosionRangeCalculated: 3.934208
+  explosionDamageCalculated: 1.2179438
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -95,5 +108,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 145136}
+  m_RootGameObject: {fileID: 168982}
   m_IsPrefabParent: 1

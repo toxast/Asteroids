@@ -6,7 +6,7 @@ using System;
 public class Logger : MonoBehaviour {
 
     public static void Log(string msg) {
-        aux.Singleton<Logger>.Instance.LogInternal(msg);
+		Singleton<Logger>.inst.LogInternal(msg);
     }
 
     StreamWriter file;
@@ -21,7 +21,7 @@ public class Logger : MonoBehaviour {
             }
             file = new StreamWriter(path, true);
         }
-        msg = DateTime.Now.ToShortTimeString() + " " + msg;
+		msg = DateTime.Now.ToLongTimeString() + " " + msg;
         Debug.Log(msg);
         file.WriteLine(msg);
     }

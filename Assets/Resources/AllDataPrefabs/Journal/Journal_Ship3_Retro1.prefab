@@ -52,5 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 5
-  text: 'I''m starting to have a flashbacks. All of them end with a flash of light.
-    The rest is a blur. '
+  entryName: Ship 5
+  text: I'm starting to have a flashbacks. All of them end with a flash of light.
+    The rest is a blur.

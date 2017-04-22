@@ -51,5 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ad6e367ab2f9740920636a83069a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 132
-  text: Collisions heal the ship.    \n Sounds masohistic.
+  id: -3
+  entryName: Gravity Shield 3
+  text: '...'

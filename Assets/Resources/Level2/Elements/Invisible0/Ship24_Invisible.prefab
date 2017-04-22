@@ -54,27 +54,39 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 0
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 2
+  difficulty: 10
+  reward: 30
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  id: -1
   price: -1
-  reward: 0
+  journal: {fileID: 0}
   color: {r: 0.38894895, g: 0.4852941, b: 0.40157348, a: 1}
   physical:
-    density: 1
-    health: 20
+    density: 0.6
+    health: 12
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   mobility:
-    thrust: 45
-    maxSpeed: 20
-    turnSpeed: 220
+    thrust: 15
+    maxSpeed: 22
+    turnSpeed: 150
     brake: 15
     passiveBrake: 2
-    stability: 0.5
+    stability: 1
     shootAngle: 1
   accuracy:
-    startingAccuracy: 0
+    startingAccuracy: 0.4
     thresholdDistance: 10
     isDynamic: 0
     checkDtime: 0.5
@@ -88,55 +100,58 @@ MonoBehaviour:
     rechargeDelayAfterDestory: 1
   guns:
   - place:
-      pos: {x: 1.31, y: 1.13}
+      pos: {x: 2.0655642, y: -0.000000022369328}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     gun: {fileID: 11411428, guid: a06e82c6a1698ed478ee2305086d1c55, type: 2}
-  - place:
-      pos: {x: 1.31, y: -1.13}
-      dir: {x: 1, y: 0}
-    gun: {fileID: 11411428, guid: a06e82c6a1698ed478ee2305086d1c55, type: 2}
-  linkedGuns: 
+  linkedGuns: []
   thrusters:
   - place:
-      pos: {x: -1.23, y: -0.81}
-      dir: {x: 0.93539584, y: -0.35360238}
+      pos: {x: -1.0288416, y: -0.000000005320729}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
     overrideSize: -1
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
-  - place:
-      pos: {x: -1.18, y: 0.73}
-      dir: {x: 0.93539566, y: 0.35360286}
-    prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
-  - {x: 0.2916409, y: -0.3301127}
-  - {x: 1.6356713, y: -0.990338}
-  - {x: 1.6356713, y: -1.3204509}
-  - {x: -0.88733315, y: -1.4855072}
-  - {x: -1.5475588, y: -1.1082357}
-  - {x: -0.79301536, y: -0.5187486}
-  - {x: -0.79301536, y: 0.5187486}
-  - {x: -1.5475588, y: 1.1082357}
-  - {x: -0.88733315, y: 1.4855072}
-  - {x: 1.6356713, y: 1.3204509}
-  - {x: 1.6356713, y: 0.990338}
-  - {x: 0.2916409, y: 0.3301127}
-  upgradeIndex: 0
-  deathData:
-    createExplosionOnDeath: 1
-    instantExplosion: 0
-    destructionType: 0
-    overrideExplosionRange: -1
-    overrideExplosionDamage: -1
+  - {x: 2.1449077, y: -0.6855298}
+  - {x: 1.6529765, y: -0.8569123}
+  - {x: 1.9544826, y: -1.5075309}
+  - {x: 0.7082388, y: -1.8852072}
+  - {x: 0.6120743, y: -2.5421727}
+  - {x: -1.8540163, y: -3.4752555}
+  - {x: -1.2791629, y: -1.6852607}
+  - {x: -2.064507, y: -1.5852876}
+  - {x: -0.759073, y: -0.6188811}
+  - {x: -1.311382, y: -0.42649323}
+  - {x: -1.311382, y: 0.42649323}
+  - {x: -0.759073, y: 0.6188811}
+  - {x: -2.064507, y: 1.5852876}
+  - {x: -1.2791629, y: 1.6852607}
+  - {x: -1.8540163, y: 3.4752555}
+  - {x: 0.6120743, y: 2.5421727}
+  - {x: 0.7082388, y: 1.8852072}
+  - {x: 1.9544826, y: 1.5075309}
+  - {x: 1.6529765, y: 0.8569123}
+  - {x: 2.1449077, y: 0.6855298}
+  explosionRangeCalculated: 12.311438
+  explosionDamageCalculated: 2.5566466
   invisibleData:
     attackDutation: 3
-    invisibleDuration: 3
-    fadeOutDuration: 2
-    fadeInDuration: 0.5
+    invisibleDuration: 4.5
+    fadeOutDuration: 1
+    fadeInDuration: 1.5
   fillFrom: {fileID: 0}

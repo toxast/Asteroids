@@ -64,11 +64,25 @@ public class BaseSpaceshipController : InputController, IGotTarget
 
 	protected IEnumerator SetFlyDir(Vector2 dir, float duration, bool accelerating = true, bool shooting = false)
 	{
+		Debug.LogWarning ("SetFlyDir " + dir + " " + duration);
 		turnDirection = dir;
 		SetAcceleration (accelerating);
 		this.shooting = shooting;
 		duration = Mathf.Max (0, duration);
 		yield return new WaitForSeconds(duration);
+	}
+
+	protected IEnumerator CowardAction(AIHelper.Data tickData, int turnsTotal, float approhimateDuration = 3){
+		Debug.LogError ("coward action " + turnsTotal);
+		int turns = turnsTotal;
+		while (turns > 0) {
+			turns--;
+			float duration = approhimateDuration / turnsTotal + UnityEngine.Random.Range (-0.3f, 0.5f);
+			float angle = UnityEngine.Random.Range (120f, 180f);
+			var newDir = Math2d.RotateVertexDeg (tickData.dirNorm, tickData.evadeSign * angle);
+			yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
+			tickData.Refresh (thisShip, target);
+		}
 	}
 
 	protected void SetAcceleration(bool accelrate)

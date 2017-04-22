@@ -52,9 +52,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 4
-  text: We ll call him "Retro", said Bob. Now it's time to honour a tradition.   \n
-    - You don't mean that one?   \n - Exactly. \n - Not a chance! We might need...\n
-    He pressed the button.   Old ship was torn to pieces by a powerful explosion.   \n
-    ...   \n ...   \n - Was that our fuel that you blew up?  \n - Of course not!     I've
-    overloaded the shield.  \n - You what!?  \n - You ll have a new one in no time.  At
-    least I hope so.
+  entryName: Ship 4
+  text: We ll call him "Retro", said Bob. Now it's time to honour a tradition.   \n-
+    You don't mean that one?   \n- Exactly. \n- Not a chance! We might need...\nHe
+    pressed the button.   Old ship was torn to pieces by a powerful explosion.   \n...   \n...   \n-
+    Was that our fuel that you blew up?  \n- Of course not!     I've overloaded the
+    shield.  \n- You what!?  \n- You ll have a new one in no time.  At least I hope
+    so.

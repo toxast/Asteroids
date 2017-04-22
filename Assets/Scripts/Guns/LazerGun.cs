@@ -120,7 +120,7 @@ public class LazerGun : Gun
 		}
 	}
 
-	public bool IsFiring(){
+	public override bool IsFiring(){
 		return attackLeftDuration > 0;
 	}
 

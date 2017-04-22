@@ -52,4 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 120
-  text: They brought us...  the gun. Lazer gun.
+  entryName: Laser 1
+  text: Caution! Lasers!

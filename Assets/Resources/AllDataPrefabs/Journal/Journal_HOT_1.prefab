@@ -52,5 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 101
-  text: These things...   I will call them "Sparks". \n Looks like they were prisoners.
+  entryName: 'Heal 2 '
+  text: These things...   I will call them "Sparks". \nLooks like they were prisoners.
     They help us and then go.     Home.

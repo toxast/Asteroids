@@ -31,6 +31,13 @@ public class GUIHangar : MonoBehaviour
 		set{canvas.enabled = value;}
 	}
 
+	public bool IsUnlocked(int shipId){
+		if (shipsSaves == null) {
+			return false;
+		}
+		return shipsSaves.Contains (shipId);
+	}
+
 	void Awake() {
 		levelSelect.OnStart += LevelSelect_OnStart;
 		GameResources.moneyChanged += GameResources_moneyChanged;
@@ -55,7 +62,7 @@ public class GUIHangar : MonoBehaviour
 	public void Show (int avaliableLevelIndex) {
 		Visible = true;
 		ViewLastBoughtShip ();
-		powerupsScroll.Show ();
+		powerupsScroll.Refresh ();
 		powerupsLock.gameObject.SetActive (currentShipData.current.id < UNLOCK_SHIP_ID_POWERUPS);
 		levelSelect.Refresh (avaliableLevelIndex, MLevelsResources.Instance.levels.Count);
 	}
@@ -118,6 +125,7 @@ public class GUIHangar : MonoBehaviour
 			return;
 		}
 		if (GameResources.SpendMoney (unlockShip.price)) {
+			Logger.Log ("UNLOCK SHIP" + unlockShip.name + " for " + unlockShip.price);
 			shipsSaves.Add (unlockShip.id);
 			ViewLastBoughtShip ();
 			if (unlockShip.journal != null) {
@@ -126,6 +134,7 @@ public class GUIHangar : MonoBehaviour
 			if (unlockShip.id == UNLOCK_SHIP_ID_POWERUPS) {
 				AnimatePowerupsUnlock ();
 			}
+			powerupsScroll.Refresh ();
 		}
 	}
 

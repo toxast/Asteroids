@@ -37,8 +37,6 @@ public class Game : MonoBehaviour
 		addMoneyEditor.onClick.AddListener (() => GameResources.AddMoney(1000));
 	}
 
-
-
 	void Start() {
 		ToggleUICamera (true);
 		mainMenu.Show ();
@@ -49,6 +47,8 @@ public class Game : MonoBehaviour
 	}
 
 	void LoadGame(string slot) {
+		Logger.Log ("__________________");
+		Logger.Log ("load game " + slot);
 		bool newGame = PlayerPrefs.GetInt (GetGameStartedSaveKey(slot), 0) == 0;
 		PlayerPrefs.SetInt (GetGameStartedSaveKey(slot), 1);
 		currentSlot = slot;
@@ -71,10 +71,11 @@ public class Game : MonoBehaviour
 		hangar.Hide ();
 		ToggleUICamera (false);
 		gameObjects.ForEach (h => h.SetActive (true));
+		Logger.Log("                       ");
+		Logger.Log ("START LEVEL: " + Level);
 		main.StartTheGame (shipData, GetActiveComets(), DetermineLvel(Level), hangar.lastBoughtPowerup);
 		hangar.lastBoughtPowerup = null;
 	}
-
 	 
 	List<MCometData> GetActiveComets() {
 		List<MCometData> powerups = new List<MCometData> ();
@@ -148,6 +149,8 @@ public class Game : MonoBehaviour
 				}
 			}
 		}
+
+		Logger.Log("MONEY: " + GameResources.money);
 	}
 
 	int AvaliableLevelIndex{

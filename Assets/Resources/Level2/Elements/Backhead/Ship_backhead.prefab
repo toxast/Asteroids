@@ -55,7 +55,7 @@ MonoBehaviour:
   journal: {fileID: 0}
   color: {r: 0.04768598, g: 0.46323532, b: 0.32567418, a: 1}
   physical:
-    density: 0.8
+    density: 1.2
     health: 30
     healthModifier: 1
     collisionDefence: 0

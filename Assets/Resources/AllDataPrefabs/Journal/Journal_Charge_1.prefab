@@ -51,5 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ad6e367ab2f9740920636a83069a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 131
-  text: More weight, more speed.     More fun!
+  id: -2
+  entryName: Gravity Shield 2
+  text: '...'

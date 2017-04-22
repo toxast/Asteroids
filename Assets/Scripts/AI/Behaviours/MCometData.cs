@@ -6,20 +6,14 @@ public class MCometData : MSpawnDataBase, IGotShape {
 	public int id;
 	public int price;
 	public MJournalLog journal;
-    //public RandomFloat rotation;
-    //public RandomFloat size;
-    //public PhysicalData physical;
+	public MSpaceshipData shipRestricltion; // not avaliable unlit ship is bought
 
 	[Header ("drop from enemies")]
 	public bool dropFromEnemies = false;
 	public int dropCountPerLevel = 0;
 
 	[Header ("other")]
-//    public float lifeTime;
-    //public Color color;
 	public PowerupData powerupData;
-//	public List<ParticleSystemsData> particles;
-//	public List<ParticleSystemsData> destructionEffects;
 	public Vector2[] iverts {get {return powerupData.verts;} set{powerupData.verts = value;}}
 
 	protected override PolygonGameObject CreateInternal(int layer) {
@@ -32,11 +26,6 @@ public class MCometData : MSpawnDataBase, IGotShape {
 		var spawn = ObjectsCreator.CreateComet(this, new RandomFloat(speed * 0.4f, speed * 0.7f), lifetime);
 		return spawn;
 	}
-
-//	protected void OnValidate () {
-//		particles.SetDefaultValues ();
-//		destructionEffects.SetDefaultValues ();
-//	}
 }
 
 [System.Serializable]

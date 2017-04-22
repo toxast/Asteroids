@@ -36,6 +36,11 @@ public abstract class Gun : IGotTarget, ITickable
 
 	public virtual void OnGunRemoving(){}
 
+	//continious firing
+	public virtual bool IsFiring(){
+		return false;
+	}
+
 	protected PhysicalData ApplyHeavvyBulletModifier(PhysicalData physical) {
 		if (parent.heavyBulletData != null) {
 			var phClone = physical.Clone ();
@@ -71,6 +76,11 @@ public abstract class GunShooterBase : Gun
 			fireEffect = GameObject.Instantiate(pfireEffect) as ParticleSystem;
 			Math2d.PositionOnParent(fireEffect.transform, place, parent.cacheTransform, true, -1);
 		}
+	}
+
+	public override bool IsFiring ()
+	{
+		return repeatCount > 0 && currentRepeat != 0;
 	}
 
 	public override void Tick(float delta) {

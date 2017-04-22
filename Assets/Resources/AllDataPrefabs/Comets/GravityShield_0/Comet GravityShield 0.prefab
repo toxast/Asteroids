@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4765144737268108}
   - component: {fileID: 114935688868597546}
   m_Layer: 0
-  m_Name: Comet GravityShield
+  m_Name: Comet GravityShield 0
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -61,22 +61,12 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
-  id: 9
-  price: 0
-  journal: {fileID: 0}
-  rotation:
-    min: 20
-    max: 40
-  size:
-    min: 1.8
-    max: 1.8
-  physical:
-    density: 3
-    health: 2
-    healthModifier: 1
-    collisionDefence: 0
-    collisionAttackModifier: 1
-  color: {r: 0.7032455, g: 0.022058845, b: 1, a: 1}
+  id: 130
+  price: 500
+  journal: {fileID: 114395553400948598, guid: 2e168da26a149b5489d97d2349bf79a3, type: 2}
+  shipRestricltion: {fileID: 11480350, guid: d4d883b3ff16b0b4887ce43194b44757, type: 2}
+  dropFromEnemies: 0
+  dropCountPerLevel: 0
   powerupData:
     lifeTime: 30
     verts:
@@ -97,39 +87,3 @@ MonoBehaviour:
       effects:
       - {fileID: 114991370844887376, guid: 2da2b8561cc24614381a20aa97629744, type: 2}
     particleSystemColor: {r: 0.7019608, g: 0.023529414, b: 1, a: 1}
-  particles:
-  - place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-      useAngleForPosition: 0
-      range: 0
-      angle: 0
-    prefab: {fileID: 198328997085036626, guid: 72c85ce4b5d5ceb4eb95a4c3ba6cbee4, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
-    afterlife: 1
-    stopEmission: 1
-    inheritVelocity: 1
-    parentToSplitParts: 0
-    overrideStartColor: 0
-    startColor: {r: 1, g: 1, b: 1, a: 1}
-  destructionEffects:
-  - place:
-      pos: {x: 0, y: 0}
-      dir: {x: 1, y: 0}
-      useAngleForPosition: 0
-      range: 0
-      angle: 0
-    prefab: {fileID: 198898463116308176, guid: df4fbbf5af84235478a8fc7da9e00fd4, type: 2}
-    overrideSize: -1
-    overrideDelay: -1
-    overrideDuration: -1
-    zOffset: 1
-    afterlife: 0
-    stopEmission: 1
-    inheritVelocity: 1
-    parentToSplitParts: 0
-    overrideStartColor: 0
-    startColor: {r: 1, g: 1, b: 1, a: 1}

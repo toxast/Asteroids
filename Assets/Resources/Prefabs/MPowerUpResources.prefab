@@ -66,9 +66,9 @@ MonoBehaviour:
     - {fileID: 114935688868597546, guid: 61c063c802f3f8f43b0e3f051d633e42, type: 2}
     - {fileID: 114935688868597546, guid: c8223066e5f2340418bcdfa3a547569a, type: 2}
   - comets:
-    - {fileID: 114935688868597546, guid: 5f77ac7e7aef89744a0e93bfa55da7db, type: 2}
-    - {fileID: 114935688868597546, guid: 7d4aea9b5390b6b4a80c15dd05f90945, type: 2}
-    - {fileID: 114935688868597546, guid: 90aeb307c71c60a458d2b278d13d8d34, type: 2}
+    - {fileID: 114935688868597546, guid: 1daf181abd917a445966edf0e3a8c526, type: 2}
+    - {fileID: 114935688868597546, guid: 98b2ac0fbdf24d7429e9fea400975f6b, type: 2}
+    - {fileID: 114935688868597546, guid: 9a28cfa7ab6c32e49bc3439842b9d22e, type: 2}
   - comets:
     - {fileID: 114935688868597546, guid: 52f8edc3829c2c74ba59912d84d0ef1c, type: 2}
     - {fileID: 114935688868597546, guid: 2f58bf3ae55c64b47a72218c3e088783, type: 2}

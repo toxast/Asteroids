@@ -18,7 +18,8 @@ public class UIPowerupsScroll : MonoBehaviour {
 		this.cometUnlocks = cometUnlocks;
 	}
 
-	public void Show() {
+	public void Refresh() {
+		Clear ();
 		var elemsData = MPowerUpResources.Instance.powerups;
 		for (int i = 0; i < elemsData.Count; i++) {
 			var elem = Instantiate (prefab) as PowerupUI;
@@ -34,54 +35,42 @@ public class UIPowerupsScroll : MonoBehaviour {
 		list.Clear ();
 	}
 
-
-
 	private void UpdateListView() {
 		var elemsData = MPowerUpResources.Instance.powerups;
 		bool previousPowerupUnlocked = true;
 		for (int i = 0; i < list.Count; i++) {
 			var upgradeList = elemsData [i].comets;
 			MCometData lastBoughtUpgrade = null;
+			PowerupUpgradeData pdata = new PowerupUpgradeData ();
 			var lastBoughtUpgradeIndex = upgradeList.FindLastIndex(s => cometUnlocks.Contains(s.id));
 			if (lastBoughtUpgradeIndex >= 0) {
 				lastBoughtUpgrade = upgradeList [lastBoughtUpgradeIndex];
 			}
-			PowerupUpgradeData pdata = new PowerupUpgradeData ();
-			PowerupUI.State state;
+			pdata.previousPowerupBought = previousPowerupUnlocked;
 			if (lastBoughtUpgrade != null) {
-				bool canBeUpgraded = (lastBoughtUpgradeIndex + 1) < upgradeList.Count;
-				state = canBeUpgraded ? PowerupUI.State.CanBeUpgraded : PowerupUI.State.Max;
 				pdata.current = lastBoughtUpgrade;
-				if (canBeUpgraded) {
+				if (lastBoughtUpgradeIndex + 1 < upgradeList.Count) {
 					pdata.next = upgradeList [lastBoughtUpgradeIndex + 1];
 				}
 			} else {
-				if (previousPowerupUnlocked) {
-					//show awaliable
-					pdata.current = upgradeList[0];
-					state = PowerupUI.State.CanUnlock;
-				} else {
-					//display lock
-					pdata.current = upgradeList[0];
-					state = PowerupUI.State.Locked;
-				}
+				pdata.next = upgradeList[0];
 			}
-			list[i].Refresh(pdata, state);
+			pdata.lockedByItem = false;
+			if (pdata.next != null) {
+				var restiction = pdata.next.shipRestricltion;
+				pdata.lockedByItem = restiction != null && !Singleton<GUIHangar>.inst.IsUnlocked (restiction.id);
+			}
+			list[i].Refresh(pdata);
 			previousPowerupUnlocked = lastBoughtUpgrade != null;
 		}
 	}
 
 	void OnElemBuy(PowerupUI elem) {
-		MCometData toUnlock = null;
-		if (elem.state == PowerupUI.State.CanBeUpgraded) {
-			toUnlock = elem.data.next;
-		} else if(elem.state == PowerupUI.State.CanUnlock) {
-			toUnlock = elem.data.current;
-		}
-
+		MCometData toUnlock = elem.data.next;
 		if (toUnlock != null) {
 			int price = toUnlock.price;
 			if (GameResources.SpendMoney (price)) {
+				Logger.Log ("UNLOCK POWERUP" + toUnlock.name + " for " + price);
 				cometUnlocks.Add (toUnlock.id);
 			}
 			UpdateListView ();
@@ -93,5 +82,7 @@ public class UIPowerupsScroll : MonoBehaviour {
 public class PowerupUpgradeData{
 	public MCometData current;
 	public MCometData next;
+	public bool previousPowerupBought;
+	public bool lockedByItem;
 }
 

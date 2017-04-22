@@ -52,4 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 140
-  text: 'It''s a horn! White and silver. Something ancient is engraved on it. '
+  entryName: Backup 1
+  text: It's a horn! White and silver. Something ancient is engraved on it.  \nArmed
+    with magnifying glass Samanta found smallest seams.    Looks like it was broken.

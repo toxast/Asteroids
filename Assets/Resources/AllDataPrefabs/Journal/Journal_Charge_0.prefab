@@ -51,7 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ad6e367ab2f9740920636a83069a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 130
+  id: -1
+  entryName: 
   text: 'I finished systems analysis.\n - "Top velocity is higher, and the ship is
     heavier at the same time".\n - "Also hitting someone head-on won''t damage us".\n
     Samanta glanced at the sample and grinned: "Make sure you won''t be caught up

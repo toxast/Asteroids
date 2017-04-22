@@ -33,6 +33,7 @@ public static class GameResources
 		moneySaveKey = saveKey;
 		var loaded = PlayerPrefs.GetInt (moneySaveKey, 0);
 		AddMoney (loaded);
+		Logger.Log ("money loaded: " + money);
 	}
 
 	public static void AddMoney(int amount)	{

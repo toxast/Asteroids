@@ -52,4 +52,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 122
-  text: Heavy particles?
+  entryName: Laser 3
+  text: I always wanted to see a laser show.
