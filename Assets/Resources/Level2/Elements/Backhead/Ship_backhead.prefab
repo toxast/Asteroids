@@ -44,16 +44,16 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 25
+  difficulty: 20
   reward: 75
   teleportData:
     duration: 1.5
-    ringSize: 10
+    ringSize: 15
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   id: -1
   price: -1
   journal: {fileID: 0}
-  color: {r: 0.04768598, g: 0.46323532, b: 0.32567418, a: 1}
+  color: {r: 0.4705882, g: 0.37241375, b: 0.051903106, a: 1}
   physical:
     density: 1.2
     health: 30

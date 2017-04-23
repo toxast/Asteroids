@@ -106,18 +106,22 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 			shouldBeInvisible = true;
 			timeForTurnAction = true;
 			disappering = true;
+			Debug.LogError ("fade out " + fadeOutDuration);
 			yield return new WaitForSeconds (fadeOutDuration);
 			disappering = false;
 			currentfadeOutSpeed = fadeOutAfterHitSpeedPerSecond;
 			//invisible duration
+			Debug.LogError ("invisibleDuration " + invisibleDuration);
 			yield return new WaitForSeconds (invisibleDuration);
 			//fade in
 			shouldBeInvisible = false;
+			Debug.LogError ("fadeInDuration " + fadeInDuration);
 			yield return new WaitForSeconds (fadeInDuration);
 			//attack
 			invisibleBehaviour = false;
 			timeForTurnAction = false;
 			untilTurn = new RandomFloat(untilTurnMax * 0.7f, untilTurnMax).RandomValue;
+			Debug.LogError ("attackDutation " + attackDutation);
 			yield return new WaitForSeconds (attackDutation);
 		}
 	}

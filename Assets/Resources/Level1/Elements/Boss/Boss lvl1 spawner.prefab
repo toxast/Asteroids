@@ -44,7 +44,7 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 100
+  difficulty: 80
   reward: 300
   teleportData:
     duration: 4
@@ -52,6 +52,7 @@ MonoBehaviour:
     color: {r: 1, g: 0, b: 0.18620682, a: 1}
   id: -1
   price: -1
+  journal: {fileID: 0}
   color: {r: 0.4705882, g: 0.34077075, b: 0.17647058, a: 1}
   physical:
     density: 1.2
@@ -200,7 +201,7 @@ MonoBehaviour:
   - {x: 8.601483, y: 1.6369442}
   - {x: 7.9617586, y: 1.2597119}
   explosionRangeCalculated: 64.86329
-  explosionDamageCalculated: 30.11822
+  explosionDamageCalculated: 7.529555
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

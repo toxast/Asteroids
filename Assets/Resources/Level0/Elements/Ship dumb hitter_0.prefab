@@ -107,7 +107,7 @@ MonoBehaviour:
       useAngleForPosition: 0
       range: 0
       angle: 0
-    prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    prefab: {fileID: 19800000, guid: a933c1b57ee53c0468837d20ee3dbbb5, type: 2}
     overrideSize: -1
     overrideDelay: -1
     overrideDuration: -1
@@ -139,5 +139,5 @@ MonoBehaviour:
   - {x: 0.58822083, y: 0.5040002}
   - {x: 0.98190755, y: 0.30999994}
   explosionRangeCalculated: 6
-  explosionDamageCalculated: 6.409561
+  explosionDamageCalculated: 1.6023903
   fillFrom: {fileID: 0}

@@ -56,7 +56,7 @@ MonoBehaviour:
   editorSpawnLayer: 2
   gameSpawnLayer: 2
   difficulty: 25
-  reward: 75
+  reward: 90
   teleportData:
     duration: 4
     ringSize: 15

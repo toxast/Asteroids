@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 448270}
   - component: {fileID: 114194171828006078}
   m_Layer: 0
-  m_Name: Ship24_Invisible
+  m_Name: Ship0_Invisible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
   editorSpawnLayer: 2
   gameSpawnLayer: 2
   difficulty: 10
-  reward: 30
+  reward: 40
   teleportData:
     duration: 1.5
     ringSize: 10
@@ -67,7 +67,7 @@ MonoBehaviour:
   color: {r: 0.38894895, g: 0.4852941, b: 0.40157348, a: 1}
   physical:
     density: 0.6
-    health: 12
+    health: 6
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -94,13 +94,13 @@ MonoBehaviour:
     sub: 0.4
     bounds: {x: 0, y: 1}
   shield:
-    capacity: 0
-    rechargeRate: 0
-    hitRechargeDelay: 0
-    rechargeDelayAfterDestory: 1
+    capacity: 4
+    rechargeRate: 0.5
+    hitRechargeDelay: 4
+    rechargeDelayAfterDestory: 6
   guns:
   - place:
-      pos: {x: 2.0655642, y: -0.000000022369328}
+      pos: {x: 1.6084301, y: 0.000000029860338}
       dir: {x: 1, y: 0}
       useAngleForPosition: 0
       range: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   linkedGuns: []
   thrusters:
   - place:
-      pos: {x: -1.0288416, y: -0.000000005320729}
+      pos: {x: -0.8011467, y: 0.000000043135877}
       dir: {x: 1, y: 0}
       useAngleForPosition: 0
       range: 0
@@ -127,26 +127,26 @@ MonoBehaviour:
     startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
-  - {x: 2.1449077, y: -0.6855298}
-  - {x: 1.6529765, y: -0.8569123}
-  - {x: 1.9544826, y: -1.5075309}
-  - {x: 0.7082388, y: -1.8852072}
-  - {x: 0.6120743, y: -2.5421727}
-  - {x: -1.8540163, y: -3.4752555}
-  - {x: -1.2791629, y: -1.6852607}
-  - {x: -2.064507, y: -1.5852876}
-  - {x: -0.759073, y: -0.6188811}
-  - {x: -1.311382, y: -0.42649323}
-  - {x: -1.311382, y: 0.42649323}
-  - {x: -0.759073, y: 0.6188811}
-  - {x: -2.064507, y: 1.5852876}
-  - {x: -1.2791629, y: 1.6852607}
-  - {x: -1.8540163, y: 3.4752555}
-  - {x: 0.6120743, y: 2.5421727}
-  - {x: 0.7082388, y: 1.8852072}
-  - {x: 1.9544826, y: 1.5075309}
-  - {x: 1.6529765, y: 0.8569123}
-  - {x: 2.1449077, y: 0.6855298}
+  - {x: 1.6702139, y: -0.53381383}
+  - {x: 1.287153, y: -0.6672673}
+  - {x: 1.5219322, y: -1.1738962}
+  - {x: 0.55149704, y: -1.4679883}
+  - {x: 0.47661492, y: -1.9795594}
+  - {x: -1.4437003, y: -2.7061398}
+  - {x: -0.99606884, y: -1.3122923}
+  - {x: -1.6076069, y: -1.2344445}
+  - {x: -0.59108114, y: -0.48191527}
+  - {x: -1.0211576, y: -0.3321051}
+  - {x: -1.0211576, y: 0.33210522}
+  - {x: -0.59108114, y: 0.48191538}
+  - {x: -1.6076069, y: 1.2344445}
+  - {x: -0.99606884, y: 1.3122923}
+  - {x: -1.4437003, y: 2.7061398}
+  - {x: 0.47661492, y: 1.9795594}
+  - {x: 0.55149704, y: 1.4679883}
+  - {x: 1.5219322, y: 1.1738962}
+  - {x: 1.287153, y: 0.66726744}
+  - {x: 1.6702139, y: 0.53381395}
   explosionRangeCalculated: 12.311438
   explosionDamageCalculated: 2.5566466
   invisibleData:
