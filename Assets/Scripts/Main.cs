@@ -165,11 +165,14 @@ public class Main : MonoBehaviour
 	List<CometDropWrapper2> powerupDropsLeft = new List<CometDropWrapper2>();
 
 	void HandleWaveFinished(MyExtensions.ClassType<int> finishedWaveIndex, List<CometDropWrapper> powerupDrops, MyExtensions.ClassType<int> helpedHeal) {
-		Logger.Log ("wave finished " + finishedWaveIndex.val);
+		
 		if(userSpaceship != null){
-			Logger.Log ("user health: " + userSpaceship.GetLeftHealthPersentage() * userSpaceship.fullHealth + " " + userSpaceship.GetLeftHealthPersentage());
-			Logger.Log ("money: " + GameResources.money);
+			string str = "wave finished " + finishedWaveIndex.val;
+			str += " user health: " + userSpaceship.GetLeftHealthPersentage () * userSpaceship.fullHealth + " " + userSpaceship.GetLeftHealthPersentage ();
+			str += " money: " + GameResources.money;
+			Logger.Log (str);
 		}
+
 		if ((helpedHeal.val == 0 || Math2d.Chance(0.3f)) && userSpaceship != null && userSpaceship.GetLeftHealthPersentage () < 0.5f) {
 			var healDrop = powerupDrops.Find (d => d.powerup.powerupData.effectData.effects.Exists (e => e is MHealingEffect));
 			if (healDrop != null && healDrop.dropOnWaves.Count > 0) {

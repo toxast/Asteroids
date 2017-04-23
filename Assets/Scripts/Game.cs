@@ -72,7 +72,7 @@ public class Game : MonoBehaviour
 		ToggleUICamera (false);
 		gameObjects.ForEach (h => h.SetActive (true));
 		Logger.Log("                       ");
-		Logger.Log ("START LEVEL: " + Level);
+		Logger.Log ("START LEVEL: " + Level + " money: " + GameResources.money);
 		main.StartTheGame (shipData, GetActiveComets(), DetermineLvel(Level), hangar.lastBoughtPowerup);
 		hangar.lastBoughtPowerup = null;
 	}
@@ -166,8 +166,8 @@ public class Game : MonoBehaviour
 	}
 
 	ILevelSpawner DetermineLvel(int levelIndx) {
+		currentLevelIndex = levelIndx;
 		#if UNITY_EDITOR
-		currentLevelIndex = -1;
 		ILevelSpawner spawner;
 		int level = int.Parse (levelInput.text);
 		int waveNum = int.Parse (waveInput.text);

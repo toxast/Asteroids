@@ -11,7 +11,6 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
     float accuracy = 0f;
     bool turnBehEnabled = true;
     bool evadeBullets = true;
-    bool isLazerShip = false;
 
     float attackDutation = 5f;
     float invisibleDuration = 8f;
