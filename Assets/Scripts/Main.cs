@@ -878,11 +878,12 @@ public class Main : MonoBehaviour
         }
     }
 
-    private void ApplyCollisionDmg(PolygonGameObject a, PolygonGameObject b, float impulse) {
+	private void ApplyCollisionDmg(PolygonGameObject a, PolygonGameObject b, float impulse) {
         var dmgAB = GetCollisionDamage(impulse, a, b) * (1f + a.freezeMod);
+		var fullDmg = dmgAB + b.damageOnCollision;
         if (dmgAB != 0) {
             b.OnHit(a, dmgAB); //apply ice/burn effects first. (ice affects destruction)
-            a.Hit(dmgAB);
+			a.Hit(fullDmg);
         }
     }
 
