@@ -38,5 +38,6 @@ public abstract class TickableEffect : ITickable
 		HealOnce,
 		PullDrops,
 		EffectDeathAnimation,
-	}
+        HealOnCollision,
+    }
 }

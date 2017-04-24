@@ -866,15 +866,24 @@ public class Main : MonoBehaviour
         int indxa, indxb;
         if (PolygonCollision.IsCollides(a, b, out indxa, out indxb)) {
             var impulse = PolygonCollision.ApplyCollision(a, b, indxa, indxb);
-			var dmgAB = GetCollisionDamage (impulse, a, b);
-			if (dmgAB != 0) {
-				a.Hit (dmgAB);
-			}
-			var dmgBA = GetCollisionDamage(impulse, b, a);
-			if(dmgBA != 0){
-				b.Hit(dmgBA);
-			}
+            ApplyCollisionDmg(a, b, impulse);
+            ApplyCollisionDmg(b, a, impulse);
         }
+    }
+
+    private void ApplyCollisionDmg(PolygonGameObject a, PolygonGameObject b, float impulse) {
+        var dmgAB = GetCollisionDamage(impulse, a, b) * (1f + a.freezeMod);
+        if (dmgAB != 0) {
+            b.OnHit(a, dmgAB); //apply ice/burn effects first. (ice affects destruction)
+            a.Hit(dmgAB);
+        }
+    }
+
+    static public float GetCollisionDamage(float impulse, PolygonGameObject a, PolygonGameObject from) {
+        var dmg = (Mathf.Abs(impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier) / 100f;
+        dmg = (1f - a.collisionDefence) * (from.collisionAttackModifier * dmg);
+        //Debug.LogError ("collision dmg " + dmg);
+        return dmg;
     }
 
     //TODO: ckecks
@@ -915,8 +924,7 @@ public class Main : MonoBehaviour
             if (PolygonCollision.IsCollides(obj, bullet, out indxa, out indxb)) {
                 var impulse = PolygonCollision.ApplyCollision(obj, bullet, indxa, indxb);
                 if (!bullet.IsKilled()) {
-					bullet.OnHit(obj); //apply ice/burn effects first. (ice affects destruction)
-                    obj.Hit(bullet.damageOnCollision + GetCollisionDamage(impulse, obj, bullet));
+                    ApplyCollisionDmg(obj, bullet, impulse);
                 }
                 if (bullet.destructionType == PolygonGameObject.DestructionType.eSplitlOnlyOnHit) {
                     bullet.destructionType = PolygonGameObject.DestructionType.eComplete;
@@ -1112,12 +1120,7 @@ public class Main : MonoBehaviour
 		gobjects.Add (p);
 	}
 
-	static public float GetCollisionDamage(float impulse, PolygonGameObject a,  PolygonGameObject from) {
-		var dmg = (Mathf.Abs (impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier) / 100f;
-		dmg = (1f - a.collisionDefence) * (from.collisionAttackModifier * dmg);
-		//Debug.LogError ("collision dmg " + dmg);
-		return dmg;
-	}
+	
 
 	private void TickObjects<T>(List<T> list, float dtime)
 		where T: PolygonGameObject

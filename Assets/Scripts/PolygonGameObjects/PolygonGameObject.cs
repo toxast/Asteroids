@@ -151,13 +151,19 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 
 	[NonSerialized] public IceEffect.Data iceEffectData;
 	[NonSerialized] public BurningEffect.Data burnDotData;
-    public virtual void OnHit(PolygonGameObject other) {
+
+    public event Action<PolygonGameObject, float> OnCollision;
+    public virtual void OnHit(PolygonGameObject other, float collisonDmgToBeDealt) {
 		if (burnDotData != null) {
 			other.AddEffect (new BurningEffect (burnDotData));
 		}
 		if (iceEffectData != null) {
 			other.AddEffect (new IceEffect (iceEffectData));
 		}
+
+        if (OnCollision != null) {
+            OnCollision(other, collisonDmgToBeDealt);
+        }
 	}
 
 	[NonSerialized] public HeavyBulletEffect.Data heavyBulletData;
