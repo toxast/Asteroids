@@ -68,7 +68,7 @@ MonoBehaviour:
     overrideExplosionDamage: 3
   mobility:
     thrust: 10
-    maxSpeed: 24
+    maxSpeed: 22
     turnSpeed: 100
     brake: 15
     passiveBrake: 2

@@ -63,7 +63,7 @@ MonoBehaviour:
     min: 0
     max: 3
   growSpeed: 0.5
-  overrideSpikeCollisionAttack: 2
+  overrideSpikeCollisionAttack: 1.5
   chanceShootSpikeAtDeath: 0.6
   color: {r: 0.7469081, g: 0.6607915, b: 0.9264706, a: 1}
   physical:
@@ -71,7 +71,7 @@ MonoBehaviour:
     health: -1
     healthModifier: 0.5
     collisionDefence: 0
-    collisionAttackModifier: 1.5
+    collisionAttackModifier: 1
   speed:
     min: 6
     max: 9

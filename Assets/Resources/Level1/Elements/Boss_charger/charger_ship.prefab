@@ -70,12 +70,12 @@ MonoBehaviour:
     health: 4.5
     healthModifier: -1
     collisionDefence: 0.5
-    collisionAttackModifier: 1
+    collisionAttackModifier: 0.5
   deathData:
     destructionType: 0
     createExplosionOnDeath: 1
     instantExplosion: 0
-    overrideExplosionRange: -1
+    overrideExplosionRange: 7
     overrideExplosionDamage: 1
   mobility:
     thrust: 13
@@ -146,8 +146,8 @@ MonoBehaviour:
   - {x: 1.9990892, y: 0.822507}
   - {x: 1.5740948, y: 0.72868365}
   - {x: 1.701485, y: 0.23317882}
-  explosionRangeCalculated: 11.637076
-  explosionDamageCalculated: 2.4647253
+  explosionRangeCalculated: 7
+  explosionDamageCalculated: 1.7712657
   chargeEffect:
     duration: 5
     overrideDefence: -1

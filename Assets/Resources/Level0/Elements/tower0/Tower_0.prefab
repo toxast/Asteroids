@@ -44,15 +44,15 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 8
-  reward: 24
+  difficulty: 9
+  reward: 32
   teleportData:
     duration: 2
     ringSize: 8
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   physical:
     density: 0.6
-    health: 7
+    health: 6
     healthModifier: -1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -92,12 +92,12 @@ MonoBehaviour:
   - {x: 2.9902427, y: -0.48664165}
   - {x: 1.7563848, y: -0.74000007}
   - {x: 1.5763849, y: -2.07}
-  - {x: 0.36778507, y: -2.7305999}
+  - {x: 0.36778504, y: -2.7305999}
   - {x: -2.3836153, y: -2.44}
   - {x: -1.9036151, y: -1.54}
   - {x: -1.9036151, y: 1.54}
   - {x: -2.3836153, y: 2.44}
-  - {x: 0.36778507, y: 2.7305999}
+  - {x: 0.36778504, y: 2.7305999}
   - {x: 1.5763849, y: 2.07}
   - {x: 1.7563848, y: 0.73999995}
   - {x: 2.9902427, y: 0.4866416}

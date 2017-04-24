@@ -40,19 +40,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 1.1428572
-  hitDamage: 4
+  dps: 0.7825684
+  collisionDmg: 0.34770504
+  hitDamage: 2
   lifeTime: 3
   velocity: 30
-  fireInterval: 3.5
+  fireInterval: 3
   repeatCount: 0
   repeatInterval: 0
   physical:
-    density: 1.5
+    density: 1
     health: -1
     healthModifier: 1
     collisionDefence: 0
-    collisionAttackModifier: 1
+    collisionAttackModifier: 0.8
   deathData:
     destructionType: 3
     createExplosionOnDeath: 0
@@ -77,11 +78,11 @@ MonoBehaviour:
   vertices:
   - {x: 1.038538, y: -0.14999984}
   - {x: 0.71853787, y: -0.45999998}
-  - {x: -0.011463015, y: -0.58}
+  - {x: -0.011463023, y: -0.58}
   - {x: -1.1214621, y: -0.49999997}
-  - {x: -0.6214621, y: 0.00000048192317}
+  - {x: -0.6214621, y: 0.00000048025703}
   - {x: -1.1214621, y: 0.5}
-  - {x: -0.011463015, y: 0.58}
+  - {x: -0.011463023, y: 0.58}
   - {x: 0.71853787, y: 0.46000004}
   - {x: 1.038538, y: 0.1500002}
   explosionRangeCalculated: 4.1386952

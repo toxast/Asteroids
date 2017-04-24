@@ -62,7 +62,7 @@ MonoBehaviour:
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   id: 131
-  price: 600
+  price: 780
   journal: {fileID: 114395553400948598, guid: 0e318d3b4db184e41b830bf4f1e9dceb, type: 2}
   shipRestricltion: {fileID: 0}
   dropFromEnemies: 0

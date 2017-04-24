@@ -54,6 +54,7 @@ MonoBehaviour:
   powerups:
   - comets:
     - {fileID: 114935688868597546, guid: 164284c7e17bb3c4094b0d3942efd747, type: 2}
+    - {fileID: 114935688868597546, guid: 7bc93aac75908c04da644bfc5664d7b2, type: 2}
     - {fileID: 114935688868597546, guid: 461d7b5ac7f84214e9ba33f1eaef0f61, type: 2}
     - {fileID: 114935688868597546, guid: c3d48a77cd40979418a413557eea0198, type: 2}
   - comets:

@@ -70,13 +70,13 @@ MonoBehaviour:
     health: 6
     healthModifier: 1
     collisionDefence: 0
-    collisionAttackModifier: 1
+    collisionAttackModifier: 0.2
   deathData:
     destructionType: 0
     createExplosionOnDeath: 1
     instantExplosion: 0
     overrideExplosionRange: -1
-    overrideExplosionDamage: -1
+    overrideExplosionDamage: 1.6
   mobility:
     thrust: 15
     maxSpeed: 22
@@ -147,11 +147,11 @@ MonoBehaviour:
   - {x: 1.5219322, y: 1.1738962}
   - {x: 1.287153, y: 0.66726744}
   - {x: 1.6702139, y: 0.53381395}
-  explosionRangeCalculated: 12.311438
-  explosionDamageCalculated: 2.5566466
+  explosionRangeCalculated: 9.58677
+  explosionDamageCalculated: 2.1729863
   invisibleData:
-    attackDutation: 3
-    invisibleDuration: 4.5
-    fadeOutDuration: 1
+    attackDutation: 3.5
+    invisibleDuration: 3.7
+    fadeOutDuration: 2.3
     fadeInDuration: 1.5
   fillFrom: {fileID: 0}

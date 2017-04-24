@@ -67,12 +67,12 @@ MonoBehaviour:
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
   mobility:
-    thrust: 23
-    maxSpeed: 27
+    thrust: 18
+    maxSpeed: 24
     turnSpeed: 170
     brake: 14
     passiveBrake: 2
-    stability: 0.4
+    stability: 0.6
     shootAngle: 1
   accuracy:
     startingAccuracy: 0

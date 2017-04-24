@@ -66,17 +66,17 @@ MonoBehaviour:
   journal: {fileID: 0}
   color: {r: 0.59838027, g: 0.6838235, b: 0.40224913, a: 1}
   physical:
-    density: 0.6
+    density: 0.4
     health: 1.5
     healthModifier: 2
     collisionDefence: 0.6
-    collisionAttackModifier: 1.7
+    collisionAttackModifier: 0.7
   deathData:
     destructionType: 0
     createExplosionOnDeath: 1
     instantExplosion: 0
     overrideExplosionRange: 6
-    overrideExplosionDamage: 2
+    overrideExplosionDamage: 1
   mobility:
     thrust: 20
     maxSpeed: 25

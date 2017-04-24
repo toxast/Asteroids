@@ -52,12 +52,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
+    spawnStrategy: 1
     startNextWaveWhenDifficultyLeft: 5
     objects:
     - spawn: {fileID: 11429188, guid: 50bc0fa87704058478edbd3a90b88241, type: 2}
       range:
-        min: 40
-        max: 50
+        min: 30
+        max: 30
       spawnAtViewEdge: 0
       positioning:
         positionAngle: 0

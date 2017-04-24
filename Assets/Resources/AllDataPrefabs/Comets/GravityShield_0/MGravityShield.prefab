@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    duration: 20
+    duration: 25
     range: 18
     force: 50
     distanceMatters: 0

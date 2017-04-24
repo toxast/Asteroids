@@ -41,13 +41,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dps: 0
+  collisionDmg: 0
   bulletSpeed: 15
   fireInterval: 12
   fireEffect: {fileID: 0}
   spawnRef: {fileID: 114913661651274198, guid: 0eafa92842238654aa5ceba6d534c629, type: 2}
-  maxSpawn: 3
+  maxSpawn: 4
   startSpawn: 2
   startSpawnInterval: 6
+  killOnParentDestroyed: 0
+  disableExplosion: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

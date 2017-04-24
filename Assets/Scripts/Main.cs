@@ -148,6 +148,11 @@ public class Main : MonoBehaviour
 			List<int> dropOnWaves = new List<int> ();
 			for (int k = 0; k < pdrop.dropCountPerLevel; k++) {
 				int wave = UnityEngine.Random.Range (2, wavesCount-2);
+				int tries = 3;
+				while (dropOnWaves.Contains (wave) && tries > 0) {
+					wave = UnityEngine.Random.Range (2, wavesCount-2);
+					tries--;
+				}
 				dropOnWaves.Add (wave);
 			}
 			dropOnWaves.Sort ();
@@ -186,7 +191,7 @@ public class Main : MonoBehaviour
 			int count = powerupDrops [i].dropOnWaves.RemoveAll (w => w <= finishedWaveIndex.val);
 			for (int k = 0; k < count; k++) {
 				CometDropWrapper2 wrapper2 = new CometDropWrapper2{ waveIndx = finishedWaveIndex.val, powerup = powerupDrops [i].powerup };
-				wrapper2.dropOnWaveEnemieNumLeft = UnityEngine.Random.Range (2, 8);
+				wrapper2.dropOnWaveEnemieNumLeft = UnityEngine.Random.Range (3, 8);
 				Debug.LogError (wrapper2.powerup.name + " powerup in " + wrapper2.dropOnWaveEnemieNumLeft);
 				powerupDropsLeft.Add (wrapper2);
 			}
@@ -342,7 +347,8 @@ public class Main : MonoBehaviour
 		}
 
 		Debug.LogError ("comet spawn time: " + spawnTime + " life time " + cometLifeTime);
-
+		var comets = avaliablePowerups.FindAll (cmt => cmt.dropFromEnemies == false);
+		List<float> weights = comets.ConvertAll (c => 128f);
 		while (true) {
 			float nextDelta = spawnTime;
 			if (Math2d.Chance (0.25f)) {
@@ -363,11 +369,12 @@ public class Main : MonoBehaviour
 				yield return new WaitForSeconds (nextDelta/2f);
 			}
 
-			var comets = avaliablePowerups.FindAll (cmt => cmt.dropFromEnemies == false);
 			if (!IsNull (userSpaceship) && comets.Count > 0) {
 				MCometData cometData;
 				if (lastBoughtComet == null) {
-					cometData = comets [UnityEngine.Random.Range (0, comets.Count)];
+					int indx = Math2d.Roll (weights);
+					weights [indx] *= 0.5f; 
+					cometData = comets [indx];
 				} else {
 					cometData = lastBoughtComet;
 					lastBoughtComet = null;
@@ -401,7 +408,7 @@ public class Main : MonoBehaviour
 
 	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
 	{
-		new PhExplosion(pos, r, dmgMax, 22f * dmgMax, gobjects, collision);
+		new PhExplosion(pos, r, dmgMax, 14f * dmgMax, gobjects, collision);
 	}
 
 	public IEnumerator Respawn()
@@ -809,7 +816,7 @@ public class Main : MonoBehaviour
 
 		if (
 			(gobject.layerLogic == (int)CollisionLayers.eLayer.TEAM_ENEMIES && (!(gobject is Asteroid))) ||
-			 (gobject.layerLogic == (int)CollisionLayers.eLayer.ASTEROIDS && Math2d.Chance(0.1f))
+			(gobject.layerLogic == (int)CollisionLayers.eLayer.ASTEROIDS && gobject.dropID != null && Math2d.Chance(0.06f))
 		) {
 			for (int i = powerupDropsLeft.Count - 1; i >= 0; i--) {
 				var pup = powerupDropsLeft [i];
@@ -881,7 +888,7 @@ public class Main : MonoBehaviour
 	private void ApplyCollisionDmg(PolygonGameObject a, PolygonGameObject b, float impulse) {
         var dmgAB = GetCollisionDamage(impulse, a, b) * (1f + a.freezeMod);
 		var fullDmg = dmgAB + b.damageOnCollision;
-        if (dmgAB != 0) {
+		if (fullDmg != 0) {
             b.OnHit(a, dmgAB); //apply ice/burn effects first. (ice affects destruction)
 			a.Hit(fullDmg);
         }

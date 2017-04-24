@@ -76,16 +76,20 @@ Burn baby, Burn!
 
 
 100
+Heal 0.
+...
+
+101
 Heal 1.
 Our ship is being repaired.     \n
 Of itself?
 
-101
+102
 Heal 2 
 These things...   I will call them "Sparks". \n
 Looks like they were prisoners. They help us and then go.     Home.
 
-102
+103
 Heal 3
 Space is a cold place. This doesn't make it any better...    for them.
 

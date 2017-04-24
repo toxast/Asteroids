@@ -45,7 +45,7 @@ MonoBehaviour:
   editorSpawnLayer: 2
   gameSpawnLayer: 2
   difficulty: 20
-  reward: 75
+  reward: 80
   teleportData:
     duration: 1.5
     ringSize: 15
@@ -56,7 +56,7 @@ MonoBehaviour:
   color: {r: 0.4705882, g: 0.37241375, b: 0.051903106, a: 1}
   physical:
     density: 1.2
-    health: 30
+    health: 40
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -65,11 +65,11 @@ MonoBehaviour:
     createExplosionOnDeath: 1
     instantExplosion: 0
     overrideExplosionRange: -1
-    overrideExplosionDamage: 3.5
+    overrideExplosionDamage: 2
   mobility:
     thrust: 10
     maxSpeed: 15
-    turnSpeed: 50
+    turnSpeed: 55
     brake: 15
     passiveBrake: 2
     stability: 0.5

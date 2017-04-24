@@ -54,6 +54,7 @@ MonoBehaviour:
   waveData:
     diffucultyAtOnce: 35
     diffucultyTotal: 35
+    overrideDificultyAdds: -1
     differentSpawnsCountRange:
       min: 3
       max: 3
@@ -63,7 +64,7 @@ MonoBehaviour:
     countStrategy: 3
     spawnStrategy: 4
     useDestroyAreaDelay: 1
-    destroyAreaTimeThreshold: 30
+    destroyAreaTimeThreshold: 15
     destroyAreaPersentage: 0.3
     objects:
     - spawn: {fileID: 11429188, guid: 608185eb9f5281d489276a76819a6780, type: 2}

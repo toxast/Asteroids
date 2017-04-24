@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4765144737268108}
   - component: {fileID: 114935688868597546}
   m_Layer: 0
-  m_Name: Comet_extraGun_2
+  m_Name: Comet_HOT_drop_x5
   m_TagString: Untagged
-  m_Icon: {fileID: 7707008975528953803, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -61,29 +61,35 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
-  id: 122
-  price: 1150
-  journal: {fileID: 114395553400948598, guid: 2ee98c0bebe979641a5c91300da7c657, type: 2}
-  shipRestricltion: {fileID: 11451942, guid: 2723a78f2f8424a49b9b2a1f1e5e5c36, type: 2}
-  dropFromEnemies: 0
-  dropCountPerLevel: 0
+  id: 101
+  price: 200
+  journal: {fileID: 114395553400948598, guid: 8299f16224285fb4cbe0a200d1986280, type: 2}
+  shipRestricltion: {fileID: 0}
+  dropFromEnemies: 1
+  dropCountPerLevel: 5
   powerupData:
     lifeTime: 30
     verts:
-    - {x: 2.1716938, y: -0.39417973}
-    - {x: 1.0936981, y: -0.39075205}
-    - {x: 0.3302843, y: -1.2091986}
-    - {x: -0.69801044, y: -1.3266274}
-    - {x: -1.462884, y: -0.7632868}
-    - {x: -1.462884, y: 0.7632868}
-    - {x: -0.69801044, y: 1.3266274}
-    - {x: 0.3302843, y: 1.2091986}
-    - {x: 1.0936981, y: 0.3907521}
-    - {x: 2.1716938, y: 0.3941798}
+    - {x: 2.4224975, y: -1.2857252}
+    - {x: 2.0697782, y: -1.9533725}
+    - {x: -0.07422489, y: -0.20163149}
+    - {x: -1.0485657, y: -0.5634389}
+    - {x: -1.7515514, y: -0.31588656}
+    - {x: -1.9991038, y: 0.5680027}
+    - {x: -1.9848218, y: 1.205926}
+    - {x: -1.5293888, y: 1.1091273}
+    - {x: -1.2818363, y: 0.28871277}
+    - {x: -0.5391789, y: 0.40296772}
+    - {x: -0.37255704, y: 0.8203157}
+    - {x: -0.41381586, y: 1.2392508}
+    - {x: -0.85972774, y: 1.5915368}
+    - {x: -0.73119074, y: 1.9596916}
+    - {x: -0.08057237, y: 1.789896}
+    - {x: 0.24632384, y: 1.0075672}
+    - {x: 0.31138587, y: 0.34266648}
     effectData:
-      color: {r: 1, g: 0.47586206, b: 0, a: 1}
+      color: {r: 0.14117648, g: 0.7960785, b: 0.96470594, a: 1}
       overrideEffectsDuration: -1
       effects:
-      - {fileID: 114381403804228008, guid: b821ee0266e33f3449e29c69344d8d4a, type: 2}
-      - {fileID: 114475704861502076, guid: 7c7efcb9cb251614bb359d7499ad6976, type: 2}
-    particleSystemColor: {r: 1, g: 0.47586206, b: 0, a: 1}
+      - {fileID: 114489954731306090, guid: 13f318fba582b0c48bfa189cccd336a4, type: 2}
+    particleSystemColor: {r: 0.14117648, g: 0.7960785, b: 0.96470594, a: 1}

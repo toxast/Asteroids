@@ -40,20 +40,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 0.60196835
-  collisionDmg: 0.1962302
-  hitDamage: 0.18
+  dps: 0.35828194
+  collisionDmg: 0.058711443
+  hitDamage: 0.21
   lifeTime: 3
   velocity: 27
   fireInterval: 2
-  repeatCount: 3
+  repeatCount: 2
   repeatInterval: 0.25
   physical:
-    density: 1
+    density: 0.5
     health: -1
     healthModifier: 1
     collisionDefence: 0
-    collisionAttackModifier: 1
+    collisionAttackModifier: 0.5
   deathData:
     destructionType: 3
     createExplosionOnDeath: 0

@@ -43,9 +43,9 @@ MonoBehaviour:
   color: {r: 0, g: 0.95862055, b: 1, a: 1}
   asteroidMaterialIndex: 3
   physical:
-    density: 1.2
+    density: 1
     health: -1
-    healthModifier: 1.5
+    healthModifier: 1.4
     collisionDefence: 0.3
     collisionAttackModifier: 0.5
   value: 25
