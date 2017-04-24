@@ -13,7 +13,7 @@ public class LevelSpawner : ILevelSpawner
 	DateTime start;
 	DateTime lastStartWave;
 
-	public Action OnWaveFinished;
+	public Action OnWaveFinished ;
 	public int WavesCount{get{return data.waves.Count;}}
 
 	public LevelSpawner(MLevel.Data data) {
@@ -30,7 +30,7 @@ public class LevelSpawner : ILevelSpawner
 		Debug.LogError ("ForceWaveNum " + pwave);
     }
 
-	public List<MSpawnBase> GetElements (){
+	public List<MSpawnBase> GetElements () {
 		var allelements = new HashSet<MSpawnBase> ();
 		foreach (var item in data.waves) {
 			foreach (var spawn in item.GetElements ()) {
@@ -55,7 +55,7 @@ public class LevelSpawner : ILevelSpawner
 			if (OnWaveFinished != null) {
 				OnWaveFinished ();
 			}
-			Debug.LogError ("finished wave " + waveNum + " in " + (DateTime.Now - lastStartWave).TotalSeconds);
+			Logger.Log("finished wave " + waveNum + " in " + (DateTime.Now - lastStartWave).TotalSeconds);
 			lastStartWave = DateTime.Now;
 			if (deferredWaves.Count > 0) {
 				currentWave = deferredWaves.Pop();
@@ -65,7 +65,7 @@ public class LevelSpawner : ILevelSpawner
 			}
 
 			if (currentWave == null) {
-				Debug.LogError ("finished all in " + (DateTime.Now - start).TotalSeconds);
+				Logger.Log ("finished all in " + (DateTime.Now - start).TotalSeconds);
 			}
 		}
 	}

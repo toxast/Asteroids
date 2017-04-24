@@ -21,7 +21,7 @@ public class GUIHangar : MonoBehaviour
 
 	public event Action<MSpaceshipData, int> startTheGame;
 
-	[NonSerialized] public MCometData lastBoughtPowerup;
+	[NonSerialized] public Queue<MCometData> lastBoughtPowerups = new Queue<MCometData>();
 	ShipUpgradeData currentShipData;
 	IntHashSave shipsSaves;
 	IntHashSave journalSaves;
@@ -114,7 +114,7 @@ public class GUIHangar : MonoBehaviour
 
 	void OnPowerupBought(MCometData comet){
 		if (!comet.dropFromEnemies) {
-			lastBoughtPowerup = comet;
+			lastBoughtPowerups.Enqueue(comet);
 		}
 		ShowMessage (comet.journal);
 	}

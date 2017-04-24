@@ -40,8 +40,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 0.48000002
-  hitDamage: 0.3
+  dps: 0.60196835
+  collisionDmg: 0.1962302
+  hitDamage: 0.18
   lifeTime: 3
   velocity: 27
   fireInterval: 2
@@ -75,12 +76,12 @@ MonoBehaviour:
   effects: []
   destructionEffects: []
   vertices:
-  - {x: 0.3, y: 0.3}
-  - {x: -0.3, y: 0.3}
-  - {x: -0.3, y: -0.3}
-  - {x: 0.3, y: -0.3}
-  explosionRangeCalculated: 1.8000001
-  explosionDamageCalculated: 2.930604
+  - {x: 0.35, y: 0.35}
+  - {x: 0.35, y: -0.35}
+  - {x: -0.35, y: -0.35}
+  - {x: -0.35, y: 0.35}
+  explosionRangeCalculated: 2.1
+  explosionDamageCalculated: 0.8098648
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

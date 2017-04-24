@@ -97,7 +97,7 @@ public class Main : MonoBehaviour
 	}
 
 	ILevelSpawner spawner;
-	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, ILevelSpawner lvlElement, MCometData lastBoughtComet = null)
+	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, ILevelSpawner lvlElement, Queue<MCometData> lastBoughtComets)
 	{
 		if (gameIsOn) {
 			Debug.LogError ("game is on already");
@@ -133,7 +133,7 @@ public class Main : MonoBehaviour
 
 		repositionCoroutine = StartCoroutine(RepositionAll());
 		wrapStarsCoroutine = StartCoroutine(WrapStars());
-		spawnCometsCoroutine = StartCoroutine (SpawnComets(avaliableComets, lastBoughtComet));
+		spawnCometsCoroutine = StartCoroutine (SpawnComets(avaliableComets, lastBoughtComets));
 
 //		powerUpsCreator = new PowerUpsCreator(5f, 10f);
 //		powerUpsCreator.PowerUpCreated += HandlePowerUpCreated;
@@ -317,10 +317,11 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	IEnumerator SpawnComets(List<MCometData> avaliablePowerups,  MCometData lastBoughtComet = null) {
+	IEnumerator SpawnComets(List<MCometData> avaliablePowerups,  Queue<MCometData> lastBoughtComets) {
 		if (avaliablePowerups.Count == 0) {
 			yield break;
 		}
+		MCometData lastBoughtComet = null;
 
 		float spawnTime = 120;//0f;
 		float percentLowerTime = 8f;
@@ -353,6 +354,9 @@ public class Main : MonoBehaviour
 			} 
 			nextDelta = UnityEngine.Random.Range (1f - 0.25f, 1f + 0.25f) * nextDelta;
 
+			if (lastBoughtComets.Count > 0) {
+				lastBoughtComet = lastBoughtComets.Dequeue ();
+			}
 			if (lastBoughtComet == null) {
 				yield return new WaitForSeconds (nextDelta);
 			} else {
@@ -631,20 +635,23 @@ public class Main : MonoBehaviour
     //TODO: unlock ability to increase addMoneyKff (Call it "Businessman")
 	public void AddMoneyOnDropInterated(polygonGO.Drop drop) {
 		var val = (int)(drop.value * addMoneyKff);
-		ShowAddMoney (drop, val);
+		ShowAddMoney (drop, val, true);
     }
 
 	public void AddMoneyOnDropNotInterated(polygonGO.Drop drop) {
 		var val = Mathf.CeilToInt (drop.value * addMoneyNotInteractedKff);
-		ShowAddMoney (drop, val);
+		ShowAddMoney (drop, val, false);
     }
 
-	void ShowAddMoney(polygonGO.Drop drop, int value){
+	void ShowAddMoney(polygonGO.Drop drop, int value, bool picked){
 		if(value == 0) {
 			return;
 		}
 		GameResources.AddMoney(value);
 		int size = Mathf.FloorToInt (14 + 3 * (Mathf.Sqrt (value) / 7f));
+		if (!picked) {
+			size -= 3;
+		}
 		worldtext.ShowText (drop.transform.position, drop.GetColor (), string.Format ("+{0}", value), size);
 	}
 

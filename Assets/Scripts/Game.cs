@@ -57,6 +57,7 @@ public class Game : MonoBehaviour
 		shipsSaves.Load ();
 		cometUnlocks = new IntHashSave(GetCometsSaveKey(currentSlot));
 		cometUnlocks.Load ();
+		cometUnlocks.Add (100);
 		IntHashSave journal = new IntHashSave(GetJournalSaveKey(currentSlot));
 		journal.Load ();
 		hangar.Init (shipsSaves, cometUnlocks, journal);
@@ -64,7 +65,7 @@ public class Game : MonoBehaviour
 		if (newGame) {
 			hangar.ShowStartMessage ();
 		}
-		hangar.lastBoughtPowerup = null;
+		hangar.lastBoughtPowerups.Clear();
 	}
 
 	void HandleStartTheGame (MSpaceshipData shipData, int Level) {
@@ -73,8 +74,8 @@ public class Game : MonoBehaviour
 		gameObjects.ForEach (h => h.SetActive (true));
 		Logger.Log("                       ");
 		Logger.Log ("START LEVEL: " + Level + " money: " + GameResources.money);
-		main.StartTheGame (shipData, GetActiveComets(), DetermineLvel(Level), hangar.lastBoughtPowerup);
-		hangar.lastBoughtPowerup = null;
+		main.StartTheGame (shipData, GetActiveComets(), DetermineLvel(Level), new Queue<MCometData>(hangar.lastBoughtPowerups));
+		hangar.lastBoughtPowerups.Clear();
 	}
 	 
 	List<MCometData> GetActiveComets() {

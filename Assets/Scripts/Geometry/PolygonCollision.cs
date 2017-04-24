@@ -173,6 +173,15 @@ public static class PolygonCollision
 		return j;
 	}
 
+	static public float GetApproximateBulletHitImpulse(MGunData gun){
+		float area;
+		Math2d.GetMassCenter (gun.vertices, out area);
+		var mass = gun.physical.density * area;
+		float j = 1.7f * gun.velocity / ((1f / mass) + 1f); 
+		return j;
+	}
+
+
 	static public void ApplyForce(PolygonGameObject p, Vector2 applyPosition, Vector2 F)
 	{
 //		Polygon a = GetPolygonInGlobalCoordinates(p);

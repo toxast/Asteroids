@@ -100,7 +100,7 @@ public abstract class GunShooterBase : Gun
 		float shootInterval = fireInterval;
 		if (repeatCount > 0) {
 			currentRepeat++;
-			if (currentRepeat >= repeatCount) {
+			if (currentRepeat >= repeatCount + 1) {
 				currentRepeat = 0;
 			}
 			if (currentRepeat != 0) {

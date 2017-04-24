@@ -412,6 +412,10 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 			colors[i].a = a;
 		}
 		mesh.colors = colors;
+
+		if (shield != null) {
+			shield.MultiplyAlpha (a);
+		}
 	}
 
     public float GetAlpha() {

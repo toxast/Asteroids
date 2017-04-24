@@ -82,7 +82,7 @@ public static class AIHelper
 			////Debug.LogWarning("close");
 			angle = -tickData.evadeSign * UnityEngine.Random.Range(80, 100);
 		}
-		float restoreDist =  UnityEngine.Random.Range(20f, 30f);
+		float restoreDist =  UnityEngine.Random.Range(20f, 36f);
 		duration =  restoreDist / ship.originalMaxSpeed;
 		
 		var dirFromTarget =  Math2d.RotateVertexDeg(-tickData.dirNorm, angle);  

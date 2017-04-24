@@ -39,7 +39,7 @@ public class Shield
 			dmg -= deflected;
 			if (shieldGo != null) {
 				if (currentShields <= 0) {
-					SetAlpha (NO_SHIELD_ALPHA);
+					SetAlpha (NO_SHIELD_ALPHA, true);
 				} else if (deflected > 0) {
 					shieldAnimationCoroutine = shieldGo.StartCoroutine (AnimateHit ());
 				}
@@ -55,12 +55,25 @@ public class Shield
 		return dmg;
 	}
 
-	private void SetAlpha(float a)
-	{
-		if (shieldAnimationCoroutine != null) {
+	float currentMultiplyAlpha = 1;
+	float currentShieldAlpha = 0;
+
+	//used for invisible 
+	public void MultiplyAlpha(float a) {
+		currentMultiplyAlpha = a;
+		UpdateAlpha ();
+	}
+
+	void SetAlpha(float a, bool stopCoroutine){
+		currentShieldAlpha = a;
+		if (stopCoroutine && shieldAnimationCoroutine != null) {
 			shieldGo.StopCoroutine (shieldAnimationCoroutine);
 		}
-		shieldGo.SetAlpha(a);
+		UpdateAlpha ();
+	}
+
+	void UpdateAlpha(){
+		shieldGo.SetAlpha(currentMultiplyAlpha * currentShieldAlpha);
 	}
 
 	public void Tick(float delta)
@@ -68,7 +81,7 @@ public class Shield
 		if (time2startShieldRecharge > 0) {
 			time2startShieldRecharge -= delta;
 			if (shieldGo != null && time2startShieldRecharge <= 0) {
-				shieldAnimationCoroutine = shieldGo.StartCoroutine (FadeTo (shieldGo, SHIELD_ALPHA, FADE_FURATION));
+				shieldAnimationCoroutine = shieldGo.StartCoroutine (FadeTo (SHIELD_ALPHA, FADE_FURATION));
 			}
 		}
 		
@@ -82,20 +95,20 @@ public class Shield
 
 	IEnumerator AnimateHit()
 	{
-		shieldGo.SetAlpha(SHIELD_HIT_ALPHA);
-		shieldAnimationCoroutine = shieldGo.StartCoroutine(FadeTo (shieldGo, SHIELD_ALPHA, FADE_FURATION));
+		SetAlpha(SHIELD_HIT_ALPHA, false);
+		shieldAnimationCoroutine = shieldGo.StartCoroutine(FadeTo (SHIELD_ALPHA, FADE_FURATION));
 		yield return shieldAnimationCoroutine;
 	}
 
-	IEnumerator FadeTo(PolygonGameObject p, float alpha, float fadeTime)
+	IEnumerator FadeTo(float alpha, float fadeTime)
 	{
-		float currentAlpha = p.mesh.colors [0].a;
+		float currentAlpha = currentShieldAlpha;
 		bool greater = alpha > currentAlpha;
 		float dAlpha = (alpha - currentAlpha);
 		while (true) {
-			currentAlpha = p.mesh.colors [0].a;
+			currentAlpha = currentShieldAlpha;
 			float newAlpha = Mathf.Clamp (currentAlpha + (Time.deltaTime / fadeTime) * dAlpha, 0f, 1f);
-			p.SetAlpha (newAlpha);
+			SetAlpha (newAlpha, false);
 			if (greater) {
 				if (newAlpha >= alpha)
 					break;
