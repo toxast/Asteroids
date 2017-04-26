@@ -15,12 +15,8 @@ public class StandaloneInputController : InputController
 	public StandaloneInputController()
 	{
 	}
-
-	public void Tick(PolygonGameObject p)
-	{
-		if (hasXboxConnected) {
-
-			bool freeAim = Input.GetButton ("Xbox_RB");
+	/*
+	 * 			bool freeAim = Input.GetButton ("Xbox_RB");
 			accelerateValue01 = 1;
 			float x = Input.GetAxis ("HorizontalGamepad");
 			float y = Input.GetAxis ("VerticalGamepad");
@@ -30,33 +26,37 @@ public class StandaloneInputController : InputController
 			braking = false;
 //			Debug.LogError (x + "  " + y + " " + freeAim);
 			shooting = true;
+	 * */
 
-//			if(Input.GetButton ("Xbox_RB")){
-//				autofireIsOn = !autofireIsOn;
-//			}	
-//			shooting = autofireIsOn ^ Input.GetAxis ("Xbox_RT") > 0.1f;
-//
-//			float min = 0.14f;
-//			float fullAt = 0.7f;
-//			var accelerateAxis = Input.GetAxis ("360RightAnalogY");
-//			accelerating = accelerateAxis > min;
-//			braking = accelerateAxis < -min;
-//			float minAccelerate = 0.3f;
-//			if (accelerating) {
-//				accelerateValue01 = minAccelerate + (1f - minAccelerate) * ((accelerateAxis - min) / (fullAt - min));
-//				accelerateValue01 = Mathf.Clamp01 (accelerateValue01);
-//			} else {
-//				accelerateValue01 = 0;
-//			}
-//
-//			float x = Input.GetAxis ("HorizontalGamepad");
-//			float y = Input.GetAxis ("VerticalGamepad");
-//			turnDirection = new Vector2 (x, y).normalized;
+	public void Tick(PolygonGameObject p)
+	{
+		if (hasXboxConnected) {
+			if(Input.GetButtonDown("Xbox_RB")){
+				autofireIsOn = !autofireIsOn;
+			}	
+			shooting = autofireIsOn ^ Input.GetAxis ("Xbox_RT") > 0.1f;
+
+			float min = 0.14f;
+			float fullAt = 0.7f;
+			var accelerateAxis = Input.GetAxis ("360RightAnalogY");
+			accelerating = accelerateAxis > min;
+			braking = accelerateAxis < -min;
+			float minAccelerate = 0.3f;
+			if (accelerating) {
+				accelerateValue01 = minAccelerate + (1f - minAccelerate) * ((accelerateAxis - min) / (fullAt - min));
+				accelerateValue01 = Mathf.Clamp01 (accelerateValue01);
+			} else {
+				accelerateValue01 = 0;
+			}
+
+			float x = Input.GetAxis ("HorizontalGamepad");
+			float y = Input.GetAxis ("VerticalGamepad");
+			turnDirection = new Vector2 (x, y).normalized;
 		} else {
 			accelerateValue01 = 1;
-//			if(Input.GetButtonDown(KeyCode.R)){
-//				autofireIsOn = !autofireIsOn;
-//			}
+			if(Input.GetKeyDown(KeyCode.R)) {
+				autofireIsOn = !autofireIsOn;
+			}
 			shooting = autofireIsOn ^ Input.GetMouseButton (0);
 			accelerating = Input.GetKey (KeyCode.W);
 			braking = Input.GetKey (KeyCode.S);

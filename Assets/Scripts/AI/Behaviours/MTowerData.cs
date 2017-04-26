@@ -9,6 +9,7 @@ public class MTowerData : MSpawnDataBase, IGotShape, IGotGuns, IGotTurrets
 	public float shootAngle = 20;
 	public float rotationSpeed = 50;
 	public float repeatTargetCheck = 1f;
+	public bool rotateWhileShooting;
 	public AccuracyData accuracy;
 	public ShieldData shield;
 	public DeathData deathData;
@@ -27,3 +28,4 @@ public class MTowerData : MSpawnDataBase, IGotShape, IGotGuns, IGotTurrets
 		return ObjectsCreator.CreateSimpleTower(this, layer);
 	}
 }
+

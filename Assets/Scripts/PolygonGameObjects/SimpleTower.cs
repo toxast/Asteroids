@@ -6,7 +6,7 @@ using System.Linq;
 public class SimpleTower : PolygonGameObject, IFreezble
 {
 	//public static Vector2[] vertices = PolygonCreator.CreateTowerVertices2(1, 6);
-	
+	MTowerData data;
 	private float shootAngle = 20f; //if angle to target bigger than this - dont even try to shoot
 	//private float cannonsRotatingSpeed = 0;
 	
@@ -15,17 +15,17 @@ public class SimpleTower : PolygonGameObject, IFreezble
 	Rotaitor cannonsRotaitor;
 	float accuracy;
 
-	public void InitSimpleTower(PhysicalData physical, float cannonsRotatingSpeed, AccuracyData accData, float shootAngle)
-	{
-		InitPolygonGameObject (physical);
+	public void InitSimpleTower (MTowerData data) {//  PhysicalData physical, float cannonsRotatingSpeed, AccuracyData accData, float shootAngle)
+		this.data = data;
+		InitPolygonGameObject (data.physical);
+		this.shootAngle = data.shootAngle;
 
-		this.shootAngle = shootAngle;
+		accuracy = data.accuracy.startingAccuracy;
+		if (data.accuracy.isDynamic) {
+			StartCoroutine (AccuracyChanger (data.accuracy));
+		}
 
-		accuracy = accData.startingAccuracy;
-		if(accData.isDynamic)
-			StartCoroutine (AccuracyChanger (accData));
-
-		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);
+		cannonsRotaitor = new Rotaitor(cacheTransform, data.rotationSpeed);
 	}
 
 	public override void Freeze(float multipiler){
@@ -36,19 +36,14 @@ public class SimpleTower : PolygonGameObject, IFreezble
 	public override void Tick(float delta)
 	{
 		base.Tick (delta);
-
 		Brake (delta, 4f);
-
 		SlowRotation (delta, 30f);
-
-		RotateCannon(delta);
-
+		if (data.rotateWhileShooting || !guns.Exists (g => g.IsFiring ())) {
+			RotateCannon (delta);
+		}
 		CalculateAim ();
-
 		TickGuns (delta);
-
-		if(!Main.IsNull(target))
-		{
+		if(!Main.IsNull(target)) {
 			bool fastRotation = Mathf.Abs (rotation) > cannonsRotaitor.rotatingSpeed * 1.2f;
 			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < shootAngle || fastRotation) {
 				Shoot ();
@@ -64,14 +59,11 @@ public class SimpleTower : PolygonGameObject, IFreezble
 		
 		var deltaRotation = slowingSpeed * delta;
 		var rotationAbs = Mathf.Abs (rotation);
-		if(rotationAbs > deltaRotation)
-		{
-			rotation = Mathf.Sign(rotation) * (rotationAbs - deltaRotation);
-		}
-		else
-		{
+		if (rotationAbs > deltaRotation) {
+			rotation = Mathf.Sign (rotation) * (rotationAbs - deltaRotation);
+		} else {
 			rotation = 0;
-		}	
+		}
 	}
 
 	private void RotateCannon(float deltaTime)
@@ -145,3 +137,5 @@ public class SimpleTower : PolygonGameObject, IFreezble
 		}
 	}
 }
+
+

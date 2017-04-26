@@ -19,6 +19,8 @@ public class Game : MonoBehaviour
 	[SerializeField] InputField waveInput;
 	[SerializeField] Button addMoneyEditor;
 
+	[SerializeField] MSpaceshipData overrideShipInEditor;
+
 	string currentSlot;
 	int currentLevelIndex;
 	IntHashSave cometUnlocks;
@@ -69,6 +71,11 @@ public class Game : MonoBehaviour
 	}
 
 	void HandleStartTheGame (MSpaceshipData shipData, int Level) {
+		#if UNITY_EDITOR
+		if(overrideShipInEditor != null){
+			shipData = overrideShipInEditor;
+		}
+		#endif
 		hangar.Hide ();
 		ToggleUICamera (false);
 		gameObjects.ForEach (h => h.SetActive (true));
@@ -117,6 +124,11 @@ public class Game : MonoBehaviour
 	}
 
 	void HandleGameOver () {
+		#if UNITY_EDITOR
+		if (currentLevelIndex == -1) {
+			return;
+		}
+		#endif
 		Debug.LogWarning ("GameOver");
 		StartCoroutine (FinishGameIn (3f, false));
 	}
@@ -173,6 +185,7 @@ public class Game : MonoBehaviour
 		int level = int.Parse (levelInput.text);
 		int waveNum = int.Parse (waveInput.text);
 		if (level < 0) {
+			currentLevelIndex = -1;
 			spawner = new EmptyTestSceneSpawner ();
 		} else {
 			if(level == 0 && waveNum == 0){

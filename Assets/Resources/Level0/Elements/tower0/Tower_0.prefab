@@ -44,8 +44,8 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 9
-  reward: 32
+  difficulty: 8
+  reward: 30
   teleportData:
     duration: 2
     ringSize: 8
@@ -60,6 +60,7 @@ MonoBehaviour:
   shootAngle: 20
   rotationSpeed: 40
   repeatTargetCheck: 1
+  rotateWhileShooting: 0
   accuracy:
     startingAccuracy: 0.4
     thresholdDistance: 10

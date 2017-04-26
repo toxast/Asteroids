@@ -210,14 +210,14 @@ public static class AIHelper
 					hasEstimatedPosition = true;
 				} else {
 					float diffDistance = (target.position - estimatedPosition).magnitude;
+
 					if (diffDistance >= data.thresholdDistance) {
 						accuracy -= dtime * data.sub;
 					} else {
 						accuracy += dtime * data.add;
 					}
 					accuracy = Mathf.Clamp (accuracy, data.bounds.x, data.bounds.y);
-					//Debug.LogWarning (diffDistance);
-					//Debug.LogWarning (accuracy);
+					Debug.LogError ("diffDistance " + diffDistance + " accuracy " + accuracy);
 
 					estimatedPosition = target.position + target.velocity * dtime;
 				}

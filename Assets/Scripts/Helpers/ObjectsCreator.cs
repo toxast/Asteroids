@@ -282,6 +282,18 @@ public class ObjectsCreator
 
 	public static SimpleTower CreateSimpleTower(MTowerData data, int layer)
 	{
+		return CreateTower<SimpleTower>(data, layer, (t) => t.InitSimpleTower (data));
+	}
+
+	public static SimpleTowerRotating CreateTowerRotating(MTowerRotatingData data, int layer)
+	{
+		return CreateTower<SimpleTowerRotating>(data, layer, (t) => t.InitTowerRotating (data));
+	}
+
+
+	public static T CreateTower<T>(MTowerData data, int layer, System.Action<T> init)
+		where T:PolygonGameObject
+	{
 		System.Func<Vector3> anglesRestriction = () =>
 		{
 			Vector2 dir = new Vector2(1,0);
@@ -289,8 +301,8 @@ public class ObjectsCreator
 			result.z = 180;
 			return result;
 		}; 
-		var turret = PolygonCreator.CreatePolygonGOByMassCenter<SimpleTower>(data.verts, data.color);
-		turret.InitSimpleTower (data.physical, data.rotationSpeed, data.accuracy, data.shootAngle);
+		var turret = PolygonCreator.CreatePolygonGOByMassCenter<T>(data.verts, data.color);
+		init (turret);
 		turret.SetLayerNum (layer);
 		ApplyDeathData(turret, data.deathData);
 		var guns = new List<Gun> ();
@@ -301,15 +313,12 @@ public class ObjectsCreator
 		turret.SetGuns (guns, data.linkedGuns);
 		turret.targetSystem = new TurretTargetSystem(turret, data.rotationSpeed, anglesRestriction, data.repeatTargetCheck);
 		DeathAnimation.MakeDeathForThatFellaYo (turret);
-
 		if (data.shield != null && data.shield.capacity > 0) {
 			turret.SetShield (data.shield);
 		}
-
 		foreach (var item in data.turrets) {
 			CreateTurret(turret, item);
 		}
-
 		return turret;
 	}
 
@@ -387,17 +396,17 @@ public class ObjectsCreator
 
     #region deprecated
     //this guys are not used currently
-    public static EvadeEnemy CreateEvadeEnemy(List<PolygonGameObject> bullets)
-    {
-        EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
-        enemy.InitEvadeEnemy (new PhysicalData(), bullets);
-        enemy.SetLayerNum (CollisionLayers.ilayerTeamEnemies);
-        enemy.gameObject.name = "evade enemy";
-        DeathAnimation.MakeDeathForThatFellaYo (enemy);
-        //InitGuns (enemy, EvadeEnemy.gunplaces, GunsData.SimpleGun2());
-
-        return enemy;
-    }
+//    public static EvadeEnemy CreateEvadeEnemy(List<PolygonGameObject> bullets)
+//    {
+//        EvadeEnemy enemy = PolygonCreator.CreatePolygonGOByMassCenter<EvadeEnemy>(EvadeEnemy.vertices, Singleton<GlobalConfig>.inst.spaceshipEnemiesColor);
+//        enemy.InitEvadeEnemy (new PhysicalData(), bullets);
+//        enemy.SetLayerNum (CollisionLayers.ilayerTeamEnemies);
+//        enemy.gameObject.name = "evade enemy";
+//        DeathAnimation.MakeDeathForThatFellaYo (enemy);
+//        //InitGuns (enemy, EvadeEnemy.gunplaces, GunsData.SimpleGun2());
+//
+//        return enemy;
+//    }
 
     //this guys are not used currently
     /*public static EvadeEnemy CreateTankEnemy(List<PolygonGameObject> bullets)

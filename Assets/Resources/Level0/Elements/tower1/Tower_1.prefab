@@ -57,9 +57,10 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   color: {r: 0.4852941, g: 0.47210354, b: 0.007136685, a: 1}
-  shootAngle: 40
+  shootAngle: 2
   rotationSpeed: 80
   repeatTargetCheck: 1
+  rotateWhileShooting: 0
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10

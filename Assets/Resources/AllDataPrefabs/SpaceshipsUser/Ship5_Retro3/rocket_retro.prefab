@@ -40,25 +40,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b4a78513600bd4293c806f2d55eb81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 1.1428572
+  dps: 1.0786203
+  collisionDmg: 0.27517137
   hitDamage: 0
   lifeTime: 3.5
-  velocity: 35
+  velocity: 20
   fireInterval: 3.5
   repeatCount: 0
   repeatInterval: 0
   physical:
-    density: 1
+    density: 7
     health: -1
     healthModifier: 1
     collisionDefence: 0
-    collisionAttackModifier: 1
+    collisionAttackModifier: 0.7
   deathData:
     destructionType: 2
     createExplosionOnDeath: 1
     instantExplosion: 1
     overrideExplosionRange: 12
-    overrideExplosionDamage: 4
+    overrideExplosionDamage: 3.5
   spreadAngle: 0
   rotation:
     min: 0
@@ -109,18 +110,18 @@ MonoBehaviour:
     overrideStartColor: 0
     startColor: {r: 1, g: 1, b: 1, a: 1}
   vertices:
-  - {x: 1.2312537, y: 0}
-  - {x: 0.6912538, y: -0.216}
-  - {x: -0.6047463, y: -0.16200002}
-  - {x: -0.9287463, y: -0.37800002}
-  - {x: -0.9287463, y: 0.37800002}
-  - {x: -0.6047463, y: 0.16200002}
-  - {x: 0.6912538, y: 0.216}
+  - {x: 1.1814157, y: 0}
+  - {x: 0.72133327, y: -0.3326573}
+  - {x: -0.66938895, y: -0.22534849}
+  - {x: -1.0170696, y: -0.40562734}
+  - {x: -1.0170696, y: 0.40562734}
+  - {x: -0.66938895, y: 0.22534849}
+  - {x: 0.72133327, y: 0.3326573}
   explosionRangeCalculated: 12
-  explosionDamageCalculated: 10.057679
+  explosionDamageCalculated: 2.5144198
   accuracy: 1
   missleParameters:
-    thrust: 25
+    thrust: 20
     maxSpeed: 40
     turnSpeed: 80
     brake: 8

@@ -45,6 +45,14 @@ public class Rotaitor : IFreezble
 		}
 	}
 
+	public void Rotate(float dtime, bool clockwise){
+		float deltaAngle = dtime * rotatingSpeed;
+		if (clockwise) {
+			deltaAngle = -deltaAngle;
+		}
+		transform.rotation = Quaternion.Euler(transform.eulerAngles + new Vector3(0, 0, deltaAngle));
+	}
+
 	public float DeltaAngle(float toAngle)
 	{
 		return Math2d.DeltaAngleDeg (transform.eulerAngles.z, toAngle);

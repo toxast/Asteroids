@@ -719,7 +719,7 @@ public class Main : MonoBehaviour
     */
 
 	private IEnumerator WaitUntilDropsAreDestroyed() {
-		yield return new WaitForSeconds (9f);
+		yield return new WaitForSeconds (11f);
 //		var localdrops = drops.FindAll (obj => obj is polygonGO.Drop);
 //		while (true) {
 //			if (drops.Exists (d => !IsNull (d))) {
@@ -895,7 +895,7 @@ public class Main : MonoBehaviour
     }
 
     static public float GetCollisionDamage(float impulse, PolygonGameObject a, PolygonGameObject from) {
-        var dmg = (Mathf.Abs(impulse) * Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier) / 100f;
+        var dmg = Mathf.Abs(impulse) * GlobalConfig.DamageFromCollisionsModifier;
         dmg = (1f - a.collisionDefence) * (from.collisionAttackModifier * dmg);
         //Debug.LogError ("collision dmg " + dmg);
         return dmg;
@@ -1052,7 +1052,7 @@ public class Main : MonoBehaviour
 				}
 			}
 
-			if (rewardLeft <= datas [0].value) {
+			if (rewardLeft > 0 && rewardLeft <= datas [0].value) {
 				CreateDrop(datas[0].color, rewardLeft, go.cacheTransform.position, go.polygon.R*0.6f);
 				rewardLeft = 0;
 			}
@@ -1594,7 +1594,6 @@ public class Main : MonoBehaviour
 
 	/*
 	 * checks for log ids, checks for powerups has their own effects (copy error)
-	 * pause 
 	 * FUTURE UPDATES
 	 * 
 	* sky texture?

@@ -586,6 +586,7 @@ public class ShipEditor : MonoBehaviour
 
 		if (shiftVerts) {
 			if (symmetric || symmetricState) {
+				shiftVerts = false;
 				symmetric = false;
 				symmetricState = false;
 			} else {
@@ -595,7 +596,7 @@ public class ShipEditor : MonoBehaviour
 					handles.RemoveAt (handles.Count - 1);
 				}
 				for (int i = 0; i < handles.Count; i++) {
-					handles[i].name = name + " " + i.ToString();
+					handles[i].name = handles[i].name + " " + i.ToString();
 				}
 			}
 		}

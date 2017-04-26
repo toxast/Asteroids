@@ -39,7 +39,7 @@ public class TowerEnemy : PolygonGameObject, IFreezble
 
 	float lastDeltaAngle = 360f;
 	private IEnumerator Aim() {
-		float aimInterval = 0.5f;
+		float aimInterval = 0.1f;
 
 		while (true) {
 			if (!Main.IsNull (target)) {

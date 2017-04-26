@@ -45,15 +45,14 @@ public class MGunData : MGunBaseData, IGotShape {
 	[Space(20)]
 	[SerializeField] float explosionRangeCalculated;
 	[SerializeField] float explosionDamageCalculated;
-	protected virtual float HitDamage ()
-	{
+	protected virtual float HitDamage () {
 		collisionDmg = 0;
 		float totalDamage = hitDamage;
 		float explosionDamage = 0;
 		if (vertices.Length > 2) {
 			float area;
 			Math2d.GetMassCenter (vertices, out area);
-			collisionDmg = physical.collisionAttackModifier * PolygonCollision.GetApproximateBulletHitImpulse(this) *  ( Singleton<GlobalConfig>.inst.DamageFromCollisionsModifier) / 100f;
+			collisionDmg = GlobalConfig.DamageFromCollisionsModifier * physical.collisionAttackModifier * PolygonCollision.GetApproximateBulletHitImpulse(this);
 			explosionRangeCalculated = deathData.overrideExplosionRange >= 0 ? deathData.overrideExplosionRange : DeathAnimation.ExplosionRadius (area);
 			explosionDamageCalculated = DeathAnimation.ExplosionDamage (explosionRangeCalculated);
 		}
