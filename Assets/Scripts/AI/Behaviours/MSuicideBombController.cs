@@ -10,7 +10,6 @@ public class MSuicideBombController : BaseSpaceshipController {
 	MSuicideBombSpaceshipData data;
     float chargeDuration;
     float chargingDist;
-    float accuracy;
     //float explosionRange = 30f;
 	float delayBeforeExplode;
 
@@ -19,7 +18,7 @@ public class MSuicideBombController : BaseSpaceshipController {
 	float untilTurnMax = 4.5f;
 	float untilTurnMin = 2.5f;
 
-	public MSuicideBombController(SpaceShip thisShip, MSuicideBombSpaceshipData data) : base(thisShip) {
+	public MSuicideBombController(SpaceShip thisShip, MSuicideBombSpaceshipData data) : base(thisShip, data.accuracy) {
         if (thisShip.deathAnimation == null) {
             Debug.LogError("MSuicideBombController has to have explosion death");
             //explosionRange = 30f;
@@ -29,11 +28,6 @@ public class MSuicideBombController : BaseSpaceshipController {
 		this.data = data;
 		delayBeforeExplode = data.delayBeforeExplode;
 
-		var accData = data.accuracy;
-        accuracy = accData.startingAccuracy;
-        if (accData.isDynamic) {
-            thisShip.StartCoroutine(AccuracyChanger(accData));
-        }
         thisShip.StartCoroutine(Logic());
 
 		thisShip.StartCoroutine (BehavioursRandomTiming ());
@@ -93,17 +87,6 @@ public class MSuicideBombController : BaseSpaceshipController {
                 Brake();
                 yield return new WaitForSeconds(0.5f);
             }
-        }
-    }
-
-    private IEnumerator AccuracyChanger(AccuracyData data) {
-        Vector2 lastDir = Vector2.one; //just not zero
-        float dtime = data.checkDtime;
-        while (true) {
-            if (!Main.IsNull(target)) {
-                AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, target, data);
-            }
-            yield return new WaitForSeconds(dtime);
         }
     }
 }

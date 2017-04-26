@@ -8,23 +8,18 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 	List<PolygonGameObject> bullets;
 	float bulletsSpeed;
 	float comformDistanceMin, comformDistanceMax;
-	float accuracy = 0f;
 	bool turnBehEnabled = true;
 	bool evadeBullets = true;
 
 	Gun mainGun = null;
 	AIHelper.Data tickData = new AIHelper.Data();
 
-	public CommonController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData) : base(thisShip)
+	public CommonController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData) : base(thisShip, accData)
 	{
 		mainGun = gun;
 		this.bulletsSpeed = gun.BulletSpeedForAim;
 		this.bullets = bullets;
 		thisShip.StartCoroutine (Logic ());
-
-		accuracy = accData.startingAccuracy;
-		if(accData.isDynamic)
-			thisShip.StartCoroutine (AccuracyChanger (accData));
 
 		thisShip.StartCoroutine (BehavioursRandomTiming ());
 		comformDistanceMax = gun.Range;
@@ -189,16 +184,4 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 			}
 		}
 	}
-
-	private IEnumerator AccuracyChanger(AccuracyData data) {
-		Vector2 lastDir = Vector2.one; //just not zero
-		float dtime = data.checkDtime;
-		while (true) {
-			if (!Main.IsNull (target)) {
-				AIHelper.ChangeAccuracy (ref accuracy, ref lastDir, target, data);
-			}
-			yield return new WaitForSeconds (dtime);
-		}
-	}
-
 }

@@ -10,22 +10,17 @@ public class ChargerController : BaseSpaceshipController
 
     float chargeDuration;
     float chargingDist;
-	float accuracy;
 
-	public ChargerController (SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData, MChargerSpaseshipData chData) : base(thisShip)
+	public ChargerController (SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData, MChargerSpaseshipData chData) : base(thisShip, accData)
 	{
 		//logs = true;
 
 		this.chData = chData;
-		accuracy = accData.startingAccuracy;
 		float newMaxSpeed = thisShip.originalMaxSpeed * chData.chargeEffect.multiplyMaxSpeed;
 		float newThrust = thisShip.thrust * chData.chargeEffect.multiplyThrust;
 		chargeDuration = chData.chargeEffect.duration;
 		chargingDist = Math2d.GetDistance (chargeDuration, 0, newMaxSpeed, newThrust);
 		LogWarning ("chargingDist " + chargingDist);
-        if (accData.isDynamic) {
-            thisShip.StartCoroutine(AccuracyChanger(accData));
-        }
         thisShip.StartCoroutine (Logic ());
     }
 
@@ -169,17 +164,5 @@ public class ChargerController : BaseSpaceshipController
         SuicideAim aim = new SuicideAim(targetPos, target.velocity, thisShip.position, thisShip.velocity, thisShip.turnSpeed, accuracy);
         return aim.direction;
     }
-
-	private IEnumerator AccuracyChanger(AccuracyData data)
-	{
-		Vector2 lastDir = Vector2.one; //just not zero
-		float dtime = data.checkDtime;
-		while (true) {
-			if (!Main.IsNull (target)) {
-				AIHelper.ChangeAccuracy (ref accuracy, ref lastDir, target, data);
-			}
-			yield return new WaitForSeconds (dtime);
-		}
-	}
 }
 

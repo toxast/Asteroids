@@ -10,8 +10,6 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 {
 	List<PolygonGameObject> objects;
 	float comformDistanceMin, comformDistanceMax;
-	float accuracy = 0f;
-
 	AIHelper.Data tickData = new AIHelper.Data();
 
 	int maxShieldsCount;
@@ -54,7 +52,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 
 	MEarthSpaceshipData data;
 
-	public EarthSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> objects, MEarthSpaceshipData data) : base(thisShip)
+	public EarthSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> objects, MEarthSpaceshipData data) : base(thisShip, data.accuracy)
 	{
         this.data = data;
 		asteroidsStability = data.asteroidsStability;
@@ -87,14 +85,6 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
             thisShip.StartCoroutine(ShootBrokenObjects());
             thisShip.StartCoroutine(AimBrokenObjects());
         }
-
-        var accData = data.accuracy;
-		accuracy = accData.startingAccuracy;
-		if (accData.isDynamic) {
-			thisShip.StartCoroutine (AccuracyChanger (accData));
-		}
-		
-		//Debug.LogWarning ("EarthShip:  part max speed: " + partMaxSpeed + " rotationSpeed " + rotationSpeed + " force: " + force);
 	}
 
     private IEnumerator LogicShip() {
@@ -378,20 +368,5 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 			yield return new WaitForSeconds(data.collectBrokenObjectsInterval);
 		}
 	}
-
-	private IEnumerator AccuracyChanger(AccuracyData data)
-	{
-		Vector2 lastDir = Vector2.one; //just not zero
-		float dtime = data.checkDtime;
-		while(true)
-		{
-			if(!Main.IsNull(target))
-			{
-				AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, target, data);
-			}
-			yield return new WaitForSeconds(dtime);
-		}
-	}
-
 }
 

@@ -6,7 +6,6 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 
 	//TODO better bound teleport check
 	MFireShip1Data data;
-	float accuracy = 0f;
 
     float force;
     float deltaAngle;
@@ -17,23 +16,16 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 
 	bool shootBeh = false;
 
-	public Fire1SpaceshipController(SpaceShip thisShip, List<PolygonGameObject> objects, MFireShip1Data data) : base(thisShip) {
+	public Fire1SpaceshipController(SpaceShip thisShip, List<PolygonGameObject> objects, MFireShip1Data data) : base(thisShip, data.accuracy) {
         this.data = data;
         force = thisShip.thrust;
         deltaAngle = 360f / data.fireballCount;
-        //comformDistanceMax = data.fireballData.lifeTime
 
 		comformDistanceMax = data.overrideMaxComfortDist > 0 ? data.overrideMaxComfortDist:  data.fireballData.lifeTime * data.fireballData.missleParameters.maxSpeed * 0.7f;
         thisShip.StartCoroutine (LogicShip ());
 		thisShip.StartCoroutine (SpawnFireballs ());
 		thisShip.StartCoroutine (KeepFireballs ());
 		thisShip.StartCoroutine (LogicShoot ());
-
-		var accData = data.accuracy;
-		accuracy = accData.startingAccuracy;
-		if (accData.isDynamic) {
-			thisShip.StartCoroutine (AccuracyChanger (accData));
-		}
 
 		thisShip.OnDestroying += HandleDestroying;
     }
@@ -180,18 +172,6 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 		Singleton<Main>.inst.HandleGunFire (fireball);
 		return fireball;
     }
-
-	private IEnumerator AccuracyChanger(AccuracyData data)
-	{
-		Vector2 lastDir = Vector2.one; //just not zero
-		float dtime = data.checkDtime;
-		while (true) {
-			if (!Main.IsNull (target)) {
-				AIHelper.ChangeAccuracy (ref accuracy, ref lastDir, target, data);
-			}
-			yield return new WaitForSeconds (dtime);
-		}
-	}
 
 	void HandleDestroying() {
 		for (int i = 0; i < fireballs.Count; i++) {

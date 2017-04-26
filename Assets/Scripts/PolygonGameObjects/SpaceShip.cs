@@ -187,7 +187,7 @@ public class SpaceShip : PolygonGameObject , IFreezble
 
 	void InputTick(float delta)
 	{
-		inputController.Tick (this);
+		inputController.Tick (delta);
 		var dir = inputController.turnDirection;
 		bool shooting = inputController.shooting;
 		if (RestrictShootingByFastRotation && Mathf.Abs (rotation) > turnSpeed * 1.2f) {

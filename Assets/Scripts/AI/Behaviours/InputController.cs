@@ -3,7 +3,7 @@ using System.Collections;
 
 public interface InputController : IFreezble
 {
-	void Tick (PolygonGameObject p);
+	void Tick (float delta);
 	Vector2 turnDirection{ get;}
 	bool shooting{get;}
 	bool accelerating{ get;}
@@ -15,7 +15,7 @@ public interface InputController : IFreezble
 public class StaticInputController : InputController
 {
     Vector2 turnDir = Vector2.zero;
-    public void Tick (PolygonGameObject p){}
+    public void Tick (float delta) {}
 	public Vector2 turnDirection{ get { return turnDir; } set { turnDir = value; } }
 	public bool shooting{ get; set; }
 	public bool accelerating{ get; set; }

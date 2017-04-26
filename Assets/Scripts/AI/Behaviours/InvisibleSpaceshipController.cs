@@ -8,7 +8,6 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
     List<PolygonGameObject> bullets;
     float bulletsSpeed;
     float comformDistanceMin, comformDistanceMax;
-    float accuracy = 0f;
     bool turnBehEnabled = true;
     bool evadeBullets = true;
 
@@ -24,7 +23,7 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
     AIHelper.Data tickData = new AIHelper.Data();
 	Gun mainGun;
 
-	public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData, InvisibleData invisData) : base(thisShip)
+	public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData, InvisibleData invisData) : base(thisShip, accData)
     {
 		mainGun = gun;
         thisShip.increaceAlphaOnHitAndDropInvisibility = true;
@@ -42,11 +41,6 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
         this.bullets = bullets;
         thisShip.StartCoroutine (ControlInvisibility ());
         thisShip.StartCoroutine (Logic ());
-
-        accuracy = accData.startingAccuracy;
-        if (accData.isDynamic) {
-            thisShip.StartCoroutine (AccuracyChanger (accData));
-        }
 
 		thisShip.StartCoroutine (BehaviourChangeLogic ());
         thisShip.StartCoroutine (BehavioursRandomTiming ());
@@ -219,19 +213,6 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
             }
         }
     }
-
-    private IEnumerator AccuracyChanger(AccuracyData data)
-    {
-        Vector2 lastDir = Vector2.one; //just not zero
-        float dtime = data.checkDtime;
-        while (true) {
-            if (!Main.IsNull (target)) {
-                AIHelper.ChangeAccuracy (ref accuracy, ref lastDir, target, data);
-            }
-            yield return new WaitForSeconds (dtime);
-        }
-    }
-
 
     private IEnumerator ControlInvisibility()
     {

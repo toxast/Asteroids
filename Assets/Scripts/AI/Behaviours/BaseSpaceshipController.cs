@@ -12,13 +12,15 @@ public class BaseSpaceshipController : InputController, IGotTarget
 	public float accelerateValue01{ get{ return 1f;}} 
 	public bool braking{ get; protected set; }
 	public Vector2 turnDirection{ get; protected set; }
+    AIHelper.AccuracyChangerAdvanced accuracyChanger;
+    protected float accuracy { get { return accuracyChanger.accuracy; } }
 
-	public virtual void Freeze(float m){ }
+    public virtual void Freeze(float m){ }
 
-	public BaseSpaceshipController(SpaceShip thisShip)
-	{
+	public BaseSpaceshipController(SpaceShip thisShip, AccuracyData accuracyData) {
 		this.thisShip = thisShip;
-	}
+        accuracyChanger = new AIHelper.AccuracyChangerAdvanced(accuracyData, thisShip);
+    }
 
 	public void SetTarget(PolygonGameObject target)
 	{
@@ -29,7 +31,9 @@ public class BaseSpaceshipController : InputController, IGotTarget
         defendObject = prnt;
     }
 
-    public void Tick(PolygonGameObject p){}
+    public virtual void Tick(float delta) {
+        accuracyChanger.Tick(delta);
+    }
 
 	protected void Shoot(float accuracy, float bulletsSpeed)
 	{

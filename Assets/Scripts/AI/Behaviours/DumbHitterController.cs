@@ -18,14 +18,9 @@ public class DumbHitterController : BaseSpaceshipController {
     float untilBulletsEvade = 1f;
     float untilBulletsEvadeMax = 3f;
     float untilBulletsEvadeMin = 1f;
-    float accuracy;
 
-    public DumbHitterController(SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData) : base(thisShip) {
+    public DumbHitterController(SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData) : base(thisShip, accData) {
         this.bullets = bullets;
-
-        accuracy = accData.startingAccuracy;
-        if (accData.isDynamic)
-            thisShip.StartCoroutine(AccuracyChanger(accData));
 
         thisShip.StartCoroutine(Logic());
         thisShip.StartCoroutine(BehavioursRandomTiming());
@@ -120,17 +115,6 @@ public class DumbHitterController : BaseSpaceshipController {
                 yield return new WaitForSeconds(0.5f);
                 checkBehTime -= 0.5f;
             }
-        }
-    }
-
-    private IEnumerator AccuracyChanger(AccuracyData data) {
-        Vector2 lastDir = Vector2.one; //just not zero
-        float dtime = data.checkDtime;
-        while (true) {
-            if (!Main.IsNull(target)) {
-                AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, target, data);
-            }
-            yield return new WaitForSeconds(dtime);
         }
     }
 }
