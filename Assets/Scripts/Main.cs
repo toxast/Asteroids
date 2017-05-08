@@ -38,6 +38,7 @@ public class Main : MonoBehaviour
 
 	public List <PolygonGameObject> gObjects{get {return gobjects;}}
 	public List <PolygonGameObject> pBullets{get {return bullets;}}
+	public List <polygonGO.DropBase> pDrops{get {return drops;}}
 
 	[SerializeField] private float starsDensity = 5f;
 
@@ -121,7 +122,7 @@ public class Main : MonoBehaviour
 		
 		starsGenerator.Generate ((int)(starsDensity*(screenBounds.width * screenBounds.height)/2000f) , screenBounds, 30f);
 		
-		CreateSpaceShip (spaceshipData);
+		CreateUserSpaceShip (spaceshipData);
 		userSpaceship.destroyed += HandleUserDestroyed;
 
 		spawner = lvlElement;
@@ -192,7 +193,7 @@ public class Main : MonoBehaviour
 			for (int k = 0; k < count; k++) {
 				CometDropWrapper2 wrapper2 = new CometDropWrapper2{ waveIndx = finishedWaveIndex.val, powerup = powerupDrops [i].powerup };
 				wrapper2.dropOnWaveEnemieNumLeft = UnityEngine.Random.Range (3, 8);
-				Debug.LogError (wrapper2.powerup.name + " powerup in " + wrapper2.dropOnWaveEnemieNumLeft);
+				Debug.Log(wrapper2.powerup.name + " powerup in " + wrapper2.dropOnWaveEnemieNumLeft);
 				powerupDropsLeft.Add (wrapper2);
 			}
 		}
@@ -346,7 +347,7 @@ public class Main : MonoBehaviour
 			percentIncTime = percentIncTime * (1f - percentIncTime / 40f);
 		}
 
-		Debug.LogError ("comet spawn time: " + spawnTime + " life time " + cometLifeTime);
+		Debug.Log("comet spawn time: " + spawnTime + " life time " + cometLifeTime);
 		var comets = avaliablePowerups.FindAll (cmt => cmt.dropFromEnemies == false);
 		List<float> weights = comets.ConvertAll (c => 128f);
 		while (true) {
@@ -821,7 +822,7 @@ public class Main : MonoBehaviour
 			for (int i = powerupDropsLeft.Count - 1; i >= 0; i--) {
 				var pup = powerupDropsLeft [i];
 				pup.dropOnWaveEnemieNumLeft--;
-				Debug.LogError(pup.powerup.name + " " + pup.dropOnWaveEnemieNumLeft);
+				Debug.Log(pup.powerup.name + " " + pup.dropOnWaveEnemieNumLeft);
 				if (pup.dropOnWaveEnemieNumLeft <= 0) {
 					powerupDropsLeft.RemoveAt(i);
 					CreatePowerUp (pup.powerup.powerupData, (Vector3)gobject.position + new Vector3(0,0,1), gobject.velocity);
@@ -886,7 +887,7 @@ public class Main : MonoBehaviour
     }
 
 	private void ApplyCollisionDmg(PolygonGameObject a, PolygonGameObject b, float impulse) {
-        var dmgAB = GetCollisionDamage(impulse, a, b) * (1f + a.freezeMod);
+        var dmgAB = GetCollisionDamage(impulse, a, b) * (2f - a.freezeMod);
 		var fullDmg = dmgAB + b.damageOnCollision;
 		if (fullDmg != 0) {
             b.OnHit(a, dmgAB); //apply ice/burn effects first. (ice affects destruction)
@@ -1326,16 +1327,8 @@ public class Main : MonoBehaviour
 	}
 
 
-	public void CreateSpaceShip(MSpaceshipData data)
-	{
-		InputController controller = null; 
-		#if UNITY_STANDALONE
-		controller = new StandaloneInputController();
-		#else
-		tabletController.Init();
-		controller = tabletController;
-		#endif
-		userSpaceship = ObjectsCreator.CreateSpaceShip (controller, data);
+	public void CreateUserSpaceShip(MSpaceshipData data) {
+		userSpaceship = ObjectsCreator.CreateUserSpaceShip (data, Singleton<Game>.inst.UseAiForUser());
 		Add2Objects(userSpaceship);
 		userSpaceship.cacheTransform.position = cameraTransform.position.SetZ (0);
 	}

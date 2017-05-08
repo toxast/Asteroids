@@ -53,11 +53,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveData:
     diffucultyAtOnce: 15
-    diffucultyTotal: 15
+    diffucultyTotal: 30
     overrideDificultyAdds: -1
     differentSpawnsCountRange:
       min: 1
-      max: 3
+      max: 2
     chooseNewObjectsEachTime: 1
     overrideSpawnTime: -1
     startNextWaveWhenDifficultyLeft: 0
@@ -79,7 +79,8 @@ MonoBehaviour:
         positionAngleRange: 0
         lookAngle: 0
         lookAngleRange: 0
-    - spawn: {fileID: 11409610, guid: 22a3936c87e57d54bb1be51fd2febcfb, type: 2}
+    - spawn: {fileID: 114018212185065258, guid: 87adfcec0aeda6146b1e55f655ae7205,
+        type: 2}
       range:
         min: 40
         max: 60
@@ -89,6 +90,6 @@ MonoBehaviour:
       positioning:
         positionAngle: 0
         positionAngleRange: 360
-        lookAngle: 0
-        lookAngleRange: 180
+        lookAngle: 90
+        lookAngleRange: 30
   createDefWaveEditor: 0

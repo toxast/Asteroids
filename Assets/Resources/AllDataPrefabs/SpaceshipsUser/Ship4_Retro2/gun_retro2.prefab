@@ -41,9 +41,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dps: 4.9027853
-  collisionDmg: 0.34750414
+  collisionDmg: 0.34750417
+  estimateRange: 77
   hitDamage: 2.3
-  lifeTime: 2.3
+  lifeTime: 2.2
   velocity: 35
   fireInterval: 0.54
   repeatCount: 0

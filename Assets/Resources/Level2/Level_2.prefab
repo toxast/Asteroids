@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1908703360595952}
+  m_IsPrefabParent: 1
+--- !u!1 &1908703360595952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4292783225170616}
+  - component: {fileID: 114579945728572404}
+  m_Layer: 0
+  m_Name: Level_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4292783225170616
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1908703360595952}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114579945728572404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1908703360595952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a588f2a546b6bca4492c79c23395b9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    waves:
+    - {fileID: 114664566910631732, guid: ad455efe80792494ba87ba0770455d1e, type: 2}
+    - {fileID: 114664566910631732, guid: 825434c78bbda2a42a26467be6a06365, type: 2}
+    - {fileID: 114664566910631732, guid: d03b1d7451037c94284d1c6f3ceb9ceb, type: 2}
+    - {fileID: 114664566910631732, guid: 4b92b57ef88421d4e830f02e91fa124c, type: 2}
+    - {fileID: 114664566910631732, guid: d67d061eebf5d1c4c8b78b8ac2144ab8, type: 2}
+    - {fileID: 114772783378911896, guid: 0d2db7d7e41856641a5421f4ae2d68e3, type: 2}
+    - {fileID: 114664566910631732, guid: 18048bfd1fa43ee4db573b2f4b4c97e7, type: 2}
+    - {fileID: 114664566910631732, guid: b17ea1cb56bc4504386260a9eae7579d, type: 2}
+    - {fileID: 114772783378911896, guid: bb1835310e5c4b74b937a3901c4a3aaf, type: 2}
+  journal: {fileID: 114395553400948598, guid: 0b01e2415974a6f48a38f76d96dd0082, type: 2}
+  journalFinish: {fileID: 114395553400948598, guid: de85dee667fefd44b8688f9dc074866c,
+    type: 2}
+  levelDifficulty: 463
+  insertWave: 0
+  removeWave: 0
+  index: 8

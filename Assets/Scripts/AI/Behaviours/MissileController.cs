@@ -27,7 +27,7 @@ public class MissileController : InputController, IGotTarget
 		this.target = target;
 	}
 
-	public void Tick(PolygonGameObject p)
+	public void Tick(float delta)
 	{
 		shooting = false;
 		accelerating = true;

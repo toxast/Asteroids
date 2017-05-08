@@ -10,12 +10,14 @@ public class MSpikyData : MSpawnDataBase
 	public float overrideSpikeCollisionAttack = -1;
 	public float chanceShootSpikeAtDeath = 0.5f;
 	public Color color = new Color (0.5f, 0.5f, 0.5f);
+	public float thrust;
 	public PhysicalData physical;
 	public RandomFloat speed;
 	public RandomFloat rotation;
 	public RandomFloat size;
 	public RandomFloat spikeSize;
 	public RandomInt spikesCount;
+
 
 	protected override PolygonGameObject CreateInternal(int layer)
 	{

@@ -30,7 +30,7 @@ public class PowerupUI : MonoBehaviour
 			var current = data.current;
 			var next = data.next;
 			var main = current != null ? current : next;
-			label.text = main.name;
+			label.text = main.journal.entryName;
 
 			if (!data.lockedByItem) {
 				lockedByItemingicator.SetActive (false);

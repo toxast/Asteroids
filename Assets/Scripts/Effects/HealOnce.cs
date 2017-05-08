@@ -52,8 +52,6 @@ public class HealOnCollision : DurationEffect {
 
     Data data;
 
-    List<ParticleSystem> spawnedEffects = new List<ParticleSystem>();
-
     public HealOnCollision(Data data) : base(data) {
         this.data = data;
     }

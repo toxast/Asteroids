@@ -34,6 +34,11 @@ public class MGunData : MGunBaseData, IGotShape {
 		return (HitDamage() + BurnDamage())/TotalInterval();
 	}
 
+	protected override float CalculateRange ()
+	{
+		return velocity * lifeTime;
+	}
+
 	protected float TotalInterval(){
 		float totalInterval = fireInterval;
 		if (repeatCount > 0) {

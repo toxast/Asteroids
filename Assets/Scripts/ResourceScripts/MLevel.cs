@@ -15,11 +15,19 @@ public class MLevel : MonoBehaviour
 	[SerializeField] public MJournalLog journalFinish;
 
 	[Header("edit helper")]
+	[SerializeField] int levelDifficulty = 0; 
 	[SerializeField] bool insertWave = false;
 	[SerializeField] bool removeWave = false;
 	[SerializeField] int index = 0;
 //	[SerializeField] bool renameWaves = false;
 	void OnValidate(){
+
+		levelDifficulty = 0;
+		data.waves.ForEach (w => {
+			if (w != null)
+				levelDifficulty += w.GetDiffuculty ();
+		});
+
 		if (insertWave) {
 			insertWave = false;
 			data.waves.Insert (index, null);

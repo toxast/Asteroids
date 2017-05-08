@@ -52,26 +52,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 34
-    diffucultyTotal: 100
+    diffucultyAtOnce: 35
+    diffucultyTotal: 80
     overrideDificultyAdds: -1
     differentSpawnsCountRange:
       min: 2
-      max: 3
-    chooseNewObjectsEachTime: 1
+      max: 2
+    chooseNewObjectsEachTime: 0
     overrideSpawnTime: -1
     startNextWaveWhenDifficultyLeft: 0
     countStrategy: 1
     spawnStrategy: 1
     useDestroyAreaDelay: 0
-    destroyAreaTimeThreshold: 30
+    destroyAreaTimeThreshold: 20
     destroyAreaPersentage: 0.3
     objects:
-    - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
+    - spawn: {fileID: 114018212185065258, guid: 87adfcec0aeda6146b1e55f655ae7205,
+        type: 2}
       range:
-        min: 50
-        max: 60
-      spawnAtViewEdge: 0
+        min: 30
+        max: 70
+      spawnAtViewEdge: 1
       weight: 4
       overridePositioning: 0
       positioning:
@@ -79,29 +80,17 @@ MonoBehaviour:
         positionAngleRange: 0
         lookAngle: 0
         lookAngleRange: 0
-    - spawn: {fileID: 11421222, guid: e24bbcf4680bb214db6dc17116268bbb, type: 2}
-      range:
-        min: 60
-        max: 70
-      spawnAtViewEdge: 1
-      weight: 4
-      overridePositioning: 1
-      positioning:
-        positionAngle: 180
-        positionAngleRange: 90
-        lookAngle: 0
-        lookAngleRange: 90
-    - spawn: {fileID: 114529371202508250, guid: 342381d3185cc5147939fbb44c141ce9,
+    - spawn: {fileID: 114374702242948724, guid: 7999235af963f7145ab199bfbadb2d31,
         type: 2}
       range:
-        min: 60
-        max: 70
+        min: 40
+        max: 40
       spawnAtViewEdge: 0
-      weight: 2
-      overridePositioning: 1
+      weight: 4
+      overridePositioning: 0
       positioning:
         positionAngle: 0
-        positionAngleRange: 360
+        positionAngleRange: 0
         lookAngle: 0
         lookAngleRange: 0
   createDefWaveEditor: 0

@@ -121,6 +121,9 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	public float GetLeftHealthPersentage(){
 		return currentHealth / fullHealth;
 	}
+	public float CurrentHealth() {
+		return currentHealth;
+	}
 //	public event Action<float> healthChanged;
 
 	public List<Gun> guns { get; private set;}
@@ -193,6 +196,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		collisionAttackModifier *= multiplyBy;
 	}
 
+	//if near to 0 means completely freezed
 	float _freezeMod = 1f;
 	public float freezeMod { 
 		get { return _freezeMod; }

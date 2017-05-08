@@ -35,7 +35,7 @@ public class TabletInputController : MonoBehaviour, InputController
 
 	public void Freeze(float m){ }
 
-	public void Tick(PolygonGameObject p)
+	public void Tick(float delta)
 	{
 		turnDirection = Vector2.zero;
 		shooting = fireButton.pressed;

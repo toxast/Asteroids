@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &193010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 448270}
+  - component: {fileID: 114194171828006078}
+  m_Layer: 0
+  m_Name: Ship0_Invisible
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &448270
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 193010}
+  m_IsPrefabParent: 1
+--- !u!114 &114194171828006078
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3764fa56333aa44cbce8c9e6099c9fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 10
+  reward: 40
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
+  id: -1
+  price: -1
+  journal: {fileID: 0}
+  color: {r: 0.38894895, g: 0.4852941, b: 0.40157348, a: 1}
+  physical:
+    density: 0.9
+    health: 6
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 0.2
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: 1.6
+  mobility:
+    thrust: 15
+    maxSpeed: 22
+    turnSpeed: 150
+    brake: 15
+    passiveBrake: 2
+    stability: 1
+    shootAngle: 1
+  accuracy:
+    startingAccuracy: 0.4
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 4
+    rechargeRate: 0.5
+    hitRechargeDelay: 4
+    rechargeDelayAfterDestory: 6
+  guns:
+  - place:
+      pos: {x: 0.12587583, y: 0.000000008968827}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11411428, guid: a06e82c6a1698ed478ee2305086d1c55, type: 2}
+  linkedGuns: []
+  thrusters:
+  - place:
+      pos: {x: -1.074124, y: 0.000000008968827}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 19800000, guid: d369c9c4159d7b74b978405dd139dc00, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  turrets: []
+  verts:
+  - {x: 0.2940783, y: -0.5253856}
+  - {x: -0.15625106, y: -1.3209689}
+  - {x: 0.8945197, y: -1.1408367}
+  - {x: 0.53275335, y: -1.8889854}
+  - {x: 1.513962, y: -2.12}
+  - {x: 3.233773, y: -1.88}
+  - {x: 1.870235, y: -2.732003}
+  - {x: 0.008869972, y: -2.732003}
+  - {x: -1.1660379, y: -2.17}
+  - {x: -1.6381588, y: -1.3626678}
+  - {x: -1.4014018, y: -0.19466765}
+  - {x: -1.4014018, y: 0.19466738}
+  - {x: -1.6381588, y: 1.3626678}
+  - {x: -1.1660379, y: 2.17}
+  - {x: 0.008869972, y: 2.732003}
+  - {x: 1.870235, y: 2.732003}
+  - {x: 3.233773, y: 1.88}
+  - {x: 1.513962, y: 2.12}
+  - {x: 0.53275335, y: 1.8889854}
+  - {x: 0.8945197, y: 1.1408367}
+  - {x: -0.15625106, y: 1.3209689}
+  - {x: 0.2940783, y: 0.5253856}
+  explosionRangeCalculated: 10.412013
+  explosionDamageCalculated: 2.292807
+  invisibleData:
+    attackDutation: 3.5
+    invisibleDuration: 3.7
+    fadeOutDuration: 3
+    fadeInDuration: 1.5
+  fillFrom: {fileID: 0}

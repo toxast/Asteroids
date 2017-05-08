@@ -83,13 +83,24 @@ public class ObjectsCreator
         return spaceship;
     }
 
-    public static UserSpaceShip CreateSpaceShip(InputController contorller, MSpaceshipData data)
-	{
+	public static UserSpaceShip CreateUserSpaceShip(MSpaceshipData data, bool useAI = false) {
 		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data, CollisionLayers.ilayerUser);
+		InputController controller = null; 
+		if (useAI) {
+			controller = new UserContraller (spaceship, Singleton<Main>.inst.bullets, spaceship.guns [0], data.accuracy);
+			spaceship.targetSystem = new UserTargetSystem (spaceship);
+		} else {
+			#if UNITY_STANDALONE
+			controller = new StandaloneInputController (spaceship);
+			#else
+			tabletController.Init();
+			controller = tabletController;
+			#endif
+		}
 		spaceship.collector = new DropCollector (15f, 20f);
 		spaceship.SetColor (Main.userColor);
         spaceship.gameObject.name = "User_Spaceship " + data.name;
-		spaceship.SetController (contorller);
+		spaceship.SetController (controller);
 		return spaceship;
 	}
 

@@ -51,20 +51,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62fa6e71e3f088b4c8676a382669b033, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showDifficultyInEditor: 41
+  showDifficultyInEditor: 37
   spawn: 1
   elems:
-  - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
+  - spawn: {fileID: 11409610, guid: 22a3936c87e57d54bb1be51fd2febcfb, type: 2}
     place:
-      pos: {x: -20, y: 0}
-      dir: {x: 0, y: 1}
+      pos: {x: -20, y: 5}
+      dir: {x: -1, y: 0}
       useAngleForPosition: 0
       range: 0
       angle: 0
-  - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
+  - spawn: {fileID: 11409610, guid: 22a3936c87e57d54bb1be51fd2febcfb, type: 2}
     place:
-      pos: {x: 20, y: 0}
-      dir: {x: 0, y: -1}
+      pos: {x: 20, y: 5}
+      dir: {x: 1, y: 0}
       useAngleForPosition: 0
       range: 0
       angle: 0
@@ -72,6 +72,13 @@ MonoBehaviour:
     place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+  - spawn: {fileID: 11409610, guid: 22a3936c87e57d54bb1be51fd2febcfb, type: 2}
+    place:
+      pos: {x: 0, y: -23}
+      dir: {x: 0, y: -1}
       useAngleForPosition: 0
       range: 0
       angle: 0

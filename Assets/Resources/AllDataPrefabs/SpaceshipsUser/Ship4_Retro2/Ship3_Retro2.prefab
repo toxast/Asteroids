@@ -50,6 +50,7 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   id: 5
   price: 1000
   journal: {fileID: 114395553400948598, guid: ec9bb39221467814398622f9d7f02199, type: 2}
@@ -77,15 +78,15 @@ MonoBehaviour:
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
-    isDynamic: 0
+    isDynamic: 1
     checkDtime: 0.5
     add: 0.15
     sub: 0.4
     bounds: {x: 0, y: 1}
   shield:
     capacity: 2.3
-    rechargeRate: 0.5
-    hitRechargeDelay: 2.5
+    rechargeRate: 0.3
+    hitRechargeDelay: 4
     rechargeDelayAfterDestory: 4.5
   guns:
   - place:
@@ -116,20 +117,20 @@ MonoBehaviour:
     startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
-  - {x: 2.578881, y: -0.0971998}
+  - {x: 2.578881, y: -0.09719979}
   - {x: 1.3368809, y: -0.79920006}
   - {x: 0.21368104, y: -1.08}
-  - {x: -0.27822992, y: -2.1168}
+  - {x: -0.2782299, y: -2.1168}
   - {x: -1.05583, y: -2.3976002}
   - {x: -1.168719, y: -0.864}
   - {x: -1.4819192, y: -0.8424}
   - {x: -1.4819192, y: 0.8424}
   - {x: -1.168719, y: 0.864}
   - {x: -1.05583, y: 2.3976002}
-  - {x: -0.27822992, y: 2.1168}
+  - {x: -0.2782299, y: 2.1168}
   - {x: 0.21368104, y: 1.08}
   - {x: 1.3368809, y: 0.79920006}
-  - {x: 2.578881, y: 0.097200155}
+  - {x: 2.578881, y: 0.09720016}
   explosionRangeCalculated: 9.104212
   explosionDamageCalculated: 2.101249
 --- !u!1001 &100100000

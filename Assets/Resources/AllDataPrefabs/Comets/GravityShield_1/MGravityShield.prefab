@@ -54,7 +54,7 @@ MonoBehaviour:
   data:
     duration: 25
     range: 21
-    force: 55
+    force: 50
     distanceMatters: 0
     massMatters: 0
     particles:

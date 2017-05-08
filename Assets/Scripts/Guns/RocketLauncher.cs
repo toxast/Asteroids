@@ -13,7 +13,8 @@ public class RocketLauncher : BulletGun<SpaceShip>
 		:base(place, data, parent)
 	{ 
 		this.data = data;
-		range = data.missleParameters.maxSpeed * data.lifeTime;
+		
+		range = Math2d.GetDistance(data.lifeTime, data.velocity, data.missleParameters.maxSpeed, data.missleParameters.thrust);
         thrusters = data.thrusters.Clone();
 	}
 
@@ -22,7 +23,7 @@ public class RocketLauncher : BulletGun<SpaceShip>
 		get{return range;}
 	}
 
-	public override float BulletSpeedForAim{ get { return data.missleParameters.maxSpeed; } } //TODO?
+	public override float BulletSpeedForAim{ get { return (range/data.lifeTime + data.missleParameters.maxSpeed) * 0.5f; } } 
 
 	protected override void InitPolygonGameObject (SpaceShip bullet, PhysicalData ph) {
 		base.InitPolygonGameObject (bullet, ph);

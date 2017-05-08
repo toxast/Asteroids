@@ -31,12 +31,18 @@ public class BaseSpaceshipController : InputController, IGotTarget
         defendObject = prnt;
     }
 
+	protected float lastDelta = 0;
     public virtual void Tick(float delta) {
+		lastDelta = delta;
         accuracyChanger.Tick(delta);
     }
 
 	protected void Shoot(float accuracy, float bulletsSpeed)
 	{
+		if (Main.IsNull (target)) {
+			return;
+		}
+		
 		Vector2 relativeVelocity = (target.velocity);
 		AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity - Main.AddShipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
 		if(a.canShoot)
@@ -68,7 +74,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 
 	protected IEnumerator SetFlyDir(Vector2 dir, float duration, bool accelerating = true, bool shooting = false)
 	{
-		Debug.LogWarning ("SetFlyDir " + dir + " " + duration);
+		//Debug.LogWarning ("SetFlyDir " + dir + " " + duration);
 		turnDirection = dir;
 		SetAcceleration (accelerating);
 		this.shooting = shooting;
@@ -77,7 +83,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 	}
 
 	protected IEnumerator CowardAction(AIHelper.Data tickData, int turnsTotal, float approhimateDuration = 3){
-		Debug.LogError ("coward action " + turnsTotal);
+		//Debug.LogError ("coward action " + turnsTotal);
 		int turns = turnsTotal;
 		while (turns > 0) {
 			turns--;

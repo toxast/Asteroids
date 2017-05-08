@@ -13,6 +13,11 @@ public class MRandomWave : MWaveBase {
 		return new RandomWave(waveData); 
 	}
 
+	public override int GetDiffuculty ()
+	{
+		return waveData.diffucultyTotal;
+	}
+
 	public override List<MSpawnBase> GetElements ()
 	{
 		return waveData.objects.ConvertAll (e => e.spawn);
@@ -29,7 +34,4 @@ public class MRandomWave : MWaveBase {
 		}
 	}
 }
-
-
-
 

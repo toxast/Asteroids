@@ -11,9 +11,11 @@ public class StandaloneInputController : InputController
 	public float accelerateValue01{ get; private set;} 
 	public void Freeze(float m){ }
 	bool autofireIsOn = true;
+	SpaceShip thisShip;
 
-	public StandaloneInputController()
+	public StandaloneInputController(SpaceShip holder)
 	{
+		thisShip = holder;
 	}
 	/*
 	 * 			bool freeAim = Input.GetButton ("Xbox_RB");
@@ -28,7 +30,7 @@ public class StandaloneInputController : InputController
 			shooting = true;
 	 * */
 
-	public void Tick(PolygonGameObject p)
+	public void Tick(float delta)
 	{
 		if (hasXboxConnected) {
 			if(Input.GetButtonDown("Xbox_RB")){
@@ -65,7 +67,7 @@ public class StandaloneInputController : InputController
 			Vector2 moveTo = (Vector2)Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			//moveTo = new Vector2 (Mathf.Clamp (moveTo.x, flyZoneBounds.xMin, flyZoneBounds.xMax
 
-			turnDirection = moveTo - p.position;
+			turnDirection = moveTo - thisShip.position;
 		}
 	}
 

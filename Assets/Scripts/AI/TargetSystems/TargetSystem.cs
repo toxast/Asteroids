@@ -27,3 +27,19 @@ public class TargetSystem : TargetSystemBase<PolygonGameObject>
 		return dir.sqrMagnitude;
 	}
 }
+
+
+public class UserTargetSystem : TargetSystem{
+
+	public UserTargetSystem (PolygonGameObject thisObj) : base (thisObj) {
+	}
+
+	protected override float GetDistValue (PolygonGameObject obj)
+	{
+		if (obj is Comet) {
+			return 0.0001f;
+		} else {
+			return base.GetDistValue (obj);
+		}
+	}
+}

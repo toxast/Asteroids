@@ -17,7 +17,7 @@ public class TurretTargetSystem : TargetSystemBase<PolygonGameObject>
 		this.rotationSpeed = rotationSpeed;
 		this.angelsRestriction = angelsRestriction;
 
-		this.gunsRangeSqr = 1.2f * thisObj.guns [0].Range;
+		this.gunsRangeSqr = 1.3f * thisObj.guns [0].Range;
 		gunsRangeSqr *= gunsRangeSqr;
 	}
 		

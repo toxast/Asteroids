@@ -50,8 +50,9 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   id: 4
-  price: 800
+  price: 700
   journal: {fileID: 114395553400948598, guid: 5d53cd6485c3b0b4ebf7902083e2c9f0, type: 2}
   color: {r: 0.24356619, g: 0.625, b: 0.37246457, a: 1}
   physical:
@@ -77,7 +78,7 @@ MonoBehaviour:
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
-    isDynamic: 0
+    isDynamic: 1
     checkDtime: 0.5
     add: 0.15
     sub: 0.4
@@ -116,18 +117,18 @@ MonoBehaviour:
     startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
-  - {x: 2.59, y: 0.000000016725467}
+  - {x: 2.59, y: 0.00000019292185}
   - {x: 1.5100002, y: -1.08}
-  - {x: 0.43000072, y: -1.08}
-  - {x: -0.6499992, y: -2.16}
+  - {x: 0.4300015, y: -1.08}
+  - {x: -0.64999896, y: -2.16}
   - {x: -1.1899999, y: -2.16}
   - {x: -1.1899999, y: -1.08}
   - {x: -1.7299999, y: -1.08}
   - {x: -1.7299999, y: 1.08}
   - {x: -1.1899999, y: 1.08}
   - {x: -1.1899999, y: 2.16}
-  - {x: -0.6499992, y: 2.16}
-  - {x: 0.43000072, y: 1.08}
+  - {x: -0.64999896, y: 2.16}
+  - {x: 0.4300015, y: 1.08}
   - {x: 1.5100002, y: 1.08}
   explosionRangeCalculated: 9.720001
   explosionDamageCalculated: 2.192568

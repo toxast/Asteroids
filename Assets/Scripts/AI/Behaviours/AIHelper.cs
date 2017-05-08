@@ -152,6 +152,22 @@ public static class AIHelper
 		return false;
 	}
 
+	public static IEnumerator TimerR(float time, Func<float> deltaTime, Action act){
+		AIHelper.MyTimer timer = new AIHelper.MyTimer (time, null);
+		while (!timer.IsFinished ()) {
+			timer.Tick (deltaTime());
+			act ();
+			yield return null;
+		}
+	}
+
+	public static IEnumerator TimerR(float time, Func<float> deltaTime){
+		AIHelper.MyTimer timer = new AIHelper.MyTimer (time, null);
+		while (!timer.IsFinished ()) {
+			timer.Tick (deltaTime());
+			yield return null;
+		}
+	}
 	
 	public static void ChangeAccuracy(ref float accuracy, ref Vector2 lastDir, PolygonGameObject target, AccuracyData data)
 	{
@@ -217,7 +233,7 @@ public static class AIHelper
 						accuracy += dtime * data.add;
 					}
 					accuracy = Mathf.Clamp (accuracy, data.bounds.x, data.bounds.y);
-					Debug.LogError ("diffDistance " + diffDistance + " accuracy " + accuracy);
+					//Debug.LogError ("diffDistance " + diffDistance + " accuracy " + accuracy);
 
 					estimatedPosition = target.position + target.velocity * dtime;
 				}

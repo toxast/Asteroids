@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &109672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 419164}
+  - component: {fileID: 11456942}
+  m_Layer: 0
+  m_Name: bullet_gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &419164
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109672}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11456942
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dps: 1.5649152
+  collisionDmg: 0.068779394
+  estimateRange: 105
+  hitDamage: 4
+  lifeTime: 3
+  velocity: 35
+  fireInterval: 2.6
+  repeatCount: 0
+  repeatInterval: 0
+  physical:
+    density: 2
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 0.1
+  deathData:
+    destructionType: 3
+    createExplosionOnDeath: 0
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
+  spreadAngle: 0
+  rotation:
+    min: 0
+    max: 0
+  color: {r: 0.5588235, g: 0.06937119, b: 0, a: 0}
+  burnDOT:
+    duration: 0
+    dps: 0
+    maxBuildUpDuration: 0
+  iceData:
+    duration: 0
+    freezeAmount: 0
+  fireEffect: {fileID: 19800000, guid: a3026d7e16bf3e94596d1de0e4dc99e7, type: 2}
+  effects:
+  - place:
+      pos: {x: 1.5, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 198397982152284786, guid: fede9a4fad4055443b2a87c527b941ca, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -1
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  - place:
+      pos: {x: 1.5, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 198022244512848314, guid: 9b7926218d1f05947894c43a5cc1ea8b, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -1
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  destructionEffects: []
+  vertices:
+  - {x: 0.39460632, y: -0.043302864}
+  - {x: 0.0819549, y: -0.5990193}
+  - {x: 0.6170349, y: -0.6599317}
+  - {x: 1.0953779, y: -1.3929002}
+  - {x: 0.4377307, y: -1.7537553}
+  - {x: -0.53179884, y: -1.0860289}
+  - {x: -0.70506585, y: -0.77222973}
+  - {x: -1.0177178, y: -0.25981566}
+  - {x: -1.0177178, y: 0.25981566}
+  - {x: -0.70506585, y: 0.77222973}
+  - {x: -0.53179884, y: 1.0860289}
+  - {x: 0.4377307, y: 1.7537553}
+  - {x: 1.0953779, y: 1.3929002}
+  - {x: 0.6170349, y: 0.6599317}
+  - {x: 0.0819549, y: 0.5990193}
+  - {x: 0.39460632, y: 0.043300994}
+  explosionRangeCalculated: 6.0093794
+  explosionDamageCalculated: 1.604018
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 109672}
+  m_IsPrefabParent: 1

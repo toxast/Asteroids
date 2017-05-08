@@ -14,10 +14,15 @@ public class FixedWave : IWaveSpawner{
 	}
 
 	[Serializable]
+	public class CountSpawnPos : SpawnPos {
+		public int count = 1; //
+	}
+
+	[Serializable]
 	public class Data{
 		public RandomWave.eSpawnStrategy spawnStrategy =  RandomWave.eSpawnStrategy.PICK_RANDOM;
 		public int startNextWaveWhenDifficultyLeft = 0;
-		public List<SpawnPos> objects;
+		public List<CountSpawnPos> objects;
 	}
 
 	Data  data;
@@ -33,7 +38,12 @@ public class FixedWave : IWaveSpawner{
 
 		totalDifficulyLeft = 0;
 		for (int i = 0; i < data.objects.Count; i++) {
-			totalDifficulyLeft += data.objects [i].difficulty;
+			var obj = data.objects [i];
+			if (obj.count < 1) {
+				obj.count = 1;
+			}
+			totalDifficulyLeft += obj.difficulty * obj.count;
+
 		}
 		spawnRoutine = CheckSpawnNextRoutine ();
 	}
@@ -53,7 +63,7 @@ public class FixedWave : IWaveSpawner{
 		yield return Singleton<Main>.inst.StartCoroutine(Spawn (data.objects));
 	}
 
-	private IEnumerator Spawn(List<SpawnPos> selectedSpawns){
+	private IEnumerator Spawn(List<CountSpawnPos> selectedSpawns){
 		RandomWave.eSpawnStrategy strategy;
 		if (data.spawnStrategy == RandomWave.eSpawnStrategy.PICK_RANDOM) {
 			strategy = (RandomWave.eSpawnStrategy)UnityEngine.Random.Range ((int)RandomWave.eSpawnStrategy.MIN + 1, (int)RandomWave.eSpawnStrategy.MAX);
@@ -64,21 +74,23 @@ public class FixedWave : IWaveSpawner{
         float totalAngleOffset = UnityEngine.Random.Range(0, 360);
 		for (int i = 0; i < selectedSpawns.Count; i++) {
 			var item = selectedSpawns [i];
-			MSpawnBase.PositionData positionData;
-			if (item.spawnAtViewEdge) {
-				var pos = item.positioning;
-				positionData = main.GetEdgePositionData (pos.positionAngle, pos.lookAngle, pos.lookAngleRange); 
-			} else {
-				positionData = main.GetPositionData(item.range, item.positioning);
-			}
-			positionData.rangeAngle += totalAngleOffset;
-            item.spawn.Spawn (positionData, OnObjectSpawned);
-			if (strategy ==  RandomWave.eSpawnStrategy.QUICK_DELAYS) {
-				yield return new WaitForSeconds (UnityEngine.Random.Range (0.2f, 0.6f));
-			} else if (strategy ==  RandomWave.eSpawnStrategy.LONG_DELAYS) {
-				yield return new WaitForSeconds (UnityEngine.Random.Range (0.6f, 1.5f));
-			} else {
-				//no delay
+			for (int k = 0; k < item.count; k++) {
+				MSpawnBase.PositionData positionData;
+				if (item.spawnAtViewEdge) {
+					var pos = item.positioning;
+					positionData = main.GetEdgePositionData (pos.positionAngle, pos.lookAngle, pos.lookAngleRange); 
+				} else {
+					positionData = main.GetPositionData(item.range, item.positioning);
+				}
+				positionData.rangeAngle += totalAngleOffset;
+	            item.spawn.Spawn (positionData, OnObjectSpawned);
+				if (strategy ==  RandomWave.eSpawnStrategy.QUICK_DELAYS) {
+					yield return new WaitForSeconds (UnityEngine.Random.Range (0.2f, 0.6f));
+				} else if (strategy ==  RandomWave.eSpawnStrategy.LONG_DELAYS) {
+					yield return new WaitForSeconds (UnityEngine.Random.Range (0.6f, 1.5f));
+				} else {
+					//no delay
+				}
 			}
 		}
 		yield break;
@@ -89,11 +101,12 @@ public class FixedWave : IWaveSpawner{
 		spawned.Add(obj);
 	}
 
-	private void CountInWhatWillBeSpawned(List<SpawnPos> selectedSpawns){
+	private void CountInWhatWillBeSpawned(List<CountSpawnPos> selectedSpawns){
 		for (int i = 0; i < selectedSpawns.Count; i++) {
-			var item = selectedSpawns [i].spawn;
-			totalDifficulyLeft -= item.sdifficulty;
-			spawningDifficulty += item.sdifficulty;
+			var item = selectedSpawns [i];
+			var dif = item.spawn.sdifficulty * item.count;
+			totalDifficulyLeft -= dif;
+			spawningDifficulty += dif;
 		}
 	}
 
@@ -113,66 +126,3 @@ public class FixedWave : IWaveSpawner{
 }
 
 
-public class DestroyAreaWave : IWaveSpawner{
-
-	[Serializable]
-	public class Data {
-		public float area = 0f;
-		public float time = 20f;
-	}
-
-	Data data;
-	IEnumerator spawnRoutine;
-	float timeLeft;
-	float startArea;
-	List<PolygonGameObject> objs;
-	bool firstTick = true;
-	bool areaKilled = false;
-	public DestroyAreaWave(Data data) {
-		this.data = data;
-		timeLeft = data.time;
-		objs = Singleton<Main>.inst.gObjects;
-		spawnRoutine = CheckSpawnNextRoutine ();
-	}
-
-	public void Tick() { 
-		if (firstTick) {
-			firstTick = false;
-			startArea = GetCurrentArea ();
-//			Debug.LogError ("current area: " + startArea + "need to destroy: " + data.area);
-		}
-		if (spawnRoutine != null) {
-			spawnRoutine.MoveNext ();
-		}
-	}
-
-	private float GetCurrentArea() {
-		float current = 0;
-		for (int i = 0; i < objs.Count ; i++) {
-			current += objs [i].polygon.area;
-		}
-//		Debug.LogError ("current area: " + current);
-		return current;
-	}
-
-	public bool Done() {
-		return (timeLeft <= 0 || areaKilled);
-	}
-
-	private void CheckIfAreaDestroyed() {
-		if (startArea - GetCurrentArea () > data.area) {
-			areaKilled = true;
-		}
-	}
-
-	
-	private IEnumerator CheckSpawnNextRoutine() {
-		AIHelper.MyRepeatTimer timer = new AIHelper.MyRepeatTimer (1f, CheckIfAreaDestroyed);
-		while (true) {
-			float delta = Time.deltaTime;
-			timeLeft -= delta;
-			timer.Tick (delta);
-			yield return null;
-		}
-	}
-}

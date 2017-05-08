@@ -62,7 +62,9 @@ public class SimpleTowerRotating : PolygonGameObject, IFreezble
 			bool gunsInPosition = false;
 			bool gunsAreReady = false;
 			while (!(gunsInPosition && gunsAreReady && !Main.IsNull (target))) {
-				RotateCannon (lastDelta, currentOffsetAimAngle);
+				if (!Main.IsNull (target)) {
+					RotateCannon (lastDelta, currentOffsetAimAngle);
+				}
 				gunsInPosition = (Mathf.Abs (cannonsRotaitorCurrent.DeltaAngle (currentOffsetAimAngle)) < 5f);
 				gunsAreReady = guns.TrueForAll (g => g.ReadyToShoot ());
 				yield return null;
@@ -111,11 +113,11 @@ public class SimpleTowerRotating : PolygonGameObject, IFreezble
 		}
 
 		//offset aim angle by x deg, for tower to start shooting shootAngle away from the ship
-		if(Mathf.Abs(cannonsRotaitorCurrent.DeltaAngle(currentAimAngle + data.shootAngle)) < 
-			Mathf.Abs(cannonsRotaitorCurrent.DeltaAngle(currentAimAngle - data.shootAngle))) {
-			currentOffsetAimAngle = currentAimAngle + data.shootAngle;
+		if(Mathf.Abs(cannonsRotaitorCurrent.DeltaAngle(currentAimAngle + shootAngle)) < 
+			Mathf.Abs(cannonsRotaitorCurrent.DeltaAngle(currentAimAngle - shootAngle))) {
+			currentOffsetAimAngle = currentAimAngle + shootAngle;
 		} else {
-			currentOffsetAimAngle = currentAimAngle - data.shootAngle;
+			currentOffsetAimAngle = currentAimAngle - shootAngle;
 		}
 	}
 

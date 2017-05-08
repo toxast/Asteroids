@@ -52,11 +52,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 35
-    diffucultyTotal: 80
+    diffucultyAtOnce: 25
+    diffucultyTotal: 70
     overrideDificultyAdds: -1
     differentSpawnsCountRange:
-      min: 2
+      min: 1
       max: 3
     chooseNewObjectsEachTime: 1
     overrideSpawnTime: -1
@@ -64,41 +64,28 @@ MonoBehaviour:
     countStrategy: 1
     spawnStrategy: 1
     useDestroyAreaDelay: 0
-    destroyAreaTimeThreshold: 30
+    destroyAreaTimeThreshold: 20
     destroyAreaPersentage: 0.3
     objects:
-    - spawn: {fileID: 114529371202508250, guid: be4e8363a97613543934f3e5263f0e03,
-        type: 2}
+    - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
       range:
-        min: 50
-        max: 60
-      spawnAtViewEdge: 0
-      weight: 6
-      overridePositioning: 0
-      positioning:
-        positionAngle: 0
-        positionAngleRange: 0
-        lookAngle: 0
-        lookAngleRange: 0
-    - spawn: {fileID: 11422658, guid: a44222c4832ea434aa8ef030b89a501d, type: 2}
-      range:
-        min: 60
+        min: 30
         max: 70
       spawnAtViewEdge: 0
-      weight: 2
+      weight: 4
       overridePositioning: 0
       positioning:
         positionAngle: 0
         positionAngleRange: 0
         lookAngle: 0
         lookAngleRange: 0
-    - spawn: {fileID: 114018212185065258, guid: 87adfcec0aeda6146b1e55f655ae7205,
+    - spawn: {fileID: 114529371202508250, guid: a4e6cd58f8ae7e847852c80ef6664675,
         type: 2}
       range:
-        min: 50
-        max: 60
+        min: 30
+        max: 70
       spawnAtViewEdge: 0
-      weight: 4
+      weight: 3
       overridePositioning: 0
       positioning:
         positionAngle: 0
@@ -107,10 +94,10 @@ MonoBehaviour:
         lookAngleRange: 0
     - spawn: {fileID: 11421222, guid: e24bbcf4680bb214db6dc17116268bbb, type: 2}
       range:
-        min: 60
-        max: 80
+        min: 30
+        max: 70
       spawnAtViewEdge: 1
-      weight: 4
+      weight: 6
       overridePositioning: 0
       positioning:
         positionAngle: 0

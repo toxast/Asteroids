@@ -40,32 +40,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244df0e748c9e0245a870d3fa9a80b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mdata:
-    name: (1) level 0 boss
-    color: {r: 0.32645264, g: 0.31920418, b: 0.5294118, a: 1}
-    reward: 230
-    physical:
-      density: 1
-      healthModifier: 2.5
-      collisionDefence: 0.2
-      collisionAttackModifier: 1.6
-    speed:
-      min: 1
-      max: 1
-    rotation:
-      min: 50
-      max: 50
-    size:
-      min: 5
-      max: 5
-    spikeSize:
-      min: 3
-      max: 3
-    spikesCount:
-      min: 9
-      max: 9
-    spikeVelocity: 35
-    growSpeed: 0.12
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 0
+  reward: 0
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
+  accuracy:
+    startingAccuracy: 0
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 1
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  spikeVelocity: 45
+  regrowPause:
+    min: 0
+    max: 2
+  growSpeed: 0.1
+  overrideSpikeCollisionAttack: 2
+  chanceShootSpikeAtDeath: 0.5
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  thrust: 0
+  physical:
+    density: 1
+    health: -1
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  speed:
+    min: 1
+    max: 2
+  rotation:
+    min: 1
+    max: 2
+  size:
+    min: 1
+    max: 2
+  spikeSize:
+    min: 1
+    max: 2
+  spikesCount:
+    min: 1
+    max: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -16,6 +16,7 @@ public abstract class MSpawnDataBase : MSpawnBase {
     public int reward = 0;
 	public override int sdifficulty { get { return difficulty; }	}
 	public TeleportData teleportData;
+	public MEffectData startEffect;
 
 	public PolygonGameObject Create(){
 		return Create(gameSpawnLayer);
@@ -26,6 +27,9 @@ public abstract class MSpawnDataBase : MSpawnBase {
 		if (obj != null) {
 			obj.name = name;
             obj.reward = reward;
+			if (startEffect != null) {
+				startEffect.Apply (obj);
+			}
         }
 		return obj;
 	}

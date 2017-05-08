@@ -13,6 +13,13 @@ public class MFixedWave: MWaveBase {
 		return new FixedWave(waveData); 
 	}
 
+	public override int GetDiffuculty ()
+	{
+		int diff = 0;
+		waveData.objects.ForEach (b => diff += b.difficulty);
+		return diff;
+	}
+
 	public override List<MSpawnBase> GetElements ()
 	{
 		return waveData.objects.ConvertAll (e => e.spawn);
@@ -31,8 +38,11 @@ public class MFixedWave: MWaveBase {
 		if (createDefWaveEditor) {
 			createDefWaveEditor = false;
 			waveData = new FixedWave.Data ();
-			waveData.objects = new List<SpawnPos> ();
-			waveData.objects.Add (new SpawnPos ());
+			waveData.objects = new List<FixedWave.CountSpawnPos>();
+			waveData.objects.Add (new FixedWave.CountSpawnPos ());
 		}
 	}
 }
+
+
+

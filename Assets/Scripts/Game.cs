@@ -20,6 +20,7 @@ public class Game : MonoBehaviour
 	[SerializeField] Button addMoneyEditor;
 
 	[SerializeField] MSpaceshipData overrideShipInEditor;
+	[SerializeField] bool useAIforUser = false;
 
 	string currentSlot;
 	int currentLevelIndex;
@@ -46,6 +47,14 @@ public class Game : MonoBehaviour
 
 	void HandleMainMenuStartGame (int slot) {
 		LoadGame (slot.ToString ());
+	}
+
+	public bool UseAiForUser(){
+		#if UNITY_EDITOR 
+		return useAIforUser;
+		#else
+		return false;
+		#endif
 	}
 
 	void LoadGame(string slot) {

@@ -50,6 +50,7 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   id: 3
   price: 450
   journal: {fileID: 114395553400948598, guid: 8bafb890e4599a54c907827f1590fe1d, type: 2}
@@ -77,7 +78,7 @@ MonoBehaviour:
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
-    isDynamic: 0
+    isDynamic: 1
     checkDtime: 0.5
     add: 0.15
     sub: 0.4

@@ -5,3 +5,4 @@ using UnityEngine;
 public abstract class MEffectData : MonoBehaviour, IApplyable{
 	public abstract IHasProgress Apply (PolygonGameObject picker);
 }
+

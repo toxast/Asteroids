@@ -18,6 +18,11 @@ public class MRocketGunData : MGunData {
 		return new RocketLauncher(place, this, t);
 	}
 
+	protected override float CalculateRange ()
+	{
+		return Math2d.GetDistance(lifeTime, velocity, missleParameters.maxSpeed, missleParameters.thrust);
+	}
+
 	protected override void OnValidate(){
 		base.OnValidate ();
 		thrusters.SetDefaultValues ();

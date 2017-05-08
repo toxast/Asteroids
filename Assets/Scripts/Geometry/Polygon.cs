@@ -377,7 +377,7 @@ public class Polygon
 		cverts.Remove (interiorIndx);
         Math2d.Shuffle(cverts);
 
-        float dotThreshold = Mathf.Sqrt(0.5f);//45 deg
+        float dotThreshold = Mathf.Sqrt(3) * 0.5f;//30 deg
 		for (int i = 0; i < cverts.Count; i++) {
 			int aindx = cverts [i];
             if(Distance(aindx, interiorIndx) <= 1) {

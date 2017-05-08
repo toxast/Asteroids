@@ -49,14 +49,52 @@ public class SpikyAsteroid : PolygonGameObject, IFreezble
 		if (accData.isDynamic) {
 			StartCoroutine (AccuracyChanger (accData));
 		}
-		
+
+		StartCoroutine (AccelerateTowardsTarget ());
 		StartCoroutine (CheckForTarget ());
+	}
+
+	float deltaTime = 0;
+	public override void Tick (float delta) {
+		deltaTime = delta;
+		base.Tick (delta);
 	}
 
 	public override void Freeze(float multipiler){
 		base.Freeze (multipiler);
 		growSpeed *= multipiler;
 	}
+
+	IEnumerator AccelerateTowardsTarget()
+	{
+		if (data.thrust <= 0)
+			yield break;
+
+		float maxSpeed = data.speed.max;
+		float maxSpeedSqrt = maxSpeed * maxSpeed;
+
+		while (true) {
+			if (!Main.IsNull (target)) {
+				float timeLeft = new RandomFloat (2, 7).RandomValue;
+				Vector2 dir = Math2d.RotateVertexDeg ((target.position - this.position).normalized, new RandomFloat (-45, 45).RandomValue);
+				while (timeLeft > 0) {
+					timeLeft -= deltaTime;
+					Accelerate (deltaTime, data.thrust, 0, maxSpeed, maxSpeedSqrt, dir);
+					yield return null;
+				}
+			} else {
+				yield return new WaitForSeconds (3);
+			}
+		}
+	}
+
+//	IEnumerator TimerR(float time){
+//		AIHelper.MyTimer timer = new AIHelper.MyTimer (time, null);
+//		while (!timer.IsFinished ()) {
+//			timer.Tick (deltaTime);
+//			yield return null;
+//		}
+//	}
 
 	IEnumerator CheckForTarget()
 	{

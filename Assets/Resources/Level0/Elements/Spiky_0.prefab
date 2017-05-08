@@ -44,12 +44,13 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 6
-  reward: 18
+  difficulty: 5
+  reward: 15
   teleportData:
     duration: 2.5
     ringSize: 18
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   accuracy:
     startingAccuracy: 0.1
     thresholdDistance: 10
@@ -63,21 +64,22 @@ MonoBehaviour:
     min: 2
     max: 4
   growSpeed: 0.3
-  overrideSpikeCollisionAttack: 0.5
+  overrideSpikeCollisionAttack: 2
   chanceShootSpikeAtDeath: 0
   color: {r: 0.6607915, g: 0.7395791, b: 0.9264706, a: 1}
+  thrust: 1
   physical:
     density: 0.5
     health: -1
-    healthModifier: 0.4
+    healthModifier: 0.35
     collisionDefence: 0
     collisionAttackModifier: 0.5
   speed:
-    min: 5
-    max: 8
+    min: 3
+    max: 5
   rotation:
     min: 30
-    max: 50
+    max: 40
   size:
     min: 2.7
     max: 3.5

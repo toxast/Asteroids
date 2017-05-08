@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class CommonController : BaseSpaceshipController, IGotTarget
 {
 	List<PolygonGameObject> bullets;
-	float bulletsSpeed;
+	protected float bulletsSpeed;
 	float comformDistanceMin, comformDistanceMax;
 	bool turnBehEnabled = true;
 	bool evadeBullets = true;
@@ -148,8 +148,9 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 							AIHelper.OutOfComformTurn (thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
 							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 						} else {
-							AIHelper.ComfortTurn (comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
+							yield return ComfortTurn ();
+//							AIHelper.ComfortTurn (comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+//							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 						}
 						timeForTurnAction = false;
 					}
@@ -184,4 +185,13 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 			}
 		}
 	}
+
+	protected virtual IEnumerator ComfortTurn() {
+		float duration;
+		Vector2 newDir;
+		AIHelper.ComfortTurn (comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+		yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
+	}
 }
+
+

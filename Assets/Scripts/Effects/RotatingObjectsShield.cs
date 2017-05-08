@@ -26,9 +26,13 @@ public class RotatingObjectsShield : DurationEffect {
 		shields = new List<PolygonGameObject> ();
 		rotationSpeed = 2f * Mathf.PI * data.asteroidShieldRadius / (360f / Mathf.Abs(data.shieldRotationSpeed));
 		SpaceShip holderAsSpaceship = holder as SpaceShip;
-		force = rotationSpeed / 0.5f;
-		if (holderAsSpaceship != null) {
-			force += holderAsSpaceship.thrust;
+		if (data.overrideForce < 0) {
+			force = rotationSpeed / 0.5f;
+			if (holderAsSpaceship != null) {
+				force += holderAsSpaceship.thrust;
+			}
+		} else {
+			force = data.overrideForce;
 		}
 		float maxSpeed = (holderAsSpaceship != null) ? holderAsSpaceship.maxSpeed : holder.velocity.magnitude;
 		partMaxSpeed = data.overrideMaxPartSpeed > 0 ? data.overrideMaxPartSpeed : rotationSpeed + maxSpeed;
@@ -60,6 +64,9 @@ public class RotatingObjectsShield : DurationEffect {
             for (int i = 0; i < shields.Count; i++) {
                 if (!Main.IsNull(shields[i])) {
                     shields[i].Kill();
+					if (data.disableExplosionOnKill) {
+						shields [i].deathAnimation = null;
+					}
                 }
             }
         }
@@ -144,8 +151,10 @@ public class RotatingObjectsShield : DurationEffect {
 		public float asteroidsStability;
 		public int maxShieldsCount;
 		public float overrideMaxPartSpeed = -1;
+		public float overrideForce = -1;
 		public bool collideWithAsteroids = false;
 		public bool killShieldsObjectsOnDeath = true;
+		public bool disableExplosionOnKill = true;
 
 		[Header ("keep rotation")]
 		public bool keepObjectsRotation = false;

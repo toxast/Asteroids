@@ -50,6 +50,7 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   id: 6
   price: 1400
   journal: {fileID: 114395553400948598, guid: 77c1acb4f7fce5e4f8efd10238659587, type: 2}
@@ -72,20 +73,20 @@ MonoBehaviour:
     turnSpeed: 170
     brake: 14
     passiveBrake: 2
-    stability: 0.6
+    stability: 0.63
     shootAngle: 1
   accuracy:
     startingAccuracy: 0
     thresholdDistance: 10
-    isDynamic: 0
+    isDynamic: 1
     checkDtime: 0.5
     add: 0.15
     sub: 0.4
     bounds: {x: 0, y: 1}
   shield:
-    capacity: 3
-    rechargeRate: 0.5
-    hitRechargeDelay: 2.5
+    capacity: 2.6
+    rechargeRate: 0.3
+    hitRechargeDelay: 4
     rechargeDelayAfterDestory: 4.5
   guns:
   - place:
