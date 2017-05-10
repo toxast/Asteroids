@@ -19,9 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4031162268806062}
-  - component: {fileID: 114664566910631732}
+  - component: {fileID: 114831852681024568}
+  - component: {fileID: 114984104875388234}
   m_Layer: 0
-  m_Name: LWave_1
+  m_Name: LWave_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +41,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114664566910631732
+--- !u!114 &114831852681024568
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,34 +49,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414233921822308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98890128bdb4f2b4893c920210a82103, type: 3}
+  m_Script: {fileID: 11500000, guid: c8cf453858539f74d91d001c267be24d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wave: {fileID: 114984104875388234}
+  count: 15
+--- !u!114 &114984104875388234
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1414233921822308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4f98fa5957bdc47ab96e2ddafe12fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 14
-    diffucultyTotal: 28
-    differentSpawnsCountRange:
-      min: 1
-      max: 1
-    chooseNewObjectsEachTime: 0
-    overrideSpawnTime: -1
+    spawnStrategy: 4
     startNextWaveWhenDifficultyLeft: 0
-    countStrategy: 1
-    spawnStrategy: 1
-    useDestroyAreaDelay: 0
-    destroyAreaTimeThreshold: 30
-    destroyAreaPersentage: 0.3
     objects:
-    - spawn: {fileID: 11422658, guid: a44222c4832ea434aa8ef030b89a501d, type: 2}
+    - spawn: {fileID: 11457850, guid: 8040854425c23f043a0f8e54b505e26b, type: 2}
       range:
-        min: 70
-        max: 80
-      spawnAtViewEdge: 1
-      weight: 4
-      overridePositioning: 0
+        min: 40
+        max: 40
+      spawnAtViewEdge: 0
       positioning:
         positionAngle: 0
-        positionAngleRange: 0
+        positionAngleRange: 360
         lookAngle: 0
-        lookAngleRange: 0
+        lookAngleRange: 360
+      count: 2
   createDefWaveEditor: 0
+  totalDifficulty: 40

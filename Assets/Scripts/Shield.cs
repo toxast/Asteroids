@@ -26,6 +26,10 @@ public class Shield
 		time2startShieldRecharge = 0;
 	}
 
+	public void Restore(){
+		currentShields = capacity;
+	}
+
 	//returns not deflected dmg
 	public float Deflect(float dmg)
 	{

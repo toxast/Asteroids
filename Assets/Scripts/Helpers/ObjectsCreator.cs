@@ -87,7 +87,7 @@ public class ObjectsCreator
 		var spaceship = ObjectsCreator.MCreateSpaceShip<UserSpaceShip> (data, CollisionLayers.ilayerUser);
 		InputController controller = null; 
 		if (useAI) {
-			controller = new UserContraller (spaceship, Singleton<Main>.inst.bullets, spaceship.guns [0], data.accuracy);
+			controller = new UserController (spaceship, Singleton<Main>.inst.bullets, spaceship.guns [0], data.accuracy);
 			spaceship.targetSystem = new UserTargetSystem (spaceship);
 		} else {
 			#if UNITY_STANDALONE

@@ -44,8 +44,8 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 20
-  reward: 75
+  difficulty: 15
+  reward: 60
   teleportData:
     duration: 3
     ringSize: 20
@@ -61,11 +61,11 @@ MonoBehaviour:
     bounds: {x: 0, y: 1}
   spikeVelocity: 26
   regrowPause:
-    min: 0.6
-    max: 1.2
-  growSpeed: 0.4
-  overrideSpikeCollisionAttack: 0.5
-  chanceShootSpikeAtDeath: 0
+    min: 0.4
+    max: 1.6
+  growSpeed: 0.5
+  overrideSpikeCollisionAttack: 1
+  chanceShootSpikeAtDeath: 0.7
   color: {r: 0.67241377, g: 0.35142735, b: 0.9558824, a: 1}
   thrust: 1
   physical:

@@ -44,12 +44,13 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 4
-  reward: 12
+  difficulty: 3
+  reward: 10
   teleportData:
     duration: 2
     ringSize: 6
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   physical:
     density: 0.6
     health: 3
@@ -90,8 +91,8 @@ MonoBehaviour:
     gun: {fileID: 11458226, guid: e407034087ae8934e939b103dc0aee8f, type: 2}
   turrets: []
   verts:
-  - {x: 2.6619327, y: -0.35819647}
-  - {x: 1.4861139, y: -0.39713085}
+  - {x: 2.6619327, y: -0.3581965}
+  - {x: 1.4861139, y: -0.39713088}
   - {x: 0.7852947, y: -1.1836058}
   - {x: 1.0111142, y: -2.4295065}
   - {x: -1.8105516, y: -1.8999988}
@@ -100,8 +101,8 @@ MonoBehaviour:
   - {x: -1.8105516, y: 1.8999988}
   - {x: 1.0111142, y: 2.4295065}
   - {x: 0.7852947, y: 1.1836058}
-  - {x: 1.4861139, y: 0.3971309}
-  - {x: 2.6619327, y: 0.35819653}
+  - {x: 1.4861139, y: 0.39713088}
+  - {x: 2.6619327, y: 0.3581965}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

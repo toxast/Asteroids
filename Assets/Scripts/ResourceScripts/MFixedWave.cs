@@ -32,7 +32,7 @@ public class MFixedWave: MWaveBase {
     void OnValidate(){
         totalDifficulty = 0;
         for (int i = 0; i < waveData.objects.Count; i++) {
-            totalDifficulty += waveData.objects[i].difficulty;
+			totalDifficulty += waveData.objects[i].difficulty * waveData.objects[i].count;
         }
 
 		if (createDefWaveEditor) {

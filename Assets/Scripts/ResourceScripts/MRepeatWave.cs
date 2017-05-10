@@ -12,7 +12,7 @@ public class MRepeatWave: MWaveBase {
 	
 	public override IWaveSpawner GetWave ()
 	{
-		return base.GetWave ();
+		return new RepeatWave(this);
 	}
 
 	public override List<MSpawnBase> GetElements ()

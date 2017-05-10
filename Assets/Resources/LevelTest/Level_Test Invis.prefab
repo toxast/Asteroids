@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1469215527337888}
+  m_RootGameObject: {fileID: 1908703360595952}
   m_IsPrefabParent: 1
---- !u!1 &1469215527337888
+--- !u!1 &1908703360595952
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4339597507321488}
-  - component: {fileID: 114529371202508250}
+  - component: {fileID: 4292783225170616}
+  - component: {fileID: 114579945728572404}
   m_Layer: 0
-  m_Name: MultipleTurretsSpawn
+  m_Name: Level_Test Invis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4339597507321488
+--- !u!4 &4292783225170616
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1469215527337888}
+  m_GameObject: {fileID: 1908703360595952}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,27 +40,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114529371202508250
+--- !u!114 &114579945728572404
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1469215527337888}
+  m_GameObject: {fileID: 1908703360595952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62fa6e71e3f088b4c8676a382669b033, type: 3}
+  m_Script: {fileID: 11500000, guid: a588f2a546b6bca4492c79c23395b9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elems:
-  - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
-    place:
-      pos: {x: 0, y: 15}
-      dir: {x: 1, y: 0}
-  - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
-    place:
-      pos: {x: 15, y: 0}
-      dir: {x: 1, y: 0}
-  - spawn: {fileID: 11409610, guid: 9d421a7244f0fda449c13ecbc3edf0f3, type: 2}
-    place:
-      pos: {x: 0, y: -15}
-      dir: {x: 1, y: 0}
+  data:
+    waves:
+    - {fileID: 114831852681024568, guid: 9e6d5f3e624f3664193624ee68c192cf, type: 2}
+  journal: {fileID: 0}
+  journalFinish: {fileID: 0}
+  levelDifficulty: 150
+  insertWave: 0
+  removeWave: 0
+  index: 0

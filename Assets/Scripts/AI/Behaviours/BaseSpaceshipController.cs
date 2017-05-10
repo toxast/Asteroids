@@ -7,12 +7,12 @@ public class BaseSpaceshipController : InputController, IGotTarget
     protected SpaceShip thisShip;
 	protected PolygonGameObject target;
 
-	public bool shooting{ get; protected set; }
+	public virtual bool shooting{ get; protected set; }
 	public bool accelerating{ get; protected set; }
 	public float accelerateValue01{ get{ return 1f;}} 
 	public bool braking{ get; protected set; }
 	public Vector2 turnDirection{ get; protected set; }
-    AIHelper.AccuracyChangerAdvanced accuracyChanger;
+	protected AIHelper.AccuracyChangerAdvanced accuracyChanger;
     protected float accuracy { get { return accuracyChanger.accuracy; } }
 
     public virtual void Freeze(float m){ }
@@ -37,6 +37,10 @@ public class BaseSpaceshipController : InputController, IGotTarget
         accuracyChanger.Tick(delta);
     }
 
+	protected virtual float SelfSpeedAccuracy() {
+		return 1;
+	}
+
 	protected void Shoot(float accuracy, float bulletsSpeed)
 	{
 		if (Main.IsNull (target)) {
@@ -44,7 +48,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 		}
 		
 		Vector2 relativeVelocity = (target.velocity);
-		AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity - Main.AddShipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
+		AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity - SelfSpeedAccuracy() * Main.AddShipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
 		if(a.canShoot)
 		{
 			turnDirection = a.directionDist;

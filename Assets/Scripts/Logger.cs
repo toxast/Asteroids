@@ -19,6 +19,7 @@ public class Logger : MonoBehaviour {
             } else {
                 path = Path.Combine(Application.dataPath, "mylog.txt");
             }
+			Debug.LogWarning ("logging at: " + path);
             file = new StreamWriter(path, true);
         }
 		msg = DateTime.Now.ToLongTimeString() + " " + msg;

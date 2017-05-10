@@ -84,10 +84,10 @@ MonoBehaviour:
     sub: 0.4
     bounds: {x: 0, y: 1}
   shield:
-    capacity: 2.3
-    rechargeRate: 0.3
+    capacity: 3
+    rechargeRate: 0.2
     hitRechargeDelay: 4
-    rechargeDelayAfterDestory: 4.5
+    rechargeDelayAfterDestory: 10
   guns:
   - place:
       pos: {x: 2.4296305, y: -0.000000053214404}

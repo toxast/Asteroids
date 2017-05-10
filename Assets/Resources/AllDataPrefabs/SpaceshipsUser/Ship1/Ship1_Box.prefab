@@ -50,6 +50,7 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   id: 2
   price: 200
   journal: {fileID: 114395553400948598, guid: 6755feaa26e3dbe4badc45997c18db5b, type: 2}

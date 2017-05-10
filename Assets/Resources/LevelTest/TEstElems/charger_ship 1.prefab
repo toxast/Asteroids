@@ -61,8 +61,10 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   id: -1
   price: -1
+  journal: {fileID: 0}
   color: {r: 0.6544118, g: 0.44766808, b: 0.226157, a: 1}
   physical:
     density: 0.8
@@ -136,7 +138,7 @@ MonoBehaviour:
   - {x: 2.5335374, y: 0.53822917}
   - {x: 0.10309595, y: 0.45413092}
   explosionRangeCalculated: 11.219202
-  explosionDamageCalculated: 9.627316
+  explosionDamageCalculated: 2.406829
   chargeEffect:
     duration: 4
     overrideDefence: -1

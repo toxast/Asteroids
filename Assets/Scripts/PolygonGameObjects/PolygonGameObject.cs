@@ -593,6 +593,12 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		return currentHealth <= 0;
 	}
 
+	public void RestoreShield(){
+		if (shield != null) {
+			shield.Restore ();
+		}
+	}
+
 	public void SetShield(ShieldData shieldData)
 	{
 		Color shCol = Color.green;

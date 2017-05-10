@@ -61,7 +61,6 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
-  startEffect: {fileID: 0}
   id: -1
   price: -1
   journal: {fileID: 0}
@@ -88,9 +87,9 @@ MonoBehaviour:
     shootAngle: 15
   accuracy:
     startingAccuracy: 0
-    thresholdDistance: 15
-    isDynamic: 1
-    checkDtime: 2
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 0.5
     add: 0.2
     sub: 0.4
     bounds: {x: 0, y: 1}
@@ -121,13 +120,13 @@ MonoBehaviour:
     startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
-  - {x: 1.701485, y: -0.23317562}
+  - {x: 1.701485, y: -0.23317572}
   - {x: 1.5740948, y: -0.72868365}
   - {x: 1.9990892, y: -0.822507}
   - {x: 2.0682073, y: -1.4828355}
   - {x: 0.6098294, y: -2.3251119}
   - {x: 0.08592211, y: -1.7631998}
-  - {x: -0.14302525, y: -2.382596}
+  - {x: -0.14302528, y: -2.382596}
   - {x: -1.984591, y: -2.2074873}
   - {x: -1.8200458, y: -1.7846187}
   - {x: -1.2024328, y: -1.598333}
@@ -140,13 +139,13 @@ MonoBehaviour:
   - {x: -1.2024328, y: 1.598333}
   - {x: -1.8200458, y: 1.7846187}
   - {x: -1.984591, y: 2.2074873}
-  - {x: -0.14302525, y: 2.382596}
+  - {x: -0.14302528, y: 2.382596}
   - {x: 0.08592211, y: 1.7631998}
   - {x: 0.6098294, y: 2.3251119}
   - {x: 2.0682073, y: 1.4828355}
   - {x: 1.9990892, y: 0.822507}
   - {x: 1.5740948, y: 0.72868365}
-  - {x: 1.701485, y: 0.23317893}
+  - {x: 1.701485, y: 0.23317882}
   explosionRangeCalculated: 7
   explosionDamageCalculated: 1.7712657
   chargeEffect:

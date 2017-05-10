@@ -213,6 +213,10 @@ public static class AIHelper
 			}
 		}
 
+		public void ExternalChange(float delta){
+			accuracy = Mathf.Clamp (accuracy + delta, data.bounds.x, data.bounds.y);
+		}
+
 		void ChangeAccuracy() {
 			var target = parent.target;
 			if (lastTarget != target) {
@@ -233,7 +237,7 @@ public static class AIHelper
 						accuracy += dtime * data.add;
 					}
 					accuracy = Mathf.Clamp (accuracy, data.bounds.x, data.bounds.y);
-					//Debug.LogError ("diffDistance " + diffDistance + " accuracy " + accuracy);
+					//Debug.LogError (parent.name +  " diffDistance " + diffDistance + " accuracy " + accuracy);
 
 					estimatedPosition = target.position + target.velocity * dtime;
 				}

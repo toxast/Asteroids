@@ -44,8 +44,8 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 1
   gameSpawnLayer: 2
-  difficulty: 14
-  reward: 50
+  difficulty: 13
+  reward: 45
   teleportData:
     duration: 1.5
     ringSize: 10

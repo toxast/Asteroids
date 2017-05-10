@@ -55,12 +55,13 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 4
-  reward: 15
+  difficulty: 3
+  reward: 12
   teleportData:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   id: -1
   price: -1
   journal: {fileID: 0}

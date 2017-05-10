@@ -76,6 +76,10 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		}
 	}
 
+	protected virtual bool CanEvadeTargetNow(){
+		return true;
+	}
+
 	private IEnumerator Logic()
 	{
 		float checkBehTimeInterval = 0.1f;
@@ -110,7 +114,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 						SetAcceleration (iaccelerate);
 					}
 
-					if (!behaviourChosen) {
+					if (!behaviourChosen && CanEvadeTargetNow()) {
 						if (AIHelper.EvadeTarget (thisShip, target, tickData, out duration, out newDir)) {
 							behaviourChosen = true;
 							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
@@ -145,12 +149,11 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 					if (turnBehEnabled && !behaviourChosen && timeForTurnAction && !mainGun.IsFiring()) {
 						behaviourChosen = true;
 						if (tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin) {
-							AIHelper.OutOfComformTurn (thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
+							bool far = tickData.distEdge2Edge > comformDistanceMax;
+							accuracyChanger.ExternalChange(-0.2f);
+							yield return OutOfComformTurn (far);
 						} else {
 							yield return ComfortTurn ();
-//							AIHelper.ComfortTurn (comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-//							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 						}
 						timeForTurnAction = false;
 					}
@@ -177,19 +180,31 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 						checkBehTime -= actDuration;
 					}
 				} else {
-					Brake ();
-					shooting = false;
-					yield return new WaitForSeconds (0.5f); 
+					yield return NoTargetBeh (0.5f);
 					checkBehTime -= 0.5f;
 				}
 			}
 		}
 	}
 
+	protected virtual IEnumerator NoTargetBeh(float duration) {
+		Brake ();
+		shooting = false;
+		yield return new WaitForSeconds (duration); 
+	}
+
+
 	protected virtual IEnumerator ComfortTurn() {
 		float duration;
 		Vector2 newDir;
 		AIHelper.ComfortTurn (comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
+		yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
+	}
+
+	protected virtual IEnumerator OutOfComformTurn(bool far) {
+		float duration;
+		Vector2 newDir;
+		AIHelper.OutOfComformTurn (thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
 		yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 	}
 }

@@ -54,7 +54,8 @@ MonoBehaviour:
   data:
     waves:
     - {fileID: 114664566910631732, guid: ad455efe80792494ba87ba0770455d1e, type: 2}
-    - {fileID: 114664566910631732, guid: 825434c78bbda2a42a26467be6a06365, type: 2}
+    - {fileID: 114911366292388572, guid: 825434c78bbda2a42a26467be6a06365, type: 2}
+    - {fileID: 114911366292388572, guid: 0b52fc834603f184d88dd3f59c229aed, type: 2}
     - {fileID: 114664566910631732, guid: d03b1d7451037c94284d1c6f3ceb9ceb, type: 2}
     - {fileID: 114664566910631732, guid: 4b92b57ef88421d4e830f02e91fa124c, type: 2}
     - {fileID: 114664566910631732, guid: d67d061eebf5d1c4c8b78b8ac2144ab8, type: 2}
@@ -65,7 +66,7 @@ MonoBehaviour:
   journal: {fileID: 114395553400948598, guid: 0b01e2415974a6f48a38f76d96dd0082, type: 2}
   journalFinish: {fileID: 114395553400948598, guid: de85dee667fefd44b8688f9dc074866c,
     type: 2}
-  levelDifficulty: 463
+  levelDifficulty: 454
   insertWave: 0
   removeWave: 0
-  index: 8
+  index: 2
