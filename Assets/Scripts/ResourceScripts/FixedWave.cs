@@ -78,7 +78,8 @@ public class FixedWave : IWaveSpawner{
 				MSpawnBase.PositionData positionData;
 				if (item.spawnAtViewEdge) {
 					var pos = item.positioning;
-					positionData = main.GetEdgePositionData (pos.positionAngle, pos.lookAngle, pos.lookAngleRange); 
+					var deltaAngle = new RandomFloat (-pos.positionAngleRange, pos.positionAngleRange).RandomValue;
+					positionData = main.GetEdgePositionData (pos.positionAngle + deltaAngle, pos.lookAngle, pos.lookAngleRange); 
 				} else {
 					positionData = main.GetPositionData(item.range, item.positioning);
 				}

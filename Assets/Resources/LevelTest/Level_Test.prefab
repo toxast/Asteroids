@@ -53,17 +53,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     waves:
-    - {fileID: 114831852681024568, guid: fc6ad850bad4a824b9e425997cea9140, type: 2}
-    - {fileID: 114831852681024568, guid: 10c2811cfc954ed4e8d02cf50714292a, type: 2}
-    - {fileID: 114831852681024568, guid: fa3ef0c15ca18164abf19164e2520cb6, type: 2}
     - {fileID: 114831852681024568, guid: 5e5d6771a56c3054381792e0d0b58456, type: 2}
     - {fileID: 114831852681024568, guid: bdba26e4a43efe4428485eea0ac6b8fb, type: 2}
     - {fileID: 114831852681024568, guid: cb44c6a29d82bea4582613e0db5f20e0, type: 2}
-    - {fileID: 114831852681024568, guid: f70e0cb6538166140aadfe498859dcb0, type: 2}
-    - {fileID: 114831852681024568, guid: f4b874a2437602647b73a0fa684dafef, type: 2}
-    - {fileID: 114831852681024568, guid: 7415b818d86fc394abeca36e696b799d, type: 2}
     - {fileID: 114831852681024568, guid: 58474b68b66241a44b4f974a100a55bb, type: 2}
-    - {fileID: 114831852681024568, guid: cd8ec752b68d7f24aa4dda52a83ec0ba, type: 2}
     - {fileID: 114831852681024568, guid: ad9db7994407e2e4187db80d9d5fe431, type: 2}
     - {fileID: 114831852681024568, guid: 8c37c3a40e9a0d846bd721ade60a0203, type: 2}
     - {fileID: 114831852681024568, guid: 4136d7eae709db2498b1c8c02ea56e78, type: 2}
@@ -72,9 +65,13 @@ MonoBehaviour:
     - {fileID: 114831852681024568, guid: 8c411d2b159337140aa60d2e35384459, type: 2}
     - {fileID: 114831852681024568, guid: dd9e46ed70ad62d45ab681a71f716264, type: 2}
     - {fileID: 114831852681024568, guid: 6eb62cbfe7472004286a4139d436692f, type: 2}
+    - {fileID: 114831852681024568, guid: 47ea4ebfa0c8d694eaabda2f070a0ad8, type: 2}
+    - {fileID: 114831852681024568, guid: 153db7c031e34c14c8139fa17242628f, type: 2}
+    - {fileID: 114831852681024568, guid: 1ea86e391b2caa6469d5257e5840314c, type: 2}
+    - {fileID: 114831852681024568, guid: 54e91451813d1b54eb97a04c0e04967a, type: 2}
   journal: {fileID: 0}
   journalFinish: {fileID: 0}
-  levelDifficulty: 2270
+  levelDifficulty: 4560
   insertWave: 0
   removeWave: 0
-  index: 0
+  index: 4

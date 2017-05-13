@@ -62,7 +62,7 @@ MonoBehaviour:
     - {fileID: 114772783378911896, guid: ec22e6cac243b2a42a1ab62599562625, type: 2}
   journal: {fileID: 0}
   journalFinish: {fileID: 0}
-  levelDifficulty: 279
+  levelDifficulty: 268
   insertWave: 0
   removeWave: 0
   index: 2

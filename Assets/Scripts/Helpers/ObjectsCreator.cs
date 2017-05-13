@@ -28,6 +28,7 @@ public class ObjectsCreator
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 		var bullets = Singleton<Main>.inst.pBullets;
+		spaceship.invisibilityComponent = new InvisibilityComponent (spaceship, sdata.invisibleData);
         var controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy, sdata.invisibleData);
 		spaceship.SetController(controller);
 		spaceship.targetSystem = new TargetSystem (spaceship);

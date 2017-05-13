@@ -140,6 +140,8 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	[SerializeField] private PolygonGameObject shieldGO;
 	public Shield GetShield() { return shield; }
 
+	public InvisibilityComponent invisibilityComponent;
+
 	public PolygonGameObject minimapIndicator;
 
 	public List<PolygonGameObject> turrets;
@@ -426,10 +428,15 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
         return mesh.colors [0].a;
     }
 
-    public bool increaceAlphaOnHitAndDropInvisibility = false;
+	public bool increaceAlphaOnHitAndDropInvisibility = false;
     bool _isInvisible = false;
 	public bool IsInvisible() {
 		return _isInvisible;
+	}
+
+	public void SetAlphaAndInvisibility(float alpha) {
+		SetAlpha(alpha);
+		SetInvisible(alpha == 0);
 	}
 
     public void SetInvisible(bool invis) {
@@ -571,8 +578,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 //      Debug.LogError ("hit " + dmg);
 		if (increaceAlphaOnHitAndDropInvisibility) {
 		    float alpha = GetAlpha ();
-			SetAlpha(Mathf.Min(1, alpha + 0.65f));
-            SetInvisible(false);
+			SetAlphaAndInvisibility (Mathf.Min (1, alpha + 0.65f));
 		}
 
 		if(shield != null)
@@ -631,6 +637,11 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		if (deathAnimation != null) {
 			deathAnimation.Tick (delta);
 		}
+
+		if (invisibilityComponent != null) {
+			invisibilityComponent.Tick (delta);
+		}
+
 		ShieldsTick (delta);
 		foreach (var t in turrets) {
 			t.Tick (delta);

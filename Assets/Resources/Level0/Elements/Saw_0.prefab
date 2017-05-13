@@ -114,3 +114,10 @@ MonoBehaviour:
     min: 10
     max: 20
   gunsShowChargeEffect: {fileID: 0}
+  useInvisibilityBeh: 0
+  invisData:
+    fadeOutDuration: 1
+    fadeInDuration: 0.6
+    slowerFadeOnHit: 5
+  thrust: 0
+  stability: 0

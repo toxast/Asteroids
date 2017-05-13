@@ -34,13 +34,11 @@ public class MInvisibleSpaceshipData : MSpaceshipData
 		return ObjectsCreator.CreateInvisibleSpaceship<SpaceShip>(this, layer);
 	}
 
+	[System.Serializable]
+	public class InvisibleData : InvisibilityComponent.Data
+	{
+		public float attackDutation = 3f;
+		public float invisibleDuration = 4f;
+	}
 }
 
-[System.Serializable]
-public class InvisibleData
-{
-	public float attackDutation = 3f;
-	public float invisibleDuration = 4f;
-	public float fadeOutDuration = 1f; 
-	public float fadeInDuration = 0.6f; 
-}

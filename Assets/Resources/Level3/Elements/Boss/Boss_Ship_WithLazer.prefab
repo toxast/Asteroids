@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &186596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 485302}
+  - component: {fileID: 11449282}
+  m_Layer: 0
+  m_Name: Boss_Ship_WithLazer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &485302
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 186596}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11449282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 186596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 0
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 55
+  reward: 240
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
+  id: -1
+  price: -1
+  journal: {fileID: 0}
+  color: {r: 0.5147059, g: 0.5099034, b: 0.3406142, a: 1}
+  physical:
+    density: 3
+    health: 180
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 1
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: 40
+    overrideExplosionDamage: 5
+  mobility:
+    thrust: 6
+    maxSpeed: 10
+    turnSpeed: 15
+    brake: 15
+    passiveBrake: 2
+    stability: 0.5
+    shootAngle: 180
+  accuracy:
+    startingAccuracy: 1
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 0
+    rechargeRate: 0
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 10
+  guns:
+  - place:
+      pos: {x: 3.8800004, y: -0.0000000089851095}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11421854, guid: b32dc99750a4c0a419fd79257ff80134, type: 2}
+  - place:
+      pos: {x: -0.12999974, y: -7.69}
+      dir: {x: 0.42401046, y: -0.9056573}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11421854, guid: b32dc99750a4c0a419fd79257ff80134, type: 2}
+  - place:
+      pos: {x: -0.12999974, y: 7.6900005}
+      dir: {x: 0.42401087, y: 0.9056572}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11421854, guid: b32dc99750a4c0a419fd79257ff80134, type: 2}
+  - place:
+      pos: {x: 6.780001, y: 6.42}
+      dir: {x: 0.45663214, y: 0.8896556}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11420944, guid: f74655788b070a64a87cd90acbb4d841, type: 2}
+  - place:
+      pos: {x: 6.780001, y: -6.42}
+      dir: {x: 0.45663214, y: -0.8896556}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11420944, guid: f74655788b070a64a87cd90acbb4d841, type: 2}
+  linkedGuns: []
+  thrusters:
+  - place:
+      pos: {x: -9.5, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  turrets:
+  - place:
+      pos: {x: -4.8599997, y: 5.25}
+      dir: {x: -0.8660253, y: 0.5000001}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    turret: {fileID: 11413798, guid: 9fdf19e4856e42040bf72d9e6fe0a73a, type: 2}
+  - place:
+      pos: {x: -4.8599997, y: -5.25}
+      dir: {x: -0.8660253, y: -0.5000001}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    turret: {fileID: 11413798, guid: 9fdf19e4856e42040bf72d9e6fe0a73a, type: 2}
+  verts:
+  - {x: 4.0032954, y: -0.57231283}
+  - {x: 6.8648653, y: -1.8413565}
+  - {x: 12.214753, y: -1.2939258}
+  - {x: 11.866387, y: -5.275239}
+  - {x: 5.570937, y: -11.545806}
+  - {x: 3.1075013, y: -10.973492}
+  - {x: 1.0670798, y: -7.7386765}
+  - {x: -1.3963574, y: -7.9626255}
+  - {x: 0.6191815, y: -12.143003}
+  - {x: -10.229898, y: -8.211458}
+  - {x: -12.121022, y: -2.7122676}
+  - {x: -7.06973, y: -2.513202}
+  - {x: -8.214359, y: -1.4681083}
+  - {x: -10.354315, y: -1.0699769}
+  - {x: -10.354315, y: 1.0699803}
+  - {x: -8.214359, y: 1.4681116}
+  - {x: -7.06973, y: 2.5132072}
+  - {x: -12.121022, y: 2.712273}
+  - {x: -10.229898, y: 8.211458}
+  - {x: 0.6191815, y: 12.143003}
+  - {x: -1.3963574, y: 7.9626255}
+  - {x: 1.0670798, y: 7.7386765}
+  - {x: 3.1075013, y: 10.973492}
+  - {x: 5.570937, y: 11.545806}
+  - {x: 11.866387, y: 5.275239}
+  - {x: 12.214753, y: 1.2939291}
+  - {x: 6.8648653, y: 1.8413599}
+  - {x: 4.0032954, y: 0.5723163}
+  explosionRangeCalculated: 40
+  explosionDamageCalculated: 5.4993196
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 186596}
+  m_IsPrefabParent: 1

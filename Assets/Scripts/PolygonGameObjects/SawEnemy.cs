@@ -9,11 +9,10 @@ public class SawEnemy : PolygonGameObject, IFreezble
 	private float rotationChargingRate;
 	private float rotationSlowingRate;
 	private float chargeRotation;
-//	private float veloityChargeRate;
 	private float velocityslowingRate;
-	private float chargeSpeed;
 	MSawData data;
-	//private float initialVelocitySqr;
+	protected AIHelper.AccuracyChangerAdvanced accuracyChanger;
+	protected float accuracy { get { return accuracyChanger.accuracy; } }
 
 	public void InitSawEnemy(MSawData data) 
 	{
@@ -21,6 +20,7 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		this.reward = data.reward;
 		InitPolygonGameObject (data.physical);
 		Asteroid.InitRandomMovement (this, data.speed, data.rotation);
+		accuracyChanger = new AIHelper.AccuracyChangerAdvanced(data.accuracy, this);
 
 		initialRotation = rotation;
 		initialVelocity = velocity.magnitude;
@@ -29,6 +29,15 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		this.rotationChargingRate = (data.chargeRotation) / data.prepareTime;
 		this.rotationSlowingRate = (data.chargeRotation) / data.slowingDuration;
 		this.velocityslowingRate = (data.chargeSpeed.max) / data.slowingDuration;
+
+		if (data.useInvisibilityBeh) {
+			this.invisibilityComponent = new InvisibilityComponent (this, data.invisData);
+			this.increaceAlphaOnHitAndDropInvisibility = true;
+		}
+	}
+
+	void Start () {
+		StartCoroutine(CheckDistanceAndCharge());
 	}
 
 	public override void Freeze(float multipiler){
@@ -38,13 +47,9 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		base.Freeze (multipiler);
 	}
 
-	void Start () {
-		StartCoroutine(CheckDistanceAndCharge());
-		var accData = data.accuracy;
-		accuracy = accData.startingAccuracy;
-		if (accData.isDynamic) {
-			StartCoroutine (AccuracyChanger (accData));
-		}
+	public override void Tick (float delta) {
+		base.Tick (delta);
+		accuracyChanger.Tick (delta);
 	}
 
 	IEnumerator CheckDistanceAndCharge() {
@@ -52,11 +57,23 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		while (true) {
 			yield return new WaitForSeconds (deltaTime); 
 			if (!Main.IsNull (target)) {
-				if (Mathf.Abs (rotation) > chargeRotation) {
+				while (!Main.IsNull (target) && Mathf.Abs (rotation) < chargeRotation) {
+					rotation += Mathf.Sign (rotation) * rotationChargingRate * Time.deltaTime;
+					if (data.useInvisibilityBeh) {
+						float approximateTimeToCharge = Mathf.Abs ((chargeRotation - Mathf.Abs (rotation)) / rotationChargingRate);
+						if (approximateTimeToCharge <= data.invisData.fadeInDuration) {
+							invisibilityComponent.SetState (false);
+						}
+					}
+					yield return null;
+				}
+				if (!Main.IsNull (target)) {
 					yield return StartCoroutine (Charge ()); 
-					yield return StartCoroutine (Slow ()); 
-				} else {
-					rotation += Mathf.Sign (rotation) * rotationChargingRate * deltaTime;
+
+					if (data.useInvisibilityBeh) {
+						invisibilityComponent.SetState (true);
+					}
+					yield return StartCoroutine (Slow ());
 				}
 			} else {
 				Slow (deltaTime);
@@ -66,12 +83,13 @@ public class SawEnemy : PolygonGameObject, IFreezble
 
 	GunsShowEffect currentGunsShowEffect;
 	IEnumerator Charge() {
+		float chargeSpeed = data.chargeSpeed.RandomValue;
+		float chargeSpeedSqr = chargeSpeed * chargeSpeed;
 		if (!Main.IsNull (target)) {
 			if (data.gunsShowChargeEffect != null) {
 				currentGunsShowEffect = new GunsShowEffect (data.gunsShowChargeEffect);
 				AddEffect (currentGunsShowEffect);
 			}
-			chargeSpeed = data.chargeSpeed.RandomValue;
 			AimSystem aim = new AimSystem (target.position, target.velocity * accuracy, position, chargeSpeed);
 			if (aim.canShoot) {
 				velocity = chargeSpeed * aim.directionDist.normalized;
@@ -87,6 +105,7 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		while (chargeLeftDuration > 0) {
 			chargeLeftDuration -= Time.deltaTime;
 			yield return null; 
+			AccelerateTowardsTarget (chargeSpeed, chargeSpeedSqr, Time.deltaTime);
 			if ((forceStopWhenMissed || continueWhileGoingAfterTarget) && !Main.IsNull(target)) {
 				bool missed = Vector2.Dot ((target.position - position), velocity) <= 0;
 				if (missed && forceStopWhenMissed) {
@@ -101,6 +120,13 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		if (currentGunsShowEffect != null) {
 			currentGunsShowEffect.ForceFinish ();
 			currentGunsShowEffect = null;
+		}
+	}
+
+	private void AccelerateTowardsTarget(float chargeSpeed, float chargeSpeedSqr, float deltaTime){
+		if (data.thrust > 0 && !Main.IsNull(target)) {
+			AimSystem aim = new AimSystem (target.position, target.velocity * accuracy, position, chargeSpeed);
+			Accelerate (deltaTime, data.thrust, data.stability, chargeSpeed, chargeSpeedSqr, aim.directionDist.normalized);
 		}
 	}
 
@@ -137,18 +163,6 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		while (slowing) {
 			slowing = Slow (deltaTime);
 			yield return new WaitForSeconds (deltaTime); 
-		}
-	}
-
-	float accuracy = 0;
-	private IEnumerator AccuracyChanger(AccuracyData data) {
-		Vector2 lastDir = Vector2.one; //just not zero
-		float dtime = data.checkDtime;
-		while (true) {
-			if (!Main.IsNull (target)) {
-				AIHelper.ChangeAccuracy (ref accuracy, ref lastDir, target, data);
-			}
-			yield return new WaitForSeconds (dtime);
 		}
 	}
 }

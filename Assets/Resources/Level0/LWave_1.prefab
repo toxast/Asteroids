@@ -66,16 +66,6 @@ MonoBehaviour:
         positionAngleRange: 360
         lookAngle: 0
         lookAngleRange: 0
-    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
-        type: 2}
-      range:
-        min: 40
-        max: 50
-      spawnAtViewEdge: 0
-      positioning:
-        positionAngle: 0
-        positionAngleRange: 360
-        lookAngle: 0
-        lookAngleRange: 0
+      count: 2
   createDefWaveEditor: 0
-  totalDifficulty: 10
+  totalDifficulty: 4

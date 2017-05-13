@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveData:
-    diffucultyAtOnce: 50
-    diffucultyTotal: 80
+    diffucultyAtOnce: 45
+    diffucultyTotal: 70
     overrideDificultyAdds: -1
     differentSpawnsCountRange:
       min: 2
@@ -67,7 +67,7 @@ MonoBehaviour:
     destroyAreaTimeThreshold: 30
     destroyAreaPersentage: 0.3
     objects:
-    - spawn: {fileID: 114913661651274198, guid: 0eafa92842238654aa5ceba6d534c629,
+    - spawn: {fileID: 114006690424570016, guid: 4f515954c7378f94cb101de3f5597af4,
         type: 2}
       range:
         min: 50
@@ -98,6 +98,19 @@ MonoBehaviour:
         max: 70
       spawnAtViewEdge: 0
       weight: 20
+      overridePositioning: 0
+      positioning:
+        positionAngle: 180
+        positionAngleRange: 180
+        lookAngle: 0
+        lookAngleRange: 90
+    - spawn: {fileID: 114913661651274198, guid: 0eafa92842238654aa5ceba6d534c629,
+        type: 2}
+      range:
+        min: 50
+        max: 70
+      spawnAtViewEdge: 0
+      weight: 3
       overridePositioning: 0
       positioning:
         positionAngle: 180

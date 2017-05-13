@@ -56,10 +56,13 @@ MonoBehaviour:
     - {fileID: 114664566910631732, guid: 83275fd7a7488ab4e865aa99548bd7f9, type: 2}
     - {fileID: 114664566910631732, guid: 39e9736eb18b58345bdd0e79d3d44b4f, type: 2}
     - {fileID: 114664566910631732, guid: cbbac468fcc43d04687e7260bd8df51d, type: 2}
+    - {fileID: 114664566910631732, guid: c26fe692a4a79c744be11dd16c06da34, type: 2}
     - {fileID: 114664566910631732, guid: 16fe89ccfcf8fa2489ba9cf624226c1c, type: 2}
     - {fileID: 114664566910631732, guid: 5ca151835ec4a694ca7dd022de6171b2, type: 2}
+    - {fileID: 114664566910631732, guid: f9447b7075f741e4fa4534171d4ce54a, type: 2}
     - {fileID: 114664566910631732, guid: 52ab196c9d48a32458dd0219c72c1315, type: 2}
     - {fileID: 114664566910631732, guid: 3ec21112c14d71d499f8aa10f32b5d00, type: 2}
+    - {fileID: 114772783378911896, guid: 7cea0fda393836b4e8f5eb1039d9d7e6, type: 2}
   journal: {fileID: 0}
   journalFinish: {fileID: 0}
   levelDifficulty: 545

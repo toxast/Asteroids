@@ -46,28 +46,33 @@ public class UserController : CommonController {
 		}
 	}
 
+	protected override bool CanEvadeTargetNow(){
+		return evadeTargetAction;
+	}
+
+	bool lastBrake = false;
 	protected override IEnumerator ComfortTurn () {
 		if (Math2d.Chance (0.5f)) {
 			yield return base.ComfortTurn ();
+			lastBrake = false;
 		} else {
 			float duration = new RandomFloat (2f, 3f).RandomValue;
 			bool acc = Math2d.Chance (0.35f);
-			bool brake = acc ? false : Math2d.Chance (0.5f);
+			bool brake = (acc || lastBrake) ? false : Math2d.Chance (0.5f);
+			lastBrake = brake;
 			yield return AIHelper.TimerR (duration, LastDelta, () => Shoot(acc, brake));
 		}
-	}
-
-	protected override bool CanEvadeTargetNow(){
-		return evadeTargetAction;
 	}
 
 	protected override IEnumerator OutOfComformTurn (bool far)
 	{
 		if (Math2d.Chance (0.5f)) {
 			yield return base.OutOfComformTurn (far);
+			lastBrake = false;
 		} else {
 			float duration = new RandomFloat (2f, 3f).RandomValue;
-			bool brake = far ? false : Math2d.Chance (0.5f);
+			bool brake = (far || lastBrake) ? false : Math2d.Chance (0.5f);
+			lastBrake = brake;
 			yield return AIHelper.TimerR (duration, LastDelta, () => Shoot(far, brake));
 		}
 	}

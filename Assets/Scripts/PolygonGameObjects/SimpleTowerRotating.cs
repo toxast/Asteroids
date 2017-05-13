@@ -5,10 +5,8 @@ using System.Linq;
 
 public class SimpleTowerRotating : PolygonGameObject, IFreezble
 {
-	//public static Vector2[] vertices = PolygonCreator.CreateTowerVertices2(1, 6);
 	MTowerRotatingData data;
-	private float shootAngle = 20f; //if angle to target bigger than this - dont even try to shoot
-	//private float cannonsRotatingSpeed = 0;
+	private float shootAngle;
 
 	private float currentAimAngle = 0;
 	private float currentOffsetAimAngle = 0;
@@ -16,18 +14,17 @@ public class SimpleTowerRotating : PolygonGameObject, IFreezble
 	Rotaitor cannonsRotaitorCurrent;
 	Rotaitor cannonsRotaitorReload;
 	Rotaitor cannonsRotaitorShoot;
-	float accuracy;
+
+	protected AIHelper.AccuracyChangerAdvanced accuracyChanger;
+	protected float accuracy { get { return accuracyChanger.accuracy; } }
+
 
 	public void InitTowerRotating (MTowerRotatingData data) {
 		this.data = data;
 		InitPolygonGameObject (data.physical);
 		this.shootAngle = data.shootAngle;
 
-		accuracy = data.accuracy.startingAccuracy;
-		if (data.accuracy.isDynamic) {
-			StartCoroutine (AccuracyChanger (data.accuracy));
-		}
-
+		accuracyChanger = new AIHelper.AccuracyChangerAdvanced(data.accuracy, this);
 		cannonsRotaitorReload = new Rotaitor(cacheTransform, data.rotationSpeed);
 		cannonsRotaitorShoot = new Rotaitor(cacheTransform, data.rotationSpeedWhileShooting);
 		cannonsRotaitorCurrent = cannonsRotaitorReload;
@@ -44,6 +41,7 @@ public class SimpleTowerRotating : PolygonGameObject, IFreezble
 	public override void Tick(float delta) 	{
 		lastDelta = delta;
 		base.Tick (delta);
+		accuracyChanger.Tick (delta);
 		Brake (delta, 4f);
 		SlowRotation (delta, 30f);
 		CalculateAim ();
@@ -118,60 +116,6 @@ public class SimpleTowerRotating : PolygonGameObject, IFreezble
 			currentOffsetAimAngle = currentAimAngle + shootAngle;
 		} else {
 			currentOffsetAimAngle = currentAimAngle - shootAngle;
-		}
-	}
-
-	private IEnumerator AccuracyChanger(AccuracyData data)
-	{
-		accuracy = data.startingAccuracy;
-		if (!data.isDynamic) 
-		{
-			yield break;
-		}
-
-		float dtime = data.checkDtime;
-		bool hasEstimatedPosition = false;
-		Vector2 estimatedPosition = Vector2.zero;
-		PolygonGameObject lastTarget = null;
-
-		while(true)
-		{
-			if (lastTarget != target) {
-				hasEstimatedPosition = false;
-				accuracy = data.startingAccuracy;
-			}
-
-			if(!Main.IsNull(target))
-			{
-				if (!hasEstimatedPosition) 
-				{
-					estimatedPosition = target.position + target.velocity * dtime;
-					hasEstimatedPosition = true;
-				} 
-				else 
-				{
-					float diffDistance = (target.position - estimatedPosition).magnitude;
-
-					if (diffDistance >= data.thresholdDistance)
-					{
-						accuracy -= dtime * data.sub;
-					}
-					else 
-					{
-						accuracy += dtime * data.add;
-					}
-
-					accuracy = Mathf.Clamp (accuracy, data.bounds.x, data.bounds.y);
-					//Debug.LogWarning (diffDistance);
-					//Debug.LogWarning (accuracy);
-
-					estimatedPosition = target.position + target.velocity * dtime;
-				}
-				//AIHelper.ChangeAccuracy(ref accuracy, ref lastDir, ref lastVelocity, target, data);
-			}
-
-			lastTarget = target;
-			yield return new WaitForSeconds(dtime);
 		}
 	}
 }

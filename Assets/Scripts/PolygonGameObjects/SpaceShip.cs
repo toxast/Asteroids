@@ -60,11 +60,6 @@ public class SpaceShip : PolygonGameObject , IFreezble
 		}
 	}
 
-    public void SetAlphaAndInvisibility(float alpha) {
-        SetAlpha(alpha);
-        SetInvisible(alpha == 0);
-    }
-
 	public override void Freeze(float multipiler){
 		base.Freeze (multipiler);
 		MultiplyStability(multipiler);

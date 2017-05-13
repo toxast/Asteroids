@@ -4,13 +4,8 @@ using System.Collections.Generic;
 
 public class SpikyAsteroid : PolygonGameObject, IFreezble
 {
-//	public event System.Action<Asteroid> SpikeAttack;
-
 	private class Spike
 	{
-		// index
-		//a-/\-b  a points to the tip, b points away from it
-
 		public int index;
 		public Edge a;
 		public Edge b;
@@ -24,30 +19,26 @@ public class SpikyAsteroid : PolygonGameObject, IFreezble
 		}
 	}
 
-//	private float detectionDistance = 70f;
-//	private float detectionDistanceSqr;
 	private float spikeSpeed;
 	private float growSpeed;
 	MSpikyData  data;
 
 	private List<Spike> spikesLeft = new List<Spike>();
 
+	protected AIHelper.AccuracyChangerAdvanced accuracyChanger;
+	protected float accuracy { get { return accuracyChanger.accuracy; } }
+
 	public void InitSpikyAsteroid (int[] spikes, MSpikyData data)	{
 		this.data = data;
 		InitPolygonGameObject (data.physical);
 		Asteroid.InitRandomMovement (this, data.speed, data.rotation);
+		accuracyChanger = new AIHelper.AccuracyChangerAdvanced(data.accuracy, this);
 		this.spikeSpeed = data.spikeVelocity;
 		this.growSpeed = data.growSpeed;
 		foreach(int spikeVertex in spikes) {
 			int previous = polygon.Previous(spikeVertex);
 			Spike spike = new Spike(polygon.edges[previous], polygon.edges[spikeVertex], spikeVertex);
 			spikesLeft.Add(spike);
-		}
-
-		var accData = data.accuracy;
-		accuracy = accData.startingAccuracy;
-		if (accData.isDynamic) {
-			StartCoroutine (AccuracyChanger (accData));
 		}
 
 		StartCoroutine (AccelerateTowardsTarget ());
@@ -58,6 +49,7 @@ public class SpikyAsteroid : PolygonGameObject, IFreezble
 	public override void Tick (float delta) {
 		deltaTime = delta;
 		base.Tick (delta);
+		accuracyChanger.Tick (delta);
 	}
 
 	public override void Freeze(float multipiler){
@@ -197,18 +189,6 @@ public class SpikyAsteroid : PolygonGameObject, IFreezble
 				growFinished = true;
 			}
 			yield return new WaitForSeconds (interval);
-		}
-	}
-
-	float accuracy = 0;
-	private IEnumerator AccuracyChanger(AccuracyData data) {
-		Vector2 lastDir = Vector2.one; //just not zero
-		float dtime = data.checkDtime;
-		while (true) {
-			if (!Main.IsNull (target)) {
-				AIHelper.ChangeAccuracy (ref accuracy, ref lastDir, target, data);
-			}
-			yield return new WaitForSeconds (dtime);
 		}
 	}
 }

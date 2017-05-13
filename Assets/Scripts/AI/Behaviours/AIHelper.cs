@@ -214,7 +214,9 @@ public static class AIHelper
 		}
 
 		public void ExternalChange(float delta){
-			accuracy = Mathf.Clamp (accuracy + delta, data.bounds.x, data.bounds.y);
+			if (data.isDynamic) {
+				accuracy = Mathf.Clamp (accuracy + delta, data.bounds.x, data.bounds.y);
+			}
 		}
 
 		void ChangeAccuracy() {

@@ -117,6 +117,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 					if (!behaviourChosen && CanEvadeTargetNow()) {
 						if (AIHelper.EvadeTarget (thisShip, target, tickData, out duration, out newDir)) {
 							behaviourChosen = true;
+							accuracyChanger.ExternalChange(-0.3f);
 							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 						}
 					}
@@ -138,6 +139,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 					if (!behaviourChosen && evadeBullets && checkBulletsAction) {
 						if (AIHelper.EvadeBullets (thisShip, bullets, out duration, out newDir)) {
 							behaviourChosen = true;
+							accuracyChanger.ExternalChange(-0.3f);
 							yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration));
 						}
 						checkBulletsAction = false;
@@ -153,6 +155,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 							accuracyChanger.ExternalChange(-0.2f);
 							yield return OutOfComformTurn (far);
 						} else {
+							accuracyChanger.ExternalChange(0.1f);
 							yield return ComfortTurn ();
 						}
 						timeForTurnAction = false;

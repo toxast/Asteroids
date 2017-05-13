@@ -70,6 +70,7 @@ public class SpawnerGun : GunShooterBase
         obj.SetSpawnParent(parent);
         obj.gameObject.name += "_spawn";
 		obj.reward = 0;
+		obj.priorityMultiplier = 0.5f;
 
 		if (target != null) {
 			obj.SetTarget (target);

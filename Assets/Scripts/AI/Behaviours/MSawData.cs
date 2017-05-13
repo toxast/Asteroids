@@ -25,6 +25,10 @@ public class MSawData : MSpawnDataBase, IGotShape
 
 	public MGunsShow gunsShowChargeEffect;
 
+	public bool useInvisibilityBeh = false;
+	public InvisibilityComponent.Data invisData;
+	public float thrust = 0;
+	public float stability = 0;
 
     private void OnValidate() {
         if (vertices.Length < 3) {

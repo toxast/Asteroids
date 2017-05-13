@@ -40,12 +40,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584289657a97174479d9981d27560ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 0.11618954
-  collisionDmg: 0.12951629
-  estimateRange: 60
-  hitDamage: 0.8
+  dps: 0.14442745
+  collisionDmg: 0.15541954
+  estimateRange: 72
+  hitDamage: 1
   lifeTime: 3
-  velocity: 20
+  velocity: 24
   fireInterval: 8
   repeatCount: 0
   repeatInterval: 0

@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveData:
     diffucultyAtOnce: 36
-    diffucultyTotal: 100
+    diffucultyTotal: 80
     overrideDificultyAdds: -1
     differentSpawnsCountRange:
       min: 2

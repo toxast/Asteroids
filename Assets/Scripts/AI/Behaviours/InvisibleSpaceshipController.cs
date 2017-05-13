@@ -11,35 +11,19 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
     bool turnBehEnabled = true;
     bool evadeBullets = true;
 
-    float attackDutation = 5f;
-    float invisibleDuration = 8f;
-	float fadeOutSpeedPerSecond = 2f; 
-	float fadeOutAfterHitSpeedPerSecond = 2f; 
-	float fadeInSpeedPerSecond = 2f; 
-	float currentfadeOutSpeed;
-	float fadeOutDuration;
-	float fadeInDuration;
-
+	MInvisibleSpaceshipData.InvisibleData invisData;
     AIHelper.Data tickData = new AIHelper.Data();
 	Gun mainGun;
 
-	public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData, InvisibleData invisData) : base(thisShip, accData)
+
+	public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData, MInvisibleSpaceshipData.InvisibleData invisData) : base(thisShip, accData)
     {
 		mainGun = gun;
+		this.invisData = invisData;
         thisShip.increaceAlphaOnHitAndDropInvisibility = true;
-        attackDutation = invisData.attackDutation;
-		invisibleDuration = invisData.invisibleDuration;
-
-		fadeInDuration = invisData.fadeInDuration;
-		fadeOutDuration = invisData.fadeOutDuration;
-		fadeOutSpeedPerSecond = 1f / invisData.fadeOutDuration;
-		fadeInSpeedPerSecond = 1f /invisData.fadeInDuration;
-		fadeOutAfterHitSpeedPerSecond = fadeOutSpeedPerSecond / 5f;
-		currentfadeOutSpeed = fadeOutSpeedPerSecond;
 
 		this.bulletsSpeed = mainGun.BulletSpeedForAim;
         this.bullets = bullets;
-        thisShip.StartCoroutine (ControlInvisibility ());
         thisShip.StartCoroutine (Logic ());
 
 		thisShip.StartCoroutine (BehaviourChangeLogic ());
@@ -87,35 +71,28 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
     }
 
 	bool invisibleBehaviour = true;
-	bool shouldBeInvisible = true;
 	bool disappering = false; 
 
 	private IEnumerator BehaviourChangeLogic()
 	{
 		while (true) {
 			//fade out
-			currentfadeOutSpeed = fadeOutSpeedPerSecond;
 			invisibleBehaviour = true;
-			shouldBeInvisible = true;
+			thisShip.invisibilityComponent.SetState (true);
 			timeForTurnAction = true;
 			disappering = true;
-			Debug.LogError ("fade out " + fadeOutDuration);
-			yield return new WaitForSeconds (fadeOutDuration);
+			yield return new WaitForSeconds (invisData.fadeOutDuration);
 			disappering = false;
-			currentfadeOutSpeed = fadeOutAfterHitSpeedPerSecond;
 			//invisible duration
-			Debug.LogError ("invisibleDuration " + invisibleDuration);
-			yield return new WaitForSeconds (invisibleDuration);
+			yield return new WaitForSeconds (invisData.invisibleDuration);
 			//fade in
-			shouldBeInvisible = false;
-			Debug.LogError ("fadeInDuration " + fadeInDuration);
-			yield return new WaitForSeconds (fadeInDuration);
+			thisShip.invisibilityComponent.SetState (false);
+			yield return new WaitForSeconds (invisData.fadeInDuration);
 			//attack
 			invisibleBehaviour = false;
 			timeForTurnAction = false;
 			untilTurn = new RandomFloat(untilTurnMax * 0.7f, untilTurnMax).RandomValue;
-			Debug.LogError ("attackDutation " + attackDutation);
-			yield return new WaitForSeconds (attackDutation);
+			yield return new WaitForSeconds (invisData.attackDutation);
 		}
 	}
 
@@ -213,23 +190,53 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
             }
         }
     }
+}
 
-    private IEnumerator ControlInvisibility()
-    {
-        while (true) {
-            var currentAlpha = thisShip.GetAlpha();
-			if (shouldBeInvisible) {
-				if (currentAlpha > 0) {
-					float newAlpha = Mathf.Clamp(currentAlpha - currentfadeOutSpeed * Time.deltaTime, 0f, 1f);
-					thisShip.SetAlphaAndInvisibility(newAlpha);
+public class InvisibilityComponent: ITickable {
+	[Serializable]
+	public class Data {
+		public float fadeOutDuration = 1f; 
+		public float fadeInDuration = 0.6f; 
+		public float slowerFadeOnHit = 5f;
+	}
+
+	PolygonGameObject parent;
+	bool shouldBeInvisible = false;
+	float fadeInSpeedPerSecond;
+
+	float fadeOutSpeedPerSecond;
+	float fadeOutAfterHitSpeedPerSecond;
+	float currentfadeOutSpeed;
+
+	public InvisibilityComponent(PolygonGameObject parent, Data invisData){
+		this.parent = parent;
+
+		fadeOutSpeedPerSecond = 1f / invisData.fadeOutDuration;
+		fadeInSpeedPerSecond = 1f /invisData.fadeInDuration;
+		fadeOutAfterHitSpeedPerSecond = fadeOutSpeedPerSecond / invisData.slowerFadeOnHit;
+		currentfadeOutSpeed = fadeOutSpeedPerSecond;
+	}
+
+	public void SetState(bool invisible){
+		shouldBeInvisible = invisible;
+		currentfadeOutSpeed = fadeOutSpeedPerSecond;
+	}
+
+	public void Tick (float delta) 	{
+		var currentAlpha = parent.GetAlpha();
+		if (shouldBeInvisible) {
+			if (currentAlpha > 0) {
+				float newAlpha = Mathf.Clamp(currentAlpha - currentfadeOutSpeed * delta, 0f, 1f);
+				parent.SetAlphaAndInvisibility(newAlpha);
+				if (newAlpha == 0) {
+					currentfadeOutSpeed = fadeOutAfterHitSpeedPerSecond;
 				}
-            } else {
-				if (currentAlpha < 1) {
-					float newAlpha = Mathf.Clamp(currentAlpha + fadeInSpeedPerSecond * Time.deltaTime, 0f, 1f);
-					thisShip.SetAlphaAndInvisibility(newAlpha);
-				}
-            }
-            yield return null;
-        }
-    }
+			}
+		} else {
+			if (currentAlpha < 1) {
+				float newAlpha = Mathf.Clamp(currentAlpha + fadeInSpeedPerSecond * delta, 0f, 1f);
+				parent.SetAlphaAndInvisibility(newAlpha);
+			}
+		}
+	}
 }

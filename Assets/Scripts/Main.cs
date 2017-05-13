@@ -816,7 +816,7 @@ public class Main : MonoBehaviour
 		}
 
 		if (
-			(gobject.layerLogic == (int)CollisionLayers.eLayer.TEAM_ENEMIES && (!(gobject is Asteroid))) ||
+			(gobject.layerLogic == (int)CollisionLayers.eLayer.TEAM_ENEMIES && (!(gobject is Asteroid)) && gobject.priority != PolygonGameObject.ePriorityLevel.LOW) ||
 			(gobject.layerLogic == (int)CollisionLayers.eLayer.ASTEROIDS && gobject.dropID != null && Math2d.Chance(0.06f))
 		) {
 			for (int i = powerupDropsLeft.Count - 1; i >= 0; i--) {

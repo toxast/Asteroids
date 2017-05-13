@@ -89,9 +89,10 @@ public class RepeatWave : IWaveSpawner {
 			var fobj = fwave.waveData.objects [0];
 			float middleforElem = middleforWave / fobj.count;
 			Log ("dmgs: " + dmgstr);
-			Log ("middleforWave:  " + middleforWave + " = " + total + "/" + mesures);
-			Log ("middleforElem:  " + middleforElem + " = " + middleforWave + "/" + fobj.count);
-			Log (string.Format ("finished waves of {0} dmg: {1} difficulty: {2}", fobj.spawn.name, middleforElem, Mathf.RoundToInt(middleforElem * 5f)));
+			Debug.LogError ("middleforWave:  " + middleforWave + " = " + total + "/" + mesures);
+			Debug.LogError ("middleforElem:  " + middleforElem + " = " + middleforWave + "/" + fobj.count);
+			var elemDiff = Mathf.RoundToInt (middleforElem * 5f);
+			Log (string.Format ("finished waves of {0} dmg: {1} difficulty: {2}, current: {3}, diff: {4}", fobj.spawn.name, middleforElem, elemDiff, fobj.difficulty, elemDiff - fobj.difficulty));
 		}
 	}
 }

@@ -72,14 +72,14 @@ MonoBehaviour:
     - spawn: {fileID: 114253730577282388, guid: e5acfb76570377a4f87bd4ce1692f775,
         type: 2}
       range:
-        min: 40
-        max: 40
+        min: 0
+        max: 0
       spawnAtViewEdge: 0
       positioning:
         positionAngle: 0
         positionAngleRange: 360
         lookAngle: 0
         lookAngleRange: 360
-      count: 1
+      count: 2
   createDefWaveEditor: 0
-  totalDifficulty: 34
+  totalDifficulty: 52
