@@ -11,6 +11,12 @@ public class MPowerUpResources : ResourceSingleton<MPowerUpResources> {
 		CheckIds ();
 	}
 
+	void WarningFix(){
+		if (testid) {
+			Debug.LogWarning ("");
+		}
+	}
+
 	private void CheckIds(){
 		//Debug.LogError ("TODO: powerup ids");
 

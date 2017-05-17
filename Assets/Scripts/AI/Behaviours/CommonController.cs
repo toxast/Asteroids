@@ -210,6 +210,72 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		AIHelper.OutOfComformTurn (thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
 		yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 	}
+
+	List<IBehaviour> logics = new List<IBehaviour> ();
+	IBehaviour currentBeh = null;
+	List<IBehaviour> others = new List<IBehaviour> ();
+
+	void AssignCurrentBeh(IBehaviour beh) {
+		if (currentBeh != null) {
+			currentBeh.Stop ();
+			currentBeh.OnAccelerateChange -= HandleAccelerateChange;
+			currentBeh.OnDirChange -= HandleDirChange;
+			currentBeh.OnShootChange -= HandleShootChange;
+			currentBeh.OnBrake -= HandleBrake;
+		}
+
+		currentBeh = beh;
+
+		currentBeh.OnAccelerateChange += HandleAccelerateChange;
+		currentBeh.OnDirChange += HandleDirChange;
+		currentBeh.OnShootChange += HandleShootChange;
+		currentBeh.OnBrake += HandleBrake;
+		currentBeh.Start ();
+
+		others.Clear ();
+		others.AddRange(logics.FindAll(b => b != beh));
+	}
+
+	void HandleAccelerateChange(bool acc){
+		SetAcceleration (acc);
+	}
+
+	void HandleShootChange(bool shoot){
+		this.shooting = shoot;
+	}
+
+	void HandleDirChange(Vector2 dir){
+		this.turnDirection = dir;
+	}
+
+	void HandleBrake(){
+		Brake ();
+	}
+
+	public override void Tick (float delta) {
+		base.Tick (delta);
+
+		if (currentBeh != null || currentBeh.IsFinished ()) {
+			AssignCurrentBeh(null);
+		}
+
+		if (currentBeh == null || currentBeh.CanBeInterrupted ()) {
+			var urgent = others.Find (beh => beh.IsUrgent () && beh.IsReadyToAct ());
+			if (urgent != null) {
+				AssignCurrentBeh (urgent);
+			}
+		}
+
+		if (currentBeh == null) {
+			AssignCurrentBeh(logics.Find (b => b.IsReadyToAct ()));
+		}
+
+		if (currentBeh != null) {
+			currentBeh.Tick (delta);
+		}
+
+		if (currentBeh == null || currentBeh.PassiveTickOtherBehs ()) {
+			others.ForEach (p => p.PassiveTick (delta));
+		}
+	}
 }
-
-

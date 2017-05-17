@@ -17,7 +17,7 @@ public class Checker : MonoBehaviour {
 
 	[SerializeField] bool assignPowerupsId = false;
 	[SerializeField] bool assignJournalsId = false;
-	[SerializeField] bool assignCometsColors = false;
+	//[SerializeField] bool assignCometsColors = false;
 
 	[SerializeField] bool checkJournalsId = false;
 	void Update(){

@@ -934,7 +934,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assignPowerupsId: 0
   assignJournalsId: 0
-  assignCometsColors: 0
   checkJournalsId: 0
 --- !u!1 &1278198047
 GameObject:
@@ -1627,7 +1626,7 @@ Prefab:
     - target: {fileID: 224736985639167794, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -88611
+      value: -92321
       objectReference: {fileID: 0}
     - target: {fileID: 224673232687170726, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
@@ -1747,7 +1746,7 @@ Prefab:
     - target: {fileID: 224736985639167794, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224100523432068226, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}

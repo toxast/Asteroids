@@ -15,10 +15,10 @@ public static class AIHelper
 		public float vprojTarget;
 		public float evadeSign;
 		
-		public void Refresh(PolygonGameObject thisShip, PolygonGameObject target)
+		public bool Refresh(PolygonGameObject thisShip, PolygonGameObject target)
 		{
             if (Main.IsNull(thisShip) || Main.IsNull(target))
-                return;
+				return false;
 
 			dir = target.position - thisShip.position;
 			distCenter2Center = dir.magnitude;
@@ -31,6 +31,7 @@ public static class AIHelper
 			vprojThis = Vector2.Dot(thisShip.velocity, dirNorm); //+ means towards other ship
 			vprojTarget = Vector2.Dot(target.velocity, -dirNorm); //+ means towards other ship
 			evadeSign = Mathf.Sign(Math2d.Cross2(target.velocity - thisShip.velocity, dir));
+			return true;
 		}
 	}
 
