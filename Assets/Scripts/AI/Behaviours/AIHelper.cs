@@ -158,17 +158,17 @@ public static class AIHelper
 		while (!timer.IsFinished ()) {
 			timer.Tick (deltaTime());
 			act ();
-			yield return null;
+			yield return true;
 		}
-	}
+    }
 
 	public static IEnumerator TimerR(float time, Func<float> deltaTime){
 		AIHelper.MyTimer timer = new AIHelper.MyTimer (time, null);
 		while (!timer.IsFinished ()) {
 			timer.Tick (deltaTime());
-			yield return null;
+			yield return true;
 		}
-	}
+    }
 	
 	public static void ChangeAccuracy(ref float accuracy, ref Vector2 lastDir, PolygonGameObject target, AccuracyData data)
 	{

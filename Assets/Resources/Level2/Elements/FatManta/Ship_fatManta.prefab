@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfb68307d95a5c42b43f787b048060d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCount: 3
+  spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2

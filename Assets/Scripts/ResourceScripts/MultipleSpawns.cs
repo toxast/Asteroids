@@ -48,8 +48,11 @@ public class MultipleSpawns : MSpawnBase {
 			}
 		}
 	}
+    void WarningFix() {
+        if (showDifficultyInEditor < 0) showDifficultyInEditor = 0;
+    }
 
-	[Serializable]
+    [Serializable]
 	public class MultiSpawnElement {
 		public MSpawnDataBase spawn;
 		public Place place;

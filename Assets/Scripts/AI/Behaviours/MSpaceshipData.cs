@@ -51,5 +51,9 @@ public class MSpaceshipData : MSpawnDataBase, IGotShape, IGotThrusters, IGotGuns
 	public class MyIntList{
 		public List<int> list;
 	}
+
+    void WarningFix() {
+        if (explosionDamageCalculated > 0) explosionDamageCalculated = 0;
+    }
 }
 

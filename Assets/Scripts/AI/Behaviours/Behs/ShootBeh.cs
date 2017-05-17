@@ -63,7 +63,7 @@ public class ShootBeh : BaseBeh {
 			float approachingVelocity = tickData.vprojThis + tickData.vprojTarget;
 			float timeToApproachComfort = (tickData.distEdge2Edge - comfortDistMiddle) / approachingVelocity;
 			iaccelerate = approachingVelocity < 0 || timeToApproachComfort > 1f;
-			if (approachingVelocity > 0 && !iaccelerate && Math2d.Chance(0.5f)) {
+			if (approachingVelocity > 0 && !iaccelerate && Math2d.Chance(0.3f)) {
 				FireBrake ();
 			}
 		}

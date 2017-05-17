@@ -42,7 +42,7 @@ public class CowardBeh : BaseBeh {
 
 	public override void Tick (float delta) {
 		base.Tick (delta);
-		isFinished = action.MoveNext ();
+		isFinished = !action.MoveNext ();
 	}
 
 	IEnumerator CowardAction(){
@@ -58,7 +58,9 @@ public class CowardBeh : BaseBeh {
 			}
 			var newDir = Math2d.RotateVertexDeg (tickData.dirNorm, tickData.evadeSign * angle);
 			SetFlyDir (newDir);
-			yield return WaitForSeconds (duration);
+
+            var wait = WaitForSeconds(duration);
+            while (wait.MoveNext()) yield return true;
 		}
 	}
 

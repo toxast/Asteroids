@@ -54,8 +54,12 @@ public abstract class BaseBeh : IBehaviour {
 	public virtual void PassiveTick (float delta) { }
 	public abstract bool IsReadyToAct ();
 	public abstract bool IsFinished ();
-	public virtual void Start () { }
-	public virtual void Stop () { }
+	public virtual void Start () {
+        Debug.LogWarning(this.GetType());
+    }
+	public virtual void Stop () {
+        //Debug.LogWarning("Stop " + this.GetType());
+    }
 
 	float lastDelta = 0;
 	public virtual void Tick (float delta) {
@@ -72,6 +76,6 @@ public abstract class BaseBeh : IBehaviour {
 	}
 
 	protected IEnumerator WaitForSeconds(float duration){
-		yield return AIHelper.TimerR (duration, DeltaTime);
+		return AIHelper.TimerR (duration, DeltaTime);
 	}
 }

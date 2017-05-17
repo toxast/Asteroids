@@ -6,7 +6,6 @@ using System.Linq;
 public class SimpleTowerRotating : PolygonGameObject, IFreezble
 {
 	MTowerRotatingData data;
-	private float shootAngle;
 
 	private float currentAimAngle = 0;
 	private float currentOffsetAimAngle = 0;
@@ -22,7 +21,6 @@ public class SimpleTowerRotating : PolygonGameObject, IFreezble
 	public void InitTowerRotating (MTowerRotatingData data) {
 		this.data = data;
 		InitPolygonGameObject (data.physical);
-		this.shootAngle = data.shootAngle;
 
 		accuracyChanger = new AIHelper.AccuracyChangerAdvanced(data.accuracy, this);
 		cannonsRotaitorReload = new Rotaitor(cacheTransform, data.rotationSpeed);
@@ -110,8 +108,9 @@ public class SimpleTowerRotating : PolygonGameObject, IFreezble
 			currentAimAngle = cacheTransform.eulerAngles.z;
 		}
 
-		//offset aim angle by x deg, for tower to start shooting shootAngle away from the ship
-		if(Mathf.Abs(cannonsRotaitorCurrent.DeltaAngle(currentAimAngle + shootAngle)) < 
+        var shootAngle = data.shootAngle;
+        //offset aim angle by x deg, for tower to start shooting shootAngle away from the ship
+        if (Mathf.Abs(cannonsRotaitorCurrent.DeltaAngle(currentAimAngle + shootAngle)) < 
 			Mathf.Abs(cannonsRotaitorCurrent.DeltaAngle(currentAimAngle - shootAngle))) {
 			currentOffsetAimAngle = currentAimAngle + shootAngle;
 		} else {

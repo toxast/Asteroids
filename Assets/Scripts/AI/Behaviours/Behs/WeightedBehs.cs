@@ -23,7 +23,8 @@ public class WeightedBehs : IBehaviour {
 		this.weights = new List<float> (startWeights);
 		this.resetWeight = resetWeight;
 		this.addOthersWeight = addOthersWeight;
-	}
+        ChooseBeh();
+    }
 
 	void ChooseBeh(){
 		if (currentBeh != null) {

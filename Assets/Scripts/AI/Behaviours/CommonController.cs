@@ -3,43 +3,157 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CommonController : BaseSpaceshipController, IGotTarget
-{
-	List<PolygonGameObject> bullets;
-	protected float bulletsSpeed;
-	float comformDistanceMin, comformDistanceMax;
-	bool turnBehEnabled = true;
-	bool evadeBullets = true;
+public class CommonController : BaseSpaceshipController, IGotTarget {
+    List<PolygonGameObject> bullets;
+    protected float bulletsSpeed;
+    float comformDistanceMin, comformDistanceMax;
+    bool turnBehEnabled = true;
+    bool evadeBullets = true;
 
-	Gun mainGun = null;
-	AIHelper.Data tickData = new AIHelper.Data();
+    Gun mainGun = null;
+    
 
-	public CommonController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData) : base(thisShip, accData)
-	{
-		mainGun = gun;
-		this.bulletsSpeed = gun.BulletSpeedForAim;
-		this.bullets = bullets;
-		thisShip.StartCoroutine (Logic ());
+    public CommonController(SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData) : base(thisShip, accData) {
+        mainGun = gun;
+        this.bulletsSpeed = gun.BulletSpeedForAim;
+        this.bullets = bullets;
+        comformDistanceMax = gun.Range;
+        comformDistanceMin = comformDistanceMax * 0.5f;
 
-		thisShip.StartCoroutine (BehavioursRandomTiming ());
-		comformDistanceMax = gun.Range;
-		comformDistanceMin = comformDistanceMax * 0.5f;
-		
-		float evadeDuration = (90f / thisShip.originalTurnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.originalMaxSpeed * 0.8f);
-		evadeBullets = evadeDuration < 1.2f;
-		turnBehEnabled = evadeDuration < 3f;
-		if(turnBehEnabled)		{
-			untilTurnMin = Mathf.Max(2f, evadeDuration * 2f);
-			untilTurnMax = untilTurnMin * 1.8f;
-		}
+        thisShip.StartCoroutine(BehavioursRandomTiming());
 
-		Debug.Log (thisShip.name + " evadeDuration " + evadeDuration + " turnBehEnabled: " + turnBehEnabled + " evadeBullets: " + evadeBullets);
+        float evadeDuration = (90f / thisShip.originalTurnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.originalMaxSpeed * 0.8f);
+        evadeBullets = evadeDuration < 1.2f;
+        turnBehEnabled = evadeDuration < 3f;
+        if (turnBehEnabled) {
+            untilTurnMin = Mathf.Max(2f, evadeDuration * 2f);
+            untilTurnMax = untilTurnMin * 1.8f;
+        }
 
-		untilCheckAccelerationMin = evadeDuration / 6f;
-		untilCheckAccelerationMax = untilCheckAccelerationMin * 2f;
-	}
+        Debug.Log(thisShip.name + " evadeDuration " + evadeDuration + " turnBehEnabled: " + turnBehEnabled + " evadeBullets: " + evadeBullets);
 
-	bool timeForTurnAction = false;
+        untilCheckAccelerationMin = evadeDuration / 6f;
+        untilCheckAccelerationMax = untilCheckAccelerationMin * 2f;
+
+        BaseBeh.Data behData = new BaseBeh.Data {
+            accuracyChanger = accuracyChanger,
+            comformDistanceMax = comformDistanceMax,
+            comformDistanceMin = comformDistanceMin,
+            getTickData = GetTickData,
+            mainGun = gun,
+            thisShip = thisShip,
+        };
+
+        //starting from least prioritized behs, so they would end up in the end of the list
+        FlyAroundBeh flyAround = new FlyAroundBeh(behData);
+        logics.Insert(0, flyAround);
+
+        DelayFlag accDelay = new DelayFlag(true, untilCheckAccelerationMin, untilCheckAccelerationMax);
+        ShootBeh shootBeh = new ShootBeh(behData, bulletsSpeed, accDelay, new RandomFloat(untilTurnMin, untilTurnMax));
+        TurnBeh turnBeh = new TurnBeh(behData, new NoDelayFlag());
+        WeightedBehs shootAndTurn = new WeightedBehs(new List<IBehaviour> { turnBeh, shootBeh }, new List<float> { 8, 1 }, 1, 7);
+        logics.Insert(0, shootAndTurn);
+
+        if (evadeBullets) {
+            DelayFlag checkBulletsDelay = new DelayFlag(false, 1 , 4);
+            EvadeBulletsBeh evadeBulletsBeh = new EvadeBulletsBeh(behData, bullets, checkBulletsDelay);
+            logics.Insert(0, evadeBulletsBeh);
+        }
+
+        if (evadeBullets) {
+            DelayFlag cowardDelay = new DelayFlag(true, 12, 20);
+            CowardBeh cowardBeh = new CowardBeh(behData, cowardDelay);
+            logics.Insert(0, cowardBeh);
+        }
+
+        EvadeBeh evadeBeh = new EvadeBeh(behData);
+        logics.Insert(0, evadeBeh);
+
+        AssignCurrentBeh(null);
+    }
+
+    List<IBehaviour> logics = new List<IBehaviour>();
+    IBehaviour currentBeh = null;
+    List<IBehaviour> others = new List<IBehaviour>();
+
+    void AssignCurrentBeh(IBehaviour beh) {
+        if (currentBeh != null) {
+            currentBeh.Stop();
+            currentBeh.OnAccelerateChange -= HandleAccelerateChange;
+            currentBeh.OnDirChange -= HandleDirChange;
+            currentBeh.OnShootChange -= HandleShootChange;
+            currentBeh.OnBrake -= HandleBrake;
+        }
+
+        currentBeh = beh;
+
+        if (currentBeh != null) {
+            currentBeh.OnAccelerateChange += HandleAccelerateChange;
+            currentBeh.OnDirChange += HandleDirChange;
+            currentBeh.OnShootChange += HandleShootChange;
+            currentBeh.OnBrake += HandleBrake;
+            currentBeh.Start();
+        }
+        others.Clear();
+        others.AddRange(logics.FindAll(b => b != beh));
+    }
+
+    void HandleAccelerateChange(bool acc) {
+        SetAcceleration(acc);
+    }
+
+    void HandleShootChange(bool shoot) {
+        this.shooting = shoot;
+    }
+
+    void HandleDirChange(Vector2 dir) {
+        this.turnDirection = dir;
+    }
+
+    void HandleBrake() {
+        Brake();
+    }
+
+    bool hasTickData = false;
+    AIHelper.Data tickData = new AIHelper.Data();
+    AIHelper.Data GetTickData() {
+        if (hasTickData) {
+            return tickData;
+        } else {
+            return null;
+        }
+    }
+
+    public override void Tick(float delta) {
+        base.Tick(delta);
+
+        hasTickData = tickData.Refresh(thisShip, target);
+
+        if (currentBeh != null && currentBeh.IsFinished()) {
+            AssignCurrentBeh(null);
+        }
+
+        if (currentBeh == null || currentBeh.CanBeInterrupted()) {
+            var urgent = others.Find(beh => beh.IsUrgent() && beh.IsReadyToAct());
+            if (urgent != null) {
+                AssignCurrentBeh(urgent);
+            }
+        }
+
+        if (currentBeh == null) {
+            AssignCurrentBeh(logics.Find(b => b.IsReadyToAct()));
+        }
+
+        if (currentBeh != null) {
+            currentBeh.Tick(delta);
+        }
+
+        if (currentBeh == null || currentBeh.PassiveTickOtherBehs()) {
+            others.ForEach(p => p.PassiveTick(delta));
+        }
+    }
+
+    bool timeForTurnAction = false;
 	float untilTurn = 0f;
 	float untilTurnMax = 4.5f;
 	float untilTurnMin = 2.5f;
@@ -211,71 +325,4 @@ public class CommonController : BaseSpaceshipController, IGotTarget
 		yield return thisShip.StartCoroutine (SetFlyDir (newDir, duration)); 
 	}
 
-	List<IBehaviour> logics = new List<IBehaviour> ();
-	IBehaviour currentBeh = null;
-	List<IBehaviour> others = new List<IBehaviour> ();
-
-	void AssignCurrentBeh(IBehaviour beh) {
-		if (currentBeh != null) {
-			currentBeh.Stop ();
-			currentBeh.OnAccelerateChange -= HandleAccelerateChange;
-			currentBeh.OnDirChange -= HandleDirChange;
-			currentBeh.OnShootChange -= HandleShootChange;
-			currentBeh.OnBrake -= HandleBrake;
-		}
-
-		currentBeh = beh;
-
-		currentBeh.OnAccelerateChange += HandleAccelerateChange;
-		currentBeh.OnDirChange += HandleDirChange;
-		currentBeh.OnShootChange += HandleShootChange;
-		currentBeh.OnBrake += HandleBrake;
-		currentBeh.Start ();
-
-		others.Clear ();
-		others.AddRange(logics.FindAll(b => b != beh));
-	}
-
-	void HandleAccelerateChange(bool acc){
-		SetAcceleration (acc);
-	}
-
-	void HandleShootChange(bool shoot){
-		this.shooting = shoot;
-	}
-
-	void HandleDirChange(Vector2 dir){
-		this.turnDirection = dir;
-	}
-
-	void HandleBrake(){
-		Brake ();
-	}
-
-	public override void Tick (float delta) {
-		base.Tick (delta);
-
-		if (currentBeh != null || currentBeh.IsFinished ()) {
-			AssignCurrentBeh(null);
-		}
-
-		if (currentBeh == null || currentBeh.CanBeInterrupted ()) {
-			var urgent = others.Find (beh => beh.IsUrgent () && beh.IsReadyToAct ());
-			if (urgent != null) {
-				AssignCurrentBeh (urgent);
-			}
-		}
-
-		if (currentBeh == null) {
-			AssignCurrentBeh(logics.Find (b => b.IsReadyToAct ()));
-		}
-
-		if (currentBeh != null) {
-			currentBeh.Tick (delta);
-		}
-
-		if (currentBeh == null || currentBeh.PassiveTickOtherBehs ()) {
-			others.ForEach (p => p.PassiveTick (delta));
-		}
-	}
 }

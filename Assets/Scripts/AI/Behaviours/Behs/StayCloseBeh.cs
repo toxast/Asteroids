@@ -32,17 +32,19 @@ public class StayCloseBeh : BaseBeh {
 		if ((thisShip.position - defPosition).sqrMagnitude < thisShip.originalMaxSpeed * actDuration) {
 			FireBrake ();
 			FireShootChange (false);
-			yield return WaitForSeconds (0.5f);
-		} else {
+            var wait = WaitForSeconds(0.5f);
+            while (wait.MoveNext()) yield return true;
+        } else {
 			var newDir = defPosition - thisShip.position;
 			SetFlyDir (newDir);
-			yield return WaitForSeconds (actDuration);
+            var wait = WaitForSeconds(actDuration);
+            while (wait.MoveNext()) yield return true;
 		}
 	}
 
 	public override void Tick (float delta) {
 		base.Tick (delta);
-		isFinished = action.MoveNext ();
+		isFinished = !action.MoveNext ();
 	}
 
 	public override bool IsFinished () {

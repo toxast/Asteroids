@@ -37,7 +37,7 @@ public class TurnBeh : BaseBeh {
 
 	public override void Tick (float delta) {
 		base.Tick (delta);
-		isFinished = action.MoveNext ();
+		isFinished = !action.MoveNext ();
 	}
 
 	public override bool IsFinished () {
@@ -53,7 +53,8 @@ public class TurnBeh : BaseBeh {
 		Vector2 newDir;
 		AIHelper.ComfortTurn (data.comformDistanceMax, data.comformDistanceMin, tickData, out duration, out newDir);
 		SetFlyDir (newDir);
-		yield return WaitForSeconds (duration);
+        var wait = WaitForSeconds(duration);
+        while (wait.MoveNext()) yield return true;
 	}
 
 	protected virtual IEnumerator OutOfComformTurn(bool far) {
@@ -61,6 +62,7 @@ public class TurnBeh : BaseBeh {
 		Vector2 newDir;
 		AIHelper.OutOfComformTurn (thisShip, data.comformDistanceMax, data.comformDistanceMin, tickData, out duration, out newDir);
 		SetFlyDir (newDir);
-		yield return WaitForSeconds (duration);
+        var wait = WaitForSeconds(duration);
+        while (wait.MoveNext()) yield return true;
 	}
 }

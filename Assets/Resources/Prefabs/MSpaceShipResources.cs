@@ -31,6 +31,10 @@ public class MSpaceShipResources : ResourceSingleton<MSpaceShipResources>
 		}
 	}
 
+    void WarningFix() {
+        if (testid) testid = false;
+    }
+
 
 	/*[ContextMenu ("calculate health")] 
 	private void CalculateHealth()

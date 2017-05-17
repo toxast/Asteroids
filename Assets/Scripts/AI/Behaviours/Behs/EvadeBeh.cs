@@ -54,14 +54,21 @@ public class FlyAroundBeh : BaseBeh {
 		float angle = UnityEngine.Random.Range (1, 360) * Mathf.Deg2Rad;
 		Vector2 dir = new Vector2 (Mathf.Cos (angle), Mathf.Sin (angle));
 		SetFlyDir (dir);
-		yield return WaitForSeconds (1f);
-		FireAccelerateChange (false);
-		yield return WaitForSeconds (2f);
-	}
 
-	public override void Tick (float delta) {
+        var wait = WaitForSeconds(1);
+        while (wait.MoveNext()) yield return true;
+
+        FireAccelerateChange (false);
+
+        wait = WaitForSeconds(2);
+        while (wait.MoveNext()) yield return true;
+    }
+
+    
+
+    public override void Tick (float delta) {
 		base.Tick (delta);
-		isFinished = action.MoveNext ();
+		isFinished = !action.MoveNext ();
 	}
 
 	public override bool IsFinished () {
