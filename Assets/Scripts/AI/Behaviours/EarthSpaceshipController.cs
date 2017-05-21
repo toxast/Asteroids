@@ -9,8 +9,6 @@ using Random = UnityEngine.Random;
 public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 {
 	List<PolygonGameObject> objects;
-	float comformDistanceMin, comformDistanceMax;
-	AIHelper.Data tickData = new AIHelper.Data();
 
 	int maxShieldsCount;
 	float force;
@@ -70,10 +68,43 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		partMaxSpeedSqr = partMaxSpeed * partMaxSpeed;
 		this.objects = objects;
 
-		comformDistanceMax = 50;
-		comformDistanceMin = 30;
 
-		thisShip.StartCoroutine (LogicShip ());
+		CommonBeh.Data behData = new CommonBeh.Data {
+			accuracyChanger = accuracyChanger,
+			comformDistanceMax = 60,
+			comformDistanceMin = 30,
+			getTickData = GetTickData,
+			mainGun = null,
+			thisShip = thisShip,
+		};EvadeBeh evadeBeh = new EvadeBeh(behData);
+		logics.Add(evadeBeh);
+
+		bool useCowardAction = true;
+		if (useCowardAction) {
+			DelayFlag cowardDelay = new DelayFlag(true, 12, 20);
+			CowardBeh cowardBeh = new CowardBeh(behData, cowardDelay);
+			logics.Add(cowardBeh);
+		}
+
+//		bool evadeBullets = false;
+//		if (evadeBullets) {
+//			DelayFlag checkBulletsDelay = new DelayFlag(false, 1 , 4);
+//			EvadeBulletsBeh evadeBulletsBeh = new EvadeBulletsBeh(behData, bullets, checkBulletsDelay);
+//			logics.Add(evadeBulletsBeh);
+//		}
+
+		RotateOnTargetBeh rotateOntarget = new RotateOnTargetBeh(behData, new DelayFlag(false, 4, 7), () => target.position - thisShip.position);
+		logics.Add (rotateOntarget);
+
+		TurnBeh turnBeh = new TurnBeh (behData, new NoDelayFlag ());
+		turnBeh.SetPassiveTickOthers (true);
+		logics.Add (turnBeh);
+
+		FlyAroundBeh flyAround = new FlyAroundBeh(behData);
+		logics.Add(flyAround);
+
+		AssignCurrentBeh(null);
+
 		thisShip.StartCoroutine (SpawnShieldObjects ());
 		thisShip.StartCoroutine (RotateShields ());
 		thisShip.StartCoroutine (LogicShoot ());
@@ -87,39 +118,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
         }
 	}
 
-    private IEnumerator LogicShip() {
-        float checkBehTimeInterval = 0.1f;
-        float checkBehTime = 0;
-        bool behaviourChosen = false;
-        float duration;
-        Vector2 newDir;
-        while (true) {
-            if (!Main.IsNull(target)) {
-                behaviourChosen = false;
-                checkBehTime -= Time.deltaTime;
 
-                if (checkBehTime <= 0) {
-                    checkBehTime = checkBehTimeInterval;
-
-                    comformDistanceMin = Mathf.Min(target.polygon.R + thisShip.polygon.R, comformDistanceMax * 0.7f); // TODO on target change
-                                                                                                                      //Debug.LogWarning(comformDistanceMin + " " + comformDistanceMax);
-                    tickData.Refresh(thisShip, target);
-
-                    if (!behaviourChosen) {
-                        behaviourChosen = true;
-                        if (tickData.distEdge2Edge > comformDistanceMax || tickData.distEdge2Edge < comformDistanceMin) {
-                            AIHelper.OutOfComformTurn(thisShip, comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-                            yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
-                        } else {
-                            AIHelper.ComfortTurn(comformDistanceMax, comformDistanceMin, tickData, out duration, out newDir);
-                            yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
-                        }
-                    }
-                }
-            }
-            yield return null;
-        }
-    }
 
 	private IEnumerator SpawnShieldObjects() 
 	{

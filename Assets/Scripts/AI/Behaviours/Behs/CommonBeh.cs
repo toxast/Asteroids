@@ -65,6 +65,9 @@ public abstract class BaseBeh : IBehaviour {
 
 	protected bool _passiveTickOthers = false;
 	public virtual bool PassiveTickOtherBehs(){return _passiveTickOthers;}
+	public void SetPassiveTickOthers(bool tick){
+		_passiveTickOthers = tick;
+	}
 
 	public virtual void PassiveTick (float delta) { }
 	public abstract bool IsReadyToAct ();
