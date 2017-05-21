@@ -5,117 +5,178 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
 public class DumbHitterController : BaseSpaceshipController {
-    List<PolygonGameObject> bullets;
 
-    AIHelper.Data tickData = new AIHelper.Data();
-
-    bool timeForTurnAction = false;
-//    float untilTurn = 0f;
-//    float untilTurnMax = 3.5f;
-//    float untilTurnMin = 1.5f;
-
-    bool checkBulletsAction = false;
-    float untilBulletsEvade = 1f;
-    float untilBulletsEvadeMax = 3f;
-    float untilBulletsEvadeMin = 1f;
 
     public DumbHitterController(SpaceShip thisShip, List<PolygonGameObject> bullets, AccuracyData accData) : base(thisShip, accData) {
-        this.bullets = bullets;
 
-        thisShip.StartCoroutine(Logic());
-        thisShip.StartCoroutine(BehavioursRandomTiming());
-        thisShip.StartCoroutine(ApproachArcGenerator());
+		CommonBeh.Data behData = new CommonBeh.Data {
+			accuracyChanger = accuracyChanger,
+			comformDistanceMax = 50,
+			comformDistanceMin = 30,
+			getTickData = GetTickData,
+			mainGun = null,
+			thisShip = thisShip,
+		};
+
+
+		EvadeBulletsBeh evadeBullets = new EvadeBulletsBeh(behData, bullets, new DelayFlag(true, 2, 4));
+		logics.Add (evadeBullets);
+
+		TurnForEnemyBeh turn = new TurnForEnemyBeh (behData, new DelayFlag (true, 4, 6), new RandomFloat (30, 70), new RandomFloat (1f, 2.5f));
+		logics.Add(turn);
+
+		HitByArcBeh hit = new HitByArcBeh (behData, new NoDelayFlag ());
+		logics.Add(hit);
+
+		FlyAroundBeh flyAround = new FlyAroundBeh(behData);
+		logics.Add(flyAround);
+
+
+		AssignCurrentBeh (null);
     }
 
-    private IEnumerator BehavioursRandomTiming() {
-        while (true) {
-            //TickActionVariable(ref timeForTurnAction, ref untilTurn, untilTurnMin, untilTurnMax);
-            TickActionVariable(ref checkBulletsAction, ref untilBulletsEvade, untilBulletsEvadeMin, untilBulletsEvadeMax);
-            yield return null;
-        }
-    }
+//    private IEnumerator BehavioursRandomTiming() {
+//        while (true) {
+//            //TickActionVariable(ref timeForTurnAction, ref untilTurn, untilTurnMin, untilTurnMax);
+//            TickActionVariable(ref checkBulletsAction, ref untilBulletsEvade, untilBulletsEvadeMin, untilBulletsEvadeMax);
+//            yield return null;
+//        }
+//    }
+//
+//    
+//
+//    private IEnumerator Logic() {
+//        shooting = false;
+//        accelerating = true;
+//
+//        float checkBehTimeInterval = 0.1f;
+//        float checkBehTime = 0;
+//        bool behaviourChosen = false;
+//
+//        float duration;
+//        Vector2 newDir;
+//        while (true) {
+//            if (!Main.IsNull(target)) {
+//				accelerating = true;
+//                behaviourChosen = false;
+//                checkBehTime -= Time.deltaTime;
+//                tickData.Refresh(thisShip, target);
+//                if (checkBehTime <= 0) {
+//                    checkBehTime = checkBehTimeInterval;
+//
+//                    if (!behaviourChosen && checkBulletsAction && tickData.dir.sqrMagnitude > 400) {
+//                        if (AIHelper.EvadeBullets(thisShip, bullets, out duration, out newDir)) {
+//                            behaviourChosen = true;
+//                            yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
+//                        }
+//                        checkBulletsAction = false;
+//                        if (!behaviourChosen) {
+//                            untilBulletsEvade = untilBulletsEvadeMin;
+//                        }
+//                    }
+//
+//                    if (!behaviourChosen && timeForTurnAction) {
+//                        behaviourChosen = true;
+//                        float angle = Math2d.RandomSign() * UnityEngine.Random.Range(30, 70);
+//                        newDir = Math2d.RotateVertex(tickData.dirNorm, angle * Mathf.Deg2Rad);
+//                        duration = UnityEngine.Random.Range(1f, 2.5f);
+//                        yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
+//                        timeForTurnAction = false;
+//                    }
+//
+//                    if (!behaviourChosen) {
+//                        var aimVelocity = (target.velocity - thisShip.velocity) * accuracy;
+//                        AimSystem aim = new AimSystem(target.position + approachArc, aimVelocity, thisShip.position, thisShip.maxSpeed);
+//                        turnDirection = aim.directionDist;
+//                        yield return null;
+//                    }
+//                }
+//            } else {
+//                Brake();
+//                yield return new WaitForSeconds(0.5f);
+//                checkBehTime -= 0.5f;
+//            }
+//        }
+//    }
+}
 
-    Vector2 approachArc = Vector2.zero;
-    private IEnumerator ApproachArcGenerator() {
-        approachArc = Vector2.zero;
-        while (true) {
-            if (!Main.IsNull(target)) {
-                float arcDegrees = Random.Range(100f, 270f);
-                float dist = 2 * (target.polygon.R + thisShip.polygon.R) + 20f;
-                float arcRadius = Random.Range(dist * 0.7f, dist * 1.2f);
-				float duration = (2 * Mathf.PI * arcRadius) * (arcDegrees / 360f) / thisShip.originalMaxSpeed;
-                //duration = Random.Range(duration * 0.8f, duration * 1.2f);
-				float angleSpeed = arcDegrees / duration;
-                float currentDegrees = arcDegrees;
-				LogWarning ("arc " + duration + " " + arcDegrees);
-				float arcRotationRad = Random.Range(1, 360) * Mathf.Deg2Rad;
-                while (duration > 0) {
-                    duration -= Time.deltaTime;
-                    currentDegrees -= angleSpeed * Time.deltaTime;
-                    var rad = currentDegrees * Mathf.Deg2Rad;
-					approachArc = arcRadius * (new Vector2(1,0) - new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)));
-                    approachArc = Math2d.RotateVertex(approachArc, arcRotationRad);
-                    yield return null;
-                }
-            }
-            approachArc = Vector2.zero;
-			float noArcDuration = Random.Range(3f, 6f);
-            yield return new WaitForSeconds(noArcDuration);
-        }
-    }
+public class TurnForEnemyBeh : DelayedActionBeh {
+	RandomFloat angle;
+	RandomFloat duration;
+	public TurnForEnemyBeh(CommonBeh.Data data, IDelayFlag delay, RandomFloat angle, RandomFloat duration) : base(data,delay) {
+		this.angle = angle;
+		this.duration = duration;
+	}
 
-    private IEnumerator Logic() {
-        shooting = false;
-        accelerating = true;
+	public override bool IsReadyToAct () {
+		return base.IsReadyToAct () && !TargetNULL();
+	}
 
-        float checkBehTimeInterval = 0.1f;
-        float checkBehTime = 0;
-        bool behaviourChosen = false;
+	protected override IEnumerator Action ()
+	{
+		float rangle = Math2d.RandomSign () * angle.RandomValue; //UnityEngine.Random.Range(30, 70);
+		var tickData = data.getTickData();
+		if (tickData != null) {
+			var newDir = Math2d.RotateVertex (tickData.dirNorm, rangle * Mathf.Deg2Rad);
+			//var duration = //UnityEngine.Random.Range (1f, 2.5f);
+			SetFlyDir (newDir);
+			var wait = WaitForSeconds(duration.RandomValue);
+			while (wait.MoveNext ()) yield return true;
+		}
+	}
+}
 
-        float duration;
-        Vector2 newDir;
-        while (true) {
-            if (!Main.IsNull(target)) {
-				accelerating = true;
-                behaviourChosen = false;
-                checkBehTime -= Time.deltaTime;
-                tickData.Refresh(thisShip, target);
-                if (checkBehTime <= 0) {
-                    checkBehTime = checkBehTimeInterval;
+public class HitByArcBeh : DelayedActionBeh {
 
-                    if (!behaviourChosen && checkBulletsAction && tickData.dir.sqrMagnitude > 400) {
-                        if (AIHelper.EvadeBullets(thisShip, bullets, out duration, out newDir)) {
-                            behaviourChosen = true;
-                            yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
-                        }
-                        checkBulletsAction = false;
-                        if (!behaviourChosen) {
-                            untilBulletsEvade = untilBulletsEvadeMin;
-                        }
-                    }
+	Vector2 approachArc = Vector2.zero;
 
-                    if (!behaviourChosen && timeForTurnAction) {
-                        behaviourChosen = true;
-                        float angle = Math2d.RandomSign() * UnityEngine.Random.Range(30, 70);
-                        newDir = Math2d.RotateVertex(tickData.dirNorm, angle * Mathf.Deg2Rad);
-                        duration = UnityEngine.Random.Range(1f, 2.5f);
-                        yield return thisShip.StartCoroutine(SetFlyDir(newDir, duration));
-                        timeForTurnAction = false;
-                    }
+	public HitByArcBeh(CommonBeh.Data data, IDelayFlag delay) : base(data,delay) {
+		_passiveTickOthers = true;
+	}
 
-                    if (!behaviourChosen) {
-                        var aimVelocity = (target.velocity - thisShip.velocity) * accuracy;
-                        AimSystem aim = new AimSystem(target.position + approachArc, aimVelocity, thisShip.position, thisShip.maxSpeed);
-                        turnDirection = aim.directionDist;
-                        yield return null;
-                    }
-                }
-            } else {
-                Brake();
-                yield return new WaitForSeconds(0.5f);
-                checkBehTime -= 0.5f;
-            }
-        }
-    }
+	public override bool IsReadyToAct () {
+		return base.IsReadyToAct () && !TargetNULL();
+	}
+
+	protected override IEnumerator Action () {
+		approachArc = Vector2.zero;
+		_canBeInterrupted = true;
+		if (!TargetNULL()) {
+			float arcDegrees = Random.Range(100f, 270f);
+			float dist = 2 * (target.polygon.R + thisShip.polygon.R) + 20f;
+			float arcRadius = Random.Range(dist * 0.7f, dist * 1.2f);
+			float duration = (2 * Mathf.PI * arcRadius) * (arcDegrees / 360f) / thisShip.originalMaxSpeed;
+			//duration = Random.Range(duration * 0.8f, duration * 1.2f);
+			float angleSpeed = arcDegrees / duration;
+			float currentDegrees = arcDegrees;
+			Debug.LogWarning ("arc " + duration + " " + arcDegrees);
+			float arcRotationRad = Random.Range(1, 360) * Mathf.Deg2Rad;
+			while (duration > 0) {
+				duration -= DeltaTime();
+				currentDegrees -= angleSpeed * DeltaTime();
+				var rad = currentDegrees * Mathf.Deg2Rad;
+				approachArc = arcRadius * (new Vector2(1,0) - new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)));
+				approachArc = Math2d.RotateVertex(approachArc, arcRotationRad);
+				FollowForHit ();
+				yield return true;
+			}
+		}
+		_canBeInterrupted = false;
+		approachArc = Vector2.zero;
+		float noArcDuration = Random.Range(3f, 6f);
+		var noArcBeh = AIHelper.TimerR (noArcDuration, DeltaTime, FollowForHit, TargetNULL);
+		while (noArcBeh.MoveNext ()) yield return true;
+	}
+
+
+	void FollowForHit(){
+		if (TargetNULL()) {
+			return;
+		}
+		var aimVelocity = (target.velocity - thisShip.velocity) * data.accuracyChanger.accuracy;
+		AimSystem aim = new AimSystem(target.position + approachArc, aimVelocity, thisShip.position, thisShip.maxSpeed);
+		FireAccelerateChange (true);
+		FireDirChange(aim.directionDist);
+	}
 }
 

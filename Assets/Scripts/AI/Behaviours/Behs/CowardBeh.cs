@@ -3,22 +3,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CowardBeh : BaseBeh {
-
-	public override bool IsUrgent () { return true; }
-
-	IDelayFlag delay;
+public class CowardBeh : DelayedActionBeh {
 	bool lastHasShield = false;
 	float approhimateDuration = 3;
-	bool isFinished = false;
-	IEnumerator action;
 
-	public CowardBeh (BaseBeh.Data data, IDelayFlag delay):base(data) {
-		this.delay = delay;
+	public CowardBeh (CommonBeh.Data data, IDelayFlag delay):base(data, delay) {
+		_isUrgent = true;
 	}
 
 	public override bool IsReadyToAct () {
-		if (!delay.passed) {
+		if (!base.IsReadyToAct ()) {
 			return false;
 		}
 		bool readyToAct = false;
@@ -36,16 +30,10 @@ public class CowardBeh : BaseBeh {
 	public override void Start () {
 		base.Start ();
 		data.accuracyChanger.ExternalChange(-0.3f);
-		action = CowardAction ();
-		isFinished = false;
 	}
 
-	public override void Tick (float delta) {
-		base.Tick (delta);
-		isFinished = !action.MoveNext ();
-	}
 
-	IEnumerator CowardAction(){
+	protected override IEnumerator Action () {
 		int turnsTotal = UnityEngine.Random.Range (2, 5);
 		int turns = turnsTotal;
 		while (turns > 0) {
@@ -62,13 +50,5 @@ public class CowardBeh : BaseBeh {
             var wait = WaitForSeconds(duration);
             while (wait.MoveNext()) yield return true;
 		}
-	}
-
-	public override bool IsFinished () {
-		return isFinished;
-	}
-
-	public override void PassiveTick (float delta) {
-		delay.Tick (delta);
 	}
 }

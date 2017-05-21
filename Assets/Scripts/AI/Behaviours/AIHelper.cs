@@ -153,9 +153,9 @@ public static class AIHelper
 		return false;
 	}
 
-	public static IEnumerator TimerR(float time, Func<float> deltaTime, Action act){
+	public static IEnumerator TimerR(float time, Func<float> deltaTime, Action act, Func<bool> stop = null){
 		AIHelper.MyTimer timer = new AIHelper.MyTimer (time, null);
-		while (!timer.IsFinished ()) {
+		while (!timer.IsFinished () || (stop != null && stop())) {
 			timer.Tick (deltaTime());
 			act ();
 			yield return true;

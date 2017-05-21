@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BaseSpaceshipController : InputController, IGotTarget
 {
@@ -31,11 +32,92 @@ public class BaseSpaceshipController : InputController, IGotTarget
         defendObject = prnt;
     }
 
-	protected float lastDelta = 0;
-    public virtual void Tick(float delta) {
-		lastDelta = delta;
-        accuracyChanger.Tick(delta);
-    }
+
+	protected List<IBehaviour> logics = new List<IBehaviour>();
+	IBehaviour currentBeh = null;
+	List<IBehaviour> others = new List<IBehaviour>();
+
+	protected void AssignCurrentBeh(IBehaviour beh) {
+		if (currentBeh != null) {
+			currentBeh.Stop();
+			currentBeh.OnAccelerateChange -= HandleAccelerateChange;
+			currentBeh.OnDirChange -= HandleDirChange;
+			currentBeh.OnShootChange -= HandleShootChange;
+			currentBeh.OnBrake -= HandleBrake;
+		}
+
+		currentBeh = beh;
+
+		if (currentBeh != null) {
+			currentBeh.OnAccelerateChange += HandleAccelerateChange;
+			currentBeh.OnDirChange += HandleDirChange;
+			currentBeh.OnShootChange += HandleShootChange;
+			currentBeh.OnBrake += HandleBrake;
+			currentBeh.Start();
+		}
+		others.Clear();
+		others.AddRange(logics.FindAll(b => b != beh));
+	}
+
+	void HandleAccelerateChange(bool acc) {
+		SetAcceleration(acc);
+	}
+
+	void HandleShootChange(bool shoot) {
+		this.shooting = shoot;
+	}
+
+	void HandleDirChange(Vector2 dir) {
+		this.turnDirection = dir;
+	}
+
+	void HandleBrake() {
+		Brake();
+	}
+
+	bool calculatedTickDataThisFrame = false;
+	bool hasTickData = false;
+	AIHelper.Data tickData = new AIHelper.Data();
+	protected AIHelper.Data GetTickData() {
+		if (!calculatedTickDataThisFrame) {
+			calculatedTickDataThisFrame = true;
+			hasTickData = tickData.Refresh(thisShip, target);
+		}
+
+		if (hasTickData) {
+			return tickData;
+		} else {
+			return null;
+		}
+	}
+
+	public void Tick(float delta) {
+		calculatedTickDataThisFrame = false;
+		accuracyChanger.Tick(delta);
+
+		if (currentBeh != null && currentBeh.IsFinished()) {
+			AssignCurrentBeh(null);
+		}
+
+		if (currentBeh == null || currentBeh.CanBeInterrupted()) {
+			var urgent = others.Find(beh => beh.IsUrgent() && beh.IsReadyToAct());
+			if (urgent != null) {
+				AssignCurrentBeh(urgent);
+			}
+		}
+
+		if (currentBeh == null) {
+			AssignCurrentBeh(logics.Find(b => b.IsReadyToAct()));
+		}
+
+		if (currentBeh != null) {
+			currentBeh.Tick(delta);
+		}
+
+		if (currentBeh == null || currentBeh.PassiveTickOtherBehs()) {
+			others.ForEach(p => p.PassiveTick(delta));
+		}
+	}
 
 	protected virtual float SelfSpeedAccuracy() {
 		return 1;

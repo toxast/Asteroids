@@ -3,22 +3,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ShootBeh : BaseBeh {
+public class ShootBeh : CommonBeh {
 	float duration;
 	Vector2 newDir;
 	IDelayFlag delayAccelerationControl;
 	float bulletsSpeed;
 	RandomFloat attackDuration;
 
-	public ShootBeh (BaseBeh.Data data, float bulletsSpeed, IDelayFlag delayAccelerationControl, RandomFloat attackDuration):base(data) {
-		this.bulletsSpeed = bulletsSpeed;
+	public ShootBeh (CommonBeh.Data data, IDelayFlag delayAccelerationControl, RandomFloat attackDuration):base(data) {
+		this.bulletsSpeed = data.mainGun.BulletSpeedForAim;
 		this.delayAccelerationControl = delayAccelerationControl;
 		this.attackDuration = attackDuration;
+		_canBeInterrupted = true;
+		_passiveTickOthers = true;
 	}
-
-	public override bool IsUrgent () { return false; }
-	public override bool CanBeInterrupted () { return true; }
-	public override bool PassiveTickOtherBehs() {return true;}
 
 	public override bool IsReadyToAct () {
 		return !Main.IsNull (target);

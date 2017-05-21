@@ -3,49 +3,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TurnBeh : BaseBeh {
+public class TurnBeh : DelayedActionBeh {
 
-	IDelayFlag delay;
 	AIHelper.Data tickData;
-	bool isFinished = false;
-	IEnumerator action;
 	Gun mainGun;
-	public override bool CanBeInterrupted () {return true;}
 
-	public TurnBeh (BaseBeh.Data data, IDelayFlag delay):base(data) {
-		this.delay = delay;
+	public TurnBeh (CommonBeh.Data data, IDelayFlag delay):base(data, delay) {
+		_canBeInterrupted = true;
 	}
 
 	public override bool IsReadyToAct () {
+		if (!base.IsReadyToAct ()) {
+			return false;
+		}
 		tickData = data.getTickData ();
-		return (delay.passed && tickData != null);
+		return tickData != null;
 	}
 
-	public override void Start () {
-		base.Start ();
-		delay.Set ();
+	protected override IEnumerator Action ()
+	{
 		if (tickData.distEdge2Edge > data.comformDistanceMax || tickData.distEdge2Edge < data.comformDistanceMin) {
 			bool far = tickData.distEdge2Edge > data.comformDistanceMax;
 			data.accuracyChanger.ExternalChange(-0.2f);
-			action = OutOfComformTurn (far);
+			return OutOfComformTurn (far);
 		} else {
 			data.accuracyChanger.ExternalChange(0.1f);
-			action = ComfortTurn ();
+			return ComfortTurn ();
 		}
-		isFinished = false;
-	}
-
-	public override void Tick (float delta) {
-		base.Tick (delta);
-		isFinished = !action.MoveNext ();
-	}
-
-	public override bool IsFinished () {
-		return isFinished;
-	}
-
-	public override void PassiveTick (float delta) {
-		delay.Tick (delta);
 	}
 
 	protected virtual IEnumerator ComfortTurn() {

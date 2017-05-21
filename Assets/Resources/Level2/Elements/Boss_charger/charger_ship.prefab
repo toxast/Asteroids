@@ -103,12 +103,12 @@ MonoBehaviour:
   linkedGuns: []
   thrusters:
   - place:
-      pos: {x: -1.3892, y: 0.000000017609464}
+      pos: {x: -1.3892, y: 0}
       dir: {x: 1, y: 0}
       useAngleForPosition: 0
       range: 0
       angle: 0
-    prefab: {fileID: 19817912, guid: 1630461838b7291468f1ed9aee18c505, type: 2}
+    prefab: {fileID: 19817912, guid: 816313e69507b734bb9aeb7cc22c5fd2, type: 2}
     overrideSize: -1
     overrideDelay: -1
     overrideDuration: -1

@@ -40,65 +40,62 @@ public class UserController : CommonController {
 		while (true) {
 			var pup = drops.Find (d => d is PowerUp);
 			if (pup != null) {
-				pup.Accelerate (lastDelta, 3f, 1f, 12f, 12f*12f, (thisShip.position - pup.position).normalized);
+				pup.Accelerate (Time.deltaTime, 3f, 1f, 12f, 12f*12f, (thisShip.position - pup.position).normalized);
 			}
 			yield return null;
 		}
 	}
 
-	protected override bool CanEvadeTargetNow(){
-		return evadeTargetAction;
-	}
+//	protected override bool CanEvadeTargetNow(){
+//		return evadeTargetAction;
+//	}
 
-	bool lastBrake = false;
-	protected override IEnumerator ComfortTurn () {
-		if (Math2d.Chance (0.5f)) {
-			yield return base.ComfortTurn ();
-			lastBrake = false;
-		} else {
-			float duration = new RandomFloat (2f, 3f).RandomValue;
-			bool acc = Math2d.Chance (0.35f);
-			bool brake = (acc || lastBrake) ? false : Math2d.Chance (0.5f);
-			lastBrake = brake;
-			yield return AIHelper.TimerR (duration, LastDelta, () => Shoot(acc, brake));
-		}
-	}
+//	bool lastBrake = false;
+//	protected override IEnumerator ComfortTurn () {
+//		if (Math2d.Chance (0.5f)) {
+//			yield return base.ComfortTurn ();
+//			lastBrake = false;
+//		} else {
+//			float duration = new RandomFloat (2f, 3f).RandomValue;
+//			bool acc = Math2d.Chance (0.35f);
+//			bool brake = (acc || lastBrake) ? false : Math2d.Chance (0.5f);
+//			lastBrake = brake;
+//			yield return AIHelper.TimerR (duration, LastDelta, () => Shoot(acc, brake));
+//		}
+//	}
+//
+//	protected override IEnumerator OutOfComformTurn (bool far)
+//	{
+//		if (Math2d.Chance (0.5f)) {
+//			yield return base.OutOfComformTurn (far);
+//			lastBrake = false;
+//		} else {
+//			float duration = new RandomFloat (2f, 3f).RandomValue;
+//			bool brake = (far || lastBrake) ? false : Math2d.Chance (0.5f);
+//			lastBrake = brake;
+//			yield return AIHelper.TimerR (duration, LastDelta, () => Shoot(far, brake));
+//		}
+//	}
 
-	protected override IEnumerator OutOfComformTurn (bool far)
-	{
-		if (Math2d.Chance (0.5f)) {
-			yield return base.OutOfComformTurn (far);
-			lastBrake = false;
-		} else {
-			float duration = new RandomFloat (2f, 3f).RandomValue;
-			bool brake = (far || lastBrake) ? false : Math2d.Chance (0.5f);
-			lastBrake = brake;
-			yield return AIHelper.TimerR (duration, LastDelta, () => Shoot(far, brake));
-		}
-	}
+//	protected override IEnumerator NoTargetBeh (float duration)	{
+//		turnDirection = thisShip.cacheTransform.right;
+//		turnDirection = Math2d.MakeRight (turnDirection);
+//		SetAcceleration (true);
+//		yield return new WaitForSeconds (duration); 
+//	}
 
-	protected override IEnumerator NoTargetBeh (float duration)	{
-		turnDirection = thisShip.cacheTransform.right;
-		turnDirection = Math2d.MakeRight (turnDirection);
-		SetAcceleration (true);
-		yield return new WaitForSeconds (duration); 
-	}
-
-	float LastDelta(){
-		return lastDelta;
-	}
 
 	override protected float SelfSpeedAccuracy() {
 		return accuracy;
 	}
 
-	void Shoot(bool accelerate, bool brake) {
-		if (accelerate) {
-			SetAcceleration (accelerate);
-		}
-		if (brake) {
-			Brake ();
-		}
-		Shoot (accuracy, bulletsSpeed);
-	}
+//	void Shoot(bool accelerate, bool brake) {
+//		if (accelerate) {
+//			SetAcceleration (accelerate);
+//		}
+//		if (brake) {
+//			Brake ();
+//		}
+//		Shoot (accuracy, bulletsSpeed);
+//	}
 }

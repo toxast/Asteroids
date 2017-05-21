@@ -3,22 +3,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EvadeBulletsBeh : BaseBeh {
-
-	public override bool IsUrgent () { return true; }
-
-	IDelayFlag delay;
+public class EvadeBulletsBeh : DelayedActionBeh {
 	List<PolygonGameObject> bullets;
 	float duration;
 	Vector2 newDir;
 
-	public EvadeBulletsBeh (BaseBeh.Data data,  List<PolygonGameObject> bullets, IDelayFlag delay):base(data) {
+	public EvadeBulletsBeh (CommonBeh.Data data,  List<PolygonGameObject> bullets, IDelayFlag delay):base(data, delay) {
 		this.bullets = bullets;
-		this.delay = delay;
+		_isUrgent = true;
 	}
 
 	public override bool IsReadyToAct () {
-		if (!delay.passed) {
+		if (!base.IsReadyToAct()) {
 			return false;
 		}
 		delay.SetOnMin ();
@@ -27,21 +23,12 @@ public class EvadeBulletsBeh : BaseBeh {
 
 	public override void Start () {
 		base.Start ();
-		delay.Set ();
 		data.accuracyChanger.ExternalChange(-0.3f);
+	}
+
+	protected override IEnumerator Action () {
 		SetFlyDir (newDir);
-	}
-
-	public override void Tick (float delta) {
-		base.Tick (delta);
-		duration -= delta;
-	}
-
-	public override bool IsFinished () {
-		return duration <= 0;
-	}
-
-	public override void PassiveTick (float delta) {
-		delay.Tick (delta);
+		var wait = WaitForSeconds (duration);
+		yield return wait.MoveNext ();
 	}
 }

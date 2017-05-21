@@ -3,13 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EvadeBeh : BaseBeh {
+public class EvadeBeh : CommonBeh {
 	float duration;
 	Vector2 newDir;
 
-	public override bool IsUrgent () { return true; }
-
-	public EvadeBeh (BaseBeh.Data data):base(data) {
+	public EvadeBeh (CommonBeh.Data data):base(data) {
+		_isUrgent = true;
 	}
 
 	public override bool IsReadyToAct () {
@@ -36,11 +35,11 @@ public class EvadeBeh : BaseBeh {
 }
 
 
-public class FlyAroundBeh : BaseBeh {
+public class FlyAroundBeh : CommonBeh {
 	IEnumerator action;
 	bool isFinished = false;
 
-	public FlyAroundBeh (BaseBeh.Data data):base(data) { 	}
+	public FlyAroundBeh (CommonBeh.Data data):base(data) { 	}
 	public override bool CanBeInterrupted ()  { return true; }
 	public override bool IsReadyToAct () { return true; }
 

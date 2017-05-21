@@ -3,37 +3,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class WeightedBehs : BaseBeh {
+public class SequentialBehs : BaseBeh {
+
 	IBehaviour currentBeh;
 	List<IBehaviour> behs;
-	List<float> weights;
-	float resetWeight;
-	float addOthersWeight;
+	int current;
 
-	public WeightedBehs(List<IBehaviour> behs, List<float> startWeights, float resetWeight, float addOthersWeight){
-		if (behs.Count != startWeights.Count) {
-			Debug.LogError("wrong behs 2 w8s count");
-		}
+	public SequentialBehs( List<IBehaviour> behs){
 		this.behs = new List<IBehaviour> (behs);
-		this.weights = new List<float> (startWeights);
-		this.resetWeight = resetWeight;
-		this.addOthersWeight = addOthersWeight;
-        ChooseBeh();
-    }
+		current = 0;
+		ChooseBeh(behs[0]);
+	}
 
-	void ChooseBeh(){
+	void ChooseBeh(IBehaviour beh){
 		if (currentBeh != null) {
 			Unsubscribe (currentBeh);
 		}
-		var indx = Math2d.Roll (weights);
-		for (int i = 0; i < weights.Count; i++) {
-			if (i == indx) {
-				weights[i] = resetWeight;
-			} else {
-				weights[i] += addOthersWeight;
-			}
-		}
-		currentBeh = behs[indx];
+		currentBeh = beh;
 		Subscribe (currentBeh);
 	}
 
@@ -48,10 +34,13 @@ public class WeightedBehs : BaseBeh {
 		currentBeh.Start ();
 	}
 
-	public override void Stop ()
-	{
+	public override void Stop ()	{
 		currentBeh.Stop ();
-		ChooseBeh ();
+		current++;
+		if (current >= behs.Count) {
+			current = 0;
+		}
+		ChooseBeh (behs[current]);
 	}
 
 	public override void PassiveTick (float delta)

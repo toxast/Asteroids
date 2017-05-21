@@ -3,28 +3,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class StayCloseBeh : BaseBeh {
+public class StayCloseBeh : DelayedActionBeh {
 	PolygonGameObject defendObject;
-	IEnumerator action;
-	bool isFinished = false;
 
-	public StayCloseBeh (BaseBeh.Data data, PolygonGameObject defendObject):base(data) {
+	public StayCloseBeh (CommonBeh.Data data, PolygonGameObject defendObject):base(data, new NoDelayFlag()) {
 		this.defendObject = defendObject;
+		_canBeInterrupted = true;
 	}
-
-	public override bool CanBeInterrupted ()  { return true; }
 
 	public override bool IsReadyToAct () {
-		return !Main.IsNull (defendObject);
+		return !Main.IsNull (defendObject) && base.IsReadyToAct();
 	}
 
-	public override void Start () {
-		base.Start ();
-		action = Action ();
-		isFinished = false;
-	}
-
-	IEnumerator Action(){
+	protected override IEnumerator Action(){
 		float actDuration = 1.5f;
 		float dist = defendObject.polygon.R + thisShip.polygon.R + 15f;
 		float angle = UnityEngine.Random.Range (1, 360) * Mathf.Deg2Rad;
@@ -40,14 +31,5 @@ public class StayCloseBeh : BaseBeh {
             var wait = WaitForSeconds(actDuration);
             while (wait.MoveNext()) yield return true;
 		}
-	}
-
-	public override void Tick (float delta) {
-		base.Tick (delta);
-		isFinished = !action.MoveNext ();
-	}
-
-	public override bool IsFinished () {
-		return isFinished;
 	}
 }

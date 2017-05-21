@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class BaseBeh : IBehaviour {
+public abstract class CommonBeh : BaseBeh {
 	public class Data {
 		public SpaceShip thisShip;
 		public AIHelper.AccuracyChangerAdvanced accuracyChanger;
@@ -12,6 +12,24 @@ public abstract class BaseBeh : IBehaviour {
 		public float comformDistanceMax;
 		public Gun mainGun;
 	}
+
+	protected Data data;
+	protected SpaceShip thisShip{get{return data.thisShip;}}
+	protected PolygonGameObject target{ get{ return thisShip.target; }}
+
+
+	protected bool TargetNULL(){
+		return Main.IsNull(target);
+	}
+
+	public CommonBeh (Data data){
+		this.data = data; 
+	}
+}
+
+
+public abstract class BaseBeh : IBehaviour {
+	
 
 	public event Action<bool> OnAccelerateChange;
 	public event Action<bool> OnShootChange;
@@ -39,17 +57,14 @@ public abstract class BaseBeh : IBehaviour {
 		}
 	}
 
-	public virtual bool IsUrgent () {return false;}
-	public virtual bool CanBeInterrupted () {return false;}
-	public virtual bool PassiveTickOtherBehs(){return false;}
+	protected bool _isUrgent = false;
+	public virtual bool IsUrgent () {return _isUrgent;}
 
-	protected Data data;
-	protected SpaceShip thisShip{get{return data.thisShip;}}
-	protected PolygonGameObject target{ get{ return thisShip.target; }}
+	protected bool _canBeInterrupted = false;
+	public virtual bool CanBeInterrupted () {return _canBeInterrupted;}
 
-	public BaseBeh (Data data){
-		this.data = data; 
-	}
+	protected bool _passiveTickOthers = false;
+	public virtual bool PassiveTickOtherBehs(){return _passiveTickOthers;}
 
 	public virtual void PassiveTick (float delta) { }
 	public abstract bool IsReadyToAct ();
@@ -77,5 +92,23 @@ public abstract class BaseBeh : IBehaviour {
 
 	protected IEnumerator WaitForSeconds(float duration){
 		return AIHelper.TimerR (duration, DeltaTime);
+	}
+
+	protected void Subscribe(IBehaviour beh){
+		if (beh != null) {
+			beh.OnAccelerateChange += FireAccelerateChange;
+			beh.OnDirChange += FireDirChange;
+			beh.OnShootChange += FireShootChange;
+			beh.OnBrake += FireBrake;
+		}
+	}
+
+	protected void Unsubscribe(IBehaviour beh){
+		if (beh != null) {
+			beh.OnAccelerateChange -= FireAccelerateChange;
+			beh.OnDirChange -= FireDirChange;
+			beh.OnShootChange -= FireShootChange;
+			beh.OnBrake -= FireBrake;
+		}
 	}
 }
