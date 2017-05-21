@@ -77,6 +77,7 @@ public class RotatingObjectsShield : DurationEffect {
 		if (data.collideWithAsteroids) {
 			shieldObj.collisions |= (int)CollisionLayers.eLayer.ASTEROIDS;
 		}
+		shieldObj.controlledBySomeone = true;
 		shieldObj.position = holder.position;
 		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(holder.cacheTransform.position.z + 1f);
 		holder.AddObjectAsFollower(shieldObj);

@@ -217,6 +217,7 @@
      <Compile Include="Assets\Scripts\ResourceScripts\DropData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\EditorFillVerticies.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\EditorPrefabsCreator.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\EmptyAsteroidData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\FixedWave.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\IClonable.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\IGotShape.cs" />

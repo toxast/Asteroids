@@ -152,7 +152,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	public float overrideExplosionDamage;
 	public float overrideExplosionRange;
 
-	public bool capturedByEarthSpaceship = false;
+	public bool controlledBySomeone = false;
 
 	[NonSerialized] public IceEffect.Data iceEffectData;
 	[NonSerialized] public BurningEffect.Data burnDotData;

@@ -191,6 +191,21 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
+	public static Asteroid CreateEmptyAsteroid(EmptyAsteroidData mdata)
+	{
+		float size = mdata.size.RandomValue;
+		int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size*3);
+		Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size/2f, vcount);
+		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, mdata.color);
+
+		asteroid.InitAsteroid (mdata.physical, mdata.speed, mdata.rotation); 
+		asteroid.SetLayerNum (CollisionLayers.ilayerAsteroids);
+		asteroid.priority = PolygonGameObject.ePriorityLevel.LOW;
+		asteroid.gameObject.name = mdata.name;
+
+		return asteroid;
+	}
+
 	public static Comet CreateComet(MCometData mdata, RandomFloat speed, float lifetime) {
 		float size = new RandomFloat(2f, 2.2f).RandomValue;
         int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size * 3);

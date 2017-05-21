@@ -20,6 +20,7 @@ public class MEarthSpaceshipData : MSpaceshipData
 
 	[Header ("shield from broken elements")]
     public bool collectBrokenObjects = true;
+	public float collectMassThreshold = 30f;
 	public float brokenShieldRadius = 20f;
     public int attackWithBrokenWhenCount = 8;
     public int attackWithBrokenCount = 4;
@@ -29,7 +30,7 @@ public class MEarthSpaceshipData : MSpaceshipData
 	[Header ("other")]
 	public float overrideMaxPartSpeed = -1;
 	public float asteroidsStability = 0.5f;
-    public MAsteroidData asteroidData;
+	public MSpawnDataBase spawnObj;
 	public List<ParticleSystemsData> asteroidAttackByForceAnimations;
 	public List<ParticleSystemsData> asteroidGrabByForceAnimations;
 

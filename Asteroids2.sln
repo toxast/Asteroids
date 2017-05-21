@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asteroids2", "Assembly-CSharp-firstpass.csproj", "{CEF59FB5-E00E-FFB9-85F8-66DA2CE77295}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asteroids2", "Assembly-CSharp.csproj", "{9639EF94-83A5-FA1D-7B88-14467997D87C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asteroids2", "Assembly-CSharp-Editor-firstpass.csproj", "{61E80EAE-72BA-DE11-AAC8-0FBB72C7765D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CEF59FB5-E00E-FFB9-85F8-66DA2CE77295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEF59FB5-E00E-FFB9-85F8-66DA2CE77295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEF59FB5-E00E-FFB9-85F8-66DA2CE77295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEF59FB5-E00E-FFB9-85F8-66DA2CE77295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9639EF94-83A5-FA1D-7B88-14467997D87C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9639EF94-83A5-FA1D-7B88-14467997D87C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9639EF94-83A5-FA1D-7B88-14467997D87C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9639EF94-83A5-FA1D-7B88-14467997D87C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61E80EAE-72BA-DE11-AAC8-0FBB72C7765D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61E80EAE-72BA-DE11-AAC8-0FBB72C7765D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61E80EAE-72BA-DE11-AAC8-0FBB72C7765D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61E80EAE-72BA-DE11-AAC8-0FBB72C7765D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

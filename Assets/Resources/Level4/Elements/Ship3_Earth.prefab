@@ -68,7 +68,7 @@ MonoBehaviour:
   color: {r: 0.27676892, g: 0.4705882, b: 0.017301025, a: 1}
   physical:
     density: 1
-    health: 15
+    health: 30
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -87,7 +87,7 @@ MonoBehaviour:
     stability: 0.5
     shootAngle: 15
   accuracy:
-    startingAccuracy: 0
+    startingAccuracy: 0.5
     thresholdDistance: 10
     isDynamic: 0
     checkDtime: 0.5
@@ -165,7 +165,7 @@ MonoBehaviour:
   minDeltaShootBrokenObjects: 1
   overrideMaxPartSpeed: -1
   asteroidsStability: 0.5
-  asteroidData: {fileID: 11429188, guid: 6e846a35844c9cd4296c78341d17b438, type: 2}
+  spawnObj: {fileID: 114534740063363044, guid: 05cfe1551876ad6419b7a45f75618276, type: 2}
   asteroidAttackByForceAnimations:
   - place:
       pos: {x: 0, y: 0}

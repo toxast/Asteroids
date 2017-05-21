@@ -16,3 +16,5 @@ public class MAsteroidData : MSpawnDataBase
         return spawn;
 	}
 }
+
+
