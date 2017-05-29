@@ -91,7 +91,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 		}
 	}
 
-	public void Tick(float delta) {
+	public virtual void Tick(float delta) {
 		calculatedTickDataThisFrame = false;
 		accuracyChanger.Tick(delta);
 

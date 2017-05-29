@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114831852681024568}
   - component: {fileID: 114984104875388234}
   m_Layer: 0
-  m_Name: LWave_4
+  m_Name: LWave_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,8 @@ MonoBehaviour:
     spawnStrategy: 4
     startNextWaveWhenDifficultyLeft: 0
     objects:
-    - spawn: {fileID: 11492862, guid: ff668e1ae5f777d45894ba125955ffaa, type: 2}
+    - spawn: {fileID: 114018212185065258, guid: c730ebb00ff3cea498c73021f73f38f8,
+        type: 2}
       range:
         min: 40
         max: 40
@@ -79,6 +80,6 @@ MonoBehaviour:
         positionAngleRange: 360
         lookAngle: 0
         lookAngleRange: 360
-      count: 10
+      count: 20
   createDefWaveEditor: 0
   totalDifficulty: 40

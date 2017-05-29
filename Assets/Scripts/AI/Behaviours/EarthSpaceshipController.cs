@@ -74,7 +74,8 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 			getTickData = GetTickData,
 			mainGun = null,
 			thisShip = thisShip,
-		};EvadeBeh evadeBeh = new EvadeBeh(behData);
+		};
+		EvadeTargetBeh evadeBeh = new EvadeTargetBeh(behData, new NoDelayFlag());
 		logics.Add(evadeBeh);
 
 		bool useCowardAction = true;

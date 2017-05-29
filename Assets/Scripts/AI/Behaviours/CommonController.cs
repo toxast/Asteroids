@@ -10,7 +10,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget {
         var evadeBullets = evadeDuration < 1.2f;
         var turnBehEnabled = evadeDuration < 3f;
            
-        Debug.Log(thisShip.name + " evadeDuration " + evadeDuration + " turnBehEnabled: " + turnBehEnabled + " evadeBullets: " + evadeBullets);
+        //Debug.Log(thisShip.name + " evadeDuration " + evadeDuration + " turnBehEnabled: " + turnBehEnabled + " evadeBullets: " + evadeBullets);
 
 		var comformDistanceMax = gun.Range;
 		var comformDistanceMin = comformDistanceMax * 0.5f;
@@ -23,7 +23,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget {
             thisShip = thisShip,
         };
 
-		EvadeBeh evadeBeh = new EvadeBeh(behData);
+		EvadeTargetBeh evadeBeh = new EvadeTargetBeh(behData, new NoDelayFlag());
 		logics.Add(evadeBeh);
 
 		if (evadeBullets) {
@@ -43,9 +43,9 @@ public class CommonController : BaseSpaceshipController, IGotTarget {
 		DelayFlag accDelay = new DelayFlag(true, untilCheckAccelerationMin, untilCheckAccelerationMax);
 		var attackMin = Mathf.Max(2f, evadeDuration * 2f);
 		var attackMax = attackMin * 1.8f;
-		ShootBeh shootBeh = new ShootBeh(behData, accDelay, new RandomFloat(attackMin, attackMax));
+		ShootBeh shootBeh = new ShootBeh(behData, new NoDelayFlag(), accDelay, new RandomFloat(attackMin, attackMax));
 		if (turnBehEnabled) {
-			TurnBeh turnBeh = new TurnBeh (behData, new NoDelayFlag ());
+			var turnBeh = GetTurnBeh (behData);
 			WeightedBehs shootAndTurn = new WeightedBehs (new List<IBehaviour> { turnBeh, shootBeh }, new List<float> { 8, 1 }, 1, 7);
 			logics.Add (shootAndTurn);
 		} else {
@@ -58,4 +58,8 @@ public class CommonController : BaseSpaceshipController, IGotTarget {
 
         AssignCurrentBeh(null);
     }
+
+	protected virtual IBehaviour GetTurnBeh(CommonBeh.Data behData) {
+		return new TurnBeh (behData, new NoDelayFlag ());
+	}
 }

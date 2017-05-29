@@ -32,23 +32,11 @@ public class CowardBeh : DelayedActionBeh {
 		data.accuracyChanger.ExternalChange(-0.3f);
 	}
 
-
 	protected override IEnumerator Action () {
 		int turnsTotal = UnityEngine.Random.Range (2, 5);
-		int turns = turnsTotal;
-		while (turns > 0) {
-			turns--;
-			float duration = approhimateDuration / turnsTotal + UnityEngine.Random.Range (-0.3f, 0.5f);
-			float angle = UnityEngine.Random.Range (120f, 180f);
-			var tickData = data.getTickData ();
-			if (tickData == null) {
-				yield break;
-			}
-			var newDir = Math2d.RotateVertexDeg (tickData.dirNorm, tickData.evadeSign * angle);
-			SetFlyDir (newDir);
-
-            var wait = WaitForSeconds(duration);
-            while (wait.MoveNext()) yield return true;
-		}
+		var wait = CowardAction(approhimateDuration, turnsTotal);
+        while (wait.MoveNext()) yield return true;
 	}
 }
+
+

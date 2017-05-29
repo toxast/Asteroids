@@ -3,43 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EvadeBeh : CommonBeh {
-	float duration;
-	Vector2 newDir;
-
-	public EvadeBeh (CommonBeh.Data data):base(data) {
-		_isUrgent = true;
-	}
-
-	public override bool IsReadyToAct () {
-		var tickData = data.getTickData ();
-		if (tickData == null) {
-			return false;
-		}
-		return AIHelper.EvadeTarget (thisShip, thisShip.target, tickData, out duration, out newDir);
-	}
-
-	public override void Start () {
-		base.Start ();
-		data.accuracyChanger.ExternalChange(-0.3f);
-		SetFlyDir (newDir);
-	}
-
-	public override void Tick (float delta) {
-		duration -= delta;
-	}
-
-	public override bool IsFinished () {
-		return duration <= 0;
-	}
-}
-
-
 public class FlyAroundBeh : CommonBeh {
 	IEnumerator action;
 	bool isFinished = false;
 
-	public FlyAroundBeh (CommonBeh.Data data):base(data) { 	}
+	public FlyAroundBeh (CommonBeh.Data data):base(data) { 	
+		_passiveTickOthers = true;
+	}
 	public override bool CanBeInterrupted ()  { return true; }
 	public override bool IsReadyToAct () { return true; }
 
@@ -62,8 +32,6 @@ public class FlyAroundBeh : CommonBeh {
         wait = WaitForSeconds(2);
         while (wait.MoveNext()) yield return true;
     }
-
-    
 
     public override void Tick (float delta) {
 		base.Tick (delta);

@@ -52,12 +52,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
-  spawn: 0
+  spawn: 1
   editorSpawnLayer: 2
-  difficulty: 10
   gameSpawnLayer: 2
-  price: -1
+  difficulty: 10
   reward: 0
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
+  id: -1
+  price: -1
+  journal: {fileID: 0}
   color: {r: 0.9485294, g: 0.70302767, b: 0.33477506, a: 1}
   physical:
     density: 1
@@ -65,10 +72,16 @@ MonoBehaviour:
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
   mobility:
-    thrust: 45
-    maxSpeed: 30
-    turnSpeed: 150
+    thrust: 20
+    maxSpeed: 20
+    turnSpeed: 100
     brake: 15
     passiveBrake: 2
     stability: 0.7
@@ -84,18 +97,28 @@ MonoBehaviour:
   shield:
     capacity: 0
     rechargeRate: 0
-    rechargeDelay: 0
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 1
   guns: []
-  linkedGuns: 
+  linkedGuns: []
   thrusters:
   - place:
       pos: {x: -0.71749985, y: 0.000000016474736}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 19811494, guid: 5624db3ee0ff7d7428800b50e8722292, type: 2}
     overrideSize: -1
     overrideDelay: -1
     overrideDuration: -1
     zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
   - {x: 2.8225002, y: -0.7200001}
@@ -126,18 +149,14 @@ MonoBehaviour:
   - {x: 2.0525, y: 2.37}
   - {x: 1.7325001, y: 1.4499999}
   - {x: 2.8225002, y: 0.71999997}
-  upgradeIndex: 0
-  deathData:
-    createExplosionOnDeath: 1
-    instantExplosion: 0
-    destructionType: 0
-    overrideExplosionRange: -1
-    overrideExplosionDamage: -1
+  explosionRangeCalculated: 26.806292
+  explosionDamageCalculated: 4.2395897
   startFireballs: 2
   fireballCount: 4
   respawnFireballDuration: 2
   radius: 15
   shootInterval: 0.5
+  fixAim: 1
   randomizeAimAngle: 0
   overrideMaxComfortDist: -1
   fireballData: {fileID: 114811923677609586, guid: 0a11bd3697aab434ab7f18f6afea19c0,

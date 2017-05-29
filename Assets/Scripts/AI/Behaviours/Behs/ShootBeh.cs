@@ -3,14 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ShootBeh : CommonBeh {
-	float duration;
+
+public class ShootBeh : DelayedActionBeh {
 	Vector2 newDir;
 	IDelayFlag delayAccelerationControl;
 	float bulletsSpeed;
 	RandomFloat attackDuration;
 
-	public ShootBeh (CommonBeh.Data data, IDelayFlag delayAccelerationControl, RandomFloat attackDuration):base(data) {
+	public ShootBeh (CommonBeh.Data data, IDelayFlag delay, IDelayFlag delayAccelerationControl, RandomFloat attackDuration):base(data, delay) {
 		this.bulletsSpeed = data.mainGun.BulletSpeedForAim;
 		this.delayAccelerationControl = delayAccelerationControl;
 		this.attackDuration = attackDuration;
@@ -19,18 +19,12 @@ public class ShootBeh : CommonBeh {
 	}
 
 	public override bool IsReadyToAct () {
-		return !Main.IsNull (target);
-	}
-
-	public override void Start () {
-		base.Start ();
-		duration = attackDuration.RandomValue;
+		return !TargetNULL () && base.IsReadyToAct ();
 	}
 
 	public override void Tick (float delta) {
 		base.Tick (delta);
-		duration -= delta;
-		Shoot (data.accuracyChanger.accuracy, bulletsSpeed);
+
 		delayAccelerationControl.Tick (delta);
 		if (delayAccelerationControl.passed) {
 			delayAccelerationControl.Set ();
@@ -39,15 +33,19 @@ public class ShootBeh : CommonBeh {
 	}
 
 	public override void PassiveTick (float delta) {
+		base.PassiveTick (delta);
 		delayAccelerationControl.Tick (delta);
 	}
 
 	public override bool IsFinished () {
-		return Main.IsNull (target) || (duration < 0 && !data.mainGun.IsFiring());
+		return (base.IsFinished () && !data.mainGun.IsFiring ()) || TargetNULL ();
 	}
 
-	protected virtual float SelfSpeedAccuracy() {
-		return 1;
+	protected override IEnumerator Action () {
+		var duration = attackDuration.RandomValue;
+		var attack = AIHelper.TimerR (duration, DeltaTime, () => Shoot (data.accuracyChanger.accuracy, bulletsSpeed), TargetNULL);
+		while (attack.MoveNext ())
+			yield return true;
 	}
 
 	void AcclerateControl() {
@@ -61,31 +59,17 @@ public class ShootBeh : CommonBeh {
 			float approachingVelocity = tickData.vprojThis + tickData.vprojTarget;
 			float timeToApproachComfort = (tickData.distEdge2Edge - comfortDistMiddle) / approachingVelocity;
 			iaccelerate = approachingVelocity < 0 || timeToApproachComfort > 1f;
-			if (approachingVelocity > 0 && !iaccelerate && Math2d.Chance(0.3f)) {
+			if (approachingVelocity > 0 && !iaccelerate && Math2d.Chance (0.3f)) {
 				FireBrake ();
 			}
+		} else if (tickData.distEdge2Edge < data.comformDistanceMin) {
+			iaccelerate = false;
+			if (Math2d.Chance (0.4f)) {
+				FireBrake ();
+			}
+		} else {
+			iaccelerate = Math2d.Chance(0.3f);
 		}
 		FireAccelerateChange (iaccelerate);
-	}
-
-	void Shoot(float accuracy, float bulletsSpeed)
-	{
-		if (Main.IsNull (target)) {
-			return;
-		}
-		Vector2 turnDirection;
-		bool shooting;
-		Vector2 relativeVelocity = (target.velocity);
-		AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity - SelfSpeedAccuracy() * Main.AddShipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
-		if(a.canShoot) {
-			turnDirection = a.directionDist;
-			var angleToRotate = Math2d.ClosestAngleBetweenNormalizedDegAbs (turnDirection.normalized, thisShip.cacheTransform.right);
-			shooting = (angleToRotate < thisShip.shootAngle);
-		} else {
-			turnDirection = target.position - thisShip.position;
-			shooting = false;
-		}
-		FireDirChange (turnDirection);
-		FireShootChange (shooting);
 	}
 }

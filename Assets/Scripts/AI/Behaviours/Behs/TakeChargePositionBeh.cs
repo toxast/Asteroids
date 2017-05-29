@@ -11,8 +11,7 @@ public class TakeChargePositionBeh : DelayedActionBeh {
 		this.chargingDist = chargingDist;
 	}
 
-	public override bool IsReadyToAct ()
-	{
+	public override bool IsReadyToAct () {
 		return base.IsReadyToAct () && !Main.IsNull(target);
 	}
 

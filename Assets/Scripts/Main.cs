@@ -822,7 +822,7 @@ public class Main : MonoBehaviour
 			for (int i = powerupDropsLeft.Count - 1; i >= 0; i--) {
 				var pup = powerupDropsLeft [i];
 				pup.dropOnWaveEnemieNumLeft--;
-				Debug.Log(pup.powerup.name + " " + pup.dropOnWaveEnemieNumLeft);
+				//Debug.Log(pup.powerup.name + " " + pup.dropOnWaveEnemieNumLeft);
 				if (pup.dropOnWaveEnemieNumLeft <= 0) {
 					powerupDropsLeft.RemoveAt(i);
 					CreatePowerUp (pup.powerup.powerupData, (Vector3)gobject.position + new Vector3(0,0,1), gobject.velocity);

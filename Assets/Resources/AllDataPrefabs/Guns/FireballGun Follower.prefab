@@ -51,15 +51,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2ef90a8cffe3e49a1ebf1a5acff37d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 18
-  hitDamage: 3
+  dps: 14
+  collisionDmg: 0
+  estimateRange: 264.64285
+  hitDamage: 1
   lifeTime: 3.6
   velocity: 35
   fireInterval: 0.5
   repeatCount: 0
   repeatInterval: 0
   physical:
-    density: 1
+    density: 0.3
     health: -1
     healthModifier: 1
     collisionDefence: 0
@@ -87,6 +89,9 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 198451757444820078, guid: a3e0ba2116c2f2946b8c788e3505d84a, type: 2}
     overrideSize: -1
     overrideDelay: -1
@@ -101,6 +106,9 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 198265202451026640, guid: b534f5cf459db8b40ba396d53b5184b2, type: 2}
     overrideSize: -1
     overrideDelay: -1
@@ -116,6 +124,9 @@ MonoBehaviour:
   - place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 198991140418863546, guid: bd27b16a685294d4bafeebfff7baecce, type: 2}
     overrideSize: -1
     overrideDelay: -1

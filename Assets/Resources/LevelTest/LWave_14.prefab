@@ -79,6 +79,6 @@ MonoBehaviour:
         positionAngleRange: 360
         lookAngle: 0
         lookAngleRange: 360
-      count: 1
+      count: 2
   createDefWaveEditor: 0
-  totalDifficulty: 23
+  totalDifficulty: 46

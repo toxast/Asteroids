@@ -10,6 +10,7 @@ public class MFireShip1Data : MSpaceshipData
 	public float respawnFireballDuration = 2;
 	public float radius = 15f;
     public float shootInterval = 0.5f;
+	public bool fixAim = true;
     public float randomizeAimAngle = 15f;
 	public float overrideMaxComfortDist = -1;
 	public MFireballGunData fireballData;

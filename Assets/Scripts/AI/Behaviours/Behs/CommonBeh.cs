@@ -16,7 +16,7 @@ public abstract class CommonBeh : BaseBeh {
 	protected Data data;
 	protected SpaceShip thisShip{get{return data.thisShip;}}
 	protected PolygonGameObject target{ get{ return thisShip.target; }}
-
+	protected float accuracy{ get{ return data.accuracyChanger.accuracy; }}
 
 	protected bool TargetNULL(){
 		return Main.IsNull(target);
@@ -25,93 +25,84 @@ public abstract class CommonBeh : BaseBeh {
 	public CommonBeh (Data data){
 		this.data = data; 
 	}
+
+	protected virtual float SelfSpeedAccuracy(){
+		return 1;
+	}
+
+	protected void Shoot(float accuracy, float bulletsSpeed)
+	{
+		if (Main.IsNull (target)) {
+			return;
+		}
+		Vector2 turnDirection;
+		bool shooting;
+		Vector2 relativeVelocity = (target.velocity);
+		AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity - SelfSpeedAccuracy() * Main.AddShipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
+		if(a.canShoot) {
+			turnDirection = a.directionDist;
+			var angleToRotate = Math2d.ClosestAngleBetweenNormalizedDegAbs (turnDirection.normalized, thisShip.cacheTransform.right);
+			shooting = (angleToRotate < thisShip.shootAngle);
+		} else {
+			turnDirection = target.position - thisShip.position;
+			shooting = false;
+		}
+		FireDirChange (turnDirection);
+		FireShootChange (shooting);
+	}
+
+
+	protected IEnumerator CowardAction (float approhimateDuration, int turnsTotal) {
+		//int turnsTotal = UnityEngine.Random.Range (2, 5);
+		int turns = turnsTotal;
+		while (turns > 0) {
+			turns--;
+			float duration = approhimateDuration / turnsTotal + UnityEngine.Random.Range (-0.3f, 0.5f);
+			float angle = UnityEngine.Random.Range (120f, 180f);
+			var tickData = data.getTickData ();
+			if (tickData == null) {
+				yield break;
+			}
+			var newDir = Math2d.RotateVertexDeg (tickData.dirNorm, tickData.evadeSign * angle);
+			SetFlyDir (newDir);
+
+			var wait = WaitForSeconds(duration);
+			while (wait.MoveNext()) yield return true;
+		}
+	}
+
 }
 
+//public class InivisibleShipBeh : CommonBeh{
+//	IBehaviour current = null;
+//	MInvisibleSpaceshipData.InvisibleData invisData; 
+//	bool invisibleBehaviour = true;
+//	InivisibleShipBeh (Data data, MInvisibleSpaceshipData.InvisibleData invisData) : base (data) {
+//		this.invisData = invisData;
+//	}
+//
+//	public override void Tick (float delta)	{
+//		base.Tick (delta);
+//		current.Tick (delta);
+//	}
+//
+//	private IEnumerator BehaviourChangeLogic()
+//	{
+//		while (true) {
+//			invisibleBehaviour = true;
+//			thisShip.invisibilityComponent.SetState (true);
+//			yield return new WaitForSeconds (invisData.fadeOutDuration + invisData.invisibleDuration);
+//			thisShip.invisibilityComponent.SetState (false);
+//
+//			yield return new WaitForSeconds (invisData.fadeInDuration);
+//
+//			invisibleBehaviour = false;
+//			yield return new WaitForSeconds (invisData.attackDutation);
+//			//coward
+//		}
+//	}
+//
+//
+//}
+//
 
-public abstract class BaseBeh : IBehaviour {
-	
-
-	public event Action<bool> OnAccelerateChange;
-	public event Action<bool> OnShootChange;
-	public event Action<Vector2> OnDirChange;
-	public event Action OnBrake;
-
-	public void FireAccelerateChange(bool acc){
-		if (OnAccelerateChange != null) {
-			OnAccelerateChange (acc);
-		}
-	}
-	public void FireShootChange(bool shoot){
-		if (OnShootChange != null) {
-			OnShootChange (shoot);
-		}
-	}
-	public void FireDirChange(Vector2 dir){
-		if (OnDirChange != null) {
-			OnDirChange (dir);
-		}
-	}
-	public void FireBrake(){
-		if (OnBrake != null) {
-			OnBrake ();
-		}
-	}
-
-	protected bool _isUrgent = false;
-	public virtual bool IsUrgent () {return _isUrgent;}
-
-	protected bool _canBeInterrupted = false;
-	public virtual bool CanBeInterrupted () {return _canBeInterrupted;}
-
-	protected bool _passiveTickOthers = false;
-	public virtual bool PassiveTickOtherBehs(){return _passiveTickOthers;}
-	public void SetPassiveTickOthers(bool tick){
-		_passiveTickOthers = tick;
-	}
-
-	public virtual void PassiveTick (float delta) { }
-	public abstract bool IsReadyToAct ();
-	public abstract bool IsFinished ();
-	public virtual void Start () {
-        Debug.LogWarning(this.GetType());
-    }
-	public virtual void Stop () {
-        //Debug.LogWarning("Stop " + this.GetType());
-    }
-
-	float lastDelta = 0;
-	public virtual void Tick (float delta) {
-		lastDelta = delta;
-	}
-	protected float DeltaTime() {
-		return lastDelta;
-	}
-
-	protected void SetFlyDir(Vector2 dir, bool accelerating = true, bool shooting = false){
-		OnDirChange(dir);
-		OnAccelerateChange (accelerating);
-		OnShootChange (shooting);
-	}
-
-	protected IEnumerator WaitForSeconds(float duration){
-		return AIHelper.TimerR (duration, DeltaTime);
-	}
-
-	protected void Subscribe(IBehaviour beh){
-		if (beh != null) {
-			beh.OnAccelerateChange += FireAccelerateChange;
-			beh.OnDirChange += FireDirChange;
-			beh.OnShootChange += FireShootChange;
-			beh.OnBrake += FireBrake;
-		}
-	}
-
-	protected void Unsubscribe(IBehaviour beh){
-		if (beh != null) {
-			beh.OnAccelerateChange -= FireAccelerateChange;
-			beh.OnDirChange -= FireDirChange;
-			beh.OnShootChange -= FireShootChange;
-			beh.OnBrake -= FireBrake;
-		}
-	}
-}

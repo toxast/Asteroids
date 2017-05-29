@@ -5,16 +5,9 @@ using System.Collections.Generic;
 
 public class UserController : CommonController {
 
-
-	bool evadeTargetAction = false;
-	float untilEvade = 1f;
-	float untilEvadeMax = 3f;
-	float untilEvadeMin = 1f;
-
 	public UserController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData) : base(thisShip, bullets, gun, accData)
 	{
 		thisShip.StartCoroutine (HackPullPowerups ());
-		thisShip.StartCoroutine (UserBehavioursRandomTiming ());
 	}
 
 	public override bool shooting {
@@ -23,15 +16,6 @@ public class UserController : CommonController {
 		}
 		protected set {
 			base.shooting = value;
-		}
-	}
-
-	private IEnumerator UserBehavioursRandomTiming()
-	{
-		while(true)
-		{
-			TickActionVariable(ref evadeTargetAction, ref untilEvade, untilEvadeMin, untilEvadeMax);
-			yield return null;
 		}
 	}
 
@@ -46,36 +30,9 @@ public class UserController : CommonController {
 		}
 	}
 
-//	protected override bool CanEvadeTargetNow(){
-//		return evadeTargetAction;
-//	}
-
-//	bool lastBrake = false;
-//	protected override IEnumerator ComfortTurn () {
-//		if (Math2d.Chance (0.5f)) {
-//			yield return base.ComfortTurn ();
-//			lastBrake = false;
-//		} else {
-//			float duration = new RandomFloat (2f, 3f).RandomValue;
-//			bool acc = Math2d.Chance (0.35f);
-//			bool brake = (acc || lastBrake) ? false : Math2d.Chance (0.5f);
-//			lastBrake = brake;
-//			yield return AIHelper.TimerR (duration, LastDelta, () => Shoot(acc, brake));
-//		}
-//	}
-//
-//	protected override IEnumerator OutOfComformTurn (bool far)
-//	{
-//		if (Math2d.Chance (0.5f)) {
-//			yield return base.OutOfComformTurn (far);
-//			lastBrake = false;
-//		} else {
-//			float duration = new RandomFloat (2f, 3f).RandomValue;
-//			bool brake = (far || lastBrake) ? false : Math2d.Chance (0.5f);
-//			lastBrake = brake;
-//			yield return AIHelper.TimerR (duration, LastDelta, () => Shoot(far, brake));
-//		}
-//	}
+	protected override IBehaviour GetTurnBeh (CommonBeh.Data behData) {
+		return new UserTurnBeh (behData, new NoDelayFlag());
+	}
 
 //	protected override IEnumerator NoTargetBeh (float duration)	{
 //		turnDirection = thisShip.cacheTransform.right;
@@ -84,18 +41,4 @@ public class UserController : CommonController {
 //		yield return new WaitForSeconds (duration); 
 //	}
 
-
-	override protected float SelfSpeedAccuracy() {
-		return accuracy;
-	}
-
-//	void Shoot(bool accelerate, bool brake) {
-//		if (accelerate) {
-//			SetAcceleration (accelerate);
-//		}
-//		if (brake) {
-//			Brake ();
-//		}
-//		Shoot (accuracy, bulletsSpeed);
-//	}
 }

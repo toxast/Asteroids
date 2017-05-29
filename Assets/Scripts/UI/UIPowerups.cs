@@ -15,7 +15,7 @@ public class UIPowerups : MonoBehaviour
 			return;
 		}
 		if (currentPowerups.Exists (e => e.progressObj == powerup.progressObj)) {
-			Debug.LogError ("same effect");
+			Debug.LogError ("same effect " + powerup.progressObj.GetType().ToString());
 			return;
 		}
 		var bar = Instantiate (powerupPrefab, container);

@@ -149,11 +149,11 @@ MonoBehaviour:
   - {x: 3.0514376, y: 1.6486123}
   - {x: 3.4432414, y: 1.19}
   - {x: 3.6832414, y: 0.74999994}
-  explosionRangeCalculated: 20.979284
-  explosionDamageCalculated: 3.6152132
+  explosionRangeCalculated: 16.395714
+  explosionDamageCalculated: 3.0799572
   elementsCount: 2
   shieldRadius: 14
-  shieldRotationSpeed: 50
+  shieldRotationSpeed: 10
   respawnShieldObjDuration: 2.5
   shootInterval: 3
   applyShootingForceDuration: 3
