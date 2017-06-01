@@ -11,7 +11,7 @@ public class EmptyAsteroidData : MSpawnDataBase
 
 	protected override PolygonGameObject CreateInternal(int layer)
 	{
-		var spawn = ObjectsCreator.CreateEmptyAsteroid (this);
+		var spawn = ObjectsCreator.CreateEmptyAsteroid (this, layer);
 		return spawn;
 	}
 }

@@ -191,7 +191,7 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
-	public static Asteroid CreateEmptyAsteroid(EmptyAsteroidData mdata)
+	public static Asteroid CreateEmptyAsteroid(EmptyAsteroidData mdata, int layer)
 	{
 		float size = mdata.size.RandomValue;
 		int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size*3);
@@ -199,14 +199,14 @@ public class ObjectsCreator
 		Asteroid asteroid = PolygonCreator.CreatePolygonGOByMassCenter<Asteroid>(vertices, mdata.color);
 
 		asteroid.InitAsteroid (mdata.physical, mdata.speed, mdata.rotation); 
-		asteroid.SetLayerNum (CollisionLayers.ilayerAsteroids);
+		asteroid.SetLayerNum (layer);
 		asteroid.priority = PolygonGameObject.ePriorityLevel.LOW;
 		asteroid.gameObject.name = mdata.name;
 
 		return asteroid;
 	}
 
-	public static Comet CreateComet(MCometData mdata, RandomFloat speed, float lifetime) {
+    public static Comet CreateComet(MCometData mdata, RandomFloat speed, float lifetime) {
 		float size = new RandomFloat(2f, 2.2f).RandomValue;
         int vcount = UnityEngine.Random.Range(5 + (int)size, 5 + (int)size * 3);
         Vector2[] vertices = PolygonCreator.CreateAsteroidVertices(size, size / 2f, vcount);
@@ -261,7 +261,16 @@ public class ObjectsCreator
 		return asteroid;
 	}
 
-	public static SpikyAsteroid CreateSpikyAsteroid(MSpikyData data, int layer)	{
+    public static SawEnemy CreateSawBossEnemy(MSawBossData data, int layer) {
+        BossSuperSaw asteroid = PolygonCreator.CreatePolygonGOByMassCenter<BossSuperSaw>(data.vertices, data.color);
+        asteroid.InitSawEnemy(data);
+        asteroid.SetLayerNum(layer);
+        asteroid.targetSystem = new TargetSystem(asteroid);
+        asteroid.gameObject.name = data.name;
+        return asteroid;
+    }
+
+    public static SpikyAsteroid CreateSpikyAsteroid(MSpikyData data, int layer)	{
 		float rInner = data.size.RandomValue;
 		float spikeLength = data.spikeSize.RandomValue;
 		float rOuter = rInner + spikeLength;

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RotatingObjectsShield : DurationEffect {
 	protected override eType etype { get { return eType.RotatingObjectsShield; } }
+    public float angleOffsetDeg = 0;
 	Data data;
 	float currentAngle = 0;
 	IEnumerator routineRotate;
@@ -17,6 +18,18 @@ public class RotatingObjectsShield : DurationEffect {
 
     public RotatingObjectsShield(Data data) : base(data) {
         this.data = data;
+    }
+
+    public int AliveShieldObjects() {
+        int count = 0;
+        if (shields != null) {
+            for (int i = 0; i < shields.Count; i++) {
+                if (!Main.IsNull(shields[i])) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     public override void SetHolder (PolygonGameObject holder) {
@@ -79,7 +92,7 @@ public class RotatingObjectsShield : DurationEffect {
 		}
 		shieldObj.controlledBySomeone = true;
 		shieldObj.position = holder.position;
-		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(holder.cacheTransform.position.z + 1f);
+		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(holder.cacheTransform.position.z + data.zOffset);
 		holder.AddObjectAsFollower(shieldObj);
 		shieldObj.priorityMultiplier = 0.5f;
 		shieldObj.showOffScreen = false;
@@ -122,7 +135,7 @@ public class RotatingObjectsShield : DurationEffect {
 		float deltaAngle = 360f / data.maxShieldsCount;
 		while (true) {
 			currentAngle += data.shieldRotationSpeed * deltaTime;
-			float angle = currentAngle;
+			float angle = angleOffsetDeg + currentAngle;
 			for (int i = 0; i < shields.Count; i++) {
 				var item = shields [i];
 				if (Main.IsNull (item)) {
@@ -156,6 +169,7 @@ public class RotatingObjectsShield : DurationEffect {
 		public bool collideWithAsteroids = false;
 		public bool killShieldsObjectsOnDeath = true;
 		public bool disableExplosionOnKill = true;
+        public float zOffset = 1;
 
 		[Header ("keep rotation")]
 		public bool keepObjectsRotation = false;

@@ -30,6 +30,11 @@ public class Shield
 		currentShields = capacity;
 	}
 
+    public void DestroyShield() {
+        currentShields = 0;
+        GameObject.Destroy(shieldGo.gameObject);
+    }
+
 	//returns not deflected dmg
 	public float Deflect(float dmg)
 	{

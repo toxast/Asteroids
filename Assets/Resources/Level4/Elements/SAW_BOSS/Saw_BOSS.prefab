@@ -1,0 +1,186 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1397046965028498}
+  m_IsPrefabParent: 1
+--- !u!1 &1397046965028498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4566230865438258}
+  - component: {fileID: 114018212185065258}
+  m_Layer: 0
+  m_Name: Saw_BOSS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4566230865438258
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397046965028498}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114018212185065258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397046965028498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f007490252778b2468fa4af63b7261e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 4
+  reward: 10
+  teleportData:
+    duration: 3
+    ringSize: 30
+    color: {r: 0.9191176, g: 0, b: 0, a: 1}
+  startEffect: {fileID: 0}
+  prepareTime: 4
+  chargeRotation: 100
+  chargeSpeed:
+    min: 10
+    max: 10
+  chargeDuration:
+    min: 4
+    max: 4
+  slowingDuration: 2
+  chanceForceStopWhenMissed: 0.5
+  chanceContinueChargeUntilMiss: 1
+  accuracy:
+    startingAccuracy: 0.3
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 1
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  vertices:
+  - {x: 6.515073, y: 0}
+  - {x: 7.7412663, y: -6.0616307}
+  - {x: 10.733073, y: -12.037029}
+  - {x: 14.666089, y: -16.145647}
+  - {x: 17.17424, y: -17.463074}
+  - {x: 18.777176, y: -16.859983}
+  - {x: 21.853117, y: -13.489247}
+  - {x: 22.549162, y: -17.956743}
+  - {x: 20.89618, y: -21.235474}
+  - {x: 19.836369, y: -22.661737}
+  - {x: 17.41539, y: -24.551502}
+  - {x: 12.5545225, y: -27.357924}
+  - {x: 9.707452, y: -28.509666}
+  - {x: 7.942367, y: -28.714361}
+  - {x: 4.2764106, y: -28.506521}
+  - {x: 0.75546825, y: -25.669975}
+  - {x: 5.2125816, y: -24.691502}
+  - {x: 6.5363417, y: -23.604864}
+  - {x: 6.6494927, y: -20.774029}
+  - {x: 5.057833, y: -15.313626}
+  - {x: 1.3788891, y: -9.734945}
+  - {x: -3.2575402, y: -5.6422224}
+  - {x: -9.120162, y: -3.673322}
+  - {x: -15.790912, y: -3.2766023}
+  - {x: -21.315586, y: -4.628384}
+  - {x: -23.710588, y: -6.141793}
+  - {x: -23.989763, y: -7.8315225}
+  - {x: -22.608593, y: -12.180732}
+  - {x: -26.82558, y: -10.549777}
+  - {x: -28.838552, y: -7.4788857}
+  - {x: -29.543823, y: -5.8479314}
+  - {x: -29.96992, y: -2.8064215}
+  - {x: -29.96992, y: 2.8064206}
+  - {x: -29.543823, y: 5.8479304}
+  - {x: -28.838552, y: 7.4788847}
+  - {x: -26.82558, y: 10.549777}
+  - {x: -22.608593, y: 12.180732}
+  - {x: -23.989763, y: 7.8315215}
+  - {x: -23.710588, y: 6.141792}
+  - {x: -21.315586, y: 4.628383}
+  - {x: -15.790912, y: 3.2766013}
+  - {x: -9.120162, y: 3.673321}
+  - {x: -3.2575402, y: 5.6422215}
+  - {x: 1.3788891, y: 9.734945}
+  - {x: 5.057833, y: 15.313626}
+  - {x: 6.6494927, y: 20.774029}
+  - {x: 6.5363417, y: 23.604864}
+  - {x: 5.2125816, y: 24.691502}
+  - {x: 0.75546825, y: 25.669975}
+  - {x: 4.2764106, y: 28.506521}
+  - {x: 7.942367, y: 28.714361}
+  - {x: 9.707452, y: 28.509666}
+  - {x: 12.5545225, y: 27.357924}
+  - {x: 17.41539, y: 24.551502}
+  - {x: 19.836369, y: 22.661737}
+  - {x: 20.89618, y: 21.235474}
+  - {x: 22.549162, y: 17.956743}
+  - {x: 21.853117, y: 13.489247}
+  - {x: 18.777176, y: 16.859983}
+  - {x: 17.17424, y: 17.463074}
+  - {x: 14.666089, y: 16.145647}
+  - {x: 10.733073, y: 12.037029}
+  - {x: 7.7412663, y: 6.06163}
+  color: {r: 0.7794118, g: 0.30374137, b: 0.30374137, a: 1}
+  physical:
+    density: 0.2
+    health: -1
+    healthModifier: 0.7
+    collisionDefence: 0
+    collisionAttackModifier: 1.5
+  speed:
+    min: 0
+    max: 0
+  rotation:
+    min: 0
+    max: 0
+  gunsShowChargeEffect: {fileID: 0}
+  useInvisibilityBeh: 0
+  invisData:
+    fadeOutDuration: 1
+    fadeInDuration: 0.6
+    slowerFadeOnHit: 5
+  thrust: 5
+  stability: 0
+  generatorsShieldData:
+    duration: 999999
+    spawn: {fileID: 11492862, guid: ff668e1ae5f777d45894ba125955ffaa, type: 2}
+    shieldRotationSpeed: 0
+    asteroidShieldRadius: 20
+    respawnShieldObjDuration: 999999
+    asteroidsStability: 0
+    maxShieldsCount: 3
+    overrideMaxPartSpeed: 30
+    overrideForce: 40
+    collideWithAsteroids: 0
+    killShieldsObjectsOnDeath: 0
+    disableExplosionOnKill: 0
+    zOffset: -0.5
+    keepObjectsRotation: 0
+    keepRotationData:
+      targetRotation: 0
+      acceleration: 0

@@ -14,7 +14,7 @@ public class SawEnemy : PolygonGameObject, IFreezble
 	protected AIHelper.AccuracyChangerAdvanced accuracyChanger;
 	protected float accuracy { get { return accuracyChanger.accuracy; } }
 
-	public void InitSawEnemy(MSawData data) 
+	public virtual void InitSawEnemy(MSawData data) 
 	{
 		this.data = data;
 		this.reward = data.reward;
@@ -40,6 +40,10 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		StartCoroutine(CheckDistanceAndCharge());
 	}
 
+    protected virtual bool DoCharge() {
+        return true;
+    }
+
 	public override void Freeze(float multipiler){
 		rotationSlowingRate *= multipiler;
 		velocityslowingRate *= multipiler;
@@ -55,6 +59,9 @@ public class SawEnemy : PolygonGameObject, IFreezble
 	IEnumerator CheckDistanceAndCharge() {
 		float deltaTime = 0.3f;
 		while (true) {
+            while (!DoCharge()) {
+                yield return null;
+            }
 			yield return new WaitForSeconds (deltaTime); 
 			if (!Main.IsNull (target)) {
 				while (!Main.IsNull (target) && Mathf.Abs (rotation) < chargeRotation) {
