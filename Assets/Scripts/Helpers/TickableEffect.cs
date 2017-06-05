@@ -39,5 +39,6 @@ public abstract class TickableEffect : ITickable
 		PullDrops,
 		EffectDeathAnimation,
         HealOnCollision,
+        Delayed,
     }
 }
