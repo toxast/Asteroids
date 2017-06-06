@@ -6,9 +6,11 @@ using System.Linq;
 public class SimpleTower : PolygonGameObject, IFreezble
 {
 	MTowerData data;
-	private float shootAngle = 20f; //if angle to target bigger than this - dont even try to shoot
-	private float currentAimAngle = 0;
-	Rotaitor cannonsRotaitor;
+	private float shootAngle; //if angle to target bigger than this - dont even try to shoot
+
+	AdvancedTurnComponent turnComponent;
+	private Vector2 aimDirNorm;
+
 	protected AIHelper.AccuracyChangerAdvanced accuracyChanger;
 	protected float accuracy { get { return accuracyChanger.accuracy; } }
 
@@ -17,51 +19,35 @@ public class SimpleTower : PolygonGameObject, IFreezble
 		InitPolygonGameObject (data.physical);
 		this.shootAngle = data.shootAngle;
 		accuracyChanger = new AIHelper.AccuracyChangerAdvanced(data.accuracy, this);
-		cannonsRotaitor = new Rotaitor(cacheTransform, data.rotationSpeed);
+		turnComponent = new AdvancedTurnComponent (this, data.rotationSpeed);
+		aimDirNorm = cacheTransform.right;
 	}
 
 	public override void Freeze(float multipiler){
 		base.Freeze (multipiler);
-		cannonsRotaitor.Freeze(multipiler);
+		turnComponent.Freeze (multipiler);
 	}
 
 	public override void Tick(float delta)
 	{
 		base.Tick (delta);
+		if (data.rotateWhileShooting || !guns.Exists (g => g.IsFiring ())) {
+			CalculateAim ();
+		}
 		accuracyChanger.Tick (delta);
 		Brake (delta, 4f);
-		SlowRotation (delta, 30f);
-		if (data.rotateWhileShooting || !guns.Exists (g => g.IsFiring ())) {
-			RotateCannon (delta);
-		}
-		CalculateAim ();
 		TickGuns (delta);
 		if(!Main.IsNull(target)) {
-			bool fastRotation = Mathf.Abs (rotation) > cannonsRotaitor.rotatingSpeed * 1.2f;
-			if(Mathf.Abs(cannonsRotaitor.DeltaAngle(currentAimAngle)) < shootAngle || fastRotation) {
-				Shoot ();
+			if (!turnComponent.isFastRotation()) {
+				if (turnComponent.inAngleRange(aimDirNorm, shootAngle)) {
+					Shoot ();
+				}
 			}
 		}
 	}
 
-
-	private void SlowRotation(float delta, float slowingSpeed)
-	{
-		if (rotation == 0)
-			return;
-		
-		var deltaRotation = slowingSpeed * delta;
-		var rotationAbs = Mathf.Abs (rotation);
-		if (rotationAbs > deltaRotation) {
-			rotation = Mathf.Sign (rotation) * (rotationAbs - deltaRotation);
-		} else {
-			rotation = 0;
-		}
-	}
-
-	private void RotateCannon(float deltaTime)
-	{
-		cannonsRotaitor.Rotate(deltaTime, currentAimAngle);
+	protected override void ApplyRotation (float dtime) {
+		turnComponent.TurnByDirection (aimDirNorm, dtime);
 	}
 	
 	private void CalculateAim()
@@ -69,10 +55,10 @@ public class SimpleTower : PolygonGameObject, IFreezble
 		if (!Main.IsNull (target)) {
 			AimSystem aim = new AimSystem (target.position, accuracy * target.velocity, position, guns [0].BulletSpeedForAim);
 			if (aim.canShoot) {
-				currentAimAngle = aim.directionAngleRAD * Mathf.Rad2Deg;
+				aimDirNorm = aim.directionDist.normalized;
 			}
 		} else {
-			currentAimAngle = cacheTransform.eulerAngles.z;
+			aimDirNorm = cacheTransform.right;
 		}
 	}
 

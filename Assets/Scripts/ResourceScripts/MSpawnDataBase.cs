@@ -12,6 +12,7 @@ public abstract class MSpawnDataBase : MSpawnBase {
 
 	[Header("game fields")]
 	public int gameSpawnLayer = CollisionLayers.ilayerTeamEnemies;
+	//public int overrideCollisionLayer = 0;
 	public int difficulty;
     public int reward = 0;
 	public override int sdifficulty { get { return difficulty; }	}

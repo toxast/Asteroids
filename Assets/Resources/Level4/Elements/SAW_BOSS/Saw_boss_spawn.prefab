@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1397046965028498}
+  m_IsPrefabParent: 1
+--- !u!1 &1397046965028498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4566230865438258}
+  - component: {fileID: 114018212185065258}
+  m_Layer: 0
+  m_Name: Saw_boss_spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4566230865438258
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397046965028498}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114018212185065258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397046965028498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66c90fb949572fb4b8058b4f155a2eef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 0
+  editorSpawnLayer: 2
+  gameSpawnLayer: 2
+  difficulty: 4
+  reward: 0
+  teleportData:
+    duration: 1
+    ringSize: 10
+    color: {r: 0.9191176, g: 0.6250159, b: 0, a: 1}
+  startEffect: {fileID: 0}
+  prepareTime: 2
+  chargeRotation: 360
+  overrideStartChargeSpeed: 0
+  chargeSpeed:
+    min: 27
+    max: 35
+  chargeDuration:
+    min: 999
+    max: 999
+  slowingDuration: 2
+  chanceForceStopWhenMissed: 0
+  chanceContinueChargeUntilMiss: 0
+  accuracy:
+    startingAccuracy: 0.2
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 1
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  vertices:
+  - {x: 0.7131446, y: -0.41142437}
+  - {x: 1.2748868, y: -1.5286763}
+  - {x: 1.7718313, y: -1.6910372}
+  - {x: 2.2969534, y: -1.2450454}
+  - {x: 2.3750727, y: -1.7464428}
+  - {x: 2.0706086, y: -2.2744966}
+  - {x: 0.933814, y: -2.9308245}
+  - {x: 0.32427537, y: -2.9304714}
+  - {x: -0.07088835, y: -2.6121197}
+  - {x: 0.5779133, y: -2.3803463}
+  - {x: 0.6857764, y: -1.8687983}
+  - {x: -0.00092067075, y: -0.8236899}
+  - {x: -0.349537, y: -0.6046602}
+  - {x: -0.7135306, y: -0.41226512}
+  - {x: -1.9619678, y: -0.34012136}
+  - {x: -2.351049, y: -0.6893074}
+  - {x: -2.2273693, y: -1.3670737}
+  - {x: -2.7006521, y: -1.1840279}
+  - {x: -3.005727, y: -0.65632683}
+  - {x: -3.005727, y: 0.65633005}
+  - {x: -2.7006521, y: 1.1840286}
+  - {x: -2.2273693, y: 1.3670744}
+  - {x: -2.351049, y: 0.6893106}
+  - {x: -1.9619678, y: 0.34012315}
+  - {x: -0.7135306, y: 0.4122669}
+  - {x: -0.349537, y: 0.60466343}
+  - {x: -0.00092067075, y: 0.8236931}
+  - {x: 0.6857764, y: 1.868799}
+  - {x: 0.5779133, y: 2.3803453}
+  - {x: -0.07088835, y: 2.6121187}
+  - {x: 0.32427537, y: 2.9304705}
+  - {x: 0.933814, y: 2.9308236}
+  - {x: 2.0706086, y: 2.2744956}
+  - {x: 2.3750727, y: 1.7464435}
+  - {x: 2.2969534, y: 1.2450461}
+  - {x: 1.7718313, y: 1.6910379}
+  - {x: 1.2748868, y: 1.528677}
+  - {x: 0.7131446, y: 0.41142616}
+  color: {r: 0.6247165, g: 0.23053633, b: 0.7647059, a: 1}
+  physical:
+    density: 0.3
+    health: 2.5
+    healthModifier: 0.7
+    collisionDefence: 1
+    collisionAttackModifier: 1.5
+  speed:
+    min: 0
+    max: 0
+  rotation:
+    min: 0
+    max: 180
+  gunsShowChargeEffect: {fileID: 0}
+  useInvisibilityBeh: 0
+  invisData:
+    fadeOutDuration: 0
+    fadeInDuration: 0.6
+    slowerFadeOnHit: 5
+  thrust: 12
+  stability: 0.3

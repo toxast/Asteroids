@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4444415667974396}
   - component: {fileID: 114878949953904804}
   m_Layer: 0
-  m_Name: Ship3_Earth 3
+  m_Name: Ship_Earth 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
-  spawn: 0
+  spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
   difficulty: 10
@@ -68,7 +68,7 @@ MonoBehaviour:
   color: {r: 0.27676892, g: 0.4705882, b: 0.017301025, a: 1}
   physical:
     density: 1
-    health: 20
+    health: 30
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 1
@@ -79,9 +79,9 @@ MonoBehaviour:
     overrideExplosionRange: -1
     overrideExplosionDamage: -1
   mobility:
-    thrust: 5
+    thrust: 10
     maxSpeed: 20
-    turnSpeed: 220
+    turnSpeed: 120
     brake: 15
     passiveBrake: 2
     stability: 0.5
@@ -103,7 +103,7 @@ MonoBehaviour:
   linkedGuns: []
   thrusters:
   - place:
-      pos: {x: -2.995532, y: 0.000000056069247}
+      pos: {x: -1.4574524, y: -0.058773343}
       dir: {x: 1, y: 0}
       useAngleForPosition: 0
       range: 0
@@ -121,47 +121,61 @@ MonoBehaviour:
     startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
-  - {x: 2.1553338, y: -0.709229}
-  - {x: 3.1075182, y: -0.9122973}
-  - {x: 3.7457256, y: -3.0518343}
-  - {x: 1.2526784, y: -3.9759812}
-  - {x: -0.21592727, y: -2.750949}
-  - {x: -1.2605152, y: -3.9143734}
-  - {x: -1.7874737, y: -3.4336033}
-  - {x: -3.2749257, y: -3.4673421}
-  - {x: -2.8396573, y: -2.5213058}
-  - {x: -3.4970078, y: -0.5516225}
-  - {x: -3.4970078, y: 0.5516225}
-  - {x: -2.8396573, y: 2.5213058}
-  - {x: -3.2749257, y: 3.4673421}
-  - {x: -1.7874737, y: 3.4336033}
-  - {x: -1.2605152, y: 3.9143734}
-  - {x: -0.21592727, y: 2.750949}
-  - {x: 1.2526784, y: 3.9759812}
-  - {x: 3.7457256, y: 3.0518343}
-  - {x: 3.1075182, y: 0.9122973}
-  - {x: 2.1553338, y: 0.709229}
-  explosionRangeCalculated: 19.86324
-  explosionDamageCalculated: 3.4890125
-  elementsCount: 6
-  shieldRadius: 15
-  shieldRotationSpeed: 50
-  respawnShieldObjDuration: 2
-  shootInterval: 1
-  applyShootingForceDuration: 6
+  - {x: 1.4518179, y: -0.7934374}
+  - {x: 2.245255, y: -0.77874416}
+  - {x: 2.9946122, y: -2.4684715}
+  - {x: 4.2435412, y: -3.5704677}
+  - {x: 3.1856248, y: -5.289582}
+  - {x: 1.8926162, y: -6.4209647}
+  - {x: 0.14411542, y: -6.8764563}
+  - {x: -2.1921165, y: -6.8323765}
+  - {x: -2.721075, y: -5.5393677}
+  - {x: -3.9259243, y: -4.7165446}
+  - {x: -3.4851263, y: -3.217829}
+  - {x: -3.4263527, y: -2.6888711}
+  - {x: -2.9855542, y: -1.9395137}
+  - {x: -1.633772, y: -0.9109836}
+  - {x: -1.633772, y: 0.9109834}
+  - {x: -2.9855542, y: 1.9395134}
+  - {x: -3.4263527, y: 2.6888711}
+  - {x: -3.4851263, y: 3.217829}
+  - {x: -3.9259243, y: 4.7165446}
+  - {x: -2.721075, y: 5.5393677}
+  - {x: -2.1921165, y: 6.8323765}
+  - {x: 0.14411542, y: 6.8764563}
+  - {x: 1.8926162, y: 6.4209647}
+  - {x: 3.1856248, y: 5.289582}
+  - {x: 4.2435412, y: 3.5704677}
+  - {x: 2.9946122, y: 2.4684715}
+  - {x: 2.245255, y: 0.7787439}
+  - {x: 1.4518179, y: 0.7934372}
+  explosionRangeCalculated: 26.449818
+  explosionDamageCalculated: 4.202858
+  elementsCount: 2
+  shieldRadius: 12
+  shieldRotationSpeed: 10
+  respawnShieldObjDuration: 5
+  applyShootingForceDuration: 2
   shootByArc: 1
-  useShootPause: 1
-  pauseAfterAttackNum: 6
-  pauseDuration: 5
+  shootClosestByVelocity: 1
+  stopWhileShooting: 1
+  shootInterval: 1
+  shootDuration: 0.5
+  shootPause: 10
+  comformDistanceMax: 40
+  comformDistanceMin: 20
   collectBrokenObjects: 0
-  brokenShieldRadius: 20
-  attackWithBrokenWhenCount: 8
-  attackWithBrokenCount: 4
-  collectBrokenObjectsInterval: 2
-  minDeltaShootBrokenObjects: 1
-  overrideMaxPartSpeed: -1
+  applyForceBrokenObj: 2
+  collectMassThreshold: 30
+  brokenShieldRadius: 12
+  attackWithBrokenWhenCount: 2
+  attackWithBrokenCount: 1
+  collectBrokenObjectsInterval: 0.5
+  minDeltaShootBrokenObjects: 3
+  overrideAttackPartForce: 20
+  overrideMaxPartAttackSpeed: 1000
   asteroidsStability: 0
-  asteroidData: {fileID: 11429188, guid: 6e846a35844c9cd4296c78341d17b438, type: 2}
+  spawnObj: {fileID: 114018212185065258, guid: f7553a02726fd2440bade961cd646ef8, type: 2}
   asteroidAttackByForceAnimations:
   - place:
       pos: {x: 0, y: 0}

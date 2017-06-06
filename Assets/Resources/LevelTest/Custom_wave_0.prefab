@@ -69,7 +69,7 @@ MonoBehaviour:
     spawnStrategy: 4
     startNextWaveWhenDifficultyLeft: 0
     objects:
-    - spawn: {fileID: 11492862, guid: 62e489101dfe7504d93fe9e7ddc69dec, type: 2}
+    - spawn: {fileID: 11492862, guid: b60157c54dc5a6542a34b8c4a7fad6c6, type: 2}
       range:
         min: 40
         max: 40
@@ -81,4 +81,4 @@ MonoBehaviour:
         lookAngleRange: 360
       count: 5
   createDefWaveEditor: 0
-  totalDifficulty: 30
+  totalDifficulty: 50

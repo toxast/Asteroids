@@ -6,25 +6,41 @@ using Random = UnityEngine.Random;
 
 public class RotateOnTargetBeh : DelayedActionBeh
 {
+	float timeLeft = 0;
 	Func<Vector2> getAimDirection;
 	public RotateOnTargetBeh(CommonBeh.Data data, IDelayFlag delay, Func<Vector2> getAimDirection) : base(data,delay){
 		this.getAimDirection = getAimDirection;
 		_canBeInterrupted = true;
 	}
 
-	public override bool IsReadyToAct ()
-	{
+	public override bool IsReadyToAct () {
 		return base.IsReadyToAct () && !TargetNULL();
 	}
 
+	protected virtual float GetTotalDuration() {
+		return Random.Range (180f - 60f, 180f - 30f) / data.thisShip.originalTurnSpeed;
+	}
+
+	public float GetTimeLeft() {
+		return timeLeft;
+	}
+
 	protected override IEnumerator Action () {
-		var duration = Random.Range (180f - 60f, 180f - 30f) / data.thisShip.originalTurnSpeed;
+		timeLeft = GetTotalDuration ();
 		//LogWarning("rotate on target " + duration);
 		FireBrake ();
-		var wait = WaitForSeconds (duration);
-		while (wait.MoveNext() && !TargetNULL()) {
+		while (timeLeft >= 0 && !TargetNULL()) {
+			timeLeft -= DeltaTime ();
 			FireDirChange (getAimDirection ());
 			yield return true;
 		}
+		timeLeft = 0;
+		/*var wait = WaitForSeconds (duration);
+		while (wait.MoveNext() && !TargetNULL()) {
+			FireDirChange (getAimDirection ());
+			yield return true;
+		}*/
+
 	}
 }
+

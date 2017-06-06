@@ -25,7 +25,10 @@ public class Main : MonoBehaviour
 	List<ObjectsDestructor> goDestructors = new List<ObjectsDestructor> ();
 	Dictionary<DropID, DropData> id2drops = new Dictionary<DropID, DropData> (); 
 	public static Color userColor = new Color(54f/255f, 120f/255f, 251f/255f);
+
+
 	[SerializeField] bool killEveryOne = false;
+	[SerializeField] bool useColorsForCollisions = false;
 
 
 	private float DestroyAfterSplitTreshold = 5f;
@@ -1133,6 +1136,27 @@ public class Main : MonoBehaviour
 
 	public void Add2Objects(PolygonGameObject p) {
 		//CreateMinimapIndicatorForObject (p);
+		#if UNITY_EDITOR
+		if(useColorsForCollisions){
+			if(p.layerLogic != p.layerCollision){
+				p.SetColor(Color.white);
+			} else if(p.layerLogic == CollisionLayers.ilayerAsteroids){
+				p.SetColor(Color.gray);
+			} else if(p.layerLogic == CollisionLayers.ilayerBulletsEnemies){
+				p.SetColor(Color.red);
+			} else if(p.layerLogic == CollisionLayers.ilayerBulletsUser){
+				p.SetColor(Color.green);
+			} else if(p.layerLogic == CollisionLayers.ilayerMisc){
+				p.SetColor(Color.magenta);
+			} else if(p.layerLogic == CollisionLayers.ilayerNoCollision){
+				p.SetColor(new Color(1,1,0));
+			} else if(p.layerLogic == CollisionLayers.ilayerTeamEnemies){
+				p.SetColor(Color.yellow);
+			} else if(p.layerLogic == CollisionLayers.ilayerTeamUser){
+				p.SetColor(Color.blue);
+			} 
+		}
+		#endif
 		gobjects.Add (p);
 	}
 

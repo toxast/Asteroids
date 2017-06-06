@@ -87,10 +87,16 @@ public static class Math2d {
         return new Vector2(v.y, -v.x);
     }
 
-    static public float ClosestAngleBetweenNormalizedDegAbs(Vector2 vn1, Vector2 vn2) {
-        var rad = ClosestAngleBetweenNormalizedRad(vn1, vn2);
-        return Mathf.Abs(rad * Mathf.Rad2Deg);
-    }
+
+	//returns closest angle, "+" if vn2 to the left, "-" otherwise
+	static public float DegBetweenNorm(Vector2 vn1, Vector2 vn2){
+		return Mathf.Sign(Cross(ref vn1, ref vn2)) * DegBetweenNormUnsigned(vn1, vn2);
+	}
+
+	static public float DegBetweenNormUnsigned(Vector2 vn1, Vector2 vn2) {
+		var rad = ClosestAngleBetweenNormalizedRad(vn1, vn2);
+		return rad * Mathf.Rad2Deg;
+	}
 
     static public float ClosestAngleBetweenNormalizedRad(Vector2 vn1, Vector2 vn2) {
         var cos = DotProduct(ref vn1, ref vn2);

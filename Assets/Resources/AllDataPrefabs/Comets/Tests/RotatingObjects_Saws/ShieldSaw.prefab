@@ -54,12 +54,14 @@ MonoBehaviour:
   spawnCount: 1
   spawn: 1
   editorSpawnLayer: 2
-  difficulty: 0
   gameSpawnLayer: 2
+  difficulty: 0
+  reward: 0
   teleportData:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   physical:
     density: 2
     health: -1

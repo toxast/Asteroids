@@ -20,16 +20,16 @@ public class RotatingObjectsShield : DurationEffect {
         this.data = data;
     }
 
-    public int AliveShieldObjects() {
-        int count = 0;
+	public List<PolygonGameObject> AliveShieldObjects() {
+		List<PolygonGameObject> alive = new List<PolygonGameObject> ();
         if (shields != null) {
             for (int i = 0; i < shields.Count; i++) {
                 if (!Main.IsNull(shields[i])) {
-                    count++;
+					alive.Add(shields[i]);
                 }
             }
         }
-        return count;
+		return alive;
     }
 
     public override void SetHolder (PolygonGameObject holder) {
@@ -93,11 +93,15 @@ public class RotatingObjectsShield : DurationEffect {
 		shieldObj.controlledBySomeone = true;
 		shieldObj.position = holder.position;
 		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(holder.cacheTransform.position.z + data.zOffset);
+
 		holder.AddObjectAsFollower(shieldObj);
 		shieldObj.priorityMultiplier = 0.5f;
 		shieldObj.showOffScreen = false;
 		if (data.keepObjectsRotation) {
 			shieldObj.AddEffect (new KeepRotationEffect(data.keepRotationData));
+		}
+		if (data.keepObjectsOrientation) {
+			shieldObj.AddEffect (new KeepOrientationEffect(data.keepOrientationData, holder));
 		}
 		Singleton<Main>.inst.Add2Objects (shieldObj);
 		return shieldObj;
@@ -174,6 +178,9 @@ public class RotatingObjectsShield : DurationEffect {
 		[Header ("keep rotation")]
 		public bool keepObjectsRotation = false;
 		public KeepRotationEffect.Data keepRotationData;
+		[Header ("keep orientation")]
+		public bool keepObjectsOrientation = false;
+		public KeepOrientationEffect.Data keepOrientationData;
 	
 		public IHasProgress Apply(PolygonGameObject picker) {
 			var effect = new RotatingObjectsShield (this);

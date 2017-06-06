@@ -161,6 +161,7 @@ public class SpikyAsteroid : PolygonGameObject, IFreezble
 		spikeGO.velocity = spikeSpeed * spikeDirection.normalized;
 		spikeGO.priority = PolygonGameObject.ePriorityLevel.LOW;
 		spikeGO.showOffScreen = false;
+		spikeGO.controlledBySomeone = true;
 		//change mesh and polygon
 		ChangeVertex(spike.index, (spike.a.p1 + spike.b.p2) / 2f);
 

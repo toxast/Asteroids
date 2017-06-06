@@ -55,24 +55,25 @@ MonoBehaviour:
   spawn: 1
   editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 4
-  reward: 10
+  difficulty: 100
+  reward: 300
   teleportData:
     duration: 3
     ringSize: 30
     color: {r: 0.9191176, g: 0, b: 0, a: 1}
   startEffect: {fileID: 0}
-  prepareTime: 4
-  chargeRotation: 100
+  prepareTime: 2
+  chargeRotation: 120
+  overrideStartChargeSpeed: 5
   chargeSpeed:
-    min: 10
-    max: 10
+    min: 35
+    max: 35
   chargeDuration:
-    min: 4
-    max: 4
+    min: 7
+    max: 7
   slowingDuration: 2
-  chanceForceStopWhenMissed: 0.5
-  chanceContinueChargeUntilMiss: 1
+  chanceForceStopWhenMissed: 0
+  chanceContinueChargeUntilMiss: 0
   accuracy:
     startingAccuracy: 0.3
     thresholdDistance: 10
@@ -145,11 +146,11 @@ MonoBehaviour:
   - {x: 14.666089, y: 16.145647}
   - {x: 10.733073, y: 12.037029}
   - {x: 7.7412663, y: 6.06163}
-  color: {r: 0.7794118, g: 0.30374137, b: 0.30374137, a: 1}
+  color: {r: 0.47811866, g: 0.111970164, b: 0.8014706, a: 1}
   physical:
-    density: 0.2
-    health: -1
-    healthModifier: 0.7
+    density: 0.4
+    health: 230
+    healthModifier: 2
     collisionDefence: 0
     collisionAttackModifier: 1.5
   speed:
@@ -164,13 +165,13 @@ MonoBehaviour:
     fadeOutDuration: 1
     fadeInDuration: 0.6
     slowerFadeOnHit: 5
-  thrust: 5
+  thrust: 8
   stability: 0
   generatorsShieldData:
     duration: 999999
-    spawn: {fileID: 11492862, guid: ff668e1ae5f777d45894ba125955ffaa, type: 2}
+    spawn: {fileID: 114933748687256448, guid: 6308bb83233bec04e93af953f3a8643c, type: 2}
     shieldRotationSpeed: 0
-    asteroidShieldRadius: 20
+    asteroidShieldRadius: 26
     respawnShieldObjDuration: 999999
     asteroidsStability: 0
     maxShieldsCount: 3
@@ -184,3 +185,64 @@ MonoBehaviour:
     keepRotationData:
       targetRotation: 0
       acceleration: 0
+    keepObjectsOrientation: 1
+    keepOrientationData:
+      rotaitingSpeed: 20
+  spawnDuration: 10
+  spawnInterval: 6
+  chargeSpawn: {fileID: 114018212185065258, guid: 7dd4474c3f8d2744a92e5889680e6cf1,
+    type: 2}
+  eyePS:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 198474186395052582, guid: 4403541f2b9aa2f4384c73535db368df, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -0.1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  eyeFlamePS:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 198328997085036626, guid: bde644c66278e9b439183e6227f2d0b3, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: -0.15
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  deathPS:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 19889370, guid: c870fa63d0aaf8949a0e180c0a15aff0, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}

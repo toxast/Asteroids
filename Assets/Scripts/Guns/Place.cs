@@ -22,11 +22,11 @@ public class Place: IClonable<Place>
 
 	public Vector2 direction{
 		get{ 
-			if (!useAngleForPosition) {
+			//if (!useAngleForPosition) {
 				return dir;
-			} else {
+			/*} else {
 				return Math2d.RotateVertexDeg (new Vector2 (1, 0), angle);
-			}
+			}*/
 		}
 	}
 

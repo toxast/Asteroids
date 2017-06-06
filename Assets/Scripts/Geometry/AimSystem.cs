@@ -141,7 +141,7 @@ public class SuicideAim
 	}
 
 	void CalculateFullData() {
-		var angleBetweenCurrentAndBestSpeed = Math2d.ClosestAngleBetweenNormalizedRad(selfSpeed/selfSpeedMagnitude, direction.normalized) * Mathf.Rad2Deg;
+		var angleBetweenCurrentAndBestSpeed = Math2d.DegBetweenNormUnsigned(selfSpeed/selfSpeedMagnitude, direction.normalized);
 		if(angleBetweenCurrentAndBestSpeed < 50f) {
 			time = aimTime; //+ angleBetweenCurrentAndBestSpeed / turnSpeed;
 			canShoot = true;

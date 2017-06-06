@@ -57,7 +57,7 @@ MonoBehaviour:
   color: {r: 0.24356619, g: 0.625, b: 0.37246457, a: 1}
   physical:
     density: 0.9
-    health: 45
+    health: 40
     healthModifier: -1
     collisionDefence: 0.1
     collisionAttackModifier: 1

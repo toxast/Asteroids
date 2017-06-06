@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class SawEnemy : PolygonGameObject, IFreezble
 {
@@ -7,9 +8,9 @@ public class SawEnemy : PolygonGameObject, IFreezble
 	private float initialVelocity;
 
 	private float rotationChargingRate;
-	private float rotationSlowingRate;
+	protected float rotationSlowingRate;
 	private float chargeRotation;
-	private float velocityslowingRate;
+	protected float velocityslowingRate;
 	MSawData data;
 	protected AIHelper.AccuracyChangerAdvanced accuracyChanger;
 	protected float accuracy { get { return accuracyChanger.accuracy; } }
@@ -40,8 +41,12 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		StartCoroutine(CheckDistanceAndCharge());
 	}
 
-    protected virtual bool DoCharge() {
-        return true;
+	Func<bool> doCharge;
+	public void SetChargeRestriction(Func<bool> doCharge){
+		this.doCharge = doCharge;
+	}
+    bool DoCharge() {
+		return doCharge != null ? doCharge() : true;
     }
 
 	public override void Freeze(float multipiler){
@@ -55,6 +60,8 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		base.Tick (delta);
 		accuracyChanger.Tick (delta);
 	}
+
+	public bool isCharging{ get; private set;}
 
 	IEnumerator CheckDistanceAndCharge() {
 		float deltaTime = 0.3f;
@@ -75,7 +82,9 @@ public class SawEnemy : PolygonGameObject, IFreezble
 					yield return null;
 				}
 				if (!Main.IsNull (target)) {
+					isCharging = true;
 					yield return StartCoroutine (Charge ()); 
+					isCharging = false;
 
 					if (data.useInvisibilityBeh) {
 						invisibilityComponent.SetState (true);
@@ -97,12 +106,15 @@ public class SawEnemy : PolygonGameObject, IFreezble
 				currentGunsShowEffect = new GunsShowEffect (data.gunsShowChargeEffect);
 				AddEffect (currentGunsShowEffect);
 			}
-			AimSystem aim = new AimSystem (target.position, target.velocity * accuracy, position, chargeSpeed);
-			if (aim.canShoot) {
-				velocity = chargeSpeed * aim.directionDist.normalized;
-			} else {
-				Vector2 direction = target.position - position;
-				velocity = chargeSpeed * direction.normalized;
+			float startChargeSpeed = data.overrideStartChargeSpeed >= 0 ? data.overrideStartChargeSpeed : data.chargeSpeed.RandomValue;
+			if (startChargeSpeed != 0) {
+				AimSystem aim = new AimSystem (target.position, target.velocity * accuracy, position, chargeSpeed);
+				if (aim.canShoot) {
+					velocity = startChargeSpeed * aim.directionDist.normalized;
+				} else {
+					Vector2 direction = target.position - position;
+					velocity = startChargeSpeed * direction.normalized;
+				}
 			}
 		}
 
@@ -138,8 +150,14 @@ public class SawEnemy : PolygonGameObject, IFreezble
 	}
 
 	private bool Slow(float deltaTime) {
+		bool slowingRotation = SlowRotation (deltaTime, rotationSlowingRate);
+		bool slowingVelocity = SlowVelocity(deltaTime, velocityslowingRate);
+		return slowingVelocity || slowingRotation;
+	}
+
+	protected bool SlowRotation(float deltaTime, float slowingRate){
 		float diff = Mathf.Abs (rotation) - Mathf.Abs (initialRotation);
-		float delta = rotationSlowingRate * deltaTime;
+		float delta = slowingRate * deltaTime;
 		bool slowingRotation = diff > 0;
 		if (slowingRotation) {
 			if (delta < diff) {
@@ -149,9 +167,13 @@ public class SawEnemy : PolygonGameObject, IFreezble
 				slowingRotation = false;
 			}
 		}
+		return slowingRotation;
+	}
+
+	protected bool SlowVelocity(float deltaTime, float slowingRate){
 		var vmag = velocity.magnitude;
-		diff = vmag - initialVelocity;
-		delta = velocityslowingRate * deltaTime;
+		float diff = vmag - initialVelocity;
+		float delta = slowingRate * deltaTime;
 		bool slowingVelocity = diff > 0;
 		if (slowingVelocity) {
 			if (delta < diff) {
@@ -161,10 +183,10 @@ public class SawEnemy : PolygonGameObject, IFreezble
 				slowingVelocity = false;
 			}
 		}
-		return slowingVelocity || slowingRotation;
+		return slowingVelocity;
 	}
 	
-	IEnumerator Slow() {
+	protected virtual IEnumerator Slow() {
 		float deltaTime = 0.15f;
 		bool slowing = true;
 		while (slowing) {

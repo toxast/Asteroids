@@ -62,7 +62,7 @@ MonoBehaviour:
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
   startEffect: {fileID: 0}
-  color: {r: 0.347, g: 0.46323532, b: 0.46323532, a: 1}
+  color: {r: 0.41782007, g: 0.50735295, b: 0.50735295, a: 1}
   speed:
     min: 1
     max: 2
@@ -73,8 +73,8 @@ MonoBehaviour:
     min: 3.5
     max: 4
   physical:
-    density: 1
+    density: 0.3
     health: -1
-    healthModifier: 1.2
+    healthModifier: 0.6
     collisionDefence: 0
     collisionAttackModifier: 1

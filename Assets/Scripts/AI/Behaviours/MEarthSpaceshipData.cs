@@ -9,17 +9,26 @@ public class MEarthSpaceshipData : MSpaceshipData
 	public float shieldRadius = 20f;
 	public float shieldRotationSpeed = 30f;
 	public float respawnShieldObjDuration = 3f;
-	public float shootInterval = 5f;
 	public float applyShootingForceDuration = 5f;
 	public bool shootByArc = false;
+	public bool shootClosestByVelocity = true;
+	[Header ("shoot intervals")]
+	public bool stopWhileShooting = true;
+	public float shootInterval = 1f;
+	public float shootDuration = 4f;
+	public float shootPause = 6f;
 
-	[Header ("pause shoouting for some time after x-th attack")]
+	/*[Header ("pause shoouting for some time after x-th attack")]
 	public bool useShootPause = false;
 	public int pauseAfterAttackNum = 0;
-	public float pauseDuration = 0;
+	public float pauseDuration = 0;*/
+
+	public float comformDistanceMax = 60;
+	public float comformDistanceMin = 30;
 
 	[Header ("shield from broken elements")]
     public bool collectBrokenObjects = true;
+	public float applyForceBrokenObj = 2f;
 	public float collectMassThreshold = 30f;
 	public float brokenShieldRadius = 20f;
     public int attackWithBrokenWhenCount = 8;
@@ -28,7 +37,8 @@ public class MEarthSpaceshipData : MSpaceshipData
 	public float minDeltaShootBrokenObjects = 1f;
 
 	[Header ("other")]
-	public float overrideMaxPartSpeed = -1;
+	public float overrideAttackPartForce = -1;
+	public float overrideMaxPartAttackSpeed = -1;
 	public float asteroidsStability = 0.5f;
 	public MSpawnDataBase spawnObj;
 	public List<ParticleSystemsData> asteroidAttackByForceAnimations;

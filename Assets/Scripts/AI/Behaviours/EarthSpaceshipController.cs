@@ -5,15 +5,17 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
 
-//TODO custom collision layer for asteroids, which will leave them not primary target
 public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 {
 	List<PolygonGameObject> objects;
 
 	int maxShieldsCount;
 	float force;
+	float attackForce;
 	float partMaxSpeed;
 	float partMaxSpeedSqr;
+	float partAttackMaxSpeed;
+	float partAttackMaxSpeedSqr;
 	float asteroidShieldRadius;
 	float shieldRotationSpeed;
 	float applyShootingForceDuration;
@@ -61,16 +63,21 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		applyShootingForceDuration = data.applyShootingForceDuration;
 		rotationSpeed = 2f * Mathf.PI * asteroidShieldRadius / (360f / shieldRotationSpeed);
 		deltaAngle = 360f / maxShieldsCount;
-		force = thisShip.thrust  + rotationSpeed / 0.5f;
-		partMaxSpeed = data.overrideMaxPartSpeed > 0 ? data.overrideMaxPartSpeed : rotationSpeed + thisShip.maxSpeed;
+		force = 1.5f * thisShip.thrust  + rotationSpeed * 2f;
+		attackForce = data.overrideAttackPartForce > 0 ? data.overrideAttackPartForce : force;
+		partMaxSpeed = rotationSpeed + 1.5f * thisShip.maxSpeed;
 		partMaxSpeedSqr = partMaxSpeed * partMaxSpeed;
+		partAttackMaxSpeed = data.overrideMaxPartAttackSpeed > 0 ? data.overrideMaxPartAttackSpeed : partMaxSpeed;
+		partAttackMaxSpeedSqr = partAttackMaxSpeed * partAttackMaxSpeed; 
 		this.objects = objects;
+
+		Debug.LogWarning (thisShip.name + " partMaxSpeed:" + partMaxSpeed + " force:" + force + " rotationSpeed:" + rotationSpeed);
 
 
 		CommonBeh.Data behData = new CommonBeh.Data {
 			accuracyChanger = accuracyChanger,
-			comformDistanceMax = 60,
-			comformDistanceMin = 30,
+			comformDistanceMax = data.comformDistanceMax,
+			comformDistanceMin = data.comformDistanceMin,
 			getTickData = GetTickData,
 			mainGun = null,
 			thisShip = thisShip,
@@ -91,11 +98,21 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 //			EvadeBulletsBeh evadeBulletsBeh = new EvadeBulletsBeh(behData, bullets, checkBulletsDelay);
 //			logics.Add(evadeBulletsBeh);
 //		}
+		if (data.stopWhileShooting) {
+			var rotateOntarget = new ShootWhileRotateBeh (behData, new DelayFlag (false, data.shootPause, data.shootPause), AimFunction, data.shootDuration, data.applyShootingForceDuration);
+			logics.Add (rotateOntarget);
+		} else {
+			shooting = true;
+			shootDelay = new ShootDelayBeh (behData, data.shootDuration, data.shootPause);
+			shootDelay.OnShootChange += delegate(bool shooting) {
+				this.shooting = shooting;
+			};
+			if (shootDelay.IsReadyToAct ()) {
+				shootDelay.Start ();
+			}
+		}
 
-		RotateOnTargetBeh rotateOntarget = new RotateOnTargetBeh(behData, new DelayFlag(false, 4, 7), () => target.position - thisShip.position);
-		logics.Add (rotateOntarget);
-
-		TurnBeh turnBeh = new TurnBeh (behData, new NoDelayFlag ());
+		var turnBeh = new TurnDontChangeShoot (behData, new NoDelayFlag ());
 		turnBeh.SetPassiveTickOthers (true);
 		logics.Add (turnBeh);
 
@@ -117,7 +134,17 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
         }
 	}
 
+	ShootDelayBeh shootDelay = null;
+	public override void Tick (float delta) {
+		base.Tick (delta);
+		if (shootDelay != null) {
+			shootDelay.Tick (delta);
+		}
+	}
 
+	Vector2 AimFunction(){
+		return target.position - thisShip.position;
+	}
 
 	private IEnumerator SpawnShieldObjects() 
 	{
@@ -149,6 +176,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 		shieldObj.position = thisShip.position;
 		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(thisShip.cacheTransform.position.z + 1f);
 		shieldObj.controlledBySomeone = true;
+		//Debug.LogError ("shieldObj massL" + shieldObj.mass);
         thisShip.AddObjectAsFollower(shieldObj);
 		Singleton<Main>.inst.Add2Objects (shieldObj);
 		return shieldObj;
@@ -200,44 +228,55 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
     }
 
     private IEnumerator LogicShoot() {
-		int attacksCount = 0;
 		yield return new WaitForSeconds (data.shootInterval/2f);
 		while (true) {
-			if (target != null) {
-				var notNull = shields.FindAll (a => !Main.IsNull (a));
-				if (notNull.Count > 0) {
-					int rnd = Random.Range (0, notNull.Count);
-					var obj = notNull [rnd];
-					for (int i = 0; i < shields.Count; i++) {
-						if(shields[i] == obj) {
-							shields [i] = null;
-							break;
-						}
-					}
-
-                    asteroidAttackByForceAnimations.ForEach(e => { e.overrideSize = 2 * obj.polygon.R; e.overrideDuration = applyShootingForceDuration; });
-                    obj.AddParticles (asteroidAttackByForceAnimations);
-					obj.destroyOnBoundsTeleport = true;
-					obj.controlledBySomeone = true;
-					thisShip.RemoveFollower (obj);
-					var bulletObj = new BulletObj{ obj = obj, startTime = Time.time };
-					if (data.shootByArc) {
-						lastArcIsRight = !lastArcIsRight;
-						bulletObj.rightArc = lastArcIsRight;
-					}
-					Main.PutOnFirstNullPlace (objectShootingWith, bulletObj); ;
-				}
-
-				attacksCount++;
-				if (data.useShootPause && (attacksCount % data.pauseAfterAttackNum == 0)) {
-					attacksCount = 0;
-					Debug.LogWarning ("pause " + data.pauseDuration);
-					yield return new WaitForSeconds (data.pauseDuration);
-				}
+			if (!Main.IsNull(target) && shooting) {
+				ShootPart ();
 				yield return new WaitForSeconds (data.shootInterval);
 			} else {
-				yield return new WaitForSeconds (1f);
+				yield return new WaitForSeconds (0.2f);
 			}
+		}
+	}
+
+	private void ShootPart(){
+		var notNull = shields.FindAll (a => !Main.IsNull (a));
+		if (notNull.Count > 0) {
+			int indx = -1;
+			if (data.shootClosestByVelocity) {
+				Vector2 aimdir = ((target.position + target.velocity) - thisShip.position).normalized;
+				float maxDot = float.MinValue;
+				for (int i = 0; i < notNull.Count; i++) {
+					var dot = Vector2.Dot (aimdir, notNull [i].velocity);
+					if (dot > 0 && dot > maxDot) {
+						maxDot = dot;
+						indx = i;
+					}
+				}
+			} 
+			if (indx < 0) {
+				indx = Random.Range (0, notNull.Count);
+			}
+			PolygonGameObject obj = notNull [indx];
+
+			for (int i = 0; i < shields.Count; i++) {
+				if(shields[i] == obj) {
+					shields [i] = null;
+					break;
+				}
+			}
+
+			asteroidAttackByForceAnimations.ForEach(e => { e.overrideSize = 2 * obj.polygon.R; e.overrideDuration = applyShootingForceDuration; });
+			obj.AddParticles (asteroidAttackByForceAnimations);
+			obj.destroyOnBoundsTeleport = true;
+			obj.controlledBySomeone = true;
+			thisShip.RemoveFollower (obj);
+			var bulletObj = new BulletObj{ obj = obj, startTime = Time.time };
+			if (data.shootByArc) {
+				lastArcIsRight = !lastArcIsRight;
+				bulletObj.rightArc = lastArcIsRight;
+			}
+			Main.PutOnFirstNullPlace (objectShootingWith, bulletObj); ;
 		}
 	}
 
@@ -257,13 +296,13 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                         var obj = bobj.obj;
                         brokenShields.Remove(bobj);
 
-                        asteroidAttackByForceAnimations.ForEach(e => { e.overrideSize = 2 * obj.polygon.R; e.overrideDuration = applyShootingForceDuration; });
+						asteroidAttackByForceAnimations.ForEach(e => { e.overrideSize = 2 * obj.polygon.R; e.overrideDuration = data.applyForceBrokenObj; });
                         obj.AddParticles(asteroidAttackByForceAnimations);
                         obj.controlledBySomeone = true;
 						thisShip.RemoveFollower (obj);
-                        AimSystem aim = new AimSystem(target.position, target.velocity, obj.position, partMaxSpeed * 0.8f);
-						Vector2 dir = (aim.directionDist * partMaxSpeed * 0.8f - obj.velocity * 0.15f).normalized;// , randomAngle);
-						Main.PutOnFirstNullPlace(brokenObjectShootingWith, new BrokenBulletObj { obj = obj, startTime = Time.time, accelerateDir = dir }); ;
+						//AimSystem aim = new AimSystem(target.position, target.velocity, obj.position, partAttackMaxSpeed * 0.8f);
+						//Vector2 dir = (aim.directionDist * partAttackMaxSpeed * 0.8f - obj.velocity * 0.15f).normalized;// , randomAngle);
+						Main.PutOnFirstNullPlace(brokenObjectShootingWith, new BrokenBulletObj { obj = obj, startTime = Time.time, accelerateDir = Vector2.one }); ;
                     }
                 }
             } 
@@ -281,16 +320,17 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 						if (Main.IsNull (bulletObj.obj)) {
 							objectShootingWith [i] = null;
 						} else {
-							if (Time.time - bulletObj.startTime > applyShootingForceDuration) {
+							float timeLeft = applyShootingForceDuration - (Time.time - bulletObj.startTime);
+							if (timeLeft < 0) {
 								objectShootingWith [i] = null;
 							} else {
 								var item = bulletObj.obj;
 								SuicideAim aim = new SuicideAim (target.position, target.velocity, item.position, item.velocity, 300f, 1f);
 								var aimDir = aim.direction.normalized;
-								if (data.shootByArc && aim.time > 2f) {
+								if (data.shootByArc && aim.time > 2f && timeLeft > applyShootingForceDuration * 0.4f) {
 									aimDir = Math2d.RotateVertexDeg (aimDir, 30 * (bulletObj.rightArc ? 1 : -1));
 								}
-								item.Accelerate (Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aimDir); 
+								item.Accelerate (Time.deltaTime, attackForce, asteroidsStability, partAttackMaxSpeed, partAttackMaxSpeedSqr, aimDir); 
 							}
 						}
 					} 
@@ -299,6 +339,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 			yield return null;
 		}
 	}
+
 
     private IEnumerator AimBrokenObjects() {
         while (true) {
@@ -309,11 +350,14 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                         if (Main.IsNull(bulletObj.obj)) {
                             brokenObjectShootingWith[i] = null;
                         } else {
-                            if (Time.time - bulletObj.startTime > applyShootingForceDuration) {
+							float timeLeft = data.applyForceBrokenObj - (Time.time - bulletObj.startTime);
+							if (timeLeft < 0) {
                                 brokenObjectShootingWith[i] = null;
                             } else {
-                                var item = bulletObj.obj;
-								item.Accelerate(Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, bulletObj.accelerateDir.normalized);
+								var item = bulletObj.obj;
+								SuicideAim aim = new SuicideAim (target.position, target.velocity, item.position, item.velocity, 300f, 0);
+								var aimDir = aim.direction.normalized;
+								item.Accelerate (Time.deltaTime, attackForce, asteroidsStability, partAttackMaxSpeed, partAttackMaxSpeedSqr, aimDir); 
                             }
                         }
                     }
@@ -354,8 +398,30 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                 obj.AddParticles (asteroidGrabByForceAnimations);
 				Main.PutOnFirstNullPlace (brokenShields,  newBroken);
 			}
-
 			yield return new WaitForSeconds(data.collectBrokenObjectsInterval);
+		}
+	}
+
+	public class ShootDelayBeh : DelayedActionBeh{
+		float duration;
+		float pause;
+		public ShootDelayBeh(CommonBeh.Data data, float duration, float delay ) : base(data, new NoDelayFlag()){
+			this.duration = duration;
+			this.pause = delay;
+		}
+
+		protected override IEnumerator Action () {
+			while (true) {
+				Debug.LogError ("shoot");
+				FireShootChange (true);
+				var wait = WaitForSeconds (duration);
+				while (wait.MoveNext ()) yield return true;
+				FireShootChange (false);
+				Debug.LogError ("hold");
+				wait = WaitForSeconds (pause);
+				while (wait.MoveNext ()) yield return true;
+				yield return true;
+			}
 		}
 	}
 }

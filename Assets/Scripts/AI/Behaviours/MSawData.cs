@@ -7,6 +7,7 @@ public class MSawData : MSpawnDataBase, IGotShape
 {
 	public float prepareTime = 2f;
 	public float chargeRotation = 300f;
+	public float overrideStartChargeSpeed = -1;
 	public RandomFloat chargeSpeed = new RandomFloat(30, 40);
 	public RandomFloat chargeDuration = new RandomFloat(2f, 3.5f);
 	public float slowingDuration = 2f;

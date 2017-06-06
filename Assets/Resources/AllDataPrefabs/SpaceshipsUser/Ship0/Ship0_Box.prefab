@@ -50,13 +50,14 @@ MonoBehaviour:
     duration: 1.5
     ringSize: 10
     color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
   id: 1
   price: 10
   journal: {fileID: 114395553400948598, guid: d80ef4ce076d79d4096a044e8c1ac753, type: 2}
   color: {r: 0.2100995, g: 0.4720619, b: 0.9852941, a: 1}
   physical:
     density: 0.5
-    health: 30
+    health: 25
     healthModifier: -1
     collisionDefence: 0
     collisionAttackModifier: 1

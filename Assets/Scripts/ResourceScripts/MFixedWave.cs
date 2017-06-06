@@ -32,6 +32,9 @@ public class MFixedWave: MWaveBase {
     void OnValidate(){
         totalDifficulty = 0;
         for (int i = 0; i < waveData.objects.Count; i++) {
+			if (waveData.objects [i].spawn == null) {
+				Debug.LogError ("null at " + i + " " + this.gameObject.name);
+			}
 			totalDifficulty += waveData.objects[i].difficulty * waveData.objects[i].count;
         }
 

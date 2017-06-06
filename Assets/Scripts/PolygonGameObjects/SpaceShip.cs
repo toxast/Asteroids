@@ -94,6 +94,7 @@ public class SpaceShip : PolygonGameObject , IFreezble
 		velocity = Vector2.zero;
 	}
 
+	TurnComponent turnComponent;
 	public void InitSpaceShip(SpaceshipData data)
 	{
 		shootAngle = data.shootAngle;
@@ -106,6 +107,7 @@ public class SpaceShip : PolygonGameObject , IFreezble
 
 		originalTurnSpeed = turnSpeed;
 		originalMaxSpeed = maxSpeed;
+		turnComponent = new TurnComponent (this);
 	}
 
 	public override void SetTarget(PolygonGameObject target)
@@ -222,49 +224,14 @@ public class SpaceShip : PolygonGameObject , IFreezble
     }
 
     public bool lastRotationDirLeft = false;
-    private void TurnByDirection(Vector3 dir, float delta)
-	{
-		bool turnLeft = Mathf.Sign(Math2d.Cross2(dir, cacheTransform.right)) < 0;
-		var deltaRotation = turnSpeed * delta;
-		var r = Mathf.Abs (rotation);
-		if(r > turnSpeed)
-		{
-			if(r < turnSpeed + deltaRotation)
-			{
-				rotation = Mathf.Clamp(rotation, -turnSpeed, turnSpeed);
-			}
-			else
-			{
-				rotation = Mathf.Sign(rotation) * (r - deltaRotation);
-			}
-			base.ApplyRotation(delta);
-		}
-		else
-		{
-			rotation = turnLeft ? -turnSpeed : turnSpeed;
-			Rotaitor rotaitor = new Rotaitor(cacheTransform, turnSpeed);
-			var currentAimAngle = Math2d.GetRotationRad(dir) / Math2d.PIdiv180 ;
-			bool reachedAngle = rotaitor.Rotate(delta, currentAimAngle);
-			if(reachedAngle)
-				rotation = 0;
-		}
-        lastRotationDirLeft = turnLeft;
+    private void TurnByDirection(Vector3 dir, float delta) {
+		lastRotationDirLeft = turnComponent.TurnByDirection(dir, delta, turnSpeed);
     }
 
 	protected override void ApplyRotation (float dtime)
 	{
 		//base.ApplyRotation (dtime); 
 	}
-
-
-    //	private float firingSpeedPUpKoeff = 1f;
-    //	private float firingSpeedPUpTimeLeft = 0f;
-    //	public void ChangeFiringSpeed(float koeff, float duration)
-    //	{
-    //		firingSpeedPUpKoeff = koeff;
-    //		firingSpeedPUpTimeLeft = duration;
-    //	}
-
     public override void SetSpawnParent(PolygonGameObject prnt) {
         base.SetSpawnParent(prnt);
         if (inputController != null) {
@@ -273,4 +240,78 @@ public class SpaceShip : PolygonGameObject , IFreezble
             Debug.LogError("inputController is null when SetSpawnParent");
         }
     }
+}
+
+
+public class TurnComponent{
+	protected PolygonGameObject holder;
+	public TurnComponent (PolygonGameObject holder){
+		this.holder = holder;
+	}
+
+	public bool TurnByDirection(Vector3 dir, float delta, float turnSpeed)
+	{
+		bool turnLeft = Mathf.Sign(Math2d.Cross2(dir, holder.cacheTransform.right)) < 0;
+		var deltaRotation = turnSpeed * delta;
+		var absRot = Mathf.Abs (holder.rotation);
+		if(absRot > turnSpeed)
+		{ //decrease extra rotation
+			if(absRot < turnSpeed + deltaRotation)
+			{
+				holder.rotation = Mathf.Clamp(holder.rotation, -turnSpeed, turnSpeed);
+			}
+			else
+			{
+				holder.rotation = Mathf.Sign(holder.rotation) * (absRot - deltaRotation);
+			}
+			holder.cacheTransform.Rotate(Vector3.back, holder.rotation*delta);
+		}
+		else
+		{ //controllable instant rotation
+			holder.rotation = turnLeft ? -turnSpeed : turnSpeed;
+			Rotaitor rotaitor = new Rotaitor(holder.cacheTransform, turnSpeed);
+			var currentAimAngle = Math2d.GetRotationRad(dir) / Math2d.PIdiv180 ;
+			bool reachedAngle = rotaitor.Rotate(delta, currentAimAngle);
+			if(reachedAngle)
+				holder.rotation = 0;
+		}
+		return turnLeft;
+	}
+}
+
+public class AdvancedTurnComponent : TurnComponent{
+	public float originalTurnSpeed{ get; private set;}
+	public float turnSpeed{ get; private set;}
+	public AdvancedTurnComponent(PolygonGameObject holder, float turnSpeed): base(holder){
+		this.originalTurnSpeed = turnSpeed;
+		this.turnSpeed = turnSpeed;
+	}
+
+	public void Freeze(float mul){
+		turnSpeed *= mul;
+	}
+
+	public bool TurnByDirection(Vector3 dir, float delta) {
+		return TurnByDirection (dir, delta, turnSpeed);
+	}
+
+	public bool TurnDirection(bool right, float delta) {
+		float angle = 90f * (right ? -1 : 1);
+		var newDir = Math2d.RotateVertexDeg(holder.cacheTransform.right, angle);
+		return TurnByDirection(newDir, delta);
+	}
+
+	public bool isFastRotation(){
+		return  Mathf.Abs (holder.rotation) > turnSpeed * 1.2f;
+	}
+
+	public bool inAngleRange(Vector2 aimDirNorm, float shootAngle){
+		var angleToRotate = Math2d.DegBetweenNormUnsigned (aimDirNorm, holder.cacheTransform.right);
+		return (angleToRotate < shootAngle);
+	}
+
+	public bool DirectionToTheLeft(Vector2 aimDirNorm){
+		return Math2d.Cross2(holder.cacheTransform.right, aimDirNorm) > 0;
+	}
+	
 }

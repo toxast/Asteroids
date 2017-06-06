@@ -68,7 +68,7 @@ public class SpawnBase
 	[SerializeField] public RandomFloat range = new RandomFloat(40, 50);
 	[SerializeField] public bool spawnAtViewEdge = false;
 	public int difficulty{
-		get{ return spawn.sdifficulty;}
+		get{return spawn.sdifficulty;}
 	}
 } 
 

@@ -134,7 +134,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 		if(a.canShoot)
 		{
 			turnDirection = a.directionDist;
-			var angleToRotate = Math2d.ClosestAngleBetweenNormalizedDegAbs (turnDirection.normalized, thisShip.cacheTransform.right);
+			var angleToRotate = Math2d.AbsDegAngleBetween (turnDirection.normalized, thisShip.cacheTransform.right);
 //			Debug.DrawLine(thisShip.position, thisShip.position + turnDirection*100f, Color.red, 10f);
 			this.shooting = (angleToRotate < thisShip.shootAngle);
 		}

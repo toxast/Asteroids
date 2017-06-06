@@ -621,10 +621,13 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 
 	public virtual void Tick(float delta)
 	{
+		#if UNITY_EDITOR
 		if (destroy) {
 			destroy = false;
 			Kill ();
 		}
+		#endif
+
 		if (HasLifetime) {
 			leftlifeTime -= delta; 
 		}
@@ -776,6 +779,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 			Vector2 delta = newPos - position;
 			foreach (var controllable in teleportWithMe) {
 				if (!Main.IsNull(controllable)) {
+					controllable.OnBoundsTeleporting (controllable.position + delta);
 					controllable.position += delta;
 				}
 			}

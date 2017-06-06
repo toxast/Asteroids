@@ -41,7 +41,7 @@ public abstract class CommonBeh : BaseBeh {
 		AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity - SelfSpeedAccuracy() * Main.AddShipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
 		if(a.canShoot) {
 			turnDirection = a.directionDist;
-			var angleToRotate = Math2d.ClosestAngleBetweenNormalizedDegAbs (turnDirection.normalized, thisShip.cacheTransform.right);
+			var angleToRotate = Math2d.AbsDegAngleBetween (turnDirection.normalized, thisShip.cacheTransform.right);
 			shooting = (angleToRotate < thisShip.shootAngle);
 		} else {
 			turnDirection = target.position - thisShip.position;

@@ -75,7 +75,7 @@ public class MSuicideBombController : BaseSpaceshipController {
 					}
                     yield return null;
 				} else {
-					if (thisShip.velocity.magnitude < thisShip.maxSpeed * 0.4f || (angle > 140f && Math2d.ClosestAngleBetweenNormalizedRad(thisShip.cacheTransform.right, aim.direction.normalized) * Mathf.Rad2Deg < 20f)) {
+					if (thisShip.velocity.magnitude < thisShip.maxSpeed * 0.4f || (angle > 140f && Math2d.DegBetweenNormUnsigned(thisShip.cacheTransform.right, aim.direction.normalized) < 20f)) {
                         SetAcceleration(true);
                     } else {
                         Brake();

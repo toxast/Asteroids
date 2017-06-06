@@ -111,11 +111,11 @@ MonoBehaviour:
   - {x: 1.0629317, y: 0.6010517}
   color: {r: 0.7794118, g: 0.30374137, b: 0.30374137, a: 1}
   physical:
-    density: 0.4
+    density: 0.46
     health: 10
     healthModifier: 1
     collisionDefence: 0
-    collisionAttackModifier: 1.2
+    collisionAttackModifier: 1
   speed:
     min: 10
     max: 10

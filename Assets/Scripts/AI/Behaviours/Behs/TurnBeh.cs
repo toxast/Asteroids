@@ -36,7 +36,7 @@ public class TurnBeh : DelayedActionBeh {
 		float duration;
 		Vector2 newDir;
 		AIHelper.ComfortTurn (data.comformDistanceMax, data.comformDistanceMin, tickData, out duration, out newDir);
-		SetFlyDir (newDir);
+		Turn (newDir);
         var wait = WaitForSeconds(duration);
         while (wait.MoveNext()) yield return true;
 	}
@@ -45,9 +45,47 @@ public class TurnBeh : DelayedActionBeh {
 		float duration;
 		Vector2 newDir;
 		AIHelper.OutOfComformTurn (thisShip, data.comformDistanceMax, data.comformDistanceMin, tickData, out duration, out newDir);
-		SetFlyDir (newDir);
+		Turn (newDir);
         var wait = WaitForSeconds(duration);
         while (wait.MoveNext()) yield return true;
 	}
+
+	protected virtual void Turn(Vector2 dir){
+		SetFlyDir (dir);
+	}
 }
+
+public class TurnDontChangeShoot : TurnBeh{
+	public TurnDontChangeShoot (CommonBeh.Data data, IDelayFlag delay):base(data, delay) {
+	}
+
+	protected override void Turn (Vector2 dir)
+	{
+		FireDirChange(dir);
+		FireAccelerateChange (true);
+	}
+}
+
+/*public class ShootAndTurn : TurnBeh{
+	float shootDuration;
+	float shootPause;
+public ShootAndTurn (CommonBeh.Data data, IDelayFlag delay, float shootDuration, float shootPause):base(data, delay) {
+		this.shootDuration = shootDuration;
+		this.shootPause = shootPause;
+	}
+
+	protected override IEnumerator Action () {
+		while (true) {
+			Debug.LogError ("shoot");
+			FireShootChange (true);
+			var wait = WaitForSeconds (shootDuration);
+			while (wait.MoveNext ()) yield return true;
+			FireShootChange (false);
+			Debug.LogError ("hold");
+			wait = WaitForSeconds (shootPause);
+			while (wait.MoveNext ()) yield return true;
+			yield return true;
+		}
+	}
+}*/
 
