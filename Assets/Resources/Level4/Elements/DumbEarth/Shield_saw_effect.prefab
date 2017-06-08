@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4823665254039810}
   - component: {fileID: 114146737906528258}
   m_Layer: 0
-  m_Name: shield_saw_effect
+  m_Name: Shield_saw_effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,6 +62,7 @@ MonoBehaviour:
     overrideMaxPartSpeed: -1
     overrideForce: -1
     collideWithAsteroids: 0
+    randomizeRotation: 0
     killShieldsObjectsOnDeath: 0
     disableExplosionOnKill: 1
     zOffset: 1

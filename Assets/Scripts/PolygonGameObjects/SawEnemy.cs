@@ -142,10 +142,15 @@ public class SawEnemy : PolygonGameObject, IFreezble
 		}
 	}
 
+	protected virtual float ThrustMultiplier(){
+		return 1f;
+	}
+
 	private void AccelerateTowardsTarget(float chargeSpeed, float chargeSpeedSqr, float deltaTime){
-		if (data.thrust > 0 && !Main.IsNull(target)) {
+		var thrust = data.thrust * ThrustMultiplier ();
+		if (thrust > 0 && !Main.IsNull(target)) {
 			AimSystem aim = new AimSystem (target.position, target.velocity * accuracy, position, chargeSpeed);
-			Accelerate (deltaTime, data.thrust, data.stability, chargeSpeed, chargeSpeedSqr, aim.directionDist.normalized);
+			Accelerate (deltaTime, thrust, data.stability, chargeSpeed, chargeSpeedSqr, aim.directionDist.normalized);
 		}
 	}
 

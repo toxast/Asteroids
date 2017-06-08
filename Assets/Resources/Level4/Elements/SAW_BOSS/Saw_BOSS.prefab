@@ -53,10 +53,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
-  editorSpawnLayer: 2
   gameSpawnLayer: 2
-  difficulty: 100
-  reward: 300
+  overrideCollisionLayerNum: -1
+  priorityMultiplier: 1
+  difficulty: 150
+  reward: 500
   teleportData:
     duration: 3
     ringSize: 30
@@ -149,7 +150,7 @@ MonoBehaviour:
   color: {r: 0.47811866, g: 0.111970164, b: 0.8014706, a: 1}
   physical:
     density: 0.4
-    health: 230
+    health: 300
     healthModifier: 2
     collisionDefence: 0
     collisionAttackModifier: 1.5

@@ -15,7 +15,11 @@ public class BossSuperSaw : SawEnemy {
         this.SetShield(new ShieldData(99999, 9999, 0, 0));
 		this.SetChargeRestriction (DoChargeChecker);
 		this.AddDestroyAnimationParticles (new List<ParticleSystemsData>{ bossData.deathPS });
+		this.priority = ePriorityLevel.LOW;
+		Debug.LogError ("TODO: rage animation");
     }
+
+	static float rageHealth = 0.4f;
 
 	List<LazerBetweenTwoOjects> lazers = new List<LazerBetweenTwoOjects>();
 
@@ -36,6 +40,14 @@ public class BossSuperSaw : SawEnemy {
 			firstDelay -= delta;
 		}
     }
+
+	protected override float ThrustMultiplier () {
+		if (GetLeftHealthPersentage () > rageHealth) {
+			return base.ThrustMultiplier ();
+		} else {
+			return base.ThrustMultiplier () * 1.2f;
+		}
+	}
 
 	float firstDelay = -1;
     bool DoChargeChecker() {
@@ -61,6 +73,8 @@ public class BossSuperSaw : SawEnemy {
     }
 
     void StartChargeBeh() {
+		this.priority = ePriorityLevel.NORMAL;
+
 		this.AddParticles (new List<ParticleSystemsData>{ bossData.eyePS, bossData.eyeFlamePS });
 		firstDelay = 4f;
 
@@ -204,8 +218,9 @@ public class BossSuperSaw : SawEnemy {
                     timeUntilSpawn = interval;
                     Spawn(0.7f, basepos, edgePos, dirRotation);
 					Spawn(0.5f, basepos, edgePos, dirRotation);
-                    //Spawn(0.6f, basepos, edgePos, dirRotation);
-                    //Spawn(0.4f, basepos, edgePos, dirRotation);
+					if (holder.GetLeftHealthPersentage () < rageHealth) {
+						Spawn(0.6f, basepos, edgePos, dirRotation);
+					}
                 }
 				prevDot = dot;
             }

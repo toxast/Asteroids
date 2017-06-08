@@ -763,6 +763,11 @@ Prefab:
       propertyPath: pauseUI
       value: 
       objectReference: {fileID: 1566154755}
+    - target: {fileID: 114987006537882568, guid: a1dc429fae2c48244bbbc4fc299e1cc0,
+        type: 2}
+      propertyPath: useColorsForCollisions
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1dc429fae2c48244bbbc4fc299e1cc0, type: 2}
   m_IsPrefabParent: 0
@@ -1512,7 +1517,7 @@ Prefab:
     - target: {fileID: 224736985639167794, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -193940
+      value: -196166
       objectReference: {fileID: 0}
     - target: {fileID: 224673232687170726, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
@@ -1632,7 +1637,7 @@ Prefab:
     - target: {fileID: 224736985639167794, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224100523432068226, guid: 4a0e672f1ed066f4588358acd8bae16e,
         type: 2}
