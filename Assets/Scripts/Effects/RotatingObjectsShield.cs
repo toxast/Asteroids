@@ -86,13 +86,16 @@ public class RotatingObjectsShield : DurationEffect {
     }
 
     private PolygonGameObject CreateShieldObj() {
-		var shieldObj = data.spawn.Create(CollisionLayers.GetSpawnedLayer (holder.layerLogic));
+		var shieldObj =  CollisionLayers.SpawnObjectFriendlyToParent(holder, data.spawn);
 		if (data.collideWithAsteroids) {
 			shieldObj.collisions |= (int)CollisionLayers.eLayer.ASTEROIDS;
 		}
 		shieldObj.controlledBySomeone = true;
 		shieldObj.position = holder.position;
 		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(holder.cacheTransform.position.z + data.zOffset);
+		if (data.randomizeRotation) {
+			shieldObj.cacheTransform.Rotate (new Vector3 (0, 0, new RandomFloat (0, 360).RandomValue));
+		}
 
 		holder.AddObjectAsFollower(shieldObj);
 		shieldObj.priorityMultiplier = 0.5f;
@@ -146,10 +149,12 @@ public class RotatingObjectsShield : DurationEffect {
 					shields [i] = null;
 				} else {
 					var radAngle = angle * Mathf.Deg2Rad;
-					Vector2 targetPos = holder.position + data.asteroidShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
-					Vector2 targetVelocity = holder.velocity + Mathf.Sign(data.shieldRotationSpeed) * rotationSpeed * (-Math2d.MakeRight(targetPos - holder.position) + 0.1f * (holder.position - targetPos)).normalized;
-					FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force);
-					item.Accelerate(deltaTime, force, data.asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
+					Vector2 targetPos = holder.position + data.asteroidShieldRadius * new Vector2 (Mathf.Cos (radAngle), Mathf.Sin (radAngle));
+					Vector2 targetVelocity = holder.velocity + Mathf.Sign (data.shieldRotationSpeed) * rotationSpeed * (-Math2d.MakeRight (targetPos - holder.position) + 0.1f * (holder.position - targetPos)).normalized;
+					FollowAim aim = new FollowAim (targetPos, targetVelocity, item.position, item.velocity, force);
+					if (aim.forceDir != Vector2.zero) {
+						item.Accelerate (deltaTime, force, data.asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
+					}
 				}
 				angle += deltaAngle;
 			}
@@ -171,6 +176,7 @@ public class RotatingObjectsShield : DurationEffect {
 		public float overrideMaxPartSpeed = -1;
 		public float overrideForce = -1;
 		public bool collideWithAsteroids = false;
+		public bool randomizeRotation = false;
 		public bool killShieldsObjectsOnDeath = true;
 		public bool disableExplosionOnKill = true;
         public float zOffset = 1;

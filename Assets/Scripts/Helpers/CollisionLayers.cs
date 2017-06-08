@@ -15,6 +15,32 @@ public static class CollisionLayers
 	public const int ilayerMisc = 6;
 	public const int ilayerNoCollision = 7;
 
+
+	public static List<int> enemyLayers = new List<int> {
+		CollisionLayers.ilayerTeamEnemies,
+		CollisionLayers.ilayerBulletsEnemies,
+		CollisionLayers.ilayerAsteroids
+	};
+
+	public static List<int> friendlyLayers = new List<int> {
+		CollisionLayers.ilayerTeamUser,
+		CollisionLayers.ilayerUser,
+		CollisionLayers.ilayerBulletsUser,
+	};
+
+	public enum eLayerNum : int
+	{
+		SAME = -1, //for default or no override behaviour
+		USER = ilayerUser,
+		TEAM_USER = ilayerTeamUser,
+		TEAM_ENEMIES = ilayerTeamEnemies,
+		BULLETS_USER = ilayerBulletsUser,
+		BULLETS_ENEMIES = ilayerBulletsEnemies,
+		ASTEROIDS = ilayerAsteroids,
+		MISC = ilayerMisc,
+		NO_COLISION = ilayerNoCollision,
+	}
+
 	[System.Flags]
 	public enum eLayer : int
 	{
@@ -69,7 +95,48 @@ public static class CollisionLayers
 		}
 	}
 
+	static public PolygonGameObject SpawnObjectFriendlyToParent(PolygonGameObject parent, MSpawnDataBase spawn){
+		return spawn.Create(GetLayerFriendlyToParent(parent, (int)spawn.gameSpawnLayer));
+	}
+
+	static public int GetLayerFriendlyToParent(PolygonGameObject parent, int defaultLayerNum){
+		int parentLogicNum = parent.logicNum;
+		int spawnLayerNum = defaultLayerNum;
+
+		if (enemyLayers.Contains (parentLogicNum) && enemyLayers.Contains (spawnLayerNum)) {
+			return spawnLayerNum;
+		} else if (friendlyLayers.Contains (parentLogicNum) && friendlyLayers.Contains (spawnLayerNum)) {
+			return spawnLayerNum;
+		} else {
+			if (enemyLayers.Contains (parentLogicNum)) {
+				return ilayerTeamEnemies;
+			} else if (friendlyLayers.Contains (parentLogicNum)) {
+				return ilayerTeamUser;
+			} else {
+				Debug.LogError ("wtf is that spawn: " + parent.name + " " + parentLogicNum + " " + spawnLayerNum);
+				return spawnLayerNum;
+			}
+		}
+	}
+
 	static public int GetSpawnedLayer(int parentLayer)
+	{
+		if(parentLayer == (int)CollisionLayers.eLayer.USER || parentLayer == (int)CollisionLayers.eLayer.TEAM_USER)
+		{
+			return CollisionLayers.ilayerTeamUser;
+		}
+		else if(parentLayer == (int)CollisionLayers.eLayer.TEAM_ENEMIES)
+		{
+			return CollisionLayers.ilayerTeamEnemies;
+		}
+		else
+		{
+			Debug.LogError("wtf layer");
+			return 0;
+		}
+	}
+
+	static public int GetCollisionLayer(int parentLayer)
 	{
 		if(parentLayer == (int)CollisionLayers.eLayer.USER || parentLayer == (int)CollisionLayers.eLayer.TEAM_USER)
 		{

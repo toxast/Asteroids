@@ -16,6 +16,9 @@ public class BaseSpaceshipController : InputController, IGotTarget
 	protected AIHelper.AccuracyChangerAdvanced accuracyChanger;
     protected float accuracy { get { return accuracyChanger.accuracy; } }
 
+	public bool TargetIsNull{get { return Main.IsNull (target);}}
+	public bool TargetNotNull{get { return !Main.IsNull (target);}}
+
     public virtual void Freeze(float m){ }
 
 	public BaseSpaceshipController(SpaceShip thisShip, AccuracyData accuracyData) {
@@ -125,7 +128,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 
 	protected void Shoot(float accuracy, float bulletsSpeed)
 	{
-		if (Main.IsNull (target)) {
+		if (TargetIsNull) {
 			return;
 		}
 		
@@ -134,7 +137,7 @@ public class BaseSpaceshipController : InputController, IGotTarget
 		if(a.canShoot)
 		{
 			turnDirection = a.directionDist;
-			var angleToRotate = Math2d.AbsDegAngleBetween (turnDirection.normalized, thisShip.cacheTransform.right);
+			var angleToRotate = Math2d.DegBetweenNormUnsigned (turnDirection.normalized, thisShip.cacheTransform.right);
 //			Debug.DrawLine(thisShip.position, thisShip.position + turnDirection*100f, Color.red, 10f);
 			this.shooting = (angleToRotate < thisShip.shootAngle);
 		}

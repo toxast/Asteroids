@@ -177,7 +177,7 @@ public class ShootFireballBeh: DelayedActionBeh {
 
 	public override bool IsReadyToAct ()
 	{
-		if( base.IsReadyToAct () && !TargetNULL()) {
+		if( base.IsReadyToAct () && TargetNotNull) {
 			bool fireballsFull = fireballs.Count > 0 && fireballs.TrueForAll (a => !Main.IsNull (a));
 			return fireballsFull;
 		}
@@ -188,12 +188,12 @@ public class ShootFireballBeh: DelayedActionBeh {
 	{
 		FireBrake ();
 		{
-			var wait = AIHelper.TimerR (1, DeltaTime, () => FireDirChange (target.position - thisShip.position), TargetNULL);
+			var wait = AIHelper.TimerR (1, DeltaTime, () => FireDirChange (target.position - thisShip.position), () => TargetIsNull);
 			while (wait.MoveNext()) yield return true;
 		}
 		int aimSign = 1;
 		for (int i = 0; i < fireballs.Count; i++) {
-			if (!TargetNULL()) {
+			if (TargetNotNull) {
 				FireDirChange(target.position - thisShip.position);
 				var obj = fireballs [i];
 				Vector2 aimPos = target.position;

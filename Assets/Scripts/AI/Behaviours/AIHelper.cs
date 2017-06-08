@@ -227,7 +227,7 @@ public static class AIHelper
 				accuracy = data.startingAccuracy;
 			}
 
-			if (!Main.IsNull (target)) {
+			if (!Main.IsNull(target)) {
 				if (!hasEstimatedPosition) {
 					estimatedPosition = target.position + target.velocity * dtime;
 					hasEstimatedPosition = true;

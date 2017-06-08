@@ -52,7 +52,7 @@ public class SimpleTower : PolygonGameObject, IFreezble
 	
 	private void CalculateAim()
 	{
-		if (!Main.IsNull (target)) {
+		if (TargetNotNull) {
 			AimSystem aim = new AimSystem (target.position, accuracy * target.velocity, position, guns [0].BulletSpeedForAim);
 			if (aim.canShoot) {
 				aimDirNorm = aim.directionDist.normalized;

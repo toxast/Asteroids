@@ -14,7 +14,7 @@ public class RotateOnTargetBeh : DelayedActionBeh
 	}
 
 	public override bool IsReadyToAct () {
-		return base.IsReadyToAct () && !TargetNULL();
+		return base.IsReadyToAct () && TargetNotNull;
 	}
 
 	protected virtual float GetTotalDuration() {
@@ -29,14 +29,14 @@ public class RotateOnTargetBeh : DelayedActionBeh
 		timeLeft = GetTotalDuration ();
 		//LogWarning("rotate on target " + duration);
 		FireBrake ();
-		while (timeLeft >= 0 && !TargetNULL()) {
+		while (timeLeft >= 0 && TargetNotNull) {
 			timeLeft -= DeltaTime ();
 			FireDirChange (getAimDirection ());
 			yield return true;
 		}
 		timeLeft = 0;
 		/*var wait = WaitForSeconds (duration);
-		while (wait.MoveNext() && !TargetNULL()) {
+		while (wait.MoveNext() && TargetNotNull) {
 			FireDirChange (getAimDirection ());
 			yield return true;
 		}*/

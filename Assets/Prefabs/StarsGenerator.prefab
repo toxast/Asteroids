@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1045137994758570}
+  m_IsPrefabParent: 1
+--- !u!1 &1045137994758570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4472182147810570}
+  - component: {fileID: 114007278597868068}
+  m_Layer: 0
+  m_Name: StarsGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4472182147810570
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1045137994758570}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114007278597868068
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1045137994758570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9010e6091eba54b45a49201c0a3cb8c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  starPrefab: {fileID: 212525303431885324, guid: 88d21ad9b45d5bb43be4d84c112dc982,
+    type: 2}
+  textures:
+  - {fileID: 21300000, guid: 16e7b14fa8053654191fe66b7d30d801, type: 3}
+  - {fileID: 21300000, guid: 2cea6f5caaee98c4fb3b64c5b9cca7fc, type: 3}
+  - {fileID: 21300000, guid: 9af06db240b86c0468b3058bb212ceb4, type: 3}
+  colors:
+  - {r: 1, g: 0.9310343, b: 0, a: 0}
+  - {r: 0.86764705, g: 0.5747942, b: 0.05103806, a: 0}
+  - {r: 0.07586217, g: 1, b: 0, a: 0}
+  - {r: 0, g: 0.8758621, b: 1, a: 0}
+  - {r: 1, g: 0, b: 0.020689487, a: 0}
+  - {r: 0, g: 1, b: 0.2965517, a: 0}
+  - {r: 0, g: 0.17241383, b: 1, a: 0}
+  - {r: 1, g: 0.39310342, b: 0, a: 0}
+  - {r: 0.32352942, g: 1, b: 0.9160244, a: 0}
+  - {r: 1, g: 0, b: 0.76551723, a: 0}
+  stars: []

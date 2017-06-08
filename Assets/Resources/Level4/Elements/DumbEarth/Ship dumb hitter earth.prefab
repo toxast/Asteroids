@@ -53,8 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
-  editorSpawnLayer: 2
   gameSpawnLayer: 2
+  overrideCollisionLayerNum: -1
+  priorityMultiplier: 1
   difficulty: 3
   reward: 7
   teleportData:
@@ -71,7 +72,7 @@ MonoBehaviour:
     density: 0.4
     health: 7
     healthModifier: 2
-    collisionDefence: 0.6
+    collisionDefence: 0.5
     collisionAttackModifier: 0.7
   deathData:
     destructionType: 0

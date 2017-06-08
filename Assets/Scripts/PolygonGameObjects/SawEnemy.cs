@@ -70,8 +70,8 @@ public class SawEnemy : PolygonGameObject, IFreezble
                 yield return null;
             }
 			yield return new WaitForSeconds (deltaTime); 
-			if (!Main.IsNull (target)) {
-				while (!Main.IsNull (target) && Mathf.Abs (rotation) < chargeRotation) {
+			if (TargetNotNull) {
+				while (TargetNotNull && Mathf.Abs (rotation) < chargeRotation) {
 					rotation += Mathf.Sign (rotation) * rotationChargingRate * Time.deltaTime;
 					if (data.useInvisibilityBeh) {
 						float approximateTimeToCharge = Mathf.Abs ((chargeRotation - Mathf.Abs (rotation)) / rotationChargingRate);
@@ -81,7 +81,7 @@ public class SawEnemy : PolygonGameObject, IFreezble
 					}
 					yield return null;
 				}
-				if (!Main.IsNull (target)) {
+				if (TargetNotNull) {
 					isCharging = true;
 					yield return StartCoroutine (Charge ()); 
 					isCharging = false;
@@ -101,7 +101,7 @@ public class SawEnemy : PolygonGameObject, IFreezble
 	IEnumerator Charge() {
 		float chargeSpeed = data.chargeSpeed.RandomValue;
 		float chargeSpeedSqr = chargeSpeed * chargeSpeed;
-		if (!Main.IsNull (target)) {
+		if (TargetNotNull) {
 			if (data.gunsShowChargeEffect != null) {
 				currentGunsShowEffect = new GunsShowEffect (data.gunsShowChargeEffect);
 				AddEffect (currentGunsShowEffect);

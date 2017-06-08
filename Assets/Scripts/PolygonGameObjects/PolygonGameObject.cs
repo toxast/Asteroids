@@ -134,6 +134,8 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 
 	protected List<TickableEffect> effects = new List<TickableEffect> ();
 	public PolygonGameObject target{ get; private set;}
+	public bool TargetIsNull{get { return Main.IsNull (target);}}
+	public bool TargetNotNull{get { return !Main.IsNull (target);}}
 	public ITickable targetSystem;
 
 	protected Shield shield = null;
@@ -689,7 +691,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 			}
 		}
 
-		if (!Main.IsNull (target)) {
+		if (TargetNotNull) {
 			if (spawnerGuns.Any ()) {
 				for (int i = 0; i < spawnerGuns.Count; i++) {
 					guns [spawnerGuns [i]].ShootIfReady ();

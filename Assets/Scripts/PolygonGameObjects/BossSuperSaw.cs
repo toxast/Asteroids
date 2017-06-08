@@ -214,7 +214,7 @@ public class BossSuperSaw : SawEnemy {
         void Spawn(float a, Vector2 basepos, Vector2 edgePos, Vector2 dirNorm) { //a c [0, 1]
             var pos = basepos + a * (edgePos - basepos);
             float velocity = (a * length) * Mathf.Abs(holder.rotation) * (Mathf.PI / 180f);
-            var shieldObj = spawn.Create(CollisionLayers.GetSpawnedLayer(holder.layerLogic));
+			var shieldObj =  CollisionLayers.SpawnObjectFriendlyToParent (holder, spawn);
             shieldObj.position = pos;
             shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(holder.cacheTransform.position.z + 1);
 			shieldObj.velocity = dirNorm * velocity + holder.velocity;

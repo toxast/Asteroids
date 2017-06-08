@@ -35,8 +35,6 @@ public class ShipEditor : MonoBehaviour
 	[SerializeField] bool scaleDown = false;
 	[SerializeField] bool doScale = false;
 	[SerializeField] Vector2 scaleBy = Vector2.one;
-//	[SerializeField] int saveANDloadIndx = -1;
-//	[SerializeField] eSaveLoadType editType;
 
 	[SerializeField] bool doRotate = false;
 	[SerializeField] float rotateby = 45;
@@ -114,40 +112,6 @@ public class ShipEditor : MonoBehaviour
 		}
 	}
 
-//	[ContextMenu ("Custom init action")]
-//	private void CustomInitAction()
-//	{
-//		mesh = GetComponent<MeshFilter>().sharedMesh;
-//		var verts = mesh.vertices;
-//		verts = MGunsResources.Instance.guns[6].vertices.ToList().ConvertAll( v => (Vector3)v).ToArray();
-//		foreach(var vert in verts)
-//		{
-//			if(vert.y <= 0)
-//			{
-//				CreatePosition(vert,  vright, "handle ", handles);
-//			}
-//		}
-//	}
-//
-//	[ContextMenu ("Custom save action")]
-//	private void CustomSaveAction()
-//	{
-//		Vector2[] v2 = new Vector2[handles.Count];    
-//		for(int i = 0; i < handles.Count; i++)
-//		{
-//			v2[i] = handles[i].transform.localPosition;    
-//		}
-//		
-//		var verts = PolygonCreator.GetCompleteVertexes (v2, 1).ToArray();
-//		var pivot = Math2d.GetMassCenter (verts);
-//		Math2d.ShiftVertices(verts, -pivot);
-//		MGunsResources.Instance.guns[6].vertices = verts;
-//
-//		#if UNITY_EDITOR
-//		EditorUtility.SetDirty (MGunsResources.Instance);
-//		#endif
-//	}
-
 	[ContextMenu ("Create Gun Position")]
 	private void CreateGunPosition()
 	{
@@ -177,8 +141,9 @@ public class ShipEditor : MonoBehaviour
 	[SerializeField] int fangs = 3;
 	[SerializeField] int fangIndxFrom = 0; //fang will be created from existing handles with this indexes
 	[SerializeField] int fangIndxTo = 3;
+	[SerializeField] bool createFangShape = false;
 
-	[ContextMenu ("Create fang shape")]
+	//[ContextMenu ("Create fang shape")]
 	private void CreateFangedShape() {
 		var fangVerts = handles.GetRange (fangIndxFrom, fangIndxTo - fangIndxFrom + 1).ConvertAll(f => (Vector2)f.transform.localPosition);
 		foreach(GameObject go in handles) {
@@ -200,7 +165,7 @@ public class ShipEditor : MonoBehaviour
 			vertices [indx] = baseV;
 			for (int k = 0; k < fangVertsNormArray.Length - 2; k++) {
 				var delta = fangVertsNormArray [k + 1] - fangVertsNormArray [k];
-				Debug.Log (delta);
+				//Debug.Log (delta);
 				delta = Math2d.RotateVertex (delta, curAngle - angleBase/2f);
 				vertices [indx + 1 + k] = vertices [indx + k] + delta;
 			}
@@ -289,66 +254,6 @@ public class ShipEditor : MonoBehaviour
 		}
 	}
 
-//	[ContextMenu ("Insert")]
-//	private void Insert()
-//	{
-//		Vector2[] fullArray;
-//		List<GunSetupData> gunsData;
-//		List<ThrusterSetupData> thrustersData;
-//		List<TurretReferenceData> turretsData;
-//		GetCurrentData (out fullArray, out gunsData, out thrustersData, out turretsData);
-//		if(editType == eSaveLoadType.SpaceShip)
-//		{
-//			var newShip = new MSpaceshipData ();
-//			newShip.verts = fullArray;
-//			newShip.guns = gunsData;
-//			newShip.thrusters = thrustersData;
-//			newShip.turrets = turretsData;
-//			newShip.mobility = new SpaceshipData ();
-//			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : MSpaceShipResources.Instance.spaceships.Count;
-//			MSpaceShipResources.Instance.spaceships.Insert(indx, newShip);
-//		}
-//		else if(editType == eSaveLoadType.Turret)
-//		{
-//			var newTurret = new TurretSetupData();
-//			newTurret.verts = fullArray;
-//			newTurret.guns = gunsData;
-//			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : MSpaceShipResources.Instance.turrets.Count;
-//			MSpaceShipResources.Instance.turrets.Insert (indx, newTurret);
-//		}
-//		else if(editType == eSaveLoadType.Tower)
-//		{
-//			var newTower = new TowerSetupData();
-//			newTower.verts = fullArray;
-//			newTower.guns = gunsData;
-//			newTower.turrets = turretsData;
-//			int indx = (saveANDloadIndx >= 0) ? saveANDloadIndx : MSpaceShipResources.Instance.towers.Count;
-//			MSpaceShipResources.Instance.towers.Insert (indx, newTower);
-//		}
-//		#if UNITY_EDITOR
-//		EditorUtility.SetDirty (MSpaceShipResources.Instance);
-//		EditorUtility.SetDirty (MGunsResources.Instance);
-//		#endif
-//	}
-
-//	private object GetObjByType(eSaveLoadType type, int indx)
-//	{
-//		object obj = null;
-//		if(type == eSaveLoadType.SpaceShip)
-//			obj = MSpaceShipResources.Instance.spaceships[indx];
-//		else if(type == eSaveLoadType.Turret)
-//			obj = MSpaceShipResources.Instance.turrets[indx];
-//		else if(type == eSaveLoadType.Tower)
-//			obj = MSpaceShipResources.Instance.towers[indx];
-//		else if(type == eSaveLoadType.BulletGun)
-//			obj = MGunsResources.Instance.guns[indx];
-//		else if(type == eSaveLoadType.RocketGun)
-//			obj = MGunsResources.Instance.rocketLaunchers[indx];
-//
-//		return obj;
-//	}
-
-
     //[ContextMenu ("Save into prefab")]
     private void SaveOn()
     {
@@ -384,41 +289,7 @@ public class ShipEditor : MonoBehaviour
 		EditorUtility.SetDirty (prefab.gameObject);
         #endif
     }   
-
-
-//	[ContextMenu ("Save On")]
-//	private void SaveOn()
-//	{
-//		Vector2[] fullArray;
-//		List<GunSetupData> gunsData;
-//		List<ThrusterSetupData> thrustersData;
-//		List<TurretReferenceData> turretsData;
-//		GetCurrentData (out fullArray, out gunsData, out thrustersData, out turretsData);
-//		if(saveANDloadIndx >= 0)
-//		{
-//			object obj = GetObjByType(editType, saveANDloadIndx);
-//			
-//			(obj as IGotShape).iverts = fullArray;
-//			
-//			if(obj is IGotGuns)
-//				FillPlaces<GunSetupData>(gunsData, (obj as IGotGuns).iguns);
-//			
-//			if(obj is IGotThrusters)
-//				FillPlaces<ThrusterSetupData>(thrustersData, (obj as IGotThrusters).ithrusters);
-//			
-//			if(obj is IGotTurrets)
-//				FillPlaces<TurretReferenceData>(turretsData, (obj as IGotTurrets).iturrets);
-//
-//			#if UNITY_EDITOR
-//			EditorUtility.SetDirty (MSpaceShipResources.Instance);
-//			EditorUtility.SetDirty (MGunsResources.Instance);
-//			#endif
-//		}
-//		else
-//		{
-//			Debug.LogWarning("index is not valid");
-//		}
-//	}
+		
 
 	private void FillPlaces<T>(List<T> newPlaces, List<T> oldPlaces)
 		where T : IGotPlace
@@ -435,38 +306,33 @@ public class ShipEditor : MonoBehaviour
 		}
 	}
 
-	void OnDisable()
-	{
+	void OnDisable() {
         Clear ();
 	}
 
     private void Clear()
-    {
-        foreach(GameObject go in handles)
-        {
-            DestroyImmediate(go);    
-        }
-        handles.Clear ();
+	{
+		foreach (GameObject go in handles) {
+			DestroyImmediate (go);    
+		}
+		handles.Clear ();
 
-        foreach(GameObject go in guns)
-        {
-            DestroyImmediate(go);    
-        }
-        guns.Clear ();
+		foreach (GameObject go in guns) {
+			DestroyImmediate (go);    
+		}
+		guns.Clear ();
 
 
-        foreach(GameObject go in turrets)
-        {
-            DestroyImmediate(go);    
-        }
-        turrets.Clear ();
+		foreach (GameObject go in turrets) {
+			DestroyImmediate (go);    
+		}
+		turrets.Clear ();
 
-        foreach(GameObject go in thrusters)
-        {
-            DestroyImmediate(go);    
-        }
-        thrusters.Clear ();
-    }
+		foreach (GameObject go in thrusters) {
+			DestroyImmediate (go);    
+		}
+		thrusters.Clear ();
+	}
 
 	private void DuplicateHandler(int dindx)
 	{
@@ -501,38 +367,40 @@ public class ShipEditor : MonoBehaviour
             if ( Mathf.Abs(v.x - verts[idx].x) > 0.001 || Mathf.Abs(v.y + verts[idx].y) > 0.001)
                 return false;
         }
-
         return true;
     }
 
 	private void Rotate(float angle){
-		foreach (var h in handles) 
-		{
+		foreach (var h in handles) {
+			h.transform.localPosition = Math2d.RotateVertexDeg (h.transform.localPosition, angle);
+		}
+		foreach (var h in turrets) {
+			h.transform.localPosition = Math2d.RotateVertexDeg (h.transform.localPosition, angle);
+		}
+		foreach (var h in guns) {
+			h.transform.localPosition = Math2d.RotateVertexDeg (h.transform.localPosition, angle);
+		}
+		foreach (var h in thrusters) {
 			h.transform.localPosition = Math2d.RotateVertexDeg (h.transform.localPosition, angle);
 		}
 	}
 
 
-    private void Scale(Vector2 vscale)
-	{
-		foreach (var h in handles) 
-		{
-			h.transform.localPosition = new Vector3(h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
+    private void Scale(Vector2 vscale) {
+		foreach (var h in handles) {
+			h.transform.localPosition = new Vector3 (h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
 		}
 
-		foreach (var h in turrets) 
-		{
-			h.transform.localPosition = new Vector3(h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
+		foreach (var h in turrets) {
+			h.transform.localPosition = new Vector3 (h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
 		}
 
-		foreach (var h in guns) 
-		{
-			h.transform.localPosition = new Vector3(h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
+		foreach (var h in guns) {
+			h.transform.localPosition = new Vector3 (h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
 		}
 
-		foreach (var h in thrusters) 
-		{
-			h.transform.localPosition = new Vector3(h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
+		foreach (var h in thrusters) {
+			h.transform.localPosition = new Vector3 (h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
 		}
 	}
 
@@ -626,6 +494,10 @@ public class ShipEditor : MonoBehaviour
             }
         }
 
+		if (createFangShape) {
+			createFangShape = false;
+			CreateFangedShape ();
+		}
 
 		Vector2[] v2 = new Vector2[handles.Count];    
 		handles = handles.Where (h => h != null).ToList ();

@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1417156066295296}
+  m_IsPrefabParent: 1
+--- !u!1 &1417156066295296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4713548978202658}
+  - component: {fileID: 114632392978639870}
+  m_Layer: 0
+  m_Name: Config
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4713548978202658
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1417156066295296}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114632392978639870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1417156066295296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eba076c4991d96a4fa71446520e4f1b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AsteroidColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
+  GasteroidColor: {r: 0.9558824, g: 0.90983325, b: 0.2881704, a: 1}
+  smallDeathExplosionEffects:
+  - {fileID: 19853616, guid: 02f6e7a70bb5a4041af8478ea461aef5, type: 2}
+  - {fileID: 19887412, guid: c4f1f42f079b0ce4e8b9542f40b85f3e, type: 2}
+  - {fileID: 19855224, guid: 6d951bfafcb6d9845a24ed6f6c5e49c6, type: 2}
+  - {fileID: 19822802, guid: e0a4f59c0b420894db4eb767b294a384, type: 2}
+  - {fileID: 19831234, guid: a0a0084c1bcc44e41b5999bb8def93a7, type: 2}
+  - {fileID: 19875412, guid: 7adcecf0aae85fe45bfc36314b992397, type: 2}
+  - {fileID: 19853616, guid: 02f6e7a70bb5a4041af8478ea461aef5, type: 2}
+  mediumDeathExplosionEffects:
+  - {fileID: 19865852, guid: 92a055a485e38a0478a67bd7821336c5, type: 2}
+  - {fileID: 19882404, guid: 6df207e227546e649a71ac941734e536, type: 2}
+  - {fileID: 19816042, guid: ff735d21e9875b242960dab33837ddd3, type: 2}
+  - {fileID: 19812002, guid: cbf87247eb7e94540801135abeb604bf, type: 2}
+  - {fileID: 19896466, guid: bcd1212cdc374c94cae9de1ebb78d71e, type: 2}
+  largeDeathExplosionEffects:
+  - {fileID: 19870496, guid: ef1cfc7d1353b0944821b1b6a3e63ee4, type: 2}
+  - {fileID: 19865136, guid: 32a56795e0ea01c49833667061fcfb66, type: 2}
+  - {fileID: 19813558, guid: e436eec92287d144ca55f9ddf5450191, type: 2}
+  smallFinalDeathExplosionEffects:
+  - {fileID: 19842648, guid: f213e3a2e64ec354fb873ab263836f4f, type: 2}
+  - {fileID: 19855540, guid: f9054a1ae825a6348ab7dccd7d1c9731, type: 2}
+  mediumFinalDeathExplosionEffects:
+  - {fileID: 19833408, guid: 32e2b9ed35848c84fbd974b65d2a504c, type: 2}
+  - {fileID: 19855540, guid: f9054a1ae825a6348ab7dccd7d1c9731, type: 2}
+  largeFinalDeathExplosionEffects:
+  - {fileID: 19855540, guid: f9054a1ae825a6348ab7dccd7d1c9731, type: 2}
+  - {fileID: 19833408, guid: 32e2b9ed35848c84fbd974b65d2a504c, type: 2}
+  burningParticleEffect: {fileID: 198732008161831254, guid: 5bbb9bfa339c9ee49850394cb95dd828,
+    type: 2}

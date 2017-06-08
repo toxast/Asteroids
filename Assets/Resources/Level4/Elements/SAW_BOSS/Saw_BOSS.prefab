@@ -178,6 +178,7 @@ MonoBehaviour:
     overrideMaxPartSpeed: 30
     overrideForce: 40
     collideWithAsteroids: 0
+    randomizeRotation: 1
     killShieldsObjectsOnDeath: 0
     disableExplosionOnKill: 0
     zOffset: -0.5

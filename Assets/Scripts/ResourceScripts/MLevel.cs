@@ -10,6 +10,7 @@ public class MLevel : MonoBehaviour
 		public List<MWaveBase> waves;
 	}
 
+	[SerializeField] public AreaSizeData areaData;
 	[SerializeField] Data data;
 	[SerializeField] public MJournalLog journal;
 	[SerializeField] public MJournalLog journalFinish;

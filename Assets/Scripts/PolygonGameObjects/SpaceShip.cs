@@ -305,13 +305,16 @@ public class AdvancedTurnComponent : TurnComponent{
 		return  Mathf.Abs (holder.rotation) > turnSpeed * 1.2f;
 	}
 
+	/// <summary>
+	/// aimDirNorm should be normalized!
+	/// </summary>
 	public bool inAngleRange(Vector2 aimDirNorm, float shootAngle){
 		var angleToRotate = Math2d.DegBetweenNormUnsigned (aimDirNorm, holder.cacheTransform.right);
 		return (angleToRotate < shootAngle);
 	}
 
-	public bool DirectionToTheLeft(Vector2 aimDirNorm){
-		return Math2d.Cross2(holder.cacheTransform.right, aimDirNorm) > 0;
+	public bool IsDirectionToTheLeft(Vector2 dir){
+		return Math2d.Cross2(holder.cacheTransform.right, dir) > 0;
 	}
 	
 }

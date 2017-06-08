@@ -109,7 +109,7 @@ public class TurnForEnemyBeh : DelayedActionBeh {
 	}
 
 	public override bool IsReadyToAct () {
-		return base.IsReadyToAct () && !TargetNULL();
+		return base.IsReadyToAct () && TargetNotNull;
 	}
 
 	protected override IEnumerator Action ()
@@ -135,13 +135,13 @@ public class HitByArcBeh : DelayedActionBeh {
 	}
 
 	public override bool IsReadyToAct () {
-		return base.IsReadyToAct () && !TargetNULL();
+		return base.IsReadyToAct () && TargetNotNull;
 	}
 
 	protected override IEnumerator Action () {
 		approachArc = Vector2.zero;
 		_canBeInterrupted = true;
-		if (!TargetNULL()) {
+		if (TargetNotNull) {
 			float arcDegrees = Random.Range(100f, 270f);
 			float dist = 2 * (target.polygon.R + thisShip.polygon.R) + 20f;
 			float arcRadius = Random.Range(dist * 0.7f, dist * 1.2f);
@@ -149,7 +149,7 @@ public class HitByArcBeh : DelayedActionBeh {
 			//duration = Random.Range(duration * 0.8f, duration * 1.2f);
 			float angleSpeed = arcDegrees / duration;
 			float currentDegrees = arcDegrees;
-			Debug.LogWarning ("arc " + duration + " " + arcDegrees);
+			//Debug.LogWarning ("arc " + duration + " " + arcDegrees);
 			float arcRotationRad = Random.Range(1, 360) * Mathf.Deg2Rad;
 			while (duration > 0) {
 				duration -= DeltaTime();
@@ -164,13 +164,13 @@ public class HitByArcBeh : DelayedActionBeh {
 		_canBeInterrupted = false;
 		approachArc = Vector2.zero;
 		float noArcDuration = Random.Range(3f, 6f);
-		var noArcBeh = AIHelper.TimerR (noArcDuration, DeltaTime, FollowForHit, TargetNULL);
+		var noArcBeh = AIHelper.TimerR (noArcDuration, DeltaTime, FollowForHit, () => TargetIsNull);
 		while (noArcBeh.MoveNext ()) yield return true;
 	}
 
 
 	void FollowForHit(){
-		if (TargetNULL()) {
+		if (TargetIsNull) {
 			return;
 		}
 		var aimVelocity = (target.velocity - thisShip.velocity) * data.accuracyChanger.accuracy;

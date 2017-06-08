@@ -36,7 +36,10 @@ public class MinesGun : BulletGun<Mine>
 	{
 		bullet.SetLayerNum(CollisionLayers.GetSpawnedLayer (parent.layerLogic));
 		bullet.InitMine (data);
-		bullet.priorityMultiplier = 0.1f;
+
+		if(bullet.priorityMultiplier != 0.1f) {
+			Debug.LogError ("TODO: pm: 0.1f for mines " + bullet.name);
+		}
 		bullet.showOffScreen = false;
 	}
 

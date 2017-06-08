@@ -69,7 +69,7 @@ public class ChargeAttckBeh : DelayedActionBeh
 	}
 
 	private bool IsBetterToStop() {
-		if (Main.IsNull (target))
+		if (TargetIsNull)
 			return true;
 
 		var toTarget = target.position - thisShip.position;

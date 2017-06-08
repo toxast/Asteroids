@@ -66,7 +66,7 @@ public class SpikyAsteroid : PolygonGameObject, IFreezble
 		float maxSpeedSqrt = maxSpeed * maxSpeed;
 
 		while (true) {
-			if (!Main.IsNull (target)) {
+			if (TargetNotNull) {
 				float timeLeft = new RandomFloat (2, 7).RandomValue;
 				Vector2 dir = Math2d.RotateVertexDeg ((target.position - this.position).normalized, new RandomFloat (-45, 45).RandomValue);
 				while (timeLeft > 0) {
@@ -96,7 +96,7 @@ public class SpikyAsteroid : PolygonGameObject, IFreezble
 		while(true)
 		{
 			bool anySpikeNearShootingPlace = false;
-			if (!Main.IsNull (target)) {
+			if (TargetNotNull) {
 				float angle = cacheTransform.rotation.eulerAngles.z * Mathf.Deg2Rad;
 				float cosA = Mathf.Cos (angle);
 				float sinA = Mathf.Sin (angle);

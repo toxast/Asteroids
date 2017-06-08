@@ -90,7 +90,9 @@ public class Game : MonoBehaviour
 		gameObjects.ForEach (h => h.SetActive (true));
 		Logger.Log("                       ");
 		Logger.Log ("START LEVEL: " + Level + " money: " + GameResources.money);
-		main.StartTheGame (shipData, GetActiveComets(), DetermineLvel(Level), new Queue<MCometData>(hangar.lastBoughtPowerups));
+		AreaSizeData areaData;
+		var spawner = DetermineLvel (Level, out areaData);
+		main.StartTheGame (shipData, GetActiveComets(), areaData, spawner, new Queue<MCometData>(hangar.lastBoughtPowerups));
 		hangar.lastBoughtPowerups.Clear();
 	}
 	 
@@ -187,8 +189,9 @@ public class Game : MonoBehaviour
 		}
 	}
 
-	ILevelSpawner DetermineLvel(int levelIndx) {
+	ILevelSpawner DetermineLvel(int levelIndx, out AreaSizeData areaData) {
 		currentLevelIndex = levelIndx;
+		areaData = new AreaSizeData ();
 		#if UNITY_EDITOR
 		ILevelSpawner spawner;
 		int level = int.Parse (levelInput.text);
@@ -199,11 +202,13 @@ public class Game : MonoBehaviour
 		} else {
 			if(level == 0 && waveNum == 0){
 				var lvl = MLevelsResources.Instance.levels [levelIndx];
+				areaData = lvl.areaData;
 				spawner = lvl.GetLevel();
 				return spawner;
 			} else {
 				currentLevelIndex = level;
 				var lvl = MLevelsResources.Instance.levels [level];
+				areaData = lvl.areaData;
 				spawner = lvl.GetLevel();
 				//testing purposes
 				if (waveNum != 0) {
@@ -214,6 +219,7 @@ public class Game : MonoBehaviour
 		return spawner;
 		#else
 		var lvl = MLevelsResources.Instance.levels [levelIndx];
+		areaData = lvl.areaData;
 		var spawner = lvl.GetLevel();
 		return spawner;
 		#endif

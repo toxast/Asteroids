@@ -32,7 +32,7 @@ public class MissileController : InputController, IGotTarget
 		shooting = false;
 		accelerating = true;
 
-		if (Main.IsNull (target))
+		if (Main.IsNull(target))
 			return;
 
 		RotateOnTarget ();

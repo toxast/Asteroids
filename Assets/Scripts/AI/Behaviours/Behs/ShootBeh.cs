@@ -19,7 +19,7 @@ public class ShootBeh : DelayedActionBeh {
 	}
 
 	public override bool IsReadyToAct () {
-		return !TargetNULL () && base.IsReadyToAct ();
+		return TargetNotNull && base.IsReadyToAct ();
 	}
 
 	public override void Tick (float delta) {
@@ -38,12 +38,12 @@ public class ShootBeh : DelayedActionBeh {
 	}
 
 	public override bool IsFinished () {
-		return (base.IsFinished () && !data.mainGun.IsFiring ()) || TargetNULL ();
+		return (base.IsFinished () && !data.mainGun.IsFiring ()) || TargetIsNull;
 	}
 
 	protected override IEnumerator Action () {
 		var duration = attackDuration.RandomValue;
-		var attack = AIHelper.TimerR (duration, DeltaTime, () => Shoot (data.accuracyChanger.accuracy, bulletsSpeed), TargetNULL);
+		var attack = AIHelper.TimerR (duration, DeltaTime, () => Shoot (data.accuracyChanger.accuracy, bulletsSpeed), () => TargetIsNull);
 		while (attack.MoveNext ())
 			yield return true;
 	}

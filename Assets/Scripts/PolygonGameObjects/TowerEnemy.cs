@@ -42,7 +42,7 @@ public class TowerEnemy : PolygonGameObject, IFreezble
 		float aimInterval = 0.1f;
 
 		while (true) {
-			if (!Main.IsNull (target)) {
+			if (TargetNotNull) {
 				AimSystem aim = new AimSystem (target.position, accuracyChanger.accuracy * target.velocity, position, guns [0].BulletSpeedForAim);
 				if (!aim.canShoot) {
 					aim = new AimSystem (target.position, target.velocity, position, 1.2f * target.velocity.magnitude);

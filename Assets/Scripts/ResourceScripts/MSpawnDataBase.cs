@@ -7,12 +7,12 @@ public abstract class MSpawnDataBase : MSpawnBase {
 	[Header("editor fields")]
 	public int spawnCount = 1;
 	public bool spawn = true;
-	public int editorSpawnLayer = CollisionLayers.ilayerTeamEnemies;
 	[Space(20)]
 
 	[Header("game fields")]
-	public int gameSpawnLayer = CollisionLayers.ilayerTeamEnemies;
-	//public int overrideCollisionLayer = 0;
+	public CollisionLayers.eLayerNum gameSpawnLayer = CollisionLayers.eLayerNum.TEAM_ENEMIES;
+	public CollisionLayers.eLayerNum overrideCollisionLayerNum = CollisionLayers.eLayerNum.SAME;
+	public float priorityMultiplier = 1f;
 	public int difficulty;
     public int reward = 0;
 	public override int sdifficulty { get { return difficulty; }	}
@@ -20,7 +20,7 @@ public abstract class MSpawnDataBase : MSpawnBase {
 	public MEffectData startEffect;
 
 	public PolygonGameObject Create(){
-		return Create(gameSpawnLayer);
+		return Create((int)gameSpawnLayer);
 	}
 
 	public PolygonGameObject Create(int layer){
@@ -28,6 +28,15 @@ public abstract class MSpawnDataBase : MSpawnBase {
 		if (obj != null) {
 			obj.name = name;
             obj.reward = reward;
+			if (layer == (int)gameSpawnLayer && overrideCollisionLayerNum != CollisionLayers.eLayerNum.SAME) {
+				obj.SetLayerNum ((int)obj.logicNum, (int)overrideCollisionLayerNum);
+			}
+
+			if (priorityMultiplier != 0) {
+				obj.priorityMultiplier = priorityMultiplier;
+			} else {
+				Debug.LogError ("priorityMultiplier is Zero for " + name);
+			}
 			if (startEffect != null) {
 				startEffect.Apply (obj);
 			}
@@ -54,7 +63,7 @@ public abstract class MSpawnDataBase : MSpawnBase {
 	}
 	#endif
 	private void EditorSpawn() {
-		var obj = Create (editorSpawnLayer);
+		var obj = Create ();
 		if (obj == null) {
             Debug.LogWarning ("Cretae obj is null " + name);
 			return;

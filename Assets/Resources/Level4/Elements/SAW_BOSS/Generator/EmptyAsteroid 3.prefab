@@ -53,8 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
-  editorSpawnLayer: 2
-  gameSpawnLayer: 2
+  gameSpawnLayer: 5
+  overrideCollisionLayerNum: 2
+  priorityMultiplier: 1
   difficulty: 1
   reward: 0
   teleportData:

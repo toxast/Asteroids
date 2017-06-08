@@ -100,8 +100,10 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	ILevelSpawner spawner;
-	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, ILevelSpawner lvlElement, Queue<MCometData> lastBoughtComets)
+
+
+	ILevelSpawner spawner; 
+	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, AreaSizeData areaData, ILevelSpawner lvlElement, Queue<MCometData> lastBoughtComets)
 	{
 		if (gameIsOn) {
 			Debug.LogError ("game is on already");
@@ -121,7 +123,7 @@ public class Main : MonoBehaviour
 
 		gameIsOn = true;
 
-		CalculateBounds(sceneSizeInCameras.x, sceneSizeInCameras.y);
+		CalculateBounds(areaData);
 		
 		starsGenerator.Generate ((int)(starsDensity*(screenBounds.width * screenBounds.height)/2000f) , screenBounds, 30f);
 		
@@ -439,12 +441,16 @@ public class Main : MonoBehaviour
 
 	float maxCameraX;
 	float maxCameraY;
-	private void CalculateBounds(float screensNumHeight, float screensNumWidth)
+	private void CalculateBounds(AreaSizeData areaData)
 	{
-		float camHeight = 2f * mainCamera.GetComponent<Camera>().orthographicSize;
+		mainCamera.GetComponent<Camera> ().orthographicSize = areaData.orthographicSize;
+		float camHeight = 2f * areaData.orthographicSize;
 		float camWidth = camHeight * (Screen.width / (float)Screen.height);
-		float height = screensNumHeight * camHeight;  
-		float width = screensNumWidth * camWidth;
+		float minHeight = camHeight + 2 * areaData.minBorders;
+		float minWidth = camWidth + 2 * areaData.minBorders;
+		float height = Mathf.Max (areaData.desiredAreaHeight, minHeight);
+		float width = Mathf.Max (areaData.desiredAreaWidth, minWidth);
+		Logger.Log ("area: " + width + "x" + height);
 		screenBounds = new Rect(-width/2f, -height/2f, width, height);
 		flyZoneBounds = screenBounds;
 		flyZoneBounds.width -= 2f * borderWidth;
@@ -1138,30 +1144,34 @@ public class Main : MonoBehaviour
 		//CreateMinimapIndicatorForObject (p);
 		#if UNITY_EDITOR
 		if(useColorsForCollisions){
-			if(p.layerLogic != p.layerCollision){
-				p.SetColor(Color.white);
-			} else if(p.layerLogic == CollisionLayers.ilayerAsteroids){
-				p.SetColor(Color.gray);
-			} else if(p.layerLogic == CollisionLayers.ilayerBulletsEnemies){
-				p.SetColor(Color.red);
-			} else if(p.layerLogic == CollisionLayers.ilayerBulletsUser){
-				p.SetColor(Color.green);
-			} else if(p.layerLogic == CollisionLayers.ilayerMisc){
-				p.SetColor(Color.magenta);
-			} else if(p.layerLogic == CollisionLayers.ilayerNoCollision){
-				p.SetColor(new Color(1,1,0));
-			} else if(p.layerLogic == CollisionLayers.ilayerTeamEnemies){
-				p.SetColor(Color.yellow);
-			} else if(p.layerLogic == CollisionLayers.ilayerTeamUser){
-				p.SetColor(Color.blue);
-			} 
+			var c1 = GetColorForLayer(p.logicNum);
+			var c2 = GetColorForLayer(p.collisionNum);
+			p.SetColor(Color.Lerp(c1, c2, 0.5f));
 		}
 		#endif
 		gobjects.Add (p);
 	}
 
+	Color GetColorForLayer(int layer){
+		if (layer == CollisionLayers.ilayerAsteroids) {
+			return Color.white;
+		} else if (layer == CollisionLayers.ilayerBulletsEnemies) {
+			return Color.yellow;
+		} else if (layer == CollisionLayers.ilayerBulletsUser) {
+			return Color.green;
+		} else if (layer == CollisionLayers.ilayerMisc) {
+			return Color.magenta;
+		} else if (layer == CollisionLayers.ilayerNoCollision) {
+			return new Color (1, 1, 0);
+		} else if (layer == CollisionLayers.ilayerTeamEnemies) {
+			return Color.red;
+		} else if (layer == CollisionLayers.ilayerTeamUser) {
+			return Color.blue;
+		} else {
+			return Color.cyan;
+		} 
+	}
 	
-
 	private void TickObjects<T>(List<T> list, float dtime)
 		where T: PolygonGameObject
 	{

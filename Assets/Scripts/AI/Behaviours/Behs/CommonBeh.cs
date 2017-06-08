@@ -18,9 +18,8 @@ public abstract class CommonBeh : BaseBeh {
 	protected PolygonGameObject target{ get{ return thisShip.target; }}
 	protected float accuracy{ get{ return data.accuracyChanger.accuracy; }}
 
-	protected bool TargetNULL(){
-		return Main.IsNull(target);
-	}
+	public bool TargetIsNull{get { return Main.IsNull (target);}}
+	public bool TargetNotNull{get { return !Main.IsNull (target);}}
 
 	public CommonBeh (Data data){
 		this.data = data; 
@@ -32,7 +31,7 @@ public abstract class CommonBeh : BaseBeh {
 
 	protected void Shoot(float accuracy, float bulletsSpeed)
 	{
-		if (Main.IsNull (target)) {
+		if (TargetIsNull) {
 			return;
 		}
 		Vector2 turnDirection;
@@ -41,7 +40,7 @@ public abstract class CommonBeh : BaseBeh {
 		AimSystem a = new AimSystem(target.position, accuracy * relativeVelocity - SelfSpeedAccuracy() * Main.AddShipSpeed2TheBullet(thisShip), thisShip.position, bulletsSpeed);
 		if(a.canShoot) {
 			turnDirection = a.directionDist;
-			var angleToRotate = Math2d.AbsDegAngleBetween (turnDirection.normalized, thisShip.cacheTransform.right);
+			var angleToRotate = Math2d.DegBetweenNormUnsigned (turnDirection.normalized, thisShip.cacheTransform.right);
 			shooting = (angleToRotate < thisShip.shootAngle);
 		} else {
 			turnDirection = target.position - thisShip.position;

@@ -172,7 +172,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
    
 
     private PolygonGameObject CreateShieldObj() {
-		var shieldObj = data.spawnObj.Create (CollisionLayers.GetSpawnedLayer (thisShip.layerLogic)); 
+		var shieldObj = CollisionLayers.SpawnObjectFriendlyToParent (thisShip, data.spawnObj);
 		shieldObj.position = thisShip.position;
 		shieldObj.cacheTransform.position = shieldObj.cacheTransform.position.SetZ(thisShip.cacheTransform.position.z + 1f);
 		shieldObj.controlledBySomeone = true;
@@ -356,8 +356,10 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                             } else {
 								var item = bulletObj.obj;
 								SuicideAim aim = new SuicideAim (target.position, target.velocity, item.position, item.velocity, 300f, 0);
-								var aimDir = aim.direction.normalized;
-								item.Accelerate (Time.deltaTime, attackForce, asteroidsStability, partAttackMaxSpeed, partAttackMaxSpeedSqr, aimDir); 
+								if (aim.direction != Vector2.zero) {
+									var aimDir = aim.direction.normalized;
+									item.Accelerate (Time.deltaTime, attackForce, asteroidsStability, partAttackMaxSpeed, partAttackMaxSpeedSqr, aimDir); 
+								}
                             }
                         }
                     }
@@ -391,7 +393,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 				//Debug.LogWarning ("add " + obj.name);
 				var angle = Math2d.AngleRad (new Vector2 (1, 0), (obj.position - thisShip.position).normalized) * Mathf.Rad2Deg;
 				var newBroken = new BrokenShieldObj{ obj = obj, angleDeg = angle};
-				obj.SetLayerNum (CollisionLayers.GetSpawnedLayer (thisShip.layerLogic));
+				obj.SetLayerNum (obj.logicNum, CollisionLayers.GetCollisionLayer (thisShip.layerLogic));
 				obj.controlledBySomeone = true;
                 thisShip.AddObjectAsFollower(obj);
                 asteroidGrabByForceAnimations.ForEach(e => e.overrideSize = 2 * obj.polygon.R);
@@ -412,12 +414,12 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
 
 		protected override IEnumerator Action () {
 			while (true) {
-				Debug.LogError ("shoot");
-				FireShootChange (true);
 				var wait = WaitForSeconds (duration);
-				while (wait.MoveNext ()) yield return true;
+				while (wait.MoveNext ()) {
+					FireShootChange (true);
+					yield return true;
+				}
 				FireShootChange (false);
-				Debug.LogError ("hold");
 				wait = WaitForSeconds (pause);
 				while (wait.MoveNext ()) yield return true;
 				yield return true;

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4823665254039810}
   - component: {fileID: 114146737906528258}
   m_Layer: 0
-  m_Name: Shield_saw_effect
+  m_Name: shield_saw_effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,3 +69,6 @@ MonoBehaviour:
     keepRotationData:
       targetRotation: 720
       acceleration: 300
+    keepObjectsOrientation: 0
+    keepOrientationData:
+      rotaitingSpeed: 0

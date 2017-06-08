@@ -36,7 +36,7 @@ public class KeepOrientationEffect : TickableEffect {
 	public override bool CanBeUpdatedWithSameEffect { get { return false; } }
 	protected override eType etype { get {return eType.KeepOrientation; } }
 
-	Rotaitor rotaitor;
+	AdvancedTurnComponent rotaitor;
 	PolygonGameObject relative;
 	Data data;
 
@@ -47,12 +47,12 @@ public class KeepOrientationEffect : TickableEffect {
 
 	public override void SetHolder (PolygonGameObject holder)	{
 		base.SetHolder (holder);
-		rotaitor = new Rotaitor (holder.cacheTransform, data.rotaitingSpeed);
+		rotaitor = new AdvancedTurnComponent (holder, data.rotaitingSpeed);
 	}
 
 	public override void Tick (float delta) {
 		if (!Main.IsNull (relative) && rotaitor != null) {
-			rotaitor.Rotate(delta, Math2d.AngleRad(new Vector2(1,0), relative.position - holder.position) * Mathf.Rad2Deg);
+			rotaitor.TurnByDirection(holder.position - relative.position, delta);
 		}
 	}
 
