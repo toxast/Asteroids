@@ -67,7 +67,7 @@ public class ShipEditor : MonoBehaviour
 		duplicateIndx = 0;
 		duplicate = false;
 		
-		mesh = GetComponent<MeshFilter>().sharedMesh;
+		mesh = GetComponent<MeshFilter>().mesh;
 		var verts = mesh.vertices;
         if(prefab != null)
 		{
@@ -128,7 +128,7 @@ public class ShipEditor : MonoBehaviour
 		handles.Clear ();
 		symmetric = false;
 		symmetricState = false;
-		mesh = GetComponent<MeshFilter>().sharedMesh;
+		mesh = GetComponent<MeshFilter>().mesh;
 		var verts = mesh.vertices;
 		verts = PolygonCreator.CreatePerfectPolygonVertices (7, sidesNum: 8).ToList().ConvertAll(v => (Vector3)v).ToArray();
 		foreach(var vert in verts)

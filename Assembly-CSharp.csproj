@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{9639EF94-83A5-FA1D-7B88-14467997D87C}</ProjectGuid>
+    <ProjectGuid>{7A93FEA7-6D8B-0403-5550-6D85EA67730B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_2;UNITY_5_5;UNITY_5;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VIDEO;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;CROSS_PLATFORM_INPUT</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_3;UNITY_5_5;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VIDEO;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;CROSS_PLATFORM_INPUT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -57,12 +57,38 @@
      <Compile Include="Assets\Resources\Prefabs\MSpaceShipResources.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\AIHelper.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\BaseSpaceshipController.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\BaseBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\BehContainer.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\ChargeAttckBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\CommonBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\CowardBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\DelayFlag.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\DelayedActionBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\EvadeBulletsBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\EvadeTargetBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\FlyAroundBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\IBehaviour.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\IDelayFlag.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\InvisCowardBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\InvisShootBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\NoDelayFlag.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\RotateOnTargetBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\SequentialBehs.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\ShootBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\ShootWhileRotateBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\StayCloseBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\TakeChargePositionBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\TurnBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\UncontrollableRotationBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\UserTurnBeh.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\Behs\WeightedBehs.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\ChargerController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\CommonController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\DumbHitterController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\EarthSpaceshipController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\Fire1SpaceshipController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\InputController.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\InvisibilityComponent.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\InvisibleSpaceshipController.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\Joystick.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\MChargerSpaseshipData.cs" />
@@ -71,6 +97,7 @@
      <Compile Include="Assets\Scripts\AI\Behaviours\MEarthSpaceshipData.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\MGasteroidData.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\MInvisibleSpaceshipData.cs" />
+     <Compile Include="Assets\Scripts\AI\Behaviours\MSawBossData.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\MSawData.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\MSpaceshipData.cs" />
      <Compile Include="Assets\Scripts\AI\Behaviours\MSpikyData.cs" />
@@ -93,6 +120,7 @@
      <Compile Include="Assets\Scripts\DropID.cs" />
      <Compile Include="Assets\Scripts\Effects\BurningEffect.cs" />
      <Compile Include="Assets\Scripts\Effects\DOTEffect.cs" />
+     <Compile Include="Assets\Scripts\Effects\DelayedEffect.cs" />
      <Compile Include="Assets\Scripts\Effects\EffectDeathAnimation.cs" />
      <Compile Include="Assets\Scripts\Effects\ExtraGunsEffect.cs" />
      <Compile Include="Assets\Scripts\Effects\GravityShieldEffect.cs" />
@@ -106,6 +134,7 @@
      <Compile Include="Assets\Scripts\Effects\IHasDuration.cs" />
      <Compile Include="Assets\Scripts\Effects\IceEffect.cs" />
      <Compile Include="Assets\Scripts\Effects\IceWaveEffect.cs" />
+     <Compile Include="Assets\Scripts\Effects\MDelayedEffect.cs" />
      <Compile Include="Assets\Scripts\Effects\MEffectData.cs" />
      <Compile Include="Assets\Scripts\Effects\MExtraGunsEffect.cs" />
      <Compile Include="Assets\Scripts\Effects\MGravityShieldEffect.cs" />
@@ -193,6 +222,7 @@
      <Compile Include="Assets\Scripts\Main.cs" />
      <Compile Include="Assets\Scripts\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Asteroid.cs" />
+     <Compile Include="Assets\Scripts\PolygonGameObjects\BossSuperSaw.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Comet.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Drop.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\DropBase.cs" />
@@ -212,9 +242,11 @@
      <Compile Include="Assets\Scripts\PolygonGameObjects\TowerMinigunEnemy.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Turret.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\UserSpaceShip.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\AreaSizeData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\AsteroidData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\DestroyAreaWave.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\DropData.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\EarthBoss.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\EditorFillVerticies.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\EditorPrefabsCreator.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\EmptyAsteroidData.cs" />
@@ -222,9 +254,13 @@
      <Compile Include="Assets\Scripts\ResourceScripts\IClonable.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\IGotShape.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\IGotTarget.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\KeepOrientationEffect.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\KeepPositionEffect.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\KeepRotationEffect.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\LevelSpawner.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\MAsteroidCommonData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\MAsteroidData.cs" />
+     <Compile Include="Assets\Scripts\ResourceScripts\MEarthBossData.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\MFireShip1Data.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\MFixedWave.cs" />
      <Compile Include="Assets\Scripts\ResourceScripts\MLevel.cs" />
@@ -315,7 +351,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{CEF59FB5-E00E-FFB9-85F8-66DA2CE77295}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{43C51D1C-BFE6-9A4F-6870-88E13B96446E}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
