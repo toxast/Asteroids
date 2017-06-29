@@ -167,7 +167,7 @@ public class RotatingObjectsShield : DurationEffect {
 
 		public float duration = 30f; 
 		public float iduration{get {return duration;} set{duration = value;}}
-		public MSpawnDataBase spawn;
+		public MSingleSpawn spawn;
 		public float shieldRotationSpeed;
 		public float asteroidShieldRadius;
 		public float respawnShieldObjDuration; 

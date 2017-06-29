@@ -8,9 +8,19 @@ public class ProgressBar : MonoBehaviour
 	[SerializeField] Image bar;
 	
 	private float width;
-	
-	protected virtual void Awake() {
-		width = back.rectTransform.sizeDelta.x;
+	private float lastPersent = 0;
+
+	protected virtual void Start() {
+		RefreshWidth ();
+	}
+
+	void OnEnable() {
+		RefreshWidth ();
+	}
+
+	void RefreshWidth(){
+		width = back.rectTransform.rect.width;
+		Display (lastPersent);
 	}
 
 	public void SetBarColor(Color col){
@@ -18,6 +28,7 @@ public class ProgressBar : MonoBehaviour
 	}
 	
 	public void Display(float persent) {
+		lastPersent = persent;
         persent = Mathf.Clamp01(persent);
 		bar.rectTransform.anchoredPosition = new Vector3 ((persent - 1f) * width, 0);
 	}

@@ -17,7 +17,7 @@ public class MultipleSpawns : MSpawnBase {
 	public override int sdifficulty{ get{
 			int dif = 0;
 			for (int i = 0; i < elems.Count; i++) {
-				dif += elems [i].spawn.difficulty;
+				dif += elems [i].spawn.sdifficulty;
 			}
 			return dif;
 		}}
@@ -54,7 +54,7 @@ public class MultipleSpawns : MSpawnBase {
 
     [Serializable]
 	public class MultiSpawnElement {
-		public MSpawnDataBase spawn;
+		public MSingleSpawn spawn;
 		public Place place;
 	}
 }

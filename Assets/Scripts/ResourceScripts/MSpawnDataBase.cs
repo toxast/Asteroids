@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class MSpawnDataBase : MSpawnBase {
+public abstract class MSpawnDataBase : MSingleSpawn {
 	[Header("editor fields")]
-	public int spawnCount = 1;
-	public bool spawn = true;
+	[SerializeField] int spawnCount = 1;
+	[SerializeField] bool spawn = true;
 	[Space(20)]
 
 	[Header("game fields")]
-	public CollisionLayers.eLayerNum gameSpawnLayer = CollisionLayers.eLayerNum.TEAM_ENEMIES;
-	public CollisionLayers.eLayerNum overrideCollisionLayerNum = CollisionLayers.eLayerNum.SAME;
-	public float priorityMultiplier = 1f;
-	public int difficulty;
-    public int reward = 0;
+	[SerializeField] CollisionLayers.eLayerNum gameSpawnLayer = CollisionLayers.eLayerNum.TEAM_ENEMIES;
+	[SerializeField]  CollisionLayers.eLayerNum overrideCollisionLayerNum = CollisionLayers.eLayerNum.SAME;
+	[SerializeField] float priorityMultiplier = 1f;
+	[SerializeField] int difficulty;
+	[SerializeField] int reward = 0;
+	[SerializeField] TeleportData teleportData;
+	[SerializeField]  MEffectData startEffect;
+
+	public override CollisionLayers.eLayerNum iGameSpawnLayer{ get{ return gameSpawnLayer;}}
 	public override int sdifficulty { get { return difficulty; }	}
-	public TeleportData teleportData;
-	public MEffectData startEffect;
+	public override TeleportData iTeleportData{ get{ return teleportData;}}
 
-	public PolygonGameObject Create(){
-		return Create((int)gameSpawnLayer);
-	}
-
-	public PolygonGameObject Create(int layer){
+	public override PolygonGameObject Create(int layer){
 		var obj = CreateInternal (layer);
 		if (obj != null) {
+			//obj.isBossObject = isBossObject;
 			obj.name = name;
             obj.reward = reward;
 			if (layer == (int)gameSpawnLayer && overrideCollisionLayerNum != CollisionLayers.eLayerNum.SAME) {
@@ -44,13 +44,8 @@ public abstract class MSpawnDataBase : MSpawnBase {
 		return obj;
 	}
 
-	protected virtual PolygonGameObject CreateInternal (int layer){return null;}
 
-	public override void Spawn (PositionData posData, Action<SpawnedObj> callback)
-	{
-		var main = Singleton<Main>.inst;
-		main.StartCoroutine (SpawnRoutine (this, posData, new Place(), callback));
-	}
+
 
 	#if UNITY_EDITOR
 	void Update() {

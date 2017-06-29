@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4566230865438258}
+  - component: {fileID: 114554596883320150}
   - component: {fileID: 114018212185065258}
   m_Layer: 0
   m_Name: Saw_BOSS
@@ -170,7 +171,7 @@ MonoBehaviour:
   stability: 0
   generatorsShieldData:
     duration: 999999
-    spawn: {fileID: 114933748687256448, guid: 6308bb83233bec04e93af953f3a8643c, type: 2}
+    spawn: {fileID: 114211763521411704, guid: 6308bb83233bec04e93af953f3a8643c, type: 2}
     shieldRotationSpeed: 0
     asteroidShieldRadius: 26
     respawnShieldObjDuration: 999999
@@ -248,3 +249,15 @@ MonoBehaviour:
     parentToSplitParts: 0
     overrideStartColor: 0
     startColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &114554596883320150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397046965028498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988cbd951480d0c4e9611c477a71ee41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossElem: {fileID: 114018212185065258}

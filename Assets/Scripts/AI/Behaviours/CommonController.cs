@@ -38,7 +38,7 @@ public class CommonController : BaseSpaceshipController, IGotTarget {
 			logics.Add(evadeBulletsBeh);
 		}
 
-		var untilCheckAccelerationMin = evadeDuration / 6f;
+		var untilCheckAccelerationMin = evadeDuration / 4f;
 		var untilCheckAccelerationMax = untilCheckAccelerationMin * 2f;
 		DelayFlag accDelay = new DelayFlag(true, untilCheckAccelerationMin, untilCheckAccelerationMax);
 		var attackMin = Mathf.Max(2f, evadeDuration * 2f);

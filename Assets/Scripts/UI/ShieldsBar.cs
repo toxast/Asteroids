@@ -3,9 +3,9 @@ using System.Collections;
 
 public class ShieldsBar : ProgressBar
 {
-	protected override void Awake()
+	protected void Awake()
 	{
-		base.Awake ();
+		//base.Awake ();
 		GameResources.shieldsChanged += Display;
 	}
 }

@@ -13,8 +13,12 @@ public class Turret : PolygonGameObject
 	private Func<Vector3> anglesRestriction;
 	AIHelper.AccuracyChangerAdvanced accuracyChanger;
 
-	public void InitTurret(PhysicalData physical, float cannonsRotatingSpeed, Func<Vector3> angelsRestriction, AccuracyData accData)
+	public override Vector2 ObjectVelocity{get{ return parent.ObjectVelocity; }} 
+	PolygonGameObject parent;
+
+	public void InitTurret(PolygonGameObject parent, PhysicalData physical, float cannonsRotatingSpeed, Func<Vector3> angelsRestriction, AccuracyData accData)
 	{
+		this.parent = parent;
 		InitPolygonGameObject (physical);
 
 		cannonsRotaitor = new Rotaitor(cacheTransform, cannonsRotatingSpeed);

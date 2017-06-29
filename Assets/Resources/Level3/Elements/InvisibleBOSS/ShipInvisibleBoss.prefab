@@ -1,0 +1,216 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &193010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 448270}
+  - component: {fileID: 114832925012000562}
+  - component: {fileID: 114194171828006078}
+  m_Layer: 0
+  m_Name: ShipInvisibleBoss
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &448270
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 193010}
+  m_IsPrefabParent: 1
+--- !u!114 &114194171828006078
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbea2c9faa2cca4caec88d90c6249c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  gameSpawnLayer: 2
+  overrideCollisionLayerNum: -1
+  priorityMultiplier: 1
+  difficulty: 55
+  reward: 240
+  teleportData:
+    duration: 1.5
+    ringSize: 10
+    color: {r: 1, g: 0.68235296, b: 0, a: 1}
+  startEffect: {fileID: 0}
+  id: -1
+  price: -1
+  journal: {fileID: 0}
+  color: {r: 0.46988055, g: 0.02914143, b: 0.5661765, a: 1}
+  physical:
+    density: 0.9
+    health: 90
+    healthModifier: 1
+    collisionDefence: 0
+    collisionAttackModifier: 0.2
+  deathData:
+    destructionType: 0
+    createExplosionOnDeath: 1
+    instantExplosion: 0
+    overrideExplosionRange: -1
+    overrideExplosionDamage: -1
+  mobility:
+    thrust: 14
+    maxSpeed: 20
+    turnSpeed: 150
+    brake: 15
+    passiveBrake: 2
+    stability: 0.5
+    shootAngle: 1
+  accuracy:
+    startingAccuracy: 0.4
+    thresholdDistance: 10
+    isDynamic: 0
+    checkDtime: 0.5
+    add: 0.15
+    sub: 0.4
+    bounds: {x: 0, y: 1}
+  shield:
+    capacity: 0
+    rechargeRate: 0
+    hitRechargeDelay: 0
+    rechargeDelayAfterDestory: 0
+  guns:
+  - place:
+      pos: {x: 2.6471922, y: 3.1}
+      dir: {x: 0.9986295, y: -0.052335903}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11411428, guid: 5e39995249526f748a570227a0ad20df, type: 2}
+  - place:
+      pos: {x: 2.6471922, y: -3.1}
+      dir: {x: 0.9986295, y: 0.0523359}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11411428, guid: 5e39995249526f748a570227a0ad20df, type: 2}
+  linkedGuns: []
+  thrusters:
+  - place:
+      pos: {x: -2.3528078, y: -0.00000010107351}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 19800000, guid: 7cee26fec208ba34681defcf0c600256, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 1
+    inheritVelocity: 1
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  turrets: []
+  verts:
+  - {x: 3.7271922, y: -0.3100001}
+  - {x: 3.537192, y: -0.9700001}
+  - {x: 3.0771923, y: -1.32}
+  - {x: 3.0471923, y: -1.04}
+  - {x: 1.4471922, y: -1.98}
+  - {x: 1.3895012, y: -1.44}
+  - {x: 0.8195014, y: -0.9100001}
+  - {x: 0.43724367, y: -2.13}
+  - {x: 0.9172436, y: -2.48}
+  - {x: 2.0572438, y: -2.65}
+  - {x: 2.8671923, y: -2.3}
+  - {x: 3.3071923, y: -2.47}
+  - {x: 3.4971921, y: -3.11}
+  - {x: 4.057192, y: -3.28}
+  - {x: 3.4371965, y: -4.25}
+  - {x: 0.5871922, y: -4.67}
+  - {x: 0.73719954, y: -4.07}
+  - {x: -1.119936, y: -4.58}
+  - {x: -3.399936, y: -3.97}
+  - {x: -4.300505, y: -1.8099976}
+  - {x: -2.9028077, y: -1.55}
+  - {x: -1.552748, y: -2.209999}
+  - {x: -1.0027602, y: -1.3700027}
+  - {x: -2.0827467, y: -0.9899979}
+  - {x: -1.7528077, y: -0.78000003}
+  - {x: -2.5828078, y: -0.4900001}
+  - {x: -2.5828078, y: 0.48999998}
+  - {x: -1.7528077, y: 0.7799999}
+  - {x: -2.0827467, y: 0.9899978}
+  - {x: -1.0027602, y: 1.3700027}
+  - {x: -1.552748, y: 2.209999}
+  - {x: -2.9028077, y: 1.55}
+  - {x: -4.300505, y: 1.8099976}
+  - {x: -3.399936, y: 3.97}
+  - {x: -1.119936, y: 4.58}
+  - {x: 0.73719954, y: 4.07}
+  - {x: 0.5871922, y: 4.67}
+  - {x: 3.4371965, y: 4.25}
+  - {x: 4.057192, y: 3.28}
+  - {x: 3.4971921, y: 3.11}
+  - {x: 3.3071923, y: 2.47}
+  - {x: 2.8671923, y: 2.3}
+  - {x: 2.0572438, y: 2.65}
+  - {x: 0.9172436, y: 2.48}
+  - {x: 0.43724367, y: 2.13}
+  - {x: 0.8195014, y: 0.90999997}
+  - {x: 1.3895012, y: 1.44}
+  - {x: 1.4471922, y: 1.98}
+  - {x: 3.0471923, y: 1.04}
+  - {x: 3.0771923, y: 1.32}
+  - {x: 3.537192, y: 0.96999997}
+  - {x: 3.7271922, y: 0.30999997}
+  explosionRangeCalculated: 21.405605
+  explosionDamageCalculated: 3.662797
+  invisibleData:
+    fadeOutDuration: 3
+    fadeInDuration: 1.5
+    slowerFadeOnHit: 2
+    attackDutation: 10
+    invisibleDuration: 8
+  fillFrom: {fileID: 0}
+  mineSpawn: {fileID: 114505168638946874, guid: 61e19f36e14ea37489f2dc9c1938021c,
+    type: 2}
+  fighterSpawn: {fileID: 114194171828006078, guid: 5632d585a393d614fbb390b2d2a1719b,
+    type: 2}
+--- !u!114 &114832925012000562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988cbd951480d0c4e9611c477a71ee41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossElem: {fileID: 114194171828006078}

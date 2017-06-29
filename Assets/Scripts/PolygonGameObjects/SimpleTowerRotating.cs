@@ -66,6 +66,7 @@ public class SimpleTowerRotating : PolygonGameObject, IFreezble
 			}
 
 			bool rotateLeft = TargetNotNull && cannonsRotaitorCurrent.IsDirectionToTheLeft (target.position - position);
+			cannonsRotaitorCurrent.TurnByDirection (cacheTransform.right, Time.deltaTime); //to reduce possible rotation
 			cannonsRotaitorCurrent = cannonsRotaitorShoot;
 			Shoot ();
 			yield return null;
@@ -76,6 +77,7 @@ public class SimpleTowerRotating : PolygonGameObject, IFreezble
 				}
 				yield return null;
 			}
+			cannonsRotaitorCurrent.TurnByDirection (cacheTransform.right, Time.deltaTime); //to reduce possible rotation
 			cannonsRotaitorCurrent = cannonsRotaitorReload;
 		}
 	}

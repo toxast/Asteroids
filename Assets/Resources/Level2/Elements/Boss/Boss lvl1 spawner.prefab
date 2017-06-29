@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 451228}
+  - component: {fileID: 114091054469335818}
   - component: {fileID: 11401504}
   m_Layer: 0
   m_Name: Boss lvl1 spawner
@@ -42,8 +43,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
-  editorSpawnLayer: 2
   gameSpawnLayer: 2
+  overrideCollisionLayerNum: -1
+  priorityMultiplier: 1
   difficulty: 45
   reward: 180
   teleportData:
@@ -214,3 +216,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 105804}
   m_IsPrefabParent: 1
+--- !u!114 &114091054469335818
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 105804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988cbd951480d0c4e9611c477a71ee41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossElem: {fileID: 11401504}

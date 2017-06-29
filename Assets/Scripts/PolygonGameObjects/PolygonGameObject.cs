@@ -77,9 +77,10 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		}
 	}
 
-
+	public bool isBossObject = false;
 	public int reward;
 
+	public virtual Vector2 ObjectVelocity{get{ return velocity; }} //different for turrets
 	//momentum
 	public Vector2 velocity;
 	public float rotation;

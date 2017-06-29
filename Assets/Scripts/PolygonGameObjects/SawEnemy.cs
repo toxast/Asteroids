@@ -18,7 +18,6 @@ public class SawEnemy : PolygonGameObject, IFreezble
 	public virtual void InitSawEnemy(MSawData data) 
 	{
 		this.data = data;
-		this.reward = data.reward;
 		InitPolygonGameObject (data.physical);
 		Asteroid.InitRandomMovement (this, data.speed, data.rotation);
 		accuracyChanger = new AIHelper.AccuracyChangerAdvanced(data.accuracy, this);

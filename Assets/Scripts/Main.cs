@@ -17,6 +17,7 @@ public class Main : MonoBehaviour
 	[SerializeField] oldGUI oldGUI;
 	[SerializeField] Button pauseBtn;
 	[SerializeField] PauseCanvas pauseUI;
+	[SerializeField] BossHealthBar bossHealthBar;
 	[NonSerialized] public UserSpaceShip userSpaceship;
 	[NonSerialized] public List<PolygonGameObject> bullets = new List<PolygonGameObject>();
 	List <PolygonGameObject> gobjects = new List<PolygonGameObject>();
@@ -100,7 +101,9 @@ public class Main : MonoBehaviour
 		}
 	}
 
-
+	public void DisplayBossHealth(PolygonGameObject boss){
+		bossHealthBar.Add (boss);
+	}
 
 	ILevelSpawner spawner; 
 	public void StartTheGame(MSpaceshipData spaceshipData, List<MCometData> avaliableComets, AreaSizeData areaData, ILevelSpawner lvlElement, Queue<MCometData> lastBoughtComets)
@@ -233,6 +236,7 @@ public class Main : MonoBehaviour
 
 	public void Clear()
 	{
+		bossHealthBar.Clear ();
 		powerupDropsLeft = new List<CometDropWrapper2> ();
 		#if UNITY_STANDALONE
 		if (cursorTexture != null)
@@ -409,7 +413,7 @@ public class Main : MonoBehaviour
 
 	static public Vector2 AddShipSpeed2TheBullet(PolygonGameObject ship)
 	{
-		return ship.velocity * 0.5f;
+		return ship.ObjectVelocity * 0.5f;
 	}
 
 	public void CreatePhysicalExplosion(Vector2 pos, float r, float dmgMax, int collision = -1)
@@ -1149,6 +1153,9 @@ public class Main : MonoBehaviour
 			p.SetColor(Color.Lerp(c1, c2, 0.5f));
 		}
 		#endif
+		if (p.isBossObject) {
+			DisplayBossHealth (p);
+		}
 		gobjects.Add (p);
 	}
 

@@ -80,7 +80,7 @@ MonoBehaviour:
         positionAngleRange: 0
         lookAngle: 0
         lookAngleRange: 0
-    - spawn: {fileID: 114374702242948724, guid: 7999235af963f7145ab199bfbadb2d31,
+    - spawn: {fileID: 114253730577282388, guid: 5249560e454e8114cb9efa45699458e2,
         type: 2}
       range:
         min: 40

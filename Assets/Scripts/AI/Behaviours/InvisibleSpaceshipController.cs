@@ -5,19 +5,14 @@ using System.Collections.Generic;
 
 public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 {
-	//MInvisibleSpaceshipData.InvisibleData invisData;
+	protected MInvisibleSpaceshipData mdata;
 	ChangeInvisibilityBeh changeInvisiblilityBeh;
-
-	public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, AccuracyData accData, MInvisibleSpaceshipData.InvisibleData invisData) : base(thisShip, accData)
+	List<PolygonGameObject> bullets; 
+	public InvisibleSpaceshipController (SpaceShip thisShip, List<PolygonGameObject> bullets, Gun gun, MInvisibleSpaceshipData mdata) : base(thisShip, mdata.accuracy)
     {
-		//this.invisData = invisData;
+		this.mdata = mdata;
+		this.bullets = bullets;
         thisShip.increaceAlphaOnHitAndDropInvisibility = true;
-
-		float evadeDuration = (90f / thisShip.originalTurnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.originalMaxSpeed * 0.8f);
-		var evadeBullets = evadeDuration < 1.2f;
-		var turnBehEnabled = evadeDuration < 3f;
-
-		Debug.Log(thisShip.name + " evadeDuration " + evadeDuration + " turnBehEnabled: " + turnBehEnabled + " evadeBullets: " + evadeBullets);
 
 		var comformDistanceMax = gun.Range;
 		var comformDistanceMin = comformDistanceMax * 0.5f;
@@ -30,7 +25,18 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 			thisShip = thisShip,
 		};
 
-		changeInvisiblilityBeh = new ChangeInvisibilityBeh (behData, new NoDelayFlag (), invisData);
+		InitLogic (behData);
+
+		AssignCurrentBeh(null);
+    }
+
+	protected virtual void InitLogic(CommonBeh.Data behData){
+		float evadeDuration = (90f / thisShip.originalTurnSpeed) + ((thisShip.polygon.R) * 2f) / (thisShip.originalMaxSpeed * 0.8f);
+		var evadeBullets = evadeDuration < 1.2f;
+		var turnBehEnabled = evadeDuration < 3f;
+		Debug.Log(thisShip.name + " evadeDuration " + evadeDuration + " turnBehEnabled: " + turnBehEnabled + " evadeBullets: " + evadeBullets);
+
+		changeInvisiblilityBeh = new ChangeInvisibilityBeh (behData, new NoDelayFlag (), mdata.invisibleData);
 		if (changeInvisiblilityBeh.IsReadyToAct ()) {
 			changeInvisiblilityBeh.Start ();
 		}
@@ -50,10 +56,10 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 			logics.Add(evadeBulletsBeh);
 		}
 
-		InvisCowardBeh cowardAfrerShoot = new InvisCowardBeh (behData, new NoDelayFlag (), IsInvisibleBeh);
+		InvisCowardBeh cowardAfrerShoot = GetInvisBeh (behData);
 		logics.Add(cowardAfrerShoot);
 
-		var untilCheckAccelerationMin = evadeDuration / 6f;
+		var untilCheckAccelerationMin = evadeDuration / 4f;
 		var untilCheckAccelerationMax = untilCheckAccelerationMin * 2f;
 		DelayFlag accDelay = new DelayFlag(true, untilCheckAccelerationMin, untilCheckAccelerationMax);
 		var attackMin = Mathf.Max(2f, evadeDuration * 2f);
@@ -68,11 +74,13 @@ public class InvisibleSpaceshipController : BaseSpaceshipController, IGotTarget
 
 		FlyAroundBeh flyAround = new FlyAroundBeh(behData);
 		logics.Add(flyAround);
+	}
 
-		AssignCurrentBeh(null);
-    }
+	protected virtual InvisCowardBeh GetInvisBeh(CommonBeh.Data behData){
+		return new InvisCowardBeh (behData, new NoDelayFlag (), IsInvisibleBeh);
+	} 
 
-	bool IsInvisibleBeh(){
+	protected bool IsInvisibleBeh(){
 		return changeInvisiblilityBeh.IsInvis;
 	}
 

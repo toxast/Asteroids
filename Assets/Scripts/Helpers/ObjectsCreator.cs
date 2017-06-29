@@ -23,13 +23,25 @@ public class ObjectsCreator
 		return spaceship;
 	}
 
+	public static T CreateBossInvisibleSpaceship<T>(MInvisibleBossData sdata, int layerNum)
+		where T:SpaceShip
+	{
+		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
+		var bullets = Singleton<Main>.inst.pBullets;
+		spaceship.invisibilityComponent = new InvisibilityComponent (spaceship, sdata.invisibleData);
+		var controller = new InvisibleBossSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata);
+		spaceship.SetController(controller);
+		spaceship.targetSystem = new TargetSystem (spaceship);
+		return spaceship;
+	}
+
 	public static T CreateInvisibleSpaceship<T>(MInvisibleSpaceshipData sdata, int layerNum)
 		where T:SpaceShip
 	{
 		var spaceship = MCreateSpaceShip<T>(sdata, layerNum);
 		var bullets = Singleton<Main>.inst.pBullets;
 		spaceship.invisibilityComponent = new InvisibilityComponent (spaceship, sdata.invisibleData);
-        var controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata.accuracy, sdata.invisibleData);
+        var controller = new InvisibleSpaceshipController(spaceship, bullets, spaceship.guns[0], sdata);
 		spaceship.SetController(controller);
 		spaceship.targetSystem = new TargetSystem (spaceship);
 		return spaceship;
@@ -163,7 +175,7 @@ public class ObjectsCreator
 			return result;
 		}; 
 		var turret = PolygonCreator.CreatePolygonGOByMassCenter<Turret>(data.verts, data.color);
-		turret.InitTurret (new PhysicalData(), data.rotationSpeed, anglesRestriction, data.accuracy);
+		turret.InitTurret (parent, new PhysicalData(), data.rotationSpeed, anglesRestriction, data.accuracy);
 		var guns = new List<Gun> ();
 		foreach (var gunplace in data.guns) {
 			var gun = gunplace.GetGun (turret);

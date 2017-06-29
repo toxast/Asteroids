@@ -117,4 +117,16 @@ MonoBehaviour:
         positionAngleRange: 0
         lookAngle: 0
         lookAngleRange: 0
+    - spawn: {fileID: 11421222, guid: ca3aa5f06838e714cbd8a34d7fde8813, type: 2}
+      range:
+        min: 60
+        max: 80
+      spawnAtViewEdge: 1
+      weight: 1
+      overridePositioning: 0
+      positioning:
+        positionAngle: 0
+        positionAngleRange: 0
+        lookAngle: 0
+        lookAngleRange: 0
   createDefWaveEditor: 0

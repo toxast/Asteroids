@@ -55,6 +55,9 @@ public class BossSuperSaw : SawEnemy {
 		if (!swapnedAnyGenerator && aliveGenerators.Count > 0) {
             swapnedAnyGenerator = true;
 			foreach (var item in aliveGenerators) {
+				if (!item.isBossObject) { //if forgot to make it boss object. or didnt want to
+					Singleton<Main>.inst.DisplayBossHealth (item);
+				}
 				lazers.Add (new LazerBetweenTwoOjects (item, this));
 			}
         }

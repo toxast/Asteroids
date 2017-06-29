@@ -64,8 +64,9 @@ MonoBehaviour:
   oldGUI: {fileID: 0}
   pauseBtn: {fileID: 0}
   pauseUI: {fileID: 0}
+  bossHealthBar: {fileID: 0}
   killEveryOne: 0
-  useColorsForCollisions: 1
+  useColorsForCollisions: 0
   borderWidth: 20
   starsDensity: 4
   sceneSizeInCameras: {x: 1.2, y: 1.2}

@@ -33,3 +33,4 @@ public class InvisCowardBeh : DelayedActionBeh {
 		while (wait.MoveNext()) yield return true;
 	}
 }
+

@@ -42,8 +42,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
-  editorSpawnLayer: 2
   gameSpawnLayer: 2
+  overrideCollisionLayerNum: -1
+  priorityMultiplier: 1
   difficulty: 13
   reward: 40
   teleportData:
@@ -83,7 +84,28 @@ MonoBehaviour:
     overrideExplosionDamage: 2.5
   guns:
   - place:
-      pos: {x: 5.5251045, y: -0.000000023755824}
+      pos: {x: 5.5673575, y: 0.7}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11425338, guid: cf94187bf4600084498a651ec00d30ea, type: 2}
+  - place:
+      pos: {x: 5.5673575, y: 0.3}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11425338, guid: cf94187bf4600084498a651ec00d30ea, type: 2}
+  - place:
+      pos: {x: 5.5673575, y: -0.3}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11425338, guid: cf94187bf4600084498a651ec00d30ea, type: 2}
+  - place:
+      pos: {x: 5.5673575, y: -0.7}
       dir: {x: 1, y: 0}
       useAngleForPosition: 0
       range: 0
@@ -91,22 +113,22 @@ MonoBehaviour:
     gun: {fileID: 11425338, guid: cf94187bf4600084498a651ec00d30ea, type: 2}
   turrets: []
   verts:
-  - {x: 5.856603, y: -0.6629968}
-  - {x: 3.87955, y: -2.15}
-  - {x: 4.049549, y: -3.56}
-  - {x: 1.0369922, y: -8.39}
-  - {x: -3.2330077, y: -5.74}
-  - {x: -2.3404503, y: -3.63}
-  - {x: -4.760451, y: -3.02}
-  - {x: -5.5204506, y: -0.96}
-  - {x: -5.5204506, y: 0.96}
-  - {x: -4.760451, y: 3.02}
-  - {x: -2.3404503, y: 3.63}
-  - {x: -3.2330077, y: 5.74}
-  - {x: 1.0369922, y: 8.39}
-  - {x: 4.049549, y: 3.56}
-  - {x: 3.87955, y: 2.15}
-  - {x: 5.856603, y: 0.6629968}
+  - {x: 5.823961, y: -1.02}
+  - {x: 3.8469079, y: -2.15}
+  - {x: 4.0169067, y: -3.56}
+  - {x: 1.00435, y: -8.39}
+  - {x: -3.2656498, y: -5.74}
+  - {x: -2.3730924, y: -3.63}
+  - {x: -4.793093, y: -3.02}
+  - {x: -5.553093, y: -0.96}
+  - {x: -5.553093, y: 0.96}
+  - {x: -4.793093, y: 3.02}
+  - {x: -2.3730924, y: 3.63}
+  - {x: -3.2656498, y: 5.74}
+  - {x: 1.00435, y: 8.39}
+  - {x: 4.0169067, y: 3.56}
+  - {x: 3.8469079, y: 2.15}
+  - {x: 5.823961, y: 1.02}
   rotationSpeedWhileShooting: 15
 --- !u!1001 &100100000
 Prefab:

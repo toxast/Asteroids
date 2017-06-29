@@ -59,12 +59,14 @@ public class ShootBeh : DelayedActionBeh {
 			float approachingVelocity = tickData.vprojThis + tickData.vprojTarget;
 			float timeToApproachComfort = (tickData.distEdge2Edge - comfortDistMiddle) / approachingVelocity;
 			iaccelerate = approachingVelocity < 0 || timeToApproachComfort > 1f;
-			if (approachingVelocity > 0 && !iaccelerate && Math2d.Chance (0.3f)) {
+			if (approachingVelocity > 0 && !iaccelerate && Math2d.Chance (0.05f)) {
 				FireBrake ();
+				//Debug.LogError ("brake");
 			}
-		} else if (tickData.distEdge2Edge < data.comformDistanceMin) {
+		} else if (tickData.distEdge2Edge < Mathf.Min(20, data.comformDistanceMin)) {
 			iaccelerate = false;
-			if (Math2d.Chance (0.4f)) {
+			if (Math2d.Chance (0.3f)) {
+				Debug.LogError ("brake min dist " + data.comformDistanceMin);
 				FireBrake ();
 			}
 		} else {

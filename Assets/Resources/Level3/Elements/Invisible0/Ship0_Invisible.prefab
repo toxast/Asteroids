@@ -53,8 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnCount: 1
   spawn: 1
-  editorSpawnLayer: 2
   gameSpawnLayer: 2
+  overrideCollisionLayerNum: -1
+  priorityMultiplier: 1
   difficulty: 9
   reward: 30
   teleportData:
@@ -68,7 +69,7 @@ MonoBehaviour:
   color: {r: 0.38894895, g: 0.4852941, b: 0.40157348, a: 1}
   physical:
     density: 0.9
-    health: 6
+    health: 4
     healthModifier: 1
     collisionDefence: 0
     collisionAttackModifier: 0.2
@@ -95,7 +96,7 @@ MonoBehaviour:
     sub: 0.4
     bounds: {x: 0, y: 1}
   shield:
-    capacity: 4
+    capacity: 3
     rechargeRate: 0.5
     hitRechargeDelay: 4
     rechargeDelayAfterDestory: 6
@@ -128,33 +129,34 @@ MonoBehaviour:
     startColor: {r: 1, g: 1, b: 1, a: 1}
   turrets: []
   verts:
-  - {x: 0.29407817, y: -0.5253853}
-  - {x: -0.15625094, y: -1.3209689}
-  - {x: 0.8945197, y: -1.1408367}
-  - {x: 0.53275335, y: -1.8889854}
+  - {x: 0.29407808, y: -0.5253853}
+  - {x: -0.15625086, y: -1.3209689}
+  - {x: 0.89451975, y: -1.1408367}
+  - {x: 0.5327534, y: -1.8889854}
   - {x: 1.513962, y: -2.12}
   - {x: 3.233773, y: -1.88}
   - {x: 1.870235, y: -2.732003}
-  - {x: 0.008869991, y: -2.732003}
+  - {x: 0.008870037, y: -2.732003}
   - {x: -1.1660379, y: -2.17}
   - {x: -1.6381588, y: -1.3626678}
-  - {x: -1.4014018, y: -0.19466783}
-  - {x: -1.4014018, y: 0.1946672}
+  - {x: -1.4014018, y: -0.19466807}
+  - {x: -1.4014018, y: 0.19466697}
   - {x: -1.6381588, y: 1.3626678}
   - {x: -1.1660379, y: 2.17}
-  - {x: 0.008869991, y: 2.732003}
+  - {x: 0.008870037, y: 2.732003}
   - {x: 1.870235, y: 2.732003}
   - {x: 3.233773, y: 1.88}
   - {x: 1.513962, y: 2.12}
-  - {x: 0.53275335, y: 1.8889854}
-  - {x: 0.8945197, y: 1.1408367}
-  - {x: -0.15625094, y: 1.3209689}
-  - {x: 0.29407817, y: 0.5253859}
+  - {x: 0.5327534, y: 1.8889854}
+  - {x: 0.89451975, y: 1.1408367}
+  - {x: -0.15625086, y: 1.3209689}
+  - {x: 0.29407808, y: 0.5253859}
   explosionRangeCalculated: 10.412013
   explosionDamageCalculated: 2.292807
   invisibleData:
-    attackDutation: 3.5
-    invisibleDuration: 3.7
     fadeOutDuration: 3
     fadeInDuration: 1.5
+    slowerFadeOnHit: 5
+    attackDutation: 3.5
+    invisibleDuration: 3.7
   fillFrom: {fileID: 0}

@@ -7,7 +7,7 @@ using UnityEngine;
 	public abstract int sdifficulty{ get;}
 	public abstract void Spawn (PositionData data, Action<SpawnedObj> callback);
 
-	public static IEnumerator SpawnRoutine(MSpawnDataBase elem, PositionData data, Place place, Action<SpawnedObj> callback)
+	public static IEnumerator SpawnRoutine(MSingleSpawn elem, PositionData data, Place place, Action<SpawnedObj> callback)
 	{
         //Debug.LogError(data.rangeAngle);
 		var main = Singleton<Main>.inst;
@@ -18,9 +18,10 @@ using UnityEngine;
 		Vector2 elemPos = elemOrigin + elemOffset;
 
 		//animation
-		var anim = main.CreateTeleportationRing(elemPos, elem.teleportData.color, elem.teleportData.ringSize);
-		main.PutObjectOnDestructionQueue (anim.gameObject, 5f + elem.teleportData.duration);
-		yield return new WaitForSeconds(elem.teleportData.duration);
+		var teleportData = elem.iTeleportData;
+		var anim = main.CreateTeleportationRing(elemPos, teleportData.color, teleportData.ringSize);
+		main.PutObjectOnDestructionQueue (anim.gameObject, 5f + teleportData.duration);
+		yield return new WaitForSeconds(teleportData.duration);
 		anim.Stop ();
 
 		PolygonGameObject obj = null;
@@ -36,7 +37,7 @@ using UnityEngine;
 			Debug.LogError ("obj is null");
 		}
 		if (callback != null) {
-			callback (new SpawnedObj{ obj = obj, difficulty = elem.difficulty });
+			callback (new SpawnedObj{ obj = obj, difficulty = elem.sdifficulty });
 		}
 	}
 

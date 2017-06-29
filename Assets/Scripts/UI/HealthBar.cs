@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class HealthBar : ProgressBar
 {
-	protected override void Awake()
+	protected void Awake()
 	{
-		base.Awake ();
+		//base.Awake ();
 		GameResources.healthChanged += Display;
 	}
 }

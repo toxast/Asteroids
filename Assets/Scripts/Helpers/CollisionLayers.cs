@@ -95,8 +95,8 @@ public static class CollisionLayers
 		}
 	}
 
-	static public PolygonGameObject SpawnObjectFriendlyToParent(PolygonGameObject parent, MSpawnDataBase spawn){
-		return spawn.Create(GetLayerFriendlyToParent(parent, (int)spawn.gameSpawnLayer));
+	static public PolygonGameObject SpawnObjectFriendlyToParent(PolygonGameObject parent, MSingleSpawn spawn){
+		return spawn.Create(GetLayerFriendlyToParent(parent, (int)spawn.iGameSpawnLayer));
 	}
 
 	static public int GetLayerFriendlyToParent(PolygonGameObject parent, int defaultLayerNum){
