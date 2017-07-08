@@ -211,7 +211,13 @@ public class ShipEditor : MonoBehaviour
 		var full = symmetricState ? PolygonCreator.GetCompleteVertexes (v2, 1) : new List<Vector2>(v2);
 		if(reverse)
 		{
-			full.Reverse();
+			if (symmetricState) {
+				full.Reverse ();
+			} else {
+				for (int i = 0; i < full.Count; i++) {
+					full[i] = full[i].SetY(-full[i].y);
+				}
+			}
 		}
 		
 		fullArray = full.ToArray ();

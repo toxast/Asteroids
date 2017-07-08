@@ -18,10 +18,12 @@ public class KeepPositionEffect : TickableEffect {
 	public override void Tick (float delta) {
 		if (!Main.IsNull (relative)) {
 			var targetPos = relative.position + Math2d.RotateVertexDeg (data.pos, relative.cacheTransform.eulerAngles.z);
-			FollowAim aim = new FollowAim(targetPos, relative.velocity,  holder.position, holder.velocity, data.force);
+			FollowAim aim = new FollowAim(targetPos, relative.velocity,  holder.position, holder.velocity, data.force, data.maxSpeed);
 			if (aim.forceDir != Vector2.zero) {
-				holder.Accelerate (delta, data.force, data.stability, data.maxSpeed, data.maxSpeed*data.maxSpeed, aim.forceDir.normalized);
+				Debug.DrawLine (holder.position, holder.position + aim.forceDir.normalized * data.force * aim.forceMultiplier, Color.red);
+				holder.Accelerate (delta, data.force * aim.forceMultiplier, data.stability, data.maxSpeed, data.maxSpeed*data.maxSpeed, aim.forceDir.normalized);
 			}
+			Debug.DrawLine (holder.position, targetPos, Color.green);
 		}
 	}
 

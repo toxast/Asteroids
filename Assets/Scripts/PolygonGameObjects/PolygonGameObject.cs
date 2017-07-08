@@ -185,6 +185,10 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 		overrideExplosionRange = -1;
 	}
 
+	public virtual void BeforeAddToMainList(){
+	
+	}
+
 	public void SetPolygon(Polygon polygon)
 	{
 		if(cacheTransform == null)

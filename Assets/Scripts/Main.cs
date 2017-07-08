@@ -535,6 +535,13 @@ public class Main : MonoBehaviour
 	[System.NonSerialized] bool gameIsOn = false;
 	void Update()
 	{
+		#if UNITY_EDITOR
+		if(Time.deltaTime > 0.3f){ //from pause
+			Debug.LogError("skip update: " + Time.deltaTime);
+			return;
+		}
+		#endif
+
         if (!gameIsOn) {
             return;
         }
@@ -1153,6 +1160,7 @@ public class Main : MonoBehaviour
 			p.SetColor(Color.Lerp(c1, c2, 0.5f));
 		}
 		#endif
+		p.BeforeAddToMainList ();
 		if (p.isBossObject) {
 			DisplayBossHealth (p);
 		}

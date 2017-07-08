@@ -6,10 +6,15 @@ public class KeepOrientationEffect : TickableEffect {
 
 	public override bool CanBeUpdatedWithSameEffect { get { return false; } }
 	protected override eType etype { get {return eType.KeepOrientation; } }
+	public float extraOffsetAngle = 0;
 
 	AdvancedTurnComponent rotaitor;
 	PolygonGameObject relative;
 	Data data;
+
+	public float rotaitingSpeed{
+		get{ return rotaitor.turnSpeed;}
+	}
 
 	public KeepOrientationEffect(Data data, PolygonGameObject relative) {
 		this.relative = relative;
@@ -24,9 +29,10 @@ public class KeepOrientationEffect : TickableEffect {
 	public override void Tick (float delta) {
 		if (!Main.IsNull (relative) && rotaitor != null) {
 			Vector2 targetDir = holder.position - relative.position;
+			//Debug.DrawLine (holder.position, holder.position + targetDir.normalized * 10, Color.yellow);
 			if (targetDir != Vector2.zero) {
-				if (data.offsetAngle != 0) {
-					targetDir = Math2d.RotateVertexDeg (targetDir, data.offsetAngle);
+				if (data.offsetAngle + extraOffsetAngle != 0) {
+					targetDir = Math2d.RotateVertexDeg (targetDir, data.offsetAngle + extraOffsetAngle);
 				}
 				rotaitor.TurnByDirection (targetDir, delta);
 			}

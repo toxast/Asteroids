@@ -151,7 +151,7 @@ public class RotatingObjectsShield : DurationEffect {
 					var radAngle = angle * Mathf.Deg2Rad;
 					Vector2 targetPos = holder.position + data.asteroidShieldRadius * new Vector2 (Mathf.Cos (radAngle), Mathf.Sin (radAngle));
 					Vector2 targetVelocity = holder.velocity + Mathf.Sign (data.shieldRotationSpeed) * rotationSpeed * (-Math2d.MakeRight (targetPos - holder.position) + 0.1f * (holder.position - targetPos)).normalized;
-					FollowAim aim = new FollowAim (targetPos, targetVelocity, item.position, item.velocity, force);
+					FollowAim aim = new FollowAim (targetPos, targetVelocity, item.position, item.velocity, force, partMaxSpeed);
 					if (aim.forceDir != Vector2.zero) {
 						item.Accelerate (deltaTime, force, data.asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
 					}

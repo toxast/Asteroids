@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4488915978420290}
+  - component: {fileID: 114031998859350506}
   - component: {fileID: 114753084314748396}
   m_Layer: 0
   m_Name: EarthBOSS
@@ -40,6 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114031998859350506
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657710132949094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988cbd951480d0c4e9611c477a71ee41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossElem: {fileID: 114753084314748396}
 --- !u!114 &114753084314748396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -52,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
-  spawn: 1
+  spawn: 0
   gameSpawnLayer: 2
   overrideCollisionLayerNum: -1
   priorityMultiplier: 1
@@ -70,36 +83,104 @@ MonoBehaviour:
     collisionDefence: 0.5
     collisionAttackModifier: 0.5
   verts:
-  - {x: 8.744229, y: -0.9999999}
-  - {x: 7.41423, y: -5.11}
-  - {x: 4.60423, y: -5.3}
-  - {x: 1.7642295, y: -7.32}
-  - {x: -3.8557703, y: -8.2}
-  - {x: -5.25577, y: -8.5}
-  - {x: -7.1957703, y: -7.01}
-  - {x: -6.75577, y: -5.3}
-  - {x: -7.0257745, y: -3.18}
-  - {x: -7.25577, y: -1.6999968}
-  - {x: -5.955767, y: -0.9999999}
-  - {x: -5.955767, y: 1.0000001}
-  - {x: -7.25577, y: 1.6999971}
-  - {x: -7.0257745, y: 3.1800005}
-  - {x: -6.75577, y: 5.3}
-  - {x: -7.1957703, y: 7.01}
-  - {x: -5.25577, y: 8.5}
-  - {x: -3.8557703, y: 8.2}
-  - {x: 1.7642295, y: 7.32}
-  - {x: 4.60423, y: 5.3}
-  - {x: 7.41423, y: 5.11}
-  - {x: 8.744229, y: 1.0000001}
+  - {x: 8.744229, y: -1.0000002}
+  - {x: 7.4142294, y: -5.11}
+  - {x: 4.6042295, y: -5.3}
+  - {x: 1.7642298, y: -7.32}
+  - {x: -3.85577, y: -8.2}
+  - {x: -5.2557707, y: -8.5}
+  - {x: -7.1957707, y: -7.01}
+  - {x: -6.7557707, y: -5.3}
+  - {x: -7.025775, y: -3.1800005}
+  - {x: -7.2557707, y: -1.6999972}
+  - {x: -5.9557676, y: -1.0000002}
+  - {x: -5.9557676, y: 0.9999997}
+  - {x: -7.2557707, y: 1.6999967}
+  - {x: -7.025775, y: 3.18}
+  - {x: -6.7557707, y: 5.3}
+  - {x: -7.1957707, y: 7.01}
+  - {x: -5.2557707, y: 8.5}
+  - {x: -3.85577, y: 8.2}
+  - {x: 1.7642298, y: 7.32}
+  - {x: 4.6042295, y: 5.3}
+  - {x: 7.4142294, y: 5.11}
+  - {x: 8.744229, y: 0.9999997}
   color: {r: 0.20396583, g: 0.33088237, b: 0.034061413, a: 1}
-  rotationSpeed: 20
+  rotationSpeed: 18.7
   shoulder: {fileID: 114753084314748396, guid: 6ba2fe43167a8014b9c07e7ce6739afc, type: 2}
   shoulderOrientationData:
-    offsetAngle: 0
+    offsetAngle: 70
     rotaitingSpeed: 200
   shoulderPositionData:
     stability: 1
     maxSpeed: 30
     force: 40
-    pos: {x: -20, y: 0}
+    pos: {x: 5, y: -20}
+  leftArm:
+    shoulder:
+      spawn: {fileID: 114753084314748396, guid: 6ba2fe43167a8014b9c07e7ce6739afc,
+        type: 2}
+      orientationData:
+        offsetAngle: 70
+        rotaitingSpeed: 15
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 40
+        pos: {x: 6, y: -17}
+    joint:
+      spawn: {fileID: 114753084314748396, guid: 695433ee585a84a4f8f106706d8051c4,
+        type: 2}
+      orientationData:
+        offsetAngle: 120
+        rotaitingSpeed: 30
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 40
+        pos: {x: 5, y: -14}
+    hand:
+      spawn: {fileID: 114753084314748396, guid: 991117cb1a401eb41b37baddd117c23a,
+        type: 2}
+      orientationData:
+        offsetAngle: 180
+        rotaitingSpeed: 50
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 40
+        pos: {x: -4, y: -12}
+  rightArm:
+    shoulder:
+      spawn: {fileID: 114753084314748396, guid: 654a7ddbb3c15074eb39718f9f11236d,
+        type: 2}
+      orientationData:
+        offsetAngle: -70
+        rotaitingSpeed: 15
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 40
+        pos: {x: 6, y: 17}
+    joint:
+      spawn: {fileID: 114753084314748396, guid: 8142afcd6cfc46848b4e404a5dec5c78,
+        type: 2}
+      orientationData:
+        offsetAngle: -120
+        rotaitingSpeed: 30
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 40
+        pos: {x: 5, y: 14}
+    hand:
+      spawn: {fileID: 114753084314748396, guid: efaed0eb49954e24fb0bd05c4ad35c61,
+        type: 2}
+      orientationData:
+        offsetAngle: 180
+        rotaitingSpeed: 50
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 40
+        pos: {x: -4, y: 12}

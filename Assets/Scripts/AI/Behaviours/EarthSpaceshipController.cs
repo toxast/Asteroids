@@ -195,7 +195,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                     var radAngle = angle * Mathf.Deg2Rad;
                     Vector2 targetPos = thisShip.position + asteroidShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
                     Vector2 targetVelocity = thisShip.velocity + rotationSpeed * (-Math2d.MakeRight(targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
-                    FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force);
+					FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force, partMaxSpeed);
 					item.Accelerate(Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
 				}
 				angle += deltaAngle;
@@ -218,7 +218,7 @@ public class EarthSpaceshipController : BaseSpaceshipController, IGotTarget
                         var radAngle = item.angleDeg * Mathf.Deg2Rad;
 						Vector2 targetPos = thisShip.position + data.brokenShieldRadius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
                         Vector2 targetVelocity = thisShip.velocity - rotationSpeed * (-Math2d.MakeRight(targetPos - thisShip.position) + 0.1f * (thisShip.position - targetPos)).normalized;
-                        FollowAim aim = new FollowAim(targetPos, targetVelocity, bObj.position, bObj.velocity, force);
+						FollowAim aim = new FollowAim(targetPos, targetVelocity, bObj.position, bObj.velocity, force, partMaxSpeed);
 						bObj.Accelerate(Time.deltaTime, force, asteroidsStability, partMaxSpeed, partMaxSpeedSqr, aim.forceDir.normalized);
                     }
                 }

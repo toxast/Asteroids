@@ -157,7 +157,7 @@ public class KeepFireballsBeh : DelayedActionBeh {
 					var radAngle = angle * Mathf.Deg2Rad;
 					Vector2 targetPos = thisShip.position + fdata.radius * new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
 					Vector2 targetVelocity = thisShip.velocity;
-					FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force);
+					FollowAim aim = new FollowAim(targetPos, targetVelocity, item.position, item.velocity, force, item.maxSpeed);
 					item.Accelerate(DeltaTime(), force, item.stability, item.maxSpeed, item.maxSpeedSqr, aim.forceDir.normalized);
 				}
 				angle += deltaAngle;
