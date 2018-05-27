@@ -1,4 +1,6 @@
-﻿Shader "Custom/Textured" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Textured" {
 	Properties      
 	{         
 		_MainTex ("RGBA", 2D) = "white" {}          
@@ -41,7 +43,7 @@
             vertexOutput output;
  
             output.tex = input.texcoord;
-            output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
+            output.pos = UnityObjectToClipPos(input.vertex);
             output.col = input.col;
             return output;
          }

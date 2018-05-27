@@ -6,7 +6,7 @@ public class KeepRotationEffect : TickableEffect {
 	
 	public override bool CanBeUpdatedWithSameEffect { get { return false; } }
 	protected override eType etype { get {return eType.KeepRotation; } }
-
+	public bool forceFinish = false;
 	Data data;
 
 	public KeepRotationEffect(Data data) {
@@ -22,6 +22,10 @@ public class KeepRotationEffect : TickableEffect {
 		} else {
 			holder.rotation += Mathf.Sign (diff) * deltaRotation;
 		}
+	}
+
+	public override bool IsFinished ()	{
+		return forceFinish;
 	}
 
 	[System.Serializable]

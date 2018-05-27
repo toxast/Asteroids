@@ -291,6 +291,11 @@ public class AdvancedTurnComponent : TurnComponent{
 		turnSpeed *= mul;
 	}
 
+	public void MultiplyOriginalTurnSpeed(float mul){
+		originalTurnSpeed *= mul;
+		turnSpeed *= mul;
+	}
+
 	public bool TurnByDirection(Vector3 dir, float delta) {
 		return TurnByDirection (dir, delta, turnSpeed);
 	}

@@ -11,7 +11,7 @@ namespace polygonGO {
 			lifetime -= delta;
             if (lifetime < 0) {
                 OnLifeTimeEnd();
-                Kill();
+				Kill(KillReason.EXPIRED);
             }
 
             Brake(delta, 2.5f);

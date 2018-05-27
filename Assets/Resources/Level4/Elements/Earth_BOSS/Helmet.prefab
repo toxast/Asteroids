@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1657710132949094}
+  m_IsPrefabParent: 1
+--- !u!1 &1657710132949094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4488915978420290}
+  - component: {fileID: 114753084314748396}
+  m_Layer: 0
+  m_Name: Helmet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4488915978420290
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657710132949094}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7585373, y: 4.353438, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114753084314748396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657710132949094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308fcc3f00d3a1b4c8e7f0a97758cb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  gameSpawnLayer: 2
+  overrideCollisionLayerNum: -1
+  priorityMultiplier: 1
+  difficulty: 100
+  reward: 300
+  teleportData:
+    duration: 1.5
+    ringSize: 30
+    color: {r: 0.36764705, g: 0.17903402, b: 0.04325259, a: 1}
+  startEffect: {fileID: 0}
+  physical:
+    density: 1
+    health: 200
+    healthModifier: 1
+    collisionDefence: 1
+    collisionAttackModifier: 0.2
+  verts:
+  - {x: -0.27220523, y: -3.55}
+  - {x: -0.72220504, y: -5.88}
+  - {x: 1.7277951, y: -6.3}
+  - {x: 3.697795, y: -5.8}
+  - {x: 5.007795, y: -5.6}
+  - {x: 6.657795, y: -5.34}
+  - {x: 7.227795, y: -5.98}
+  - {x: 6.5377946, y: -8.56}
+  - {x: 4.927795, y: -8.26}
+  - {x: -0.6522049, y: -9.18}
+  - {x: -2.7722054, y: -8.39}
+  - {x: -5.3322053, y: -4.95}
+  - {x: -3.7022052, y: -4.28}
+  - {x: -4.0022054, y: -3.25}
+  - {x: -3.8422055, y: -1.5100001}
+  - {x: -3.172205, y: -0.44000012}
+  - {x: -3.172205, y: 0.43999988}
+  - {x: -3.8422055, y: 1.5099999}
+  - {x: -4.0022054, y: 3.25}
+  - {x: -3.7022052, y: 4.28}
+  - {x: -5.3322053, y: 4.95}
+  - {x: -2.7722054, y: 8.39}
+  - {x: -0.6522049, y: 9.18}
+  - {x: 4.927795, y: 8.26}
+  - {x: 6.5377946, y: 8.56}
+  - {x: 7.227795, y: 5.98}
+  - {x: 6.657795, y: 5.34}
+  - {x: 5.007795, y: 5.6}
+  - {x: 3.697795, y: 5.8}
+  - {x: 1.7277951, y: 6.3}
+  - {x: -0.72220504, y: 5.88}
+  - {x: -0.27220523, y: 3.55}
+  color: {r: 0.4705882, g: 0.3823887, b: 0.013840843, a: 1}

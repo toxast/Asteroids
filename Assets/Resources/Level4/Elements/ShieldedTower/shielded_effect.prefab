@@ -54,7 +54,7 @@ MonoBehaviour:
   data:
     duration: 99999
     spawn: {fileID: 114753084314748396, guid: 9254c26c2c6fe3544874ac56c98a64e2, type: 2}
-    shieldRotationSpeed: 0
+    shieldRotationSpeed: 30
     asteroidShieldRadius: 9
     respawnShieldObjDuration: 99999
     asteroidsStability: 1
@@ -72,4 +72,6 @@ MonoBehaviour:
       acceleration: 300
     keepObjectsOrientation: 1
     keepOrientationData:
+      offsetAngle: 0
       rotaitingSpeed: 30
+      relativeToHolderForward: 0

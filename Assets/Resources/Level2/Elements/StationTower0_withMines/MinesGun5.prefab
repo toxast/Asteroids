@@ -53,6 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dps: 1.292804
   collisionDmg: 0.051364955
+  estimateRange: 29997
+  isBullet: 0
   hitDamage: 0
   lifeTime: 9999
   velocity: 3

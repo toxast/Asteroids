@@ -71,8 +71,8 @@ MonoBehaviour:
     min: 1
     max: 2
   size:
-    min: 2.5
-    max: 2.8
+    min: 2.3
+    max: 2.5
   physical:
     density: 0.3
     health: -1

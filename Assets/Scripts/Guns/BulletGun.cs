@@ -4,6 +4,7 @@ using System.Collections;
 
 public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 {
+	public event Action<T> OnCreated;
     public MGunData data;
 
     public BulletGun(Place place, MGunData data, PolygonGameObject parent)
@@ -61,6 +62,9 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 	protected virtual void InitPolygonGameObject(T bullet, PhysicalData ph)
 	{
 		bullet.InitPolygonGameObject (ph);
+		if (data.scriptEffect != null) {
+			data.scriptEffect.Apply (bullet);
+		}
 		if (data.burnDOT.dps > 0 && data.burnDOT.duration > 0) {
 			bullet.burnDotData = data.burnDOT;
 		}
@@ -97,11 +101,14 @@ public class BulletGun<T> : GunShooterBase where T : PolygonGameObject
 	protected override void Fire() {
 		var b = CreateBullet();
 		AddToMainLoop (b);
-
+		if (OnCreated != null) {
+			OnCreated (b);
+		}
 		if (fireEffect != null) {
 			fireEffect.Emit (1);
 		}
 	}
 }
+
 
 

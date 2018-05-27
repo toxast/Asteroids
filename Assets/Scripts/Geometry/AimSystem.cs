@@ -164,6 +164,13 @@ public class FollowAim
 		var correctPosTime = Math2d.GetDuration(posDiff.magnitude, 0, maxSpeed, force);
 		var correctSpeedTime = speedDiff.magnitude / force;
 		forceDir = (correctPosTime / (correctPosTime + correctSpeedTime)) * posDiff + (correctSpeedTime / (correctPosTime + correctSpeedTime)) * speedDiff;
+//		if (correctPosTime < 0.2f && correctSpeedTime < 0.2f) {
+//			Debug.LogError (correctPosTime + " " + correctSpeedTime);
+//			float kff = 4f;
+//			FollowAim aim2 = new FollowAim(targetPosition, targetSpeed, selfPosition, selfSpeed, force/kff, maxSpeed);
+//			forceMultiplier = aim2.forceMultiplier / kff;
+//			forceDir = aim2.forceDir;
+//		}
 		forceMultiplier = Mathf.Clamp01 (forceMultiplier);
 	}
 

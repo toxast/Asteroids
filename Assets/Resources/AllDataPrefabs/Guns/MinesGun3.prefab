@@ -51,7 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7e2de9eef5577418432b9cd403e3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dps: 0
+  dps: 10
+  collisionDmg: 0
+  estimateRange: 0
+  isBullet: 0
   hitDamage: 0
   lifeTime: 30
   velocity: 0
@@ -65,9 +68,9 @@ MonoBehaviour:
     collisionDefence: 0
     collisionAttackModifier: 1
   deathData:
+    destructionType: 1
     createExplosionOnDeath: 1
     instantExplosion: 1
-    destructionType: 1
     overrideExplosionRange: 15
     overrideExplosionDamage: 10
   spreadAngle: 0
@@ -116,10 +119,8 @@ MonoBehaviour:
   - {x: 1.4938155, y: 1.0569024}
   - {x: 1.6367491, y: 0.7704743}
   - {x: 1.2953985, y: 0.5105802}
-  explosionRangeCalculated: 0
-  explosionDamageCalculated: 0
-  overrideExplosionDamage: 10
-  overrideExplosionRadius: 15
+  explosionRangeCalculated: 15
+  explosionDamageCalculated: 2.9068947
   deceleration:
     min: 3
     max: 5
@@ -130,6 +131,9 @@ MonoBehaviour:
     place:
       pos: {x: 0, y: 0}
       dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
     prefab: {fileID: 198454905475482354, guid: d3e5fc2c1e21b104d970309baf68dc76, type: 2}
     overrideSize: -1
     overrideDelay: -1

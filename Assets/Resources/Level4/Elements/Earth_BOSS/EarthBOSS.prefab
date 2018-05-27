@@ -1,0 +1,326 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1657710132949094}
+  m_IsPrefabParent: 1
+--- !u!1 &1657710132949094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4488915978420290}
+  - component: {fileID: 114031998859350506}
+  - component: {fileID: 114753084314748396}
+  m_Layer: 0
+  m_Name: EarthBOSS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4488915978420290
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657710132949094}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7585373, y: 4.353438, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114031998859350506
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657710132949094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988cbd951480d0c4e9611c477a71ee41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossElem: {fileID: 114753084314748396}
+--- !u!114 &114753084314748396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657710132949094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3924cfbb91bb73a4382910fd47384f6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 1
+  spawn: 1
+  gameSpawnLayer: 2
+  overrideCollisionLayerNum: -1
+  priorityMultiplier: 1
+  difficulty: 100
+  reward: 300
+  teleportData:
+    duration: 1.5
+    ringSize: 30
+    color: {r: 0.36764705, g: 0.17903402, b: 0.04325259, a: 1}
+  startEffect: {fileID: 0}
+  physical:
+    density: 0.6
+    health: 200
+    healthModifier: 1
+    collisionDefence: 0.5
+    collisionAttackModifier: 0.5
+  verts:
+  - {x: 8.044691, y: -0.9200003}
+  - {x: 6.821091, y: -4.7012}
+  - {x: 4.2358913, y: -4.8760004}
+  - {x: 1.6230916, y: -6.7344003}
+  - {x: -3.5473087, y: -7.544}
+  - {x: -4.835309, y: -7.82}
+  - {x: -6.620109, y: -6.4492}
+  - {x: -6.215309, y: -4.8760004}
+  - {x: -6.463713, y: -2.9256005}
+  - {x: -6.675309, y: -1.5639974}
+  - {x: -5.479306, y: -0.9200003}
+  - {x: -5.479306, y: 0.9200002}
+  - {x: -6.675309, y: 1.5639974}
+  - {x: -6.463713, y: 2.9256005}
+  - {x: -6.215309, y: 4.8760004}
+  - {x: -6.620109, y: 6.4492}
+  - {x: -4.835309, y: 7.82}
+  - {x: -3.5473087, y: 7.544}
+  - {x: 1.6230916, y: 6.7344003}
+  - {x: 4.2358913, y: 4.8760004}
+  - {x: 6.821091, y: 4.7012}
+  - {x: 8.044691, y: 0.9200002}
+  color: {r: 0.5808823, g: 0.5434725, b: 0.03844074, a: 1}
+  rotationSpeed: 15
+  helmetPrefab: {fileID: 114753084314748396, guid: 75f604195b9fed946a10d1106a839c2d,
+    type: 2}
+  helmetPlace:
+    pos: {x: -4.13, y: 0}
+    dir: {x: 1, y: 0}
+    useAngleForPosition: 0
+    range: 0
+    angle: 0
+  leftArm:
+    shoulder:
+      spawn: {fileID: 114753084314748396, guid: 654a7ddbb3c15074eb39718f9f11236d,
+        type: 2}
+      orientationData:
+        offsetAngle: 0
+        rotaitingSpeed: 7.5
+        relativeToHolderForward: 1
+      positionData:
+        stability: 1
+        maxSpeed: 20
+        force: 30
+        pos: {x: 5.4, y: 15.3}
+    joint:
+      spawn: {fileID: 114753084314748396, guid: 8142afcd6cfc46848b4e404a5dec5c78,
+        type: 2}
+      orientationData:
+        offsetAngle: -35
+        rotaitingSpeed: 27.5
+        relativeToHolderForward: 1
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 50
+        pos: {x: 4.5, y: 12.6}
+    hand:
+      spawn: {fileID: 114753084314748396, guid: efaed0eb49954e24fb0bd05c4ad35c61,
+        type: 2}
+      orientationData:
+        offsetAngle: 105
+        rotaitingSpeed: 50
+        relativeToHolderForward: 1
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 50
+        pos: {x: -3.6, y: 10.8}
+  rightArm:
+    shoulder:
+      spawn: {fileID: 114753084314748396, guid: 6ba2fe43167a8014b9c07e7ce6739afc,
+        type: 2}
+      orientationData:
+        offsetAngle: 0
+        rotaitingSpeed: 7.5
+        relativeToHolderForward: 1
+      positionData:
+        stability: 1
+        maxSpeed: 20
+        force: 30
+        pos: {x: 5.4, y: -15.3}
+    joint:
+      spawn: {fileID: 114753084314748396, guid: 695433ee585a84a4f8f106706d8051c4,
+        type: 2}
+      orientationData:
+        offsetAngle: 35
+        rotaitingSpeed: 27.5
+        relativeToHolderForward: 1
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 50
+        pos: {x: 4.5, y: -12.6}
+    hand:
+      spawn: {fileID: 114753084314748396, guid: 991117cb1a401eb41b37baddd117c23a,
+        type: 2}
+      orientationData:
+        offsetAngle: -105
+        rotaitingSpeed: 50
+        relativeToHolderForward: 1
+      positionData:
+        stability: 1
+        maxSpeed: 30
+        force: 50
+        pos: {x: -3.6, y: -10.8}
+  armMaxContractAngle: 30
+  armNormalContractAngle: 10
+  jointMaxContractAngle: 110
+  jointNormalContractAngle: 90
+  contractDuration: 4
+  shootAngle: 2
+  overrideArmsState: 0
+  leftArmState: 3
+  rightArmState: 3
+  gun:
+    place:
+      pos: {x: 2, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    gun: {fileID: 11428948, guid: 45da433cb91388d47b2689ede599dc1f, type: 2}
+  shoot2Spawn: {fileID: 114753084314748396, guid: 491c98c273ca7614ebd9d8e4ddccf4ba,
+    type: 2}
+  chargeHitAttack: 0
+  rotationMultiplier: 3.5
+  throwArmAttack: 0
+  shootAttck: 0
+  shootAttack2: 0
+  shoot2duration: 20
+  shoot2aimVelocity: 24
+  shoot2delay: 5
+  shoot2forceDuration: 6.5
+  shoot2spawnPlace:
+    pos: {x: 4, y: 0}
+    dir: {x: 1, y: 0}
+    useAngleForPosition: 0
+    range: 0
+    angle: 0
+  shoot2SpreadDeg: 50
+  shoot2accelerateForce: 7
+  shoot2maxVel: 27
+  shoot2SaccStabl: 0
+  effectArm2Head:
+    effect:
+      place:
+        pos: {x: 0, y: -6}
+        dir: {x: 1, y: 0}
+        useAngleForPosition: 0
+        range: 0
+        angle: 0
+      prefab: {fileID: 198062012425154086, guid: bb43489e285978f468c692a1ede4914a,
+        type: 2}
+      overrideSize: -1
+      overrideDelay: 2
+      overrideDuration: -1
+      zOffset: 1
+      afterlife: 1
+      stopEmission: 1
+      inheritVelocity: 0
+      parentToSplitParts: 0
+      overrideStartColor: 0
+      startColor: {r: 1, g: 1, b: 1, a: 1}
+    secondObjectPlace:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+  jointEffect:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 198317125667334826, guid: d5ff117a82554e54585351aa6b07e4f7, type: 2}
+    overrideSize: -1
+    overrideDelay: 2
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 0
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  handEffect:
+    place:
+      pos: {x: 0, y: 0}
+      dir: {x: 1, y: 0}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 198514285345603442, guid: 4c000ca8dfa746d4f808bdbb71e3fc69, type: 2}
+    overrideSize: -1
+    overrideDelay: 2
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 1
+    stopEmission: 1
+    inheritVelocity: 0
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 1, g: 1, b: 1, a: 1}
+  minigunHandAttackEffect:
+  - place:
+      pos: {x: 4.6, y: 3.6}
+      dir: {x: 0.1, y: -1}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 198593260733532454, guid: db092ebeb015c1c4bac36cc6978e20a0, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 0
+    inheritVelocity: 0
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 0, g: 0, b: 0, a: 0}
+  - place:
+      pos: {x: 4.6, y: -3.6}
+      dir: {x: 0.1, y: 1}
+      useAngleForPosition: 0
+      range: 0
+      angle: 0
+    prefab: {fileID: 198593260733532454, guid: db092ebeb015c1c4bac36cc6978e20a0, type: 2}
+    overrideSize: -1
+    overrideDelay: -1
+    overrideDuration: -1
+    zOffset: 1
+    afterlife: 0
+    stopEmission: 0
+    inheritVelocity: 0
+    parentToSplitParts: 0
+    overrideStartColor: 0
+    startColor: {r: 0, g: 0, b: 0, a: 0}

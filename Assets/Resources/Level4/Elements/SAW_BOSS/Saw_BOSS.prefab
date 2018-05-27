@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCount: 1
-  spawn: 1
+  spawn: 0
   gameSpawnLayer: 2
   overrideCollisionLayerNum: -1
   priorityMultiplier: 1
@@ -190,7 +190,9 @@ MonoBehaviour:
       acceleration: 0
     keepObjectsOrientation: 1
     keepOrientationData:
+      offsetAngle: 0
       rotaitingSpeed: 20
+      relativeToHolderForward: 0
   spawnDuration: 10
   spawnInterval: 6
   chargeSpawn: {fileID: 114018212185065258, guid: 7dd4474c3f8d2744a92e5889680e6cf1,

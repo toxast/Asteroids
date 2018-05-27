@@ -74,7 +74,7 @@ public class Fire1SpaceshipController : BaseSpaceshipController, IGotTarget {
 		for (int i = 0; i < fireballs.Count; i++) {
 			var obj = fireballs[i];
 			if (!Main.IsNull(obj)) {
-				obj.Kill();
+				obj.Kill(PolygonGameObject.KillReason.EXPIRED);
 			}
 		}
 	}

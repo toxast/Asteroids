@@ -1,4 +1,6 @@
-﻿Shader "Custom/Color"  
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Color"  
 {     
 	Properties      
 	{         
@@ -38,7 +40,7 @@
          {
             vertexOutput output;
  
-            output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
+            output.pos = UnityObjectToClipPos(input.vertex);
             output.col = input.col;
             return output;
          }

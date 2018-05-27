@@ -24,7 +24,7 @@ public class InvisibleBossSpaceshipController : InvisibleSpaceshipController{
 		foreach (var item in spawnedObjects) {
 			if (!Main.IsNull (item)) {
 				item.deathAnimation = null;
-				item.Kill ();
+				item.Kill (PolygonGameObject.KillReason.EXPIRED);
 			}
 		}
 	}

@@ -585,19 +585,33 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 //      Debug.LogError ("hit " + dmg);
 		if (increaceAlphaOnHitAndDropInvisibility) {
 		    float alpha = GetAlpha ();
-			SetAlphaAndInvisibility (Mathf.Min (1, alpha + 0.65f));
+			SetAlphaAndInvisibility (Mathf.Min (1, alpha + 0.65f)); //TODO: depend on some threshold value
 		}
 
-		if(shield != null)
-		{
+		if(shield != null) {
 			dmg = shield.Deflect(dmg);
 		}
 
 		currentHealth -= dmg;
 	}
 
-	public void Kill()
+	public enum KillReason
 	{
+		DEFAULT,
+		GAME_END,
+		//THIS_BULLET_HIT_SOMETHING,
+		EXPIRED,
+		DESTROYED_ON_BOUNDS_TELEPORT,
+	}
+
+	KillReason _deathReason = KillReason.DEFAULT;
+	public KillReason GetDeathReason(){
+		return _deathReason;
+	}
+
+	public void Kill(KillReason reason = KillReason.DEFAULT)
+	{
+		_deathReason = reason;
 		currentHealth = 0;
 	}
 	
@@ -792,7 +806,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 			}
 		}
 		if (destroyOnBoundsTeleport) {
-			Kill();
+			Kill(PolygonGameObject.KillReason.DESTROYED_ON_BOUNDS_TELEPORT);
 			destructionType = PolygonGameObject.DestructionType.eDisappear;
 		}
 		ToggleAllDistanceEmitParticles (false);
@@ -800,6 +814,13 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 
 	public void OnBoundsTeleported() {
 		ToggleAllDistanceEmitParticles (true);
+		if(teleportWithMe != null) {
+			foreach (var controllable in teleportWithMe) {
+				if (!Main.IsNull(controllable)) {
+					controllable.OnBoundsTeleported ();
+				}
+			}
+		}
 	}
 
 	public void ToggleAllDistanceEmitParticles(bool play) {
@@ -812,16 +833,11 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 
 		if (play) {
 			foreach (var item in particles) {
-				//turns out not only rateover distance
-				//if (item != null && item.system != null) { //&& item.system.emission.rateOverDistanceMultiplier > 0) {
-					item.system.Play ();
-				//}
+				item.system.Play ();
 			}
 		} else {
 			foreach (var item in particles) {
-				//if (item != null && item.system != null) {// && item.system.emission.rateOverDistanceMultiplier > 0) {
-					item.system.Pause ();
-				//}
+				item.system.Pause ();
 			}
 		}
 	}
@@ -846,6 +862,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	public List<ParticlesInst> GetEffectsForSplitParts() {
 		return particles.FindAll (p => p.data.afterlife && p.data.parentToSplitParts);
 	}
+
 
 	//at the very beginning of destruction proccess
 	public virtual void HandleStartDestroying() 
@@ -921,4 +938,10 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	}
 
     public virtual void SetSpawnParent(PolygonGameObject prnt) { }
+
+	[System.Serializable]
+	class DestroyEffect {
+		MEffectData effectData;
+		KillReason whenDeathReason;
+	}
 }

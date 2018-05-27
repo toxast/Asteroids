@@ -17,6 +17,7 @@ public class MGunData : MGunBaseData, IGotShape {
 	public Color color = Color.red;
 	public BurningEffect.Data burnDOT;
 	public IceEffect.Data iceData;
+	public MEffectData scriptEffect;
 	public ParticleSystem fireEffect;
     public List<ParticleSystemsData> effects;
 	public List<ParticleSystemsData> destructionEffects;

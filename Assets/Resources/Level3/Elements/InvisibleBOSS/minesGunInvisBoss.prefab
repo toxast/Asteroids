@@ -55,6 +55,7 @@ MonoBehaviour:
   dps: 1.1350956
   collisionDmg: 0.2701913
   estimateRange: 600
+  isBullet: 0
   hitDamage: 0
   lifeTime: 20
   velocity: 30

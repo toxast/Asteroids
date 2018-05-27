@@ -49,6 +49,7 @@ MonoBehaviour:
     - {fileID: 11451942, guid: 2723a78f2f8424a49b9b2a1f1e5e5c36, type: 2}
     - {fileID: 11451942, guid: b234a1e29644aa740ac01e7a31e48944, type: 2}
     - {fileID: 11434626, guid: 9503594d1e892204489862ec4f152ddd, type: 2}
+    - {fileID: 11434626, guid: 9c8e2f1977dc9594a834e9ec8c41aec2, type: 2}
   testid: 0
 --- !u!1001 &100100000
 Prefab:

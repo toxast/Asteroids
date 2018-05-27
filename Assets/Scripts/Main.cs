@@ -565,7 +565,7 @@ public class Main : MonoBehaviour
 			killEveryOne = false;
 			foreach (var item in gObjects) {
 				if(item != userSpaceship){
-					item.Kill();
+					item.Kill(PolygonGameObject.KillReason.GAME_END);
 				}
 			}
 		}
@@ -965,7 +965,7 @@ public class Main : MonoBehaviour
                 if (bullet.destructionType == PolygonGameObject.DestructionType.eSplitlOnlyOnHit) {
                     bullet.destructionType = PolygonGameObject.DestructionType.eComplete;
                 }
-                bullet.Kill();
+				bullet.Kill(PolygonGameObject.KillReason.DEFAULT);
             }
         }
     }
@@ -1195,7 +1195,7 @@ public class Main : MonoBehaviour
             var go = list[i];
             go.Tick(dtime);
             if (go.Expired()) {
-                go.Kill();
+				go.Kill(PolygonGameObject.KillReason.EXPIRED);
             }
 		}
 	}
@@ -1212,7 +1212,7 @@ public class Main : MonoBehaviour
 			
 			go.Tick(dtime);
 			if (go.Expired()) {
-				go.Kill();
+				go.Kill(PolygonGameObject.KillReason.EXPIRED);
 			}
 		}
 	}
@@ -1227,7 +1227,7 @@ public class Main : MonoBehaviour
 
 			b.Tick(dtime);
 			if (b.Expired()) {
-				b.Kill();
+				b.Kill(PolygonGameObject.KillReason.EXPIRED);
 			}
 		}
 	}
@@ -1244,7 +1244,7 @@ public class Main : MonoBehaviour
 
 			b.Tick(dtime);
 			if (b.Expired()) {
-				b.Kill();
+				b.Kill(PolygonGameObject.KillReason.EXPIRED);
 			}
 		}
 	}
@@ -1255,7 +1255,7 @@ public class Main : MonoBehaviour
             for (int i = 0; i < list.Count; i++) {
                 var wrapped = CheckBounds(list[i]);
                 if (wrapped && list[i].destroyOnBoundsTeleport) {
-                    list[i].Kill();
+					list[i].Kill(PolygonGameObject.KillReason.DESTROYED_ON_BOUNDS_TELEPORT);
                     list[i].destructionType = PolygonGameObject.DestructionType.eDisappear;
                 }
             }
@@ -1264,7 +1264,7 @@ public class Main : MonoBehaviour
                 if (list[i] != null) {
                     var wrapped = CheckBounds(list[i]);
                     if (wrapped && list[i].destroyOnBoundsTeleport) {
-                        list[i].Kill();
+						list[i].Kill(PolygonGameObject.KillReason.DESTROYED_ON_BOUNDS_TELEPORT);
                         list[i].destructionType = PolygonGameObject.DestructionType.eDisappear;
                     }
                 }

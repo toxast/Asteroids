@@ -284,7 +284,7 @@ public static class Math2d {
         return Mathf.Approximately(a.x, b.x) && Mathf.Approximately(a.y, b.y);
     }
 
-
+	//modifies transform relatively, subsequent call would rotate object more and more
     static public void PositionOnParent(Transform objTransform, Place place, Transform parentTransform, bool makeParent = false, float zOffset = 0) {
 		float angle = place.radians;
         objTransform.RotateAround(Vector3.zero, Vector3.back, -angle * Mathf.Rad2Deg);
@@ -299,6 +299,21 @@ public static class Math2d {
         }
         objTransform.position += new Vector3(0, 0, zOffset);
     }
+
+	//absolute position, subsequent calls wont will put on same position
+	static public void PositionOnParentAbs(Transform objTransform, Place place, Transform parentTransform, bool makeParent = false, float zOffset = 0) {
+		Vector2 frw = parentTransform.right;
+		Vector2 pos =  frw * place.pos.x - Math2d.MakeRight (frw) * place.pos.y;
+		Vector2 dir = Math2d.RotateVertex (place.dir, Math2d.GetRotationRad (frw));
+
+		objTransform.position = parentTransform.position + (Vector3)pos;
+		objTransform.right = dir;
+
+		if (makeParent) {
+			objTransform.parent = parentTransform;
+		}
+		objTransform.position += new Vector3(0, 0, zOffset);
+	}
 
     static public Edge RotateEdge(Edge e, float cosA, float sinA) {
         return new Edge(RotateVertex(e.p1, cosA, sinA), RotateVertex(e.p2, cosA, sinA));

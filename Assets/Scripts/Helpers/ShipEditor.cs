@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -21,13 +22,18 @@ public class ShipEditor : MonoBehaviour
 
 	Mesh mesh;
 	Vector3 vertPos;
-	[SerializeField] List<GameObject> handles;
+
+	[SerializeField] HandleTypeData vertexHandleData;
+	[SerializeField] HandleTypeData gunHandleData;
+	[SerializeField] HandleTypeData thrusterHandleData;
+	[SerializeField] HandleTypeData turretHandleData;
+
+	[SerializeField] List<GameObject> vertexs;
 	[SerializeField] List<GameObject> guns;
 	[SerializeField] List<GameObject> thrusters;
 	[SerializeField] List<GameObject> turrets;
 
-	[SerializeField] int duplicateIndx = 0;
-	[SerializeField] bool duplicate = false;
+	[SerializeField] bool putPreviousOnDuplicate = false;
 	[SerializeField] bool reverse = false;
     [SerializeField] bool symmetric = true;
 
@@ -54,6 +60,13 @@ public class ShipEditor : MonoBehaviour
     [SerializeField] MonoBehaviour prefab;
 	[SerializeField] bool saveToPrefab = false;
 
+	[System.NonSerialized] List<HandleTypeData> handlesData = new List<HandleTypeData>();
+	[System.NonSerialized] Dictionary<HandleTypeData, List<GameObject>> handleData2handles = new Dictionary<HandleTypeData, List<GameObject>>();
+
+	void OnDisable() {
+		Clear ();
+	}
+
 	void OnEnable()
 	{
         Clear ();
@@ -64,9 +77,16 @@ public class ShipEditor : MonoBehaviour
             return;
         }
 
-		duplicateIndx = 0;
-		duplicate = false;
-		
+		handlesData.Add (vertexHandleData);
+		handlesData.Add (gunHandleData);
+		handlesData.Add (thrusterHandleData);
+		handlesData.Add (turretHandleData);
+
+		handleData2handles[vertexHandleData] = vertexs;
+		handleData2handles[gunHandleData] = guns;
+		handleData2handles[thrusterHandleData] = thrusters;
+		handleData2handles[turretHandleData] = 	turrets;
+
 		mesh = GetComponent<MeshFilter>().mesh;
 		var verts = mesh.vertices;
         if(prefab != null)
@@ -82,7 +102,7 @@ public class ShipEditor : MonoBehaviour
             if (oIGotThrusters != null) {
                 var dataThrusters = oIGotThrusters.ithrusters.ConvertAll (t => t.place);
                 for (int i = 0; i < dataThrusters.Count; i++) {
-                    CreatePosition (dataThrusters [i].pos, dataThrusters [i].dir, "truster ", thrusters);
+                    CreatePosition (dataThrusters [i].pos, dataThrusters [i].dir, thrusterHandleData);
                 }
             }
 
@@ -90,7 +110,7 @@ public class ShipEditor : MonoBehaviour
             if (oIGotGuns != null) {
                 var dataGuns = oIGotGuns.iguns.ConvertAll (t => t.place);
                 for (int i = 0; i < dataGuns.Count; i++) {
-                    CreatePosition (dataGuns [i].pos, dataGuns [i].dir, "gun ", guns);
+					CreatePosition (dataGuns [i].pos, dataGuns [i].dir, gunHandleData);
                 }
             }
 
@@ -98,7 +118,7 @@ public class ShipEditor : MonoBehaviour
             if (oIGotTurrets != null) {
                 var dataGuns = oIGotTurrets.iturrets.ConvertAll (t => t.place);
                 for (int i = 0; i < dataGuns.Count; i++) {
-                    CreatePosition (dataGuns [i].pos, dataGuns [i].dir, "turret ", turrets);
+                    CreatePosition (dataGuns [i].pos, dataGuns [i].dir, turretHandleData);
                 }
             }
 		}
@@ -107,33 +127,29 @@ public class ShipEditor : MonoBehaviour
 		{
 			if(symmetric == false || vert.y <= 0)
 			{
-				CreatePosition(vert,  vright, "handle ", handles);
+				CreatePosition(vert,  vright, vertexHandleData);
 			}
 		}
 	}
 
 	[ContextMenu ("Create Gun Position")]
-	private void CreateGunPosition()
-	{
-		CreatePosition (Vector3.zero, vright, "gun ", guns);
+	private void CreateGunPosition() {
+		CreatePosition (Vector3.zero, vright, gunHandleData);
 	}
 
 	[ContextMenu ("Create PerfectVerts")]
-	private void CreatePerfectVerts()
-	{
-		foreach(GameObject go in handles)
-		{
-			DestroyImmediate(go);    
+	private void CreatePerfectVerts() {
+		foreach (GameObject go in vertexs) {
+			DestroyImmediate (go);    
 		}
-		handles.Clear ();
+		vertexs.Clear ();
 		symmetric = false;
 		symmetricState = false;
-		mesh = GetComponent<MeshFilter>().mesh;
+		mesh = GetComponent<MeshFilter> ().mesh;
 		var verts = mesh.vertices;
-		verts = PolygonCreator.CreatePerfectPolygonVertices (7, sidesNum: 8).ToList().ConvertAll(v => (Vector3)v).ToArray();
-		foreach(var vert in verts)
-		{
-			CreatePosition(vert,  vright, "handle ", handles);
+		verts = PolygonCreator.CreatePerfectPolygonVertices (7, sidesNum: 8).ToList ().ConvertAll (v => (Vector3)v).ToArray ();
+		foreach (var vert in verts) {
+			CreatePosition (vert, vright, vertexHandleData);
 		}
 	}
 
@@ -145,11 +161,11 @@ public class ShipEditor : MonoBehaviour
 
 	//[ContextMenu ("Create fang shape")]
 	private void CreateFangedShape() {
-		var fangVerts = handles.GetRange (fangIndxFrom, fangIndxTo - fangIndxFrom + 1).ConvertAll(f => (Vector2)f.transform.localPosition);
-		foreach(GameObject go in handles) {
+		var fangVerts = vertexs.GetRange (fangIndxFrom, fangIndxTo - fangIndxFrom + 1).ConvertAll(f => (Vector2)f.transform.localPosition);
+		foreach(GameObject go in vertexs) {
 			DestroyImmediate(go);    
 		}
-		handles.Clear ();
+		vertexs.Clear ();
 		symmetric = false;
 		symmetricState = false;
 		float fangBase = (fangVerts.Last () - fangVerts.First ()).magnitude;
@@ -172,52 +188,43 @@ public class ShipEditor : MonoBehaviour
 			curAngle -= angleBase;
 		}
 		foreach(var vert in vertices) {
-			CreatePosition(vert,  vright, "handle ", handles);
+			CreatePosition(vert,  vright, vertexHandleData);
 		}
 	}
 	
 	[ContextMenu ("Create Thruster Position")]
 	private void CreateThrusterPosition() {
-		CreatePosition (Vector3.zero, vright, "thruster ", thrusters);
+		CreatePosition (Vector3.zero, vright, thrusterHandleData);
 	}
 
 	[ContextMenu ("Create Turret Position")]
 	private void CreateTurretPosition()
 	{
-		CreatePosition (Vector3.zero, vright, "turret ", turrets);
+		CreatePosition (Vector3.zero, vright, turretHandleData);
 	}
 
 	[ContextMenu ("Reset")]
 	void Reset () {
-		handles.ForEach (h => { h.transform.localPosition = Vector3.zero;});
+		vertexs.ForEach (h => { h.transform.localPosition = Vector3.zero;});
 	}
 
 	private void GetCurrentData(out Vector2[] fullArray, 
 	                            out List<MGunSetupData> gunsData,
 	                            out List<ParticleSystemsData> thrustersData,
-	                            out List<MTurretReferenceData> turretsData)
-	{
+	                            out List<MTurretReferenceData> turretsData) {
 		fullArray = new Vector2[1];
-        gunsData = new List<MGunSetupData> ();
+		gunsData = new List<MGunSetupData> ();
 		thrustersData = new List<ParticleSystemsData> ();
-        turretsData = new List<MTurretReferenceData> ();
+		turretsData = new List<MTurretReferenceData> ();
 
-		Vector2[] v2 = new Vector2[handles.Count];    
-		for(int i = 0; i < handles.Count; i++)
-		{
-			v2[i] = handles[i].transform.localPosition;    
+		Vector2[] v2 = new Vector2[vertexs.Count];    
+		for (int i = 0; i < vertexs.Count; i++) {
+			v2 [i] = vertexs [i].transform.localPosition;    
 		}
 		
-		var full = symmetricState ? PolygonCreator.GetCompleteVertexes (v2, 1) : new List<Vector2>(v2);
-		if(reverse)
-		{
-			if (symmetricState) {
-				full.Reverse ();
-			} else {
-				for (int i = 0; i < full.Count; i++) {
-					full[i] = full[i].SetY(-full[i].y);
-				}
-			}
+		var full = symmetricState ? PolygonCreator.GetCompleteVertexes (v2, 1) : new List<Vector2> (v2);
+		if (reverse) {
+			full.Reverse ();
 		}
 		
 		fullArray = full.ToArray ();
@@ -226,37 +233,33 @@ public class ShipEditor : MonoBehaviour
 			pivot = Math2d.GetMassCenter (fullArray);
 		}
 
-		Math2d.ShiftVertices(fullArray, -pivot);
+		Math2d.ShiftVertices (fullArray, -pivot);
 
 		for (int i = 0; i < fullArray.Length; i++) {
-			if(Mathf.Abs(fullArray[i].y) < 0.01f)
-			{
-				fullArray[i].y = 0;
+			if (Mathf.Abs (fullArray [i].y) < 0.01f) {
+				fullArray [i].y = 0;
 			}
 		}
 
 		gunsData = new List<MGunSetupData> ();
-		foreach(var g in guns)
-		{
-            MGunSetupData gd = new MGunSetupData();
-			gd.place = new Place((Vector2)g.transform.localPosition - pivot, g.transform.right);
-			gunsData.Add(gd);
+		foreach (var g in guns) {
+			MGunSetupData gd = new MGunSetupData ();
+			gd.place = new Place ((Vector2)g.transform.localPosition - pivot, g.transform.right);
+			gunsData.Add (gd);
 		}
 		
 		thrustersData = new List<ParticleSystemsData> ();
-		foreach(var t in thrusters)
-		{
-			ParticleSystemsData td = new ParticleSystemsData();
-			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
-			thrustersData.Add(td);
+		foreach (var t in thrusters) {
+			ParticleSystemsData td = new ParticleSystemsData ();
+			td.place = new Place ((Vector2)t.transform.localPosition - pivot, t.transform.right);
+			thrustersData.Add (td);
 		}
 		
 		turretsData = new List<MTurretReferenceData> ();
-		foreach(var t in turrets)
-		{
-            MTurretReferenceData td = new MTurretReferenceData();
-			td.place = new Place((Vector2)t.transform.localPosition - pivot, t.transform.right);
-			turretsData.Add(td);
+		foreach (var t in turrets) {
+			MTurretReferenceData td = new MTurretReferenceData ();
+			td.place = new Place ((Vector2)t.transform.localPosition - pivot, t.transform.right);
+			turretsData.Add (td);
 		}
 	}
 
@@ -312,52 +315,29 @@ public class ShipEditor : MonoBehaviour
 		}
 	}
 
-	void OnDisable() {
-        Clear ();
-	}
-
     private void Clear()
 	{
-		foreach (GameObject go in handles) {
-			DestroyImmediate (go);    
-		}
-		handles.Clear ();
-
-		foreach (GameObject go in guns) {
-			DestroyImmediate (go);    
-		}
-		guns.Clear ();
-
-
-		foreach (GameObject go in turrets) {
-			DestroyImmediate (go);    
-		}
-		turrets.Clear ();
-
-		foreach (GameObject go in thrusters) {
-			DestroyImmediate (go);    
-		}
-		thrusters.Clear ();
-	}
-
-	private void DuplicateHandler(int dindx)
-	{
-		if(dindx >= 0 && dindx < handles.Count)
-		{
-			CreatePosition(Vector3.zero, vright, "handle ", handles);
-			for (int i = handles.Count - 1; i >= dindx+1; i--) {
-				handles[i].transform.position = handles[i-1].transform.position;
+		foreach (var item in handleData2handles) {
+			var list = item.Value;
+			foreach (var handle in list) {
+				DestroyImmediate (handle);    
 			}
+			list.Clear ();
 		}
+		handlesData.Clear ();
+		handleData2handles.Clear ();
 	}
 
-	private GameObject CreatePosition(Vector2 localPos, Vector2 right, string name, List<GameObject> addTo)
+	private GameObject CreatePosition(Vector2 localPos, Vector2 right, HandleTypeData data)
 	{
-		GameObject handle = new GameObject(name + addTo.Count);
+		var list = handleData2handles [data];
+		GameObject handle = new GameObject(data.GetHandleName(list.Count));
+		var handleScript = handle.AddComponent<EditorHandle> ();
+		handleScript.SetData (data);
 		handle.transform.parent = transform;
 		handle.transform.localPosition = localPos;
 		handle.transform.right = right;
-		addTo.Add (handle);
+		list.Add (handle);
 		return handle;
 	}
 
@@ -377,84 +357,114 @@ public class ShipEditor : MonoBehaviour
     }
 
 	private void Rotate(float angle){
-		foreach (var h in handles) {
-			h.transform.localPosition = Math2d.RotateVertexDeg (h.transform.localPosition, angle);
-		}
-		foreach (var h in turrets) {
-			h.transform.localPosition = Math2d.RotateVertexDeg (h.transform.localPosition, angle);
-		}
-		foreach (var h in guns) {
-			h.transform.localPosition = Math2d.RotateVertexDeg (h.transform.localPosition, angle);
-		}
-		foreach (var h in thrusters) {
-			h.transform.localPosition = Math2d.RotateVertexDeg (h.transform.localPosition, angle);
+		foreach (var item in handleData2handles) {
+			foreach (var handle in item.Value) {
+				handle.transform.localPosition = Math2d.RotateVertexDeg (handle.transform.localPosition, angle);
+			}
 		}
 	}
-
 
     private void Scale(Vector2 vscale) {
-		foreach (var h in handles) {
-			h.transform.localPosition = new Vector3 (h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
-		}
-
-		foreach (var h in turrets) {
-			h.transform.localPosition = new Vector3 (h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
-		}
-
-		foreach (var h in guns) {
-			h.transform.localPosition = new Vector3 (h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
-		}
-
-		foreach (var h in thrusters) {
-			h.transform.localPosition = new Vector3 (h.transform.localPosition.x * vscale.x, h.transform.localPosition.y * vscale.y, 0);
+		foreach (var item in handleData2handles) {
+			foreach (var handle in item.Value) {
+				handle.transform.localPosition = new Vector3 (handle.transform.localPosition.x * vscale.x, handle.transform.localPosition.y * vscale.y, 0);
+			}
 		}
 	}
 
-	void Update()
-	{
-		if(handles == null || handles.Count < 2)
+	int lastChildrenCount = 0;
+	void CheckIfHasADuplicateNewHandle(){
+		if (vertexs != null && transform.childCount != lastChildrenCount) {
+			lastChildrenCount = transform.childCount;
+			foreach(Transform child in transform){
+				EditorHandle handle = child.GetComponent<EditorHandle> ();
+				Match match = HandleTypeData.GetRegexForNaming.Match(child.name);
+				if (match.Success && handle != null) {
+					Debug.Log ("found duplicate handle: " + child.name);
+					var naming = match.Groups[1].Value;
+					var handleData = handlesData.Find (h => h.naming == naming);
+					if (handleData != null) {
+						handle.SetData (handleData);
+						var index = int.Parse (match.Groups [2].Value);
+						var handlesList = handleData2handles [handleData];
+						if (putPreviousOnDuplicate) {
+							handlesList.Insert (index, child.gameObject);
+						} else {
+							handlesList.Insert (index + 1, child.gameObject);
+						}
+						RenameList (handleData);
+					}
+
+				}
+			}
+
+		} 
+	}
+
+	void RenameList(HandleTypeData handleData){
+		var handlesList = handleData2handles [handleData];
+		for (int i = 0; i < handlesList.Count; i++) {
+			handlesList [i].name = handleData.GetHandleName (i);
+		}
+	}
+
+	void CheckForDeletedHandles(){
+		foreach (var data in handlesData) {
+			var list = handleData2handles [data];
+			bool removedAny = false;
+			for (int i = list.Count - 1; i >= 0; i--) {
+				if (list [i] == null) {
+					removedAny = true;
+					list.RemoveAt (i);
+				}
+			}
+
+			if (removedAny) {
+				RenameList (data);
+			}
+		}
+	}
+
+
+	void Update() {
+		if (vertexs == null || vertexs.Count < 2)
 			return;
 
-		if(duplicate)
-		{
-			duplicate = false;
-			DuplicateHandler(duplicateIndx);
-		}
+		CheckForDeletedHandles ();
 
-		if(doScale)
-		{
+		CheckIfHasADuplicateNewHandle ();
+
+		if (doScale) {
 			doScale = false;
-			Scale(scaleBy);
+			Scale (scaleBy);
 		}
 
-		if(doRotate) {
+		if (doRotate) {
 			doRotate = false;
-			Rotate(rotateby);
+			Rotate (rotateby);
 		}
 
-		if(scaleUp)
-		{
+		if (scaleUp) {
 			scaleUp = false;
-			Scale(new Vector2(1.08f, 1.08f));
+			Scale (new Vector2 (1.08f, 1.08f));
 		}
 
-		if(scaleDown)
-		{
+		if (scaleDown) {
 			scaleDown = false;
-			Scale(new Vector2(0.92f, 0.92f));
+			Scale (new Vector2 (0.92f, 0.92f));
 		}
 
 		if (createPerfectShape) {
 			createPerfectShape = false;
-			foreach(GameObject go in handles) {
-				DestroyImmediate(go);    
+			foreach (GameObject go in vertexs) {
+				DestroyImmediate (go);    
 			}
-			handles.Clear ();
+			vertexs.Clear ();
 			symmetric = false;
 			symmetricState = false;
-			Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices(perfectShapeRadius, perfectShapeSides);
-			foreach(var vert in vertices) {
-				CreatePosition(vert,  vright, "handle ", handles);
+			Vector2[] vertices = PolygonCreator.CreatePerfectPolygonVertices (perfectShapeRadius, perfectShapeSides);
+			foreach (var vert in vertices) {
+				CreatePosition (vert, vright, vertexHandleData);
 			}
 		}
 
@@ -466,171 +476,67 @@ public class ShipEditor : MonoBehaviour
 			} else {
 				shiftVerts = false;
 				for (int i = 0; i < shiftCount; i++) {
-					handles.Insert (0, handles.Last ());
-					handles.RemoveAt (handles.Count - 1);
+					vertexs.Insert (0, vertexs.Last ());
+					vertexs.RemoveAt (vertexs.Count - 1);
 				}
-				for (int i = 0; i < handles.Count; i++) {
-					handles[i].name = handles[i].name + " " + i.ToString();
-				}
+				RenameList (vertexHandleData);
 			}
 		}
 
-        if(symmetric != symmetricState)
-        {
-            symmetricState = symmetric;
-
-            if (symmetric == false)
-            {
-                for (int i = handles.Count - 1; i >= 0; i--)
-                {
-                    var pos = handles[i].transform.localPosition;
-                    pos.y = -pos.y;
-                    CreatePosition(pos, vright, "handle ", handles);
-                }
-            }
-            else
-            {
-                var newHandlesCnt = handles.Count / 2;
-                while (handles.Count > newHandlesCnt)
-                {
-                    var last = handles.Count - 1;
-                    DestroyImmediate(handles[last]);
-                    handles.RemoveAt(last);
-                }
-            }
-        }
+		if (symmetric != symmetricState) {
+			symmetricState = symmetric;
+			if (symmetric == false) {
+				for (int i = vertexs.Count - 1; i >= 0; i--) {
+					var pos = vertexs [i].transform.localPosition;
+					pos.y = -pos.y;
+					CreatePosition (pos, vright, vertexHandleData);
+				}
+			} else {
+				var newHandlesCnt = vertexs.Count / 2;
+				while (vertexs.Count > newHandlesCnt) {
+					var last = vertexs.Count - 1;
+					DestroyImmediate (vertexs [last]);
+					vertexs.RemoveAt (last);
+				}
+			}
+		}
 
 		if (createFangShape) {
 			createFangShape = false;
 			CreateFangedShape ();
 		}
 
-		Vector2[] v2 = new Vector2[handles.Count];    
-		handles = handles.Where (h => h != null).ToList ();
-		for(int i = 0; i < handles.Count; i++)
-		{
-			v2[i] = handles[i].transform.localPosition;    
+		Vector2[] v2 = new Vector2[vertexs.Count];    
+		for (int i = 0; i < vertexs.Count; i++) {
+			v2 [i] = vertexs [i].transform.localPosition;    
 		}
 
-		var full = symmetricState ? PolygonCreator.GetCompleteVertexes (v2, 1) : new List<Vector2>(v2);
+		var full = symmetricState ? PolygonCreator.GetCompleteVertexes (v2, 1) : new List<Vector2> (v2);
 		Vector3[] v3 = new Vector3[full.Count];    
-		for(int i = 0; i < full.Count; i++)
-		{
-			v3[i] = full[i];    
+		for (int i = 0; i < full.Count; i++) {
+			v3 [i] = full [i];    
 		}
 
 		int[] indx = new int[v3.Length + 1]; 
-		for(int i = 0; i < full.Count; i++)
-		{
-			indx[i] = i;    
+		for (int i = 0; i < full.Count; i++) {
+			indx [i] = i;    
 		}
 		indx [full.Count] = 0;
 
 		Color[] c3 = new Color[v3.Length];    
-		for(int i = 0; i < c3.Length; i++)
-		{
-			c3[i] = Color.white;    
+		for (int i = 0; i < c3.Length; i++) {
+			c3 [i] = Color.white;    
 		}
 
 		mesh.Clear ();
 		mesh.vertices = v3;
 		mesh.colors = c3;
 		mesh.SetIndices (indx, MeshTopology.LineStrip, 0);
-		mesh.RecalculateBounds();
+		mesh.RecalculateBounds ();
 
 		if (saveToPrefab) {
 			saveToPrefab = false;
 			SaveOn ();
 		}
-	}
-
-
-	public static string[] GetAllPrefabPaths () {
-		#if UNITY_EDITOR
-		string[] temp = AssetDatabase.GetAllAssetPaths();
-		List<string> result = new List<string>();
-		foreach ( string s in temp ) {
-			if ( s.Contains( ".prefab" ) ) result.Add( s );
-		}
-		return result.ToArray();
-		#else
-		return new string[1];
-		#endif
-
-	}
-
-	public static List<T> LoadPrefabsContaining<T>() where T : UnityEngine.Component
-	{
-		List<T> result = new List<T>();
-		var allPrefabs = GetAllPrefabPaths ();
-		foreach (var path in allPrefabs)
-		{
-			int resIndx = path.IndexOf ("Resources");
-			if (resIndx < 0)
-				continue;
-			
-			string newpath = path.Substring (resIndx + "Resources/".Length );
-			newpath = newpath.Substring (0, newpath.Length - ".prefab".Length);
-
-			var cmp = Resources.Load<T>(newpath);
-			if (cmp != null)
-			{
-				Debug.LogWarning (newpath);
-				result.Add(cmp);
-			}
-		}
-		return result;
-	}
-
-	[ContextMenu ("CustomAction")]
-	public void MyCustomAction() {
-//
-		var list3 = LoadPrefabsContaining<MJournalLog> ();
-		int id = 0;
-		foreach (var item in list3) {
-			id++;
-			//item.powerupData.effectData.color = item.color;
-			item.id = id;
-			#if UNITY_EDITOR
-			EditorUtility.SetDirty (item.gameObject);
-			#endif
-		}
-//
-//		var list4 = LoadPrefabsContaining<MFlamerGunData> ();
-//		foreach (var item in list4) {
-//			item.deathData.destructionType = PolygonGameObject.DestructionType.eDisappear;
-//			item.deathData.createExplosionOnDeath = false;
-//			EditorUtility.SetDirty (item.gameObject);
-//		}
-//
-//		var list5 = LoadPrefabsContaining<MFlamerGunData> ();
-//		foreach (var item in list5) {
-//			item.deathData.destructionType = PolygonGameObject.DestructionType.eDisappear;
-//			item.deathData.createExplosionOnDeath = false;
-//			EditorUtility.SetDirty (item.gameObject);
-//		}
-//
-//		var list = LoadPrefabsContaining<MRocketGunData> ();
-//		foreach (var item in list) {
-//			item.deathData.destructionType = PolygonGameObject.DestructionType.eDisappear;
-//			item.deathData.createExplosionOnDeath = true;
-//			item.deathData.instantExplosion = true;
-//			item.deathData.overrideExplosionDamage = item.overrideExplosionDamage;
-//			item.deathData.overrideExplosionRange= item.overrideExplosionRadius;
-//			EditorUtility.SetDirty (item.gameObject);
-//		}
-//
-//		var list2 = LoadPrefabsContaining<MMinesGunData> ();
-//		foreach (var item in list2) {
-//			item.deathData.destructionType = PolygonGameObject.DestructionType.eComplete;
-//			item.deathData.createExplosionOnDeath = true;
-//			item.deathData.instantExplosion = true;
-//			item.deathData.overrideExplosionDamage = item.overrideExplosionDamage;
-//			item.deathData.overrideExplosionRange= item.overrideExplosionRadius;
-//			EditorUtility.SetDirty (item.gameObject);
-//		}
-//
-
-		//AssetDatabase.SaveAssets();
 	}
 }

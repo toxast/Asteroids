@@ -120,7 +120,7 @@ public class Checker : MonoBehaviour {
 	void CheckJournalsIds(){
 		#if UNITY_EDITOR
 		Dictionary<int, string> id2name = new Dictionary<int, string> ();
-		var list = ShipEditor.LoadPrefabsContaining<MJournalLog> ();
+		var list = EditorHelper.LoadPrefabsContaining<MJournalLog> ();
 		foreach (var item in list) {
 			string ename;
 			if (id2name.TryGetValue (item.id, out ename)) {

@@ -1,0 +1,16 @@
+﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Helpers\ShipEditor.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Helpers\ShipEditor.cs" Line="337" Column="5" />
+      <File FileName="Assets\Scripts\Helpers\EditorHandle.cs" Line="12" Column="42" />
+      <File FileName="Assets\Scripts\Helpers\HandleTypeData.cs" Line="12" Column="27" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="G:\Projects\Asteroids3\Assets\Scripts\Helpers\ShipEditor.cs" line="85" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

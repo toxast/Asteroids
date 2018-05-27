@@ -20,7 +20,7 @@ public class FillJournalsFromFile : MonoBehaviour {
 
 	void FillJournals() {
 		#if UNITY_EDITOR
-		var journals = ShipEditor.LoadPrefabsContaining<MJournalLog> ();
+		var journals = EditorHelper.LoadPrefabsContaining<MJournalLog> ();
 		MJournalLog journal = null;
 		System.IO.StreamReader file = new System.IO.StreamReader (Application.dataPath +"/Plot.log");
 		string line = string.Empty;
