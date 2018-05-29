@@ -241,6 +241,7 @@
      <Compile Include="Assets\Scripts\PolygonGameObjects\DropBase.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\EvadeEnemy.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\Gasteroid.cs" />
+     <Compile Include="Assets\Scripts\PolygonGameObjects\LazerGameObject.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\PolygonGameObject.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\PowerUp.cs" />
      <Compile Include="Assets\Scripts\PolygonGameObjects\RogueEnemy.cs" />

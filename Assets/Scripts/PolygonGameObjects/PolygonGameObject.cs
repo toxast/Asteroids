@@ -26,6 +26,7 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
 	}
 
 	public Transform cacheTransform{ get; private set;}
+	public MeshFilter meshFilter;
 	public Mesh mesh;
     public int[] triangulationIndices;
     public PolygonCreator.MeshDataUV meshUV{ get; set;}
@@ -927,6 +928,10 @@ public class PolygonGameObject : MonoBehaviour, IFreezble
         if (OnDestroying != null) {
 			OnDestroying ();
 		}
+	}
+
+	void OnDestroy(){
+		Destroy (meshFilter.sharedMesh);
 	}
 
 	public void RemoveFollower (PolygonGameObject obj) {

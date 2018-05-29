@@ -115,19 +115,22 @@ public static class PolygonCreator
         gamePolygon.meshUV = newMeshUV;
         // Set up game object with mesh;
         MeshRenderer renderer = gamePolygon.gameObject.AddComponent<MeshRenderer>();
-		MeshFilter filter = gamePolygon.gameObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
-		filter.mesh = msh;
+		MeshFilter filter = gamePolygon.gameObject.AddComponent<MeshFilter>();
+		gamePolygon.meshFilter = filter;
+		filter.sharedMesh = msh;
 		gamePolygon.mat = mat;
 		renderer.sharedMaterial = mat;
 		renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 		renderer.receiveShadows = false;
-		gamePolygon.mesh = filter.mesh;
+		gamePolygon.mesh = filter.sharedMesh;
 	}
 
 	public static GameObject CreateLazerGO(Color col)
 	{
 		var mat = lazerMaterial;
 		GameObject g = new GameObject("lazer");
+		LazerGameObject lazerGo = g.AddComponent<LazerGameObject> ();
+
 		var vrts = new Vector2[]
 		{
 			new Vector2(10, 1),
@@ -145,14 +148,12 @@ public static class PolygonCreator
 			new Vector2 (0, 0),
 		};
 		MeshRenderer renderer = g.AddComponent<MeshRenderer>();
-		MeshFilter filter = g.AddComponent(typeof(MeshFilter)) as MeshFilter;
-		filter.mesh = msh;
-//		gamePgolygon.mat = mat;
+		MeshFilter filter = g.AddComponent<MeshFilter>();
+		lazerGo.meshFilter = filter;
+		filter.sharedMesh = msh;
 		renderer.sharedMaterial = mat;
 		renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 		renderer.receiveShadows = false;
-//		gamePolygon.mesh = filter.mesh;
-
 		return g;
 	}
 
@@ -193,7 +194,7 @@ public static class PolygonCreator
 			colors[k] = color;
 			k++;
 		}
-		
+
 		// Create the mesh
 		Mesh msh = new Mesh();
 		

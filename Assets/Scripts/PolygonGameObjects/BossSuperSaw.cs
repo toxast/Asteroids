@@ -136,7 +136,7 @@ public class BossSuperSaw : SawEnemy {
 			lazer = PolygonCreator.CreateLazerGO(Color.magenta);
 			lazerRenderer = lazer.GetComponent<Renderer> ();
 			lTransform = lazer.transform;
-			lazerMesh = lazer.GetComponent<MeshFilter>().mesh;
+			lazerMesh = lazer.GetComponent<MeshFilter>().sharedMesh;
 			PolygonCreator.ChangeLazerMesh (lazerMesh, 1, 4);
 			lazerRenderer.material.SetFloat("_Alpha", 1);
 			lazerRenderer.material.SetFloat ("_HitCutout", 0);

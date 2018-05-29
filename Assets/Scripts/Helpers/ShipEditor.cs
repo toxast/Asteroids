@@ -87,7 +87,7 @@ public class ShipEditor : MonoBehaviour
 		handleData2handles[thrusterHandleData] = thrusters;
 		handleData2handles[turretHandleData] = 	turrets;
 
-		mesh = GetComponent<MeshFilter>().mesh;
+		mesh = GetComponent<MeshFilter>().sharedMesh;
 		var verts = mesh.vertices;
         if(prefab != null)
 		{
@@ -145,7 +145,7 @@ public class ShipEditor : MonoBehaviour
 		vertexs.Clear ();
 		symmetric = false;
 		symmetricState = false;
-		mesh = GetComponent<MeshFilter> ().mesh;
+		mesh = GetComponent<MeshFilter> ().sharedMesh;
 		var verts = mesh.vertices;
 		verts = PolygonCreator.CreatePerfectPolygonVertices (7, sidesNum: 8).ToList ().ConvertAll (v => (Vector3)v).ToArray ();
 		foreach (var vert in verts) {

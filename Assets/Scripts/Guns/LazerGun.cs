@@ -85,7 +85,7 @@ public class LazerGun : Gun
 			lazer = PolygonCreator.CreateLazerGO(color);
 			lazerRenderer = lazer.GetComponent<Renderer> ();
 			lTransform = lazer.transform;
-			lazerMesh = lazer.GetComponent<MeshFilter>().mesh;
+			lazerMesh = lazer.GetComponent<MeshFilter>().sharedMesh;
 			Math2d.PositionOnParent (lTransform, place, parent.cacheTransform, true);
 			layer = 1 << CollisionLayers.GetBulletLayerNum(parent.layerLogic);
 			PolygonCreator.ChangeLazerMesh (lazerMesh, distance, width);
